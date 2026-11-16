@@ -1,4 +1,4 @@
-"""Pruebas sobre la salida del pipeline de territorios (AC-T1…T9, AC-P3, AC-P4).
+"""Pruebas sobre la salida del pipeline de territorios (AC-T1…T9, AC-P3, AC-P4, AC-P5).
 
 Corren sobre el fixture (por defecto) o sobre los datos completos (OBS_DATOS=completo).
 Ver tests/conftest.py.
@@ -163,3 +163,16 @@ def test_cada_observacion_tiene_territorio(con):
     assert uno(con, """
         select count(*) from observaciones o left join territorios t on t.id = o.territorio_id where t.id is null
     """) == 0
+
+
+# AC-P5
+def test_observaciones_solo_en_niveles_publicados(con):
+    fuera = con.execute("""
+        select t.nivel, count(*) from observaciones o
+        join territorios t on t.id = o.territorio_id
+        join capturas c on c.id = o.captura_id
+        join fuentes f on f.id = c.fuente_id
+        where not list_contains(f.niveles_publicados, t.nivel) and not o.es_estimado
+        group by all
+    """).fetchall()
+    assert fuera == []
