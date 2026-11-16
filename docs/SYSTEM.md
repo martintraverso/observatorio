@@ -47,12 +47,16 @@ territorios(id, nivel, codigo, nombre, depto, padre_id, version_geo, area_km2, c
 observaciones(indicador, territorio_id, periodo, valor, es_estimado, captura_id)
 indicadores(codigo, nombre, unidad, columna_origen, fuente_id, nota)
 capturas(id, fuente_id, archivo, sha256, fecha_proceso)
-fuentes(id, nombre, organismo, licencia, url)
+capturas_historial(id, fuente_id, archivo, sha256, fecha_proceso, resultado, detalle)  -- append-only, one row per run
+fuentes(id, nombre, organismo, pagina, url_descarga, formato, licencia, frecuencia, estado, contacto,
+        version_geo, temas[], nivel_mas_detallado, niveles_publicados[], notas[])  -- from fuentes/*.yml
 correspondencias(origen_id, destino_id, tipo, peso, metodo)
 VIEW v_observaciones  -- observaciones joined with territorio, indicador and captura
 ```
  
-Planned additions: `eventos(id, dataset_id, fecha, geometry, territorio_id, atributos_json, captura_id)` for point data; more `fuentes` metadata (frecuencia, estado, formato, nivel_mas_detallado).
+Planned additions: `eventos(id, dataset_id, fecha, geometry, territorio_id, atributos_json, captura_id)` for point data.
+
+`resultado` in `capturas_historial`: `nuevo`, `reprocesado` (same original, `--forzar`), `sin cambios` (same sha256 as the last processed capture: not reprocessed) or `error`. Shared pipeline code lives in `pipeline/comun/` (M1).
  
 Phase 0 indicators (Censo 2023, every level): `pob_total`, `pob_hombres`, `pob_mujeres`, `viviendas_total`.
  

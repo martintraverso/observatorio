@@ -38,8 +38,13 @@ Tarda unos 15 segundos. Los resultados quedan en `datos/salida/`:
 | `territorios.parquet` | Un registro por territorio, con geometría completa (GeoParquet). |
 | `observaciones.parquet` | Indicador, territorio, período, valor y captura de origen. |
 | `correspondencias.parquet` | Relaciones entre territorios (segmento → localidad). |
+| `capturas.parquet` | La captura de la que salen las observaciones actuales (archivo, sha256, fecha). |
+| `capturas_historial.parquet` | Una fila por corrida: `nuevo`, `reprocesado`, `sin cambios` o `error`. Solo se le agregan filas. |
+| `fuentes.parquet` | El registro de fuentes (todos los `fuentes/*.yml`). |
 | `web/*.geojson` | Geometrías simplificadas por nivel, para la app. |
 | `reporte_validacion.md` | Controles de calidad. Revisalo después de cada corrida. |
+
+Si el original no cambió (mismo sha256 que la última captura procesada) y las salidas están completas, el pipeline no reprocesa: anota la corrida como `sin cambios` y termina. Para reprocesar igual, agregá `--forzar`. Si algún control falla, sale con código 1, lista las fallas en stderr y anota la corrida como `error`.
 
 Ejemplo de consulta:
 
@@ -69,6 +74,12 @@ Para regenerar el fixture (por ejemplo, si el INE publica una versión nueva del
 ```bash
 python scripts/crear_fixture.py datos/crudo/Unidades_Geoestadisticas_Censo_2023.zip
 ```
+
+### Agregar una fuente
+
+1. Un archivo `fuentes/<id>.yml` con: `id`, `nombre`, `organismo`, `pagina`, `url_descarga`, `formato`, `licencia` (texto exacto de la fuente), `frecuencia`, `estado` (`activa`, `en preparación` o `a relevar`), `temas`, `niveles_publicados`, `nivel_mas_detallado`, `notas`, y `version_geo` si trae geometrías. El pipeline no arranca si algún registro está incompleto.
+2. Un script `pipeline/<fuente>.py` que use `pipeline/comun/` (huella, capturas e historial, controles, salida). `territorios_2023.py` sirve de modelo.
+3. Tests sobre un fixture chico de esa fuente.
 
 ### Reglas que sigue la base
 
