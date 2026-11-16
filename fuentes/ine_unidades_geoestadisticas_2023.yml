@@ -1,0 +1,25 @@
+# Registro de fuente: una entrada por dataset.
+id: ine_unidades_geoestadisticas_2023
+nombre: Unidades geoestadísticas Censo 2023
+organismo: Instituto Nacional de Estadística (INE)
+pagina: https://www.gub.uy/instituto-nacional-estadistica/politicas-y-gestion/unidades-geostadisticas
+url_descarga: https://www5.ine.gub.uy/documents/CENSO%202023/Cartografia/Vectoriales/Unidades%20Geoestadisticas%20Censo%202023.zip
+formato: zip con geopackages (EPSG:4326, escala 1:50.000)
+licencia: "El uso es libre, citando como fuente al INE." (metadatos de cada capa)
+contacto: cartogra@ine.gub.uy
+frecuencia: se actualiza para cada censo
+version_geo: INE-2023
+capas:
+  depto_23_pg: departamento
+  sc_23_pg: seccion
+  sg_23_pg: segmento
+  loc_23_pg: localidad
+  barrios_mvd_23_pg: barrio_mvd
+  ccz_mvd_23_pg: ccz_mvd
+notas:
+  - El paquete no incluye zonas censales; el nivel más fino es el segmento.
+  - Los conteos de personas incluyen la enumeración administrativa, que el INE
+    ubica a distintos niveles. Por eso la suma de secciones no coincide con el
+    total del departamento. Cada valor se guarda en el nivel en que se publica.
+  - depto_23_pg trae un polígono "LIMITE CONTESTADO" con código 02 y los mismos
+    conteos que Artigas. Se guarda como área especial y no como departamento.
