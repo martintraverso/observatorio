@@ -1,6 +1,7 @@
 name: CI · lint y tests
 
-# En cada push y pull request: ruff + pytest sobre el fixture (tests/fixtures/).
+# En cada push y pull request: ruff + pytest sobre el fixture (tests/fixtures/),
+# incluido pipeline/web.py con PMTiles (tippecanoe).
 # No necesita el zip original del INE.
 on:
   push:
@@ -30,10 +31,13 @@ jobs:
 
       - run: pip install -r requirements-dev.txt
 
+      - uses: ./.github/actions/tippecanoe
+
       - name: Lint (ruff)
         run: ruff check --output-format=github .
 
       - name: Tests (fixture)
         env:
           OBS_DATOS: fixture
+          OBS_REQUIERE_PMTILES: "1"
         run: pytest -q

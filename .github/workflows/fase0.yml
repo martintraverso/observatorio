@@ -20,7 +20,9 @@ jobs:
           python-version: "3.12"
           cache: pip
 
-      - run: pip install -r requirements.txt
+      - run: pip install -r requirements-dev.txt
+
+      - uses: ./.github/actions/tippecanoe
 
       # El original se guarda como asset del release "crudos" (la descarga del INE
       # a veces falla). Si no está, se intenta bajar del INE.
@@ -37,9 +39,13 @@ jobs:
       - name: Procesar
         run: python pipeline/territorios_2023.py datos/crudo/Unidades_Geoestadisticas_Censo_2023.zip --salida datos/salida
 
+      - name: Archivos para la app
+        run: python pipeline/web.py --salida datos/salida
+
       - name: Probar (datos completos)
         env:
           OBS_DATOS: completo
+          OBS_REQUIERE_PMTILES: "1"
         run: pytest -q
 
       - name: Publicar resultados en el release "datos"
@@ -50,5 +56,5 @@ jobs:
           zip -qr web.zip web
           gh release view datos >/dev/null 2>&1 || gh release create datos --title "Datos procesados" --notes "Salida del pipeline. Se reemplaza en cada corrida."
           gh release upload datos observaciones.parquet territorios.parquet correspondencias.parquet \
-            indicadores.parquet capturas.parquet fuentes.parquet reporte_validacion.md web.zip --clobber
+            indicadores.parquet capturas.parquet capturas_historial.parquet fuentes.parquet reporte_validacion.md web.zip --clobber
           cat reporte_validacion.md >> "$GITHUB_STEP_SUMMARY"

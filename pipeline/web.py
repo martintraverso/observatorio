@@ -1,0 +1,342 @@
+"""Archivos para la app estática (M2): todo lo que la app necesita, sin servidor.
+
+Lee las salidas del pipeline (datos/salida/*.parquet) y escribe datos/salida/web/:
+
+  territorios.pmtiles          todos los niveles, una capa por nivel (tippecanoe); segmento desde zoom 9
+  <nivel>.geojson              geometrías simplificadas por cobertura, salvo segmento (AC-W2)
+  territorios_index.json       índice de búsqueda: id, nivel, codigo, nombre, nombre_busqueda, depto, padre_id, bbox
+  fichas/<nivel>/<codigo>.json todo lo que necesita la ficha de cada territorio (AC-W4)
+  indicadores.json             catálogo de indicadores
+  fuentes.json                 registro de fuentes
+  capturas.json                capturas vigentes e historial de corridas
+  manifest.json                cada archivo publicado con tamaño, sha256 y fecha de generación (AC-W5)
+
+Uso:
+  python pipeline/web.py [--salida datos/salida] [--sin-pmtiles]
+
+Necesita tippecanoe (>= 2.17, escribe PMTiles) en el PATH; con --sin-pmtiles se saltea
+ese archivo (solo para desarrollo local).
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import math
+import shutil
+import subprocess
+import sys
+import tempfile
+import unicodedata
+from collections import defaultdict
+from pathlib import Path
+
+import geopandas as gpd
+import pandas as pd
+import shapely
+
+from comun.capturas import ARCHIVO_HISTORIAL, ahora
+from comun.huella import sha256_archivo
+
+ATRIBUCION = "Límites: INE, unidades geoestadísticas 2023"
+DECIMALES = 5
+
+# Niveles con GeoJSON y su tolerancia de simplificación (grados; ~0.001 = 100 m).
+# Los niveles de un mismo grupo se simplifican juntos, como una sola cobertura.
+GEOJSON = {
+    "departamento": 0.002,
+    "area_especial": 0.002,
+    "seccion": 0.0015,
+    "localidad": 0.0003,
+    "barrio_mvd": 0.0002,
+    "ccz_mvd": 0.0002,
+}
+GRUPOS_COBERTURA = [["departamento", "area_especial"], ["seccion"], ["localidad"], ["barrio_mvd"], ["ccz_mvd"]]
+
+# Capas del PMTiles: nivel -> zoom mínimo en que aparece.
+PMTILES_MINZOOM = {
+    "departamento": 0, "area_especial": 0, "seccion": 0, "localidad": 0,
+    "barrio_mvd": 0, "ccz_mvd": 0, "segmento": 9,
+}
+PMTILES_MAXZOOM = 13  # la app hace overzoom; 14 duplicaba el tamaño (~26 MB)
+
+PROPIEDADES = ["id", "codigo", "nombre", "depto"]
+
+
+# ---------------------------------------------------------------- utilidades
+
+def plegar(texto: str) -> str:
+    """Minúsculas y sin tildes, para buscar: 'Paysandú' -> 'paysandu'."""
+    sin_tildes = "".join(c for c in unicodedata.normalize("NFKD", str(texto)) if not unicodedata.combining(c))
+    return " ".join(sin_tildes.lower().split())
+
+
+def numero(v):
+    """1300197.0 -> 1300197; deja los no enteros como float."""
+    if v is None or (isinstance(v, float) and math.isnan(v)):
+        return None
+    f = float(v)
+    return int(f) if f.is_integer() else f
+
+
+def bbox(geom) -> list[float]:
+    """Caja [oeste, sur, este, norte], redondeada hacia afuera a DECIMALES."""
+    x0, y0, x1, y1 = geom.bounds
+    k = 10 ** DECIMALES
+    return [math.floor(x0 * k) / k, math.floor(y0 * k) / k, math.ceil(x1 * k) / k, math.ceil(y1 * k) / k]
+
+
+def escribir_json(path: Path, datos) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(datos, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+
+
+def registros(df: pd.DataFrame) -> list[dict]:
+    """DataFrame -> lista de dicts con tipos JSON (listas de numpy, NaN -> None)."""
+    filas = []
+    for r in df.to_dict(orient="records"):
+        fila = {}
+        for k, v in r.items():
+            if hasattr(v, "tolist"):
+                v = v.tolist()
+            elif isinstance(v, float) and math.isnan(v):
+                v = None
+            elif v is pd.NA:
+                v = None
+            fila[k] = v
+        filas.append(fila)
+    return filas
+
+
+# ---------------------------------------------------------------- geometrías
+
+def agujeros(geoms) -> list:
+    """Agujeros de la unión de una cobertura (unión exacta para coberturas)."""
+    union = shapely.coverage_union_all(geoms)
+    return [shapely.Polygon(anillo) for p in shapely.get_parts(union) for anillo in p.interiors]
+
+
+def rellenar_agujeros_nuevos(simple, original):
+    """Cierra los agujeros que aparecen al simplificar y redondear y que no estaban en el original.
+
+    Pasa cuando un entrante angosto del borde exterior se estrecha hasta cerrarse (ej. un arroyo
+    entre secciones de Canelones: 44 m²). Cada agujero nuevo se suma al vecino con más borde
+    compartido, así la cobertura sigue sin huecos ni solapes. Los agujeros del original se respetan.
+    """
+    simple = simple.copy()
+    previos = shapely.union_all(agujeros(original)) if agujeros(original) else shapely.Polygon()
+    for h in agujeros(simple):
+        if shapely.intersection(h, previos).area >= 0.5 * h.area:
+            continue
+        borde = shapely.length(shapely.intersection(shapely.boundary(simple), h.boundary))
+        i = int(borde.argmax())
+        simple[i] = shapely.set_precision(shapely.union(simple[i], h), 10 ** -DECIMALES)
+    return simple
+
+
+def simplificar(territorios: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
+    """Simplificación por cobertura (bordes compartidos se simplifican igual) y precisión de 5 decimales."""
+    partes = []
+    for grupo in GRUPOS_COBERTURA:
+        g = territorios[territorios.nivel.isin(grupo)].copy()
+        if g.empty:
+            continue
+        tol = max(GEOJSON[n] for n in grupo)
+        simple = shapely.set_precision(shapely.coverage_simplify(g.geometry.values, tol), 10 ** -DECIMALES)
+        g["geometry"] = rellenar_agujeros_nuevos(simple, g.geometry.values)
+        partes.append(g)
+    return gpd.GeoDataFrame(pd.concat(partes), geometry="geometry", crs=territorios.crs)
+
+
+def escribir_geojson(simplificados: gpd.GeoDataFrame, web: Path) -> list[str]:
+    escritos = []
+    for nivel in GEOJSON:
+        g = simplificados[simplificados.nivel == nivel][[*PROPIEDADES, "padre_id", "geometry"]]
+        if g.empty:
+            continue
+        destino = web / f"{nivel}.geojson"
+        g.to_file(destino, driver="GeoJSON",
+                  layer_options={"COORDINATE_PRECISION": DECIMALES, "RFC7946": "YES", "WRITE_NAME": "NO"})
+        escritos.append(destino.name)
+    return escritos
+
+
+def tippecanoe() -> str | None:
+    return shutil.which("tippecanoe")
+
+
+def escribir_pmtiles(territorios: gpd.GeoDataFrame, web: Path) -> str:
+    """Un PMTiles con una capa por nivel, desde las geometrías completas (tippecanoe simplifica por zoom)."""
+    binario = tippecanoe()
+    if binario is None:
+        raise RuntimeError("No encuentro tippecanoe en el PATH (o usar --sin-pmtiles en desarrollo)")
+    destino = web / "territorios.pmtiles"
+    with tempfile.TemporaryDirectory() as tmp:
+        capas = []
+        for nivel, minzoom in PMTILES_MINZOOM.items():
+            g = territorios[territorios.nivel == nivel]
+            if g.empty:
+                continue
+            archivo = Path(tmp) / f"{nivel}.geojsonl"
+            with open(archivo, "w", encoding="utf-8") as f:
+                for r, geom in zip(g[PROPIEDADES].to_dict(orient="records"), g.geometry.values):
+                    f.write(json.dumps({
+                        "type": "Feature", "properties": r, "tippecanoe": {"minzoom": minzoom},
+                        "geometry": shapely.geometry.mapping(geom),
+                    }, ensure_ascii=False) + "\n")
+            capas += ["-L", f"{nivel}:{archivo}"]
+        subprocess.run([
+            binario, "-o", str(destino), "--force", "--quiet",
+            "-Z0", f"-z{PMTILES_MAXZOOM}",
+            "--detect-shared-borders",          # vecinos simplificados igual, sin huecos
+            "--no-feature-limit", "--no-tile-size-limit",  # no descartar territorios
+            "-n", "Territorios INE 2023", "--attribution", ATRIBUCION,
+            *capas,
+        ], check=True)
+    return destino.name
+
+
+# ---------------------------------------------------------------- índice y fichas
+
+def indice(territorios: gpd.GeoDataFrame) -> list[dict]:
+    t = territorios.sort_values(["nivel", "codigo"])
+    return [{
+        "id": r.id, "nivel": r.nivel, "codigo": r.codigo, "nombre": r.nombre,
+        "nombre_busqueda": plegar(r.nombre), "depto": r.depto,
+        "padre_id": r.padre_id if isinstance(r.padre_id, str) else None, "bbox": bbox(r.geometry),
+    } for r in t.itertuples()]
+
+
+def construir_fichas(territorios, obs, indicadores, capturas, fuentes, correspondencias) -> dict[str, dict]:
+    t = territorios.set_index("id")
+    padre = {i: p for i, p in t.padre_id.items() if isinstance(p, str)}
+
+    def ancestros(i):
+        cadena = []
+        while i in padre:
+            i = padre[i]
+            cadena.append(i)
+        return cadena[::-1]  # de la raíz hacia abajo
+
+    obs_por_t = defaultdict(list)
+    for r in obs.sort_values(["indicador", "periodo"]).itertuples():
+        obs_por_t[r.territorio_id].append({"indicador": r.indicador, "periodo": r.periodo, "valor": numero(r.valor),
+                                           "es_estimado": bool(r.es_estimado), "captura_id": r.captura_id})
+
+    def resumen(i):
+        """Identidad y valores de un territorio, para listas de padres y contenidos."""
+        valores, estimados = defaultdict(dict), []
+        for o in obs_por_t.get(i, []):
+            valores[o["indicador"]][o["periodo"]] = o["valor"]
+            if o["es_estimado"]:
+                estimados.append(f"{o['indicador']}/{o['periodo']}")
+        r = {"id": i, "nivel": t.at[i, "nivel"], "codigo": t.at[i, "codigo"], "nombre": t.at[i, "nombre"],
+             "valores": dict(valores)}
+        if estimados:
+            r["estimados"] = estimados
+        return r
+
+    # Contenidos: descendientes por padre_id, y segmentos de cada localidad por correspondencia.
+    contenidos = defaultdict(lambda: defaultdict(list))
+    for i in t.index:
+        for a in ancestros(i):
+            contenidos[a][t.at[i, "nivel"]].append(i)
+    relaciones = defaultdict(list)
+    for r in correspondencias.itertuples():
+        if r.origen_id not in t.index:
+            continue
+        relaciones[r.origen_id].append({"tipo": r.tipo, "destino_id": r.destino_id, "metodo": r.metodo})
+        if r.tipo == "pertenece_a" and r.destino_id in t.index:
+            contenidos[r.destino_id][t.at[r.origen_id, "nivel"]].append(r.origen_id)
+
+    def relacion(rel):
+        """Relación con otro territorio. Si el código no tiene territorio propio (p. ej. CODLOC 'XX900',
+        la parte rural del departamento, que el INE no publica como polígono de localidad), se informa
+        igual, con existe = false: no se inventa el territorio."""
+        _, nivel, codigo = rel["destino_id"].split("/")
+        existe = rel["destino_id"] in t.index
+        return {**rel, "nivel": nivel, "codigo": codigo,
+                "nombre": t.at[rel["destino_id"], "nombre"] if existe else None, "existe": existe}
+
+    ind = {r["codigo"]: r for r in registros(indicadores)}
+    cap = {r["id"]: r for r in registros(capturas)}
+    fue = {r["id"]: {k: r.get(k) for k in ("nombre", "organismo", "licencia", "pagina", "url_descarga")}
+           for r in registros(fuentes)}
+
+    fichas = {}
+    for i, fila in t.iterrows():
+        observaciones = obs_por_t.get(i, [])
+        usadas = {o["indicador"] for o in observaciones}
+        caps = {o["captura_id"] for o in observaciones}
+        fichas[i] = {
+            "id": i, "nivel": fila.nivel, "codigo": fila.codigo, "nombre": fila.nombre, "depto": fila.depto,
+            "version_geo": fila.version_geo, "area_km2": numero(round(fila.area_km2, 4)),
+            "codigo_iso": fila.codigo_iso if isinstance(fila.codigo_iso, str) else None,
+            "bbox": bbox(fila.geometry),
+            "padres": [resumen(a) for a in ancestros(i)],
+            "contenidos": {n: [resumen(h) for h in sorted(set(hs))] for n, hs in sorted(contenidos[i].items())},
+            "relaciones": [relacion(rel) for rel in relaciones.get(i, [])],
+            "observaciones": observaciones,
+            "indicadores": {k: ind[k] for k in sorted(usadas)},
+            "capturas": {k: cap[k] for k in sorted(caps)},
+            "fuentes": {f: fue[f] for f in sorted({cap[k]["fuente_id"] for k in caps})},
+        }
+    return fichas
+
+
+def escribir_manifest(web: Path, generado: str, capturas) -> int:
+    archivos = sorted(p for p in web.rglob("*") if p.is_file() and p.name != "manifest.json")
+    escribir_json(web / "manifest.json", {
+        "generado": generado,
+        "capturas": sorted(capturas.id.tolist()),
+        "archivos": [{"ruta": p.relative_to(web).as_posix(), "bytes": p.stat().st_size, "sha256": sha256_archivo(p)}
+                     for p in archivos],
+    })
+    return len(archivos)
+
+
+# ---------------------------------------------------------------- main
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--salida", type=Path, default=Path("datos/salida"))
+    ap.add_argument("--sin-pmtiles", action="store_true", help="no generar el PMTiles (desarrollo sin tippecanoe)")
+    args = ap.parse_args(argv)
+    s = args.salida
+    if not args.sin_pmtiles and tippecanoe() is None:
+        print("No encuentro tippecanoe en el PATH. Instalarlo (ver README) o usar --sin-pmtiles.", file=sys.stderr)
+        return 1
+
+    territorios = gpd.read_parquet(s / "territorios.parquet")
+    obs = pd.read_parquet(s / "observaciones.parquet")
+    indicadores = pd.read_parquet(s / "indicadores.parquet")
+    capturas = pd.read_parquet(s / "capturas.parquet")
+    fuentes = pd.read_parquet(s / "fuentes.parquet")
+    correspondencias = pd.read_parquet(s / "correspondencias.parquet")
+    historial = pd.read_parquet(s / ARCHIVO_HISTORIAL) if (s / ARCHIVO_HISTORIAL).exists() else capturas.iloc[0:0]
+
+    web = s / "web"
+    if web.exists():
+        shutil.rmtree(web)  # se regenera entero: ningún archivo viejo queda publicado
+    web.mkdir(parents=True)
+
+    escribir_geojson(simplificar(territorios), web)
+    if not args.sin_pmtiles:
+        escribir_pmtiles(territorios, web)
+    escribir_json(web / "territorios_index.json", indice(territorios))
+    fichas = construir_fichas(territorios, obs, indicadores, capturas, fuentes, correspondencias)
+    for f in fichas.values():
+        escribir_json(web / "fichas" / f["nivel"] / f"{f['codigo']}.json", f)
+    escribir_json(web / "indicadores.json", registros(indicadores))
+    escribir_json(web / "fuentes.json", registros(fuentes))
+    escribir_json(web / "capturas.json", {"vigentes": registros(capturas), "historial": registros(historial)})
+    n = escribir_manifest(web, ahora(), capturas)
+
+    tamanos = {p.name: p.stat().st_size for p in sorted(web.glob("*.*"))}
+    print(json.dumps({"archivos": n, "fichas": len(fichas), "pmtiles": not args.sin_pmtiles,
+                      "tamanos_mb": {k: round(v / 1e6, 2) for k, v in tamanos.items()}}, ensure_ascii=False))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
