@@ -19,14 +19,15 @@ El paquete del INE no incluye zonas censales: el nivel más fino es el segmento.
 
 ### Cómo correrlo
 
+Requiere Python 3.12.
+
 ```bash
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
+python3.12 -m venv .venv && source .venv/bin/activate   # o: uv venv -p 3.12 .venv
+pip install -r requirements-dev.txt                      # runtime + ruff
 
 # Bajar el zip de https://www.gub.uy/instituto-nacional-estadistica/politicas-y-gestion/unidades-geostadisticas
-# y guardarlo en datos/crudo/
+# y guardarlo en datos/crudo/ (no se sube a git)
 python pipeline/territorios_2023.py datos/crudo/Unidades_Geoestadisticas_Censo_2023.zip
-pytest -q
 ```
 
 Tarda unos 15 segundos. Los resultados quedan en `datos/salida/`:
@@ -50,6 +51,25 @@ WHERE indicador = 'pob_total' AND depto = '16' AND nivel IN ('departamento', 'se
 ORDER BY nivel, codigo;
 ```
 
+### Lint y tests
+
+```bash
+ruff check .
+pytest -q                                   # sobre el fixture (lo mismo que corre CI)
+OBS_DATOS=completo pytest -q                # sobre datos/salida/ (correr antes el pipeline)
+```
+
+- **Fixture** (`OBS_DATOS=fixture`, por defecto): `tests/fixtures/ine_2023_mini.zip` es un recorte del zip del INE (~1 MB): departamentos 01, 02 (con el límite contestado), 07 y 16; secciones, segmentos y localidades de Flores; barrios y CCZ de Montevideo. Los atributos son los originales; las geometrías están simplificadas (~10 m). Los tests corren el pipeline sobre él en una carpeta temporal, sin pasos previos.
+- **Completo** (`OBS_DATOS=completo`): usa la salida en `datos/salida/`. Si no existe, los tests fallan.
+
+Los controles del pipeline comparan con un archivo de valores esperados (`--esperado`). Por defecto es `pipeline/esperado/ine_2023_completo.yml`; el fixture trae el suyo en `tests/fixtures/esperado.yml`.
+
+Para regenerar el fixture (por ejemplo, si el INE publica una versión nueva del zip):
+
+```bash
+python scripts/crear_fixture.py datos/crudo/Unidades_Geoestadisticas_Censo_2023.zip
+```
+
 ### Reglas que sigue la base
 
 - **Cada dato se guarda en el nivel en que se publica.** La población de un departamento no es la suma de sus secciones: el INE ubica a parte de las personas (enumeración administrativa) solo a nivel de localidad o departamento. En 2023 la diferencia total es de 157.929 personas. Ver `reporte_validacion.md`.
@@ -59,7 +79,18 @@ ORDER BY nivel, codigo;
 
 ### Automatización
 
-`.github/workflows/fase0.yml` corre el pipeline a mano o cada lunes, prueba el resultado y publica los archivos en el release `datos` del repositorio. Como la descarga del INE falla a veces, conviene subir el zip original como asset de un release llamado `crudos`.
+- `.github/workflows/ci.yml` corre `ruff check` y `pytest` (sobre el fixture) en cada push y pull request.
+- `.github/workflows/fase0.yml` corre el pipeline a mano o cada lunes, prueba el resultado con los datos completos y publica los archivos en el release `datos` del repositorio.
+
+Como la descarga del INE falla a veces, el workflow de datos busca primero el zip original como asset de un release llamado `crudos`. Para crearlo (una sola vez, con [GitHub CLI](https://cli.github.com/) autenticado en el repo):
+
+```bash
+gh release create crudos datos/crudo/Unidades_Geoestadisticas_Censo_2023.zip \
+  --title "Archivos originales" \
+  --notes "Originales tal como se descargaron de cada fuente. No se modifican."
+```
+
+Para agregar otro original más adelante: `gh release upload crudos RUTA_AL_ARCHIVO`. Los originales son inmutables: si el INE publica una versión nueva, se sube con otro nombre en vez de reemplazar la anterior.
 
 ## Fuente y licencia de los datos
 
