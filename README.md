@@ -101,7 +101,7 @@ python scripts/crear_fixture.py datos/crudo/Unidades_Geoestadisticas_Censo_2023.
 
 ### Agregar una fuente
 
-1. Un archivo `fuentes/<id>.yml` con: `id`, `nombre`, `organismo`, `pagina`, `url_descarga`, `formato`, `licencia` (texto exacto de la fuente), `frecuencia`, `estado` (`activa`, `en preparación` o `a relevar`), `temas`, `niveles_publicados`, `nivel_mas_detallado`, `notas`, y `version_geo` si trae geometrías. El pipeline no arranca si algún registro está incompleto.
+1. Un archivo `fuentes/<id>.yml` con: `archivo_original` y `script` (si está activa), `id`, `nombre`, `organismo`, `pagina`, `url_descarga`, `formato`, `licencia` (texto exacto de la fuente), `frecuencia`, `estado` (`activa`, `en preparación` o `a relevar`), `temas`, `niveles_publicados`, `nivel_mas_detallado`, `notas`, y `version_geo` si trae geometrías. El pipeline no arranca si algún registro está incompleto.
 2. Un script `pipeline/<fuente>.py` que use `pipeline/comun/` (huella, capturas e historial, controles, salida). `territorios_2023.py` sirve de modelo.
 3. Tests sobre un fixture chico de esa fuente.
 
@@ -114,18 +114,38 @@ python scripts/crear_fixture.py datos/crudo/Unidades_Geoestadisticas_Censo_2023.
 
 ### Automatización
 
-- `.github/workflows/ci.yml` corre `ruff check` y `pytest` (sobre el fixture) en cada push y pull request.
-- `.github/workflows/fase0.yml` corre el pipeline a mano o cada lunes, prueba el resultado con los datos completos y publica los archivos en el release `datos` del repositorio.
+- `.github/workflows/ci.yml` corre `ruff check` y `pytest` (sobre el fixture, con PMTiles) en cada push y pull request.
+- `.github/workflows/datos.yml` procesa y publica los datos: a mano (Actions → *Datos · procesar y publicar* → *Run workflow*, con la opción *forzar*), cada lunes, y al mergear a `main` cambios en `pipeline/` o `fuentes/` (reprocesa).
 
-Como la descarga del INE falla a veces, el workflow de datos busca primero el zip original como asset de un release llamado `crudos`. Para crearlo (una sola vez, con [GitHub CLI](https://cli.github.com/) autenticado en el repo):
+Cada corrida de `datos.yml`:
+
+1. baja de la última publicación el historial de capturas y las salidas (`scripts/publicar.py bajar`);
+2. baja cada original del release `crudos`; si no está, de la URL de la fuente, y lo agrega a `crudos` (`scripts/conseguir_originales.py`);
+3. procesa todo con un solo comando (`pipeline/correr.py`): cada fuente activa y, si algo cambió, `web.py`;
+4. si hubo cambios, corre los tests con los datos completos y publica un release nuevo `datos-AAAAMMDD-HHMMSS`: se crea como borrador, se suben todos los archivos y recién entonces se marca como *latest*. Si no hubo cambios, solo actualiza el historial y el reporte de la última publicación.
+
+Si algo falla, la corrida queda en rojo, el borrador se borra y el *latest* anterior queda intacto. GitHub avisa por mail de las corridas programadas que fallan a quien modificó por última vez el workflow (configurable en *Settings → Notifications → Actions*).
+
+Los datos publicados siempre están en `https://github.com/<usuario>/<repo>/releases/latest/download/<archivo>`: tablas en Parquet, `observatorio.duckdb`, `reporte_validacion.md`, `web.zip` y `manifest.json`. Las publicaciones anteriores quedan como releases `datos-…`.
+
+Para correr lo mismo en local:
 
 ```bash
-gh release create crudos datos/crudo/Unidades_Geoestadisticas_Censo_2023.zip \
-  --title "Archivos originales" \
-  --notes "Originales tal como se descargaron de cada fuente. No se modifican."
+python scripts/conseguir_originales.py --sin-subir   # o copiar el zip a datos/crudo/
+python pipeline/correr.py                            # --forzar para reprocesar igual
 ```
 
-Para agregar otro original más adelante: `gh release upload crudos RUTA_AL_ARCHIVO`. Los originales son inmutables: si el INE publica una versión nueva, se sube con otro nombre en vez de reemplazar la anterior.
+#### Release `crudos`
+
+Guarda los originales tal como se descargaron. Lo crea la primera corrida si no existe; para crearlo a mano (una vez, con [GitHub CLI](https://cli.github.com/) autenticado):
+
+```bash
+gh release create crudos datos/crudo/Unidades_Geoestadisticas_Censo_2023.zip --latest=false \
+  --title "Archivos originales" \
+  --notes "Archivos originales tal como se descargaron de cada fuente. No se modifican ni se reemplazan."
+```
+
+Para agregar otro original: `gh release upload crudos RUTA_AL_ARCHIVO` (sin `--clobber`). Los originales son inmutables: si la fuente publica una versión nueva con el mismo nombre, se sube con otro nombre y se actualiza `archivo_original` en `fuentes/<id>.yml`.
 
 ## Fuente y licencia de los datos
 
