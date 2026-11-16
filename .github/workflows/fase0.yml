@@ -37,7 +37,9 @@ jobs:
       - name: Procesar
         run: python pipeline/territorios_2023.py datos/crudo/Unidades_Geoestadisticas_Censo_2023.zip --salida datos/salida
 
-      - name: Probar
+      - name: Probar (datos completos)
+        env:
+          OBS_DATOS: completo
         run: pytest -q
 
       - name: Publicar resultados en el release "datos"

@@ -1,0 +1,15 @@
+# Valores esperados del fixture tests/fixtures/ine_2023_mini.zip.
+# Generado por scripts/crear_fixture.py; no editar a mano.
+# Original: Unidades_Geoestadisticas_Censo_2023.zip · sha256 7df176f6637425452636e89a6c4d04e2781debe27e012b9c3d3cc8f1322ec3e7
+# Recorte: departamentos 01, 02, 07, 16; jerarquía completa de 07; barrios y CCZ de Montevideo; geometrías simplificadas a 0.0001°.
+territorios_por_nivel:
+  departamento: 4
+  seccion: 6
+  segmento: 52
+  localidad: 6
+  barrio_mvd: 63
+  ccz_mvd: 18
+  area_especial: 1
+departamentos_con_secciones: 1
+pob_total_departamentos: 1523620
+pob_total_secciones: 25738

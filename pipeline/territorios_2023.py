@@ -12,7 +12,7 @@ Lee el zip (o la carpeta ya descomprimida) que publica el INE y genera:
   datos/salida/reporte_validacion.md    controles de calidad
 
 Uso:
-  python pipeline/territorios_2023.py RUTA_AL_ZIP_O_CARPETA [--salida datos/salida]
+  python pipeline/territorios_2023.py RUTA_AL_ZIP_O_CARPETA [--salida datos/salida] [--esperado ESPERADO.yml]
 """
 
 from __future__ import annotations
@@ -30,6 +30,7 @@ import duckdb
 import geopandas as gpd
 import pandas as pd
 import shapely
+import yaml
 
 VERSION_GEO = "INE-2023"
 FUENTE_ID = "ine_unidades_geoestadisticas_2023"
@@ -214,14 +215,29 @@ def construir_correspondencias(capas) -> pd.DataFrame:
     })
 
 
-def validar(capas, territorios, obs) -> tuple[list[dict], pd.DataFrame]:
+ESPERADO_COMPLETO = Path(__file__).resolve().parent / "esperado" / "ine_2023_completo.yml"
+
+
+def cargar_esperado(path: Path) -> dict:
+    """Valores esperados para los controles (por defecto, los del paquete completo del INE)."""
+    esperado = yaml.safe_load(Path(path).read_text(encoding="utf-8"))
+    faltan = {"territorios_por_nivel", "departamentos_con_secciones"} - set(esperado)
+    if faltan:
+        raise ValueError(f"{path}: faltan claves {sorted(faltan)}")
+    return esperado
+
+
+def validar(capas, territorios, obs, esperado) -> tuple[list[dict], pd.DataFrame]:
     checks = []
 
     def chk(nombre, ok, detalle=""):
         checks.append({"control": nombre, "ok": bool(ok), "detalle": detalle})
 
-    deptos = territorios[territorios.nivel == "departamento"]
-    chk("19 departamentos", len(deptos) == 19, f"{len(deptos)} encontrados")
+    conteo = territorios.nivel.value_counts()
+    for nivel, n in esperado["territorios_por_nivel"].items():
+        chk(f"{n} territorios de nivel {nivel}", conteo.get(nivel, 0) == n, f"{conteo.get(nivel, 0)} encontrados")
+    otros = set(conteo.index) - set(esperado["territorios_por_nivel"])
+    chk("Ningún nivel inesperado", not otros, ", ".join(sorted(otros)))
     chk("IDs únicos", territorios.id.is_unique, f"{len(territorios)} territorios")
     chk("Geometrías válidas", territorios.geometry.is_valid.all(),
         f"{(~territorios.geometry.is_valid).sum()} inválidas")
@@ -248,6 +264,13 @@ def validar(capas, territorios, obs) -> tuple[list[dict], pd.DataFrame]:
     d = capas["departamento"]
     d = d[d.NOMDEPTO != "LIMITE CONTESTADO"].set_index("DEPTO")
     s = sc.groupby("DEPTO")[["POB_TOT_23", "VIV_TOT_23"]].sum()
+    # Solo se comparan departamentos con secciones en la entrada; cuántos debe haber
+    # lo dice el archivo de esperados (19 en el paquete completo).
+    con_secciones = d.index.isin(s.index)
+    chk(f"{esperado['departamentos_con_secciones']} departamentos con secciones",
+        con_secciones.sum() == esperado["departamentos_con_secciones"],
+        f"{con_secciones.sum()} con secciones; sin secciones: {', '.join(sorted(d.index[~con_secciones])) or '—'}")
+    d = d[con_secciones]
     comp = pd.DataFrame({
         "departamento": [NOMBRES_DEPTO[k] for k in d.index],
         "personas_depto": d.POB_TOT_23.values,
@@ -327,7 +350,9 @@ def escribir_duckdb(salida: Path):
     if db.exists():
         db.unlink()
     con = duckdb.connect(str(db))
-    p = lambda n: str(salida / f"{n}.parquet")
+    def p(n: str) -> str:
+        return str(salida / f"{n}.parquet")
+
     con.execute(f"CREATE TABLE territorios AS SELECT * EXCLUDE (geometry), geometry AS geom_wkb FROM read_parquet('{p('territorios')}')")
     for t in ["observaciones", "correspondencias", "indicadores", "capturas", "fuentes"]:
         con.execute(f"CREATE TABLE {t} AS SELECT * FROM read_parquet('{p(t)}')")
@@ -348,6 +373,8 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("entrada", type=Path, help="zip del INE o carpeta con los .gpkg")
     ap.add_argument("--salida", type=Path, default=Path("datos/salida"))
+    ap.add_argument("--esperado", type=Path, default=ESPERADO_COMPLETO,
+                    help="yml con los valores esperados para los controles (por defecto, paquete completo)")
     args = ap.parse_args(argv)
     args.salida.mkdir(parents=True, exist_ok=True)
 
@@ -362,7 +389,7 @@ def main(argv=None):
     territorios = construir_territorios(capas)
     obs = construir_observaciones(capas, territorios, captura["id"])
     corr = construir_correspondencias(capas)
-    checks, comp = validar(capas, territorios, obs)
+    checks, comp = validar(capas, territorios, obs, cargar_esperado(args.esperado))
 
     territorios.to_parquet(args.salida / "territorios.parquet", index=False)
     obs.to_parquet(args.salida / "observaciones.parquet", index=False)
