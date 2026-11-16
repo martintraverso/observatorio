@@ -1,0 +1,20 @@
+[project]
+name = "observatorio-uruguay"
+version = "0.1.0"
+description = "Datos públicos del territorio uruguayo, vinculados a cada territorio del INE."
+readme = "README.md"
+requires-python = ">=3.12"
+# Las dependencias se instalan desde requirements.txt (runtime) y
+# requirements-dev.txt (ruff + runtime); así las usa GitHub Actions.
+
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+extend-exclude = ["datos"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"

@@ -327,7 +327,9 @@ def escribir_duckdb(salida: Path):
     if db.exists():
         db.unlink()
     con = duckdb.connect(str(db))
-    p = lambda n: str(salida / f"{n}.parquet")
+    def p(n: str) -> str:
+        return str(salida / f"{n}.parquet")
+
     con.execute(f"CREATE TABLE territorios AS SELECT * EXCLUDE (geometry), geometry AS geom_wkb FROM read_parquet('{p('territorios')}')")
     for t in ["observaciones", "correspondencias", "indicadores", "capturas", "fuentes"]:
         con.execute(f"CREATE TABLE {t} AS SELECT * FROM read_parquet('{p(t)}')")
