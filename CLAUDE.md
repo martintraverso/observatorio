@@ -1,9 +1,9 @@
 # Observatorio Uruguay
  
 Before working, read:
-1. `docs/System.md` — what the system is, the data rules (§4) and the app design (§8).
-2. `docs/acceptance_criteria.md` — how each part is judged (AC IDs).
-3. `docs/plan.md` — milestones in order. Work on the next unfinished one.
+1. `docs/SYSTEM.md` — what the system is, the data rules (§4) and the app design (§8).
+2. `docs/ACCEPTANCE_CRITERIA.md` — how each part is judged (AC IDs).
+3. `docs/PLAN.md` — milestones in order. Work on the next unfinished one.
 Rules:
 - UI copy and identifiers in Spanish (Uruguay).
 - Never aggregate population upward; store each value at the level its source publishes it.
