@@ -10,8 +10,9 @@ Lee el zip (o la carpeta ya descomprimida) que publica el INE y genera:
   datos/salida/capturas_historial.parquet   una fila por corrida (nuevo / reprocesado / sin cambios / error)
   datos/salida/fuentes.parquet              registro de fuentes (todos los fuentes/*.yml)
   datos/salida/observatorio.duckdb          todo lo anterior en una base DuckDB
-  datos/salida/web/<nivel>.geojson          geometrías simplificadas para la app
   datos/salida/reporte_validacion.md        controles de calidad
+
+Los archivos para la app (datos/salida/web/) los arma después pipeline/web.py.
 
 Si el sha256 del original es el de la última captura procesada y las salidas
 están completas, no se reprocesa: la corrida queda como "sin cambios" (usar
@@ -61,8 +62,7 @@ CAPAS = {
 
 # Salidas que tienen que existir para dar una corrida por "sin cambios".
 SALIDAS = ["territorios.parquet", "observaciones.parquet", "correspondencias.parquet", "indicadores.parquet",
-           "capturas.parquet", "fuentes.parquet", "observatorio.duckdb", "reporte_validacion.md",
-           *[f"web/{n}.geojson" for n in CAPAS.values()]]
+           "capturas.parquet", "fuentes.parquet", "observatorio.duckdb", "reporte_validacion.md"]
 
 # Nombres con tildes (el geopackage los trae en mayúsculas y sin tildes).
 NOMBRES_DEPTO = {
@@ -87,15 +87,6 @@ NOTA_INDICADORES = (
     "administrativa se ubica a distintos niveles, por lo que la suma de unidades "
     "menores no coincide necesariamente con el total de la unidad mayor (INE, metadatos)."
 )
-
-TOLERANCIA_WEB = {  # grados; ~0.001 = 100 m
-    "departamento": 0.002,
-    "seccion": 0.0015,
-    "segmento": 0.0004,
-    "localidad": 0.0003,
-    "barrio_mvd": 0.0002,
-    "ccz_mvd": 0.0002,
-}
 
 MINUSCULAS = {"de", "del", "la", "las", "los", "el", "y", "e", "a"}
 
@@ -288,27 +279,11 @@ def validar(capas, territorios, obs, esperado, niveles_publicados) -> tuple[Cont
     return c, comp
 
 
-def exportar_web(territorios: gpd.GeoDataFrame, carpeta: Path) -> dict[str, int]:
-    carpeta.mkdir(parents=True, exist_ok=True)
-    tamanos = {}
-    for nivel, tol in TOLERANCIA_WEB.items():
-        g = territorios[territorios.nivel == nivel][["id", "codigo", "nombre", "depto", "padre_id", "geometry"]].copy()
-        try:
-            g["geometry"] = shapely.coverage_simplify(g.geometry.values, tol)
-        except Exception:
-            g["geometry"] = g.geometry.simplify(tol, preserve_topology=True)
-        g["geometry"] = shapely.make_valid(shapely.set_precision(g.geometry.values, 1e-5))
-        destino = carpeta / f"{nivel}.geojson"
-        g.to_file(destino, driver="GeoJSON", layer_options={"COORDINATE_PRECISION": 5, "RFC7946": "YES"})
-        tamanos[nivel] = destino.stat().st_size
-    return tamanos
-
-
 def linea_corrida(fecha: str, resultado: str) -> str:
     return f"{LINEA_CORRIDA} {fecha} · {resultado}"
 
 
-def escribir_reporte(path, controles, comp, territorios, obs, captura, resultado, tamanos):
+def escribir_reporte(path, controles, comp, territorios, obs, captura, resultado):
     conteo = territorios.nivel.value_counts()
     lineas = [
         "# Reporte de validación — unidades geoestadísticas 2023",
@@ -342,11 +317,6 @@ def escribir_reporte(path, controles, comp, territorios, obs, captura, resultado
         "",
         "Nota: el total oficial del Censo 2023 (3.499.451) incluye a toda la población estimada; "
         "estas capas no incluyen a las personas en situación de calle.",
-        "",
-        "## Archivos para la app",
-        "",
-        "| Archivo | Tamaño |", "|---|---:|",
-        *[f"| web/{n}.geojson | {t / 1e6:.1f} MB |" for n, t in tamanos.items()],
         "",
     ]
     Path(path).write_text("\n".join(lineas), encoding="utf-8")
@@ -401,9 +371,7 @@ def procesar(entrada: Path, salida: Path, captura: dict, esperado: dict, fuentes
             JOIN capturas c ON c.id = o.captura_id
         """},
     )
-    tamanos = exportar_web(territorios, salida / "web")
-    escribir_reporte(salida / "reporte_validacion.md", controles, comp, territorios, obs, captura, resultado,
-                     tamanos)
+    escribir_reporte(salida / "reporte_validacion.md", controles, comp, territorios, obs, captura, resultado)
     print(json.dumps({"resultado": resultado, "territorios": int(len(territorios)), "observaciones": int(len(obs)),
                       "controles_ok": len(controles.lista) - len(controles.fallas),
                       "controles_falla": len(controles.fallas)}, ensure_ascii=False))
