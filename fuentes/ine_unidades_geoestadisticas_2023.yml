@@ -5,9 +5,15 @@ organismo: Instituto Nacional de Estadística (INE)
 pagina: https://www.gub.uy/instituto-nacional-estadistica/politicas-y-gestion/unidades-geostadisticas
 url_descarga: https://www5.ine.gub.uy/documents/CENSO%202023/Cartografia/Vectoriales/Unidades%20Geoestadisticas%20Censo%202023.zip
 formato: zip con geopackages (EPSG:4326, escala 1:50.000)
-licencia: "El uso es libre, citando como fuente al INE." (metadatos de cada capa)
+licencia: "El uso es libre, citando como fuente al INE."
 contacto: cartogra@ine.gub.uy
 frecuencia: se actualiza para cada censo
+estado: activa            # activa | en preparación | a relevar
+temas: [Población, Vivienda]
+# Niveles en que el INE publica los conteos (personas, hombres, mujeres, viviendas).
+# Una observación en otro nivel solo se admite con es_estimado = true (AC-P5).
+niveles_publicados: [departamento, seccion, segmento, localidad, barrio_mvd, ccz_mvd]
+nivel_mas_detallado: segmento
 version_geo: INE-2023
 capas:
   depto_23_pg: departamento
@@ -17,6 +23,7 @@ capas:
   barrios_mvd_23_pg: barrio_mvd
   ccz_mvd_23_pg: ccz_mvd
 notas:
+  - La licencia figura en los metadatos (PDF) de cada capa del paquete.
   - El paquete no incluye zonas censales; el nivel más fino es el segmento.
   - Los conteos de personas incluyen la enumeración administrativa, que el INE
     ubica a distintos niveles. Por eso la suma de secciones no coincide con el

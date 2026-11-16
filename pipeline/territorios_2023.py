@@ -2,35 +2,49 @@
 
 Lee el zip (o la carpeta ya descomprimida) que publica el INE y genera:
 
-  datos/salida/territorios.parquet      territorios de todos los niveles (GeoParquet)
-  datos/salida/observaciones.parquet    conteos del Censo 2023 por territorio
-  datos/salida/correspondencias.parquet relaciones entre territorios (segmento -> localidad)
-  datos/salida/indicadores.parquet      catálogo de indicadores
-  datos/salida/capturas.parquet         de qué archivo salió cada dato (con sha256)
-  datos/salida/observatorio.duckdb      todo lo anterior en una base DuckDB
-  datos/salida/web/<nivel>.geojson      geometrías simplificadas para la app
-  datos/salida/reporte_validacion.md    controles de calidad
+  datos/salida/territorios.parquet          territorios de todos los niveles (GeoParquet)
+  datos/salida/observaciones.parquet        conteos del Censo 2023 por territorio
+  datos/salida/correspondencias.parquet     relaciones entre territorios (segmento -> localidad)
+  datos/salida/indicadores.parquet          catálogo de indicadores
+  datos/salida/capturas.parquet             de qué archivo salió cada dato (con sha256)
+  datos/salida/capturas_historial.parquet   una fila por corrida (nuevo / reprocesado / sin cambios / error)
+  datos/salida/fuentes.parquet              registro de fuentes (todos los fuentes/*.yml)
+  datos/salida/observatorio.duckdb          todo lo anterior en una base DuckDB
+  datos/salida/web/<nivel>.geojson          geometrías simplificadas para la app
+  datos/salida/reporte_validacion.md        controles de calidad
+
+Si el sha256 del original es el de la última captura procesada y las salidas
+están completas, no se reprocesa: la corrida queda como "sin cambios" (usar
+--forzar para reprocesar igual).
 
 Uso:
-  python pipeline/territorios_2023.py RUTA_AL_ZIP_O_CARPETA [--salida datos/salida] [--esperado ESPERADO.yml]
+  python pipeline/territorios_2023.py RUTA_AL_ZIP_O_CARPETA [--salida datos/salida]
+      [--esperado ESPERADO.yml] [--fuentes fuentes/] [--forzar]
 """
 
 from __future__ import annotations
 
 import argparse
-import datetime as dt
-import hashlib
 import json
+import re
 import sys
 import tempfile
-import zipfile
 from pathlib import Path
 
-import duckdb
 import geopandas as gpd
 import pandas as pd
 import shapely
 import yaml
+
+from comun.capturas import Historial, ahora, nueva_captura
+from comun.controles import Controles
+from comun.entrada import carpeta_con, extraer_zip
+from comun.huella import huella_entrada
+from comun.registro import cargar_fuentes, tabla_fuentes
+from comun.salida import escribir_duckdb
+
+RAIZ = Path(__file__).resolve().parents[1]
+ESPERADO_COMPLETO = RAIZ / "pipeline" / "esperado" / "ine_2023_completo.yml"
 
 VERSION_GEO = "INE-2023"
 FUENTE_ID = "ine_unidades_geoestadisticas_2023"
@@ -44,6 +58,11 @@ CAPAS = {
     "barrios_mvd_23_pg": "barrio_mvd",
     "ccz_mvd_23_pg": "ccz_mvd",
 }
+
+# Salidas que tienen que existir para dar una corrida por "sin cambios".
+SALIDAS = ["territorios.parquet", "observaciones.parquet", "correspondencias.parquet", "indicadores.parquet",
+           "capturas.parquet", "fuentes.parquet", "observatorio.duckdb", "reporte_validacion.md",
+           *[f"web/{n}.geojson" for n in CAPAS.values()]]
 
 # Nombres con tildes (el geopackage los trae en mayúsculas y sin tildes).
 NOMBRES_DEPTO = {
@@ -80,6 +99,8 @@ TOLERANCIA_WEB = {  # grados; ~0.001 = 100 m
 
 MINUSCULAS = {"de", "del", "la", "las", "los", "el", "y", "e", "a"}
 
+LINEA_CORRIDA = "Última corrida:"
+
 
 def titulo(texto: str) -> str:
     """'VILLA GARCIA, MANGA RUR.' -> 'Villa Garcia, Manga Rur.' (sin inventar tildes)."""
@@ -90,32 +111,12 @@ def titulo(texto: str) -> str:
     return " ".join(salida)
 
 
-def sha256(path: Path) -> str:
-    h = hashlib.sha256()
-    with open(path, "rb") as f:
-        for bloque in iter(lambda: f.read(1 << 20), b""):
-            h.update(bloque)
-    return h.hexdigest()
-
-
-def abrir_entrada(entrada: Path, tmp: Path) -> tuple[Path, str, str]:
-    """Devuelve (carpeta con los .gpkg, sha256 del original, nombre del original)."""
+def abrir_entrada(entrada: Path, tmp: Path) -> Path:
+    """Carpeta con los .gpkg: el zip extraído en `tmp`, o la carpeta dada."""
     if entrada.is_file() and entrada.suffix.lower() == ".zip":
-        with zipfile.ZipFile(entrada) as z:
-            for m in z.infolist():
-                destino = (tmp / m.filename).resolve()
-                if not str(destino).startswith(str(tmp.resolve())):
-                    raise ValueError(f"Ruta insegura dentro del zip: {m.filename}")
-            z.extractall(tmp)
-        carpeta = next((p.parent for p in tmp.rglob("depto_23_pg.gpkg")), None)
-        if carpeta is None:
-            raise FileNotFoundError("El zip no contiene depto_23_pg.gpkg")
-        return carpeta, sha256(entrada), entrada.name
+        return carpeta_con(extraer_zip(entrada, tmp), "depto_23_pg.gpkg")
     if entrada.is_dir():
-        h = hashlib.sha256()
-        for capa in sorted(CAPAS):
-            h.update(sha256(entrada / f"{capa}.gpkg").encode())
-        return entrada, h.hexdigest(), entrada.name
+        return entrada
     raise FileNotFoundError(f"No encuentro {entrada}")
 
 
@@ -215,9 +216,6 @@ def construir_correspondencias(capas) -> pd.DataFrame:
     })
 
 
-ESPERADO_COMPLETO = Path(__file__).resolve().parent / "esperado" / "ine_2023_completo.yml"
-
-
 def cargar_esperado(path: Path) -> dict:
     """Valores esperados para los controles (por defecto, los del paquete completo del INE)."""
     esperado = yaml.safe_load(Path(path).read_text(encoding="utf-8"))
@@ -227,38 +225,42 @@ def cargar_esperado(path: Path) -> dict:
     return esperado
 
 
-def validar(capas, territorios, obs, esperado) -> tuple[list[dict], pd.DataFrame]:
-    checks = []
-
-    def chk(nombre, ok, detalle=""):
-        checks.append({"control": nombre, "ok": bool(ok), "detalle": detalle})
+def validar(capas, territorios, obs, esperado, niveles_publicados) -> tuple[Controles, pd.DataFrame]:
+    c = Controles()
 
     conteo = territorios.nivel.value_counts()
     for nivel, n in esperado["territorios_por_nivel"].items():
-        chk(f"{n} territorios de nivel {nivel}", conteo.get(nivel, 0) == n, f"{conteo.get(nivel, 0)} encontrados")
+        c.chk(f"{n} territorios de nivel {nivel}", conteo.get(nivel, 0) == n, f"{conteo.get(nivel, 0)} encontrados")
     otros = set(conteo.index) - set(esperado["territorios_por_nivel"])
-    chk("Ningún nivel inesperado", not otros, ", ".join(sorted(otros)))
-    chk("IDs únicos", territorios.id.is_unique, f"{len(territorios)} territorios")
-    chk("Geometrías válidas", territorios.geometry.is_valid.all(),
-        f"{(~territorios.geometry.is_valid).sum()} inválidas")
-    chk("Ninguna geometría vacía", (~territorios.geometry.is_empty).all())
+    c.chk("Ningún nivel inesperado", not otros, ", ".join(sorted(otros)))
+    c.chk("IDs únicos", territorios.id.is_unique, f"{len(territorios)} territorios")
+    c.chk("Geometrías válidas", territorios.geometry.is_valid.all(),
+          f"{(~territorios.geometry.is_valid).sum()} inválidas")
+    c.chk("Ninguna geometría vacía", (~territorios.geometry.is_empty).all())
 
     ids = set(territorios.id)
     padres = territorios.padre_id.dropna()
-    chk("Todo padre existe", padres.isin(ids).all(), f"{(~padres.isin(ids)).sum()} sin padre")
+    c.chk("Todo padre existe", padres.isin(ids).all(), f"{(~padres.isin(ids)).sum()} sin padre")
 
     seg = territorios[territorios.nivel == "segmento"]
     prefijo_ok = (seg.codigo.str[:4] == seg.padre_id.str.split("/").str[-1]).all()
-    chk("Código de segmento empieza con el de su sección", prefijo_ok)
+    c.chk("Código de segmento empieza con el de su sección", prefijo_ok)
 
     sc, sg = capas["seccion"], capas["segmento"]
-    suma_sg = sg.groupby("CODSECC")[[c for _, c, _, _ in INDICADORES]].sum()
-    dif = (suma_sg.reindex(sc.CODSECC).values != sc[[c for _, c, _, _ in INDICADORES]].values).any(axis=1).sum()
-    chk("Suma de segmentos = sección (todos los conteos)", dif == 0, f"{dif} secciones distintas")
+    suma_sg = sg.groupby("CODSECC")[[col for _, col, _, _ in INDICADORES]].sum()
+    dif = (suma_sg.reindex(sc.CODSECC).values != sc[[col for _, col, _, _ in INDICADORES]].values).any(axis=1).sum()
+    c.chk("Suma de segmentos = sección (todos los conteos)", dif == 0, f"{dif} secciones distintas")
 
     hm = (obs.pivot_table(index="territorio_id", columns="indicador", values="valor"))
-    chk("Hombres + mujeres = personas", ((hm.pob_hombres + hm.pob_mujeres) == hm.pob_total).all(),
-        f"{((hm.pob_hombres + hm.pob_mujeres) != hm.pob_total).sum()} territorios no cuadran")
+    c.chk("Hombres + mujeres = personas", ((hm.pob_hombres + hm.pob_mujeres) == hm.pob_total).all(),
+          f"{((hm.pob_hombres + hm.pob_mujeres) != hm.pob_total).sum()} territorios no cuadran")
+
+    # AC-P5: solo se guardan observaciones en los niveles que publica la fuente, salvo estimaciones.
+    nivel_obs = obs.territorio_id.map(territorios.set_index("id").nivel)
+    fuera = obs[~nivel_obs.isin(niveles_publicados) & ~obs.es_estimado]
+    c.chk("Observaciones solo en niveles publicados por la fuente", fuera.empty,
+          f"{len(fuera)} fuera de nivel ({', '.join(sorted(nivel_obs[fuera.index].unique()))})" if len(fuera)
+          else f"niveles: {', '.join(sorted(nivel_obs.unique()))}")
 
     # Comparación departamento vs suma de secciones (diferencia esperada, documentada por el INE)
     d = capas["departamento"]
@@ -267,9 +269,9 @@ def validar(capas, territorios, obs, esperado) -> tuple[list[dict], pd.DataFrame
     # Solo se comparan departamentos con secciones en la entrada; cuántos debe haber
     # lo dice el archivo de esperados (19 en el paquete completo).
     con_secciones = d.index.isin(s.index)
-    chk(f"{esperado['departamentos_con_secciones']} departamentos con secciones",
-        con_secciones.sum() == esperado["departamentos_con_secciones"],
-        f"{con_secciones.sum()} con secciones; sin secciones: {', '.join(sorted(d.index[~con_secciones])) or '—'}")
+    c.chk(f"{esperado['departamentos_con_secciones']} departamentos con secciones",
+          con_secciones.sum() == esperado["departamentos_con_secciones"],
+          f"{con_secciones.sum()} con secciones; sin secciones: {', '.join(sorted(d.index[~con_secciones])) or '—'}")
     d = d[con_secciones]
     comp = pd.DataFrame({
         "departamento": [NOMBRES_DEPTO[k] for k in d.index],
@@ -280,10 +282,10 @@ def validar(capas, territorios, obs, esperado) -> tuple[list[dict], pd.DataFrame
     }, index=d.index).sort_index()
     comp["dif_personas"] = comp.personas_depto - comp.personas_suma_secciones
     comp["dif_personas_pct"] = (comp.dif_personas / comp.personas_depto * 100).round(1)
-    chk("Viviendas: depto ≈ suma de secciones (±5)",
-        (comp.viviendas_depto - comp.viviendas_suma_secciones).abs().max() <= 5,
-        f"máx. diferencia {int((comp.viviendas_depto - comp.viviendas_suma_secciones).abs().max())}")
-    return checks, comp
+    c.chk("Viviendas: depto ≈ suma de secciones (±5)",
+          (comp.viviendas_depto - comp.viviendas_suma_secciones).abs().max() <= 5,
+          f"máx. diferencia {int((comp.viviendas_depto - comp.viviendas_suma_secciones).abs().max())}")
+    return c, comp
 
 
 def exportar_web(territorios: gpd.GeoDataFrame, carpeta: Path) -> dict[str, int]:
@@ -302,12 +304,18 @@ def exportar_web(territorios: gpd.GeoDataFrame, carpeta: Path) -> dict[str, int]
     return tamanos
 
 
-def escribir_reporte(path, checks, comp, territorios, obs, captura, tamanos):
+def linea_corrida(fecha: str, resultado: str) -> str:
+    return f"{LINEA_CORRIDA} {fecha} · {resultado}"
+
+
+def escribir_reporte(path, controles, comp, territorios, obs, captura, resultado, tamanos):
     conteo = territorios.nivel.value_counts()
     lineas = [
         "# Reporte de validación — unidades geoestadísticas 2023",
         "",
         f"Archivo: `{captura['archivo']}` · sha256 `{captura['sha256'][:16]}…` · procesado {captura['fecha_proceso']}",
+        "",
+        linea_corrida(captura["fecha_proceso"], resultado),
         "",
         "## Territorios cargados",
         "",
@@ -319,8 +327,7 @@ def escribir_reporte(path, checks, comp, territorios, obs, captura, tamanos):
         "",
         "## Controles",
         "",
-        "| Control | Resultado | Detalle |", "|---|---|---|",
-        *[f"| {c['control']} | {'OK' if c['ok'] else 'FALLA'} | {c['detalle']} |" for c in checks],
+        *controles.tabla_md(),
         "",
         "## Departamento vs. suma de secciones",
         "",
@@ -345,28 +352,62 @@ def escribir_reporte(path, checks, comp, territorios, obs, captura, tamanos):
     Path(path).write_text("\n".join(lineas), encoding="utf-8")
 
 
-def escribir_duckdb(salida: Path):
-    db = salida / "observatorio.duckdb"
-    if db.exists():
-        db.unlink()
-    con = duckdb.connect(str(db))
-    def p(n: str) -> str:
-        return str(salida / f"{n}.parquet")
+def marcar_reporte(path: Path, fecha: str, resultado: str) -> None:
+    """Actualiza la línea 'Última corrida' de un reporte existente (corridas sin cambios)."""
+    texto = path.read_text(encoding="utf-8")
+    patron = re.compile(rf"^{re.escape(LINEA_CORRIDA)} .*$", re.MULTILINE)
+    nuevo, n = patron.subn(linea_corrida(fecha, resultado), texto, count=1)
+    if n == 0:  # reporte de una versión anterior, sin la línea
+        nuevo = texto.replace("\n\n", f"\n\n{linea_corrida(fecha, resultado)}\n\n", 1)
+    path.write_text(nuevo, encoding="utf-8")
 
-    con.execute(f"CREATE TABLE territorios AS SELECT * EXCLUDE (geometry), geometry AS geom_wkb FROM read_parquet('{p('territorios')}')")
-    for t in ["observaciones", "correspondencias", "indicadores", "capturas", "fuentes"]:
-        con.execute(f"CREATE TABLE {t} AS SELECT * FROM read_parquet('{p(t)}')")
-    con.execute("""
-        CREATE VIEW v_observaciones AS
-        SELECT o.*, t.nivel, t.codigo, t.nombre AS territorio, t.depto,
-               i.nombre AS indicador_nombre, i.unidad, c.fuente_id, c.fecha_proceso
-        FROM observaciones o
-        JOIN territorios t ON t.id = o.territorio_id
-        JOIN indicadores i ON i.codigo = o.indicador
-        JOIN capturas c ON c.id = o.captura_id
-    """)
-    con.close()
-    return db
+
+def salidas_vigentes(salida: Path, sha256: str) -> bool:
+    """Las salidas existen y corresponden al original con este sha256."""
+    if not all((salida / s).exists() for s in SALIDAS):
+        return False
+    capturas = pd.read_parquet(salida / "capturas.parquet")
+    return capturas.sha256.eq(sha256).any()
+
+
+def procesar(entrada: Path, salida: Path, captura: dict, esperado: dict, fuentes: dict,
+             resultado: str) -> Controles:
+    with tempfile.TemporaryDirectory() as tmp:
+        capas = leer_capas(abrir_entrada(entrada, Path(tmp)))
+
+    territorios = construir_territorios(capas)
+    obs = construir_observaciones(capas, territorios, captura["id"])
+    corr = construir_correspondencias(capas)
+    controles, comp = validar(capas, territorios, obs, esperado, fuentes[FUENTE_ID]["niveles_publicados"])
+
+    territorios.to_parquet(salida / "territorios.parquet", index=False)
+    obs.to_parquet(salida / "observaciones.parquet", index=False)
+    corr.to_parquet(salida / "correspondencias.parquet", index=False)
+    pd.DataFrame([{"codigo": c, "nombre": n, "unidad": u, "columna_origen": col,
+                   "fuente_id": FUENTE_ID, "nota": NOTA_INDICADORES}
+                  for c, col, n, u in INDICADORES]).to_parquet(salida / "indicadores.parquet", index=False)
+    pd.DataFrame([captura]).to_parquet(salida / "capturas.parquet", index=False)
+    tabla_fuentes(fuentes).to_parquet(salida / "fuentes.parquet", index=False)
+    escribir_duckdb(
+        salida,
+        ["territorios", "observaciones", "correspondencias", "indicadores", "capturas", "fuentes"],
+        geometria={"territorios": "geom_wkb"},
+        vistas={"v_observaciones": """
+            SELECT o.*, t.nivel, t.codigo, t.nombre AS territorio, t.depto,
+                   i.nombre AS indicador_nombre, i.unidad, c.fuente_id, c.fecha_proceso
+            FROM observaciones o
+            JOIN territorios t ON t.id = o.territorio_id
+            JOIN indicadores i ON i.codigo = o.indicador
+            JOIN capturas c ON c.id = o.captura_id
+        """},
+    )
+    tamanos = exportar_web(territorios, salida / "web")
+    escribir_reporte(salida / "reporte_validacion.md", controles, comp, territorios, obs, captura, resultado,
+                     tamanos)
+    print(json.dumps({"resultado": resultado, "territorios": int(len(territorios)), "observaciones": int(len(obs)),
+                      "controles_ok": len(controles.lista) - len(controles.fallas),
+                      "controles_falla": len(controles.fallas)}, ensure_ascii=False))
+    return controles
 
 
 def main(argv=None):
@@ -375,44 +416,42 @@ def main(argv=None):
     ap.add_argument("--salida", type=Path, default=Path("datos/salida"))
     ap.add_argument("--esperado", type=Path, default=ESPERADO_COMPLETO,
                     help="yml con los valores esperados para los controles (por defecto, paquete completo)")
+    ap.add_argument("--fuentes", type=Path, default=RAIZ / "fuentes", help="carpeta del registro de fuentes")
+    ap.add_argument("--forzar", action="store_true", help="reprocesar aunque el original no haya cambiado")
     args = ap.parse_args(argv)
     args.salida.mkdir(parents=True, exist_ok=True)
 
-    with tempfile.TemporaryDirectory() as tmp:
-        carpeta, huella, nombre = abrir_entrada(args.entrada, Path(tmp))
-        capas = leer_capas(carpeta)
+    fuentes = cargar_fuentes(args.fuentes)
+    if FUENTE_ID not in fuentes:
+        raise ValueError(f"Falta fuentes/{FUENTE_ID}.yml")
+    esperado = cargar_esperado(args.esperado)
 
-    ahora = dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat()
-    captura = {"id": f"{FUENTE_ID}:{huella[:12]}", "fuente_id": FUENTE_ID, "archivo": nombre,
-               "sha256": huella, "fecha_proceso": ahora}
+    sha, nombre = huella_entrada(args.entrada, [f"{c}.gpkg" for c in CAPAS])
+    captura = nueva_captura(FUENTE_ID, nombre, sha, ahora())
+    historial = Historial(args.salida)
+    ultima = historial.ultima_procesada(FUENTE_ID)
+    mismo_original = ultima is not None and ultima["sha256"] == sha
 
-    territorios = construir_territorios(capas)
-    obs = construir_observaciones(capas, territorios, captura["id"])
-    corr = construir_correspondencias(capas)
-    checks, comp = validar(capas, territorios, obs, cargar_esperado(args.esperado))
+    # AC-P8: mismo original que la última captura procesada y salidas vigentes -> no se reprocesa.
+    if mismo_original and not args.forzar and salidas_vigentes(args.salida, sha):
+        historial.agregar(captura, "sin cambios", f"igual a la captura del {ultima['fecha_proceso']}")
+        marcar_reporte(args.salida / "reporte_validacion.md", captura["fecha_proceso"], "sin cambios")
+        print(json.dumps({"resultado": "sin cambios", "captura": captura["id"],
+                          "ultima_procesada": ultima["fecha_proceso"]}, ensure_ascii=False))
+        return 0
 
-    territorios.to_parquet(args.salida / "territorios.parquet", index=False)
-    obs.to_parquet(args.salida / "observaciones.parquet", index=False)
-    corr.to_parquet(args.salida / "correspondencias.parquet", index=False)
-    pd.DataFrame([{"codigo": c, "nombre": n, "unidad": u, "columna_origen": col,
-                   "fuente_id": FUENTE_ID, "nota": NOTA_INDICADORES}
-                  for c, col, n, u in INDICADORES]).to_parquet(args.salida / "indicadores.parquet", index=False)
-    pd.DataFrame([captura]).to_parquet(args.salida / "capturas.parquet", index=False)
-    pd.DataFrame([{"id": FUENTE_ID, "nombre": "Unidades geoestadísticas Censo 2023",
-                   "organismo": "INE", "licencia": "Uso libre citando como fuente al INE",
-                   "url": "https://www.gub.uy/instituto-nacional-estadistica/politicas-y-gestion/unidades-geostadisticas"}]
-                 ).to_parquet(args.salida / "fuentes.parquet", index=False)
-    escribir_duckdb(args.salida)
-    tamanos = exportar_web(territorios, args.salida / "web")
-    escribir_reporte(args.salida / "reporte_validacion.md", checks, comp, territorios, obs, captura, tamanos)
-
-    fallas = [c for c in checks if not c["ok"]]
-    print(json.dumps({"territorios": int(len(territorios)), "observaciones": int(len(obs)),
-                      "controles_ok": len(checks) - len(fallas), "controles_falla": len(fallas)},
-                     ensure_ascii=False))
-    for c in fallas:
-        print(f"FALLA: {c['control']} — {c['detalle']}", file=sys.stderr)
-    return 1 if fallas else 0
+    resultado = "reprocesado" if mismo_original else "nuevo"
+    try:
+        controles = procesar(args.entrada, args.salida, captura, esperado, fuentes, resultado)
+    except Exception as e:
+        historial.agregar(captura, "error", f"{type(e).__name__}: {e}")
+        raise
+    codigo = controles.informar()
+    if codigo:
+        historial.agregar(captura, "error", "controles con falla: " + "; ".join(c["control"] for c in controles.fallas))
+    else:
+        historial.agregar(captura, resultado)
+    return codigo
 
 
 if __name__ == "__main__":
