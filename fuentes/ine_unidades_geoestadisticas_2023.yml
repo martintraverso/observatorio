@@ -30,3 +30,11 @@ notas:
     total del departamento. Cada valor se guarda en el nivel en que se publica.
   - depto_23_pg trae un polígono "LIMITE CONTESTADO" con código 02 y los mismos
     conteos que Artigas. Se guarda como área especial y no como departamento.
+  - "sg_23_pg: el CODLOC de 843 de 4.538 segmentos no tiene polígono en loc_23_pg.
+    838 son XX900 con NOMLOC 'RURAL' (parte rural de cada departamento; 141.735
+    personas) y 5 son XX000: islas (Flores, Gorriti, Baygorria, del Francés) y el
+    límite contestado (segmento 0200000, 0 personas). Los metadatos (PDF) definen
+    CODLOC como depto (2) + localidad (3) pero no explican 900 ni 000. La relación
+    segmento -> localidad se guarda tal cual; no se crean localidades para esos códigos."
+  - "Las capas originales ya tienen huecos angostos (< 10 m) entre polígonos vecinos
+    en departamento, sección y localidad (coverage_is_valid con gap_width=1e-4)."

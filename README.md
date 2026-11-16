@@ -28,9 +28,10 @@ pip install -r requirements-dev.txt                      # runtime + ruff
 # Bajar el zip de https://www.gub.uy/instituto-nacional-estadistica/politicas-y-gestion/unidades-geostadisticas
 # y guardarlo en datos/crudo/ (no se sube a git)
 python pipeline/territorios_2023.py datos/crudo/Unidades_Geoestadisticas_Censo_2023.zip
+python pipeline/web.py                                   # archivos para la app (necesita tippecanoe)
 ```
 
-Tarda unos 15 segundos. Los resultados quedan en `datos/salida/`:
+El primer paso tarda unos 15 segundos; el segundo, unos 30. Los resultados quedan en `datos/salida/`:
 
 | Archivo | Qué tiene |
 |---|---|
@@ -41,7 +42,7 @@ Tarda unos 15 segundos. Los resultados quedan en `datos/salida/`:
 | `capturas.parquet` | La captura de la que salen las observaciones actuales (archivo, sha256, fecha). |
 | `capturas_historial.parquet` | Una fila por corrida: `nuevo`, `reprocesado`, `sin cambios` o `error`. Solo se le agregan filas. |
 | `fuentes.parquet` | El registro de fuentes (todos los `fuentes/*.yml`). |
-| `web/*.geojson` | Geometrías simplificadas por nivel, para la app. |
+| `web/` | Archivos para la app: ver abajo. |
 | `reporte_validacion.md` | Controles de calidad. Revisalo después de cada corrida. |
 
 Si el original no cambió (mismo sha256 que la última captura procesada) y las salidas están completas, el pipeline no reprocesa: anota la corrida como `sin cambios` y termina. Para reprocesar igual, agregá `--forzar`. Si algún control falla, sale con código 1, lista las fallas en stderr y anota la corrida como `error`.
@@ -56,12 +57,35 @@ WHERE indicador = 'pob_total' AND depto = '16' AND nivel IN ('departamento', 'se
 ORDER BY nivel, codigo;
 ```
 
+### Archivos para la app (`datos/salida/web/`)
+
+`pipeline/web.py` los arma a partir de los Parquet; la app es estática y no necesita servidor.
+
+| Archivo | Qué tiene |
+|---|---|
+| `territorios.pmtiles` | Teselas vectoriales con una capa por nivel (zoom 0–13). Los segmentos aparecen desde el zoom 9. |
+| `<nivel>.geojson` | Todos los niveles menos segmento, simplificados sin abrir huecos entre vecinos (≤ 2 MB, 5 decimales). |
+| `territorios_index.json` | Índice de búsqueda: id, nivel, código, nombre, `nombre_busqueda` (sin tildes), depto, padre y bbox. |
+| `fichas/<nivel>/<codigo>.json` | Todo lo que muestra la ficha: identidad, padres, contenidos, relaciones y observaciones con su fuente. |
+| `indicadores.json`, `fuentes.json`, `capturas.json` | Catálogos e historial de capturas. |
+| `manifest.json` | Cada archivo con tamaño, sha256 y fecha de generación. |
+
+**tippecanoe** (≥ 2.17) arma el PMTiles. En Debian/Ubuntu: `sudo apt install tippecanoe`. Sin `sudo`, se puede extraer el paquete en el usuario:
+
+```bash
+mkdir -p ~/.local/opt/tippecanoe && cd ~/.local/opt/tippecanoe
+apt-get download tippecanoe && dpkg-deb -x tippecanoe_*.deb .
+ln -sf ~/.local/opt/tippecanoe/usr/bin/tippecanoe ~/.local/bin/tippecanoe
+```
+
+Sin tippecanoe, `python pipeline/web.py --sin-pmtiles` arma todo lo demás y los tests de PMTiles se saltean (en CI son obligatorios).
+
 ### Lint y tests
 
 ```bash
 ruff check .
 pytest -q                                   # sobre el fixture (lo mismo que corre CI)
-OBS_DATOS=completo pytest -q                # sobre datos/salida/ (correr antes el pipeline)
+OBS_DATOS=completo pytest -q                # sobre datos/salida/ (correr antes el pipeline y web.py)
 ```
 
 - **Fixture** (`OBS_DATOS=fixture`, por defecto): `tests/fixtures/ine_2023_mini.zip` es un recorte del zip del INE (~1 MB): departamentos 01, 02 (con el límite contestado), 07 y 16; secciones, segmentos y localidades de Flores; barrios y CCZ de Montevideo. Los atributos son los originales; las geometrías están simplificadas (~10 m). Los tests corren el pipeline sobre él en una carpeta temporal, sin pasos previos.
