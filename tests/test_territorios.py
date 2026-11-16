@@ -176,3 +176,15 @@ def test_observaciones_solo_en_niveles_publicados(con):
         group by all
     """).fetchall()
     assert fuera == []
+
+
+def test_correspondencias_sin_territorio_son_solo_rural_o_especiales(con):
+    """Segmento -> localidad sale del atributo CODLOC del INE. Hay códigos sin polígono de localidad:
+    XX900 = parte rural del departamento (NOMLOC 'RURAL') y XX000 = islas y límite contestado.
+    Se guardan como los publica el INE; ningún otro código puede quedar sin territorio."""
+    sin_territorio = [r[0] for r in con.execute("""
+        select distinct destino_id from correspondencias
+        where destino_id not in (select id from territorios)
+    """).fetchall()]
+    assert all(re.fullmatch(r"INE-2023/localidad/\d\d(900|000)", d) for d in sin_territorio), sin_territorio
+    assert uno(con, "select count(*) from correspondencias where origen_id not in (select id from territorios)") == 0
