@@ -5,6 +5,9 @@ organismo: Instituto Nacional de Estadística (INE)
 pagina: https://www.gub.uy/instituto-nacional-estadistica/politicas-y-gestion/unidades-geostadisticas
 url_descarga: https://www5.ine.gub.uy/documents/CENSO%202023/Cartografia/Vectoriales/Unidades%20Geoestadisticas%20Censo%202023.zip
 formato: zip con geopackages (EPSG:4326, escala 1:50.000)
+# Nombre del original en el release "crudos" y en datos/crudo/, y script que lo procesa.
+archivo_original: Unidades_Geoestadisticas_Censo_2023.zip
+script: pipeline/territorios_2023.py
 licencia: "El uso es libre, citando como fuente al INE."
 contacto: cartogra@ine.gub.uy
 frecuencia: se actualiza para cada censo
