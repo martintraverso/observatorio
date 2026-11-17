@@ -18,7 +18,8 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"test:unit": "vitest --run",
 		"test:e2e": "playwright test",
-		"test": "npm run test:unit && npm run test:e2e"
+		"test": "npm run test:unit && npm run test:e2e",
+		"test:lighthouse": "node scripts/lighthouse.mjs"
 	},
 	"devDependencies": {
 		"@axe-core/playwright": "4.14.0",
@@ -29,6 +30,7 @@
 		"@sveltejs/kit": "^3.0.0",
 		"@sveltejs/vite-plugin-svelte": "^7.2.0",
 		"@types/node": "24.19.2",
+		"lighthouse": "13.6.0",
 		"svelte": "^5.57.2",
 		"svelte-check": "^4.6.0",
 		"typescript": "^6.0.3",

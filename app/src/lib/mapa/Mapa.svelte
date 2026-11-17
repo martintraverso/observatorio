@@ -11,6 +11,7 @@
 	import { urlDatos } from '../datos.ts';
 	import { ATRIBUCION_MAPA, COLOR_SIN_DATO, coloresClases } from './colores.ts';
 	import { clase, ZOOM_SEGMENTOS, type Clases, type NivelMapa } from './estado.ts';
+	import MiniMapa from './MiniMapa.svelte';
 
 	let {
 		nivel,
@@ -43,6 +44,9 @@
 	let mapa: MapaLibre | null = $state(null);
 	let listo = $state(false);
 	let nombreBajoCursor = $state('');
+	let sinMapa = $state(false);
+	let esperandoToque = $state(false);
+	let iniciarMapa: (() => void) | null = null;
 	let pintado: { nivel: string; ids: string[] } = { nivel: '', ids: [] };
 
 	let pendiente: [number, number, number, number] | null = null;
@@ -64,7 +68,7 @@
 
 	onMount(() => {
 		let destruido = false;
-		(async () => {
+		const iniciar = async () => {
 			const [maplibregl, { Protocol }, { default: urlWorker }] = await Promise.all([
 				import('maplibre-gl'),
 				import('pmtiles'),
@@ -78,62 +82,70 @@
 				protocoloRegistrado = true;
 			}
 			const pmtiles = new URL(urlDatos('territorios.pmtiles'), location.href).href;
-			const m = new maplibregl.Map({
-				container: contenedor,
-				bounds: URUGUAY,
-				fitBoundsOptions: { padding: 16 },
-				minZoom: 5,
-				maxZoom: 15,
-				maxBounds: [
-					[-62, -38],
-					[-49, -27]
-				],
-				dragRotate: false,
-				pitchWithRotate: false,
-				attributionControl: { compact: false, customAttribution: ATRIBUCION_MAPA },
-				style: {
-					version: 8,
-					sources: { [FUENTE]: { type: 'vector', url: `pmtiles://${pmtiles}`, promoteId: 'id' } },
-					layers: [
-						{ id: 'fondo', type: 'background', paint: { 'background-color': '#f6f7f5' } },
-						...NIVELES.flatMap((n) => [
+			let m: MapaLibre;
+			try {
+				m = new maplibregl.Map({
+					container: contenedor,
+					bounds: URUGUAY,
+					fitBoundsOptions: { padding: 16 },
+					minZoom: 5,
+					maxZoom: 15,
+					maxBounds: [
+						[-62, -38],
+						[-49, -27]
+					],
+					dragRotate: false,
+					pitchWithRotate: false,
+					attributionControl: { compact: false, customAttribution: ATRIBUCION_MAPA },
+					style: {
+						version: 8,
+						sources: { [FUENTE]: { type: 'vector', url: `pmtiles://${pmtiles}`, promoteId: 'id' } },
+						layers: [
+							{ id: 'fondo', type: 'background', paint: { 'background-color': '#f6f7f5' } },
+							...NIVELES.flatMap((n) => [
+								{
+									id: `relleno-${n}`,
+									type: 'fill' as const,
+									source: FUENTE,
+									'source-layer': n,
+									...(n === 'segmento' ? { minzoom: ZOOM_SEGMENTOS } : {}),
+									layout: { visibility: 'none' as const },
+									paint: { 'fill-color': COLOR_SIN_DATO, 'fill-opacity': 0.92 }
+								},
+								{
+									id: `borde-${n}`,
+									type: 'line' as const,
+									source: FUENTE,
+									'source-layer': n,
+									...(n === 'segmento' ? { minzoom: ZOOM_SEGMENTOS } : {}),
+									layout: { visibility: 'none' as const },
+									paint: { 'line-color': '#ffffff', 'line-width': 0.6 }
+								}
+							]),
 							{
-								id: `relleno-${n}`,
-								type: 'fill' as const,
+								id: 'contorno-departamentos',
+								type: 'line',
 								source: FUENTE,
-								'source-layer': n,
-								...(n === 'segmento' ? { minzoom: ZOOM_SEGMENTOS } : {}),
-								layout: { visibility: 'none' as const },
-								paint: { 'fill-color': COLOR_SIN_DATO, 'fill-opacity': 0.92 }
+								'source-layer': 'departamento',
+								paint: { 'line-color': '#4f5b67', 'line-width': 1.2 }
 							},
-							{
-								id: `borde-${n}`,
+							...NIVELES_SELECCION.map((n) => ({
+								id: `seleccion-${n}`,
 								type: 'line' as const,
 								source: FUENTE,
 								'source-layer': n,
-								...(n === 'segmento' ? { minzoom: ZOOM_SEGMENTOS } : {}),
-								layout: { visibility: 'none' as const },
-								paint: { 'line-color': '#ffffff', 'line-width': 0.6 }
-							}
-						]),
-						{
-							id: 'contorno-departamentos',
-							type: 'line',
-							source: FUENTE,
-							'source-layer': 'departamento',
-							paint: { 'line-color': '#4f5b67', 'line-width': 1.2 }
-						},
-						...NIVELES_SELECCION.map((n) => ({
-							id: `seleccion-${n}`,
-							type: 'line' as const,
-							source: FUENTE,
-							'source-layer': n,
-							filter: ['==', ['get', 'id'], ''] as ['==', ['get', string], string],
-							paint: { 'line-color': '#e07a1f', 'line-width': 3.5 }
-						}))
-					]
-				}
-			});
+								filter: ['==', ['get', 'id'], ''] as ['==', ['get', string], string],
+								paint: { 'line-color': '#e07a1f', 'line-width': 3.5 }
+							}))
+						]
+					}
+				});
+			} catch (e) {
+				// Sin WebGL2 (equipos viejos, aceleración gráfica desactivada) MapLibre no puede dibujar.
+				console.warn('Mapa no disponible:', e);
+				sinMapa = true;
+				return;
+			}
 			m.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
 			m.getCanvas().setAttribute('aria-label', 'Mapa de Uruguay con los límites del INE');
 			for (const n of NIVELES) {
@@ -162,9 +174,34 @@
 			mapa = m;
 			// Para los tests e2e (ubicar territorios en pantalla).
 			(window as unknown as { __mapa?: MapaLibre }).__mapa = m;
-		})();
+		};
+		// MapLibre es lo más pesado de la página.
+		// En móvil arranca al tocar el mapa: así no se carga si no se usa, y el mapa no "atrapa" el
+		// desplazamiento de la página. En escritorio, cuando al menos un cuarto del mapa se ve.
+		let observador: IntersectionObserver | null = null;
+		iniciarMapa = () => {
+			esperandoToque = false;
+			iniciar();
+		};
+		if (matchMedia('(max-width: 900px)').matches) {
+			esperandoToque = true;
+		} else if ('IntersectionObserver' in window) {
+			observador = new IntersectionObserver(
+				(entradas) => {
+					if (entradas.some((e) => e.isIntersecting)) {
+						observador?.disconnect();
+						iniciar();
+					}
+				},
+				{ threshold: 0.25 }
+			);
+			observador.observe(contenedor);
+		} else {
+			iniciar();
+		}
 		return () => {
 			destruido = true;
+			observador?.disconnect();
 			mapa?.remove();
 		};
 	});
@@ -209,6 +246,20 @@
 	{#if nombreBajoCursor}
 		<div class="etiqueta" aria-hidden="true">{nombreBajoCursor}</div>
 	{/if}
+	{#if esperandoToque}
+		<div class="previa">
+			<div class="contorno" aria-hidden="true">
+				<MiniMapa nombre="Uruguay" depto="" nivel="pais" bbox={[-58.5, -35.05, -53.05, -30.05]} resaltar={false} />
+			</div>
+			<button type="button" class="activar" onclick={() => iniciarMapa?.()}>Ver el mapa interactivo</button>
+		</div>
+	{/if}
+	{#if sinMapa}
+		<div class="sin-mapa aviso" role="status">
+			<p>Este navegador no puede dibujar el mapa (necesita WebGL2).</p>
+			<p>Los mismos datos están en las fichas de cada territorio, en el buscador y en las descargas.</p>
+		</div>
+	{/if}
 </div>
 
 <style>
@@ -218,6 +269,45 @@
 		height: 100%;
 		min-height: 320px;
 		background: var(--fondo);
+	}
+
+	.previa {
+		position: absolute;
+		inset: 0;
+		z-index: 2;
+		display: grid;
+		place-items: center;
+		align-content: center;
+		gap: var(--espacio-4);
+		background: var(--fondo);
+	}
+
+	.contorno {
+		width: min(70%, 260px);
+		opacity: 0.8;
+	}
+
+	.activar {
+		min-height: var(--toque-min);
+		padding: 0 var(--espacio-5);
+		border: 0;
+		border-radius: var(--radio-m);
+		background: var(--primario);
+		color: var(--sobre-primario);
+		font: inherit;
+		font-weight: 600;
+		cursor: pointer;
+	}
+
+	.sin-mapa {
+		position: absolute;
+		inset: var(--espacio-4);
+		height: fit-content;
+		z-index: 2;
+	}
+
+	.sin-mapa p {
+		margin: 0 0 var(--espacio-2);
 	}
 
 	.etiqueta {

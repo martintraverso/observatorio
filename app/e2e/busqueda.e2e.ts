@@ -35,6 +35,7 @@ test('AC-S1: encuentra barrios de Montevideo', async ({ page }) => {
 });
 
 test('AC-S2: un código INE + Enter va al territorio', async ({ page }) => {
+	test.slow(); // cuatro navegaciones seguidas
 	for (const t of [de('departamento'), de('seccion'), de('localidad'), de('segmento')]) {
 		await page.goto('fichas');
 		await campo(page).fill(t.codigo);

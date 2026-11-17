@@ -49,6 +49,20 @@ for (const { ruta, titulo } of RUTAS) {
 			expect(graves.map((v) => `${v.id}: ${v.nodes.length} nodos`)).toEqual([]);
 		});
 
+		test('AC-G5: áreas táctiles de al menos 44 px (salvo enlaces dentro de un texto)', async ({ page }) => {
+			await page.goto(ruta);
+			await page.waitForLoadState('networkidle');
+			const chicos = await page.evaluate(() => {
+				const selector = 'button, input:not([type="radio"]), select, [role="tab"], [role="combobox"], nav a, td a, .acciones a, label.chip, .segmentado label, label.indicador';
+				return [...document.querySelectorAll<HTMLElement>(selector)]
+					.filter((e) => e.offsetParent !== null && !e.closest('.maplibregl-ctrl-attrib, .visualmente-oculto'))
+					.map((e) => ({ e: `${e.tagName.toLowerCase()} ${(e.textContent || e.getAttribute('aria-label') || '').trim().slice(0, 30)}`, alto: e.getBoundingClientRect().height }))
+					.filter((x) => x.alto > 0 && x.alto < 43.5)
+					.map((x) => `${x.e} (${Math.round(x.alto)} px)`);
+			});
+			expect(chicos).toEqual([]);
+		});
+
 		test('sin scroll horizontal de la página', async ({ page }) => {
 			await page.goto(ruta);
 			const desborde = await page.evaluate(

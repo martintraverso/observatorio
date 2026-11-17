@@ -109,6 +109,7 @@ Done when: AC-SRC1…4, AC-D1…2.
 ## M9 — Quality pass
  
 Lighthouse and axe on all routes; fix to reach AC-G5 and AC-G6; cross-browser and 390 px check (AC-G4). Update README with screenshots.
+*Decisions (2026-11-17, M9):* on mobile the map starts on tap ("Ver el mapa interactivo"), on desktop when visible; without WebGL2 it shows a notice. Lighthouse runs with software WebGL so the map can draw; Firefox and WebKit run the e2e suites that do not need to draw the map (headless browsers lack WebGL2).
  
 ---
  

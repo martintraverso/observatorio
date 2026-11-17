@@ -92,10 +92,17 @@ jobs:
           DATOS_WEB: ${{ runner.temp }}/salida/web
         run: npm run build
 
-      - run: npx playwright install --with-deps chromium
+      # Chromium, Firefox y WebKit (Safari): AC-G4
+      - run: npx playwright install --with-deps chromium firefox webkit
 
       - name: Tests e2e (Playwright + axe)
         run: npm run test:e2e
+
+      - name: Lighthouse (AC-G6)
+        run: |
+          node scripts/servidor-pages.mjs build 4173 &
+          sleep 1
+          npm run test:lighthouse -- http://localhost:4173/observatorio/ 3
 
       - uses: actions/upload-artifact@v7
         if: failure()

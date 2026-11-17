@@ -25,6 +25,8 @@ npm run test:e2e                       # Playwright + axe sobre el build, servid
 
 Los e2e usan `scripts/servidor-pages.mjs`, que imita a GitHub Pages: el sitio bajo `/observatorio`, `/ruta` sirve `ruta.html` y lo que no existe devuelve `404.html` con código 404. Corren en escritorio y en móvil (390 px) y verifican: carga directa de cada ruta, URL de territorios, 404 en español, números en `es-UY`, fuente y período junto a cada valor, axe sin violaciones serias o críticas, sin scroll horizontal, teclado y áreas táctiles de 44 px.
 
+Además, `npm run test:lighthouse -- <url>` corre Lighthouse móvil 3 veces sobre el sitio servido (falla si la mediana de rendimiento es < 80). En CI y en el deploy los e2e corren también en Firefox y WebKit (Safari); en local, con `OBS_NAVEGADORES=todos` (necesita `npx playwright install firefox webkit`).
+
 Playwright necesita Chromium (`npx playwright install chromium`). En Debian sin `sudo`, si faltan `libnspr4`/`libnss3`:
 
 ```bash
@@ -50,7 +52,8 @@ Las fuentes (Inter y Space Grotesk) van empaquetadas con la app (`@fontsource`):
 
 - **Prerender de todas las rutas de territorio (no SPA fallback).** Se midió: con los datos completos, prerenderizar las 5.532 páginas (5.527 territorios) lleva unos 14 s, y el sitio pesa 159 MB (la mayoría, `datos-web/`). Así cada URL `/territorio/<nivel>/<codigo>` abre directo con código 200 (AC-G3) y sirve sin JavaScript. `404.html` queda para las rutas que no existen.
 - **Los datos se sirven desde el mismo sitio**, copiados de `web.zip` del último release en cada deploy, en vez de leerlos de los releases de GitHub: mismo origen, sin depender del caché de las descargas.
-- **La carpeta de datos se llama `datos-web/`**, no `datos/`, para no chocar con la página `/datos`.
+- **La carpeta de datos se llama `datos-web/`**, no `datos/`, para no chocar con la página `/datos`. Por lo mismo, `/fuentes` se genera como carpeta (`fuentes/index.html`).
+- **El mapa arranca cuando hace falta.** MapLibre es lo más pesado del sitio: en escritorio arranca cuando el mapa se ve; en móvil, al tocarlo ("Ver el mapa interactivo"), lo que además evita que el mapa atrape el desplazamiento de la página. Sin WebGL2 el mapa muestra un aviso y el resto funciona.
 
 ## Deploy
 
