@@ -81,6 +81,9 @@ def test_correr_procesa_publica_y_despues_dice_sin_cambios(crudo, tmp_path):
     r3 = pipeline(crudo, salida, "--forzar")
     assert r3["fuentes"][FUENTE]["resultado"] == "reprocesado" and r3["publicar"]
 
+    r4 = pipeline(crudo, salida, "--web")  # sin cambios, pero se pide web/ igual
+    assert r4["fuentes"][FUENTE]["resultado"] == "sin cambios" and r4["web"] and not r4["publicar"]
+
 
 def test_correr_falla_si_falta_el_original(tmp_path):
     (tmp_path / "crudo").mkdir()
