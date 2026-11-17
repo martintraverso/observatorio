@@ -22,6 +22,7 @@ on:
       - "pipeline/**"
       - "fuentes/**"
       - "requirements.txt"
+      - ".github/actions/tippecanoe/**"  # otra versión de tippecanoe cambia las teselas
 
 permissions:
   contents: write  # crear releases

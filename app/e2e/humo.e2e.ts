@@ -108,3 +108,10 @@ test('áreas táctiles de al menos 44 px en la navegación', async ({ page }) =>
 		expect(caja!.height).toBeGreaterThanOrEqual(44);
 	}
 });
+
+test('AC-G6: las páginas de listado pesan poco (no incrustan el índice ni el manifest)', async ({ request }) => {
+	for (const ruta of ['', 'fichas', 'datos', 'fuentes']) {
+		const cuerpo = await (await request.get(ruta)).body();
+		expect(cuerpo.length, `/${ruta}`).toBeLessThan(150_000);
+	}
+});
