@@ -182,19 +182,29 @@ def municipio_de_ccz(capas) -> dict[str, str]:
     return {str(r["CCZ"]).zfill(2): str(r["NOMMUNICIPIO"]).strip() for _, r in capas["ccz_mvd"].iterrows()}
 
 
+# Lambert acimutal de áreas iguales centrada en Uruguay, para medir superficies.
+PROYECCION_AREAS = "+proj=laea +lat_0=-32.5 +lon_0=-56 +datum=WGS84 +units=m"
+
+
+def area_km2(geom, crs) -> float:
+    return float(gpd.GeoSeries([geom], crs=crs).to_crs(PROYECCION_AREAS).area.iloc[0]) / 1e6
+
+
 def construir_derivados(territorios: gpd.GeoDataFrame, capas) -> gpd.GeoDataFrame:
     """Niveles que el INE no publica como capa propia (F2.3), armados uniendo geometrías.
 
     - pais: INE-2023/pais/UY, unión de los departamentos (sin el área especial), para los totales
       nacionales que publica el INE (AC-L28).
     - municipio_mvd: INE-2023/municipio_mvd/<letra>, unión de los CCZ de cada municipio (AC-L17).
-    Solo se unen geometrías: ningún valor se suma hacia arriba (SYSTEM.md §4). La superficie es la
-    suma de las superficies del INE de las partes.
+    Solo se unen geometrías: ningún valor se suma hacia arriba (SYSTEM.md §4). La superficie se mide
+    sobre la geometría unida (proyección de áreas iguales), no se suma la de las partes: el AREA_KM2
+    de la capa de CCZ del INE no está en km² (es unas 100 veces el área real).
     """
     def fila(nivel, codigo, nombre, depto, padre, partes, extra=None):
+        geom = shapely.make_valid(shapely.union_all(partes.geometry.values))
         return {"id": tid(nivel, codigo), "nivel": nivel, "codigo": codigo, "nombre": nombre, "depto": depto,
-                "padre_id": padre, "version_geo": VERSION_GEO, "area_km2": float(partes.area_km2.sum()),
-                "geometry": shapely.make_valid(shapely.union_all(partes.geometry.values)), **(extra or {})}
+                "padre_id": padre, "version_geo": VERSION_GEO, "area_km2": area_km2(geom, territorios.crs),
+                "geometry": geom, **(extra or {})}
 
     filas = []
     deptos = territorios[territorios.nivel == "departamento"]
@@ -283,9 +293,11 @@ def validar(capas, territorios, obs, esperado, niveles_publicados) -> tuple[Cont
     padres = territorios.padre_id.dropna()
     c.chk("Todo padre existe", padres.isin(ids).all(), f"{(~padres.isin(ids)).sum()} sin padre")
 
-    letras = set(municipio_de_ccz(capas).values())
-    c.chk("Cada CCZ tiene municipio (A, B, C, CH, D, E, F, G)",
-          letras <= {"A", "B", "C", "CH", "D", "E", "F", "G"}, ", ".join(sorted(letras)))
+    mun = municipio_de_ccz(capas)
+    ccz = territorios.loc[territorios.nivel == "ccz_mvd", "codigo"]
+    sin = sorted(set(ccz) - {k for k, v in mun.items() if v in {"A", "B", "C", "CH", "D", "E", "F", "G"}})
+    c.chk("Cada CCZ tiene municipio (A, B, C, CH, D, E, F, G)", not sin,
+          f"sin municipio válido: {', '.join(sin)}" if sin else ", ".join(sorted(set(mun.values()))))
 
     seg = territorios[territorios.nivel == "segmento"]
     prefijo_ok = (seg.codigo.str[:4] == seg.padre_id.str.split("/").str[-1]).all()

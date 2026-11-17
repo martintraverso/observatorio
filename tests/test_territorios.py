@@ -240,6 +240,9 @@ def test_municipios_de_montevideo(con, salida):
         ccz = [o for o, d in corr if d == municipio]
         assert ccz, municipio
         assert _dif_relativa(t.loc[municipio].geometry, t.loc[ccz].geometry.union_all()) < 1e-3, municipio
+        # La superficie publicada es la de la geometría (el AREA_KM2 de los CCZ del INE no está en km²).
+        assert t.loc[municipio].area_km2 == pytest.approx(_area(t.loc[municipio].geometry), rel=0.01), municipio
+    assert sum(t.loc[i].area_km2 for _, i, *_ in filas) < t.loc["INE-2023/departamento/01"].area_km2 * 1.01
 
 
 # AC-L18
@@ -257,6 +260,9 @@ def test_cada_ccz_en_exactamente_un_municipio(con, salida):
         where r.destino_id like 'INE-2023/municipio_mvd/%'
           and c.nombre not like '%(Municipio ' || split_part(r.destino_id, '/', 3) || ')'
     """) == 0
+    assert con.execute("""select distinct metodo from correspondencias
+                          where destino_id like 'INE-2023/municipio_mvd/%'""").fetchall() == [
+        ("disolución de CCZ por NOMMUNICIPIO",)]  # SYSTEM.md §5
     t = gpd.read_parquet(salida / "territorios.parquet")
     municipios = t[t.nivel == "municipio_mvd"].geometry.union_all()
     ccz = t[t.nivel == "ccz_mvd"].geometry.union_all()
@@ -271,6 +277,7 @@ def test_nivel_pais(con, salida, esperado):
     deptos = t[t.nivel == "departamento"]
     assert len(deptos) == esperado["territorios_por_nivel"]["departamento"]
     assert _dif_relativa(t.loc["INE-2023/pais/UY"].geometry, deptos.geometry.union_all()) < 1e-3
+    assert t.loc["INE-2023/pais/UY"].area_km2 == pytest.approx(_area(t.loc["INE-2023/pais/UY"].geometry), rel=0.01)
     # Cada departamento pertenece al país (relación, no suma de valores).
     assert uno(con, """select count(*) from correspondencias
                        where destino_id = 'INE-2023/pais/UY' and tipo = 'pertenece_a'""") == len(deptos)

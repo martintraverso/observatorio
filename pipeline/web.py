@@ -73,6 +73,9 @@ PMTILES_MAXZOOM = 13  # la app hace overzoom; 14 duplicaba el tamaño (~26 MB)
 
 PROPIEDADES = ["id", "codigo", "nombre", "depto"]
 
+# Niveles que arma el pipeline uniendo geometrías del INE (F2.3).
+DERIVADOS = {"pais", "municipio_mvd"}
+
 
 # ---------------------------------------------------------------- utilidades
 
@@ -397,14 +400,16 @@ def escribir_descargas(s: Path, territorios, obs, indicadores, capturas, fuentes
             continue
         pq = d / f"territorios_{nivel}.parquet"
         completo.to_parquet(pq, index=False)
-        registrar(pq, "Territorios", f"{nivel}: geometría completa del INE (GeoParquet, EPSG:4326).")
+        origen = ("unión de geometrías del INE hecha por el pipeline" if nivel in DERIVADOS
+                  else "geometría completa del INE")
+        registrar(pq, "Territorios", f"{nivel}: {origen} (GeoParquet, EPSG:4326).")
         gj = d / f"territorios_{nivel}.geojson"
         simples[simples.nivel == nivel][[*PROPIEDADES, "padre_id", "geometry"]].to_file(
             gj, driver="GeoJSON", layer_options={"COORDINATE_PRECISION": DECIMALES, "RFC7946": "YES", "WRITE_NAME": "NO"})
         registrar(gj, "Territorios", f"{nivel}: geometría simplificada (GeoJSON, 5 decimales).")
 
     registrar(s / "territorios.parquet", "Territorios", "Todos los niveles juntos, con geometría completa (GeoParquet).")
-    registrar(s / "correspondencias.parquet", "Territorios", "Relaciones entre territorios (segmento → localidad).")
+    registrar(s / "correspondencias.parquet", "Territorios", "Relaciones entre territorios (segmento → localidad, CCZ → municipio, departamento → país).")
     registrar(s / "observatorio.duckdb", "Base completa", "Todo en una base DuckDB. Empezar por la vista v_observaciones.")
     registrar(s / "reporte_validacion.md", "Base completa", "Controles de calidad de la última corrida.")
     return {"generado": generado, "licencia": LICENCIA, "cita": CITA, "archivos": archivos}

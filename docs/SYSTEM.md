@@ -58,7 +58,7 @@ VIEW v_observaciones  -- observaciones joined with territorio, indicador and cap
  
 **Time periods (F2.2, implemented):** survey indicators refer to a 3-month moving quarter, not a year. `observaciones` has `periodo_inicio` (date, first day), `periodo_fin` (date, last day) and `tipo_periodo` (`censo`, `mes`, `trimestre_movil`, `trimestre`, `semestre`, `anio`). `periodo` stays as a human label (e.g. `2026-07/2026-09`). Phase-0 census rows are `tipo_periodo = censo`, `periodo_inicio = periodo_fin = 2023-01-01` with label `2023`.
  
-**Level added in F2.3:** `municipio_mvd` (8 Montevideo municipalities). INE does not publish its geometry in the 2023 package, but `ccz_mvd_23_pg` has the attribute `NOMMUNICIPIO`; the geometry is derived by dissolving CCZ by municipality and recorded in `correspondencias` (ccz → municipio, `metodo = "disolución de CCZ por NOMMUNICIPIO"`).
+**Level added in F2.3:** `municipio_mvd` (8 Montevideo municipalities). INE does not publish its geometry in the 2023 package, but `ccz_mvd_23_pg` has the attribute `NOMMUNICIPIO`; the geometry is derived by dissolving CCZ by municipality and recorded in `correspondencias` (ccz → municipio, `metodo = "disolución de CCZ por NOMMUNICIPIO"`). Each departamento is recorded as `pertenece_a` the `pais` territory (a relation only: no values are summed). Derived levels get `area_km2` measured on their geometry.
  
 Planned additions: `eventos(id, dataset_id, fecha, geometry, territorio_id, atributos_json, captura_id)` for point data.
 
