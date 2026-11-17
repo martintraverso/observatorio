@@ -41,6 +41,7 @@ from comun.capturas import Historial, ahora, nueva_captura
 from comun.controles import Controles
 from comun.entrada import carpeta_con, extraer_zip
 from comun.huella import huella_entrada
+from comun.periodos import TIPOS_PERIODO, censo
 from comun.registro import cargar_fuentes, tabla_fuentes
 from comun.salida import escribir_duckdb
 
@@ -49,7 +50,7 @@ ESPERADO_COMPLETO = RAIZ / "pipeline" / "esperado" / "ine_2023_completo.yml"
 
 VERSION_GEO = "INE-2023"
 FUENTE_ID = "ine_unidades_geoestadisticas_2023"
-PERIODO = "2023"
+PERIODO = censo(2023)  # tipo_periodo = censo, 2023-01-01, etiqueta "2023" (AC-L11)
 
 CAPAS = {
     "depto_23_pg": "departamento",
@@ -192,7 +193,7 @@ def construir_observaciones(capas, territorios, captura_id) -> pd.DataFrame:
             t = tid(nivel, claves[nivel](r))
             for codigo, col, _, _ in INDICADORES:
                 filas.append({
-                    "indicador": codigo, "territorio_id": t, "periodo": PERIODO,
+                    "indicador": codigo, "territorio_id": t, **PERIODO.columnas(),
                     "valor": float(r[col]), "es_estimado": False, "captura_id": captura_id,
                 })
     obs = pd.DataFrame(filas)
@@ -249,6 +250,13 @@ def validar(capas, territorios, obs, esperado, niveles_publicados) -> tuple[Cont
     hm = (obs.pivot_table(index="territorio_id", columns="indicador", values="valor"))
     c.chk("Hombres + mujeres = personas", ((hm.pob_hombres + hm.pob_mujeres) == hm.pob_total).all(),
           f"{((hm.pob_hombres + hm.pob_mujeres) != hm.pob_total).sum()} territorios no cuadran")
+
+    # AC-L10 (esquema): fechas presentes, tipo de período conocido e inicio <= fin.
+    sin_fecha = obs.periodo_inicio.isna() | obs.periodo_fin.isna()
+    con_fecha = obs[~sin_fecha]
+    malos = obs[sin_fecha | ~obs.tipo_periodo.isin(TIPOS_PERIODO)]
+    malos = pd.concat([malos, con_fecha[con_fecha.periodo_inicio > con_fecha.periodo_fin]])
+    c.chk("Períodos válidos (fechas presentes, tipo conocido, inicio ≤ fin)", malos.empty, f"{len(malos)} observaciones con período inválido")
 
     # AC-P5: solo se guardan observaciones en los niveles que publica la fuente, salvo estimaciones.
     nivel_obs = obs.territorio_id.map(territorios.set_index("id").nivel)

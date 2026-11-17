@@ -70,16 +70,17 @@ test('AC-F5: el CSV tiene exactamente los valores que muestra la ficha', async (
 		page.getByRole('button', { name: 'Descargar CSV' }).click()
 	]);
 	const [cabecera, ...csv] = readFileSync((await descarga.path())!, 'utf-8').replace(/^﻿/, '').trim().split('\r\n');
-	expect(cabecera).toBe('territorio_id,nivel,codigo,nombre,indicador,periodo,valor,unidad,es_estimado,fuente,archivo_origen,sha256');
+	expect(cabecera).toBe('territorio_id,nivel,codigo,nombre,indicador,periodo,periodo_inicio,periodo_fin,tipo_periodo,valor,unidad,es_estimado,fuente,archivo_origen,sha256');
 	expect(csv).toHaveLength(mostradas.length);
 	const es = new Intl.NumberFormat('es-UY', { useGrouping: 'always' });
 	for (const linea of csv) {
 		const c = linea.split(',');
-		const fila = mostradas.find(([, valor, periodo]) => valor === `${es.format(Number(c[6]))} ${c[7]}` && periodo === c[5]);
+		const fila = mostradas.find(([, valor, periodo]) => valor === `${es.format(Number(c[9]))} ${c[10]}` && periodo === c[5]);
 		expect(fila, linea).toBeTruthy();
 		expect(c[0]).toBe('INE-2023/departamento/07');
-		expect(c[10]).toMatch(/\.zip$/);
-		expect(c[11]).toMatch(/^[0-9a-f]{64}$/);
+		expect(c.slice(6, 9)).toEqual(['2023-01-01', '2023-01-01', 'censo']); // AC-L27
+		expect(c[13]).toMatch(/\.zip$/);
+		expect(c[14]).toMatch(/^[0-9a-f]{64}$/);
 	}
 });
 

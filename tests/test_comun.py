@@ -80,3 +80,28 @@ def test_fuente_activa_necesita_original_y_script_existente():
     assert any("no existe el script" in e for e in errores) and any("sin carpetas" in e for e in errores)
     errores = validar_fuente({**base, "estado": "a relevar"}, "x.yml")
     assert not any("archivo_original" in e or "script" in e for e in errores)  # solo las activas
+
+
+# ------------------------------------------------------------------ períodos (F2.2, AC-L10)
+
+def test_trimestre_movil_inicio_fin_y_etiqueta():
+    from comun.periodos import trimestre_movil
+
+    p = trimestre_movil(2026, 9)  # informe M_09 de 2026
+    assert (str(p.inicio), str(p.fin), p.etiqueta, p.tipo) == ("2026-07-01", "2026-09-30", "2026-07/2026-09", "trimestre_movil")
+    p = trimestre_movil(2022, 2)  # el primero: diciembre 2021 a febrero 2022
+    assert (str(p.inicio), str(p.fin), p.etiqueta) == ("2021-12-01", "2022-02-28", "2021-12/2022-02")
+    assert str(trimestre_movil(2024, 2).fin) == "2024-02-29"  # bisiesto
+    assert str(trimestre_movil(2026, 12).fin) == "2026-12-31"  # mes de 31 días
+    assert trimestre_movil(2026, 1).etiqueta == "2025-11/2026-01"  # enero cruza el año
+
+
+def test_censo_y_tipos_validos():
+    from comun.periodos import TIPOS_PERIODO, censo
+
+    p = censo(2023)
+    assert (str(p.inicio), str(p.fin), p.etiqueta, p.tipo) == ("2023-01-01", "2023-01-01", "2023", "censo")
+    assert set(TIPOS_PERIODO) == {"censo", "mes", "trimestre_movil", "trimestre", "semestre", "anio"}
+    from comun.periodos import trimestre_movil
+    with pytest.raises(ValueError):
+        trimestre_movil(2026, 13)

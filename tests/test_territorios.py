@@ -188,3 +188,25 @@ def test_correspondencias_sin_territorio_son_solo_rural_o_especiales(con):
     """).fetchall()]
     assert all(re.fullmatch(r"INE-2023/localidad/\d\d(900|000)", d) for d in sin_territorio), sin_territorio
     assert uno(con, "select count(*) from correspondencias where origen_id not in (select id from territorios)") == 0
+
+
+# AC-L10 (esquema) y AC-L11
+def test_observaciones_tienen_inicio_fin_y_tipo_de_periodo(con):
+    tipos = dict(con.execute("select column_name, data_type from information_schema.columns "
+                             "where table_name = 'observaciones'").fetchall())
+    assert tipos["periodo_inicio"] == "DATE" and tipos["periodo_fin"] == "DATE" and tipos["tipo_periodo"] == "VARCHAR"
+    assert uno(con, """select count(*) from observaciones where periodo_inicio is null or periodo_fin is null
+                       or tipo_periodo is null or periodo_inicio > periodo_fin""") == 0
+    assert uno(con, """select count(*) from observaciones where tipo_periodo not in
+                       ('censo','mes','trimestre_movil','trimestre','semestre','anio')""") == 0
+    assert "periodo_inicio" in [r[0] for r in con.execute("describe v_observaciones").fetchall()]
+
+
+def test_censo_migrado_a_tipo_censo(con):
+    fuera = con.execute("""
+        select tipo_periodo, periodo, periodo_inicio, periodo_fin, count(*) from observaciones o
+        join capturas c on c.id = o.captura_id
+        where c.fuente_id = 'ine_unidades_geoestadisticas_2023' group by all
+    """).fetchall()
+    import datetime as dt
+    assert [f[:4] for f in fuera] == [("censo", "2023", dt.date(2023, 1, 1), dt.date(2023, 1, 1))]

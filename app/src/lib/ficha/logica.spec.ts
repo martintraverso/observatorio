@@ -2,7 +2,16 @@ import { describe, expect, it } from 'vitest';
 import type { Ficha } from '../datos';
 import { cita, consultaMapa, notaNoAditiva, observacionesDeSeccion, partes, SECCIONES_FICHA } from './logica';
 
-const obs = (indicador: string, valor: number) => ({ indicador, periodo: '2023', valor, es_estimado: false, captura_id: 'c' });
+const obs = (indicador: string, valor: number) => ({
+	indicador,
+	periodo: '2023',
+	periodo_inicio: '2023-01-01',
+	periodo_fin: '2023-01-01',
+	tipo_periodo: 'censo' as const,
+	valor,
+	es_estimado: false,
+	captura_id: 'c'
+});
 const ind = (codigo: string, nombre: string, tema: string) => ({ codigo, nombre, tema, unidad: 'personas' });
 const sec = (codigo: string, pob: number) => ({
 	id: `INE-2023/seccion/${codigo}`,
