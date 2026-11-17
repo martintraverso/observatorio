@@ -1,135 +1,252 @@
-import AxeBuilder from '@axe-core/playwright';
-import { expect, test } from '@playwright/test';
-import { existsSync, readFileSync } from 'node:fs';
+import AxeBuilder from "@axe-core/playwright";
+import { expect, test } from "@playwright/test";
+import { existsSync, readFileSync } from "node:fs";
 
-const indice = JSON.parse(readFileSync('build/datos-web/territorios_index.json', 'utf-8')) as {
-	nivel: string;
-	codigo: string;
-	nombre: string;
-	depto: string;
-	padre_id: string | null;
+const indice = JSON.parse(
+  readFileSync("build/datos-web/territorios_index.json", "utf-8"),
+) as {
+  nivel: string;
+  codigo: string;
+  nombre: string;
+  depto: string;
+  padre_id: string | null;
 }[];
-const de = (nivel: string) => indice.find((t) => t.nivel === nivel && t.depto === '07')!;
+const de = (nivel: string) =>
+  indice.find((t) => t.nivel === nivel && t.depto === "07")!;
 
-test('AC-F1: hay ficha para cada departamento, sección, segmento y localidad', () => {
-	const niveles = ['departamento', 'seccion', 'segmento', 'localidad'];
-	const faltan = indice
-		.filter((t) => niveles.includes(t.nivel))
-		.filter((t) => !existsSync(`build/territorio/${t.nivel}/${t.codigo}.html`))
-		.map((t) => `${t.nivel}/${t.codigo}`);
-	expect(faltan).toEqual([]);
+test("AC-F1: hay ficha para cada departamento, sección, segmento y localidad", () => {
+  const niveles = ["departamento", "seccion", "segmento", "localidad"];
+  const faltan = indice
+    .filter((t) => niveles.includes(t.nivel))
+    .filter((t) => !existsSync(`build/territorio/${t.nivel}/${t.codigo}.html`))
+    .map((t) => `${t.nivel}/${t.codigo}`);
+  expect(faltan).toEqual([]);
 });
 
-test('AC-F2: ficha de departamento con migas, identidad, ubicación, cifras y enlaces', async ({ page }) => {
-	await page.goto('territorio/departamento/07');
-	await expect(page.getByRole('navigation', { name: 'Ubicación' })).toContainText('Uruguay');
-	await expect(page.getByRole('heading', { level: 1 })).toHaveText('Flores');
-	await expect(page.getByText('Código INE 07', { exact: true })).toBeVisible();
-	await expect(page.getByRole('img', { name: 'Ubicación de Flores en Uruguay' })).toBeVisible();
-	await expect(page.getByText('Personas (2023)').first()).toBeVisible();
-	await expect(page.locator('.kpis')).toContainText('26.271');
-	// Enlace a un territorio contenido
-	const seccion = de('seccion');
-	await page.getByRole('tabpanel').getByRole('link', { name: seccion.nombre, exact: true }).click();
-	await expect(page.getByRole('heading', { level: 1 })).toHaveText(seccion.nombre);
-	// y de vuelta al padre por las migas
-	await page.getByRole('navigation', { name: 'Ubicación' }).getByRole('link', { name: 'Flores' }).click();
-	await expect(page.getByRole('heading', { level: 1 })).toHaveText('Flores');
+test("AC-F2: ficha de departamento con migas, identidad, ubicación, cifras y enlaces", async ({
+  page,
+}) => {
+  await page.goto("territorio/departamento/07");
+  await expect(
+    page.getByRole("navigation", { name: "Ubicación" }),
+  ).toContainText("Uruguay");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Flores");
+  await expect(page.getByText("Código INE 07", { exact: true })).toBeVisible();
+  await expect(
+    page.getByRole("img", { name: "Ubicación de Flores en Uruguay" }),
+  ).toBeVisible();
+  await expect(page.getByText("Personas (2023)").first()).toBeVisible();
+  await expect(page.locator(".kpis")).toContainText("26.271");
+  // Enlace a un territorio contenido
+  const seccion = de("seccion");
+  await page
+    .getByRole("tabpanel")
+    .getByRole("link", { name: seccion.nombre, exact: true })
+    .click();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    seccion.nombre,
+  );
+  // y de vuelta al padre por las migas
+  await page
+    .getByRole("navigation", { name: "Ubicación" })
+    .getByRole("link", { name: "Flores" })
+    .click();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Flores");
 });
 
-test('AC-F3: ficha de segmento con sus conteos y los de su sección y departamento', async ({ page }) => {
-	const seg = de('segmento');
-	await page.goto(`territorio/segmento/${seg.codigo}`);
-	await expect(page.getByRole('table', { name: `Población en ${seg.nombre}` })).toContainText('personas');
-	const contienen = page.getByRole('region', { name: 'Más datos en los niveles que contienen este territorio' });
-	await expect(contienen.getByRole('article')).toHaveCount(2);
-	await expect(contienen.getByRole('link', { name: 'Flores' })).toBeVisible();
-	await expect(contienen).toContainText('26.271 personas');
-	await expect(contienen.getByRole('link', { name: /^Sección / })).toBeVisible();
-	// proporción del valor publicado sobre el de los niveles que lo contienen
-	await expect(page.getByRole('table', { name: `Población en ${seg.nombre}` })).toContainText('% de Flores');
-	await expect(page.getByRole('heading', { name: 'Hechos registrados' })).toBeVisible();
+test("AC-F3: ficha de segmento con sus conteos y los de su sección y departamento", async ({
+  page,
+}) => {
+  const seg = de("segmento");
+  await page.goto(`territorio/segmento/${seg.codigo}`);
+  await expect(
+    page.getByRole("table", { name: `Población en ${seg.nombre}` }),
+  ).toContainText("personas");
+  const contienen = page.getByRole("region", {
+    name: "Más datos en los niveles que contienen este territorio",
+  });
+  await expect(contienen.getByRole("article")).toHaveCount(2);
+  await expect(contienen.getByRole("link", { name: "Flores" })).toBeVisible();
+  await expect(contienen).toContainText("26.271 personas");
+  await expect(
+    contienen.getByRole("link", { name: /^Sección / }),
+  ).toBeVisible();
+  // proporción del valor publicado sobre el de los niveles que lo contienen
+  await expect(
+    page.getByRole("table", { name: `Población en ${seg.nombre}` }),
+  ).toContainText("% de Flores");
+  await expect(
+    page.getByRole("heading", { name: "Hechos registrados" }),
+  ).toBeVisible();
 });
 
-test('AC-F4: el departamento explica que la suma de secciones no es su total', async ({ page }) => {
-	await page.goto('territorio/departamento/07');
-	const nota = page.locator('#poblacion .nota');
-	await expect(nota).toContainText('La suma de las 6 secciones');
-	await expect(nota).toContainText('no coincide con el total del departamento (26.271)');
-	await expect(nota).toContainText('registros administrativos');
+test("AC-F4: el departamento explica que la suma de secciones no es su total", async ({
+  page,
+}) => {
+  await page.goto("territorio/departamento/07");
+  const nota = page.locator("#poblacion .nota");
+  await expect(nota).toContainText("La suma de las 6 secciones");
+  await expect(nota).toContainText(
+    "no coincide con el total del departamento (26.271)",
+  );
+  await expect(nota).toContainText("registros administrativos");
 });
 
-test('AC-F5: el CSV tiene exactamente los valores que muestra la ficha', async ({ page }) => {
-	await page.goto('territorio/departamento/07');
-	const filas = page.locator('#poblacion tbody tr, #vivienda tbody tr');
-	const mostradas = await filas.evaluateAll((trs) =>
-		trs.map((tr) => [...tr.querySelectorAll('td')].slice(0, 3).map((td) => td.textContent!.trim().replace(/\s+/g, ' ')))
-	);
-	const [descarga] = await Promise.all([
-		page.waitForEvent('download'),
-		page.getByRole('button', { name: 'Descargar CSV' }).click()
-	]);
-	const [cabecera, ...csv] = readFileSync((await descarga.path())!, 'utf-8').replace(/^﻿/, '').trim().split('\r\n');
-	expect(cabecera).toBe('territorio_id,nivel,codigo,nombre,indicador,periodo,periodo_inicio,periodo_fin,tipo_periodo,valor,unidad,es_estimado,fuente,archivo_origen,sha256');
-	expect(csv).toHaveLength(mostradas.length);
-	const es = new Intl.NumberFormat('es-UY', { useGrouping: 'always' });
-	for (const linea of csv) {
-		const c = linea.split(',');
-		const fila = mostradas.find(([, valor, periodo]) => valor === `${es.format(Number(c[9]))} ${c[10]}` && periodo === c[5]);
-		expect(fila, linea).toBeTruthy();
-		expect(c[0]).toBe('INE-2023/departamento/07');
-		expect(c.slice(6, 9)).toEqual(['2023-01-01', '2023-01-01', 'censo']); // AC-L27
-		expect(c[13]).toMatch(/\.zip$/);
-		expect(c[14]).toMatch(/^[0-9a-f]{64}$/);
-	}
+test("AC-F5: el CSV tiene exactamente los valores que muestra la ficha", async ({
+  page,
+}) => {
+  await page.goto("territorio/departamento/07");
+  const filas = page.locator("#poblacion tbody tr, #vivienda tbody tr");
+  const mostradas = await filas.evaluateAll((trs) =>
+    trs.map((tr) =>
+      [...tr.querySelectorAll("td")]
+        .slice(0, 3)
+        .map((td) => td.textContent!.trim().replace(/\s+/g, " ")),
+    ),
+  );
+  const [descarga] = await Promise.all([
+    page.waitForEvent("download"),
+    page.getByRole("button", { name: "Descargar CSV" }).click(),
+  ]);
+  const [cabecera, ...csv] = readFileSync((await descarga.path())!, "utf-8")
+    .replace(/^﻿/, "")
+    .trim()
+    .split("\r\n");
+  expect(cabecera).toBe(
+    "territorio_id,nivel,codigo,nombre,indicador,periodo,periodo_inicio,periodo_fin,tipo_periodo,valor,unidad,es_estimado,fuente,archivo_origen,sha256",
+  );
+  expect(csv).toHaveLength(mostradas.length);
+  const es = new Intl.NumberFormat("es-UY", { useGrouping: "always" });
+  for (const linea of csv) {
+    const c = linea.split(",");
+    const fila = mostradas.find(
+      ([, valor, periodo]) =>
+        valor === `${es.format(Number(c[9]))} ${c[10]}` && periodo === c[5],
+    );
+    expect(fila, linea).toBeTruthy();
+    expect(c[0]).toBe("INE-2023/departamento/07");
+    expect(c.slice(6, 9)).toEqual(["2023-01-01", "2023-01-01", "censo"]); // AC-L27
+    expect(c[13]).toMatch(/\.zip$/);
+    expect(c[14]).toMatch(/^[0-9a-f]{64}$/);
+  }
 });
 
-test('AC-F6: cómo citar incluye observatorio, territorio, fecha de consulta e INE', async ({ page }) => {
-	await page.goto('territorio/departamento/07');
-	const cita = page.locator('blockquote.cita');
-	await expect(cita).toContainText('Observatorio Uruguay');
-	await expect(cita).toContainText('«Flores»');
-	await expect(cita).toContainText('Instituto Nacional de Estadística (INE)');
-	await expect(cita).toContainText(/Consultado el \d\d\/\d\d\/\d{4}\./);
-	await expect(cita).toContainText('/observatorio/territorio/departamento/07');
+test("AC-F6: cómo citar incluye observatorio, territorio, fecha de consulta e INE", async ({
+  page,
+}) => {
+  await page.goto("territorio/departamento/07");
+  const cita = page.locator("blockquote.cita");
+  await expect(cita).toContainText("Observatorio Uruguay");
+  await expect(cita).toContainText("«Flores»");
+  await expect(cita).toContainText("Instituto Nacional de Estadística (INE)");
+  await expect(cita).toContainText(/Consultado el \d\d\/\d\d\/\d{4}\./);
+  await expect(cita).toContainText("/observatorio/territorio/departamento/07");
 });
 
-test('AC-F7: los temas sin datos lo dicen', async ({ page }) => {
-	await page.goto('territorio/departamento/07');
-	for (const id of ['trabajo', 'educacion']) {
-		await expect(page.locator(`#${id}`)).toContainText('Todavía no hay fuentes cargadas para este tema');
-	}
+test("AC-F7: los temas sin datos lo dicen", async ({ page }) => {
+  await page.goto("territorio/departamento/07");
+  for (const id of ["trabajo", "educacion"]) {
+    await expect(page.locator(`#${id}`)).toContainText(
+      "Todavía no hay fuentes cargadas para este tema",
+    );
+  }
 });
 
-test('pestañas de "Dentro de": clic y flechas del teclado', async ({ page }) => {
-	await page.goto('territorio/departamento/07');
-	const pestanas = page.getByRole('tablist', { name: 'Unidades dentro de Flores' }).getByRole('tab');
-	await expect(pestanas.first()).toHaveAttribute('aria-selected', 'true');
-	await pestanas.first().focus();
-	await page.keyboard.press('ArrowRight');
-	await expect(pestanas.nth(1)).toHaveAttribute('aria-selected', 'true');
-	await expect(pestanas.nth(1)).toBeFocused();
-	await expect(page.getByRole('tabpanel')).toContainText('Segmento');
+test('pestañas de "Dentro de": clic y flechas del teclado', async ({
+  page,
+}) => {
+  await page.goto("territorio/departamento/07");
+  const pestanas = page
+    .getByRole("tablist", { name: "Unidades dentro de Flores" })
+    .getByRole("tab");
+  await expect(pestanas.first()).toHaveAttribute("aria-selected", "true");
+  await pestanas.first().focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(pestanas.nth(1)).toHaveAttribute("aria-selected", "true");
+  await expect(pestanas.nth(1)).toBeFocused();
+  await expect(page.getByRole("tabpanel")).toContainText("Segmento");
 });
 
-test('ficha de localidad lista sus segmentos y el enlace al mapa conserva el territorio', async ({ page }) => {
-	const loc = de('localidad');
-	await page.goto(`territorio/localidad/${loc.codigo}`);
-	await expect(page.getByRole('tab', { name: /Segmento censal/ })).toBeVisible();
-	await page.getByRole('link', { name: 'Ver en el mapa' }).first().click();
-	await expect(page).toHaveURL(new RegExp(`territorio=localidad%2F${loc.codigo}|territorio=localidad/${loc.codigo}`));
+test("ficha de localidad lista sus segmentos y el enlace al mapa conserva el territorio", async ({
+  page,
+}) => {
+  const loc = de("localidad");
+  await page.goto(`territorio/localidad/${loc.codigo}`);
+  await expect(
+    page.getByRole("tab", { name: /Segmento censal/ }),
+  ).toBeVisible();
+  await page.getByRole("link", { name: "Ver en el mapa" }).first().click();
+  await expect(page).toHaveURL(
+    new RegExp(
+      `territorio=localidad%2F${loc.codigo}|territorio=localidad/${loc.codigo}`,
+    ),
+  );
 });
 
-test('el límite contestado avisa que no tiene datos propios', async ({ page }) => {
-	await page.goto('territorio/area_especial/02-limite-contestado');
-	await expect(page.getByText('Este polígono no tiene datos propios')).toBeVisible();
+test("el límite contestado avisa que no tiene datos propios", async ({
+  page,
+}) => {
+  await page.goto("territorio/area_especial/02-limite-contestado");
+  await expect(
+    page.getByText("Este polígono no tiene datos propios"),
+  ).toBeVisible();
 });
 
-for (const nivel of ['segmento', 'localidad', 'seccion']) {
-	test(`accesibilidad de la ficha de ${nivel} (axe)`, async ({ page }) => {
-		await page.goto(`territorio/${nivel}/${de(nivel).codigo}`);
-		const { violations } = await new AxeBuilder({ page }).analyze();
-		const graves = violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');
-		expect(graves.map((v) => `${v.id}: ${v.nodes.length} nodos`)).toEqual([]);
-	});
+for (const nivel of ["segmento", "localidad", "seccion"]) {
+  test(`accesibilidad de la ficha de ${nivel} (axe)`, async ({ page }) => {
+    await page.goto(`territorio/${nivel}/${de(nivel).codigo}`);
+    const { violations } = await new AxeBuilder({ page }).analyze();
+    const graves = violations.filter(
+      (v) => v.impact === "serious" || v.impact === "critical",
+    );
+    expect(graves.map((v) => `${v.id}: ${v.nodes.length} nodos`)).toEqual([]);
+  });
 }
+
+test("AC-L17 y AC-L28: el país y los municipios de Montevideo tienen ficha", async ({
+  page,
+}) => {
+  const deptos = indice.filter((t) => t.nivel === "departamento").length;
+  await page.goto("fichas");
+  await page.getByRole("link", { name: "Uruguay", exact: true }).last().click();
+  await expect(page).toHaveURL(/territorio\/pais\/UY$/);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Uruguay");
+  await expect(page.getByText("País", { exact: true })).toBeVisible();
+  await expect(
+    page.getByRole("tab", { name: `Departamento (${deptos})` }),
+  ).toBeVisible();
+
+  await page.goto("territorio/departamento/07");
+  await expect(page.getByText("Pertenece al país:")).toContainText("Uruguay");
+
+  const mun = indice.filter((t) => t.nivel === "municipio_mvd");
+  expect(mun.map((t) => t.codigo).sort()).toEqual([
+    "A",
+    "B",
+    "C",
+    "CH",
+    "D",
+    "E",
+    "F",
+    "G",
+  ]);
+  await page.goto("territorio/municipio_mvd/CH");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Municipio CH",
+  );
+  await expect(
+    page.getByRole("navigation", { name: "Ubicación" }),
+  ).toContainText("Montevideo");
+  const ccz = indice.filter(
+    (t) => t.nivel === "ccz_mvd" && t.nombre.endsWith("(Municipio CH)"),
+  );
+  await expect(
+    page.getByRole("tab", { name: `CCZ (Montevideo) (${ccz.length})` }),
+  ).toBeVisible();
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+
+  await page.goto(`territorio/ccz_mvd/${ccz[0].codigo}`);
+  await expect(page.getByText("Pertenece al municipio:")).toContainText(
+    "Municipio CH",
+  );
+});

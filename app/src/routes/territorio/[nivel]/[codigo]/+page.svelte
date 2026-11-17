@@ -23,6 +23,11 @@
 	let f = $derived(data.ficha);
 
 	const PERIODO = '2023';
+	const PERTENECE: Partial<Record<string, string>> = {
+		localidad: 'Pertenece a la localidad:',
+		municipio_mvd: 'Pertenece al municipio:',
+		pais: 'Pertenece al país:'
+	};
 	let contenidos = $derived(NIVELES.filter((n) => f.contenidos[n]?.length).map((n) => [n, f.contenidos[n]!] as const));
 	let pestana = $state<Nivel | null>(null);
 	let activa = $derived(pestana && f.contenidos[pestana]?.length ? pestana : (contenidos[0]?.[0] ?? null));
@@ -87,7 +92,7 @@
 		</p>
 		{#each f.relaciones as r (r.destino_id)}
 			<p class="relacion">
-				Pertenece a la localidad:
+				{PERTENECE[r.nivel] ?? 'Pertenece a:'}
 				{#if r.existe}<a href={hrefFicha(partesId(r.destino_id))}>{textoRelacion(r)}</a>{:else}{textoRelacion(r)}{/if}
 			</p>
 		{/each}
