@@ -1,4 +1,5 @@
-// CSV de los valores de un territorio (AC-F5): exactamente los valores que muestra, con su origen.
+// CSV de los valores de un territorio (AC-F5): exactamente los valores que muestra, con su origen
+// y su período completo (AC-L27).
 
 import type { Ficha } from './datos.ts';
 
@@ -9,6 +10,9 @@ export const COLUMNAS_CSV = [
 	'nombre',
 	'indicador',
 	'periodo',
+	'periodo_inicio',
+	'periodo_fin',
+	'tipo_periodo',
 	'valor',
 	'unidad',
 	'es_estimado',
@@ -34,6 +38,9 @@ export function filasCsv(f: Ficha): string[][] {
 			f.nombre,
 			o.indicador,
 			o.periodo,
+			o.periodo_inicio,
+			o.periodo_fin,
+			o.tipo_periodo,
 			o.valor === null ? '' : String(o.valor),
 			f.indicadores[o.indicador]?.unidad ?? '',
 			o.es_estimado ? 'true' : 'false',

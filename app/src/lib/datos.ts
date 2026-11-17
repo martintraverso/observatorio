@@ -33,7 +33,12 @@ export interface EntradaIndice {
 
 export interface Observacion {
 	indicador: string;
+	/** Etiqueta para mostrar: "2023", "2026-07/2026-09". */
 	periodo: string;
+	/** Primer y último día del período (AAAA-MM-DD). */
+	periodo_inicio: string;
+	periodo_fin: string;
+	tipo_periodo: 'censo' | 'mes' | 'trimestre_movil' | 'trimestre' | 'semestre' | 'anio';
 	valor: number | null;
 	es_estimado: boolean;
 	captura_id: string;

@@ -8,8 +8,8 @@ const FICHA = {
 	codigo: '16',
 	nombre: 'San José',
 	observaciones: [
-		{ indicador: 'pob_total', periodo: '2023', valor: 119715, es_estimado: false, captura_id: 'c1' },
-		{ indicador: 'viviendas_total', periodo: '2023', valor: 52000.5, es_estimado: true, captura_id: 'c1' }
+		{ indicador: 'pob_total', periodo: '2023', periodo_inicio: '2023-01-01', periodo_fin: '2023-01-01', tipo_periodo: 'censo', valor: 119715, es_estimado: false, captura_id: 'c1' },
+		{ indicador: 'viviendas_total', periodo: '2026-07/2026-09', periodo_inicio: '2026-07-01', periodo_fin: '2026-09-30', tipo_periodo: 'trimestre_movil', valor: 52000.5, es_estimado: true, captura_id: 'c1' }
 	],
 	indicadores: {
 		pob_total: { codigo: 'pob_total', nombre: 'Personas', unidad: 'personas' },
@@ -19,23 +19,23 @@ const FICHA = {
 	fuentes: { f: { nombre: 'Unidades geoestadísticas', organismo: 'INE' } }
 } as unknown as Ficha;
 
-describe('AC-F5: CSV de la ficha', () => {
+describe('AC-F5 y AC-L27: CSV de la ficha', () => {
 	const lineas = csvDeFicha(FICHA).trimEnd().split('\r\n');
 
 	it('tiene exactamente las columnas pedidas', () => {
 		expect(lineas[0]).toBe(COLUMNAS_CSV.join(','));
 		expect(COLUMNAS_CSV).toEqual([
-			'territorio_id', 'nivel', 'codigo', 'nombre', 'indicador', 'periodo', 'valor', 'unidad',
-			'es_estimado', 'fuente', 'archivo_origen', 'sha256'
+			'territorio_id', 'nivel', 'codigo', 'nombre', 'indicador', 'periodo', 'periodo_inicio', 'periodo_fin',
+			'tipo_periodo', 'valor', 'unidad', 'es_estimado', 'fuente', 'archivo_origen', 'sha256'
 		]);
 	});
 
 	it('una fila por valor mostrado, con su origen y escapando comillas y comas', () => {
 		expect(lineas).toHaveLength(3);
 		expect(lineas[1]).toBe(
-			'INE-2023/departamento/16,departamento,16,San José,pob_total,2023,119715,personas,false,INE · Unidades geoestadísticas,"Unidades, ""INE"".zip",abc'
+			'INE-2023/departamento/16,departamento,16,San José,pob_total,2023,2023-01-01,2023-01-01,censo,119715,personas,false,INE · Unidades geoestadísticas,"Unidades, ""INE"".zip",abc'
 		);
-		expect(lineas[2]).toContain(',52000.5,viviendas,true,');
+		expect(lineas[2]).toContain(',2026-07/2026-09,2026-07-01,2026-09-30,trimestre_movil,52000.5,viviendas,true,'); // AC-L27
 		expect(nombreArchivoCsv(FICHA)).toBe('observatorio_departamento_16.csv');
 	});
 });
