@@ -14,7 +14,8 @@ licencia: >-
   INE (https://www.gub.uy/instituto-nacional-estadistica/terminos-y-condiciones-de-uso) indican una
   licencia para reutilizar estos datos (revisado el 2026-11-17). Los Términos solo dicen: «Salvo
   indicación en contrario, la información contenida en el Portal será considerada de carácter
-  público.» Pendiente de decisión del mantenedor.
+  público.» Decisión del mantenedor (2026-11-17): se deja asentado que no hay licencia publicada y
+  se cita la fuente como indica cada cuadro (campo cita).
 cita: "Fuente: INE - Encuesta Continua de Hogares (pie de cada cuadro del informe; en 2022: «Fuente: INE, Encuesta Continua de Hogares»)."
 contacto: "Depto. de Difusión y Comunicación del INE: difusion@ine.gub.uy, (598) 2902 7303 int. 7723 y 7725 (pie del informe)."
 frecuencia: mensual desde febrero de 2022 (cada informe es un trimestre móvil)
@@ -73,7 +74,7 @@ advertencias:
   - Los valores absolutos salen de proyecciones de población, que a nivel desagregado pueden fluctuar mucho en períodos cortos.
   - No conviene usar las estadísticas como ranking de zonas en un momento dado; es mejor mirar tendencias de mediano y largo plazo.
   - Son estimaciones de una muestra, sujetas a error; la muestra es proporcional al tamaño, así que los departamentos chicos son menos precisos.
-  - Las medias móviles de tres meses son más estables, pero estiman otros parámetros que una estimación mensual pura (Introducción del informe de febrero de 2022).
+  - "Las medias móviles de tres meses son más estables, pero «su interpretación es diferente debido a que estiman otros parámetros de la población» (Introducción del informe de febrero de 2022)."
   - "Todas las cifras del presente informe están sujetas a revisión (Nota del informe de julio-setiembre de 2024)."
 
 notas:
