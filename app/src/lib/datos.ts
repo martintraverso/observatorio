@@ -12,11 +12,13 @@ export const CARPETA_DATOS = 'datos-web';
 // ---------------------------------------------------------------- tipos (ver pipeline/web.py)
 
 export type Nivel =
+	| 'pais'
 	| 'departamento'
 	| 'seccion'
 	| 'segmento'
 	| 'localidad'
 	| 'barrio_mvd'
+	| 'municipio_mvd'
 	| 'ccz_mvd'
 	| 'area_especial';
 
@@ -137,26 +139,22 @@ export interface Manifest {
 // ---------------------------------------------------------------- etiquetas
 
 export const NOMBRE_NIVEL: Record<Nivel, string> = {
+	pais: 'País',
 	departamento: 'Departamento',
 	seccion: 'Sección censal',
 	segmento: 'Segmento censal',
 	localidad: 'Localidad censal',
 	barrio_mvd: 'Barrio (Montevideo)',
+	municipio_mvd: 'Municipio (Montevideo)',
 	ccz_mvd: 'CCZ (Montevideo)',
 	area_especial: 'Área especial'
 };
 
 export const NIVELES: Nivel[] = Object.keys(NOMBRE_NIVEL) as Nivel[];
 
-/** Niveles que todavía no tienen territorios cargados pero ya aparecen en el registro de fuentes (F2). */
-const NOMBRE_NIVEL_PLANEADO: Record<string, string> = {
-	pais: 'País',
-	municipio_mvd: 'Municipio (Montevideo)'
-};
-
 /** Nombre para mostrar de cualquier nivel (nunca el código interno). */
 export function etiquetaNivel(nivel: string): string {
-	return NOMBRE_NIVEL[nivel as Nivel] ?? NOMBRE_NIVEL_PLANEADO[nivel] ?? nivel;
+	return NOMBRE_NIVEL[nivel as Nivel] ?? nivel;
 }
 
 export function esNivel(x: string): x is Nivel {

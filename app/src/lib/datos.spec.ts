@@ -19,7 +19,9 @@ describe('datos', () => {
 		expect(partesId('INE-2023/seccion/0701')).toEqual({ nivel: 'seccion', codigo: '0701' });
 		expect(esNivel('segmento')).toBe(true);
 		expect(esNivel('zona')).toBe(false);
-		expect(NIVELES).toHaveLength(7);
+		expect(NIVELES).toHaveLength(9);
+		expect(esNivel('pais') && esNivel('municipio_mvd')).toBe(true);
+		expect(partesId('INE-2023/municipio_mvd/CH')).toEqual({ nivel: 'municipio_mvd', codigo: 'CH' });
 	});
 
 	it('leerJson usa el fetch recibido y falla con ErrorDatos si no hay archivo', async () => {

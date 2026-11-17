@@ -10,10 +10,13 @@ export const load: PageServerLoad = () => {
 			return c;
 		}, {});
 	return {
+		pais: indice.filter((t) => t.nivel === 'pais').map(minimo),
 		departamentos: indice.filter((t) => t.nivel === 'departamento').map(minimo),
 		secciones: porDepto('seccion'),
 		segmentos: porDepto('segmento'),
 		localidades: porDepto('localidad'),
-		montevideo: indice.filter((t) => t.nivel === 'barrio_mvd' || t.nivel === 'ccz_mvd').map(minimo)
+		montevideo: indice
+			.filter((t) => t.nivel === 'municipio_mvd' || t.nivel === 'barrio_mvd' || t.nivel === 'ccz_mvd')
+			.map(minimo)
 	};
 };

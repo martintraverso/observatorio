@@ -133,3 +133,28 @@ for (const nivel of ['segmento', 'localidad', 'seccion']) {
 		expect(graves.map((v) => `${v.id}: ${v.nodes.length} nodos`)).toEqual([]);
 	});
 }
+
+test('AC-L17 y AC-L28: el país y los municipios de Montevideo tienen ficha', async ({ page }) => {
+	const deptos = indice.filter((t) => t.nivel === 'departamento').length;
+	await page.goto('fichas');
+	await page.getByRole('link', { name: 'Uruguay', exact: true }).last().click();
+	await expect(page).toHaveURL(/territorio\/pais\/UY$/);
+	await expect(page.getByRole('heading', { level: 1 })).toHaveText('Uruguay');
+	await expect(page.getByText('País', { exact: true })).toBeVisible();
+	await expect(page.getByRole('tab', { name: `Departamento (${deptos})` })).toBeVisible();
+
+	await page.goto('territorio/departamento/07');
+	await expect(page.getByText('Pertenece al país:')).toContainText('Uruguay');
+
+	const mun = indice.filter((t) => t.nivel === 'municipio_mvd');
+	expect(mun.map((t) => t.codigo).sort()).toEqual(['A', 'B', 'C', 'CH', 'D', 'E', 'F', 'G']);
+	await page.goto('territorio/municipio_mvd/CH');
+	await expect(page.getByRole('heading', { level: 1 })).toHaveText('Municipio CH');
+	await expect(page.getByRole('navigation', { name: 'Ubicación' })).toContainText('Montevideo');
+	const ccz = indice.filter((t) => t.nivel === 'ccz_mvd' && t.nombre.endsWith('(Municipio CH)'));
+	await expect(page.getByRole('tab', { name: `CCZ (Montevideo) (${ccz.length})` })).toBeVisible();
+	expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+
+	await page.goto(`territorio/ccz_mvd/${ccz[0].codigo}`);
+	await expect(page.getByText('Pertenece al municipio:')).toContainText('Municipio CH');
+});

@@ -42,11 +42,13 @@ export interface Buscador {
 }
 
 const ETIQUETA: Record<Nivel, string> = {
+	pais: 'País',
 	departamento: 'Departamento',
 	seccion: 'Sección censal',
 	segmento: 'Segmento censal',
 	localidad: 'Localidad',
 	barrio_mvd: 'Barrio',
+	municipio_mvd: 'Municipio',
 	ccz_mvd: 'CCZ',
 	area_especial: 'Área especial'
 };

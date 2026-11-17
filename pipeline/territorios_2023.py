@@ -4,7 +4,8 @@ Lee el zip (o la carpeta ya descomprimida) que publica el INE y genera:
 
   datos/salida/territorios.parquet          territorios de todos los niveles (GeoParquet)
   datos/salida/observaciones.parquet        conteos del Censo 2023 por territorio
-  datos/salida/correspondencias.parquet     relaciones entre territorios (segmento -> localidad)
+  datos/salida/correspondencias.parquet     relaciones entre territorios (segmento -> localidad,
+                                            CCZ -> municipio, departamento -> país)
   datos/salida/indicadores.parquet          catálogo de indicadores
   datos/salida/capturas.parquet             de qué archivo salió cada dato (con sha256)
   datos/salida/capturas_historial.parquet   una fila por corrida (nuevo / reprocesado / sin cambios / error)
@@ -173,7 +174,47 @@ def construir_territorios(capas: dict[str, gpd.GeoDataFrame]) -> gpd.GeoDataFram
 
     gdf = gpd.GeoDataFrame(filas, geometry="geometry", crs=4326)
     gdf["geometry"] = shapely.make_valid(gdf.geometry.values)
-    return gdf
+    return pd.concat([gdf, construir_derivados(gdf, capas)], ignore_index=True)
+
+
+def municipio_de_ccz(capas) -> dict[str, str]:
+    """Código de CCZ ('01') -> letra del municipio ('CH'), del atributo NOMMUNICIPIO del INE."""
+    return {str(r["CCZ"]).zfill(2): str(r["NOMMUNICIPIO"]).strip() for _, r in capas["ccz_mvd"].iterrows()}
+
+
+# Lambert acimutal de áreas iguales centrada en Uruguay, para medir superficies.
+PROYECCION_AREAS = "+proj=laea +lat_0=-32.5 +lon_0=-56 +datum=WGS84 +units=m"
+
+
+def area_km2(geom, crs) -> float:
+    return float(gpd.GeoSeries([geom], crs=crs).to_crs(PROYECCION_AREAS).area.iloc[0]) / 1e6
+
+
+def construir_derivados(territorios: gpd.GeoDataFrame, capas) -> gpd.GeoDataFrame:
+    """Niveles que el INE no publica como capa propia (F2.3), armados uniendo geometrías.
+
+    - pais: INE-2023/pais/UY, unión de los departamentos (sin el área especial), para los totales
+      nacionales que publica el INE (AC-L28).
+    - municipio_mvd: INE-2023/municipio_mvd/<letra>, unión de los CCZ de cada municipio (AC-L17).
+    Solo se unen geometrías: ningún valor se suma hacia arriba (SYSTEM.md §4). La superficie se mide
+    sobre la geometría unida (proyección de áreas iguales), no se suma la de las partes: el AREA_KM2
+    de la capa de CCZ del INE no está en km² (es unas 100 veces el área real).
+    """
+    def fila(nivel, codigo, nombre, depto, padre, partes, extra=None):
+        geom = shapely.make_valid(shapely.union_all(partes.geometry.values))
+        return {"id": tid(nivel, codigo), "nivel": nivel, "codigo": codigo, "nombre": nombre, "depto": depto,
+                "padre_id": padre, "version_geo": VERSION_GEO, "area_km2": area_km2(geom, territorios.crs),
+                "geometry": geom, **(extra or {})}
+
+    filas = []
+    deptos = territorios[territorios.nivel == "departamento"]
+    if not deptos.empty:
+        filas.append(fila("pais", "UY", "Uruguay", "", None, deptos, {"codigo_iso": "UY"}))
+    ccz = territorios[territorios.nivel == "ccz_mvd"]
+    letra = ccz.codigo.map(municipio_de_ccz(capas))
+    for m, partes in ccz.groupby(letra):
+        filas.append(fila("municipio_mvd", m, f"Municipio {m}", "01", tid("departamento", "01"), partes))
+    return gpd.GeoDataFrame(filas, columns=territorios.columns, geometry="geometry", crs=territorios.crs)
 
 
 def construir_observaciones(capas, territorios, captura_id) -> pd.DataFrame:
@@ -205,11 +246,25 @@ def construir_observaciones(capas, territorios, captura_id) -> pd.DataFrame:
 
 def construir_correspondencias(capas) -> pd.DataFrame:
     sg = capas["segmento"]
-    return pd.DataFrame({
+    segmentos = pd.DataFrame({
         "origen_id": [tid("segmento", c) for c in sg["CODSEG"]],
         "destino_id": [tid("localidad", c) for c in sg["CODLOC"]],
         "tipo": "pertenece_a", "peso": 1.0, "metodo": "atributo CODLOC del INE",
     })
+    mun = municipio_de_ccz(capas)
+    ccz = pd.DataFrame({  # AC-L18
+        "origen_id": [tid("ccz_mvd", c) for c in mun],
+        "destino_id": [tid("municipio_mvd", m) for m in mun.values()],
+        "tipo": "pertenece_a", "peso": 1.0, "metodo": "disolución de CCZ por NOMMUNICIPIO",
+    })
+    d = capas["departamento"]
+    deptos = sorted(d.loc[d.NOMDEPTO != "LIMITE CONTESTADO", "DEPTO"])
+    pais = pd.DataFrame({
+        "origen_id": [tid("departamento", c) for c in deptos],
+        "destino_id": tid("pais", "UY"),
+        "tipo": "pertenece_a", "peso": 1.0, "metodo": "los departamentos forman el país",
+    })
+    return pd.concat([segmentos, ccz, pais], ignore_index=True)
 
 
 def cargar_esperado(path: Path) -> dict:
@@ -237,6 +292,12 @@ def validar(capas, territorios, obs, esperado, niveles_publicados) -> tuple[Cont
     ids = set(territorios.id)
     padres = territorios.padre_id.dropna()
     c.chk("Todo padre existe", padres.isin(ids).all(), f"{(~padres.isin(ids)).sum()} sin padre")
+
+    mun = municipio_de_ccz(capas)
+    ccz = territorios.loc[territorios.nivel == "ccz_mvd", "codigo"]
+    sin = sorted(set(ccz) - {k for k, v in mun.items() if v in {"A", "B", "C", "CH", "D", "E", "F", "G"}})
+    c.chk("Cada CCZ tiene municipio (A, B, C, CH, D, E, F, G)", not sin,
+          f"sin municipio válido: {', '.join(sin)}" if sin else ", ".join(sorted(set(mun.values()))))
 
     seg = territorios[territorios.nivel == "segmento"]
     prefijo_ok = (seg.codigo.str[:4] == seg.padre_id.str.split("/").str[-1]).all()
@@ -308,7 +369,8 @@ def escribir_reporte(path, controles, comp, territorios, obs, captura, resultado
         "",
         "| Nivel | Cantidad |", "|---|---:|",
         *[f"| {n} | {conteo.get(n, 0)} |" for n in
-          ["departamento", "seccion", "segmento", "localidad", "barrio_mvd", "ccz_mvd", "area_especial"]],
+          ["pais", "departamento", "seccion", "segmento", "localidad", "barrio_mvd", "municipio_mvd", "ccz_mvd",
+           "area_especial"]],
         "",
         f"Observaciones: {len(obs)} ({obs.indicador.nunique()} indicadores).",
         "",

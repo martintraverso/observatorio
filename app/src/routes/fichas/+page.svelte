@@ -14,7 +14,7 @@
 <h1>Fichas</h1>
 <p>
 	Cada territorio tiene una ficha con sus datos, de dónde salen y los territorios que contiene. Elegí un
-	departamento para empezar.
+	departamento para empezar{#each data.pais as p (p.id)}, o mirá la ficha de <a href={hrefFicha(p)}>{p.nombre}</a> (todo el país){/each}.
 </p>
 
 <TablaDesplazable etiqueta="Departamentos" clase="tarjeta">
@@ -45,7 +45,7 @@
 
 {#if data.montevideo.length}
 	<section>
-		<h2>Montevideo: barrios y CCZ</h2>
+		<h2>Montevideo: municipios, barrios y CCZ</h2>
 		<ul class="grilla">
 			{#each data.montevideo as t (t.id)}
 				<li>

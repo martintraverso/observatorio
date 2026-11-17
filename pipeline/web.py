@@ -58,17 +58,23 @@ GEOJSON = {
     "localidad": 0.0003,
     "barrio_mvd": 0.0002,
     "ccz_mvd": 0.0002,
+    "pais": 0.002,
+    "municipio_mvd": 0.0002,
 }
-GRUPOS_COBERTURA = [["departamento", "area_especial"], ["seccion"], ["localidad"], ["barrio_mvd"], ["ccz_mvd"]]
+GRUPOS_COBERTURA = [["departamento", "area_especial"], ["seccion"], ["localidad"], ["barrio_mvd"], ["ccz_mvd"],
+                    ["pais"], ["municipio_mvd"]]
 
 # Capas del PMTiles: nivel -> zoom mínimo en que aparece.
 PMTILES_MINZOOM = {
     "departamento": 0, "area_especial": 0, "seccion": 0, "localidad": 0,
-    "barrio_mvd": 0, "ccz_mvd": 0, "segmento": 9,
+    "barrio_mvd": 0, "ccz_mvd": 0, "segmento": 9, "pais": 0, "municipio_mvd": 0,
 }
 PMTILES_MAXZOOM = 13  # la app hace overzoom; 14 duplicaba el tamaño (~26 MB)
 
 PROPIEDADES = ["id", "codigo", "nombre", "depto"]
+
+# Niveles que arma el pipeline uniendo geometrías del INE (F2.3).
+DERIVADOS = {"pais", "municipio_mvd"}
 
 
 # ---------------------------------------------------------------- utilidades
@@ -387,20 +393,23 @@ def escribir_descargas(s: Path, territorios, obs, indicadores, capturas, fuentes
 
     simples = simplificar(territorios, [*GRUPOS_COBERTURA, ["segmento"]],
                           {**GEOJSON, "segmento": TOLERANCIA_SEGMENTO_DESCARGA})
-    for nivel in ["departamento", "seccion", "segmento", "localidad", "barrio_mvd", "ccz_mvd", "area_especial"]:
+    for nivel in ["pais", "departamento", "seccion", "segmento", "localidad", "barrio_mvd", "municipio_mvd", "ccz_mvd",
+                  "area_especial"]:
         completo = territorios[territorios.nivel == nivel]
         if completo.empty:
             continue
         pq = d / f"territorios_{nivel}.parquet"
         completo.to_parquet(pq, index=False)
-        registrar(pq, "Territorios", f"{nivel}: geometría completa del INE (GeoParquet, EPSG:4326).")
+        origen = ("unión de geometrías del INE hecha por el pipeline" if nivel in DERIVADOS
+                  else "geometría completa del INE")
+        registrar(pq, "Territorios", f"{nivel}: {origen} (GeoParquet, EPSG:4326).")
         gj = d / f"territorios_{nivel}.geojson"
         simples[simples.nivel == nivel][[*PROPIEDADES, "padre_id", "geometry"]].to_file(
             gj, driver="GeoJSON", layer_options={"COORDINATE_PRECISION": DECIMALES, "RFC7946": "YES", "WRITE_NAME": "NO"})
         registrar(gj, "Territorios", f"{nivel}: geometría simplificada (GeoJSON, 5 decimales).")
 
     registrar(s / "territorios.parquet", "Territorios", "Todos los niveles juntos, con geometría completa (GeoParquet).")
-    registrar(s / "correspondencias.parquet", "Territorios", "Relaciones entre territorios (segmento → localidad).")
+    registrar(s / "correspondencias.parquet", "Territorios", "Relaciones entre territorios (segmento → localidad, CCZ → municipio, departamento → país).")
     registrar(s / "observatorio.duckdb", "Base completa", "Todo en una base DuckDB. Empezar por la vista v_observaciones.")
     registrar(s / "reporte_validacion.md", "Base completa", "Controles de calidad de la última corrida.")
     return {"generado": generado, "licencia": LICENCIA, "cita": CITA, "archivos": archivos}
