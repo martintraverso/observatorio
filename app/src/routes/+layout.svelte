@@ -49,7 +49,7 @@
 	</div>
 </header>
 
-<main id="contenido" class="contenedor">
+<main id="contenido" class={page.route.id === '/' ? 'pantalla-completa' : 'contenedor'}>
 	{@render children()}
 </main>
 
@@ -138,7 +138,7 @@
 	}
 
 
-	main {
+	main.contenedor {
 		padding-top: var(--espacio-5);
 		padding-bottom: var(--espacio-6);
 		min-height: 60vh;

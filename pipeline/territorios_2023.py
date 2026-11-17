@@ -81,6 +81,10 @@ INDICADORES = [
     ("viviendas_total", "VIV_TOT_23", "Viviendas", "viviendas"),
 ]
 
+# Tema de cada indicador (los temas de la app: Población, Vivienda, Hogares, Trabajo, Ingresos, Educación).
+TEMA = {"pob_total": "Población", "pob_hombres": "Población", "pob_mujeres": "Población",
+        "viviendas_total": "Vivienda"}
+
 NOTA_INDICADORES = (
     "Censo 2023. Personas enumeradas por el operativo censal o por enumeración "
     "administrativa; no incluye personas en situación de calle. La enumeración "
@@ -353,7 +357,7 @@ def procesar(entrada: Path, salida: Path, captura: dict, esperado: dict, fuentes
     territorios.to_parquet(salida / "territorios.parquet", index=False)
     obs.to_parquet(salida / "observaciones.parquet", index=False)
     corr.to_parquet(salida / "correspondencias.parquet", index=False)
-    pd.DataFrame([{"codigo": c, "nombre": n, "unidad": u, "columna_origen": col,
+    pd.DataFrame([{"codigo": c, "nombre": n, "unidad": u, "tema": TEMA[c], "columna_origen": col,
                    "fuente_id": FUENTE_ID, "nota": NOTA_INDICADORES}
                   for c, col, n, u in INDICADORES]).to_parquet(salida / "indicadores.parquet", index=False)
     pd.DataFrame([captura]).to_parquet(salida / "capturas.parquet", index=False)

@@ -1,11 +1,9 @@
-import type { EntradaIndice } from '#lib/datos.ts';
-import { leerDatos, minimo } from '#lib/server/datos-build.ts';
+import type { Fuente } from '#lib/datos.ts';
+import type { IndicadorMapa } from '#lib/mapa/estado.ts';
+import { leerDatos } from '#lib/server/datos-build.ts';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = () => {
-	const indice = leerDatos<EntradaIndice[]>('territorios_index.json');
-	return {
-		departamentos: indice.filter((t) => t.nivel === 'departamento').map(minimo),
-		conteo: indice.reduce<Record<string, number>>((c, t) => ((c[t.nivel] = (c[t.nivel] ?? 0) + 1), c), {})
-	};
-};
+export const load: PageServerLoad = () => ({
+	indicadores: leerDatos<IndicadorMapa[]>('indicadores.json'),
+	fuentes: leerDatos<Fuente[]>('fuentes.json').map((f) => ({ id: f.id, nombre: f.nombre, organismo: f.organismo }))
+});

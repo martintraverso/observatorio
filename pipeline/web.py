@@ -6,7 +6,9 @@ Lee las salidas del pipeline (datos/salida/*.parquet) y escribe datos/salida/web
   <nivel>.geojson              geometrías simplificadas por cobertura, salvo segmento (AC-W2)
   territorios_index.json       índice de búsqueda: id, nivel, codigo, nombre, nombre_busqueda, depto, padre_id, bbox
   fichas/<nivel>/<codigo>.json todo lo que necesita la ficha de cada territorio (AC-W4)
-  indicadores.json             catálogo de indicadores
+  indicadores.json             catálogo de indicadores, con los niveles y períodos en que hay datos
+  valores/<nivel>.json         valores de cada indicador por territorio, para pintar el mapa
+  uruguay_mini.geojson         departamentos muy simplificados, para el mini-mapa de ubicación
   fuentes.json                 registro de fuentes
   capturas.json                capturas vigentes e historial de corridas
   manifest.json                cada archivo publicado con tamaño, sha256 y fecha de generación (AC-W5)
@@ -196,6 +198,50 @@ def escribir_pmtiles(territorios: gpd.GeoDataFrame, web: Path) -> str:
     return destino.name
 
 
+# ---------------------------------------------------------------- mapa
+
+TOLERANCIA_MINI = 0.01  # grados (~1 km): solo para ubicar, no para medir
+
+
+def valores_por_nivel(territorios: gpd.GeoDataFrame, obs: pd.DataFrame) -> dict[str, dict]:
+    """{nivel: {"nivel", "indicadores": {ind: {periodo: {codigo: valor}}}, "estimados": {...}}}.
+
+    Solo los valores guardados en ese nivel (nunca sumas de niveles menores).
+    """
+    t = territorios.set_index("id")[["nivel", "codigo"]]
+    o = obs.join(t, on="territorio_id")
+    salida = {}
+    for nivel, g in o.groupby("nivel"):
+        datos = {"nivel": nivel, "indicadores": {}, "estimados": {}}
+        for (ind, periodo), h in g.sort_values("codigo").groupby(["indicador", "periodo"]):
+            datos["indicadores"].setdefault(ind, {})[periodo] = {c: numero(v) for c, v in zip(h.codigo, h.valor)}
+            est = h[h.es_estimado].codigo.tolist()
+            if est:
+                datos["estimados"].setdefault(ind, {})[periodo] = est
+        salida[nivel] = datos
+    return salida
+
+
+def disponibilidad(indicadores: pd.DataFrame, territorios: gpd.GeoDataFrame, obs: pd.DataFrame) -> list[dict]:
+    """indicadores.json: cada indicador con los niveles y períodos en que hay datos (AC-M2)."""
+    nivel = obs.territorio_id.map(territorios.set_index("id").nivel)
+    filas = registros(indicadores)
+    for f in filas:
+        de_este = obs.indicador == f["codigo"]
+        f["niveles"] = sorted(nivel[de_este].unique().tolist())
+        f["periodos"] = sorted(obs.periodo[de_este].unique().tolist())
+    return filas
+
+
+def escribir_mini(territorios: gpd.GeoDataFrame, web: Path) -> None:
+    """Departamentos (y área especial) muy simplificados, para el mini-mapa de ubicación."""
+    g = territorios[territorios.nivel.isin(["departamento", "area_especial"])][["id", "codigo", "nivel", "geometry"]]
+    g = g.copy()
+    g["geometry"] = shapely.set_precision(shapely.coverage_simplify(g.geometry.values, TOLERANCIA_MINI), 1e-3)
+    g.to_file(web / "uruguay_mini.geojson", driver="GeoJSON",
+              layer_options={"COORDINATE_PRECISION": 3, "RFC7946": "YES", "WRITE_NAME": "NO"})
+
+
 # ---------------------------------------------------------------- índice y fichas
 
 def indice(territorios: gpd.GeoDataFrame) -> list[dict]:
@@ -327,7 +373,10 @@ def main(argv=None):
     fichas = construir_fichas(territorios, obs, indicadores, capturas, fuentes, correspondencias)
     for f in fichas.values():
         escribir_json(web / "fichas" / f["nivel"] / f"{f['codigo']}.json", f)
-    escribir_json(web / "indicadores.json", registros(indicadores))
+    escribir_json(web / "indicadores.json", disponibilidad(indicadores, territorios, obs))
+    for nivel, datos in valores_por_nivel(territorios, obs).items():
+        escribir_json(web / "valores" / f"{nivel}.json", datos)
+    escribir_mini(territorios, web)
     escribir_json(web / "fuentes.json", registros(fuentes))
     escribir_json(web / "capturas.json", {"vigentes": registros(capturas), "historial": registros(historial)})
     n = escribir_manifest(web, ahora(), capturas)

@@ -1,0 +1,15 @@
+import { chromium, devices } from '@playwright/test';
+const [, , salida] = process.argv;
+const b = await chromium.launch();
+const c = await b.newContext({ ...devices['Pixel 7'], viewport: { width: 390, height: 844 } });
+const p = await c.newPage();
+await p.goto('http://localhost:4199/observatorio/?indicador=pob_total&nivel=seccion&periodo=2023&territorio=departamento/01');
+await p.waitForTimeout(4000);
+console.log(await p.evaluate(() => [document.documentElement.scrollWidth, document.documentElement.clientWidth]));
+await p.screenshot({ path: `${salida}/mapa-movil.png` });
+const e = await b.newContext({ viewport: { width: 1400, height: 860 } });
+const q = await e.newPage();
+await q.goto('http://localhost:4199/observatorio/?indicador=pob_total&nivel=segmento&periodo=2023&territorio=departamento/01');
+await q.waitForTimeout(5000);
+await q.screenshot({ path: `${salida}/mapa-escritorio.png` });
+await b.close();
