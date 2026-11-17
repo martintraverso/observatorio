@@ -64,7 +64,7 @@ test('AC-G3: las URL de sección y segmento abren directo (sitio estático)', as
 		const r = await page.goto(`territorio/${t.nivel}/${t.codigo}`);
 		expect(r?.status()).toBe(200);
 		await expect(page.getByRole('heading', { level: 1 })).toHaveText(t.nombre);
-		await expect(page.getByText(`Código INE ${t.codigo}`)).toBeVisible();
+		await expect(page.locator('.chip', { hasText: `Código INE ${t.codigo}` })).toBeVisible();
 	}
 });
 
@@ -76,13 +76,13 @@ test('AC-G3: un territorio inexistente da 404 en español', async ({ page }) => 
 
 test('AC-G1 y AC-G2: valores en es-UY, con fuente y período', async ({ page }) => {
 	await page.goto('territorio/departamento/07');
-	const filas = page.getByRole('table', { name: 'Datos de Flores' }).locator('tbody tr');
+	const filas = page.locator('#poblacion tbody tr, #vivienda tbody tr');
 	await expect(filas).toHaveCount(4);
 	const personas = page.getByRole('row', { name: /^Personas / });
 	await expect(personas).toContainText('26.271 personas');
 	for (const fila of await filas.all()) {
 		await expect(fila).toContainText('2023');
-		await expect(fila).toContainText('Instituto Nacional de Estadística');
+		await expect(fila).toContainText('INE · Unidades geoestadísticas Censo 2023');
 	}
 });
 
