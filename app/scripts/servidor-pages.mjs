@@ -3,6 +3,7 @@
 // - El sitio vive bajo BASE_PATH (por defecto /observatorio).
 // - /ruta sirve ruta.html o ruta/index.html; si no existe, 404.html con código 404.
 // - Soporta pedidos Range (los usa PMTiles), como GitHub Pages.
+// - /carpeta (sin barra) redirige a /carpeta/ si solo existe carpeta/index.html, como GitHub Pages.
 // - Sin dependencias: node scripts/servidor-pages.mjs [carpeta=build] [puerto=4173]
 import { createReadStream, existsSync, statSync } from 'node:fs';
 import { createServer } from 'node:http';
@@ -66,7 +67,13 @@ createServer((req, res) => {
 		res.writeHead(404).end('fuera del sitio');
 		return;
 	}
-	const encontrado = archivo(url.pathname.slice(base.length) || '/');
+	const ruta = url.pathname.slice(base.length) || '/';
+	const local = join(raiz, normalize(decodeURIComponent(ruta)));
+	if (!ruta.endsWith('/') && !existsSync(`${local}.html`) && existsSync(join(local, 'index.html'))) {
+		res.writeHead(301, { location: `${url.pathname}/${url.search}` }).end();
+		return;
+	}
+	const encontrado = archivo(ruta);
 	if (encontrado) enviar(req, res, encontrado);
 	else enviar(req, res, join(raiz, '404.html'), 404);
 }).listen(puerto, () => console.log(`Sirviendo ${raiz} en http://localhost:${puerto}${base}/`));

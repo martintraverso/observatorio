@@ -12,6 +12,12 @@ Lee las salidas del pipeline (datos/salida/*.parquet) y escribe datos/salida/web
   fuentes.json                 registro de fuentes
   capturas.json                capturas vigentes e historial de corridas
   manifest.json                cada archivo publicado con tamaño, sha256 y fecha de generación (AC-W5)
+  descargas.json               archivos para descargar (página Datos): tamaño, sha256, fecha, licencia, cita
+
+Además arma datos/salida/descargas/ (se publican como assets del release, AC-D1):
+  observaciones.csv                    todas las observaciones con su origen
+  territorios_<nivel>.parquet          GeoParquet por nivel, geometría completa
+  territorios_<nivel>.geojson          GeoJSON por nivel, simplificado (5 decimales)
 
 Uso:
   python pipeline/web.py [--salida datos/salida] [--sin-pmtiles]
@@ -136,14 +142,14 @@ def rellenar_agujeros_nuevos(simple, original):
     return simple
 
 
-def simplificar(territorios: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
+def simplificar(territorios: gpd.GeoDataFrame, grupos=GRUPOS_COBERTURA, tolerancias=GEOJSON) -> gpd.GeoDataFrame:
     """Simplificación por cobertura (bordes compartidos se simplifican igual) y precisión de 5 decimales."""
     partes = []
-    for grupo in GRUPOS_COBERTURA:
+    for grupo in grupos:
         g = territorios[territorios.nivel.isin(grupo)].copy()
         if g.empty:
             continue
-        tol = max(GEOJSON[n] for n in grupo)
+        tol = max(tolerancias[n] for n in grupo)
         simple = shapely.set_precision(shapely.coverage_simplify(g.geometry.values, tol), 10 ** -DECIMALES)
         g["geometry"] = rellenar_agujeros_nuevos(simple, g.geometry.values)
         partes.append(g)
@@ -330,6 +336,67 @@ def construir_fichas(territorios, obs, indicadores, capturas, fuentes, correspon
     return fichas
 
 
+# ---------------------------------------------------------------- descargas (página Datos, AC-D1/D2)
+
+LICENCIA = "El uso es libre, citando como fuente al INE."
+CITA = ("Observatorio Uruguay, a partir de INE, Unidades geoestadísticas Censo 2023. "
+        "Indicar el archivo y la fecha de descarga.")
+TOLERANCIA_SEGMENTO_DESCARGA = 0.0004
+COLUMNAS_CSV = ["territorio_id", "nivel", "codigo", "nombre", "indicador", "periodo", "valor", "unidad",
+                "es_estimado", "fuente", "archivo_origen", "sha256"]
+
+
+def csv_observaciones(territorios, obs, indicadores, capturas, fuentes) -> pd.DataFrame:
+    """Las mismas columnas que el CSV de cada ficha (AC-F5), para todas las observaciones."""
+    t = territorios.set_index("id")[["nivel", "codigo", "nombre"]]
+    o = obs.join(t, on="territorio_id").merge(indicadores[["codigo", "unidad"]].rename(columns={"codigo": "indicador"}),
+                                              on="indicador", how="left")
+    c = capturas.rename(columns={"id": "captura_id", "archivo": "archivo_origen"})[
+        ["captura_id", "fuente_id", "archivo_origen", "sha256"]]
+    f = fuentes.assign(fuente=fuentes.organismo + " · " + fuentes.nombre)[["id", "fuente"]].rename(columns={"id": "fuente_id"})
+    o = o.merge(c, on="captura_id", how="left").merge(f, on="fuente_id", how="left")
+    o["es_estimado"] = o.es_estimado.map({True: "true", False: "false"})
+    return o[COLUMNAS_CSV].sort_values(["territorio_id", "indicador", "periodo"]).reset_index(drop=True)
+
+
+def escribir_descargas(s: Path, territorios, obs, indicadores, capturas, fuentes, generado: str) -> dict:
+    """Arma datos/salida/descargas/ y devuelve el contenido de web/descargas.json."""
+    d = s / "descargas"
+    if d.exists():
+        shutil.rmtree(d)
+    d.mkdir(parents=True)
+    archivos = []
+
+    def registrar(path: Path, grupo: str, descripcion: str):
+        archivos.append({"nombre": path.name, "grupo": grupo, "descripcion": descripcion,
+                         "bytes": path.stat().st_size, "sha256": sha256_archivo(path)})
+
+    registrar(s / "observaciones.parquet", "Observaciones", "Todos los valores con su indicador, territorio, período y captura.")
+    csv_observaciones(territorios, obs, indicadores, capturas, fuentes).to_csv(d / "observaciones.csv", index=False)
+    registrar(d / "observaciones.csv", "Observaciones",
+              "Lo mismo en CSV, con nombre del territorio, unidad, fuente, archivo de origen y sha256.")
+
+    simples = simplificar(territorios, [*GRUPOS_COBERTURA, ["segmento"]],
+                          {**GEOJSON, "segmento": TOLERANCIA_SEGMENTO_DESCARGA})
+    for nivel in ["departamento", "seccion", "segmento", "localidad", "barrio_mvd", "ccz_mvd", "area_especial"]:
+        completo = territorios[territorios.nivel == nivel]
+        if completo.empty:
+            continue
+        pq = d / f"territorios_{nivel}.parquet"
+        completo.to_parquet(pq, index=False)
+        registrar(pq, "Territorios", f"{nivel}: geometría completa del INE (GeoParquet, EPSG:4326).")
+        gj = d / f"territorios_{nivel}.geojson"
+        simples[simples.nivel == nivel][[*PROPIEDADES, "padre_id", "geometry"]].to_file(
+            gj, driver="GeoJSON", layer_options={"COORDINATE_PRECISION": DECIMALES, "RFC7946": "YES", "WRITE_NAME": "NO"})
+        registrar(gj, "Territorios", f"{nivel}: geometría simplificada (GeoJSON, 5 decimales).")
+
+    registrar(s / "territorios.parquet", "Territorios", "Todos los niveles juntos, con geometría completa (GeoParquet).")
+    registrar(s / "correspondencias.parquet", "Territorios", "Relaciones entre territorios (segmento → localidad).")
+    registrar(s / "observatorio.duckdb", "Base completa", "Todo en una base DuckDB. Empezar por la vista v_observaciones.")
+    registrar(s / "reporte_validacion.md", "Base completa", "Controles de calidad de la última corrida.")
+    return {"generado": generado, "licencia": LICENCIA, "cita": CITA, "archivos": archivos}
+
+
 def escribir_manifest(web: Path, generado: str, capturas) -> int:
     archivos = sorted(p for p in web.rglob("*") if p.is_file() and p.name != "manifest.json")
     escribir_json(web / "manifest.json", {
@@ -379,7 +446,10 @@ def main(argv=None):
     escribir_mini(territorios, web)
     escribir_json(web / "fuentes.json", registros(fuentes))
     escribir_json(web / "capturas.json", {"vigentes": registros(capturas), "historial": registros(historial)})
-    n = escribir_manifest(web, ahora(), capturas)
+    generado = ahora()
+    escribir_json(web / "descargas.json",
+                  escribir_descargas(s, territorios, obs, indicadores, capturas, fuentes, generado))
+    n = escribir_manifest(web, generado, capturas)
 
     tamanos = {p.name: p.stat().st_size for p in sorted(web.glob("*.*"))}
     print(json.dumps({"archivos": n, "fichas": len(fichas), "pmtiles": not args.sin_pmtiles,

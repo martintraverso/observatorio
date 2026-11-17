@@ -43,5 +43,7 @@ notas:
     0200000 (251 km²), con conteos publicados en 0. A diferencia de depto_23_pg, que repite
     los de Artigas, son valores propios: se guardan como observaciones normales
     (decisión del maintainer, 2026-11-16)."
+  - "barrios_mvd_23_pg trae un polígono llamado 'N/A' (código 1000000) sin conteos: sus
+    observaciones se guardan con valor vacío, como las publica el INE."
   - "Las capas originales ya tienen huecos angostos (< 10 m) entre polígonos vecinos
     en departamento, sección y localidad (coverage_is_valid con gap_width=1e-4)."

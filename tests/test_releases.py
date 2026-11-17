@@ -111,7 +111,8 @@ def test_publica_release_nuevo_como_latest(gh, procesado):
     assert tag.startswith("datos-") and rel == {**rel, "draft": False, "latest": True}
     subidos = {p.name for p in (gh / tag).iterdir()}
     assert {"web.zip", "manifest.json", "observatorio.duckdb", "reporte_validacion.md", "observaciones.parquet",
-            "territorios.parquet", "capturas_historial.parquet", "fuentes.parquet"} <= subidos
+            "territorios.parquet", "capturas_historial.parquet", "fuentes.parquet", "observaciones.csv",
+            "territorios_segmento.parquet", "territorios_segmento.geojson"} <= subidos
     # Se creó como borrador y se publicó solo después de subir todo.
     llamadas = (gh / "llamadas.log").read_text().splitlines()
     orden = [next(i for i, linea in enumerate(llamadas) if linea.startswith(f"release {c}")) for c in

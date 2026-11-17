@@ -1,0 +1,66 @@
+// Catálogo de fuentes (M8, AC-SRC1…SRC3): resumen, filtros y capturas.
+
+import type { Fuente, Nivel } from './datos.ts';
+
+export interface CapturaHistorial {
+	id: string;
+	fuente_id: string;
+	archivo: string;
+	sha256: string;
+	fecha_proceso: string;
+	resultado: 'nuevo' | 'reprocesado' | 'sin cambios' | 'error';
+	detalle: string | null;
+}
+
+export const ESTADOS = ['activa', 'en preparación', 'a relevar'] as const;
+
+export interface Filtros {
+	texto: string;
+	organismo: string;
+	nivel: string;
+	estado: string;
+}
+
+export const SIN_FILTROS: Filtros = { texto: '', organismo: '', nivel: '', estado: '' };
+
+function plegar(s: string): string {
+	return s.normalize('NFKD').replace(/\p{M}/gu, '').toLowerCase();
+}
+
+/** AC-SRC2: los filtros se combinan (todos tienen que cumplirse). */
+export function filtrar(fuentes: Fuente[], f: Filtros): Fuente[] {
+	const q = plegar(f.texto.trim());
+	return fuentes.filter(
+		(x) =>
+			(!q || plegar(`${x.nombre} ${x.organismo} ${x.temas.join(' ')}`).includes(q)) &&
+			(!f.organismo || x.organismo === f.organismo) &&
+			(!f.nivel || x.niveles_publicados.includes(f.nivel as Nivel)) &&
+			(!f.estado || x.estado === f.estado)
+	);
+}
+
+/** Corridas de una fuente, de la más nueva a la más vieja. */
+export function historialDe(historial: CapturaHistorial[], fuenteId: string): CapturaHistorial[] {
+	return historial.filter((c) => c.fuente_id === fuenteId).sort((a, b) => b.fecha_proceso.localeCompare(a.fecha_proceso));
+}
+
+/** Última captura procesada con éxito (nuevo o reprocesado). */
+export function ultimaCaptura(historial: CapturaHistorial[], fuenteId: string): CapturaHistorial | null {
+	return historialDe(historial, fuenteId).find((c) => c.resultado === 'nuevo' || c.resultado === 'reprocesado') ?? null;
+}
+
+export function resumen(fuentes: Fuente[], historial: CapturaHistorial[]) {
+	const porEstado = Object.fromEntries(ESTADOS.map((e) => [e, fuentes.filter((f) => f.estado === e).length])) as Record<
+		(typeof ESTADOS)[number],
+		number
+	>;
+	const ultimaRevision = historial.map((c) => c.fecha_proceso).sort().at(-1) ?? null;
+	return { porEstado, ultimaRevision };
+}
+
+export const TEXTO_RESULTADO: Record<CapturaHistorial['resultado'], string> = {
+	nuevo: 'Nuevo',
+	reprocesado: 'Reprocesado',
+	'sin cambios': 'Sin cambios',
+	error: 'Error'
+};
