@@ -86,6 +86,7 @@ Done when: AC-S1…S3, plus Playwright tests.
 4. Level-availability notice (AC-M2).
 5. Selection → highlight + right panel with locator mini-map (simplified departments GeoJSON; ring for small territories) (AC-M3, AC-M4).
 6. URL state (AC-M5); mobile bottom sheet (AC-M6).
+   *Decisions (2026-11-17, M6):* no "national total" is computed by summing departments (§4.1); the panel says the source does not publish one (§4.4). The legend sits in the left panel (desktop) or below the map (mobile), not over the map, because at 1280×720 it covered the centre of the country. Map levels: departamento, sección, segmento (localities stay in fichas and search).
 Done when: AC-M1…M6, AC-G2, AC-G7.
  
 ## M7 — Fichas
