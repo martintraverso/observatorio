@@ -210,3 +210,70 @@ def test_censo_migrado_a_tipo_censo(con):
     """).fetchall()
     import datetime as dt
     assert [f[:4] for f in fuera] == [("censo", "2023", dt.date(2023, 1, 1), dt.date(2023, 1, 1))]
+
+
+# ------------------------------------------------------------------ niveles país y municipio (F2.3)
+
+LETRAS_MUNICIPIOS = ["A", "B", "C", "CH", "D", "E", "F", "G"]
+
+
+def _area(geom) -> float:
+    """Área en km² (UTM 21S), para comparar uniones."""
+    return float(gpd.GeoSeries([geom], crs=4326).to_crs(32721).area.iloc[0]) / 1e6
+
+
+def _dif_relativa(a, b) -> float:
+    return _area(a.symmetric_difference(b)) / _area(b)
+
+
+# AC-L17
+def test_municipios_de_montevideo(con, salida):
+    filas = con.execute("""select codigo, id, padre_id, depto, nombre from territorios
+                           where nivel = 'municipio_mvd' order by codigo""").fetchall()
+    assert [f[0] for f in filas] == sorted(LETRAS_MUNICIPIOS)
+    assert all(i == f"INE-2023/municipio_mvd/{c}" and p == "INE-2023/departamento/01" and d == "01"
+               and n == f"Municipio {c}" for c, i, p, d, n in filas)
+    t = gpd.read_parquet(salida / "territorios.parquet").set_index("id")
+    corr = con.execute("""select origen_id, destino_id from correspondencias
+                          where destino_id like 'INE-2023/municipio_mvd/%'""").fetchall()
+    for _, municipio, *_ in filas:
+        ccz = [o for o, d in corr if d == municipio]
+        assert ccz, municipio
+        assert _dif_relativa(t.loc[municipio].geometry, t.loc[ccz].geometry.union_all()) < 1e-3, municipio
+
+
+# AC-L18
+def test_cada_ccz_en_exactamente_un_municipio(con, salida):
+    assert uno(con, """
+        select count(*) from (
+          select c.id, count(r.destino_id) n from territorios c
+          left join correspondencias r on r.origen_id = c.id and r.destino_id like 'INE-2023/municipio_mvd/%'
+                                        and r.tipo = 'pertenece_a'
+          where c.nivel = 'ccz_mvd' group by c.id) where n <> 1
+    """) == 0
+    # El municipio sale del atributo NOMMUNICIPIO del INE, el mismo que da el nombre del CCZ.
+    assert uno(con, """
+        select count(*) from correspondencias r join territorios c on c.id = r.origen_id
+        where r.destino_id like 'INE-2023/municipio_mvd/%'
+          and c.nombre not like '%(Municipio ' || split_part(r.destino_id, '/', 3) || ')'
+    """) == 0
+    t = gpd.read_parquet(salida / "territorios.parquet")
+    municipios = t[t.nivel == "municipio_mvd"].geometry.union_all()
+    ccz = t[t.nivel == "ccz_mvd"].geometry.union_all()
+    assert _dif_relativa(municipios, ccz) < 1e-3
+
+
+# AC-L28
+def test_nivel_pais(con, salida, esperado):
+    filas = con.execute("select id, codigo, nombre, padre_id from territorios where nivel = 'pais'").fetchall()
+    assert filas == [("INE-2023/pais/UY", "UY", "Uruguay", None)]
+    t = gpd.read_parquet(salida / "territorios.parquet").set_index("id")
+    deptos = t[t.nivel == "departamento"]
+    assert len(deptos) == esperado["territorios_por_nivel"]["departamento"]
+    assert _dif_relativa(t.loc["INE-2023/pais/UY"].geometry, deptos.geometry.union_all()) < 1e-3
+    # Cada departamento pertenece al país (relación, no suma de valores).
+    assert uno(con, """select count(*) from correspondencias
+                       where destino_id = 'INE-2023/pais/UY' and tipo = 'pertenece_a'""") == len(deptos)
+    # El Censo no publica en estos niveles: ninguna observación, y nada derivado sumando.
+    assert uno(con, """select count(*) from observaciones o join territorios t on t.id = o.territorio_id
+                       where t.nivel in ('pais', 'municipio_mvd')""") == 0

@@ -1,6 +1,7 @@
 # Valores esperados para el paquete completo del INE (Unidades geoestadísticas Censo 2023).
 # El pipeline los usa por defecto en sus controles (--esperado) y los tests en modo
 # OBS_DATOS=completo. Fuente de los números: docs/SYSTEM.md §3 y §4.
+# pais y municipio_mvd no son capas del INE: los arma el pipeline uniendo geometrías (F2.3).
 territorios_por_nivel:
   departamento: 19
   seccion: 236
@@ -9,6 +10,8 @@ territorios_por_nivel:
   barrio_mvd: 63
   ccz_mvd: 18
   area_especial: 1
+  pais: 1
+  municipio_mvd: 8
 # Departamentos que tienen secciones en la entrada (en el paquete completo, todos).
 departamentos_con_secciones: 19
 # Suma de pob_total de la capa de departamentos (valor publicado por el INE).

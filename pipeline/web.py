@@ -58,13 +58,16 @@ GEOJSON = {
     "localidad": 0.0003,
     "barrio_mvd": 0.0002,
     "ccz_mvd": 0.0002,
+    "pais": 0.002,
+    "municipio_mvd": 0.0002,
 }
-GRUPOS_COBERTURA = [["departamento", "area_especial"], ["seccion"], ["localidad"], ["barrio_mvd"], ["ccz_mvd"]]
+GRUPOS_COBERTURA = [["departamento", "area_especial"], ["seccion"], ["localidad"], ["barrio_mvd"], ["ccz_mvd"],
+                    ["pais"], ["municipio_mvd"]]
 
 # Capas del PMTiles: nivel -> zoom mínimo en que aparece.
 PMTILES_MINZOOM = {
     "departamento": 0, "area_especial": 0, "seccion": 0, "localidad": 0,
-    "barrio_mvd": 0, "ccz_mvd": 0, "segmento": 9,
+    "barrio_mvd": 0, "ccz_mvd": 0, "segmento": 9, "pais": 0, "municipio_mvd": 0,
 }
 PMTILES_MAXZOOM = 13  # la app hace overzoom; 14 duplicaba el tamaño (~26 MB)
 
@@ -387,7 +390,8 @@ def escribir_descargas(s: Path, territorios, obs, indicadores, capturas, fuentes
 
     simples = simplificar(territorios, [*GRUPOS_COBERTURA, ["segmento"]],
                           {**GEOJSON, "segmento": TOLERANCIA_SEGMENTO_DESCARGA})
-    for nivel in ["departamento", "seccion", "segmento", "localidad", "barrio_mvd", "ccz_mvd", "area_especial"]:
+    for nivel in ["pais", "departamento", "seccion", "segmento", "localidad", "barrio_mvd", "municipio_mvd", "ccz_mvd",
+                  "area_especial"]:
         completo = territorios[territorios.nivel == nivel]
         if completo.empty:
             continue
