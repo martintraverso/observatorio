@@ -218,3 +218,41 @@ def test_manifest_lista_cada_archivo_con_tamano_y_sha256(web):
         p = web / a["ruta"]
         assert a["bytes"] == p.stat().st_size and a["sha256"] == sha256_archivo(p), a["ruta"]
     assert m["capturas"]
+
+
+# ------------------------------------------------------------------ datos para el mapa (M6)
+
+def test_valores_por_nivel_son_los_guardados(web, con):
+    """valores/<nivel>.json tiene exactamente las observaciones de ese nivel (nunca sumas)."""
+    niveles = [r[0] for r in con.execute("""
+        select distinct t.nivel from observaciones o join territorios t on t.id = o.territorio_id
+    """).fetchall()]
+    assert sorted(p.stem for p in (web / "valores").glob("*.json")) == sorted(niveles)
+    for nivel in niveles:
+        v = json.loads((web / "valores" / f"{nivel}.json").read_text(encoding="utf-8"))
+        assert v["nivel"] == nivel
+        db = con.execute("""
+            select o.indicador, o.periodo, t.codigo, o.valor from observaciones o
+            join territorios t on t.id = o.territorio_id where t.nivel = ?
+        """, [nivel]).fetchall()
+        en_archivo = [(i, p, c, val) for i, ps in v["indicadores"].items() for p, cs in ps.items()
+                      for c, val in cs.items()]
+        assert sorted(en_archivo) == sorted(db), nivel
+
+
+def test_indicadores_dicen_donde_hay_datos(web, con):
+    ind = json.loads((web / "indicadores.json").read_text(encoding="utf-8"))
+    for i in ind:
+        niveles = {r[0] for r in con.execute("""
+            select distinct t.nivel from observaciones o join territorios t on t.id = o.territorio_id
+            where o.indicador = ?
+        """, [i["codigo"]]).fetchall()}
+        assert set(i["niveles"]) == niveles and i["periodos"] == ["2023"] and i["tema"]
+    assert "area_especial" not in {n for i in ind for n in i["niveles"]}
+
+
+def test_mini_mapa_liviano_con_departamentos(web, conteo):
+    g = gpd.read_file(web / "uruguay_mini.geojson")
+    assert len(g) == conteo["departamento"] + conteo.get("area_especial", 0)
+    assert g.geometry.is_valid.all()
+    assert (web / "uruguay_mini.geojson").stat().st_size < 150_000
