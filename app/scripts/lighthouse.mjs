@@ -28,9 +28,19 @@ function lanzarChrome(perfil) {
 		proceso.stderr.on('data', (d) => {
 			salida += d;
 			const m = /DevTools listening on ws:\/\/[^:]+:(\d+)\//.exec(salida);
-			if (m) resolver({ port: Number(m[1]), kill: () => proceso.kill() });
+			if (m)
+				resolver({
+					port: Number(m[1]),
+					// Espera a que Chromium termine: si se borra el perfil antes, todavía está escribiendo.
+					kill: () =>
+						new Promise((listo) => {
+							if (proceso.exitCode !== null) return listo();
+							proceso.once('exit', () => listo());
+							proceso.kill();
+						})
+				});
 		});
-		proceso.on('exit', (codigo) => rechazar(new Error(`Chromium terminó (${codigo}):\n${salida}`)));
+		proceso.once('exit', (codigo) => rechazar(new Error(`Chromium terminó (${codigo}):\n${salida}`)));
 	});
 }
 
@@ -60,8 +70,12 @@ for (let i = 0; i < corridas; i++) {
 			cls: a['cumulative-layout-shift'].displayValue
 		});
 	} finally {
-		chrome.kill();
-		rmSync(perfil, { recursive: true, force: true });
+		await chrome.kill();
+		try {
+			rmSync(perfil, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
+		} catch (e) {
+			console.warn(`No se pudo borrar el perfil temporal ${perfil}: ${e.message}`);
+		}
 	}
 }
 
