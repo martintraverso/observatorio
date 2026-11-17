@@ -35,8 +35,12 @@ from gh_cli import ErrorGh, assets, gh, releases  # noqa: E402
 from comun.registro import RAIZ  # noqa: E402
 
 PREFIJO = "datos-"
-# Lo que se baja de la última publicación para poder decir "sin cambios" (ver SALIDAS de cada script).
-PATRONES_BAJAR = ["*.parquet", "observatorio.duckdb", "reporte_validacion.md"]
+# Tablas del pipeline (pipeline/territorios_2023.py SALIDAS). Se nombran una por una: el release también
+# tiene descargas (territorios_<nivel>.parquet, observaciones.csv) que no son salidas del pipeline.
+TABLAS = ["territorios.parquet", "observaciones.parquet", "correspondencias.parquet", "indicadores.parquet",
+          "capturas.parquet", "fuentes.parquet", "capturas_historial.parquet"]
+# Lo que se baja de la última publicación para poder decir "sin cambios".
+PATRONES_BAJAR = [*TABLAS, "observatorio.duckdb", "reporte_validacion.md"]
 # Lo que se actualiza en la última publicación cuando no hubo cambios.
 SIN_CAMBIOS = ["capturas_historial.parquet", "reporte_validacion.md"]
 
@@ -74,7 +78,11 @@ def archivos_a_publicar(salida: Path, tmp: Path) -> list[Path]:
         raise FileNotFoundError(f"Falta {web}/manifest.json: correr pipeline/web.py")
     shutil.make_archive(str(tmp / "web"), "zip", root_dir=web)
     shutil.copy(web / "manifest.json", tmp / "manifest.json")
-    archivos = sorted(salida.glob("*.parquet")) + [salida / "observatorio.duckdb", salida / "reporte_validacion.md"]
+    archivos = [salida / t for t in TABLAS] + [salida / "observatorio.duckdb", salida / "reporte_validacion.md"]
+    descargas = sorted((salida / "descargas").glob("*"))  # CSV y territorios por nivel (pipeline/web.py)
+    if not descargas:
+        raise FileNotFoundError(f"Falta {salida}/descargas/: correr pipeline/web.py")
+    archivos += descargas
     faltan = [p for p in archivos if not p.exists()]
     if faltan:
         raise FileNotFoundError(f"Faltan salidas: {faltan}")

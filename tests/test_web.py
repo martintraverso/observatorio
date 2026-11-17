@@ -256,3 +256,38 @@ def test_mini_mapa_liviano_con_departamentos(web, conteo):
     assert len(g) == conteo["departamento"] + conteo.get("area_especial", 0)
     assert g.geometry.is_valid.all()
     assert (web / "uruguay_mini.geojson").stat().st_size < 150_000
+
+
+# ------------------------------------------------------------------ descargas (AC-D1, AC-D2)
+
+def test_descargas_completas_con_tamano_y_sha256(salida, web, territorios, con):
+    d = json.loads((web / "descargas.json").read_text(encoding="utf-8"))
+    assert d["licencia"] and d["cita"] and re.fullmatch(r"\d{4}-\d\d-\d\dT.*", d["generado"])
+    nombres = {a["nombre"] for a in d["archivos"]}
+    assert {"observaciones.parquet", "observaciones.csv", "territorios.parquet", "observatorio.duckdb"} <= nombres
+    for nivel in territorios.nivel.unique():
+        assert {f"territorios_{nivel}.parquet", f"territorios_{nivel}.geojson"} <= nombres, nivel
+    for a in d["archivos"]:
+        p = salida / "descargas" / a["nombre"]
+        p = p if p.exists() else salida / a["nombre"]
+        assert a["bytes"] == p.stat().st_size and a["sha256"] == sha256_archivo(p), a["nombre"]
+        assert a["descripcion"] and a["grupo"]
+
+
+def test_csv_de_observaciones(salida, con):
+    csv = gpd.pd.read_csv(salida / "descargas" / "observaciones.csv", dtype={"codigo": str, "periodo": str})
+    assert list(csv.columns) == ["territorio_id", "nivel", "codigo", "nombre", "indicador", "periodo", "valor", "unidad",
+                                 "es_estimado", "fuente", "archivo_origen", "sha256"]
+    assert len(csv) == con.execute("select count(*) from observaciones").fetchone()[0]
+    # valor puede venir vacío si el INE no lo publica (barrio 'N/a', código 1000000); el resto no.
+    assert csv.drop(columns='valor').notna().all().all()
+    flores = csv[(csv.territorio_id == "INE-2023/departamento/07") & (csv.indicador == "pob_total")]
+    assert flores.valor.tolist() == [26271] and flores.unidad.tolist() == ["personas"]
+
+
+def test_territorios_por_nivel_completos(salida, territorios):
+    for nivel, n in territorios.nivel.value_counts().items():
+        completo = gpd.read_parquet(salida / "descargas" / f"territorios_{nivel}.parquet")
+        assert len(completo) == n and completo.geometry.is_valid.all(), nivel
+        simple = gpd.read_file(salida / "descargas" / f"territorios_{nivel}.geojson")
+        assert sorted(simple["id"]) == sorted(completo["id"]), nivel
