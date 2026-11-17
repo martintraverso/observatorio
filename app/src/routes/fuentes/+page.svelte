@@ -2,7 +2,7 @@
 	// Catálogo de fuentes (M8, AC-SRC1, AC-SRC2).
 	import { resolve } from '$app/paths';
 	import TablaDesplazable from '#lib/TablaDesplazable.svelte';
-	import { NOMBRE_NIVEL, NIVELES, type Nivel } from '#lib/datos.ts';
+	import { etiquetaNivel, NIVELES } from '#lib/datos.ts';
 	import { fecha, numero } from '#lib/formato.ts';
 	import { ESTADOS, filtrar, resumen, SIN_FILTROS, ultimaCaptura, type Filtros } from '#lib/fuentes.ts';
 	import { NOMBRE_SITIO } from '#lib/sitio.ts';
@@ -13,7 +13,10 @@
 	let visibles = $derived(filtrar(data.fuentes, filtros));
 	let r = $derived(resumen(data.fuentes, data.historial));
 	let organismos = $derived([...new Set(data.fuentes.map((f) => f.organismo))].sort());
-	let niveles = $derived(NIVELES.filter((n) => data.fuentes.some((f) => f.niveles_publicados.includes(n))));
+	let niveles = $derived([...new Set(data.fuentes.flatMap((f) => f.niveles_publicados as string[]))].sort(
+		(a, b) => orden(a) - orden(b)
+	));
+	const orden = (n: string) => (NIVELES as string[]).indexOf(n) + 1 || 99;
 	let hayFiltros = $derived(Object.values(filtros).some(Boolean));
 </script>
 
@@ -47,7 +50,7 @@
 		<label for="f-nivel">Nivel</label>
 		<select id="f-nivel" bind:value={filtros.nivel}>
 			<option value="">Todos</option>
-			{#each niveles as n (n)}<option value={n}>{NOMBRE_NIVEL[n]}</option>{/each}
+			{#each niveles as n (n)}<option value={n}>{etiquetaNivel(n)}</option>{/each}
 		</select>
 	</div>
 	<div class="campo">
@@ -88,7 +91,7 @@
 						<span class="suave">{f.organismo}</span>
 					</td>
 					<td>{f.temas.join(', ')}</td>
-					<td>{NOMBRE_NIVEL[f.nivel_mas_detallado as Nivel] ?? f.nivel_mas_detallado}</td>
+					<td>{etiquetaNivel(f.nivel_mas_detallado)}</td>
 					<td>{f.frecuencia}</td>
 					<td>{ultima ? fecha(ultima.fecha_proceso) : '—'}</td>
 					<td><span class="estado estado-{f.estado.replace(' ', '-')}">{f.estado}</span></td>

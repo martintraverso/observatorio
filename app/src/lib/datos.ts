@@ -143,6 +143,17 @@ export const NOMBRE_NIVEL: Record<Nivel, string> = {
 
 export const NIVELES: Nivel[] = Object.keys(NOMBRE_NIVEL) as Nivel[];
 
+/** Niveles que todavía no tienen territorios cargados pero ya aparecen en el registro de fuentes (F2). */
+const NOMBRE_NIVEL_PLANEADO: Record<string, string> = {
+	pais: 'País',
+	municipio_mvd: 'Municipio (Montevideo)'
+};
+
+/** Nombre para mostrar de cualquier nivel (nunca el código interno). */
+export function etiquetaNivel(nivel: string): string {
+	return NOMBRE_NIVEL[nivel as Nivel] ?? NOMBRE_NIVEL_PLANEADO[nivel] ?? nivel;
+}
+
 export function esNivel(x: string): x is Nivel {
 	return x in NOMBRE_NIVEL;
 }
