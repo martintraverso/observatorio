@@ -55,6 +55,7 @@ Done when: AC-W1…W5.
 ## M3 — Data workflow and releases
  
 1. Replace `fase0.yml` with `datos.yml`: manual + weekly; download originals from `crudos` (fallback to source URL); run all pipeline scripts; run tests; on success publish to release `datos` (all Parquet, DuckDB, `web.zip` or individual web files, report); on failure keep the previous release (AC-A3).
+   *Decision (maintainer, 2026-11-16):* each successful run publishes a new release `datos-AAAAMMDD-HHMMSS` (draft → upload → published as *latest*); consumers read `releases/latest/download/<file>`. Runs with no changes only update the history and report of the latest release.
 2. Write the report to the job summary.
 Done when: AC-A2, AC-A3.
  
@@ -80,7 +81,7 @@ Done when: AC-S1…S3, plus Playwright tests.
  
 1. MapLibre GL JS map with PMTiles source; light, neutral base (or no base map, just boundaries on `#F6F7F5`); INE attribution.
 2. Left panel: tema → indicador → nivel → período. Only phase-0 indicators exist now (Población: personas, hombres, mujeres; Vivienda: viviendas); other topics show the "Todavía no hay fuentes cargadas" state.
-3. Choropleth with quantile classes on the 5-step blue ramp; legend with class breaks; derived indicators allowed only if computed in the pipeline (e.g. density = personas / area_km2 → add in M2 as a pipeline indicator, marked as derived).
+3. Choropleth with quantile classes on the 5-step blue ramp; legend with class breaks; derived indicators allowed only if computed in the pipeline. Density (personas / area_km2) is **not** added: maintainer decision, 2026-11-16 (M2).
 4. Level-availability notice (AC-M2).
 5. Selection → highlight + right panel with locator mini-map (simplified departments GeoJSON; ring for small territories) (AC-M3, AC-M4).
 6. URL state (AC-M5); mobile bottom sheet (AC-M6).

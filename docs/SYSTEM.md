@@ -69,7 +69,7 @@ pipeline/*.py            one script per source: read original → normalize → 
         │                (reads original from release "crudos", falls back to source URL)
 datos/salida/            observatorio.duckdb + *.parquet + web/ (GeoJSON, later PMTiles, JSON)
         │
-GitHub Actions           manual + weekly; runs pipeline, pytest, publishes to release "datos"
+GitHub Actions           manual + weekly; pipeline/correr.py, pytest, publishes release "datos-<date>" (latest)
         │
 app/                     static site (to be built) reading the published files
         │
@@ -82,7 +82,7 @@ Stack: Python 3.12, geopandas, pyogrio, shapely ≥ 2.1, pandas, pyarrow, duckdb
  
 - `pipeline/territorios_2023.py` loads all 7 levels and 22,104 observations in ~15 s; writes Parquet, DuckDB, simplified GeoJSON per level (`web/`), and `reporte_validacion.md`.
 - 9 data-quality checks pass; 7 pytest tests pass.
-- `.github/workflows/fase0.yml` runs it on demand and weekly.
+- `.github/workflows/fase0.yml` runs it on demand and weekly (replaced by `datos.yml` in M3).
 - Web GeoJSON sizes: departamento 0.4 MB, seccion 1.7 MB, segmento 10.2 MB, localidad 0.8 MB, barrio 0.2 MB, ccz 0.1 MB. Segments are too heavy for the browser as GeoJSON → PMTiles needed.
 ## 8. The app (designed, not built)
  

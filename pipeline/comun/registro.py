@@ -10,7 +10,10 @@ import yaml
 CAMPOS_OBLIGATORIOS = ["id", "nombre", "organismo", "pagina", "url_descarga", "formato", "licencia",
                        "frecuencia", "estado", "temas", "nivel_mas_detallado", "niveles_publicados", "notas"]
 ESTADOS = ("activa", "en preparación", "a relevar")
-COLUMNAS = [*CAMPOS_OBLIGATORIOS[:9], "contacto", "version_geo", *CAMPOS_OBLIGATORIOS[9:]]
+# Las fuentes activas además dicen cómo se consiguen y procesan.
+CAMPOS_ACTIVA = ["archivo_original", "script"]
+COLUMNAS = [*CAMPOS_OBLIGATORIOS[:9], "contacto", "version_geo", *CAMPOS_OBLIGATORIOS[9:], *CAMPOS_ACTIVA]
+RAIZ = Path(__file__).resolve().parents[2]
 
 
 def validar_fuente(f: dict, archivo: str) -> list[str]:
@@ -24,6 +27,12 @@ def validar_fuente(f: dict, archivo: str) -> list[str]:
         errores.append(f"{archivo}: nivel_mas_detallado no está en niveles_publicados")
     if f.get("capas") and not f.get("version_geo"):
         errores.append(f"{archivo}: fuente geográfica sin version_geo")
+    if f.get("estado") == "activa":
+        errores += [f"{archivo}: una fuente activa necesita '{c}'" for c in CAMPOS_ACTIVA if not f.get(c)]
+        if f.get("script") and not (RAIZ / f["script"]).is_file():
+            errores.append(f"{archivo}: no existe el script {f['script']}")
+        if f.get("archivo_original") and Path(f["archivo_original"]).name != f["archivo_original"]:
+            errores.append(f"{archivo}: archivo_original debe ser un nombre de archivo, sin carpetas")
     if f.get("id") and Path(archivo).stem != f["id"]:
         errores.append(f"{archivo}: el nombre del archivo debe ser <id>.yml")
     return errores
@@ -48,3 +57,8 @@ def cargar_fuentes(carpeta: Path) -> dict[str, dict]:
 def tabla_fuentes(fuentes: dict[str, dict]) -> pd.DataFrame:
     """Tabla `fuentes`: una fila por registro, con las columnas de COLUMNAS."""
     return pd.DataFrame([{c: f.get(c) for c in COLUMNAS} for f in fuentes.values()], columns=COLUMNAS)
+
+
+def activas(fuentes: dict[str, dict]) -> list[dict]:
+    """Fuentes con estado 'activa', en orden de id."""
+    return [fuentes[k] for k in sorted(fuentes) if fuentes[k].get("estado") == "activa"]

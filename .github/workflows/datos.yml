@@ -1,0 +1,81 @@
+name: Datos · procesar y publicar
+
+# Baja los originales (release "crudos", o la URL de la fuente), procesa las fuentes
+# activas, prueba con los datos completos y publica un release "datos-AAAAMMDD-HHMMSS"
+# marcado como latest. Si algo falla, el latest anterior queda intacto (AC-A3).
+#
+# - Manual: Actions > "Datos · procesar y publicar" > Run workflow (opción "forzar").
+# - Semanal: lunes 06:17 UTC; si los originales no cambiaron, solo actualiza el historial.
+# - Al mergear a main cambios en el pipeline o en fuentes/: reprocesa (forzar).
+on:
+  workflow_dispatch:
+    inputs:
+      forzar:
+        description: "Reprocesar aunque los originales no hayan cambiado"
+        type: boolean
+        default: false
+  schedule:
+    - cron: "17 6 * * 1"
+  push:
+    branches: [main]
+    paths:
+      - "pipeline/**"
+      - "fuentes/**"
+      - "requirements.txt"
+
+permissions:
+  contents: write  # crear releases
+
+concurrency:
+  group: datos     # nunca dos publicaciones a la vez
+  cancel-in-progress: false
+
+jobs:
+  datos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      GH_TOKEN: ${{ github.token }}
+      FORZAR: ${{ github.event_name == 'push' || inputs.forzar == true }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+
+      - run: pip install -r requirements-dev.txt
+
+      - uses: ./.github/actions/tippecanoe
+
+      - name: Bajar la publicación anterior (historial y salidas)
+        run: python scripts/publicar.py bajar --salida datos/salida
+
+      - name: Conseguir originales
+        run: python scripts/conseguir_originales.py --crudo datos/crudo
+
+      - name: Procesar
+        run: |
+          python pipeline/correr.py --crudo datos/crudo --salida datos/salida \
+            --resumen resumen.json $([ "$FORZAR" = "true" ] && echo --forzar)
+          echo "publicar=$(python -c 'import json; print(str(json.load(open("resumen.json"))["publicar"]).lower())')" >> "$GITHUB_OUTPUT"
+        id: procesar
+
+      - name: Probar (datos completos)
+        if: steps.procesar.outputs.publicar == 'true'
+        env:
+          OBS_DATOS: completo
+          OBS_REQUIERE_PMTILES: "1"
+        run: pytest -q
+
+      - name: Publicar
+        run: python scripts/publicar.py subir --salida datos/salida --resumen resumen.json
+
+      - name: Reporte de validación
+        if: always()
+        run: |
+          [ -f datos/salida/reporte_validacion.md ] && cat datos/salida/reporte_validacion.md >> "$GITHUB_STEP_SUMMARY" || true

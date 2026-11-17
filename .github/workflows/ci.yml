@@ -5,6 +5,7 @@ name: CI · lint y tests
 # No necesita el zip original del INE.
 on:
   push:
+    branches: ["**"]  # solo ramas: los tags de releases (crudos, datos-…) no disparan CI
   pull_request:
 
 permissions:

@@ -69,3 +69,14 @@ def test_registro_detecta_campos_faltantes(tmp_path):
 def test_registro_exige_nivel_mas_detallado_publicado():
     f = {"id": "x", "niveles_publicados": ["departamento"], "nivel_mas_detallado": "segmento"}
     assert any("nivel_mas_detallado" in e for e in validar_fuente(f, "x.yml"))
+
+
+def test_fuente_activa_necesita_original_y_script_existente():
+    base = {"id": "x", "estado": "activa", "niveles_publicados": ["departamento"],
+            "nivel_mas_detallado": "departamento"}
+    errores = validar_fuente(base, "x.yml")
+    assert any("'archivo_original'" in e for e in errores) and any("'script'" in e for e in errores)
+    errores = validar_fuente({**base, "archivo_original": "a/b.zip", "script": "pipeline/no_existe.py"}, "x.yml")
+    assert any("no existe el script" in e for e in errores) and any("sin carpetas" in e for e in errores)
+    errores = validar_fuente({**base, "estado": "a relevar"}, "x.yml")
+    assert not any("archivo_original" in e or "script" in e for e in errores)  # solo las activas

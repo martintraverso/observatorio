@@ -5,6 +5,9 @@ organismo: Instituto Nacional de Estadística (INE)
 pagina: https://www.gub.uy/instituto-nacional-estadistica/politicas-y-gestion/unidades-geostadisticas
 url_descarga: https://www5.ine.gub.uy/documents/CENSO%202023/Cartografia/Vectoriales/Unidades%20Geoestadisticas%20Censo%202023.zip
 formato: zip con geopackages (EPSG:4326, escala 1:50.000)
+# Nombre del original en el release "crudos" y en datos/crudo/, y script que lo procesa.
+archivo_original: Unidades_Geoestadisticas_Censo_2023.zip
+script: pipeline/territorios_2023.py
 licencia: "El uso es libre, citando como fuente al INE."
 contacto: cartogra@ine.gub.uy
 frecuencia: se actualiza para cada censo
@@ -35,6 +38,10 @@ notas:
     personas) y 5 son XX000: islas (Flores, Gorriti, Baygorria, del Francés) y el
     límite contestado (segmento 0200000, 0 personas). Los metadatos (PDF) definen
     CODLOC como depto (2) + localidad (3) pero no explican 900 ni 000. La relación
-    segmento -> localidad se guarda tal cual; no se crean localidades para esos códigos."
+    segmento -> localidad se guarda tal cual; no se crean localidades para esos códigos (decisión del maintainer, 2026-11-16)."
+  - "El límite contestado también está como sección 0200 ('Sección 00') y segmento
+    0200000 (251 km²), con conteos publicados en 0. A diferencia de depto_23_pg, que repite
+    los de Artigas, son valores propios: se guardan como observaciones normales
+    (decisión del maintainer, 2026-11-16)."
   - "Las capas originales ya tienen huecos angostos (< 10 m) entre polígonos vecinos
     en departamento, sección y localidad (coverage_is_valid con gap_width=1e-4)."
