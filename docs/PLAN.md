@@ -113,10 +113,64 @@ Lighthouse and axe on all routes; fix to reach AC-G5 and AC-G6; cross-browser an
  
 ---
  
+## F2 — Labor market by department (ECH)
+ 
+Goal: official INE labor indicators for total país, the 19 departments and the 8 Montevideo municipalities, monthly since February 2022 (3-month moving quarter). Criteria: section K of `ACCEPTANCE_CRITERIA.md` (AC-L1…L27).
+ 
+**Order:** F2.1–F2.7 (data) can start as soon as **M1** is merged; they do not depend on the app. F2.8 (app) waits for M6 and M7. Data stories have priority over M2–M9 unless the maintainer says otherwise.
+ 
+**Sources (official INE only):**
+- Report page (latest): https://www.gub.uy/instituto-nacional-estadistica/comunicacion/publicaciones/mercado-trabajo-area-geografica-residencia-ech-julio-setiembre-2026
+- Report HTML (latest): https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/HTML/ECH/Mercado%20de%20trabajo%20por%20%C3%A1rea%20geogr%C3%A1fica/2026/Mercado_trabajo_IN_SOC_MTR_2026_M_09-_v1_0.html
+- ECH portal: https://www.gub.uy/instituto-nacional-estadistica/encuesta-continua-hogares
+- Methodology ECH 2021: https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/PDF/ECH/Metodologia%20ECH%202021_24_5.pdf
+### F2.1 — Explore the reports and save fixtures (spike, time-boxed)
+1. Download the latest report HTML, the February 2022 one and one from 2024. Find their URLs from the INE publication pages (gub.uy → Publicaciones, tag "Mercado de trabajo por área geográfica"); the HTML path appears to follow `.../<año>/Mercado_trabajo_IN_SOC_MTR_<año>_M_<mes>-_v1_0.html`, but **verify it**, do not assume.
+2. Save them in `tests/fixtures/ech_mt/` (they are small HTML files).
+3. Document in `fuentes/ine_ech_mercado_trabajo_departamental.yml`: URL patterns found, table numbering (Cuadro 1–6), column headers, units, how the period appears in the text, differences between years, and the INE caveats (AC-L20).
+4. If the HTML tables cannot be parsed reliably (e.g. they are images), stop and report to the maintainer with evidence.
+Done when: fixtures committed; registry file written; findings summarized in the PR.
+ 
+### F2.2 — Period model
+1. Add `periodo_inicio`, `periodo_fin`, `tipo_periodo` to `observaciones` (keep `periodo` as label).
+2. Migrate phase-0 census rows to `tipo_periodo = censo` (AC-L11).
+3. Update `v_observaciones`, CSV columns (AC-F5, AC-L27) and tests.
+Done when: AC-L10 (schema part), AC-L11; AC-T1…T9 still pass.
+ 
+### F2.3 — Country and Montevideo municipalities levels
+1. Add level `pais` (`INE-2023/pais/UY`, geometry = union of the 19 departments) for national totals (AC-L28).
+2. In the territories pipeline, derive `municipio_mvd` by dissolving `ccz_mvd_23_pg` by `NOMMUNICIPIO`; ids `INE-2023/municipio_mvd/<letra>`; record CCZ → municipio in `correspondencias`.
+3. Add both to the web exports and `territorios_index.json` (if M2 is done).
+Done when: AC-L17, AC-L18, AC-L28.
+ 
+### F2.4 — Parser
+1. `pipeline/ech_mercado_trabajo.py` with a pure function `parsear_informe(html) -> DataFrame` (no network).
+2. Name → code mapping for departments and municipalities (AC-L6), decimal commas (AC-L7), period from the text or file name (AC-L10).
+3. Golden tests on the three fixtures (AC-L8, AC-L9).
+Done when: AC-L5…L10.
+ 
+### F2.5 — Capture and backfill
+1. Discovery: list reports 2022-02 → latest (AC-L2); download each HTML once to `datos/crudo/ech_mt/` with sha256 (AC-L1); handle new versions (AC-L3); skip unchanged (AC-L4).
+2. Load all months into `observaciones` through the shared pipeline code (M1).
+3. Upload the downloaded HTML files to release `crudos` (script `scripts/subir_crudos.sh`), so the workflow never depends on INE being up.
+Done when: AC-L1…L4; all available months loaded.
+ 
+### F2.6 — Quality checks and report
+1. Implement AC-L12…L16 as pipeline checks (run fails on error).
+2. Add the labor section to `reporte_validacion.md` (AC-L21).
+### F2.7 — Automation
+Add the labor step to the weekly data workflow (AC-L22). PRs that change workflows wait for the maintainer.
+ 
+### F2.8 — App (after M6 and M7)
+Topic "Trabajo" in the map, series chart in fichas, period labels, INE caveats, no rankings (AC-L23…L26).
+ 
+### F2.9 — Optional: long national series
+Country / Montevideo / Interior monthly series from the INE xlsx files (`series-historicas-actividad-empleo-desempleo`, codes ECH0011–ECH0013) for longer history. Only if the maintainer asks; levels `pais` and the existing departamento 01 for Montevideo; Interior is a new non-geographic aggregate and needs a decision first.
+ 
 ## Later phases (plan when M9 is done; confirm scope with the maintainer)
  
 - **F1 — Census 2023 microdata** at segment level (age structure, households, education). First read INE's "Microdatos Censo 2023.pdf"; respect statistical disclosure rules stated by INE. (AC-X1)
-- **F2 — ECH** department-level indicators (desempleo, actividad, pobreza) using survey weights; store only department/country (AC-X2). Consider the R package `ech` as a reference for variable definitions.
+- **F2b — Other ECH indicators** (income, poverty) following the same pattern as F2: published INE tables first; microdata only for what INE does not publish, labelled "calculado por el observatorio" (AC-X2).
 - **F3 — First point source** (e.g. road accidents or education centres) into `eventos` with point-in-polygon assignment (AC-X4).
 - **F4 — 2011 geometries** + INE 2011–2023 correspondence table (AC-X3).
 - **Zones** — if Marco Censal 2023 or INE (cartogra@ine.gub.uy) provides zone geometries, add `zona` under `segmento` (AC-X5).

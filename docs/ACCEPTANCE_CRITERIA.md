@@ -82,10 +82,49 @@ Legend: **[auto]** = must be covered by an automated test · **[manual]** = chec
  
 - **AC-D1** [auto] `/datos` offers full downloads: observations (Parquet and CSV), territories per level (GeoJSON, and GeoParquet with full-resolution geometry), and the DuckDB file.
 - **AC-D2** [manual] Each download states size, generation date, license and how to cite.
-## K. Future phases (criteria to refine when started)
+## K. Labor market — ECH departmental report (F2)
+ 
+Source: INE, *Mercado de trabajo por área geográfica de residencia* (monthly HTML report since February 2022). Only official INE URLs.
+ 
+**Capture**
+- **AC-L1** [auto] Each monthly report is a capture: the HTML is saved unchanged under `datos/crudo/ech_mt/<año>/<archivo>.html` (and in release `crudos`), with URL, sha256 and download date in `capturas`.
+- **AC-L2** [auto] A report-discovery step lists every report from 2022-02 to the latest published one and records which months were found and which were not; a missing month is reported, not an error.
+- **AC-L3** [auto] If INE publishes a new version of a report (e.g. `v1_1`), it is captured as a new capture; the app uses the latest version and keeps the old one traceable (`vigente = false`).
+- **AC-L4** [auto] Re-running with unchanged HTML (same sha256) skips parsing (AC-P8).
+**Parsing**
+- **AC-L5** [auto] From each report the parser extracts, for total país and the 19 departments: `tasa_actividad`, `tasa_empleo`, `tasa_desempleo` (%), `activos`, `ocupados`, `desocupados` (miles de personas, stored as published), `tasa_no_registro` (%); and the same for the 8 Montevideo municipalities (A, B, C, CH, D, E, F, G).
+- **AC-L6** [auto] Department names in the report map to INE codes (`Montevideo`→`01`, … `Treinta y Tres`→`19`) regardless of accents, case or spacing; an unknown name fails the run.
+- **AC-L7** [auto] Decimal commas are parsed correctly ("7,1" → 7.1); values are numeric; no row is silently dropped (expected row counts per table are asserted).
+- **AC-L8** [auto] Golden test on the saved July–September 2026 report: Total país 64.1 / 59.5 / 7.1; Montevideo 65.5 / 60.8 / 7.2; Maldonado 69.1 / 65.3 / 5.5; Treinta y Tres 54.1 / 48.6 / 10.2 (actividad / empleo / desempleo).
+- **AC-L9** [auto] Golden tests on at least two more saved reports (the first, February 2022, and one from 2024) so format changes across years are covered. If formats differ, the parser handles each known format explicitly.
+**Periods**
+- **AC-L10** [auto] Each observation has `tipo_periodo = trimestre_movil`, `periodo_inicio` = first day of the first month and `periodo_fin` = last day of the last month (report `M_09` of 2026 → 2026-07-01 to 2026-09-30), and label `2026-07/2026-09`.
+- **AC-L11** [auto] Phase-0 census observations are migrated to `tipo_periodo = censo` without changing their values (AC-T tests still pass).
+**Data quality checks** (run on every report; failures stop the run)
+- **AC-L12** [auto] All rates are between 0 and 100; `tasa_empleo ≤ tasa_actividad`.
+- **AC-L13** [auto] `activos − ocupados = desocupados` within ±1 thousand (rounding).
+- **AC-L14** [auto] `desocupados / activos × 100` equals `tasa_desempleo` within ±0.3 points.
+- **AC-L15** [auto] Each report has exactly 1 total país, 19 departments and 8 municipalities per table.
+- **AC-L16** [auto] No labor observation exists for sección, segmento, localidad, barrio or CCZ.
+**Territory: Montevideo municipalities**
+- **AC-L17** [auto] Level `municipio_mvd` has 8 territories with ids `INE-2023/municipio_mvd/<letra>`, parent departamento 01, geometry = union of their CCZ.
+- **AC-L18** [auto] Every CCZ belongs to exactly one municipality (from `NOMMUNICIPIO`), recorded in `correspondencias`; the union of the 8 municipalities equals the union of the 18 CCZ (area difference < 0.1%).
+- **AC-L28** [auto] Level `pais` has one territory `INE-2023/pais/UY` (geometry = union of the 19 departments); "Total país" values are stored there, never on a department.
+- **AC-L19** [manual] The municipality ficha and the sources page state that the boundary was derived by the observatory from INE CCZ.
+**Registry, report and automation**
+- **AC-L20** [manual] `fuentes/ine_ech_mercado_trabajo_departamental.yml` describes the source, URL pattern, tables, periodicity, known caveats (from the INE report) and license/citation.
+- **AC-L21** [auto] `reporte_validacion.md` gains a labor section: months captured/missing, checks, and the latest values per department.
+- **AC-L22** [manual] The weekly data workflow captures new monthly reports automatically.
+**App (applies once M6/M7 exist)**
+- **AC-L23** [manual] Topic "Trabajo" in the map offers the 7 indicators at levels departamento and municipio (Montevideo); choosing another level shows the AC-M2 notice.
+- **AC-L24** [manual] The legend and the side panel state the period as "Trimestre móvil jul–set 2026" and show "Fuente: INE, ECH".
+- **AC-L25** [manual] Department and municipality fichas show the time series since 2022 (line chart vs. total país), not only the latest value.
+- **AC-L26** [manual] The INE caveats are visible next to labor data (precision in small departments, place of residence, seasonality, avoid rankings). The app offers no sorted ranking of departments by a single period's value.
+- **AC-L27** [auto] Labor values in CSV downloads keep `periodo_inicio`, `periodo_fin` and `tipo_periodo`.
+## L. Future phases (criteria to refine when started)
  
 - **AC-X1** Census 2023 microdata indicators at segment level are added without breaking AC-T1…T9.
-- **AC-X2** ECH indicators are stored only at department and country level, with survey period and design notes (panel since July 2021).
+- **AC-X2** Superseded by section L for the departmental labor report. Other ECH indicators (income, poverty) follow the same rules: published values first, stored only at the levels INE publishes, with the survey period.
 - **AC-X3** 2011 geometries are loaded with `version_geo = INE-2011` and linked through the INE 2011–2023 correspondence table.
 - **AC-X4** Point sources are stored in `eventos` with original coordinates/address and the assigned segment, locality and department.
 - **AC-X5** When census zones are obtained, a `zona` level is added under `segmento` and the segment ficha gains a zone list; no existing URL breaks.
