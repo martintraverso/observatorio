@@ -46,7 +46,7 @@ Source: INE, *Unidades geoestadísticas Censo 2023* (zip of GeoPackages, EPSG:43
  
 ```
 territorios(id, nivel, codigo, nombre, depto, padre_id, version_geo, area_km2, codigo_iso, geometry)
-observaciones(indicador, territorio_id, periodo, valor, es_estimado, captura_id)
+observaciones(indicador, territorio_id, periodo, periodo_inicio, periodo_fin, tipo_periodo, valor, es_estimado, captura_id)
 indicadores(codigo, nombre, unidad, columna_origen, fuente_id, nota)
 capturas(id, fuente_id, archivo, sha256, fecha_proceso)
 capturas_historial(id, fuente_id, archivo, sha256, fecha_proceso, resultado, detalle)  -- append-only, one row per run
@@ -56,7 +56,7 @@ correspondencias(origen_id, destino_id, tipo, peso, metodo)
 VIEW v_observaciones  -- observaciones joined with territorio, indicador and captura
 ```
  
-**Planned change in F2 (time periods):** survey indicators refer to a 3-month moving quarter, not a year. `observaciones` gains `periodo_inicio` (date, first day), `periodo_fin` (date, last day) and `tipo_periodo` (`censo`, `mes`, `trimestre_movil`, `trimestre`, `semestre`, `anio`). `periodo` stays as a human label (e.g. `2026-07/2026-09`). Phase-0 census rows become `tipo_periodo = censo`, `periodo_inicio = periodo_fin = 2023-01-01` with label `2023`.
+**Time periods (F2.2, implemented):** survey indicators refer to a 3-month moving quarter, not a year. `observaciones` has `periodo_inicio` (date, first day), `periodo_fin` (date, last day) and `tipo_periodo` (`censo`, `mes`, `trimestre_movil`, `trimestre`, `semestre`, `anio`). `periodo` stays as a human label (e.g. `2026-07/2026-09`). Phase-0 census rows are `tipo_periodo = censo`, `periodo_inicio = periodo_fin = 2023-01-01` with label `2023`.
  
 **Planned new level in F2:** `municipio_mvd` (8 Montevideo municipalities). INE does not publish its geometry in the 2023 package, but `ccz_mvd_23_pg` has the attribute `NOMMUNICIPIO`; the geometry is derived by dissolving CCZ by municipality and recorded in `correspondencias` (ccz → municipio, `metodo = "disolución de CCZ por NOMMUNICIPIO"`).
  
