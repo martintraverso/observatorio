@@ -49,6 +49,8 @@ def bajar(url: str) -> bytes:
         raise ValueError(f"Solo se admiten sitios oficiales del INE: {url}")
     pedido = urllib.request.Request(url, headers={"User-Agent": "observatorio-uruguay/1.0"})
     with urllib.request.urlopen(pedido, timeout=180) as r:
+        if not r.geturl().startswith(DOMINIOS_OFICIALES):  # también después de redirecciones
+            raise ValueError(f"La descarga terminó fuera de los sitios del INE: {r.geturl()}")
         return r.read()
 
 
