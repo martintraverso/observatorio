@@ -25,6 +25,8 @@ Source: INE, *Unidades geoestadísticas Censo 2023* (zip of GeoPackages, EPSG:43
 | `localidad` | 652 | 5 = depto + localidad (`900` = rural) | departamento |
 | `barrio_mvd` | 63 | INE barrio code | departamento 01 |
 | `ccz_mvd` | 18 | CCZ number, 2 digits | departamento 01 |
+| `municipio_mvd` | 8 | letter: A, B, C, CH, D, E, F, G | departamento 01 (planned, F2) |
+| `pais` | 1 | `UY` | — (planned, F2; geometry = union of the 19 departments; needed for national totals) |
 | `area_especial` | 1 | `02-limite-contestado` | departamento 02 |
  
 - Territory id: `INE-2023/<nivel>/<codigo>` (e.g. `INE-2023/segmento/1605601`).
@@ -53,6 +55,10 @@ fuentes(id, nombre, organismo, pagina, url_descarga, formato, licencia, frecuenc
 correspondencias(origen_id, destino_id, tipo, peso, metodo)
 VIEW v_observaciones  -- observaciones joined with territorio, indicador and captura
 ```
+ 
+**Planned change in F2 (time periods):** survey indicators refer to a 3-month moving quarter, not a year. `observaciones` gains `periodo_inicio` (date, first day), `periodo_fin` (date, last day) and `tipo_periodo` (`censo`, `mes`, `trimestre_movil`, `trimestre`, `semestre`, `anio`). `periodo` stays as a human label (e.g. `2026-07/2026-09`). Phase-0 census rows become `tipo_periodo = censo`, `periodo_inicio = periodo_fin = 2023-01-01` with label `2023`.
+ 
+**Planned new level in F2:** `municipio_mvd` (8 Montevideo municipalities). INE does not publish its geometry in the 2023 package, but `ccz_mvd_23_pg` has the attribute `NOMMUNICIPIO`; the geometry is derived by dissolving CCZ by municipality and recorded in `correspondencias` (ccz → municipio, `metodo = "disolución de CCZ por NOMMUNICIPIO"`).
  
 Planned additions: `eventos(id, dataset_id, fecha, geometry, territorio_id, atributos_json, captura_id)` for point data.
 
@@ -117,7 +123,11 @@ Global header: logo + "Observatorio Uruguay", nav (Mapa · Fichas · Datos · Fu
  
 ## 9. Known sources (see `fuentes/` and project notes)
  
-Active: INE unidades geoestadísticas 2023. Next: Censo 2023 microdata (segment level), Marco Censal 2023 (may contain zones), Encuesta Continua de Hogares (department level only; panel design since July 2021), INE price/wage series (country level), INE 2011–2023 correspondence table. To research: Catálogo Nacional de Datos Abiertos (CKAN API), IDE, Ministerio del Interior.
+Active: INE unidades geoestadísticas 2023.
+ 
+**Labor market (F2, next):** INE report *"Mercado de trabajo por área geográfica de residencia"*, monthly since February 2022. Official estimates for total país, the 19 departments and the 8 Montevideo municipalities, as 3-month moving averages. Tables: activity, employment and unemployment rates (%); active, employed and unemployed (thousands); non-registration in social security (%). Published only as an HTML page (no spreadsheet): the pipeline must save each page and parse its tables. INE publishes no confidence intervals and warns: smaller departments are less precise; figures are by place of residence; seasonality (e.g. Maldonado); avoid single-period rankings. Example HTML: `https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/HTML/ECH/Mercado%20de%20trabajo%20por%20%C3%A1rea%20geogr%C3%A1fica/2026/Mercado_trabajo_IN_SOC_MTR_2026_M_09-_v1_0.html` (July–September 2026). Country/Montevideo/Interior long series exist as xlsx (`series-historicas-actividad-empleo-desempleo`), without departments. ECH microdata are used only for indicators INE does not publish, labelled "calculado por el observatorio". **Only official INE sites are valid sources.**
+ 
+Next: Censo 2023 microdata (segment level), Marco Censal 2023 (may contain zones), Encuesta Continua de Hogares (department level only; panel design since July 2021), INE price/wage series (country level), INE 2011–2023 correspondence table. To research: Catálogo Nacional de Datos Abiertos (CKAN API), IDE, Ministerio del Interior.
  
 ## 10. Glossary
  
