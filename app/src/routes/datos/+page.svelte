@@ -21,7 +21,7 @@
 <h1>Datos</h1>
 <p>
 	Todo lo que muestra el sitio se puede descargar. Los archivos se generan automáticamente a partir de los
-	originales de cada fuente; esta versión es del {fecha(data.manifest.generado)}.
+	originales de cada fuente; esta versión es del {fecha(data.generado)}.
 </p>
 
 <ul class="descargas">
