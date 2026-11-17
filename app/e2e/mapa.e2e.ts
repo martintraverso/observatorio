@@ -18,6 +18,10 @@ type MapaQuery = {
 type MapaVentana = { __mapa?: { loaded(): boolean; areTilesLoaded(): boolean; project(p: [number, number]): { x: number; y: number } } };
 
 async function mapaListo(page: Page) {
+	// El mapa arranca cuando se ve (en móvil queda debajo de las opciones).
+	await page.locator('section[aria-label="Mapa interactivo"]').scrollIntoViewIfNeeded();
+	const activar = page.getByRole('button', { name: 'Ver el mapa interactivo' });
+	if (await activar.isVisible()) await activar.click(); // en móvil el mapa arranca al tocarlo
 	await page.waitForFunction(() => {
 		const m = (window as unknown as MapaVentana).__mapa;
 		return !!m && m.loaded() && m.areTilesLoaded();
@@ -85,6 +89,19 @@ test('AC-M3: tocar un territorio lo selecciona y muestra sus datos', async ({ pa
 		'href',
 		/territorio\/departamento\/07$/
 	);
+});
+
+test('en móvil el mapa arranca al tocarlo; en escritorio, solo', async ({ page }, info) => {
+	await page.goto('');
+	const activar = page.getByRole('button', { name: 'Ver el mapa interactivo' });
+	if (info.project.name === 'movil') {
+		await expect(activar).toBeVisible();
+		expect(await page.evaluate(() => !!(window as unknown as MapaVentana).__mapa)).toBe(false);
+		await activar.click();
+	} else {
+		await expect(activar).toHaveCount(0);
+	}
+	await mapaListo(page);
 });
 
 test('AC-M4: mini-mapa de ubicación del territorio seleccionado', async ({ page }) => {

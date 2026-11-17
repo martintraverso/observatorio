@@ -2,6 +2,12 @@
 
 Reúne datos públicos sobre el territorio uruguayo, los guarda en una base propia y los vincula a un territorio (departamento, sección, segmento, localidad).
 
+**Sitio:** https://martintraverso.github.io/observatorio/ · **Datos:** [último release](https://github.com/martintraverso/observatorio/releases/latest)
+
+| Mapa | Ficha | Móvil |
+|---|---|---|
+| ![Mapa por sección con el panel de San José](docs/capturas/mapa.jpg) | ![Ficha del departamento de San José](docs/capturas/ficha.jpg) | ![Mapa por segmento en el celular, con el panel de un barrio](docs/capturas/movil.jpg) |
+
 ## Fase 0: territorios del Censo 2023
 
 Carga las unidades geoestadísticas que publica el INE y sus conteos del Censo 2023 (personas, hombres, mujeres, viviendas).
@@ -108,6 +114,12 @@ python scripts/crear_fixture.py datos/crudo/Unidades_Geoestadisticas_Censo_2023.
 ### La app
 
 `app/` es un sitio estático (SvelteKit) que lee los archivos de `datos/salida/web/` y se publica en GitHub Pages. Ver `app/README.md`.
+
+Controles de calidad que corren en cada PR y antes de cada deploy:
+
+- **Accesibilidad:** axe sin violaciones serias ni críticas en todas las pantallas, teclado, áreas táctiles de 44 px, contraste (AC-G5).
+- **Rendimiento:** Lighthouse móvil ≥ 80 en el inicio (mediana de 3 corridas) y JS inicial ≤ 300 KB comprimido sin MapLibre (AC-G6).
+- **Navegadores:** Chromium, Firefox y WebKit (Safari), escritorio y móvil a 390 px sin scroll horizontal (AC-G4).
 
 ```bash
 cd app && npm ci && npm run dev

@@ -28,3 +28,4 @@ test-results
 /static/datos-web
 # Playwright
 /playwright-report
+/lighthouse-resumen.json

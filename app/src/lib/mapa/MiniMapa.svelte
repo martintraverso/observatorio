@@ -8,8 +8,16 @@
 		nombre,
 		depto,
 		nivel,
-		bbox
-	}: { nombre: string; depto: string; nivel: string; bbox: [number, number, number, number] } = $props();
+		bbox,
+		resaltar = true
+	}: {
+		nombre: string;
+		depto: string;
+		nivel: string;
+		bbox: [number, number, number, number];
+		/** false: solo el contorno de Uruguay (vista previa del mapa). */
+		resaltar?: boolean;
+	} = $props();
 
 	interface Mini {
 		features: { properties: { codigo: string; nivel: string }; geometry: { type: string; coordinates: unknown } }[];
@@ -54,7 +62,9 @@
 			stroke-width="0.6"
 		/>
 	{/each}
-	{#if chico}
+	{#if !resaltar}
+		<!-- solo el contorno -->
+	{:else if chico}
 		<circle cx={(caja.x0 + caja.x1) / 2} cy={(caja.y0 + caja.y1) / 2} r="10" fill="none" stroke={COLOR_SELECCION} stroke-width="2.5" />
 	{:else if !esDepto}
 		<rect x={caja.x0} y={caja.y0} width={caja.x1 - caja.x0} height={caja.y1 - caja.y0} fill="none" stroke={COLOR_SELECCION} stroke-width="2" />
