@@ -25,8 +25,8 @@ Source: INE, *Unidades geoestadísticas Censo 2023* (zip of GeoPackages, EPSG:43
 | `localidad` | 652 | 5 = depto + localidad (`900` = rural) | departamento |
 | `barrio_mvd` | 63 | INE barrio code | departamento 01 |
 | `ccz_mvd` | 18 | CCZ number, 2 digits | departamento 01 |
-| `municipio_mvd` | 8 | letter: A, B, C, CH, D, E, F, G | departamento 01 (planned, F2) |
-| `pais` | 1 | `UY` | — (planned, F2; geometry = union of the 19 departments; needed for national totals) |
+| `municipio_mvd` | 8 | letter: A, B, C, CH, D, E, F, G | departamento 01 (derived in F2.3: union of its CCZ) |
+| `pais` | 1 | `UY` | — (derived in F2.3: geometry = union of the 19 departments; for national totals) |
 | `area_especial` | 1 | `02-limite-contestado` | departamento 02 |
  
 - Territory id: `INE-2023/<nivel>/<codigo>` (e.g. `INE-2023/segmento/1605601`).
@@ -58,7 +58,7 @@ VIEW v_observaciones  -- observaciones joined with territorio, indicador and cap
  
 **Time periods (F2.2, implemented):** survey indicators refer to a 3-month moving quarter, not a year. `observaciones` has `periodo_inicio` (date, first day), `periodo_fin` (date, last day) and `tipo_periodo` (`censo`, `mes`, `trimestre_movil`, `trimestre`, `semestre`, `anio`). `periodo` stays as a human label (e.g. `2026-07/2026-09`). Phase-0 census rows are `tipo_periodo = censo`, `periodo_inicio = periodo_fin = 2023-01-01` with label `2023`.
  
-**Planned new level in F2:** `municipio_mvd` (8 Montevideo municipalities). INE does not publish its geometry in the 2023 package, but `ccz_mvd_23_pg` has the attribute `NOMMUNICIPIO`; the geometry is derived by dissolving CCZ by municipality and recorded in `correspondencias` (ccz → municipio, `metodo = "disolución de CCZ por NOMMUNICIPIO"`).
+**Level added in F2.3:** `municipio_mvd` (8 Montevideo municipalities). INE does not publish its geometry in the 2023 package, but `ccz_mvd_23_pg` has the attribute `NOMMUNICIPIO`; the geometry is derived by dissolving CCZ by municipality and recorded in `correspondencias` (ccz → municipio, `metodo = "disolución de CCZ por NOMMUNICIPIO"`).
  
 Planned additions: `eventos(id, dataset_id, fecha, geometry, territorio_id, atributos_json, captura_id)` for point data.
 
