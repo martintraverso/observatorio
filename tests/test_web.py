@@ -178,6 +178,8 @@ def test_ficha_de_segmento_tiene_padres_localidad_y_fuentes(web, con):
                      "where territorio_id = ? order by indicador, periodo", [f["id"]]).fetchall()
     assert [(o["indicador"], o["periodo"], o["valor"], o["es_estimado"], o["captura_id"])
             for o in f["observaciones"]] == db
+    assert all((o["tipo_periodo"], o["periodo_inicio"], o["periodo_fin"]) == ("censo", "2023-01-01", "2023-01-01")
+               for o in f["observaciones"])
     for o in f["observaciones"]:
         c = f["capturas"][o["captura_id"]]
         assert c["sha256"] and c["archivo"]
@@ -275,14 +277,17 @@ def test_descargas_completas_con_tamano_y_sha256(salida, web, territorios, con):
 
 
 def test_csv_de_observaciones(salida, con):
-    csv = gpd.pd.read_csv(salida / "descargas" / "observaciones.csv", dtype={"codigo": str, "periodo": str})
-    assert list(csv.columns) == ["territorio_id", "nivel", "codigo", "nombre", "indicador", "periodo", "valor", "unidad",
-                                 "es_estimado", "fuente", "archivo_origen", "sha256"]
+    csv = gpd.pd.read_csv(salida / "descargas" / "observaciones.csv",
+                          dtype={"codigo": str, "periodo": str, "periodo_inicio": str, "periodo_fin": str})
+    assert list(csv.columns) == ["territorio_id", "nivel", "codigo", "nombre", "indicador", "periodo", "periodo_inicio",
+                                 "periodo_fin", "tipo_periodo", "valor", "unidad", "es_estimado", "fuente",
+                                 "archivo_origen", "sha256"]
     assert len(csv) == con.execute("select count(*) from observaciones").fetchone()[0]
     # valor puede venir vacío si el INE no lo publica (barrio 'N/a', código 1000000); el resto no.
     assert csv.drop(columns='valor').notna().all().all()
     flores = csv[(csv.territorio_id == "INE-2023/departamento/07") & (csv.indicador == "pob_total")]
     assert flores.valor.tolist() == [26271] and flores.unidad.tolist() == ["personas"]
+    assert flores[["periodo_inicio", "periodo_fin", "tipo_periodo"]].values.tolist() == [["2023-01-01", "2023-01-01", "censo"]]
 
 
 def test_territorios_por_nivel_completos(salida, territorios):

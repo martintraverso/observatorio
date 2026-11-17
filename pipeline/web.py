@@ -87,6 +87,11 @@ def numero(v):
     return int(f) if f.is_integer() else f
 
 
+def fecha_iso(d) -> str:
+    """Fecha de Parquet (date, Timestamp o texto) -> 'AAAA-MM-DD'."""
+    return d.isoformat()[:10] if hasattr(d, "isoformat") else str(d)[:10]
+
+
 def bbox(geom) -> list[float]:
     """Caja [oeste, sur, este, norte], redondeada hacia afuera a DECIMALES."""
     x0, y0, x1, y1 = geom.bounds
@@ -272,8 +277,10 @@ def construir_fichas(territorios, obs, indicadores, capturas, fuentes, correspon
 
     obs_por_t = defaultdict(list)
     for r in obs.sort_values(["indicador", "periodo"]).itertuples():
-        obs_por_t[r.territorio_id].append({"indicador": r.indicador, "periodo": r.periodo, "valor": numero(r.valor),
-                                           "es_estimado": bool(r.es_estimado), "captura_id": r.captura_id})
+        obs_por_t[r.territorio_id].append({
+            "indicador": r.indicador, "periodo": r.periodo, "periodo_inicio": fecha_iso(r.periodo_inicio),
+            "periodo_fin": fecha_iso(r.periodo_fin), "tipo_periodo": r.tipo_periodo, "valor": numero(r.valor),
+            "es_estimado": bool(r.es_estimado), "captura_id": r.captura_id})
 
     def resumen(i):
         """Identidad y valores de un territorio, para listas de padres y contenidos."""
@@ -342,8 +349,8 @@ LICENCIA = "El uso es libre, citando como fuente al INE."
 CITA = ("Observatorio Uruguay, a partir de INE, Unidades geoestadísticas Censo 2023. "
         "Indicar el archivo y la fecha de descarga.")
 TOLERANCIA_SEGMENTO_DESCARGA = 0.0004
-COLUMNAS_CSV = ["territorio_id", "nivel", "codigo", "nombre", "indicador", "periodo", "valor", "unidad",
-                "es_estimado", "fuente", "archivo_origen", "sha256"]
+COLUMNAS_CSV = ["territorio_id", "nivel", "codigo", "nombre", "indicador", "periodo", "periodo_inicio", "periodo_fin",
+                "tipo_periodo", "valor", "unidad", "es_estimado", "fuente", "archivo_origen", "sha256"]
 
 
 def csv_observaciones(territorios, obs, indicadores, capturas, fuentes) -> pd.DataFrame:
@@ -356,6 +363,8 @@ def csv_observaciones(territorios, obs, indicadores, capturas, fuentes) -> pd.Da
     f = fuentes.assign(fuente=fuentes.organismo + " · " + fuentes.nombre)[["id", "fuente"]].rename(columns={"id": "fuente_id"})
     o = o.merge(c, on="captura_id", how="left").merge(f, on="fuente_id", how="left")
     o["es_estimado"] = o.es_estimado.map({True: "true", False: "false"})
+    o["periodo_inicio"] = o.periodo_inicio.map(fecha_iso)
+    o["periodo_fin"] = o.periodo_fin.map(fecha_iso)
     return o[COLUMNAS_CSV].sort_values(["territorio_id", "indicador", "periodo"]).reset_index(drop=True)
 
 
