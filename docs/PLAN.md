@@ -130,6 +130,7 @@ Goal: official INE labor indicators for total país, the 19 departments and the 
 3. Document in `fuentes/ine_ech_mercado_trabajo_departamental.yml`: URL patterns found, table numbering (Cuadro 1–6), column headers, units, how the period appears in the text, differences between years, and the INE caveats (AC-L20).
 4. If the HTML tables cannot be parsed reliably (e.g. they are images), stop and report to the maintainer with evidence.
 Done when: fixtures committed; registry file written; findings summarized in the PR.
+*Done (2026-11-17, #40/#50):* each report is a 19–22 MB HTML (embedded charts), so fixtures are trimmed copies (no scripts, styles or data images; tables and text unchanged) with the original URL and sha256 in `tests/fixtures/ech_mt/fixtures.yml`. There is no stable URL pattern and «Total país» appears only in recent reports: see `fuentes/ine_ech_mercado_trabajo_departamental.yml` and AC-L2, L5, L7, L9, L15, L28.
  
 ### F2.2 — Period model
 1. Add `periodo_inicio`, `periodo_fin`, `tipo_periodo` to `observaciones` (keep `periodo` as label).
@@ -150,7 +151,7 @@ Done when: AC-L17, AC-L18, AC-L28.
 Done when: AC-L5…L10.
  
 ### F2.5 — Capture and backfill
-1. Discovery: list reports 2022-02 → latest (AC-L2); download each HTML once to `datos/crudo/ech_mt/` with sha256 (AC-L1); handle new versions (AC-L3); skip unchanged (AC-L4).
+1. Discovery: walk the official INE listing and each publication page (field `descubrimiento` of the source registry) to list reports 2022-02 → latest (AC-L2); download each HTML once to `datos/crudo/ech_mt/` with sha256 (AC-L1); handle new versions (AC-L3); skip unchanged (AC-L4).
 2. Load all months into `observaciones` through the shared pipeline code (M1).
 3. Upload the downloaded HTML files to release `crudos` (script `scripts/subir_crudos.sh`), so the workflow never depends on INE being up.
 Done when: AC-L1…L4; all available months loaded.
