@@ -1,0 +1,55 @@
+name: Historia
+description: Un resultado verificable de un hito, con sus criterios de aceptación.
+title: "[Historia] "
+labels: ["historia"]
+body:
+  - type: dropdown
+    id: hito
+    attributes:
+      label: Hito
+      description: Ver docs/PLAN.md. Asigná también el milestone.
+      options:
+        - M0 — Repositorio y CI
+        - M1 — Pipeline robusto
+        - M2 — Archivos para la app
+        - M3 — Workflow de datos y releases
+        - M4 — Esqueleto de la app
+        - M5 — Búsqueda
+        - M6 — Pantalla Mapa
+        - M7 — Fichas
+        - M8 — Fuentes y Datos
+        - M9 — Pasada de calidad
+        - Fase posterior (F1–F4, zonas)
+    validations:
+      required: true
+  - type: textarea
+    id: descripcion
+    attributes:
+      label: Qué se quiere lograr
+      description: El resultado, contado desde quien usa el observatorio.
+      placeholder: Como persona que consulta el mapa, quiero… para…
+    validations:
+      required: true
+  - type: textarea
+    id: criterios
+    attributes:
+      label: Criterios de aceptación
+      description: |
+        Un ítem por criterio, con su ID de docs/ACCEPTANCE_CRITERIA.md y si es [auto] o [manual].
+        Al cerrar, cada ítem marcado dice cómo se verificó (test, comando o captura).
+      value: |
+        - [ ] **AC-…** [auto] …
+        - [ ] **AC-…** [manual] …
+    validations:
+      required: true
+  - type: checkboxes
+    id: reglas
+    attributes:
+      label: Reglas de datos (docs/SYSTEM.md §4)
+      options:
+        - label: Esta historia cambia alguna regla de §4 (agregar la etiqueta `regla-de-datos` y pedir OK al maintainer)
+  - type: textarea
+    id: notas
+    attributes:
+      label: Notas
+      description: Decisiones, dudas, enlaces a fuentes o metadatos.

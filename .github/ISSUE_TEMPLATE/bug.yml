@@ -1,0 +1,54 @@
+name: Bug
+description: Algo del sitio, los datos o el pipeline no funciona como debería.
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: que
+    attributes:
+      label: Qué pasó
+      description: Lo que viste. Si es un dato, el valor que aparece y el que esperabas.
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Página o territorio
+      description: La URL (incluye el estado del mapa) o el código INE.
+      placeholder: https://martintraverso.github.io/observatorio/territorio/seccion/1605
+  - type: textarea
+    id: pasos
+    attributes:
+      label: Pasos para reproducirlo
+      placeholder: |
+        1. Abrir…
+        2. Elegir…
+        3. Ver…
+    validations:
+      required: true
+  - type: textarea
+    id: esperado
+    attributes:
+      label: Qué esperabas
+    validations:
+      required: true
+  - type: dropdown
+    id: donde
+    attributes:
+      label: Dónde
+      options:
+        - Sitio (app)
+        - Datos publicados (releases)
+        - Pipeline o workflows
+        - No sé
+    validations:
+      required: true
+  - type: input
+    id: navegador
+    attributes:
+      label: Navegador y dispositivo
+      placeholder: Safari en iPhone 13, Firefox 159 en Windows…
+  - type: textarea
+    id: evidencia
+    attributes:
+      label: Capturas, logs o enlaces a corridas de Actions

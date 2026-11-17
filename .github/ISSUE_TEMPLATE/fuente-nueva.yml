@@ -1,0 +1,75 @@
+name: Fuente nueva
+description: Proponer o dar de alta una fuente de datos.
+title: "[Fuente] "
+labels: ["fuente-nueva", "datos"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Cada fuente termina con un registro en `fuentes/<id>.yml` (AC-P9) y un script en `pipeline/`.
+        Reglas (docs/SYSTEM.md §4): cada valor se guarda en el nivel en que la fuente lo publica, nunca se suma
+        población hacia arriba, y todo valor lleva su `captura_id` (archivo original + sha256).
+  - type: input
+    id: organismo
+    attributes:
+      label: Organismo
+      placeholder: Instituto Nacional de Estadística (INE)
+    validations:
+      required: true
+  - type: input
+    id: nombre
+    attributes:
+      label: Nombre del dataset
+    validations:
+      required: true
+  - type: input
+    id: pagina
+    attributes:
+      label: Página de la fuente
+    validations:
+      required: true
+  - type: input
+    id: url_descarga
+    attributes:
+      label: URL de descarga
+  - type: input
+    id: formato
+    attributes:
+      label: Formato
+      placeholder: zip con geopackages, CSV, API CKAN…
+  - type: textarea
+    id: licencia
+    attributes:
+      label: Licencia (texto exacto de la fuente)
+      description: Copiado tal cual de los metadatos; se muestra literal en el sitio (AC-SRC4).
+    validations:
+      required: true
+  - type: input
+    id: frecuencia
+    attributes:
+      label: Frecuencia de actualización
+  - type: dropdown
+    id: nivel
+    attributes:
+      label: Nivel territorial más detallado
+      options:
+        - País
+        - Departamento
+        - Sección censal
+        - Segmento censal
+        - Localidad censal
+        - Barrio o CCZ (Montevideo)
+        - Puntos (coordenadas o direcciones)
+        - No sé todavía
+    validations:
+      required: true
+  - type: input
+    id: temas
+    attributes:
+      label: Temas
+      placeholder: Población, Vivienda, Hogares, Trabajo, Ingresos, Educación…
+  - type: textarea
+    id: notas
+    attributes:
+      label: Notas y advertencias
+      description: Lo que se sepa de la metodología, cambios de definición, niveles en que publica, problemas conocidos.
