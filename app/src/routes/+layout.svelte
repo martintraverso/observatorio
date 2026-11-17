@@ -1,5 +1,6 @@
 <script lang="ts">
 	import '#lib/global.css';
+	import Buscador from '#lib/Buscador.svelte';
 	import favicon from '#lib/assets/favicon.svg';
 	import { page } from '$app/state';
 	import { resolve } from '$app/paths';
@@ -44,15 +45,7 @@
 			</ul>
 		</nav>
 
-		<form class="buscar" role="search" onsubmit={(e) => e.preventDefault()}>
-			<label class="visualmente-oculto" for="buscar">Buscar departamento, localidad o código INE</label>
-			<input
-				id="buscar"
-				type="search"
-				placeholder="Buscar departamento, localidad o código INE"
-				autocomplete="off"
-			/>
-		</form>
+		<Buscador />
 	</div>
 </header>
 
@@ -144,25 +137,6 @@
 		box-shadow: inset 0 -3px 0 var(--primario);
 	}
 
-	.buscar {
-		flex: 1 1 260px;
-		margin-left: auto;
-	}
-
-	.buscar input {
-		width: 100%;
-		min-height: var(--toque-min);
-		padding: 0 var(--espacio-4);
-		border: 1px solid var(--borde);
-		border-radius: var(--radio-m);
-		background: var(--fondo);
-		font: inherit;
-		color: var(--texto);
-	}
-
-	.buscar input::placeholder {
-		color: var(--texto-suave);
-	}
 
 	main {
 		padding-top: var(--espacio-5);
