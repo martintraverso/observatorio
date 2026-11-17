@@ -62,6 +62,8 @@ export interface Indicador {
 	codigo: string;
 	nombre: string;
 	unidad: string;
+	/** Población, Vivienda, Hogares, Trabajo, Ingresos, Educación. */
+	tema: string;
 	columna_origen: string;
 	fuente_id: string;
 	nota: string;

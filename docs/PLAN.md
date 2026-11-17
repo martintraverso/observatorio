@@ -96,6 +96,7 @@ Done when: AC-M1…M6, AC-G2, AC-G7.
 3. Section, locality, segment fichas: same template with level-appropriate blocks; segment ficha with "Más datos en los niveles que lo contienen" (AC-F3).
 4. CSV download of shown values (AC-F5); citation (AC-F6); empty-topic notices (AC-F7).
 5. Charts (pyramid, series) only when the data exists; none in phase 0 → render the empty state, not a fake chart.
+   *Decisions (2026-11-17, M7):* no density KPI (the maintainer declined a derived density indicator); KPIs are personas, viviendas, superficie and localidades. Indicator rows show the share of the published value over each containing territory's published value (a ratio, not a sum). "Comparar" is left for later (no AC covers it). The department note (AC-F4) sums the published section values only to explain the difference; nothing is stored.
 Done when: AC-F1…F7.
  
 ## M8 — Fuentes and Datos screens

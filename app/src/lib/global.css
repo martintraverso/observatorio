@@ -82,6 +82,7 @@ a:hover {
 
 .tabla-scroll {
 	overflow-x: auto; /* las tablas pueden desplazarse; la página no (AC-G4) */
+	position: relative; /* contiene los textos ocultos (position: absolute) de la tabla */
 }
 
 table {
@@ -95,7 +96,12 @@ td {
 	text-align: left;
 	padding: var(--espacio-2) var(--espacio-3);
 	border-bottom: 1px solid var(--borde);
-	vertical-align: top;
+	vertical-align: middle;
+}
+
+/* En pantallas angostas la tabla se desplaza dentro de su región en vez de apretarse. */
+.tabla-scroll table {
+	min-width: 560px;
 }
 
 th {
