@@ -25,15 +25,21 @@
 		return resultados.length === 1 ? '1 resultado.' : `${resultados.length} resultados.`;
 	});
 
-	async function cargar() {
-		if (estado !== 'inactivo' && estado !== 'error') return;
+	let carga: Promise<void> | null = null;
+
+	/** Carga el índice una sola vez; quien la necesite (p. ej. Enter) puede esperarla. */
+	function cargar(): Promise<void> {
+		if (carga && estado !== 'error') return carga;
 		estado = 'cargando';
-		try {
-			buscador = crearBuscador(await cargarIndice());
-			estado = 'listo';
-		} catch {
-			estado = 'error';
-		}
+		carga = cargarIndice()
+			.then((indice) => {
+				buscador = crearBuscador(indice);
+				estado = 'listo';
+			})
+			.catch(() => {
+				estado = 'error';
+			});
+		return carga;
 	}
 
 	function ir(t: EntradaIndice) {
@@ -50,7 +56,7 @@
 		cargar();
 	}
 
-	function alTeclear(e: KeyboardEvent) {
+	async function alTeclear(e: KeyboardEvent) {
 		if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
 			if (!resultados.length) return;
 			e.preventDefault();
@@ -59,6 +65,8 @@
 			activo = (activo + paso + resultados.length) % resultados.length;
 		} else if (e.key === 'Enter') {
 			e.preventDefault();
+			// Si se apretó Enter antes de que termine de cargar el índice, esperarlo (no ignorar el Enter).
+			if (!buscador) await cargar();
 			if (activo >= 0 && resultados[activo]) return ir(resultados[activo].t);
 			const exacto = buscador?.porCodigo(consulta); // AC-S2: código INE válido -> territorio
 			if (exacto) return ir(exacto);
