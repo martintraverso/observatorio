@@ -1,0 +1,85 @@
+# Registro de fuente: una entrada por dataset (AC-P9, AC-L20). Relevado en F2.1 (#40), 2026-11-17.
+id: ine_ech_mercado_trabajo_departamental
+nombre: Mercado de trabajo por área geográfica de residencia (ECH)
+organismo: Instituto Nacional de Estadística (INE)
+# Listado oficial de todos los informes (paginado, ?page=N; 56 informes al 2026-11-17).
+pagina: https://www.gub.uy/instituto-nacional-estadistica/tematica/mercado-trabajo-area-geografica-residencia
+# Último informe al relevar. Cada informe tiene su propia URL: ver patrones_url y descubrimiento.
+url_descarga: https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/HTML/ECH/Mercado%20de%20trabajo%20por%20%C3%A1rea%20geogr%C3%A1fica/2026/Mercado_trabajo_IN_SOC_MTR_2026_M_09-_v1_0.html
+formato: >-
+  Una página HTML por mes (generada con R Markdown), de 19 a 22 MB porque embebe los gráficos
+  (plotly, como JSON). Los 6 cuadros son tablas HTML con números (no imágenes). No hay planilla.
+licencia: >-
+  No publicada. Ni el informe, ni la página de la publicación, ni los Términos de uso del portal del
+  INE (https://www.gub.uy/instituto-nacional-estadistica/terminos-y-condiciones-de-uso) indican una
+  licencia para reutilizar estos datos (revisado el 2026-11-17). Los Términos solo dicen: «Salvo
+  indicación en contrario, la información contenida en el Portal será considerada de carácter
+  público.» Decisión del mantenedor (2026-11-17): se deja asentado que no hay licencia publicada y
+  se cita la fuente como indica cada cuadro (campo cita).
+cita: "Fuente: INE - Encuesta Continua de Hogares (pie de cada cuadro del informe; en 2022: «Fuente: INE, Encuesta Continua de Hogares»)."
+contacto: "Depto. de Difusión y Comunicación del INE: difusion@ine.gub.uy, (598) 2902 7303 int. 7723 y 7725 (pie del informe)."
+frecuencia: mensual desde febrero de 2022 (cada informe es un trimestre móvil)
+estado: en preparación     # activa | en preparación | a relevar
+temas: [Trabajo]
+niveles_publicados: [pais, departamento, municipio_mvd]
+nivel_mas_detallado: municipio_mvd
+
+periodo: >-
+  Desde febrero de 2022 cada estimación mensual es una media móvil de los últimos tres meses (MA3),
+  según la introducción de todos los informes. El informe se nombra por el último mes: «Febrero 2022»
+  (2022) o «Trimestre móvil: Julio - Setiembre 2026» (desde 2024). En los dos casos el período es el
+  trimestre que termina en ese mes (AC-L10). Desde 2026 el informe trae además un código de documento:
+  «Documento: IN_SOC_MTR_2026_M_09_v1_0» (año, mes final y versión).
+
+patrones_url:
+  # El patrón supuesto en el plan (…/<año>/Mercado_trabajo_IN_SOC_MTR_<año>_M_<mes>-_v1_0.html) solo vale
+  # para los informes recientes. La carpeta y el nombre cambiaron varias veces:
+  - "2022 (feb): …/HTML/ECH/Empleo/Mercado Laboral por Área Geográfica de Residencia - feb 2022.html"
+  - "2022 (jun): …/HTML/ECH/Mercado de trabajo por área geográfica/Informe_departamental-JUNIO-2022.knit.html"
+  - "2022 (jul–set): …/HTML/ECH/Empleo/Mercado de trabajo por área geográfica de residencia - jul set 2022.html"
+  - "2024: …/HTML/ECH/Mercado de trabajo por área geográfica/2024/Informe_departamental-Julio-Setiembre2024.html"
+  - "2026: …/HTML/ECH/Mercado de trabajo por área geográfica/2026/Mercado_trabajo_IN_SOC_MTR_2026_M_09-_v1_0.html"
+  - "Prefijo común: https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/HTML/ECH/"
+
+descubrimiento: >-
+  No se puede armar la URL a partir del mes. Hay que recorrer el listado de la temática
+  (pagina, ?page=0…N, hasta una página sin resultados), tomar cada publicación
+  (…/comunicacion/publicaciones/mercado-trabajo-area-geografica-residencia-ech-<período>) y leer en
+  ella el enlace al HTML en www5.ine.gub.uy. Los nombres de las publicaciones tampoco son uniformes:
+  «febrero-2022» (un solo mes, hasta junio de 2022), «julio-setiembre-2024», «diciembre-2024-febrero»,
+  «noviembre-2023-enero-2024».
+
+cuadros:
+  - "Cuadro 1: tasas de actividad, empleo y desempleo (%) por departamento."
+  - "Cuadro 2: activos, empleados y desempleados (miles de personas) por departamento."
+  - "Cuadro 3: no registro a la seguridad social (% de ocupados) por departamento."
+  - "Cuadro 4: tasas de actividad, empleo y desempleo (%) por municipio de Montevideo (A, B, C, CH, D, E, F, G)."
+  - "Cuadro 5: activos, empleados y desempleados (miles) por municipio; en 2022 y 2024 también PET (miles)."
+  - "Cuadro 6: no registro a la seguridad social (%) por municipio."
+
+formatos:
+  # Diferencias entre épocas, relevadas en los fixtures de tests/fixtures/ech_mt/ (feb 2022, jul–set 2024, jul–set 2026).
+  - "Fila «Total país» en los cuadros 1–3 y «Total Montevideo» en los cuadros 4–6: en los informes relevados, solo en el de 2026. En los de 2022 y 2024 hay solo los 19 departamentos y los 8 municipios. Falta ver desde qué mes aparecen (no se relevaron informes de 2023, 2025 ni de principios de 2026)."
+  - "Encabezados: «Tasa de Actividad», «Total de Activos», «Total de Empleados» (2022, 2024); «Actividad», «Activos», «Empleados» (2026)."
+  - "Separador decimal: coma, salvo el cuadro 3 y el 6 de febrero de 2022, que usan punto (14.2)."
+  - "Columna «PET (en miles)» en el cuadro 5: en 2022 y 2024, no en 2026."
+  - "El informe dice «empleados» y «desempleados»; los criterios usan ocupados y desocupados (mismo concepto, según la sección Conceptos del informe)."
+  - "Cada cuadro termina con una fila de fuente («Fuente: INE - Encuesta Continua de Hogares»)."
+
+advertencias:
+  # Texto del INE, resumido: «Nota» e «Introducción» de los informes.
+  - Las estadísticas son por lugar de residencia, no de trabajo (por ejemplo, quien vive en Canelones y trabaja en Montevideo cuenta en Canelones).
+  - Algunos departamentos tienen fenómenos zafrales o estacionales (por ejemplo, Maldonado en verano) que afectan las estadísticas.
+  - En áreas poco pobladas, un shock relativamente chico (por ejemplo, la apertura de una empresa grande) puede mover mucho los indicadores.
+  - Los valores absolutos salen de proyecciones de población, que a nivel desagregado pueden fluctuar mucho en períodos cortos.
+  - No conviene usar las estadísticas como ranking de zonas en un momento dado; es mejor mirar tendencias de mediano y largo plazo.
+  - Son estimaciones de una muestra, sujetas a error; la muestra es proporcional al tamaño, así que los departamentos chicos son menos precisos.
+  - "Las medias móviles de tres meses son más estables, pero «su interpretación es diferente debido a que estiman otros parámetros de la población» (Introducción del informe de febrero de 2022)."
+  - "Todas las cifras del presente informe están sujetas a revisión (Nota del informe de julio-setiembre de 2024)."
+
+notas:
+  - Solo sitios oficiales del INE (www.gub.uy/instituto-nacional-estadistica y www5.ine.gub.uy) son fuentes válidas.
+  - Edad mínima 14 años; semana de referencia, la primera del mes de la entrevista (sección Conceptos del informe).
+  - "Los informes relevados no traen intervalos de confianza ni coeficientes de variación (observación del observatorio, no del INE)."
+  - "Los criterios AC-L5, AC-L15 y AC-L28 suponen una fila «Total país» en cada informe; en los informes relevados solo está en el de 2026. Ver el PR de F2.1 (#50)."
+  - "Nivel pais: el INE lo publica en este informe solo en algunos períodos. Para los períodos sin «Total país» no se deriva sumando departamentos sin es_estimado = true (SYSTEM.md §4); niveles_publicados no distingue períodos, así que F2.4/F2.5 tienen que controlarlo."

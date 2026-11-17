@@ -7,7 +7,8 @@ type Fuente = { id: string; nombre: string; organismo: string; temas: string[]; 
 const fuentes = leer<Fuente[]>('fuentes.json');
 const historial = leer<{ historial: { fuente_id: string; resultado: string }[] }>('capturas.json').historial;
 const descargas = leer<{ archivos: { nombre: string; grupo: string }[] }>('descargas.json');
-const F = fuentes[0];
+// La fuente del Censo (activa, con capturas e indicadores); hay otras en preparación.
+const F = fuentes.find((f) => f.id === 'ine_unidades_geoestadisticas_2023')!;
 
 test('AC-SRC1: /fuentes lista cada fuente con organismo, temas, nivel, frecuencia, captura y estado', async ({ page }) => {
 	await page.goto('fuentes/');
@@ -21,6 +22,12 @@ test('AC-SRC1: /fuentes lista cada fuente con organismo, temas, nivel, frecuenci
 	await expect(fila).toContainText(/\d\d\/\d\d\/\d{4}/);
 	await expect(fila).toContainText(F.estado);
 	await expect(page.locator('.resumen')).toContainText('Activas');
+});
+
+test('los niveles se muestran con su nombre, nunca con el código interno', async ({ page }) => {
+	await page.goto('fuentes/');
+	await expect(page.getByRole('table', { name: 'Fuentes de datos' })).not.toContainText(/municipio_mvd|area_especial|barrio_mvd/);
+	await expect(page.getByLabel('Nivel').locator('option')).not.toContainText([/_/]);
 });
 
 test('AC-SRC2: los filtros funcionan y se combinan', async ({ page }) => {

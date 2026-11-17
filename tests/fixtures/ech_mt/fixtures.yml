@@ -1,0 +1,24 @@
+# Fixtures de F2.1 (#40). Generado por scripts/crear_fixtures_ech.py; no editar a mano.
+# Cada archivo es un recorte del original (sin <script>, <style> ni imágenes data:); tablas y texto intactos.
+informes:
+- archivo: ech_mt_2022_02.html
+  periodo_fin: 2022-02
+  pagina: https://www.gub.uy/instituto-nacional-estadistica/comunicacion/publicaciones/mercado-trabajo-area-geografica-residencia-ech-febrero-2022
+  url: https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/HTML/ECH/Empleo/Mercado%20Laboral%20por%20%C3%81rea%20Geogr%C3%A1fica%20de%20Residencia%20-%20feb%202022.html
+  sha256_original: 5703534bc4f3e2d7bd90edca3a70e8696f7a8a8e78492436c7d378296e30344d
+  bytes_original: 19065059
+  descargado: '2026-11-17'
+- archivo: ech_mt_2024_09.html
+  periodo_fin: 2024-09
+  pagina: https://www.gub.uy/instituto-nacional-estadistica/comunicacion/publicaciones/mercado-trabajo-area-geografica-residencia-ech-julio-setiembre-2024
+  url: https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/HTML/ECH/Mercado%20de%20trabajo%20por%20%C3%A1rea%20geogr%C3%A1fica/2024/Informe_departamental-Julio-Setiembre2024.html
+  sha256_original: 892aecf54ab8721f12cfa51f6cae7ba1f74ef537bc61b569850726cb6c20b7ec
+  bytes_original: 21706343
+  descargado: '2026-11-17'
+- archivo: ech_mt_2026_09.html
+  periodo_fin: 2026-09
+  pagina: https://www.gub.uy/instituto-nacional-estadistica/comunicacion/publicaciones/mercado-trabajo-area-geografica-residencia-ech-julio-setiembre-2026
+  url: https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/HTML/ECH/Mercado%20de%20trabajo%20por%20%C3%A1rea%20geogr%C3%A1fica/2026/Mercado_trabajo_IN_SOC_MTR_2026_M_09-_v1_0.html
+  sha256_original: bf553c56d653a987f8f9cf2cd2582fe65596e7ec3dd1195db0e285d019cb50ed
+  bytes_original: 19657493
+  descargado: '2026-11-17'

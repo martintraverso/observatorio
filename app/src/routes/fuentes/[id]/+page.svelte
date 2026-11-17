@@ -2,7 +2,7 @@
 	// Detalle de una fuente (M8, AC-SRC3, AC-SRC4).
 	import { resolve } from '$app/paths';
 	import TablaDesplazable from '#lib/TablaDesplazable.svelte';
-	import { NOMBRE_NIVEL, type Nivel } from '#lib/datos.ts';
+	import { etiquetaNivel } from '#lib/datos.ts';
 	import { fecha, numero } from '#lib/formato.ts';
 	import { TEXTO_RESULTADO } from '#lib/fuentes.ts';
 	import { NOMBRE_SITIO, URL_REPOSITORIO } from '#lib/sitio.ts';
@@ -14,7 +14,7 @@
 			`Fuente: ${f.nombre} (${f.id})\n\nQué encontré:\n`
 		)}`
 	);
-	const nivel = (n: string) => NOMBRE_NIVEL[n as Nivel] ?? n;
+	const nivel = etiquetaNivel;
 </script>
 
 <svelte:head>
