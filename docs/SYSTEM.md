@@ -71,9 +71,9 @@ datos/salida/            observatorio.duckdb + *.parquet + web/ (GeoJSON, later 
         │
 GitHub Actions           manual + weekly; pipeline/correr.py, pytest, publishes release "datos-<date>" (latest)
         │
-app/                     static site (to be built) reading the published files
+app/                     static site (SvelteKit, M4) reading the published files
         │
-Cloudflare Pages / GitHub Pages
+GitHub Pages (chosen by the maintainer, 2026-11-17)
 ```
  
 Stack: Python 3.12, geopandas, pyogrio, shapely ≥ 2.1, pandas, pyarrow, duckdb, pytest. App: to be decided in the plan (recommended: SvelteKit with `adapter-static`, MapLibre GL JS, PMTiles).
