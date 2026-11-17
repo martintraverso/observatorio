@@ -1,8 +1,13 @@
-import type { Manifest } from '#lib/datos.ts';
 import { leerDatos } from '#lib/server/datos-build.ts';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = () => {
-	const manifest = leerDatos<Manifest>('manifest.json');
-	return { generado: manifest.generado, archivos: manifest.archivos.length };
-};
+export interface Descarga {
+	nombre: string;
+	grupo: string;
+	descripcion: string;
+	bytes: number;
+	sha256: string;
+}
+
+export const load: PageServerLoad = () =>
+	leerDatos<{ generado: string; licencia: string; cita: string; archivos: Descarga[] }>('descargas.json');
