@@ -44,6 +44,20 @@ test('AC-M1 y AC-G7: coropleta con leyenda, unidades, fuente y atribución del I
 	await expect(page.locator('.maplibregl-ctrl-attrib')).toContainText('Límites: INE, unidades geoestadísticas 2023');
 });
 
+test('AC-G1: los controles del mapa están en español', async ({ page }) => {
+	await page.goto('');
+	await mapaListo(page);
+	await expect(page.getByRole('button', { name: 'Acercar', exact: true })).toBeVisible();
+	await expect(page.getByRole('button', { name: 'Alejar', exact: true })).toBeVisible();
+	// Ningún texto de MapLibre en inglés (aria-label o title) dentro del mapa.
+	const ingles = await page.locator('.maplibregl-map').evaluate((m) =>
+		[...m.querySelectorAll('[aria-label],[title]')]
+			.flatMap((e) => [e.getAttribute('aria-label'), e.getAttribute('title')])
+			.filter((t): t is string => !!t && /\b(zoom|toggle|map|close|enter|exit|find|location|reset|drag|use)\b/i.test(t))
+	);
+	expect(ingles).toEqual([]);
+});
+
 test('AC-M5: el estado del mapa queda en la URL y se restaura', async ({ page }) => {
 	await page.goto('');
 	await mapaListo(page);

@@ -12,6 +12,7 @@
 	import { ATRIBUCION_MAPA, COLOR_SIN_DATO, coloresClases } from './colores.ts';
 	import { clase, ZOOM_SEGMENTOS, type Clases, type NivelMapa } from './estado.ts';
 	import MiniMapa from './MiniMapa.svelte';
+	import { LOCALE_MAPA } from './idioma.ts';
 
 	let {
 		nivel,
@@ -97,6 +98,7 @@
 					dragRotate: false,
 					pitchWithRotate: false,
 					attributionControl: { compact: false, customAttribution: ATRIBUCION_MAPA },
+					locale: LOCALE_MAPA,
 					style: {
 						version: 8,
 						sources: { [FUENTE]: { type: 'vector', url: `pmtiles://${pmtiles}`, promoteId: 'id' } },
