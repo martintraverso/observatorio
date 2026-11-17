@@ -70,7 +70,7 @@ ORDER BY nivel, codigo;
 | `indicadores.json`, `fuentes.json`, `capturas.json` | Catálogos e historial de capturas. |
 | `manifest.json` | Cada archivo con tamaño, sha256 y fecha de generación. |
 
-**tippecanoe** (≥ 2.17) arma el PMTiles. En Debian/Ubuntu: `sudo apt install tippecanoe`. Sin `sudo`, se puede extraer el paquete en el usuario:
+**tippecanoe** arma el PMTiles. CI usa la **2.53.0** (fijada en `.github/actions/tippecanoe`): otra versión da teselas distintas. En Debian 13: `sudo apt install tippecanoe` (trae la 2.53.0). Sin `sudo`, se puede extraer el paquete en el usuario:
 
 ```bash
 mkdir -p ~/.local/opt/tippecanoe && cd ~/.local/opt/tippecanoe
