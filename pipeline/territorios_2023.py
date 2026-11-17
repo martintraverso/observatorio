@@ -251,9 +251,12 @@ def validar(capas, territorios, obs, esperado, niveles_publicados) -> tuple[Cont
     c.chk("Hombres + mujeres = personas", ((hm.pob_hombres + hm.pob_mujeres) == hm.pob_total).all(),
           f"{((hm.pob_hombres + hm.pob_mujeres) != hm.pob_total).sum()} territorios no cuadran")
 
-    # AC-L10 (esquema): tipo de período conocido y inicio <= fin.
-    malos = obs[~obs.tipo_periodo.isin(TIPOS_PERIODO) | (obs.periodo_inicio > obs.periodo_fin)]
-    c.chk("Períodos válidos (tipo conocido, inicio ≤ fin)", malos.empty, f"{len(malos)} observaciones con período inválido")
+    # AC-L10 (esquema): fechas presentes, tipo de período conocido e inicio <= fin.
+    sin_fecha = obs.periodo_inicio.isna() | obs.periodo_fin.isna()
+    con_fecha = obs[~sin_fecha]
+    malos = obs[sin_fecha | ~obs.tipo_periodo.isin(TIPOS_PERIODO)]
+    malos = pd.concat([malos, con_fecha[con_fecha.periodo_inicio > con_fecha.periodo_fin]])
+    c.chk("Períodos válidos (fechas presentes, tipo conocido, inicio ≤ fin)", malos.empty, f"{len(malos)} observaciones con período inválido")
 
     # AC-P5: solo se guardan observaciones en los niveles que publica la fuente, salvo estimaciones.
     nivel_obs = obs.territorio_id.map(territorios.set_index("id").nivel)

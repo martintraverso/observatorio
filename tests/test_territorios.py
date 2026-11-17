@@ -195,7 +195,8 @@ def test_observaciones_tienen_inicio_fin_y_tipo_de_periodo(con):
     tipos = dict(con.execute("select column_name, data_type from information_schema.columns "
                              "where table_name = 'observaciones'").fetchall())
     assert tipos["periodo_inicio"] == "DATE" and tipos["periodo_fin"] == "DATE" and tipos["tipo_periodo"] == "VARCHAR"
-    assert uno(con, "select count(*) from observaciones where periodo_inicio > periodo_fin") == 0
+    assert uno(con, """select count(*) from observaciones where periodo_inicio is null or periodo_fin is null
+                       or tipo_periodo is null or periodo_inicio > periodo_fin""") == 0
     assert uno(con, """select count(*) from observaciones where tipo_periodo not in
                        ('censo','mes','trimestre_movil','trimestre','semestre','anio')""") == 0
     assert "periodo_inicio" in [r[0] for r in con.execute("describe v_observaciones").fetchall()]

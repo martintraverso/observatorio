@@ -92,6 +92,8 @@ def test_trimestre_movil_inicio_fin_y_etiqueta():
     p = trimestre_movil(2022, 2)  # el primero: diciembre 2021 a febrero 2022
     assert (str(p.inicio), str(p.fin), p.etiqueta) == ("2021-12-01", "2022-02-28", "2021-12/2022-02")
     assert str(trimestre_movil(2024, 2).fin) == "2024-02-29"  # bisiesto
+    assert str(trimestre_movil(2026, 12).fin) == "2026-12-31"  # mes de 31 días
+    assert trimestre_movil(2026, 1).etiqueta == "2025-11/2026-01"  # enero cruza el año
 
 
 def test_censo_y_tipos_validos():
@@ -100,6 +102,6 @@ def test_censo_y_tipos_validos():
     p = censo(2023)
     assert (str(p.inicio), str(p.fin), p.etiqueta, p.tipo) == ("2023-01-01", "2023-01-01", "2023", "censo")
     assert set(TIPOS_PERIODO) == {"censo", "mes", "trimestre_movil", "trimestre", "semestre", "anio"}
+    from comun.periodos import trimestre_movil
     with pytest.raises(ValueError):
-        from comun.periodos import trimestre_movil
         trimestre_movil(2026, 13)
