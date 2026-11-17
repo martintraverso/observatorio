@@ -1,0 +1,53 @@
+/* Tokens de diseño (docs/SYSTEM.md §8). Un solo lugar para colores, tipografía y medidas. */
+
+:root {
+	/* Superficies */
+	--fondo: #f6f7f5;
+	--tarjeta: #ffffff;
+	--borde: #dde1e5;
+
+	/* Texto (contraste >= 4.5:1 sobre --fondo y --tarjeta) */
+	--texto: #1b2430;
+	--texto-suave: #4f5b67;
+
+	/* Acciones y estados */
+	--primario: #1f4e8c;
+	--primario-hover: #183f72;
+	--sobre-primario: #ffffff;
+	--acento: #e07a1f; /* selección en el mapa: no usar para texto sobre blanco */
+	--aviso-fondo: #fdf1e6;
+	--aviso-borde: #e07a1f;
+	--aviso-texto: #7a3d06;
+	--foco: #1f4e8c;
+
+	/* Rampa secuencial azul (coropletas) */
+	--azul-1: #eaf1f8;
+	--azul-2: #c3d7ec;
+	--azul-3: #8db4db;
+	--azul-4: #4f86c0;
+	--azul-5: #1f5a96;
+
+	/* Tipografía */
+	--fuente-texto: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+	--fuente-titulos: 'Space Grotesk', var(--fuente-texto);
+	--texto-xs: 0.8125rem;
+	--texto-s: 0.875rem;
+	--texto-m: 1rem;
+	--texto-l: 1.25rem;
+	--texto-xl: 1.75rem;
+	--texto-xxl: 2.25rem;
+
+	/* Medidas */
+	--radio-s: 10px;
+	--radio-m: 12px;
+	--radio-l: 16px;
+	--toque-min: 44px; /* área táctil mínima */
+	--espacio-1: 0.25rem;
+	--espacio-2: 0.5rem;
+	--espacio-3: 0.75rem;
+	--espacio-4: 1rem;
+	--espacio-5: 1.5rem;
+	--espacio-6: 2rem;
+	--ancho-max: 1200px;
+	--sombra: 0 1px 2px rgb(27 36 48 / 0.06), 0 2px 8px rgb(27 36 48 / 0.06);
+}
