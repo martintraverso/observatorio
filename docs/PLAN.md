@@ -68,6 +68,7 @@ Goal: a deployable static app with routing, layout and data loading.
 3. Global layout: header, nav (Mapa · Fichas · Datos · Fuentes), search box (empty), footer with license/attribution.
 4. Formatting helpers for `es-UY` numbers and dates (AC-G1).
 5. Deploy workflow `app.yml` to Cloudflare Pages (or GitHub Pages; ask the maintainer which account to use) triggered by changes in `app/` or a new `datos` release (AC-A4).
+   *Decision (maintainer, 2026-11-17):* GitHub Pages. All territory routes are prerendered (measured: ~14 s for 5,532 pages); data is copied from the latest `web.zip` into the site under `datos-web/`.
 6. Add Playwright with one smoke test per route and axe-core checks (AC-G5).
 Done when: app deploys; AC-G1, AC-G3 (route works on direct load), AC-A4.
  

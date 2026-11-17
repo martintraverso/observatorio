@@ -42,3 +42,62 @@ jobs:
           OBS_DATOS: fixture
           OBS_REQUIERE_PMTILES: "1"
         run: pytest -q
+
+  app:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - run: pip install -r requirements.txt
+        working-directory: .
+
+      # Datos para la app: el pipeline sobre el fixture (sin PMTiles: la app todavía no los usa).
+      - name: Datos del fixture
+        working-directory: .
+        run: |
+          mkdir -p "$RUNNER_TEMP/crudo"
+          cp tests/fixtures/ine_2023_mini.zip "$RUNNER_TEMP/crudo/Unidades_Geoestadisticas_Censo_2023.zip"
+          python pipeline/correr.py --crudo "$RUNNER_TEMP/crudo" --salida "$RUNNER_TEMP/salida" --sin-pmtiles \
+            --argumentos "ine_unidades_geoestadisticas_2023=--esperado tests/fixtures/esperado.yml"
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - run: npm ci
+
+      - name: Tipos (svelte-check)
+        run: npm run check
+
+      - name: Tests unitarios (vitest)
+        run: npm run test:unit
+
+      - name: Build (como GitHub Pages)
+        env:
+          BASE_PATH: /observatorio
+          DATOS_WEB: ${{ runner.temp }}/salida/web
+        run: npm run build
+
+      - run: npx playwright install --with-deps chromium
+
+      - name: Tests e2e (Playwright + axe)
+        run: npm run test:e2e
+
+      - uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: playwright
+          path: app/test-results
+          retention-days: 7

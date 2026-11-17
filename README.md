@@ -105,6 +105,14 @@ python scripts/crear_fixture.py datos/crudo/Unidades_Geoestadisticas_Censo_2023.
 2. Un script `pipeline/<fuente>.py` que use `pipeline/comun/` (huella, capturas e historial, controles, salida). `territorios_2023.py` sirve de modelo.
 3. Tests sobre un fixture chico de esa fuente.
 
+### La app
+
+`app/` es un sitio estático (SvelteKit) que lee los archivos de `datos/salida/web/` y se publica en GitHub Pages. Ver `app/README.md`.
+
+```bash
+cd app && npm ci && npm run dev
+```
+
 ### Reglas que sigue la base
 
 - **Cada dato se guarda en el nivel en que se publica.** La población de un departamento no es la suma de sus secciones: el INE ubica a parte de las personas (enumeración administrativa) solo a nivel de localidad o departamento. En 2023 la diferencia total es de 157.929 personas. Ver `reporte_validacion.md`.
