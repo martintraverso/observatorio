@@ -45,6 +45,18 @@ test('AC-S2: un código INE + Enter va al territorio', async ({ page }) => {
 	}
 });
 
+test('AC-S2: Enter antes de que termine de cargar el índice igual va al territorio', async ({ page }) => {
+	// Índice lento a propósito (en Safari, con los datos completos, Enter llegaba antes y se perdía).
+	await page.route('**/territorios_index.json', async (ruta) => {
+		await new Promise((r) => setTimeout(r, 1500));
+		await ruta.continue();
+	});
+	const t = de('seccion');
+	await campo(page).fill(t.codigo);
+	await campo(page).press('Enter');
+	await expect(page).toHaveURL(new RegExp(`/territorio/seccion/${t.codigo}$`), { timeout: 15_000 });
+});
+
 test('AC-S3: los resultados muestran nivel y padre', async ({ page }) => {
 	const seccion = de('seccion');
 	await campo(page).fill(seccion.codigo);
@@ -115,5 +127,5 @@ test('accesibilidad con la lista abierta (axe)', async ({ page }) => {
 test('AC-S1: "paysandu" encuentra "Paysandú" (datos completos)', async ({ page }) => {
 	test.skip(!indice.some((t) => t.nivel === 'departamento' && t.codigo === '11'), 'Paysandú no está en el fixture');
 	await campo(page).fill('paysandu');
-	await expect(lista(page).getByRole('option').first()).toContainText('Paysandú');
+	await expect(lista(page).getByRole('option').first()).toContainText('Paysandú', { timeout: 15_000 });
 });
