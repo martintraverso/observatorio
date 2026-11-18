@@ -60,7 +60,30 @@ test('AC-L24: la leyenda y el panel nombran el trimestre móvil y la fuente', as
 	await expect(leyenda(page)).toContainText(/\d+,\d a \d+,\d/); // clases con decimales
 	await expect(panel(page)).toContainText(`Tasa de actividad · ${etiqueta}`);
 	await expect(panel(page)).toContainText('Fuente: INE, ECH');
-	await expect(panel(page)).toContainText('ficha de Uruguay'); // el INE publica el total del país
+	await expect(panel(page)).toContainText('el INE lo publica para este período'); // total del país del INE
 	await expect(page.getByRole('combobox', { name: 'Período' })).toHaveValue(ultimo);
 	await expect(page.getByRole('combobox', { name: 'Período' }).locator('option:checked')).toHaveText(etiqueta);
+});
+
+test('AC-M3 con municipios: el municipio seleccionado se resalta y su panel se abre', async ({ page }) => {
+	await page.goto(`?indicador=tasa_desempleo&nivel=municipio_mvd&periodo=${ultimo}&territorio=municipio_mvd/C`);
+	await expect(panel(page)).toContainText('Municipio C');
+	await page.locator('section[aria-label="Mapa interactivo"]').scrollIntoViewIfNeeded();
+	const activar = page.getByRole('button', { name: 'Ver el mapa interactivo' });
+	if (await activar.isVisible()) await activar.click();
+	await page.waitForFunction(() => {
+		type M = { loaded(): boolean; getFilter(l: string): unknown };
+		const m = (window as unknown as { __mapa?: M }).__mapa;
+		return !!m && m.loaded() && JSON.stringify(m.getFilter('seleccion-municipio_mvd')).includes('INE-2023/municipio_mvd/C');
+	}, undefined, { timeout: 20_000 });
+});
+
+test('la nota del total del país depende del período (nunca se suma)', async ({ page }) => {
+	const primero = trabajo[0].periodos[0]; // 2021-12/2022-02: el INE no publicó total del país
+	await page.goto(`?indicador=tasa_actividad&nivel=departamento&periodo=${primero}&territorio=departamento/10`);
+	await expect(panel(page)).toContainText('el INE no lo publicó para este período');
+	await page.goto(`?indicador=tasa_actividad&nivel=departamento&periodo=${ultimo}&territorio=departamento/10`);
+	await expect(panel(page)).toContainText('el INE lo publica para este período');
+	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023&territorio=departamento/10');
+	await expect(panel(page)).toContainText('esta fuente no publica un total nacional');
 });

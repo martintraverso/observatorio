@@ -180,3 +180,17 @@ test('accesibilidad del mapa con el panel abierto (axe)', async ({ page }) => {
 	const graves = violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');
 	expect(graves.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(' ')}`)).toEqual([]);
 });
+
+test('el selector de nivel ofrece solo niveles con datos y un nivel sin valores no rompe la página', async ({ page }) => {
+	const indicadores = JSON.parse(readFileSync('build/datos-web/indicadores.json', 'utf-8')) as { niveles: string[] }[];
+	const conMunicipio = indicadores.some((i) => i.niveles.includes('municipio_mvd'));
+	const errores: string[] = [];
+	page.on('pageerror', (e) => errores.push(e.message));
+	await page.goto('?indicador=pob_total&nivel=municipio_mvd&periodo=2023');
+	const nivel = page.getByRole('group', { name: 'Nivel territorial' });
+	await expect(nivel.getByRole('radio', { name: 'Municipio (Montevideo)' })).toHaveCount(conMunicipio ? 1 : 0);
+	// llegado por URL a un nivel sin datos de Personas: aviso de AC-M2 y ningún error
+	await expect(page.getByRole('status').filter({ hasText: 'no se publica por municipio (Montevideo)' })).toBeVisible();
+	await page.waitForLoadState('networkidle');
+	expect(errores).toEqual([]);
+});

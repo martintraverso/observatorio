@@ -15,8 +15,10 @@
 		etiquetaPeriodo,
 		fuenteCorta,
 		indicadoresDelTema,
-		NIVELES_MAPA,
+		minuscula,
+		nivelesConDatos,
 		nivelMasDetallado,
+		totalDelPais,
 		TEMAS,
 		urlDesdeEstado,
 		ZOOM_SEGMENTOS,
@@ -55,6 +57,10 @@
 		const f = data.fuentes.find((x) => x.id === indicador?.fuente_id);
 		return f ? fuenteCorta(f) : '';
 	});
+	let niveles = $derived(nivelesConDatos(data.indicadores));
+	// Total del país publicado por la fuente (valores/pais.json), para la nota del panel (F2.8b).
+	let valoresPais = $state<ValoresNivel | null>(null);
+	let totalPais = $derived(totalDelPais(valoresPais, estado.indicador, estado.periodo));
 	let seleccionadoId = $derived(estado.territorio ? `INE-2023/${estado.territorio}` : null);
 	let faltaZoom = $derived(estado.nivel === 'segmento' && zoom < ZOOM_SEGMENTOS);
 
@@ -80,9 +86,21 @@
 	$effect(() => {
 		const nivel = estado.nivel;
 		if (!montado) return;
-		leerJson<ValoresNivel>(`valores/${nivel}.json`).then((v) => {
-			if (estado.nivel === nivel) valoresNivel = v;
-		});
+		leerJson<ValoresNivel>(`valores/${nivel}.json`)
+			.then((v) => {
+				if (estado.nivel === nivel) valoresNivel = v;
+			})
+			.catch(() => {
+				// Nivel sin valores publicados (p. ej. llegado por URL): el aviso de AC-M2 lo explica.
+				if (estado.nivel === nivel) valoresNivel = null;
+			});
+	});
+
+	$effect(() => {
+		if (!montado || !indicador?.niveles.includes('pais') || valoresPais) return;
+		leerJson<ValoresNivel>('valores/pais.json')
+			.then((v) => (valoresPais = v))
+			.catch(() => (valoresPais = null));
 	});
 
 	// Ficha del territorio seleccionado.
@@ -133,7 +151,7 @@
 
 	function hastaDonde(i: (typeof data.indicadores)[number]): string {
 		const n = nivelMasDetallado(i);
-		return n ? `hasta ${ETIQUETA_NIVEL_MAPA[n].toLowerCase()}` : 'sin datos en el mapa';
+		return n ? `hasta ${minuscula(ETIQUETA_NIVEL_MAPA[n])}` : 'sin datos en el mapa';
 	}
 </script>
 
@@ -209,7 +227,7 @@
 		<fieldset>
 			<legend>Nivel territorial</legend>
 			<div class="segmentado">
-				{#each NIVELES_MAPA as n (n)}
+				{#each niveles as n (n)}
 					<label class:activo={estado.nivel === n}>
 						<input type="radio" name="nivel" value={n} checked={estado.nivel === n} onchange={() => elegirNivel(n)} />
 						{ETIQUETA_NIVEL_MAPA[n]}
@@ -249,7 +267,7 @@
 					{#if aviso.alternativa}
 						{@const alt = aviso.alternativa}
 						<button type="button" onclick={() => elegirNivel(alt)}>
-							Ver por {ETIQUETA_NIVEL_MAPA[alt].toLowerCase()}
+							Ver por {minuscula(ETIQUETA_NIVEL_MAPA[alt])}
 						</button>
 					{/if}
 				</div>
@@ -268,7 +286,7 @@
 				{ficha}
 				indicador={estado.indicador}
 				periodo={estado.periodo}
-				conTotalPais={!!indicador?.niveles.includes('pais')}
+				{totalPais}
 				oncerrar={() => (estado.territorio = null)}
 			/>
 		{:else if errorFicha}

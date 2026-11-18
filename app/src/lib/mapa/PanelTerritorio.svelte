@@ -10,14 +10,14 @@
 		ficha,
 		indicador,
 		periodo,
-		conTotalPais = false,
+		totalPais = 'nunca',
 		oncerrar
 	}: {
 		ficha: Ficha;
 		indicador: string;
 		periodo: string;
-		/** El indicador también se publica para el país (p. ej. la ECH en sus informes recientes). */
-		conTotalPais?: boolean;
+		/** Si la fuente publica el total del país en este período, solo en otros o nunca (estado.totalDelPais). */
+		totalPais?: 'periodo' | 'otros' | 'nunca';
 		oncerrar: () => void;
 	} = $props();
 
@@ -56,10 +56,14 @@
 			</p>
 			<p class="suave fuente">Fuente: {fuente(principal)}</p>
 			<p class="suave fuente">
-				{#if conTotalPais}
-					Total del país: el INE lo publica en esta fuente; está en la <a href={hrefFicha({ nivel: 'pais', codigo: 'UY' })}
-						>ficha de Uruguay</a
+				{#if totalPais === 'periodo'}
+					Total del país: el INE lo publica para este período; está en la <a
+						href={hrefFicha({ nivel: 'pais', codigo: 'UY' })}>ficha de Uruguay</a
 					>. El observatorio no suma territorios para calcularlo.
+				{:else if totalPais === 'otros'}
+					Total del país: el INE no lo publicó para este período (sí para otros, en la <a
+						href={hrefFicha({ nivel: 'pais', codigo: 'UY' })}>ficha de Uruguay</a
+					>), y el observatorio no suma territorios para calcularlo.
 				{:else}
 					Total del país: esta fuente no publica un total nacional, y el observatorio no suma territorios para
 					calcularlo.

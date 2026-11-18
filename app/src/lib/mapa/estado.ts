@@ -56,6 +56,25 @@ export function avisoNivel(ind: IndicadorMapa, nivel: NivelMapa): { mensaje: str
 	};
 }
 
+/** Niveles del mapa en que algún indicador tiene datos (los demás no se ofrecen en el selector). */
+export function nivelesConDatos(indicadores: IndicadorMapa[]): NivelMapa[] {
+	return NIVELES_MAPA.filter((n) => indicadores.some((i) => i.niveles.includes(n)));
+}
+
+/**
+ * Si la fuente publica el total del país para este indicador: en este período ('periodo'), solo en otros
+ * ('otros', p. ej. la ECH antes de 2025) o nunca ('nunca'). Nunca se calcula sumando territorios.
+ */
+export function totalDelPais(
+	valoresPais: { indicadores: Record<string, Record<string, Record<string, number | null>>> } | null,
+	indicador: string,
+	periodo: string
+): 'periodo' | 'otros' | 'nunca' {
+	const porPeriodo = valoresPais?.indicadores[indicador];
+	if (!porPeriodo || !Object.values(porPeriodo).some((v) => v.UY != null)) return 'nunca';
+	return porPeriodo[periodo]?.UY != null ? 'periodo' : 'otros';
+}
+
 /** "Municipio (Montevideo)" -> "municipio (Montevideo)". */
 export function minuscula(s: string): string {
 	return s.charAt(0).toLowerCase() + s.slice(1);
@@ -72,6 +91,7 @@ export function etiquetaPeriodo(periodo: string): string {
 	const [, a1, m1, a2, m2] = m;
 	const desde = MESES[Number(m1) - 1];
 	const hasta = MESES[Number(m2) - 1];
+	if (!desde || !hasta) return periodo;
 	return a1 === a2 ? `Trimestre móvil ${desde}–${hasta} ${a2}` : `Trimestre móvil ${desde} ${a1}–${hasta} ${a2}`;
 }
 

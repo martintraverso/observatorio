@@ -35,7 +35,7 @@
 	const FUENTE = 'territorios';
 	const NIVELES = NIVELES_MAPA; // capas que se pintan (incluye municipio_mvd, F2.8b)
 	// Capas del PMTiles donde puede estar un territorio seleccionado (también desde la búsqueda).
-	const NIVELES_SELECCION = ['departamento', 'area_especial', 'seccion', 'segmento', 'localidad', 'barrio_mvd', 'ccz_mvd'];
+	const NIVELES_SELECCION = ['departamento', 'area_especial', 'municipio_mvd', 'seccion', 'segmento', 'localidad', 'barrio_mvd', 'ccz_mvd'];
 	const URUGUAY: [[number, number], [number, number]] = [
 		[-58.5, -35.05],
 		[-53.05, -30.05]

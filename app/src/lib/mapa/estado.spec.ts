@@ -10,7 +10,9 @@ import {
 	fuenteCorta,
 	indicadoresDelTema,
 	NIVELES_MAPA,
+	nivelesConDatos,
 	nivelMasDetallado,
+	totalDelPais,
 	urlDesdeEstado,
 	type IndicadorMapa
 } from './estado';
@@ -97,6 +99,20 @@ describe('F2.8b: Trabajo en el mapa', () => {
 		expect(etiquetaPeriodo('2026-07/2026-09')).toBe('Trimestre móvil jul–set 2026');
 		expect(etiquetaPeriodo('2025-12/2026-02')).toBe('Trimestre móvil dic 2025–feb 2026');
 		expect(etiquetaPeriodo('2023')).toBe('2023');
+	});
+
+	it('el selector ofrece solo niveles con datos (con solo el Censo, sin municipio)', () => {
+		expect(nivelesConDatos([PERSONAS])).toEqual(['departamento', 'seccion', 'segmento']);
+		expect(nivelesConDatos([PERSONAS, ACTIVIDAD])).toEqual(['departamento', 'municipio_mvd', 'seccion', 'segmento']);
+	});
+
+	it('total del país según el período: nunca se suma', () => {
+		const pais = { indicadores: { tasa_actividad: { '2026-07/2026-09': { UY: 64.1 } } } };
+		expect(totalDelPais(pais, 'tasa_actividad', '2026-07/2026-09')).toBe('periodo');
+		expect(totalDelPais(pais, 'tasa_actividad', '2021-12/2022-02')).toBe('otros');
+		expect(totalDelPais(pais, 'pob_total', '2023')).toBe('nunca');
+		expect(totalDelPais(null, 'tasa_actividad', '2026-07/2026-09')).toBe('nunca');
+		expect(etiquetaPeriodo('2026-13/2027-01')).toBe('2026-13/2027-01');
 	});
 
 	it('AC-L24: fuente corta («INE, ECH»)', () => {
