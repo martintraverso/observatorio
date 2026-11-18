@@ -5,7 +5,8 @@ territorio e indicador, sin red ni disco. La captura (descarga, sha256, captura_
 
 Cada informe trae 6 cuadros (ver fuentes/ine_ech_mercado_trabajo_departamental.yml):
   1-3: tasas, miles de personas y no registro por departamento (y «Total país» en los informes recientes)
-  4-6: lo mismo por municipio de Montevideo (y «Total Montevideo», que repite el departamento 01)
+  4-6: lo mismo por municipio de Montevideo (y «Total Montevideo», que repite el departamento 01, salvo
+       diferencias de redondeo de hasta 0,1 que quedan como advertencia)
 
 Los formatos conocidos (encabezados por época, columna PET, filas de total, coma o punto decimal) se
 aceptan de forma explícita; cualquier otro hace fallar el informe (AC-L9). No se descarta ninguna fila en
@@ -54,6 +55,7 @@ CUADROS = [
 ]
 MUNICIPIOS = ["A", "B", "C", "CH", "D", "E", "F", "G"]
 TOTAL_PAIS, TOTAL_MVD = "total pais", "total montevideo"
+TOLERANCIA_TOTAL = 0.1  # diferencia de redondeo aceptada entre «Total Montevideo» y el departamento 01
 
 MESES = {"enero": 1, "febrero": 2, "marzo": 3, "abril": 4, "mayo": 5, "junio": 6, "julio": 7, "agosto": 8,
          "setiembre": 9, "septiembre": 9, "octubre": 10, "noviembre": 11, "diciembre": 12}
@@ -310,10 +312,20 @@ def parsear_informe(html: str, archivo: str | None = None) -> pd.DataFrame:
                               "es_estimado": False, **periodo.columnas()})
 
     df = pd.DataFrame(filas)
-    # «Total Montevideo» no se guarda: tiene que repetir exactamente al departamento 01 (AC-L5).
+    # «Total Montevideo» no se guarda: tiene que repetir al departamento 01 (AC-L5). El INE a veces publica
+    # una diferencia de redondeo (0,1) entre los cuadros 4-6 y los 1-3: se acepta como advertencia y se
+    # guarda el valor del departamento. Una diferencia mayor frena el informe (decisión del mantenedor, #59).
     mvd = df[df.territorio_id == tid("departamento", "01")].set_index("indicador").valor
-    distintos = {i: (v, mvd.get(i)) for i, v in total_mvd.items() if mvd.get(i) != v}
-    if distintos:
-        raise ErrorInforme(f"«Total Montevideo» no coincide con el departamento Montevideo: {distintos}")
+    distintos = {i: (v, float(mvd.get(i))) for i, v in total_mvd.items() if mvd.get(i) != v}
+    grandes = {i: d for i, d in distintos.items() if abs(d[0] - d[1]) > TOLERANCIA_TOTAL + 1e-9}
+    if grandes:
+        raise ErrorInforme(f"«Total Montevideo» no coincide con el departamento Montevideo: {grandes}")
+    df.attrs["advertencias"] = [
+        f"«Total Montevideo» {i}: {fmt(t)} en los cuadros de municipios y {fmt(d)} en los de departamentos "
+        f"(se guarda {fmt(d)}, el del departamento)" for i, (t, d) in sorted(distintos.items())]
     return df
+
+
+def fmt(v: float) -> str:
+    return f"{v:g}".replace(".", ",")
 

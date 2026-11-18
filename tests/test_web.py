@@ -225,9 +225,11 @@ def test_manifest_lista_cada_archivo_con_tamano_y_sha256(web):
 # ------------------------------------------------------------------ datos para el mapa (M6)
 
 def test_valores_por_nivel_son_los_guardados(web, con):
-    """valores/<nivel>.json tiene exactamente las observaciones de ese nivel (nunca sumas)."""
+    """valores/<nivel>.json tiene exactamente las observaciones de ese nivel (nunca sumas), de las fuentes
+    activas: una fuente con `cargar: true` todavía no activa no está en la app (F2.5d)."""
     niveles = [r[0] for r in con.execute("""
         select distinct t.nivel from observaciones o join territorios t on t.id = o.territorio_id
+        join capturas c on c.id = o.captura_id join fuentes f on f.id = c.fuente_id and f.estado = 'activa'
     """).fetchall()]
     assert sorted(p.stem for p in (web / "valores").glob("*.json")) == sorted(niveles)
     for nivel in niveles:
@@ -235,7 +237,8 @@ def test_valores_por_nivel_son_los_guardados(web, con):
         assert v["nivel"] == nivel
         db = con.execute("""
             select o.indicador, o.periodo, t.codigo, o.valor from observaciones o
-            join territorios t on t.id = o.territorio_id where t.nivel = ?
+            join territorios t on t.id = o.territorio_id
+            join capturas c on c.id = o.captura_id join fuentes f on f.id = c.fuente_id and f.estado = 'activa' where t.nivel = ?
         """, [nivel]).fetchall()
         en_archivo = [(i, p, c, val) for i, ps in v["indicadores"].items() for p, cs in ps.items()
                       for c, val in cs.items()]
@@ -282,7 +285,8 @@ def test_csv_de_observaciones(salida, con):
     assert list(csv.columns) == ["territorio_id", "nivel", "codigo", "nombre", "indicador", "periodo", "periodo_inicio",
                                  "periodo_fin", "tipo_periodo", "valor", "unidad", "es_estimado", "fuente",
                                  "archivo_origen", "sha256"]
-    assert len(csv) == con.execute("select count(*) from observaciones").fetchone()[0]
+    assert len(csv) == con.execute("""select count(*) from observaciones o
+        join capturas c on c.id = o.captura_id join fuentes f on f.id = c.fuente_id and f.estado = 'activa'""").fetchone()[0]  # lo que muestra la app (fuentes activas)
     # valor puede venir vacío si el INE no lo publica (barrio 'N/a', código 1000000); el resto no.
     assert csv.drop(columns='valor').notna().all().all()
     flores = csv[(csv.territorio_id == "INE-2023/departamento/07") & (csv.indicador == "pob_total")]
