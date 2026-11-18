@@ -4,6 +4,7 @@
 	import { hrefFicha, NOMBRE_NIVEL, type Ficha, type Observacion } from '../datos.ts';
 	import { publicado } from '../formato.ts';
 	import { etiquetaPeriodo, fuenteCorta } from './estado.ts';
+	import AdvertenciasFuente from '../AdvertenciasFuente.svelte';
 	import MiniMapa from './MiniMapa.svelte';
 
 	let {
@@ -32,6 +33,7 @@
 		return f ? fuenteCorta(f) : o.captura_id;
 	}
 	const ind = (o: Observacion) => ficha.indicadores[o.indicador];
+	const refFuente = (o: Observacion) => ficha.fuentes[ficha.capturas[o.captura_id]?.fuente_id];
 </script>
 
 <article class="panel" aria-labelledby="panel-titulo">
@@ -69,6 +71,7 @@
 					calcularlo.
 				{/if}
 			</p>
+			<AdvertenciasFuente fuente={refFuente(principal)?.nombre ?? ''} advertencias={refFuente(principal)?.advertencias ?? []} />
 		</div>
 	{:else}
 		<p class="aviso">Este territorio no tiene datos de este indicador para {etiquetaPeriodo(periodo)}.</p>

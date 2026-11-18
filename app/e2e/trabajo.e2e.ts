@@ -124,3 +124,37 @@ test('AC-L25: municipios con serie y comparación; la ficha del país, sin líne
 	await expect(page.locator('#trabajo').getByRole('img')).toHaveAttribute('data-puntos-pais', '0');
 	await expect(page.locator('#trabajo')).not.toContainText('Total del país (lo publica');
 });
+
+// ---------------------------------------------------------------- F2.8d (#68): advertencias y sin rankings (AC-L26)
+
+const TEMAS_ADVERTENCIAS = [/lugar de residencia/, /zafrales o estacionales/, /muestra/, /ranking/];
+
+test('AC-L26: las advertencias del INE se ven junto a los datos de trabajo (ficha y panel)', async ({ page }) => {
+	await page.goto('territorio/departamento/10');
+	const enFicha = page.locator('#trabajo').getByRole('group').filter({ hasText: 'Advertencias del INE' });
+	await expect(enFicha).toBeVisible();
+	for (const t of TEMAS_ADVERTENCIAS) await expect(enFicha).toContainText(t);
+	await expect(page.locator('#poblacion')).not.toContainText('Advertencias del INE'); // el Censo no las trae
+	expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+
+	await page.goto(`?indicador=tasa_desempleo&nivel=departamento&periodo=${ultimo}&territorio=departamento/10`);
+	const enPanel = panel(page).getByRole('group').filter({ hasText: 'Advertencias del INE' });
+	await expect(enPanel).toBeVisible();
+	for (const t of TEMAS_ADVERTENCIAS) await expect(enPanel).toContainText(t);
+	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023&territorio=departamento/10');
+	await expect(panel(page)).toContainText('Maldonado');
+	await expect(panel(page)).not.toContainText('Advertencias del INE');
+});
+
+test('AC-L26: ninguna vista ofrece un ranking de territorios por el valor de un período', async ({ page }) => {
+	for (const ruta of ['', 'fichas', 'territorio/departamento/01', 'territorio/pais/UY']) {
+		await page.goto(ruta);
+		await expect(page.locator('[aria-sort], th button')).toHaveCount(0); // sin columnas ordenables
+	}
+	// los municipios de Montevideo se listan por código, no por valor
+	await page.goto('territorio/departamento/01');
+	await page.getByRole('tab', { name: /^Municipio \(Montevideo\)/ }).click();
+	const nombres = await page.getByRole('tabpanel').locator('tbody tr th, tbody tr td:first-child').allTextContents();
+	const letras = nombres.map((n) => n.trim().replace(/^Municipio /, '')).filter((n) => /^[A-Z]{1,2}$/.test(n));
+	expect(letras).toEqual(['A', 'B', 'C', 'CH', 'D', 'E', 'F', 'G']);
+});

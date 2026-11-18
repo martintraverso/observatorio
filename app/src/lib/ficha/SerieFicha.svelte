@@ -6,6 +6,7 @@
 	import type { Ficha, Observacion } from '#lib/datos.ts';
 	import { publicado } from '#lib/formato.ts';
 	import { etiquetaPeriodo } from '#lib/mapa/estado.ts';
+	import AdvertenciasFuente from '#lib/AdvertenciasFuente.svelte';
 	import { puntosSerie } from './logica.ts';
 
 	let {
@@ -59,6 +60,7 @@
 	let marcas = $derived([rango.min, (rango.min + rango.max) / 2, rango.max]);
 	let ultimo = $derived(p.territorio.at(-1));
 	let ultimoObs = $derived((series.get(indicador) ?? []).at(-1));
+	let fuenteRef = $derived(ultimoObs ? ficha.fuentes[ficha.capturas[ultimoObs.captura_id]?.fuente_id] : undefined);
 	let paisUltimo = $derived(p.pais.find((q) => q.periodo === ultimo?.periodo));
 	let resumen = $derived(
 		ultimo
@@ -115,6 +117,8 @@
 			</div>
 		</dl>
 	{/if}
+
+	<AdvertenciasFuente fuente={fuenteRef?.nombre ?? ''} advertencias={fuenteRef?.advertencias ?? []} />
 
 	<details>
 		<summary>Ver los datos de la serie ({[...series.values()].reduce((n, s) => n + s.length, 0)} valores)</summary>
