@@ -57,7 +57,14 @@ TOTAL_PAIS, TOTAL_MVD = "total pais", "total montevideo"
 
 MESES = {"enero": 1, "febrero": 2, "marzo": 3, "abril": 4, "mayo": 5, "junio": 6, "julio": 7, "agosto": 8,
          "setiembre": 9, "septiembre": 9, "octubre": 10, "noviembre": 11, "diciembre": 12}
-MESES_CORTOS = {m[:3]: n for m, n in MESES.items()}
+
+
+def mes(palabra: str) -> int | None:
+    """'setiembre', 'set', 'sept' o 'agos' -> número de mes: el nombre o un prefijo de 3 letras o más."""
+    if len(palabra) < 3:
+        return None
+    numeros = {n for nombre, n in MESES.items() if nombre.startswith(palabra)}
+    return numeros.pop() if len(numeros) == 1 else None
 
 
 class ErrorInforme(ValueError):
@@ -146,8 +153,8 @@ def _fin_del_rango(texto: str) -> tuple[int, int] | None:
     """
     fichas = []
     for palabra in re.findall(r"[a-z]+|\d+", texto):
-        if palabra in MESES or (len(palabra) == 3 and palabra in MESES_CORTOS):
-            fichas.append(("m", MESES.get(palabra) or MESES_CORTOS[palabra]))
+        if m := mes(palabra):
+            fichas.append(("m", m))
         elif re.fullmatch(r"(19|20)\d\d", palabra):
             fichas.append(("a", int(palabra)))
     forma = "".join(f for f, _ in fichas)
@@ -196,6 +203,14 @@ def _periodo_archivo(nombre: str) -> tuple[int, int] | None:
     if c := CODIGO_DOCUMENTO.search(n):
         return int(c.group(1)), int(c.group(2))
     return _fin_del_rango(n)
+
+
+def periodo_de_nombre(nombre: str) -> Periodo | None:
+    """Trimestre móvil a partir de un nombre de archivo o de publicación, o None si no trae período."""
+    fin = _periodo_archivo(nombre)
+    if fin and not 1 <= fin[1] <= 12:
+        raise ErrorInforme(f"Período desconocido: mes {fin[1]}")
+    return trimestre_movil(*fin) if fin else None
 
 
 def periodo_del_informe(html: str, archivo: str | None = None, texto: str | None = None) -> Periodo:

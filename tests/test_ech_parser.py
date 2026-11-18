@@ -213,6 +213,8 @@ def test_periodos_que_cruzan_el_año(texto, fin):
     ("mercado-trabajo-area-geografica-residencia-ech-noviembre-2023-enero-2024", "2023-11/2024-01"),
     ("Mercado de trabajo por área geográfica de residencia - jul set 2022.html", "2022-07/2022-09"),
     ("Informe_departamental-JUNIO-2022.knit.html", "2022-04/2022-06"),
+    ("Mercado de trabajo por área geográfica de residencia - jun agos 2022.html", "2022-06/2022-08"),
+    ("Boletín_departamental-Noviembre-Enero_2026.html", "2025-11/2026-01"),
 ])
 def test_periodo_desde_nombres_reales_de_archivo(archivo, etiqueta):
     assert periodo_del_informe("<html></html>", archivo).etiqueta == etiqueta
