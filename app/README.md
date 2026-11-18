@@ -20,11 +20,14 @@ Las fuentes que se cargan pero todavía no están activas (p. ej. la ECH, hasta 
 no en la app. Para desarrollar con ellas, armá una web aparte (no se publica; el workflow nunca usa la opción):
 
 ```sh
-python pipeline/web.py --salida datos/salida --incluir-en-preparacion   # escribe datos/salida/web
-cd app && DATOS_WEB=../datos/salida/web npm run dev                     # o build + test:e2e
+mkdir -p ~/.cache/otu-vista-previa
+cp datos/salida/*.parquet datos/salida/observatorio.duckdb ~/.cache/otu-vista-previa/
+python pipeline/web.py --salida ~/.cache/otu-vista-previa --incluir-en-preparacion
+cd app && DATOS_WEB=~/.cache/otu-vista-previa/web npm run dev           # o build + test:e2e
 ```
 
-Después volvé a correr `python pipeline/web.py` sin la opción para no dejar la vista previa como web local.
+Usá una salida aparte: `web.py` también reescribe `descargas/`, y con una vista previa en `datos/salida` el CSV
+local incluiría la fuente en preparación (y `OBS_DATOS=completo pytest` lo marca como falla).
 
 ## Tests
 
