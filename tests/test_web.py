@@ -376,8 +376,11 @@ def test_construir_fichas_suma_las_advertencias_de_la_fuente(salida):
     obs = pd.read_parquet(salida / "observaciones.parquet")
     capturas = pd.read_parquet(salida / "capturas.parquet")
     fuentes = pd.read_parquet(salida / "fuentes.parquet")
-    fid = capturas.fuente_id.iloc[0]
+    # el Censo: está en todas las salidas (con datos completos también hay ECH, y no en todas las fichas)
+    fid = "ine_unidades_geoestadisticas_2023"
     fichas = construir_fichas(t, obs, pd.read_parquet(salida / "indicadores.parquet"), capturas, fuentes,
                               pd.read_parquet(salida / "correspondencias.parquet"), {fid: ["Advertencia de prueba."]})
-    con_datos = [f for f in fichas.values() if f["observaciones"]]
-    assert con_datos and all(f["fuentes"][fid]["advertencias"] == ["Advertencia de prueba."] for f in con_datos)
+    con_fuente = [f for f in fichas.values() if fid in f["fuentes"]]
+    assert con_fuente and all(f["fuentes"][fid]["advertencias"] == ["Advertencia de prueba."] for f in con_fuente)
+    otras = [r for f in fichas.values() for k, r in f["fuentes"].items() if k != fid]
+    assert all("advertencias" not in r for r in otras)  # solo la fuente que las tiene
