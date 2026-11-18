@@ -8,7 +8,10 @@ Recorte: se quitan los <script> (gráficos plotly embebidos como JSON, ~20 MB), 
 embebido, ~400 kB) y las imágenes en data: URIs. Las tablas y el texto del informe quedan tal cual.
 Los originales completos se capturan en F2.5 (datos/crudo/ech_mt/ y release crudos).
 
-Uso: python scripts/crear_fixtures_ech.py [--salida tests/fixtures/ech_mt]
+Con --descubrimiento guarda en cambio, en tests/fixtures/ech_mt/descubrimiento/, el <main> de las páginas
+0, 10 y 11 del listado oficial y de cada publicación que enlazan (F2.5a, #56).
+
+Uso: python scripts/crear_fixtures_ech.py [--salida tests/fixtures/ech_mt] [--descubrimiento]
 """
 
 from __future__ import annotations
@@ -60,10 +63,42 @@ def recortar(html: bytes) -> bytes:
     return DATA_URI.sub(rb'\1=\2\2', html)
 
 
+LISTADO = "https://www.gub.uy/instituto-nacional-estadistica/tematica/mercado-trabajo-area-geografica-residencia"
+MAIN = re.compile(rb"<main\b.*?</main\s*>", re.S | re.I)
+ENLACE_PUBLICACION = re.compile(rb'href="(/instituto-nacional-estadistica/comunicacion/publicaciones/'
+                                rb'mercado-trabajo-area-geografica-residencia-ech-[^"]+)"')
+
+
+def solo_main(html: bytes, url: str) -> bytes:
+    """El <main> de una página de gub.uy (sin scripts, estilos ni menús), con su URL de origen."""
+    m = MAIN.search(recortar(html))
+    if not m:
+        raise ValueError(f"La página no tiene <main>: {url}")
+    return (f"<!-- {url} · descargado {dt.date.today().isoformat()} -->\n<html><body>".encode()
+            + m.group(0) + b"</body></html>\n")
+
+
+def fixtures_descubrimiento(salida: Path) -> None:
+    salida.mkdir(parents=True, exist_ok=True)
+    for pagina in (0, 10, 11):
+        url = f"{LISTADO}?page={pagina}"
+        html = bajar(url)
+        (salida / f"listado_{pagina}.html").write_bytes(solo_main(html, url))
+        for ruta in sorted(set(ENLACE_PUBLICACION.findall(html))):
+            pub = "https://www.gub.uy" + ruta.decode()
+            nombre = pub.rsplit("-ech-", 1)[1]
+            (salida / f"pub_{nombre}.html").write_bytes(solo_main(bajar(pub), pub))
+    print(f"{len(list(salida.glob('*.html')))} páginas en {salida}")
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--salida", type=Path, default=Path("tests/fixtures/ech_mt"))
+    ap.add_argument("--descubrimiento", action="store_true")
     args = ap.parse_args(argv)
+    if args.descubrimiento:
+        fixtures_descubrimiento(args.salida / "descubrimiento")
+        return 0
     args.salida.mkdir(parents=True, exist_ok=True)
 
     hoy = dt.date.today().isoformat()
