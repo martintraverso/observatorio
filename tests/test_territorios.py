@@ -281,9 +281,12 @@ def test_nivel_pais(con, salida, esperado):
     # Cada departamento pertenece al país (relación, no suma de valores).
     assert uno(con, """select count(*) from correspondencias
                        where destino_id = 'INE-2023/pais/UY' and tipo = 'pertenece_a'""") == len(deptos)
-    # El Censo no publica en estos niveles: ninguna observación, y nada derivado sumando.
+    # El Censo no publica en estos niveles: ninguna observación suya, y nada derivado sumando. (La ECH sí
+    # publica país y municipios: sus valores están en esos niveles, ver test_ech_cargar.py.)
     assert uno(con, """select count(*) from observaciones o join territorios t on t.id = o.territorio_id
-                       where t.nivel in ('pais', 'municipio_mvd')""") == 0
+                       join capturas c on c.id = o.captura_id
+                       where t.nivel in ('pais', 'municipio_mvd')
+                         and c.fuente_id = 'ine_unidades_geoestadisticas_2023'""") == 0
 
 
 # F2.5b (#57): capturas con URL, fecha de descarga y vigencia

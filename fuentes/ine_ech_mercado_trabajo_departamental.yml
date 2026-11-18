@@ -23,6 +23,9 @@ estado: en preparación     # activa | en preparación | a relevar
 # Originales en datos/crudo/ech_mt/ (un HTML por informe y capturas.json) y script que los carga (F2.5c).
 carpeta_original: ech_mt
 script: pipeline/ech_cargar.py
+# Se carga en los datos (release) aunque esté «en preparación»; la app la muestra recién cuando pase a
+# «activa», después de los controles de F2.6 (#45). Decisión del mantenedor, 2026-11-18 (#59).
+cargar: true
 temas: [Trabajo]
 niveles_publicados: [pais, departamento, municipio_mvd]
 nivel_mas_detallado: municipio_mvd

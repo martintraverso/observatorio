@@ -162,7 +162,16 @@ def test_un_formato_desconocido_frena_el_informe():
 
 def test_total_montevideo_tiene_que_repetir_el_departamento():
     with pytest.raises(ErrorInforme, match="Total Montevideo"):
-        parsear_informe(cambiar_celda(html("ech_mt_2026_09.html"), "65,5", "65,4", desde="Total Montevideo"))
+        parsear_informe(cambiar_celda(html("ech_mt_2026_09.html"), "65,5", "65,3", desde="Total Montevideo"))
+    assert parsear_informe(html("ech_mt_2026_09.html")).attrs["advertencias"] == []
+
+
+def test_una_diferencia_de_redondeo_en_total_montevideo_es_una_advertencia():
+    # Como en los informes reales de dic 2025–feb 2026 y ene–mar 2026 (#59)
+    df = parsear_informe(cambiar_celda(html("ech_mt_2026_09.html"), "65,5", "65,4", desde="Total Montevideo"))
+    assert df.attrs["advertencias"] == ["«Total Montevideo» tasa_actividad: 65,4 en los cuadros de municipios y "
+                                        "65,5 en los de departamentos (se guarda 65,5, el del departamento)"]
+    assert df[(df.codigo == "01") & (df.indicador == "tasa_actividad")].valor.tolist() == [65.5]
 
 
 # AC-L10

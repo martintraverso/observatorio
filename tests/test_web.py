@@ -225,9 +225,11 @@ def test_manifest_lista_cada_archivo_con_tamano_y_sha256(web):
 # ------------------------------------------------------------------ datos para el mapa (M6)
 
 def test_valores_por_nivel_son_los_guardados(web, con):
-    """valores/<nivel>.json tiene exactamente las observaciones de ese nivel (nunca sumas)."""
+    """valores/<nivel>.json tiene exactamente las observaciones de ese nivel (nunca sumas), de las fuentes
+    activas: una fuente con `cargar: true` todavía no activa no está en la app (F2.5d)."""
     niveles = [r[0] for r in con.execute("""
         select distinct t.nivel from observaciones o join territorios t on t.id = o.territorio_id
+        join capturas c on c.id = o.captura_id join fuentes f on f.id = c.fuente_id and f.estado = 'activa'
     """).fetchall()]
     assert sorted(p.stem for p in (web / "valores").glob("*.json")) == sorted(niveles)
     for nivel in niveles:
@@ -235,7 +237,8 @@ def test_valores_por_nivel_son_los_guardados(web, con):
         assert v["nivel"] == nivel
         db = con.execute("""
             select o.indicador, o.periodo, t.codigo, o.valor from observaciones o
-            join territorios t on t.id = o.territorio_id where t.nivel = ?
+            join territorios t on t.id = o.territorio_id
+            join capturas c on c.id = o.captura_id join fuentes f on f.id = c.fuente_id and f.estado = 'activa' where t.nivel = ?
         """, [nivel]).fetchall()
         en_archivo = [(i, p, c, val) for i, ps in v["indicadores"].items() for p, cs in ps.items()
                       for c, val in cs.items()]
@@ -282,7 +285,8 @@ def test_csv_de_observaciones(salida, con):
     assert list(csv.columns) == ["territorio_id", "nivel", "codigo", "nombre", "indicador", "periodo", "periodo_inicio",
                                  "periodo_fin", "tipo_periodo", "valor", "unidad", "es_estimado", "fuente",
                                  "archivo_origen", "sha256"]
-    assert len(csv) == con.execute("select count(*) from observaciones").fetchone()[0]
+    assert len(csv) == con.execute("""select count(*) from observaciones o
+        join capturas c on c.id = o.captura_id join fuentes f on f.id = c.fuente_id and f.estado = 'activa'""").fetchone()[0]  # lo que muestra la app (fuentes activas)
     # valor puede venir vacío si el INE no lo publica (barrio 'N/a', código 1000000); el resto no.
     assert csv.drop(columns='valor').notna().all().all()
     flores = csv[(csv.territorio_id == "INE-2023/departamento/07") & (csv.indicador == "pob_total")]
@@ -296,3 +300,30 @@ def test_territorios_por_nivel_completos(salida, territorios):
         assert len(completo) == n and completo.geometry.is_valid.all(), nivel
         simple = gpd.read_file(salida / "descargas" / f"territorios_{nivel}.geojson")
         assert sorted(simple["id"]) == sorted(completo["id"]), nivel
+
+
+# F2.5d (#59): una fuente que se carga pero no está activa no aparece en la app
+def test_la_app_muestra_solo_fuentes_activas():
+    import pandas as pd
+    from web import solo_activas
+
+    fuentes = pd.DataFrame([{"id": "a", "estado": "activa"}, {"id": "b", "estado": "en preparación"}])
+    capturas = pd.DataFrame([{"id": "a:1", "fuente_id": "a"}, {"id": "b:1", "fuente_id": "b"}])
+    indicadores = pd.DataFrame([{"codigo": "x", "fuente_id": "a"}, {"codigo": "y", "fuente_id": "b"}])
+    obs = pd.DataFrame([{"indicador": "x", "captura_id": "a:1"}, {"indicador": "y", "captura_id": "b:1"}])
+    o, i, c = solo_activas(obs, indicadores, capturas, fuentes)
+    assert o.indicador.tolist() == ["x"] and i.codigo.tolist() == ["x"] and c.id.tolist() == ["a:1"]
+
+
+def test_la_salida_de_la_app_no_tiene_nada_de_fuentes_no_activas(web):
+    """Sobre lo que genera web.py (con datos completos, la ECH está cargada pero «en preparación»)."""
+    fuentes = json.loads((web / "fuentes.json").read_text(encoding="utf-8"))
+    activas = {f["id"] for f in fuentes if f["estado"] == "activa"}
+    capturas = json.loads((web / "capturas.json").read_text(encoding="utf-8"))
+    assert {c["fuente_id"] for c in capturas["vigentes"] + capturas["historial"]} <= activas
+    ids = {c["id"] for c in capturas["vigentes"]}
+    ind = json.loads((web / "indicadores.json").read_text(encoding="utf-8"))
+    assert {i["fuente_id"] for i in (ind if isinstance(ind, list) else ind.values())} <= activas
+    for f in list((web / "fichas").glob("*/*.json"))[:200]:
+        ficha = json.loads(f.read_text(encoding="utf-8"))
+        assert {o["captura_id"] for o in ficha["observaciones"]} <= ids, f

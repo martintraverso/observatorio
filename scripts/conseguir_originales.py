@@ -1,4 +1,9 @@
-"""Baja a datos/crudo/ el original de cada fuente activa.
+"""Baja a datos/crudo/ el original de cada fuente que procesa el pipeline (activas y `cargar: true`).
+
+Las fuentes con `carpeta_original` (varios originales y un registro de capturas) se arman solo desde el
+release "crudos" (scripts/crudos_carpeta.py); sus originales se capturan aparte (pipeline/ech_captura.py) y se
+suben con scripts/subir_crudos.sh.
+
 
 Primero del release "crudos" del repo (la descarga del INE falla a veces). Si no está ahí,
 de `url_descarga` de la fuente, y entonces lo agrega a "crudos" para las próximas corridas.
@@ -21,10 +26,11 @@ import urllib.request
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "pipeline"))
+from crudos_carpeta import ErrorCrudos, bajar  # noqa: E402
 from gh_cli import ErrorGh, existe_release, gh  # noqa: E402
 
 from comun.huella import sha256_archivo  # noqa: E402
-from comun.registro import RAIZ, activas, cargar_fuentes  # noqa: E402
+from comun.registro import RAIZ, a_procesar, cargar_fuentes  # noqa: E402
 
 RELEASE = "crudos"
 NOTAS = "Archivos originales tal como se descargaron de cada fuente. No se modifican ni se reemplazan."
@@ -67,7 +73,17 @@ def main(argv=None):
     args.crudo.mkdir(parents=True, exist_ok=True)
 
     lineas, fallas = ["### Originales", "", "| Fuente | Archivo | Origen | sha256 |", "|---|---|---|---|"], []
-    for f in activas(cargar_fuentes(args.fuentes)):
+    for f in a_procesar(cargar_fuentes(args.fuentes)):
+        if f.get("carpeta_original"):
+            carpeta = f["carpeta_original"]
+            try:
+                n = bajar(args.crudo, carpeta)
+                lineas.append(f"| {f['id']} | `{carpeta}/` ({n} informes) | release {RELEASE} | "
+                              f"`{sha256_archivo(args.crudo / carpeta / 'capturas.json')[:16]}…` |")
+            except (OSError, ErrorGh, ErrorCrudos) as e:
+                fallas.append(f"{f['id']}: {e}")
+                lineas.append(f"| {f['id']} | `{carpeta}/` | **FALLA** | {e} |")
+            continue
         nombre, destino = f["archivo_original"], args.crudo / f["archivo_original"]
         try:
             if destino.exists():

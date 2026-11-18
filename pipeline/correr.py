@@ -1,6 +1,7 @@
 """Reconstruye todo con un comando: cada fuente activa y, si algo cambió, los archivos para la app.
 
-Para cada fuente con estado 'activa' en fuentes/*.yml corre su `script` sobre
+Para cada fuente con estado 'activa' (o con `cargar: true`) en fuentes/*.yml, primero las que traen
+territorios, corre su `script` sobre
 `<crudo>/<archivo_original>` (o `<crudo>/<carpeta_original>`, si la fuente tiene varios originales). Cada script decide si su original cambió (nuevo /
 reprocesado / sin cambios). Si alguna fuente se procesó (o con --web), corre web.py.
 No usa la red: los originales tienen que estar en <crudo> (ver scripts/conseguir_originales.py).
@@ -22,7 +23,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from comun.registro import RAIZ, activas, cargar_fuentes
+from comun.registro import RAIZ, a_procesar, cargar_fuentes
 
 PROCESADO = ("nuevo", "reprocesado")
 
@@ -30,6 +31,10 @@ PROCESADO = ("nuevo", "reprocesado")
 def correr_fuente(fuente: dict, crudo: Path, salida: Path, forzar: bool, extra: list[str]) -> dict:
     original = crudo / (fuente.get("archivo_original") or fuente["carpeta_original"])
     if not original.exists():
+        if fuente.get("estado") != "activa":
+            # Se carga pero no se muestra (`cargar: true`): sin sus originales se omite y se informa. En el
+            # workflow de datos no pasa en silencio: conseguir_originales.py falla antes si faltan en crudos.
+            return {"resultado": "omitida", "detalle": f"falta el original {original} (la fuente no está activa)"}
         return {"resultado": "error", "detalle": f"falta el original {original}"}
     cmd = [sys.executable, str(RAIZ / fuente["script"]), str(original), "--salida", str(salida), *extra]
     if forzar:
@@ -67,7 +72,7 @@ def main(argv=None):
         fuente_id, _, resto = a.partition("=")
         extra[fuente_id] = shlex.split(resto)
 
-    fuentes = activas(cargar_fuentes(args.fuentes))
+    fuentes = a_procesar(cargar_fuentes(args.fuentes))
     resultados = {f["id"]: correr_fuente(f, args.crudo, args.salida, args.forzar, extra.get(f["id"], []))
                   for f in fuentes}
     errores = [k for k, r in resultados.items() if r.get("resultado") == "error"]

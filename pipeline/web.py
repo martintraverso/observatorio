@@ -250,6 +250,14 @@ def disponibilidad(indicadores: pd.DataFrame, territorios: gpd.GeoDataFrame, obs
     return filas
 
 
+def solo_activas(obs, indicadores, capturas, fuentes):
+    """Lo que ve la app: solo valores, indicadores y capturas de fuentes activas. Una fuente con `cargar: true`
+    que todavía no es activa (p. ej. «en preparación» hasta pasar sus controles) queda en el release, no en la app."""
+    activas = set(fuentes.loc[fuentes.estado == "activa", "id"])
+    capturas = capturas[capturas.fuente_id.isin(activas)]
+    return obs[obs.captura_id.isin(capturas.id)], indicadores[indicadores.fuente_id.isin(activas)], capturas
+
+
 def escribir_mini(territorios: gpd.GeoDataFrame, web: Path) -> None:
     """Departamentos (y área especial) muy simplificados, para el mini-mapa de ubicación."""
     g = territorios[territorios.nivel.isin(["departamento", "area_especial"])][["id", "codigo", "nivel", "geometry"]]
@@ -389,7 +397,8 @@ def escribir_descargas(s: Path, territorios, obs, indicadores, capturas, fuentes
     registrar(s / "observaciones.parquet", "Observaciones", "Todos los valores con su indicador, territorio, período y captura.")
     csv_observaciones(territorios, obs, indicadores, capturas, fuentes).to_csv(d / "observaciones.csv", index=False)
     registrar(d / "observaciones.csv", "Observaciones",
-              "Lo mismo en CSV, con nombre del territorio, unidad, fuente, archivo de origen y sha256.")
+              "Los valores que muestra la app (fuentes activas) en CSV, con nombre del territorio, unidad, fuente, "
+              "archivo de origen y sha256.")
 
     simples = simplificar(territorios, [*GRUPOS_COBERTURA, ["segmento"]],
                           {**GEOJSON, "segmento": TOLERANCIA_SEGMENTO_DESCARGA})
@@ -445,6 +454,8 @@ def main(argv=None):
     fuentes = pd.read_parquet(s / "fuentes.parquet")
     correspondencias = pd.read_parquet(s / "correspondencias.parquet")
     historial = pd.read_parquet(s / ARCHIVO_HISTORIAL) if (s / ARCHIVO_HISTORIAL).exists() else capturas.iloc[0:0]
+    obs, indicadores, capturas = solo_activas(obs, indicadores, capturas, fuentes)  # F2.5d
+    historial = historial[historial.fuente_id.isin(set(fuentes.loc[fuentes.estado == "activa", "id"]))]
 
     web = s / "web"
     if web.exists():

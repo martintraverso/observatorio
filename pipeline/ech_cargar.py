@@ -97,7 +97,7 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False) -> di
     vigentes = [c for c in registro if c["vigente"]]
     if not vigentes:
         raise ErrorCarga("No hay capturas vigentes")
-    partes, parseadas = [], []
+    partes, parseadas, advertencias = [], [], {}
     for c in vigentes:
         if c["id"] in ya:
             partes.append(obs_prev[obs_prev.captura_id == c["id"]])
@@ -107,6 +107,7 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False) -> di
             raise ErrorCarga(f"{c['archivo']}: el informe es de {sorted(set(df.periodo))} y la captura dice {c['periodo']}")
         partes.append(df.assign(captura_id=c["id"]))
         parseadas.append(c)
+        advertencias[c["id"]] = df.attrs.get("advertencias", [])
     obs = pd.concat(partes, ignore_index=True)
 
     nivel = obs.territorio_id.str.split("/").str[1]
@@ -125,7 +126,8 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False) -> di
     return {"resultado": "sin cambios" if sin_cambios else ("reprocesado" if forzar else "nuevo"),
             "capturas": len(registro), "vigentes": sum(c["vigente"] for c in registro),
             "parseadas": len(parseadas), "reutilizadas": sum(c["vigente"] for c in registro) - len(parseadas),
-            "observaciones": len(obs), "_capturas": capturas, "_parseadas": [c["id"] for c in parseadas]}
+            "observaciones": len(obs), "advertencias": sum(map(len, advertencias.values())),
+            "_capturas": capturas, "_parseadas": [c["id"] for c in parseadas], "_advertencias": advertencias}
 
 
 def main(argv=None) -> int:
@@ -147,15 +149,44 @@ def main(argv=None) -> int:
                               f"{type(e).__name__}: {e}")
         raise
     capturas = {c["id"]: c for c in r.pop("_capturas")}
-    parseadas = r.pop("_parseadas")
+    parseadas, advertencias = r.pop("_parseadas"), r.pop("_advertencias")
     if parseadas:
         for i in parseadas:
-            historial.agregar(capturas[i], r["resultado"])
+            texto = "; ".join(advertencias.get(i, []))
+            historial.agregar(capturas[i], r["resultado"], f"{PREFIJO_ADVERTENCIA}{texto}" if texto else "")
     else:
         ultima = {**[c for c in capturas.values() if c["vigente"]][-1], "fecha_proceso": ahora()}
         historial.agregar(ultima, r["resultado"], "ninguna captura nueva" if r["resultado"] == "sin cambios" else "")
+    escribir_reporte(args.salida, capturas)
     print(json.dumps(r, ensure_ascii=False))
     return 0
+
+
+PREFIJO_ADVERTENCIA = "advertencias: "
+MARCA, FIN = "<!-- ech_mt -->", "<!-- /ech_mt -->"
+
+
+def escribir_reporte(salida: Path, capturas: dict) -> None:
+    """Sección de la ECH en reporte_validacion.md: las advertencias de las capturas vigentes, tomadas del
+    historial (que se publica), así no se pierden cuando no se vuelve a parsear. F2.6 suma los controles."""
+    path = salida / "reporte_validacion.md"
+    if not path.exists():
+        return
+    h = Historial(salida).leer()
+    h = h[(h.fuente_id == FUENTE_ID) & h.detalle.fillna("").str.startswith(PREFIJO_ADVERTENCIA)]
+    vigentes = {i: c for i, c in capturas.items() if c["vigente"]}
+    filas = [(r.archivo, r.detalle.removeprefix(PREFIJO_ADVERTENCIA)) for r in h.drop_duplicates("id", keep="last")
+             .itertuples() if r.id in vigentes]
+    lineas = [MARCA, "## Mercado de trabajo (ECH): advertencias", "",
+              f"Capturas vigentes: {len(vigentes)}. Diferencias de redondeo aceptadas (hasta 0,1): {len(filas)}.", ""]
+    lineas += [f"- `{Path(a).name}`: {d}" for a, d in sorted(filas)] or ["- Ninguna."]
+    seccion = "\n".join([*lineas, FIN])
+    texto = path.read_text(encoding="utf-8")
+    if MARCA in texto and FIN in texto:
+        texto = texto[:texto.index(MARCA)] + seccion + texto[texto.index(FIN) + len(FIN):]
+    else:
+        texto = texto.rstrip("\n") + "\n\n" + seccion + "\n"
+    path.write_text(texto, encoding="utf-8")
 
 
 if __name__ == "__main__":

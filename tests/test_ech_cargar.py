@@ -58,7 +58,12 @@ def completar_departamentos(salida: Path) -> None:
 def entorno(salida, tmp_path):
     """(crudo, salida): copia de la salida del Censo y los tres informes capturados."""
     copia = tmp_path / "salida"
-    shutil.copytree(salida, copia, ignore=shutil.ignore_patterns("web", "*.pmtiles"))
+    # Solo las tablas y las carpetas de las fuentes: nada más de la salida (web, descargas: cientos de MB con
+    # los datos completos) hace falta.
+    def ignorar(carpeta, nombres):
+        return [] if Path(carpeta) != Path(salida) else [n for n in nombres if (Path(carpeta) / n).is_dir()
+                                                          and n != "fuentes" or n.endswith(".pmtiles")]
+    shutil.copytree(salida, copia, ignore=ignorar)
     completar_departamentos(copia)
     crudo = tmp_path / "crudo"
     capturar(informes(), crudo, bajar_de(CONTENIDOS), hoy="2026-11-18")
@@ -72,6 +77,8 @@ def correr(crudo, salida, *extra):
 def test_la_ech_se_carga_junto_al_censo_sin_cambiarlo(entorno):
     crudo, salida = entorno
     antes = pd.read_parquet(salida / "observaciones.parquet")
+    cap_antes = pd.read_parquet(salida / "capturas.parquet")
+    antes = antes[antes.captura_id.isin(cap_antes[cap_antes.fuente_id == CENSO].id)]  # con datos completos ya hay ECH
     correr(crudo, salida)
     obs = pd.read_parquet(salida / "observaciones.parquet")
     cap = pd.read_parquet(salida / "capturas.parquet").set_index("id")
@@ -169,6 +176,35 @@ def test_las_tablas_tienen_que_encajar(entorno):
         combinar(salida, cargar_fuentes(RAIZ / "fuentes"))
 
 
+def test_las_advertencias_quedan_en_el_historial_y_en_el_reporte(entorno):
+    crudo, salida = entorno
+    import json
+
+    from ech_captura import leer_registro
+
+    c = [x for x in leer_registro(crudo) if x["periodo"] == "2026-07/2026-09"][0]
+    path = crudo / c["archivo"]
+    from test_ech_parser import cambiar_celda
+
+    nuevo = cambiar_celda(path.read_text(encoding="utf-8"), "65,5", "65,4", desde="Total Montevideo").encode()
+    path.write_bytes(nuevo)  # simula un informe del INE con la diferencia de redondeo
+    import hashlib
+
+    reg = json.loads((crudo / "ech_mt" / "capturas.json").read_text(encoding="utf-8"))
+    for x in reg["capturas"]:
+        if x["id"] == c["id"]:
+            x["sha256"] = hashlib.sha256(nuevo).hexdigest()
+            x["id"] = f"{ECH}:{x['sha256'][:12]}"
+    (crudo / "ech_mt" / "capturas.json").write_text(json.dumps(reg, ensure_ascii=False), encoding="utf-8")
+    correr(crudo, salida)
+    hist = pd.read_parquet(salida / "capturas_historial.parquet")
+    assert hist.detalle.str.contains("Total Montevideo» tasa_actividad: 65,4").sum() == 1
+    reporte = (salida / "reporte_validacion.md").read_text(encoding="utf-8")
+    assert "## Mercado de trabajo (ECH): advertencias" in reporte and "65,4 en los cuadros de municipios" in reporte
+    correr(crudo, salida)  # sin cambios: la advertencia sigue en el reporte (sale del historial)
+    assert (salida / "reporte_validacion.md").read_text(encoding="utf-8").count("65,4 en los cuadros") == 1
+
+
 def no_parsear(*a, **k):
     raise AssertionError("no tenía que parsear")
 
@@ -190,17 +226,22 @@ def test_si_combinar_falla_la_corrida_siguiente_vuelve_a_intentar(entorno, capsy
     crudo, salida = entorno
     territorios = gpd.read_parquet(salida / "territorios.parquet")
     territorios[territorios.id != "INE-2023/departamento/19"].to_parquet(salida / "territorios.parquet")
+    carpeta = salida / "fuentes" / ECH
+    antes = {f.name: f.read_bytes() for f in carpeta.glob("*")} if carpeta.exists() else None
+    previas = len(pd.read_parquet(salida / "capturas_historial.parquet")) if (
+        salida / "capturas_historial.parquet").exists() else 0
     with pytest.raises(Exception, match="sin territorio"):
         ech_cargar.main([str(crudo / "ech_mt"), "--salida", str(salida)])
-    hist = pd.read_parquet(salida / "capturas_historial.parquet")
+    hist = pd.read_parquet(salida / "capturas_historial.parquet").iloc[previas:]
     assert hist[hist.fuente_id == ECH].resultado.tolist() == ["error"]
-    assert not (salida / "fuentes" / ECH).exists()  # no quedó una carpeta sin publicar
+    # no quedó una carpeta sin publicar: o no existe, o es la de antes (con datos completos ya había ECH)
+    assert (not carpeta.exists()) if antes is None else {f.name: f.read_bytes() for f in carpeta.glob("*")} == antes
     territorios.to_parquet(salida / "territorios.parquet")
     capsys.readouterr()
     correr(crudo, salida)
     assert '"resultado": "nuevo"' in capsys.readouterr().out
     cap = pd.read_parquet(salida / "capturas.parquet")
-    assert (cap.fuente_id == ECH).sum() == 3
+    assert set(cap[cap.fuente_id == ECH].url) == set(URLS.values())
 
 
 def test_una_captura_que_vuelve_a_ser_vigente_se_parsea(entorno):

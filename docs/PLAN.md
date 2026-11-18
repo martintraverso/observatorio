@@ -155,6 +155,7 @@ Done when: AC-L5…L10.
 2. Load all months into `observaciones` through the shared pipeline code (M1).
 3. Upload the downloaded HTML files to release `crudos` (script `scripts/subir_crudos.sh`), so the workflow never depends on INE being up.
 Done when: AC-L1…L4; all available months loaded.
+*Done (2026-11-18, #56–#59):* discovery (#56), captures (#57), shared tables for several sources (#58), backfill of the reports and release `crudos` (#59). The source is loaded into the data release with `cargar: true` but stays «en preparación» and hidden in the app until F2.6 (maintainer decision, #59).
  
 ### F2.6 — Quality checks and report
 1. Implement AC-L12…L16 as pipeline checks (run fails on error).
