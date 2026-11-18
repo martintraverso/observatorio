@@ -364,3 +364,20 @@ def test_las_advertencias_del_registro_llegan_a_la_web_solo_si_la_fuente_las_tie
     for archivo in list((web / "fichas").glob("*/*.json"))[:50]:
         for fid, ref in json.loads(archivo.read_text(encoding="utf-8"))["fuentes"].items():
             assert ref.get("advertencias") == (registro[fid].get("advertencias") or None)
+
+
+def test_construir_fichas_suma_las_advertencias_de_la_fuente(salida):
+    """Lo que la app muestra junto a los datos de trabajo (AC-L26), probado en CI con una fuente de ejemplo."""
+    import geopandas as gpd
+    import pandas as pd
+    from web import construir_fichas
+
+    t = gpd.read_parquet(salida / "territorios.parquet")
+    obs = pd.read_parquet(salida / "observaciones.parquet")
+    capturas = pd.read_parquet(salida / "capturas.parquet")
+    fuentes = pd.read_parquet(salida / "fuentes.parquet")
+    fid = capturas.fuente_id.iloc[0]
+    fichas = construir_fichas(t, obs, pd.read_parquet(salida / "indicadores.parquet"), capturas, fuentes,
+                              pd.read_parquet(salida / "correspondencias.parquet"), {fid: ["Advertencia de prueba."]})
+    con_datos = [f for f in fichas.values() if f["observaciones"]]
+    assert con_datos and all(f["fuentes"][fid]["advertencias"] == ["Advertencia de prueba."] for f in con_datos)

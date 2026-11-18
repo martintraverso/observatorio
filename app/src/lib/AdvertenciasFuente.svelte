@@ -5,7 +5,7 @@
 
 {#if advertencias.length}
 	<details class="advertencias" open>
-		<summary>Advertencias del INE sobre estos datos ({fuente})</summary>
+		<summary>Advertencias del INE (resumidas) sobre estos datos · {fuente}</summary>
 		<ul>
 			{#each advertencias as a (a)}<li>{a}</li>{/each}
 		</ul>
