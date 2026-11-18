@@ -14,7 +14,6 @@ silencio (AC-L7) y se guarda cada valor en el nivel en que el INE lo publica (SY
 
 from __future__ import annotations
 
-import html as html_lib
 import re
 import unicodedata
 from html.parser import HTMLParser
@@ -40,8 +39,9 @@ COLUMNAS = {
     "total de empleados": "ocupados", "empleados": "ocupados",
     "total de desempleados": "desocupados", "desempleados": "desocupados",
     "no registro (en %)": "tasa_no_registro",
-    "pet (en miles)": None,  # población en edad de trabajar, cuadro 5 en 2022 y 2024: no es indicador de F2
 }
+# Columnas que el INE publica y no son indicadores de F2: solo se aceptan en su cuadro.
+IGNORADAS = {"pet (en miles)": 5}  # población en edad de trabajar, cuadro 5 en 2022 y 2024
 
 # Los 6 cuadros, en orden: primera columna e indicadores que tiene que traer cada uno.
 CUADROS = [
@@ -94,15 +94,17 @@ def numero(texto: str) -> float:
     return float(t.replace(",", "."))
 
 
-class _Tablas(HTMLParser):
-    """Las tablas del HTML como listas de filas de celdas (texto con espacios normalizados)."""
+class _Html(HTMLParser):
+    """Las tablas del HTML (filas de celdas) y su texto visible, sin <script> ni <style>."""
 
     def __init__(self):
         super().__init__(convert_charrefs=True)
-        self.tablas, self.fila, self.celda = [], None, None
+        self.tablas, self.fila, self.celda, self.texto, self.oculto = [], None, None, [], 0
 
     def handle_starttag(self, tag, attrs):
-        if tag == "table":
+        if tag in ("script", "style"):
+            self.oculto += 1
+        elif tag == "table":
             self.tablas.append([])
         elif tag == "tr" and self.tablas:
             self.fila = []
@@ -110,41 +112,80 @@ class _Tablas(HTMLParser):
             self.celda = []
 
     def handle_endtag(self, tag):
-        if tag in ("td", "th") and self.celda is not None:
-            self.fila.append(" ".join("".join(self.celda).split()))
+        if tag in ("script", "style"):
+            self.oculto = max(0, self.oculto - 1)
+        elif tag in ("td", "th") and self.celda is not None:
+            self.fila.append(" ".join(" ".join(self.celda).split()))
             self.celda = None
         elif tag == "tr" and self.fila is not None:
             self.tablas[-1].append(self.fila)
             self.fila = None
 
     def handle_data(self, data):
+        if self.oculto:
+            return
+        self.texto.append(data)
         if self.celda is not None:
             self.celda.append(data)
 
 
-def tablas(html: str) -> list[list[list[str]]]:
-    p = _Tablas()
+def leer_html(html: str) -> tuple[list[list[list[str]]], str]:
+    """(tablas, texto visible plegado)."""
+    p = _Html()
     p.feed(html)
-    return p.tablas
+    return p.tablas, plegar(" ".join(p.texto))
 
 
 # ---------------------------------------------------------------- período (AC-L10)
 
-def _texto(html: str) -> str:
-    return " ".join(html_lib.unescape(re.sub(r"<[^>]+>", " ", html)).split())
+def _fin_del_rango(texto: str) -> tuple[int, int] | None:
+    """(año, mes final) de un texto con meses y años, o None si no trae ninguno.
+
+    Formatos aceptados (y nada más): «mes año» (mes final, como «Febrero 2022») y «mes [año] mes [año]»
+    (trimestre: el primer mes tiene que ser el final menos 2, y los años, coherentes con el cruce de año).
+    """
+    fichas = []
+    for palabra in re.findall(r"[a-z]+|\d+", texto):
+        if palabra in MESES or (len(palabra) == 3 and palabra in MESES_CORTOS):
+            fichas.append(("m", MESES.get(palabra) or MESES_CORTOS[palabra]))
+        elif re.fullmatch(r"(19|20)\d\d", palabra):
+            fichas.append(("a", int(palabra)))
+    forma = "".join(f for f, _ in fichas)
+    v = [x for _, x in fichas]
+    if not fichas:
+        return None
+    if forma == "ma":
+        return v[1], v[0]
+    rangos = {  # forma -> (mes inicial, año inicial, mes final, año final)
+        "mma": lambda: (v[0], None, v[1], v[2]),             # Julio - Setiembre 2024
+        "mama": lambda: (v[0], v[1], v[2], v[3]),            # Noviembre 2023 - Enero 2024
+        "mam": lambda: (v[0], v[1], v[2], v[1] + (v[2] < v[0])),  # Diciembre 2024 - Febrero
+    }
+    if forma in rangos:
+        m1, a1, m2, a2 = rangos[forma]()
+        if (m2 - m1) % 12 != 2:
+            raise ErrorInforme(f"Período desconocido: {texto!r} (el trimestre tiene que ser de 3 meses)")
+        if a1 is not None and a2 != a1 + (m2 < m1):
+            raise ErrorInforme(f"Período desconocido: {texto!r} (años incoherentes)")
+        return a2, m2
+    raise ErrorInforme(f"Período desconocido: {texto!r}")
 
 
-def _periodo_titulo(html: str) -> tuple[int, int] | None:
-    """(año, mes final) desde el encabezado del informe, o None si no lo trae."""
-    texto = plegar(_texto(html[:html.find("Introducción")] if "Introducción" in html else html[:20000]))
+CODIGO_DOCUMENTO = re.compile(r"in[ _]soc[ _]mtr[ _](\d{4})[ _]m[ _](\d{2})")
+
+
+def _periodo_titulo(texto: str) -> tuple[int, int] | None:
+    """(año, mes final) del encabezado: entre «Actividad, Empleo y Desempleo» y «Introducción»."""
+    m = re.search(r"actividad, empleo y desempleo(.*?)introduccion", texto)
+    if not m:
+        return None
+    titulo = m.group(1)
     candidatos = set()
-    if m := re.search(r"in_soc_mtr_(\d{4})_m_(\d{2})", texto):
-        candidatos.add((int(m.group(1)), int(m.group(2))))
-    meses = "|".join(MESES)
-    if m := re.search(rf"trimestre movil: ({meses})(?: (\d{{4}}))? - ({meses}) (\d{{4}})", texto):
-        candidatos.add((int(m.group(4)), MESES[m.group(3)]))
-    elif m := re.search(rf"actividad, empleo y desempleo ({meses}) (\d{{4}})", texto):
-        candidatos.add((int(m.group(2)), MESES[m.group(1)]))  # 2022: «Febrero 2022», trimestre que termina ahí
+    if c := CODIGO_DOCUMENTO.search(titulo):
+        candidatos.add((int(c.group(1)), int(c.group(2))))
+        titulo = CODIGO_DOCUMENTO.sub(" ", titulo)
+    if fin := _fin_del_rango(titulo):
+        candidatos.add(fin)
     if len(candidatos) > 1:
         raise ErrorInforme(f"El encabezado trae períodos distintos: {sorted(candidatos)}")
     return candidatos.pop() if candidatos else None
@@ -152,21 +193,15 @@ def _periodo_titulo(html: str) -> tuple[int, int] | None:
 
 def _periodo_archivo(nombre: str) -> tuple[int, int] | None:
     n = plegar(nombre).replace("_", " ").replace("-", " ")
-    if m := re.search(r"in soc mtr (\d{4}) m (\d{2})", n):
-        return int(m.group(1)), int(m.group(2))
-    meses = "|".join(MESES)
-    if m := re.search(rf"({meses})\s*(\d{{4}})?\s*({meses})\s*(\d{{4}})", n):
-        return int(m.group(4)), MESES[m.group(3)]
-    if m := re.search(rf"({meses}|{'|'.join(MESES_CORTOS)})\s*(\d{{4}})", n):
-        mes = m.group(1)
-        return int(m.group(2)), MESES.get(mes) or MESES_CORTOS[mes]
-    return None
+    if c := CODIGO_DOCUMENTO.search(n):
+        return int(c.group(1)), int(c.group(2))
+    return _fin_del_rango(n)
 
 
-def periodo_del_informe(html: str, archivo: str | None = None) -> Periodo:
+def periodo_del_informe(html: str, archivo: str | None = None, texto: str | None = None) -> Periodo:
     """Trimestre móvil del informe: del encabezado y, si no lo trae, del nombre del archivo.
     Si los dos lo traen, tienen que coincidir."""
-    del_titulo = _periodo_titulo(html)
+    del_titulo = _periodo_titulo(texto if texto is not None else leer_html(html)[1])
     del_archivo = _periodo_archivo(archivo) if archivo else None
     if del_titulo and del_archivo and del_titulo != del_archivo:
         raise ErrorInforme(f"El período del encabezado {del_titulo} no coincide con el del archivo {del_archivo}")
@@ -188,9 +223,12 @@ def _leer_cuadro(n: int, filas: list[list[str]]) -> tuple[list[str], list[tuple[
         raise ErrorInforme(f"Cuadro {n + 1}: encabezado desconocido en la primera columna: {cab[0]!r}")
     columnas = []
     for c in cab[1:]:
-        if plegar(c) not in COLUMNAS:
+        if IGNORADAS.get(plegar(c)) == n + 1:
+            columnas.append(None)
+        elif plegar(c) in COLUMNAS:
+            columnas.append(COLUMNAS[plegar(c)])
+        else:
             raise ErrorInforme(f"Cuadro {n + 1}: Encabezado desconocido: {c!r}")
-        columnas.append(COLUMNAS[plegar(c)])
     if [c for c in columnas if c] != esperados:
         raise ErrorInforme(f"Cuadro {n + 1}: Encabezado desconocido: {cab!r} (se esperaban {esperados})")
     if cuerpo and len(cuerpo[-1]) == 1 and plegar(cuerpo[-1][0]).startswith("fuente: ine"):
@@ -211,8 +249,8 @@ def parsear_informe(html: str, archivo: str | None = None) -> pd.DataFrame:
     Columnas: territorio_id, nivel, codigo, indicador, valor, unidad, cuadro, es_estimado y las del período
     (periodo, periodo_inicio, periodo_fin, tipo_periodo).
     """
-    periodo = periodo_del_informe(html, archivo)
-    ts = tablas(html)
+    ts, texto = leer_html(html)
+    periodo = periodo_del_informe(html, archivo, texto)
     if len(ts) != len(CUADROS):
         raise ErrorInforme(f"Se esperaban {len(CUADROS)} cuadros y el informe trae {len(ts)}")
 
@@ -230,7 +268,7 @@ def parsear_informe(html: str, archivo: str | None = None) -> pd.DataFrame:
         if len(datos) != esperadas:
             raise ErrorInforme(f"Cuadro {n + 1}: {len(datos)} filas de datos, se esperaban {esperadas}")
         total = TOTAL_PAIS if tipo == "departamento" else TOTAL_MVD
-        if total in rotulos[con_total[n]:] or (TOTAL_PAIS if total == TOTAL_MVD else TOTAL_MVD) in rotulos:
+        if {TOTAL_PAIS, TOTAL_MVD} & set(rotulos[con_total[n]:]) or (con_total[n] and rotulos[0] != total):
             raise ErrorInforme(f"Cuadro {n + 1}: fila de total fuera de lugar")
 
         vistos = set()

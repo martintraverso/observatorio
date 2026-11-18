@@ -13,6 +13,7 @@ from pathlib import Path
 import pytest
 from ech_mercado_trabajo import (
     INDICADORES,
+    MUNICIPIOS,
     ErrorInforme,
     codigo_departamento,
     numero,
@@ -21,7 +22,6 @@ from ech_mercado_trabajo import (
 )
 
 FIX = Path(__file__).resolve().parent / "fixtures" / "ech_mt"
-MUNICIPIOS = ["A", "B", "C", "CH", "D", "E", "F", "G"]
 
 
 def html(nombre: str) -> str:
@@ -76,7 +76,9 @@ def test_extrae_los_siete_indicadores_por_territorio(informes, informe, con_tota
     assert not df.duplicated(["territorio_id", "indicador"]).any()
     assert len(df) == (19 + 8 + con_total) * 7
     assert set(df.nivel) <= {"pais", "departamento", "municipio_mvd"}
-    assert dict(zip(df.indicador, df.unidad)) == INDICADORES
+    assert dict(zip(df.indicador, df.unidad)) == {
+        "tasa_actividad": "%", "tasa_empleo": "%", "tasa_desempleo": "%", "tasa_no_registro": "%",
+        "activos": "miles de personas", "ocupados": "miles de personas", "desocupados": "miles de personas"}
     assert not df.es_estimado.any()
 
 
@@ -192,3 +194,40 @@ def test_periodo_desde_el_nombre_del_archivo_y_coherencia():
 def test_los_cuadros_de_un_nivel_coinciden_en_la_fila_de_total():
     with pytest.raises(ErrorInforme, match="fila de total"):
         parsear_informe(sin_fila(html("ech_mt_2026_09.html"), "Total país"))
+
+
+@pytest.mark.parametrize("texto, fin", [
+    ("Actividad, Empleo y Desempleo Febrero 2022 Introducción", (2022, 2)),
+    ("Actividad, Empleo y Desempleo Trimestre móvil: Noviembre 2023 - Enero 2024 Introducción", (2024, 1)),
+    ("Actividad, Empleo y Desempleo Trimestre móvil: Diciembre 2024 - Febrero 2025 Introducción", (2025, 2)),
+    ("Actividad, Empleo y Desempleo Trimestre móvil: Noviembre - Enero 2024 Introducción", (2024, 1)),
+])
+def test_periodos_que_cruzan_el_año(texto, fin):
+    h = f"<html><body><p>{texto}</p></body></html>"
+    assert (periodo_del_informe(h).fin.year, periodo_del_informe(h).fin.month) == fin
+
+
+@pytest.mark.parametrize("archivo, etiqueta", [
+    ("Informe_departamental-Diciembre2024-Febrero.html", "2024-12/2025-02"),
+    ("mercado-trabajo-area-geografica-residencia-ech-noviembre-2023-enero-2024", "2023-11/2024-01"),
+    ("Mercado de trabajo por área geográfica de residencia - jul set 2022.html", "2022-07/2022-09"),
+    ("Informe_departamental-JUNIO-2022.knit.html", "2022-04/2022-06"),
+])
+def test_periodo_desde_nombres_reales_de_archivo(archivo, etiqueta):
+    assert periodo_del_informe("<html></html>", archivo).etiqueta == etiqueta
+
+
+@pytest.mark.parametrize("texto", [
+    "Actividad, Empleo y Desempleo Trimestre móvil: Agosto - Setiembre 2024 Introducción",
+    "Actividad, Empleo y Desempleo Trimestre móvil: Julio 2023 - Setiembre 2024 Introducción",
+    "Actividad, Empleo y Desempleo Diciembre 2022 Febrero Marzo 2023 Introducción",
+])
+def test_un_periodo_desconocido_frena_el_informe(texto):
+    with pytest.raises(ErrorInforme, match="Período desconocido"):
+        periodo_del_informe(f"<html><body><p>{texto}</p></body></html>")
+
+
+def test_el_encabezado_se_lee_aunque_haya_scripts_y_estilos_grandes():
+    relleno = "<script>" + "x" * 500_000 + " Enero 1999 </script><style>" + "y" * 100_000 + "</style>"
+    original = html("ech_mt_2026_09.html").replace("<body>", "<body>" + relleno, 1)
+    assert parsear_informe(original).periodo.iloc[0] == "2026-07/2026-09"
