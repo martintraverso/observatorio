@@ -175,6 +175,10 @@ def construir_territorios(capas: dict[str, gpd.GeoDataFrame]) -> gpd.GeoDataFram
 
     gdf = gpd.GeoDataFrame(filas, geometry="geometry", crs=4326)
     gdf["geometry"] = shapely.make_valid(gdf.geometry.values)
+    # #54: en la capa de CCZ el INE trae AREA_KM2 y AREA_HA intercambiados (AREA_KM2 es ~100 veces el área).
+    # La superficie de los CCZ se mide sobre la geometría, como la de los niveles derivados.
+    es_ccz = gdf.nivel == "ccz_mvd"
+    gdf.loc[es_ccz, "area_km2"] = [area_km2(g, gdf.crs) for g in gdf.loc[es_ccz, "geometry"]]
     return pd.concat([gdf, construir_derivados(gdf, capas)], ignore_index=True)
 
 
@@ -299,6 +303,12 @@ def validar(capas, territorios, obs, esperado, niveles_publicados) -> tuple[Cont
     sin = sorted(set(ccz) - {k for k, v in mun.items() if v in {"A", "B", "C", "CH", "D", "E", "F", "G"}})
     c.chk("Cada CCZ tiene municipio (A, B, C, CH, D, E, F, G)", not sin,
           f"sin municipio válido: {', '.join(sin)}" if sin else ", ".join(sorted(set(mun.values()))))
+
+    ccz = territorios[territorios.nivel == "ccz_mvd"]
+    mvd = territorios.loc[territorios.id == tid("departamento", "01"), "area_km2"]
+    if len(ccz) and len(mvd):
+        razon = ccz.area_km2.sum() / float(mvd.iloc[0])
+        c.chk("Superficie de los CCZ ≈ la de Montevideo (±2 %)", abs(razon - 1) <= 0.02, f"razón {razon:.3f}")
 
     seg = territorios[territorios.nivel == "segmento"]
     prefijo_ok = (seg.codigo.str[:4] == seg.padre_id.str.split("/").str[-1]).all()
