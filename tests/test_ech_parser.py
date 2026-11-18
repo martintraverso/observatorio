@@ -204,7 +204,8 @@ def test_los_cuadros_de_un_nivel_coinciden_en_la_fila_de_total():
 ])
 def test_periodos_que_cruzan_el_año(texto, fin):
     h = f"<html><body><p>{texto}</p></body></html>"
-    assert (periodo_del_informe(h).fin.year, periodo_del_informe(h).fin.month) == fin
+    p = periodo_del_informe(h)
+    assert (p.fin.year, p.fin.month) == fin
 
 
 @pytest.mark.parametrize("archivo, etiqueta", [
@@ -228,6 +229,15 @@ def test_un_periodo_desconocido_frena_el_informe(texto):
 
 
 def test_el_encabezado_se_lee_aunque_haya_scripts_y_estilos_grandes():
-    relleno = "<script>" + "x" * 500_000 + " Enero 1999 </script><style>" + "y" * 100_000 + "</style>"
-    original = html("ech_mt_2026_09.html").replace("<body>", "<body>" + relleno, 1)
-    assert parsear_informe(original).periodo.iloc[0] == "2026-07/2026-09"
+    # Dentro del encabezado (entre el título e «Introducción»): si no se ignoraran, el período sería desconocido.
+    relleno = ("<script>" + "x" * 500_000 + " Enero 1999 <table><tr><td>a</td></tr></table></script>"
+               "<style>" + "y" * 100_000 + " Marzo 2001 </style>")
+    h = html("ech_mt_2026_09.html")
+    i = h.index("Trimestre móvil")
+    i = h.rfind("<", 0, i)
+    assert parsear_informe(h[:i] + relleno + h[i:]).periodo.iloc[0] == "2026-07/2026-09"
+
+
+def test_codigo_de_documento_con_mes_invalido():
+    with pytest.raises(ErrorInforme, match="Período desconocido"):
+        periodo_del_informe("<html></html>", "Mercado_trabajo_IN_SOC_MTR_2026_M_13-_v1_0.html")

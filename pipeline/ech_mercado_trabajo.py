@@ -208,6 +208,8 @@ def periodo_del_informe(html: str, archivo: str | None = None, texto: str | None
     fin = del_titulo or del_archivo
     if not fin:
         raise ErrorInforme("No se encontró el período del informe (ni en el encabezado ni en el nombre del archivo)")
+    if not 1 <= fin[1] <= 12:
+        raise ErrorInforme(f"Período desconocido: mes {fin[1]}")
     return trimestre_movil(*fin)
 
 
