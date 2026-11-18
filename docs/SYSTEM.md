@@ -62,7 +62,7 @@ VIEW v_observaciones  -- observaciones joined with territorio, indicador and cap
  
 Planned additions: `eventos(id, dataset_id, fecha, geometry, territorio_id, atributos_json, captura_id)` for point data.
 
-`resultado` in `capturas_historial`: `nuevo`, `reprocesado` (same original, `--forzar`), `sin cambios` (same sha256 as the last processed capture: not reprocessed) or `error`. Shared pipeline code lives in `pipeline/comun/` (M1). Each source writes its own `observaciones`, `capturas` and `indicadores` to `datos/salida/fuentes/<fuente_id>/`; `comun.salida.combinar` builds the shared tables and the DuckDB file from them and fails if they do not fit (unknown territory, indicator or capture, or the same indicator, territory and period twice) (F2.5c).
+`resultado` in `capturas_historial`: `nuevo`, `reprocesado` (same original, `--forzar`), `sin cambios` (same sha256 as the last processed capture: not reprocessed) or `error`. Shared pipeline code lives in `pipeline/comun/` (M1). Each source writes its own `observaciones`, `capturas` and `indicadores` to `datos/salida/fuentes/<fuente_id>/`; `comun.salida.combinar` builds the shared tables and the DuckDB file from them and fails if they do not fit (unknown territory, indicator or capture; the same indicator, territory and period twice; indicators or captures repeated across sources; a source folder not in the registry). If a source has no folder (in Actions only the shared tables are downloaded), it is rebuilt from the shared tables (F2.5c).
  
 Phase 0 indicators (Censo 2023, every level): `pob_total`, `pob_hombres`, `pob_mujeres`, `viviendas_total`.
  

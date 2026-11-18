@@ -53,10 +53,34 @@ def indicadores() -> pd.DataFrame:
 
 
 def anteriores(salida: Path) -> tuple[pd.DataFrame | None, pd.DataFrame | None]:
-    d = carpeta_fuente(salida, FUENTE_ID)
-    if not (d / "observaciones.parquet").exists():
+    """Lo último publicado de la fuente, según las tablas compartidas (no la carpeta de la fuente: en Actions no
+    existe, y una corrida que falló pudo dejarla escrita sin publicar)."""
+    if not ((salida / "capturas.parquet").exists() and (salida / "observaciones.parquet").exists()):
         return None, None
-    return pd.read_parquet(d / "observaciones.parquet"), pd.read_parquet(d / "capturas.parquet")
+    cap = pd.read_parquet(salida / "capturas.parquet")
+    cap = cap[cap.fuente_id == FUENTE_ID]
+    if cap.empty:
+        return None, None
+    obs = pd.read_parquet(salida / "observaciones.parquet")
+    return obs[obs.captura_id.isin(cap.id)], cap
+
+
+def publicar(salida: Path, fuentes: dict, obs, capturas) -> None:
+    """Escribe la carpeta de la fuente y arma las tablas compartidas; si no encajan, deja la carpeta como estaba."""
+    d = carpeta_fuente(salida, FUENTE_ID)
+    antes = {p.name: p.read_bytes() for p in d.glob("*.parquet")} if d.exists() else {}
+    escribir_fuente(salida, FUENTE_ID, obs, capturas, indicadores())
+    try:
+        combinar(salida, fuentes)
+    except Exception:
+        for p in d.glob("*.parquet"):
+            if p.name in antes:
+                p.write_bytes(antes[p.name])
+            else:
+                p.unlink()
+        if not antes:
+            d.rmdir()
+        raise
 
 
 def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False) -> dict:
@@ -66,11 +90,15 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False) -> di
     for c in registro:
         verificar(crudo, c)
     obs_prev, cap_prev = anteriores(salida)
-    ya = set() if forzar or cap_prev is None else set(cap_prev.id)
+    # solo se reutilizan capturas que ya dieron observaciones (una que vuelve a ser vigente se parsea)
+    ya = set() if forzar or obs_prev is None else set(obs_prev.captura_id)
     fecha_prev = {} if cap_prev is None else dict(zip(cap_prev.id, cap_prev.fecha_proceso))
 
+    vigentes = [c for c in registro if c["vigente"]]
+    if not vigentes:
+        raise ErrorCarga("No hay capturas vigentes")
     partes, parseadas = [], []
-    for c in (c for c in registro if c["vigente"]):
+    for c in vigentes:
         if c["id"] in ya:
             partes.append(obs_prev[obs_prev.captura_id == c["id"]])
             continue
@@ -93,8 +121,7 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False) -> di
     sin_cambios = (not parseadas and cap_prev is not None
                    and sorted(zip(cap_prev.id, cap_prev.vigente)) == sorted((c["id"], c["vigente"]) for c in registro))
     if not sin_cambios:
-        escribir_fuente(salida, FUENTE_ID, obs, capturas, indicadores())
-        combinar(salida, fuentes)
+        publicar(salida, fuentes, obs, capturas)
     return {"resultado": "sin cambios" if sin_cambios else ("reprocesado" if forzar else "nuevo"),
             "capturas": len(registro), "vigentes": sum(c["vigente"] for c in registro),
             "parseadas": len(parseadas), "reutilizadas": sum(c["vigente"] for c in registro) - len(parseadas),
@@ -110,14 +137,22 @@ def main(argv=None) -> int:
     args = ap.parse_args(argv)
     args.salida.mkdir(parents=True, exist_ok=True)
     historial = Historial(args.salida)
-    r = cargar(args.entrada.parent, args.salida, cargar_fuentes(args.fuentes), args.forzar)
+    try:
+        r = cargar(args.entrada.parent, args.salida, cargar_fuentes(args.fuentes), args.forzar)
+    except Exception as e:
+        registro = leer_registro(args.entrada.parent)
+        if registro:
+            c = registro[-1]
+            historial.agregar(nueva_captura(FUENTE_ID, c["archivo"], c["sha256"], ahora()), "error",
+                              f"{type(e).__name__}: {e}")
+        raise
     capturas = {c["id"]: c for c in r.pop("_capturas")}
     parseadas = r.pop("_parseadas")
     if parseadas:
         for i in parseadas:
             historial.agregar(capturas[i], r["resultado"])
     else:
-        ultima = [c for c in capturas.values() if c["vigente"]][-1]
+        ultima = {**[c for c in capturas.values() if c["vigente"]][-1], "fecha_proceso": ahora()}
         historial.agregar(ultima, r["resultado"], "ninguna captura nueva" if r["resultado"] == "sin cambios" else "")
     print(json.dumps(r, ensure_ascii=False))
     return 0

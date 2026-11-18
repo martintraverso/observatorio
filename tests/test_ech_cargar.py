@@ -167,3 +167,54 @@ def test_las_tablas_tienen_que_encajar(entorno):
     obs.to_parquet(d / "observaciones.parquet", index=False)
     with pytest.raises(ErrorCombinar, match="sin territorio"):
         combinar(salida, cargar_fuentes(RAIZ / "fuentes"))
+
+
+def no_parsear(*a, **k):
+    raise AssertionError("no tenía que parsear")
+
+
+def test_en_un_runner_limpio_tambien_da_sin_cambios(entorno, monkeypatch, capsys):
+    """En Actions se baja solo lo compartido: sin carpetas de fuentes, igual no se vuelve a parsear."""
+    crudo, salida = entorno
+    correr(crudo, salida)
+    shutil.rmtree(salida / "fuentes")
+    monkeypatch.setattr(ech_cargar, "parsear_informe", no_parsear)
+    capsys.readouterr()
+    correr(crudo, salida)
+    assert '"resultado": "sin cambios"' in capsys.readouterr().out
+
+
+def test_si_combinar_falla_la_corrida_siguiente_vuelve_a_intentar(entorno, capsys):
+    import geopandas as gpd
+
+    crudo, salida = entorno
+    territorios = gpd.read_parquet(salida / "territorios.parquet")
+    territorios[territorios.id != "INE-2023/departamento/19"].to_parquet(salida / "territorios.parquet")
+    with pytest.raises(Exception, match="sin territorio"):
+        ech_cargar.main([str(crudo / "ech_mt"), "--salida", str(salida)])
+    hist = pd.read_parquet(salida / "capturas_historial.parquet")
+    assert hist[hist.fuente_id == ECH].resultado.tolist() == ["error"]
+    assert not (salida / "fuentes" / ECH).exists()  # no quedó una carpeta sin publicar
+    territorios.to_parquet(salida / "territorios.parquet")
+    capsys.readouterr()
+    correr(crudo, salida)
+    assert '"resultado": "nuevo"' in capsys.readouterr().out
+    cap = pd.read_parquet(salida / "capturas.parquet")
+    assert (cap.fuente_id == ECH).sum() == 3
+
+
+def test_una_captura_que_vuelve_a_ser_vigente_se_parsea(entorno):
+    import json
+
+    crudo, salida = entorno
+    path = crudo / "ech_mt" / "capturas.json"
+    reg = json.loads(path.read_text(encoding="utf-8"))
+    reg["capturas"][0]["vigente"] = False  # 2022-02
+    path.write_text(json.dumps(reg, ensure_ascii=False), encoding="utf-8")
+    correr(crudo, salida)
+    assert "2021-12/2022-02" not in set(pd.read_parquet(salida / "observaciones.parquet").periodo)
+    reg["capturas"][0]["vigente"] = True
+    path.write_text(json.dumps(reg, ensure_ascii=False), encoding="utf-8")
+    correr(crudo, salida)
+    obs = pd.read_parquet(salida / "observaciones.parquet")
+    assert (obs.periodo == "2021-12/2022-02").sum() == (19 + 8) * 7
