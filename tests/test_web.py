@@ -296,3 +296,16 @@ def test_territorios_por_nivel_completos(salida, territorios):
         assert len(completo) == n and completo.geometry.is_valid.all(), nivel
         simple = gpd.read_file(salida / "descargas" / f"territorios_{nivel}.geojson")
         assert sorted(simple["id"]) == sorted(completo["id"]), nivel
+
+
+# F2.5d (#59): una fuente que se carga pero no está activa no aparece en la app
+def test_la_app_muestra_solo_fuentes_activas():
+    import pandas as pd
+    from web import solo_activas
+
+    fuentes = pd.DataFrame([{"id": "a", "estado": "activa"}, {"id": "b", "estado": "en preparación"}])
+    capturas = pd.DataFrame([{"id": "a:1", "fuente_id": "a"}, {"id": "b:1", "fuente_id": "b"}])
+    indicadores = pd.DataFrame([{"codigo": "x", "fuente_id": "a"}, {"codigo": "y", "fuente_id": "b"}])
+    obs = pd.DataFrame([{"indicador": "x", "captura_id": "a:1"}, {"indicador": "y", "captura_id": "b:1"}])
+    o, i, c = solo_activas(obs, indicadores, capturas, fuentes)
+    assert o.indicador.tolist() == ["x"] and i.codigo.tolist() == ["x"] and c.id.tolist() == ["a:1"]

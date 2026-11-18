@@ -250,6 +250,14 @@ def disponibilidad(indicadores: pd.DataFrame, territorios: gpd.GeoDataFrame, obs
     return filas
 
 
+def solo_activas(obs, indicadores, capturas, fuentes):
+    """Lo que ve la app: solo valores, indicadores y capturas de fuentes activas. Una fuente con `cargar: true`
+    que todavía no es activa (p. ej. «en preparación» hasta pasar sus controles) queda en el release, no en la app."""
+    activas = set(fuentes.loc[fuentes.estado == "activa", "id"])
+    capturas = capturas[capturas.fuente_id.isin(activas)]
+    return obs[obs.captura_id.isin(capturas.id)], indicadores[indicadores.fuente_id.isin(activas)], capturas
+
+
 def escribir_mini(territorios: gpd.GeoDataFrame, web: Path) -> None:
     """Departamentos (y área especial) muy simplificados, para el mini-mapa de ubicación."""
     g = territorios[territorios.nivel.isin(["departamento", "area_especial"])][["id", "codigo", "nivel", "geometry"]]
@@ -445,6 +453,7 @@ def main(argv=None):
     fuentes = pd.read_parquet(s / "fuentes.parquet")
     correspondencias = pd.read_parquet(s / "correspondencias.parquet")
     historial = pd.read_parquet(s / ARCHIVO_HISTORIAL) if (s / ARCHIVO_HISTORIAL).exists() else capturas.iloc[0:0]
+    obs, indicadores, capturas = solo_activas(obs, indicadores, capturas, fuentes)  # F2.5d
 
     web = s / "web"
     if web.exists():

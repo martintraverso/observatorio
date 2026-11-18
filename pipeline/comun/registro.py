@@ -27,7 +27,7 @@ def validar_fuente(f: dict, archivo: str) -> list[str]:
         errores.append(f"{archivo}: nivel_mas_detallado no está en niveles_publicados")
     if f.get("capas") and not f.get("version_geo"):
         errores.append(f"{archivo}: fuente geográfica sin version_geo")
-    if f.get("estado") == "activa":
+    if f.get("estado") == "activa" or f.get("cargar"):
         errores += [f"{archivo}: una fuente activa necesita '{c}'" for c in CAMPOS_ACTIVA
                     if not f.get(c) and not (c == "archivo_original" and f.get("carpeta_original"))]
         if f.get("script") and not (RAIZ / f["script"]).is_file():
@@ -58,6 +58,14 @@ def cargar_fuentes(carpeta: Path) -> dict[str, dict]:
 def tabla_fuentes(fuentes: dict[str, dict]) -> pd.DataFrame:
     """Tabla `fuentes`: una fila por registro, con las columnas de COLUMNAS."""
     return pd.DataFrame([{c: f.get(c) for c in COLUMNAS} for f in fuentes.values()], columns=COLUMNAS)
+
+
+def a_procesar(fuentes: dict[str, dict]) -> list[dict]:
+    """Fuentes que procesa el pipeline: las activas y las que se cargan aunque todavía no se muestran en la app
+    (`cargar: true`, p. ej. «en preparación» hasta pasar sus controles). Primero las que traen territorios
+    (`version_geo`), porque las demás guardan sus valores en esos territorios."""
+    elegidas = [f for f in fuentes.values() if f.get("estado") == "activa" or f.get("cargar")]
+    return sorted(elegidas, key=lambda f: (not f.get("version_geo"), f["id"]))
 
 
 def activas(fuentes: dict[str, dict]) -> list[dict]:
