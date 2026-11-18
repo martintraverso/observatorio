@@ -3,7 +3,8 @@
 Lee el zip (o la carpeta ya descomprimida) que publica el INE y genera:
 
   datos/salida/territorios.parquet          territorios de todos los niveles (GeoParquet)
-  datos/salida/observaciones.parquet        conteos del Censo 2023 por territorio
+  datos/salida/fuentes/<id>/                observaciones, capturas e indicadores del Censo (F2.5c)
+  datos/salida/observaciones.parquet        observaciones de todas las fuentes (comun.salida.combinar)
   datos/salida/correspondencias.parquet     relaciones entre territorios (segmento -> localidad,
                                             CCZ -> municipio, departamento -> país)
   datos/salida/indicadores.parquet          catálogo de indicadores
@@ -38,13 +39,13 @@ import pandas as pd
 import shapely
 import yaml
 
-from comun.capturas import Historial, ahora, nueva_captura, tabla_capturas
+from comun.capturas import Historial, ahora, nueva_captura
 from comun.controles import Controles
 from comun.entrada import carpeta_con, extraer_zip
 from comun.huella import huella_entrada
 from comun.periodos import TIPOS_PERIODO, censo
-from comun.registro import cargar_fuentes, tabla_fuentes
-from comun.salida import escribir_duckdb
+from comun.registro import cargar_fuentes
+from comun.salida import combinar, escribir_fuente, reconstruir_carpetas
 
 RAIZ = Path(__file__).resolve().parents[1]
 ESPERADO_COMPLETO = RAIZ / "pipeline" / "esperado" / "ine_2023_completo.yml"
@@ -424,27 +425,13 @@ def procesar(entrada: Path, salida: Path, captura: dict, esperado: dict, fuentes
     corr = construir_correspondencias(capas)
     controles, comp = validar(capas, territorios, obs, esperado, fuentes[FUENTE_ID]["niveles_publicados"])
 
+    reconstruir_carpetas(salida)  # antes de reemplazar lo compartido: las demás fuentes no se pierden
     territorios.to_parquet(salida / "territorios.parquet", index=False)
-    obs.to_parquet(salida / "observaciones.parquet", index=False)
     corr.to_parquet(salida / "correspondencias.parquet", index=False)
-    pd.DataFrame([{"codigo": c, "nombre": n, "unidad": u, "tema": TEMA[c], "columna_origen": col,
-                   "fuente_id": FUENTE_ID, "nota": NOTA_INDICADORES}
-                  for c, col, n, u in INDICADORES]).to_parquet(salida / "indicadores.parquet", index=False)
-    tabla_capturas([captura]).to_parquet(salida / "capturas.parquet", index=False)
-    tabla_fuentes(fuentes).to_parquet(salida / "fuentes.parquet", index=False)
-    escribir_duckdb(
-        salida,
-        ["territorios", "observaciones", "correspondencias", "indicadores", "capturas", "fuentes"],
-        geometria={"territorios": "geom_wkb"},
-        vistas={"v_observaciones": """
-            SELECT o.*, t.nivel, t.codigo, t.nombre AS territorio, t.depto,
-                   i.nombre AS indicador_nombre, i.unidad, c.fuente_id, c.fecha_proceso
-            FROM observaciones o
-            JOIN territorios t ON t.id = o.territorio_id
-            JOIN indicadores i ON i.codigo = o.indicador
-            JOIN capturas c ON c.id = o.captura_id
-        """},
-    )
+    indicadores = pd.DataFrame([{"codigo": c, "nombre": n, "unidad": u, "tema": TEMA[c], "columna_origen": col,
+                                 "fuente_id": FUENTE_ID, "nota": NOTA_INDICADORES} for c, col, n, u in INDICADORES])
+    escribir_fuente(salida, FUENTE_ID, obs, [captura], indicadores)
+    combinar(salida, fuentes)  # tablas compartidas con las demás fuentes y base DuckDB (F2.5c)
     escribir_reporte(salida / "reporte_validacion.md", controles, comp, territorios, obs, captura, resultado)
     print(json.dumps({"resultado": resultado, "territorios": int(len(territorios)), "observaciones": int(len(obs)),
                       "controles_ok": len(controles.lista) - len(controles.fallas),
