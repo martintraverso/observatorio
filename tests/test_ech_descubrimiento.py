@@ -187,3 +187,10 @@ def test_redireccion_fuera_de_los_sitios_oficiales(monkeypatch):
     monkeypatch.setattr("urllib.request.urlopen", lambda *a, **k: Respuesta())
     with pytest.raises(ErrorDescubrimiento, match="fuera de los sitios oficiales"):
         bajar_texto(f"{LISTADO}?page=0")
+
+
+def test_una_primera_pagina_sin_resultados_falla():
+    sitio = Sitio(total=None)
+    sitio.paginas[f"{LISTADO}?page=0"] = leer("listado_0.html").replace('<li class="Media"', '<li class="u-x Media"')
+    with pytest.raises(ErrorDescubrimiento, match="primera página"):
+        descubrir(sitio)

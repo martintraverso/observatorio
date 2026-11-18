@@ -140,6 +140,8 @@ def descubrir(bajar: Callable[[str], str], max_paginas: int = 50) -> Resultado:
         total = total if total is not None else total_del_listado(html)
         resultados = resultados_del_listado(html)
         if not resultados:
+            if n == 0:
+                raise ErrorDescubrimiento("La primera página del listado no trae resultados: ¿cambió la página?")
             break  # página sin resultados de ningún tipo
         vistos += [r for r in resultados if r not in vistos]
         if total is not None and len(vistos) >= total:
