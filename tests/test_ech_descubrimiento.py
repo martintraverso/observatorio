@@ -6,6 +6,7 @@ publicaciones que enlazan, guardadas por scripts/crear_fixtures_ech.py --descubr
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 import pytest
@@ -29,11 +30,23 @@ def leer(nombre: str) -> str:
     return (FIX / nombre).read_text(encoding="utf-8")
 
 
-class Sitio:
-    """Sirve las páginas guardadas. Las páginas 0, 1 y 2 del listado son las reales 0, 10 y 11."""
+def sin_publicaciones(html: str) -> str:
+    """La página del listado sin sus resultados de publicaciones (quedan los del calendario)."""
+    return re.sub(r'<li class="Media[" ](?:(?!</li>).)*?comunicacion/publicaciones/.*?</li>', "", html, flags=re.S)
 
-    def __init__(self, cambios: dict[str, str] | None = None):
-        self.paginas = {f"{LISTADO}?page={i}": leer(f"listado_{n}.html") for i, n in enumerate([0, 10, 11])}
+
+def con_total(html: str, n: int | None) -> str:
+    total = re.compile(r"Mostrando[^<]*resultados")
+    return total.sub("", html) if n is None else total.sub(f"Mostrando 1 - 10 de {n} resultados", html)
+
+
+class Sitio:
+    """Sirve las páginas guardadas. Las páginas 0, 1 y 2 del listado son las reales 0, 10 y 11 (con el total
+    del contador ajustado a los 19 resultados que suman las dos primeras)."""
+
+    def __init__(self, cambios: dict[str, str] | None = None, total: int | None = 19):
+        self.paginas = {f"{LISTADO}?page={i}": con_total(leer(f"listado_{n}.html"), total)
+                        for i, n in enumerate([0, 10, 11])}
         for f in FIX.glob("pub_*.html"):
             self.paginas[PUB + f.stem.removeprefix("pub_")] = f.read_text(encoding="utf-8")
         self.paginas.update(cambios or {})
@@ -55,8 +68,12 @@ def test_enlace_al_informe_en_la_publicacion():
     assert enlace_al_informe(leer("pub_julio-setiembre-2026.html")) == (
         "https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/HTML/ECH/Mercado%20de%20trabajo%20por%20"
         "%C3%A1rea%20geogr%C3%A1fica/2026/Mercado_trabajo_IN_SOC_MTR_2026_M_09-_v1_0.html")
-    # la misma URL, escrita con o sin codificar, es un solo enlace
     assert enlace_al_informe(leer("pub_febrero-2022.html")).endswith("Residencia%20-%20feb%202022.html")
+    # la misma URL, escrita con o sin codificar y con un fragmento, es un solo enlace
+    assert enlace_al_informe(
+        "<main><a href='https://www5.ine.gub.uy/documents/Demografía/Informe (junio 2026).html#c1'>a</a>"
+        "<a href='https://www5.ine.gub.uy/documents/Demograf%C3%ADa/Informe%20%28junio%202026%29.html'>b</a>"
+        "</main>") == "https://www5.ine.gub.uy/documents/Demograf%C3%ADa/Informe%20%28junio%202026%29.html"
     assert enlace_al_informe("<main><a href='https://example.com/informe.html'>x</a></main>") is None
     assert enlace_al_informe("<main>sin enlaces</main>") is None
     with pytest.raises(ErrorDescubrimiento, match="más de un"):
@@ -69,7 +86,11 @@ def test_recorre_el_listado_hasta_una_pagina_vacia():
     sitio = Sitio()
     r = descubrir(sitio)
     assert [i.periodo.etiqueta[-7:] for i in r.informes] == ENCONTRADOS
-    assert [u for u in sitio.pedidas if u.startswith(LISTADO)] == [f"{LISTADO}?page={i}" for i in range(3)]
+    # con el contador, para al ver los 19 resultados; sin contador, en la primera página vacía
+    assert [u for u in sitio.pedidas if u.startswith(LISTADO)] == [f"{LISTADO}?page={i}" for i in range(2)]
+    sin_contador = Sitio(total=None)
+    assert len(descubrir(sin_contador).informes) == 13
+    assert [u for u in sin_contador.pedidas if u.startswith(LISTADO)] == [f"{LISTADO}?page={i}" for i in range(3)]
     jul_set = r.informes[-1]
     assert (jul_set.periodo.etiqueta, str(jul_set.periodo.inicio), str(jul_set.periodo.fin)) == (
         "2026-07/2026-09", "2026-07-01", "2026-09-30")
@@ -105,7 +126,7 @@ def test_periodo_de_la_publicacion_y_del_archivo_tienen_que_coincidir():
 def test_meses_repetidos_se_informan():
     copia = PUB + "julio-setiembre-2026-0"
     listado = leer("listado_0.html").replace("residencia-ech-mayo-julio-2026", "residencia-ech-julio-setiembre-2026-0")
-    r = descubrir(Sitio({f"{LISTADO}?page=0": listado, copia: leer("pub_julio-setiembre-2026.html")}))
+    r = descubrir(Sitio({f"{LISTADO}?page=0": con_total(listado, 19), copia: leer("pub_julio-setiembre-2026.html")}))
     assert r.repetidos == {"2026-07/2026-09": [PUB + "julio-setiembre-2026", copia]}
 
 
@@ -125,3 +146,44 @@ def test_el_listado_es_el_del_registro_de_la_fuente():
     from comun.registro import RAIZ, cargar_fuentes
 
     assert cargar_fuentes(RAIZ / "fuentes")["ine_ech_mercado_trabajo_departamental"]["pagina"] == LISTADO
+
+
+def test_una_pagina_con_solo_eventos_del_calendario_no_corta_el_recorrido():
+    cero = leer("listado_0.html")
+    solo_calendario = sin_publicaciones(cero)
+    assert publicaciones_del_listado(solo_calendario) == [] and "calendario-actividades" in solo_calendario
+    sitio = Sitio(total=None)
+    sitio.paginas[f"{LISTADO}?page=0"] = con_total(solo_calendario, None)
+    r = descubrir(sitio)
+    assert [i.periodo.etiqueta[-7:] for i in r.informes] == ENCONTRADOS[:9]  # las de la página siguiente
+
+
+def test_si_el_contador_no_coincide_con_lo_recorrido_falla():
+    with pytest.raises(ErrorDescubrimiento, match="109 resultados"):
+        descubrir(Sitio(total=109))
+
+
+def test_publicaciones_con_otro_nombre_se_informan():
+    otro = leer("listado_10.html").replace("residencia-ech-marzo-2022", "residencia-marzo-2022")
+    r = descubrir(Sitio({f"{LISTADO}?page=1": con_total(otro, 19)}))
+    assert r.otras == [PUB.replace("-ech-", "-") + "marzo-2022"]
+    assert "2022-03" in r.faltantes
+
+
+def test_redireccion_fuera_de_los_sitios_oficiales(monkeypatch):
+    class Respuesta:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+
+        def geturl(self):
+            return "https://example.com/otra"
+
+        def read(self):
+            return b"x"
+
+    monkeypatch.setattr("urllib.request.urlopen", lambda *a, **k: Respuesta())
+    with pytest.raises(ErrorDescubrimiento, match="fuera de los sitios oficiales"):
+        bajar_texto(f"{LISTADO}?page=0")

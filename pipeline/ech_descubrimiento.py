@@ -1,7 +1,7 @@
 """F2.5a: descubrimiento de los informes «Mercado de trabajo por área geográfica de residencia» (INE, ECH).
 
 No hay un patrón estable de URL (F2.1, #40). Por eso se recorre el listado oficial de la temática
-(`?page=0, 1, …` hasta una página sin publicaciones), se abre cada publicación y se lee en ella el enlace al
+(`?page=0, 1, …` hasta una página sin resultados), se abre cada publicación y se lee en ella el enlace al
 HTML del informe en www5.ine.gub.uy. Así se arma la lista de informes desde 2022-02 hasta el último, y se
 informa qué meses faltan: que falte un mes no es un error (AC-L2).
 
@@ -20,7 +20,7 @@ import urllib.request
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Callable, NamedTuple
-from urllib.parse import quote, unquote
+from urllib.parse import quote, unquote, urlsplit, urlunsplit
 
 from ech_mercado_trabajo import ErrorInforme, periodo_de_nombre
 
@@ -32,7 +32,10 @@ DOMINIOS_OFICIALES = ("https://www5.ine.gub.uy/", "https://www.gub.uy/instituto-
 INFORMES = "https://www5.ine.gub.uy/documents/"
 PRIMER_MES = (2022, 2)  # desde febrero de 2022 la ECH publica estimaciones mensuales (MA3)
 
-ENLACE_PUBLICACION = re.compile(r'href="(' + re.escape(PUBLICACIONES) + r'[^"#?]+)"')
+# El listado mezcla publicaciones con eventos del calendario de difusión: cada resultado es un <li class="Media">.
+RESULTADO = re.compile(r'<li class="Media[" ](.*?)</li>', re.S)
+DESTINO = re.compile(r'(?:about|href)="(?:https://www\.gub\.uy)?(/instituto-nacional-estadistica/[^"#?]+)"')
+TOTAL = re.compile(r"Mostrando\s+\d+\s*-\s*\d+\s+de\s+(\d+)\s+resultados")
 ENLACE = re.compile(r"""href\s*=\s*["']([^"']+)["']""", re.I)
 
 
@@ -51,6 +54,7 @@ class Resultado:
     informes: list[Informe]
     faltantes: list[str] = field(default_factory=list)   # meses (AAAA-MM, mes final) sin informe
     sin_enlace: list[str] = field(default_factory=list)  # publicaciones sin enlace a un HTML
+    otras: list[str] = field(default_factory=list)  # resultados en publicaciones/ con otro nombre (no se leen)
     repetidos: dict[str, list[str]] = field(default_factory=dict)  # período -> publicaciones
 
     def resumen(self) -> dict:
@@ -58,19 +62,39 @@ class Resultado:
             "encontrados": len(self.informes),
             "desde": self.informes[0].periodo.etiqueta if self.informes else None,
             "hasta": self.informes[-1].periodo.etiqueta if self.informes else None,
-            "faltantes": self.faltantes, "sin_enlace": self.sin_enlace, "repetidos": self.repetidos,
+            "faltantes": self.faltantes, "sin_enlace": self.sin_enlace, "repetidos": self.repetidos, "otras": self.otras,
             "informes": [{"periodo": i.periodo.etiqueta, "pagina": i.pagina, "url": i.url} for i in self.informes],
         }
 
 
 def normalizar(url: str) -> str:
-    """La misma URL escrita con o sin codificar ('Demografía' o 'Demograf%C3%ADa') queda igual."""
-    return quote(unquote(url), safe=":/?=&")
+    """La misma URL escrita con o sin codificar ('Demografía' o 'Demograf%C3%ADa') queda igual.
+    Solo se normaliza la ruta (sin el fragmento #…); '%2F' se mantiene."""
+    u = urlsplit(url.strip())
+    ruta = "/".join(quote(unquote(parte), safe="") for parte in u.path.split("/"))
+    return urlunsplit((u.scheme, u.netloc, ruta, u.query, ""))
+
+
+def resultados_del_listado(html: str) -> list[str]:
+    """Rutas de todos los resultados de una página del listado (publicaciones y eventos del calendario)."""
+    rutas = []
+    for item in RESULTADO.findall(html):
+        destino = DESTINO.search(item)
+        if not destino:
+            raise ErrorDescubrimiento(f"Un resultado del listado no tiene enlace: {item[:200]!r}")
+        rutas.append(destino.group(1))
+    return rutas
 
 
 def publicaciones_del_listado(html: str) -> list[str]:
-    """URLs de las publicaciones de mercado de trabajo que enlaza una página del listado."""
-    return sorted({"https://www.gub.uy" + r for r in ENLACE_PUBLICACION.findall(html)})
+    """URLs de las publicaciones de mercado de trabajo de una página del listado."""
+    return sorted({"https://www.gub.uy" + r for r in resultados_del_listado(html) if r.startswith(PUBLICACIONES)})
+
+
+def total_del_listado(html: str) -> int | None:
+    """N de «Mostrando 1 - 10 de N resultados», o None si la página no lo trae."""
+    m = TOTAL.search(html)
+    return int(m.group(1)) if m else None
 
 
 def enlace_al_informe(html: str) -> str | None:
@@ -107,14 +131,24 @@ def meses(desde: tuple[int, int], hasta: tuple[int, int]) -> list[str]:
 
 def descubrir(bajar: Callable[[str], str], max_paginas: int = 50) -> Resultado:
     """Recorre el listado y cada publicación (AC-L2)."""
-    publicaciones = []
+    vistos: list[str] = []  # todos los resultados (publicaciones y calendario), en orden
+    total = None
     for n in range(max_paginas + 1):
         if n == max_paginas:
             raise ErrorDescubrimiento(f"El listado no terminó en {max_paginas} páginas")
-        nuevas = publicaciones_del_listado(bajar(f"{LISTADO}?page={n}"))
-        if not nuevas:
+        html = bajar(f"{LISTADO}?page={n}")
+        total = total if total is not None else total_del_listado(html)
+        resultados = resultados_del_listado(html)
+        if not resultados:
+            break  # página sin resultados de ningún tipo
+        vistos += [r for r in resultados if r not in vistos]
+        if total is not None and len(vistos) >= total:
             break
-        publicaciones += [p for p in nuevas if p not in publicaciones]
+    if total is not None and len(vistos) != total:
+        raise ErrorDescubrimiento(f"El listado dice {total} resultados y se recorrieron {len(vistos)}")
+    publicaciones = ["https://www.gub.uy" + r for r in vistos if r.startswith(PUBLICACIONES)]
+    otras = ["https://www.gub.uy" + r for r in vistos
+             if "/comunicacion/publicaciones/" in r and not r.startswith(PUBLICACIONES)]
 
     informes, sin_enlace = [], []
     for pagina in publicaciones:
@@ -131,7 +165,8 @@ def descubrir(bajar: Callable[[str], str], max_paginas: int = 50) -> Resultado:
     encontrados = {f"{i.periodo.fin.year}-{i.periodo.fin.month:02d}" for i in informes}
     ultimo = (informes[-1].periodo.fin.year, informes[-1].periodo.fin.month) if informes else PRIMER_MES
     return Resultado(informes=informes, faltantes=[m for m in meses(PRIMER_MES, ultimo) if m not in encontrados],
-                     sin_enlace=sin_enlace, repetidos={k: v for k, v in por_periodo.items() if len(v) > 1})
+                     sin_enlace=sin_enlace, repetidos={k: v for k, v in por_periodo.items() if len(v) > 1},
+                     otras=otras)
 
 
 def bajar_texto(url: str, timeout: int = 60) -> str:
@@ -154,7 +189,7 @@ def main(argv=None) -> int:
     if args.salida:
         args.salida.write_text(texto + "\n", encoding="utf-8")
     print(json.dumps({k: resumen[k] for k in ("encontrados", "desde", "hasta", "faltantes", "sin_enlace",
-                                              "repetidos")}, ensure_ascii=False))
+                                              "repetidos", "otras")}, ensure_ascii=False))
     return 0
 
 
