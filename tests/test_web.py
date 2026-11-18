@@ -313,3 +313,17 @@ def test_la_app_muestra_solo_fuentes_activas():
     obs = pd.DataFrame([{"indicador": "x", "captura_id": "a:1"}, {"indicador": "y", "captura_id": "b:1"}])
     o, i, c = solo_activas(obs, indicadores, capturas, fuentes)
     assert o.indicador.tolist() == ["x"] and i.codigo.tolist() == ["x"] and c.id.tolist() == ["a:1"]
+
+
+def test_la_salida_de_la_app_no_tiene_nada_de_fuentes_no_activas(web):
+    """Sobre lo que genera web.py (con datos completos, la ECH está cargada pero «en preparación»)."""
+    fuentes = json.loads((web / "fuentes.json").read_text(encoding="utf-8"))
+    activas = {f["id"] for f in fuentes if f["estado"] == "activa"}
+    capturas = json.loads((web / "capturas.json").read_text(encoding="utf-8"))
+    assert {c["fuente_id"] for c in capturas["vigentes"] + capturas["historial"]} <= activas
+    ids = {c["id"] for c in capturas["vigentes"]}
+    ind = json.loads((web / "indicadores.json").read_text(encoding="utf-8"))
+    assert {i["fuente_id"] for i in (ind if isinstance(ind, list) else ind.values())} <= activas
+    for f in list((web / "fichas").glob("*/*.json"))[:200]:
+        ficha = json.loads(f.read_text(encoding="utf-8"))
+        assert {o["captura_id"] for o in ficha["observaciones"]} <= ids, f

@@ -397,7 +397,8 @@ def escribir_descargas(s: Path, territorios, obs, indicadores, capturas, fuentes
     registrar(s / "observaciones.parquet", "Observaciones", "Todos los valores con su indicador, territorio, período y captura.")
     csv_observaciones(territorios, obs, indicadores, capturas, fuentes).to_csv(d / "observaciones.csv", index=False)
     registrar(d / "observaciones.csv", "Observaciones",
-              "Lo mismo en CSV, con nombre del territorio, unidad, fuente, archivo de origen y sha256.")
+              "Los valores que muestra la app (fuentes activas) en CSV, con nombre del territorio, unidad, fuente, "
+              "archivo de origen y sha256.")
 
     simples = simplificar(territorios, [*GRUPOS_COBERTURA, ["segmento"]],
                           {**GEOJSON, "segmento": TOLERANCIA_SEGMENTO_DESCARGA})
@@ -454,6 +455,7 @@ def main(argv=None):
     correspondencias = pd.read_parquet(s / "correspondencias.parquet")
     historial = pd.read_parquet(s / ARCHIVO_HISTORIAL) if (s / ARCHIVO_HISTORIAL).exists() else capturas.iloc[0:0]
     obs, indicadores, capturas = solo_activas(obs, indicadores, capturas, fuentes)  # F2.5d
+    historial = historial[historial.fuente_id.isin(set(fuentes.loc[fuentes.estado == "activa", "id"]))]
 
     web = s / "web"
     if web.exists():

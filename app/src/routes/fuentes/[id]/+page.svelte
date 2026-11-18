@@ -112,7 +112,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{#each data.historial as c (c.fecha_proceso + c.resultado)}
+					{#each data.historial as c, i (c.id + c.fecha_proceso + c.resultado + i)}
 						<tr>
 							<td>{fecha(c.fecha_proceso)}</td>
 							<td><code>{c.archivo}</code></td>

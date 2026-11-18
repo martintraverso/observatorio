@@ -58,8 +58,12 @@ def completar_departamentos(salida: Path) -> None:
 def entorno(salida, tmp_path):
     """(crudo, salida): copia de la salida del Censo y los tres informes capturados."""
     copia = tmp_path / "salida"
-    # Solo las tablas: la web y las descargas (cientos de MB con los datos completos) no hacen falta.
-    shutil.copytree(salida, copia, ignore=shutil.ignore_patterns("web", "descargas", "*.pmtiles"))
+    # Solo las tablas y las carpetas de las fuentes: nada más de la salida (web, descargas: cientos de MB con
+    # los datos completos) hace falta.
+    def ignorar(carpeta, nombres):
+        return [] if Path(carpeta) != Path(salida) else [n for n in nombres if (Path(carpeta) / n).is_dir()
+                                                          and n != "fuentes" or n.endswith(".pmtiles")]
+    shutil.copytree(salida, copia, ignore=ignorar)
     completar_departamentos(copia)
     crudo = tmp_path / "crudo"
     capturar(informes(), crudo, bajar_de(CONTENIDOS), hoy="2026-11-18")
