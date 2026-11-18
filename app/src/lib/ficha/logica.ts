@@ -57,10 +57,13 @@ export function puntosSerie(
 	const delPais = (pais?.observaciones ?? [])
 		.filter((o) => o.indicador === indicador && o.tipo_periodo !== 'censo')
 		.sort((a, b) => a.periodo_fin.localeCompare(b.periodo_fin));
+	const periodos = territorio.map((o) => o.periodo);
+	const enEje = new Set(periodos);
 	return {
-		periodos: territorio.map((o) => o.periodo),
+		periodos,
 		territorio: territorio.map(punto).filter((p): p is PuntoSerie => p !== null),
-		pais: delPais.map(punto).filter((p): p is PuntoSerie => p !== null)
+		// solo los períodos del eje (los del territorio): lo que se dibuja es lo que se cuenta
+		pais: delPais.map(punto).filter((p): p is PuntoSerie => p !== null && enEje.has(p.periodo))
 	};
 }
 

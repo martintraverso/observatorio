@@ -58,12 +58,13 @@
 			.join(' ');
 	let marcas = $derived([rango.min, (rango.min + rango.max) / 2, rango.max]);
 	let ultimo = $derived(p.territorio.at(-1));
+	let ultimoObs = $derived((series.get(indicador) ?? []).at(-1));
 	let paisUltimo = $derived(p.pais.find((q) => q.periodo === ultimo?.periodo));
 	let resumen = $derived(
 		ultimo
 			? `${info?.nombre}: ${p.territorio.length} períodos desde ${etiquetaPeriodo(p.territorio[0].periodo)}; ` +
 					`último, ${etiquetaPeriodo(ultimo.periodo)}: ${publicado(ultimo.valor)} ${info?.unidad ?? ''}` +
-					(paisUltimo ? `; total del país: ${publicado(paisUltimo.valor)}` : '')
+					(paisUltimo ? `; total del país: ${publicado(paisUltimo.valor)} ${info?.unidad ?? ''}` : '')
 			: ''
 	);
 </script>
@@ -92,11 +93,13 @@
 			<polyline class="territorio" points={linea(p.territorio)} />
 		</svg>
 		<figcaption>
-			<span class="clave territorio"></span>{ficha.nombre}
+			<span class="item"><span class="clave territorio"></span>{ficha.nombre}</span>
 			{#if p.pais.length}
-				<span class="clave pais"></span>Total del país (lo publica el INE desde {etiquetaPeriodo(p.pais[0].periodo)})
+				<span class="item"
+					><span class="clave pais"></span>Total del país (lo publica el INE desde {etiquetaPeriodo(p.pais[0].periodo)})</span
+				>
 			{/if}
-			· {info?.unidad}
+			<span class="item">{info?.unidad} · Fuente: {ultimoObs ? fuenteDe(ultimoObs) : ''}</span>
 		</figcaption>
 	</figure>
 
@@ -104,7 +107,11 @@
 		<dl class="ultimo">
 			<div>
 				<dt>{info?.nombre} · {etiquetaPeriodo(ultimo.periodo)}</dt>
-				<dd>{publicado(ultimo.valor)} {info?.unidad}{#if paisUltimo} <span class="suave">(país: {publicado(paisUltimo.valor)})</span>{/if}</dd>
+				<dd>
+					{publicado(ultimo.valor)}
+					{info?.unidad}
+					{#if paisUltimo}<span class="suave"> (país: {publicado(paisUltimo.valor)} {info?.unidad})</span>{/if}
+				</dd>
 			</div>
 		</dl>
 	{/if}
@@ -126,7 +133,11 @@
 					{#each [...series.values()].flat() as o (o.indicador + o.periodo)}
 						<tr>
 							<td>{ficha.indicadores[o.indicador]?.nombre ?? o.indicador}</td>
-							<td class="num">{publicado(o.valor)} {ficha.indicadores[o.indicador]?.unidad}</td>
+							<td class="num">
+								{publicado(o.valor)}
+								{ficha.indicadores[o.indicador]?.unidad}
+								{#if o.es_estimado}<span class="estimado">estimado</span>{/if}
+							</td>
 							<td>{o.periodo}</td>
 							<td>{fuenteDe(o)}</td>
 						</tr>
@@ -187,6 +198,12 @@
 		gap: var(--espacio-1) var(--espacio-2);
 	}
 
+	.item {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--espacio-1);
+	}
+
 	.clave {
 		display: inline-block;
 		width: 1.5em;
@@ -211,6 +228,12 @@
 		margin: 0;
 		font-size: var(--texto-l);
 		font-weight: 600;
+	}
+
+	.estimado {
+		font-size: var(--texto-xs);
+		color: var(--texto-suave);
+		margin-left: var(--espacio-1);
 	}
 
 	summary {

@@ -136,5 +136,8 @@ describe('F2.8c: series en la ficha (AC-L25)', () => {
 		]);
 		expect(s.periodos).toHaveLength(3); // eje: los períodos del territorio
 		expect(puntosSerie(territorio, null, 'tasa_actividad').pais).toEqual([]);
+		// un período del país que el territorio no tiene no se dibuja ni se cuenta
+		const conOtro = ficha([...pais.observaciones, tm('tasa_actividad', '2023-05', 60.0)]);
+		expect(puntosSerie(territorio, conOtro, 'tasa_actividad').pais).toHaveLength(2);
 	});
 });
