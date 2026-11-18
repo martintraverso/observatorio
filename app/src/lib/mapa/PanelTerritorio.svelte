@@ -2,15 +2,24 @@
 	// Panel del territorio seleccionado (AC-M3, AC-M4, AC-G2).
 	import { descargarCsv } from '../csv.ts';
 	import { hrefFicha, NOMBRE_NIVEL, type Ficha, type Observacion } from '../datos.ts';
-	import { numero } from '../formato.ts';
+	import { publicado } from '../formato.ts';
+	import { etiquetaPeriodo, fuenteCorta } from './estado.ts';
 	import MiniMapa from './MiniMapa.svelte';
 
 	let {
 		ficha,
 		indicador,
 		periodo,
+		conTotalPais = false,
 		oncerrar
-	}: { ficha: Ficha; indicador: string; periodo: string; oncerrar: () => void } = $props();
+	}: {
+		ficha: Ficha;
+		indicador: string;
+		periodo: string;
+		/** El indicador también se publica para el país (p. ej. la ECH en sus informes recientes). */
+		conTotalPais?: boolean;
+		oncerrar: () => void;
+	} = $props();
 
 	let principal = $derived(ficha.observaciones.find((o) => o.indicador === indicador && o.periodo === periodo) ?? null);
 	let otros = $derived(
@@ -20,7 +29,7 @@
 	function fuente(o: Observacion): string {
 		const c = ficha.capturas[o.captura_id];
 		const f = c && ficha.fuentes[c.fuente_id];
-		return f ? f.organismo.replace(/^.*\((\w+)\)$/, '$1') + ' · ' + f.nombre : o.captura_id;
+		return f ? fuenteCorta(f) : o.captura_id;
 	}
 	const ind = (o: Observacion) => ficha.indicadores[o.indicador];
 </script>
@@ -40,19 +49,25 @@
 
 	{#if principal}
 		<div class="principal">
-			<p class="etiqueta">{ind(principal)?.nombre} · {principal.periodo}</p>
+			<p class="etiqueta">{ind(principal)?.nombre} · {etiquetaPeriodo(principal.periodo)}</p>
 			<p class="valor">
-				{numero(principal.valor)} <span class="unidad">{ind(principal)?.unidad}</span>
+				{publicado(principal.valor)} <span class="unidad">{ind(principal)?.unidad}</span>
 				{#if principal.es_estimado}<span class="estimado">estimado</span>{/if}
 			</p>
 			<p class="suave fuente">Fuente: {fuente(principal)}</p>
 			<p class="suave fuente">
-				Total del país: esta fuente no publica un total nacional, y el observatorio no suma territorios para
-				calcularlo.
+				{#if conTotalPais}
+					Total del país: el INE lo publica en esta fuente; está en la <a href={hrefFicha({ nivel: 'pais', codigo: 'UY' })}
+						>ficha de Uruguay</a
+					>. El observatorio no suma territorios para calcularlo.
+				{:else}
+					Total del país: esta fuente no publica un total nacional, y el observatorio no suma territorios para
+					calcularlo.
+				{/if}
 			</p>
 		</div>
 	{:else}
-		<p class="aviso">Este territorio no tiene datos de este indicador para {periodo}.</p>
+		<p class="aviso">Este territorio no tiene datos de este indicador para {etiquetaPeriodo(periodo)}.</p>
 	{/if}
 
 	{#if otros.length}
@@ -60,9 +75,9 @@
 		<dl class="otros">
 			{#each otros as o (o.indicador + o.periodo)}
 				<div>
-					<dt>{ind(o)?.nombre} ({o.periodo})</dt>
+					<dt>{ind(o)?.nombre} ({etiquetaPeriodo(o.periodo)})</dt>
 					<dd>
-						{numero(o.valor)}
+						{publicado(o.valor)}
 						{ind(o)?.unidad}{#if o.es_estimado}<span class="estimado">estimado</span>{/if}
 					</dd>
 				</div>

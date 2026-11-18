@@ -10,7 +10,7 @@
 	import type { Map as MapaLibre, MapLayerMouseEvent } from 'maplibre-gl';
 	import { urlDatos } from '../datos.ts';
 	import { ATRIBUCION_MAPA, COLOR_SIN_DATO, coloresClases } from './colores.ts';
-	import { clase, ZOOM_SEGMENTOS, type Clases, type NivelMapa } from './estado.ts';
+	import { clase, NIVELES_MAPA, type Clases, type NivelMapa, ZOOM_SEGMENTOS } from './estado.ts';
 	import MiniMapa from './MiniMapa.svelte';
 	import { LOCALE_MAPA } from './idioma.ts';
 
@@ -33,7 +33,7 @@
 	} = $props();
 
 	const FUENTE = 'territorios';
-	const NIVELES = ['departamento', 'seccion', 'segmento'] as const;
+	const NIVELES = NIVELES_MAPA; // capas que se pintan (incluye municipio_mvd, F2.8b)
 	// Capas del PMTiles donde puede estar un territorio seleccionado (también desde la búsqueda).
 	const NIVELES_SELECCION = ['departamento', 'area_especial', 'seccion', 'segmento', 'localidad', 'barrio_mvd', 'ccz_mvd'];
 	const URUGUAY: [[number, number], [number, number]] = [

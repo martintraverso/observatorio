@@ -12,6 +12,8 @@
 		clasesCuantiles,
 		estadoDesdeUrl,
 		ETIQUETA_NIVEL_MAPA,
+		etiquetaPeriodo,
+		fuenteCorta,
 		indicadoresDelTema,
 		NIVELES_MAPA,
 		nivelMasDetallado,
@@ -51,7 +53,7 @@
 	let hayEstimados = $derived(!!valoresNivel?.estimados[estado.indicador]?.[estado.periodo]?.length);
 	let fuente = $derived.by(() => {
 		const f = data.fuentes.find((x) => x.id === indicador?.fuente_id);
-		return f ? `${siglas(f.organismo)}, ${f.nombre}` : '';
+		return f ? fuenteCorta(f) : '';
 	});
 	let seleccionadoId = $derived(estado.territorio ? `INE-2023/${estado.territorio}` : null);
 	let faltaZoom = $derived(estado.nivel === 'segmento' && zoom < ZOOM_SEGMENTOS);
@@ -146,7 +148,7 @@
 			unidad={indicador.unidad}
 			{clases}
 			{fuente}
-			periodo={estado.periodo}
+			periodo={etiquetaPeriodo(estado.periodo)}
 			{hayEstimados}
 		/>
 	{/if}
@@ -220,7 +222,7 @@
 			<div class="campo">
 				<label for="periodo">Período</label>
 				<select id="periodo" bind:value={estado.periodo}>
-					{#each indicador.periodos as p (p)}<option value={p}>{p}</option>{/each}
+					{#each indicador.periodos as p (p)}<option value={p}>{etiquetaPeriodo(p)}</option>{/each}
 				</select>
 			</div>
 		{/if}
@@ -266,6 +268,7 @@
 				{ficha}
 				indicador={estado.indicador}
 				periodo={estado.periodo}
+				conTotalPais={!!indicador?.niveles.includes('pais')}
 				oncerrar={() => (estado.territorio = null)}
 			/>
 		{:else if errorFicha}
