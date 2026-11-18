@@ -173,13 +173,18 @@ def descubrir(bajar: Callable[[str], str], max_paginas: int = 50) -> Resultado:
 
 def bajar_texto(url: str, timeout: int = 60) -> str:
     """Trae una página, solo de los sitios oficiales del INE (también después de redirecciones)."""
+    return bajar_bytes(url, timeout).decode("utf-8")
+
+
+def bajar_bytes(url: str, timeout: int = 180) -> bytes:
+    """Trae un archivo sin modificarlo, solo de los sitios oficiales del INE (también después de redirecciones)."""
     if not url.startswith(DOMINIOS_OFICIALES):
         raise ErrorDescubrimiento(f"Solo se admiten sitios oficiales del INE: {url}")
     pedido = urllib.request.Request(url, headers={"User-Agent": "observatorio-uruguay/1.0"})
     with urllib.request.urlopen(pedido, timeout=timeout) as r:
         if not r.geturl().startswith(DOMINIOS_OFICIALES):
             raise ErrorDescubrimiento(f"La página terminó fuera de los sitios oficiales del INE: {r.geturl()}")
-        return r.read().decode("utf-8")
+        return r.read()
 
 
 def main(argv=None) -> int:
