@@ -16,8 +16,10 @@
 		partes,
 		SECCIONES_FICHA,
 		SIN_FUENTES,
-		valorDe
+		valorDe,
+		separarSeries
 	} from '#lib/ficha/logica.ts';
+	import SerieFicha from '#lib/ficha/SerieFicha.svelte';
 
 	let { data } = $props();
 	let f = $derived(data.ficha);
@@ -143,11 +145,16 @@
 
 {#each SECCIONES_FICHA as s (s.id)}
 	{@const lista = observacionesDeSeccion(f, s.temas)}
+	{@const { puntuales, series } = separarSeries(lista)}
 	<section id={s.id} class="tarjeta seccion" aria-labelledby="titulo-{s.id}">
 		<h2 id="titulo-{s.id}">{s.titulo}</h2>
 		{#if lista.length === 0}
 			<p class="aviso vacio">{SIN_FUENTES}</p>
-		{:else}
+		{/if}
+		{#if series.size}
+			<SerieFicha ficha={f} {series} pais={data.pais} fuenteDe={fuenteDe} titulo={s.titulo} />
+		{/if}
+		{#if puntuales.length}
 			<TablaDesplazable etiqueta="{s.titulo} en {f.nombre}">
 				<table>
 					<caption class="visualmente-oculto">{s.titulo} en {f.nombre}</caption>
@@ -161,7 +168,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						{#each lista as o (o.indicador + o.periodo)}
+						{#each puntuales as o (o.indicador + o.periodo)}
 							<tr>
 								<td>{ind(o)?.nombre ?? o.indicador}</td>
 								<td class="num">

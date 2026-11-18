@@ -87,3 +87,40 @@ test('la nota del total del país depende del período (nunca se suma)', async (
 	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023&territorio=departamento/10');
 	await expect(panel(page)).toContainText('esta fuente no publica un total nacional');
 });
+
+// ---------------------------------------------------------------- F2.8c (#67): serie en las fichas (AC-L25)
+
+const ficha = (nivel: string, codigo: string) =>
+	JSON.parse(readFileSync(`build/datos-web/fichas/${nivel}/${codigo}.json`, 'utf-8')) as {
+		observaciones: { indicador: string; periodo: string; tipo_periodo: string; valor: number | null }[];
+	};
+const nPeriodos = (nivel: string, codigo: string, indicador: string) =>
+	ficha(nivel, codigo).observaciones.filter((o) => o.indicador === indicador && o.tipo_periodo !== 'censo' && o.valor !== null).length;
+
+test('AC-L25: la ficha de un departamento muestra la serie desde 2022 frente al total del país', async ({ page }) => {
+	await page.goto('territorio/departamento/10');
+	const seccion = page.locator('#trabajo');
+	const grafico = seccion.getByRole('img');
+	await expect(grafico).toHaveAttribute('data-puntos', String(nPeriodos('departamento', '10', 'tasa_actividad')));
+	await expect(grafico).toHaveAttribute('data-puntos-pais', String(nPeriodos('pais', 'UY', 'tasa_actividad')));
+	expect(nPeriodos('departamento', '10', 'tasa_actividad')).toBeGreaterThan(nPeriodos('pais', 'UY', 'tasa_actividad'));
+	await expect(grafico).toHaveAttribute('aria-label', /Tasa de actividad: \d+ períodos desde Trimestre móvil dic 2021–feb 2022/);
+	await expect(seccion).toContainText('Total del país (lo publica el INE desde');
+	const selector = seccion.getByRole('combobox', { name: 'Indicador' });
+	await expect(selector.locator('option')).toHaveCount(7);
+	await selector.selectOption({ label: 'Tasa de desempleo' });
+	await expect(grafico).toHaveAttribute('aria-label', /^Tasa de desempleo:/);
+	await expect(seccion.locator('details tbody tr')).toHaveCount(
+		ficha('departamento', '10').observaciones.filter((o) => o.tipo_periodo !== 'censo').length
+	);
+	expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+});
+
+test('AC-L25: municipios con serie y comparación; la ficha del país, sin línea de comparación', async ({ page }) => {
+	await page.goto('territorio/municipio_mvd/CH');
+	await expect(page.locator('#trabajo').getByRole('img')).toHaveAttribute('data-puntos', String(nPeriodos('municipio_mvd', 'CH', 'tasa_actividad')));
+	await expect(page.locator('#trabajo').getByRole('img')).toHaveAttribute('data-puntos-pais', /^[1-9]\d*$/);
+	await page.goto('territorio/pais/UY');
+	await expect(page.locator('#trabajo').getByRole('img')).toHaveAttribute('data-puntos-pais', '0');
+	await expect(page.locator('#trabajo')).not.toContainText('Total del país (lo publica');
+});

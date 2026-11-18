@@ -22,6 +22,51 @@ export function observacionesDeSeccion(f: Ficha, temas: readonly string[]): Obse
 		.sort((a, b) => clave(a)[0] - clave(b)[0] || clave(a)[1].localeCompare(clave(b)[1], 'es'));
 }
 
+/**
+ * F2.8c: separa los valores de un solo período (Censo) de las series (p. ej. trimestres móviles de la ECH),
+ * agrupadas por indicador y en orden de período, para mostrarlas como gráfico (AC-L25).
+ */
+export function separarSeries(lista: Observacion[]): { puntuales: Observacion[]; series: Map<string, Observacion[]> } {
+	const puntuales: Observacion[] = [];
+	const series = new Map<string, Observacion[]>();
+	for (const o of lista) {
+		if (o.tipo_periodo === 'censo') puntuales.push(o);
+		else series.set(o.indicador, [...(series.get(o.indicador) ?? []), o]);
+	}
+	for (const s of series.values()) s.sort((a, b) => a.periodo_fin.localeCompare(b.periodo_fin));
+	return { puntuales, series };
+}
+
+export interface PuntoSerie {
+	periodo: string;
+	periodo_fin: string;
+	valor: number;
+}
+
+/**
+ * Puntos del gráfico: la serie del territorio y la del total del país tal como la publica la fuente, desde el
+ * primer informe que la trae (decisión del mantenedor, #67). Nunca se suma territorios (SYSTEM.md §4).
+ */
+export function puntosSerie(
+	territorio: Observacion[],
+	pais: Ficha | null,
+	indicador: string
+): { periodos: string[]; territorio: PuntoSerie[]; pais: PuntoSerie[] } {
+	const punto = (o: Observacion): PuntoSerie | null =>
+		o.valor === null ? null : { periodo: o.periodo, periodo_fin: o.periodo_fin, valor: o.valor };
+	const delPais = (pais?.observaciones ?? [])
+		.filter((o) => o.indicador === indicador && o.tipo_periodo !== 'censo')
+		.sort((a, b) => a.periodo_fin.localeCompare(b.periodo_fin));
+	const periodos = territorio.map((o) => o.periodo);
+	const enEje = new Set(periodos);
+	return {
+		periodos,
+		territorio: territorio.map(punto).filter((p): p is PuntoSerie => p !== null),
+		// solo los períodos del eje (los del territorio): lo que se dibuja es lo que se cuenta
+		pais: delPais.map(punto).filter((p): p is PuntoSerie => p !== null && enEje.has(p.periodo))
+	};
+}
+
 /** Valor de un indicador en un territorio resumido (padre o contenido). */
 export function valorDe(r: Resumen, indicador: string, periodo: string): number | null {
 	return r.valores[indicador]?.[periodo] ?? null;
