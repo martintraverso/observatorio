@@ -28,7 +28,8 @@ def validar_fuente(f: dict, archivo: str) -> list[str]:
     if f.get("capas") and not f.get("version_geo"):
         errores.append(f"{archivo}: fuente geográfica sin version_geo")
     if f.get("estado") == "activa":
-        errores += [f"{archivo}: una fuente activa necesita '{c}'" for c in CAMPOS_ACTIVA if not f.get(c)]
+        errores += [f"{archivo}: una fuente activa necesita '{c}'" for c in CAMPOS_ACTIVA
+                    if not f.get(c) and not (c == "archivo_original" and f.get("carpeta_original"))]
         if f.get("script") and not (RAIZ / f["script"]).is_file():
             errores.append(f"{archivo}: no existe el script {f['script']}")
         if f.get("archivo_original") and Path(f["archivo_original"]).name != f["archivo_original"]:

@@ -1,7 +1,7 @@
 """Reconstruye todo con un comando: cada fuente activa y, si algo cambió, los archivos para la app.
 
 Para cada fuente con estado 'activa' en fuentes/*.yml corre su `script` sobre
-`<crudo>/<archivo_original>`. Cada script decide si su original cambió (nuevo /
+`<crudo>/<archivo_original>` (o `<crudo>/<carpeta_original>`, si la fuente tiene varios originales). Cada script decide si su original cambió (nuevo /
 reprocesado / sin cambios). Si alguna fuente se procesó (o con --web), corre web.py.
 No usa la red: los originales tienen que estar en <crudo> (ver scripts/conseguir_originales.py).
 
@@ -28,7 +28,7 @@ PROCESADO = ("nuevo", "reprocesado")
 
 
 def correr_fuente(fuente: dict, crudo: Path, salida: Path, forzar: bool, extra: list[str]) -> dict:
-    original = crudo / fuente["archivo_original"]
+    original = crudo / (fuente.get("archivo_original") or fuente["carpeta_original"])
     if not original.exists():
         return {"resultado": "error", "detalle": f"falta el original {original}"}
     cmd = [sys.executable, str(RAIZ / fuente["script"]), str(original), "--salida", str(salida), *extra]
