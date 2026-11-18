@@ -284,3 +284,17 @@ def test_nivel_pais(con, salida, esperado):
     # El Censo no publica en estos niveles: ninguna observación, y nada derivado sumando.
     assert uno(con, """select count(*) from observaciones o join territorios t on t.id = o.territorio_id
                        where t.nivel in ('pais', 'municipio_mvd')""") == 0
+
+
+# F2.5b (#57): capturas con URL, fecha de descarga y vigencia
+def test_capturas_tienen_url_descargado_y_vigente(con):
+    from comun.registro import RAIZ, cargar_fuentes
+
+    cols = dict(con.execute("select column_name, data_type from information_schema.columns "
+                            "where table_name = 'capturas'").fetchall())
+    assert {"url": "VARCHAR", "descargado": "VARCHAR", "vigente": "BOOLEAN"}.items() <= cols.items()
+    url = cargar_fuentes(RAIZ / "fuentes")["ine_unidades_geoestadisticas_2023"]["url_descarga"]
+    filas = con.execute("select url, descargado, vigente from capturas "
+                        "where fuente_id = 'ine_unidades_geoestadisticas_2023'").fetchall()
+    # el zip del Censo viene del release crudos: no se registró cuándo se bajó del INE
+    assert filas == [(url, None, True)]

@@ -48,7 +48,7 @@ Source: INE, *Unidades geoestadísticas Censo 2023* (zip of GeoPackages, EPSG:43
 territorios(id, nivel, codigo, nombre, depto, padre_id, version_geo, area_km2, codigo_iso, geometry)
 observaciones(indicador, territorio_id, periodo, periodo_inicio, periodo_fin, tipo_periodo, valor, es_estimado, captura_id)
 indicadores(codigo, nombre, unidad, columna_origen, fuente_id, nota)
-capturas(id, fuente_id, archivo, sha256, fecha_proceso)
+capturas(id, fuente_id, archivo, sha256, fecha_proceso, url, descargado, vigente)  -- descargado: download date, if recorded; vigente: latest version (F2.5b)
 capturas_historial(id, fuente_id, archivo, sha256, fecha_proceso, resultado, detalle)  -- append-only, one row per run
 fuentes(id, nombre, organismo, pagina, url_descarga, formato, licencia, frecuencia, estado, contacto,
         version_geo, temas[], nivel_mas_detallado, niveles_publicados[], notas[])  -- from fuentes/*.yml
