@@ -1,11 +1,14 @@
 import { describe, expect, it } from 'vitest';
-import { conUnidad, fecha, numero, porcentaje, tamano } from './formato';
+import { conUnidad, fecha, numero, porcentaje, publicado, tamano } from './formato';
 
 describe('formato es-UY (AC-G1)', () => {
 	it('usa punto para miles y coma para decimales', () => {
 		expect(numero(1300197)).toBe('1.300.197');
 		expect(numero(3495947)).toBe('3.495.947');
 		expect(numero(12.5, 1)).toBe('12,5');
+		expect(publicado(14.9)).toBe('14,9');
+		expect(publicado(26271)).toBe('26.271');
+		expect(publicado(null)).toBe('—');
 		expect(numero(1234.5678, 2)).toBe('1.234,57');
 	});
 
