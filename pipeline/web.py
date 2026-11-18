@@ -45,6 +45,7 @@ import shapely
 
 from comun.capturas import ARCHIVO_HISTORIAL, ahora
 from comun.huella import sha256_archivo
+from comun.registro import RAIZ, cargar_fuentes
 
 ATRIBUCION = "Límites: INE, unidades geoestadísticas 2023"
 DECIMALES = 5
@@ -288,7 +289,14 @@ def indice(territorios: gpd.GeoDataFrame) -> list[dict]:
     } for r in t.itertuples()]
 
 
-def construir_fichas(territorios, obs, indicadores, capturas, fuentes, correspondencias) -> dict[str, dict]:
+def advertencias_del_registro(carpeta: Path) -> dict[str, list[str]]:
+    """Advertencias de cada fuente (campo `advertencias` del registro), para mostrarlas junto a sus datos
+    (AC-L26). No van a la tabla `fuentes` del release: solo a la web, y solo las fuentes que las tienen."""
+    return {k: list(f["advertencias"]) for k, f in cargar_fuentes(carpeta).items() if f.get("advertencias")}
+
+
+def construir_fichas(territorios, obs, indicadores, capturas, fuentes, correspondencias,
+                     advertencias: dict[str, list[str]] | None = None) -> dict[str, dict]:
     t = territorios.set_index("id")
     padre = {i: p for i, p in t.padre_id.items() if isinstance(p, str)}
 
@@ -343,7 +351,9 @@ def construir_fichas(territorios, obs, indicadores, capturas, fuentes, correspon
 
     ind = {r["codigo"]: r for r in registros(indicadores)}
     cap = {r["id"]: r for r in registros(capturas)}
-    fue = {r["id"]: {k: r.get(k) for k in ("nombre", "organismo", "licencia", "pagina", "url_descarga")}
+    advertencias = advertencias or {}
+    fue = {r["id"]: {**{k: r.get(k) for k in ("nombre", "organismo", "licencia", "pagina", "url_descarga")},
+                     **({"advertencias": advertencias[r["id"]]} if r["id"] in advertencias else {})}
            for r in registros(fuentes)}
 
     fichas = {}
@@ -450,6 +460,7 @@ def escribir_manifest(web: Path, generado: str, capturas) -> int:
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--salida", type=Path, default=Path("datos/salida"))
+    ap.add_argument("--fuentes", type=Path, default=RAIZ / "fuentes", help="carpeta del registro de fuentes")
     ap.add_argument("--sin-pmtiles", action="store_true", help="no generar el PMTiles (desarrollo sin tippecanoe)")
     ap.add_argument("--incluir-en-preparacion", action="store_true",
                     help="vista previa local: incluir en la app las fuentes «en preparación» (no publicar; F2.8a)")
@@ -480,14 +491,16 @@ def main(argv=None):
     if not args.sin_pmtiles:
         escribir_pmtiles(territorios, web)
     escribir_json(web / "territorios_index.json", indice(territorios))
-    fichas = construir_fichas(territorios, obs, indicadores, capturas, fuentes, correspondencias)
+    advertencias = advertencias_del_registro(args.fuentes)
+    fichas = construir_fichas(territorios, obs, indicadores, capturas, fuentes, correspondencias, advertencias)
     for f in fichas.values():
         escribir_json(web / "fichas" / f["nivel"] / f"{f['codigo']}.json", f)
     escribir_json(web / "indicadores.json", disponibilidad(indicadores, territorios, obs))
     for nivel, datos in valores_por_nivel(territorios, obs).items():
         escribir_json(web / "valores" / f"{nivel}.json", datos)
     escribir_mini(territorios, web)
-    escribir_json(web / "fuentes.json", registros(fuentes))
+    escribir_json(web / "fuentes.json", [{**r, **({"advertencias": advertencias[r["id"]]} if r["id"] in advertencias else {})}
+                                          for r in registros(fuentes)])
     escribir_json(web / "capturas.json", {"vigentes": registros(capturas), "historial": registros(historial)})
     generado = ahora()
     escribir_json(web / "descargas.json",

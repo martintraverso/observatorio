@@ -94,6 +94,8 @@ export interface FuenteRef {
 	licencia: string;
 	pagina: string;
 	url_descarga: string;
+	/** Advertencias de la fuente (texto del INE), si las tiene (AC-L26). */
+	advertencias?: string[];
 }
 
 export interface Ficha {
