@@ -290,3 +290,16 @@ def test_las_fuentes_a_procesar_son_las_activas_y_las_que_se_cargan_con_la_geogr
     fuentes = cargar_fuentes(RAIZ / "fuentes")
     assert fuentes[ECH]["estado"] == "en preparación" and fuentes[ECH]["cargar"] is True
     assert [f["id"] for f in a_procesar(fuentes)] == [FUENTE, ECH]  # el Censo (territorios) antes que la ECH
+
+
+def test_una_fuente_que_se_carga_sin_originales_se_omite_y_una_activa_falla(crudo, tmp_path):
+    """Como el paso «Datos del fixture» de CI: solo el zip del Censo en crudo."""
+    r = correr("pipeline/correr.py", "--crudo", crudo, "--salida", tmp_path / "salida", "--argumentos", ARG_FIXTURE,
+               "--sin-pmtiles")
+    assert r.returncode == 0, r.stderr
+    res = json.loads(r.stdout.strip().splitlines()[-1])
+    assert res["fuentes"][FUENTE]["resultado"] == "nuevo" and res["fuentes"][ECH]["resultado"] == "omitida"
+    assert res["errores"] == [] and res["web"]
+    (crudo / ORIGINAL).unlink()  # una fuente activa sin original sí es un error
+    r = correr("pipeline/correr.py", "--crudo", crudo, "--salida", tmp_path / "salida2", "--sin-pmtiles")
+    assert r.returncode != 0 and json.loads(r.stdout.strip().splitlines()[-1])["fuentes"][FUENTE]["resultado"] == "error"
