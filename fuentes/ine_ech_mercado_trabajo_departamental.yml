@@ -20,6 +20,9 @@ cita: "Fuente: INE - Encuesta Continua de Hogares (pie de cada cuadro del inform
 contacto: "Depto. de Difusión y Comunicación del INE: difusion@ine.gub.uy, (598) 2902 7303 int. 7723 y 7725 (pie del informe)."
 frecuencia: mensual desde febrero de 2022 (cada informe es un trimestre móvil)
 estado: en preparación     # activa | en preparación | a relevar
+# Originales en datos/crudo/ech_mt/ (un HTML por informe y capturas.json) y script que los carga (F2.5c).
+carpeta_original: ech_mt
+script: pipeline/ech_cargar.py
 temas: [Trabajo]
 niveles_publicados: [pais, departamento, municipio_mvd]
 nivel_mas_detallado: municipio_mvd

@@ -1,0 +1,127 @@
+"""F2.5c: carga de los informes de mercado de trabajo (INE, ECH) en las tablas del observatorio.
+
+Lee el registro de capturas de F2.5b (`<crudo>/ech_mt/capturas.json`), parsea con `parsear_informe` (F2.4) cada
+captura vigente y le pone a cada valor su `captura_id`. Escribe lo de la fuente en
+`<salida>/fuentes/ine_ech_mercado_trabajo_departamental/` y arma las tablas compartidas con
+`comun.salida.combinar`, junto con las del Censo.
+
+- Una captura que ya se parseó (mismo id = mismo sha256) no se vuelve a parsear: se reutilizan sus
+  observaciones (AC-L4, AC-P8). Con --forzar se parsea todo de nuevo.
+- Solo las capturas vigentes dan observaciones; las anteriores quedan en `capturas` (vigente = false), trazables.
+- Cada valor queda en el nivel en que lo publica el INE (SYSTEM.md §4, AC-P5): país solo si el informe trae
+  «Total país», departamentos y municipios de Montevideo.
+
+Uso: python pipeline/ech_cargar.py datos/crudo/ech_mt [--salida datos/salida] [--fuentes fuentes/] [--forzar]
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+import pandas as pd
+from ech_captura import FUENTE_ID, leer_registro, verificar
+from ech_mercado_trabajo import INDICADORES, parsear_informe
+
+from comun.capturas import Historial, ahora, nueva_captura
+from comun.registro import RAIZ, cargar_fuentes
+from comun.salida import carpeta_fuente, combinar, escribir_fuente
+
+NOMBRES = {
+    "tasa_actividad": ("Tasa de actividad", "Cuadros 1 y 4: Actividad"),
+    "tasa_empleo": ("Tasa de empleo", "Cuadros 1 y 4: Empleo"),
+    "tasa_desempleo": ("Tasa de desempleo", "Cuadros 1 y 4: Desempleo"),
+    "activos": ("Activos", "Cuadros 2 y 5: Activos"),
+    "ocupados": ("Ocupados", "Cuadros 2 y 5: Empleados"),
+    "desocupados": ("Desocupados", "Cuadros 2 y 5: Desempleados"),
+    "tasa_no_registro": ("No registro a la seguridad social", "Cuadros 3 y 6: No registro (en %)"),
+}
+NOTA = ("Estimación de la Encuesta Continua de Hogares para un trimestre móvil, por lugar de residencia. "
+        "Ver las advertencias del INE en la ficha de la fuente.")
+
+
+class ErrorCarga(ValueError):
+    pass
+
+
+def indicadores() -> pd.DataFrame:
+    return pd.DataFrame([{"codigo": c, "nombre": NOMBRES[c][0], "unidad": u, "tema": "Trabajo",
+                          "columna_origen": NOMBRES[c][1], "fuente_id": FUENTE_ID, "nota": NOTA}
+                         for c, u in INDICADORES.items()])
+
+
+def anteriores(salida: Path) -> tuple[pd.DataFrame | None, pd.DataFrame | None]:
+    d = carpeta_fuente(salida, FUENTE_ID)
+    if not (d / "observaciones.parquet").exists():
+        return None, None
+    return pd.read_parquet(d / "observaciones.parquet"), pd.read_parquet(d / "capturas.parquet")
+
+
+def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False) -> dict:
+    registro = leer_registro(crudo)
+    if not registro:
+        raise ErrorCarga(f"No hay capturas en {Path(crudo) / 'ech_mt' / 'capturas.json'}")
+    for c in registro:
+        verificar(crudo, c)
+    obs_prev, cap_prev = anteriores(salida)
+    ya = set() if forzar or cap_prev is None else set(cap_prev.id)
+    fecha_prev = {} if cap_prev is None else dict(zip(cap_prev.id, cap_prev.fecha_proceso))
+
+    partes, parseadas = [], []
+    for c in (c for c in registro if c["vigente"]):
+        if c["id"] in ya:
+            partes.append(obs_prev[obs_prev.captura_id == c["id"]])
+            continue
+        df = parsear_informe((Path(crudo) / c["archivo"]).read_text(encoding="utf-8"), archivo=Path(c["archivo"]).name)
+        if set(df.periodo) != {c["periodo"]}:
+            raise ErrorCarga(f"{c['archivo']}: el informe es de {sorted(set(df.periodo))} y la captura dice {c['periodo']}")
+        partes.append(df.assign(captura_id=c["id"]))
+        parseadas.append(c)
+    obs = pd.concat(partes, ignore_index=True)
+
+    nivel = obs.territorio_id.str.split("/").str[1]
+    fuera = sorted(set(nivel) - set(fuentes[FUENTE_ID]["niveles_publicados"]))
+    if fuera:
+        raise ErrorCarga(f"Observaciones en niveles que la fuente no publica: {fuera}")  # AC-P5
+
+    hoy = ahora()
+    capturas = [nueva_captura(FUENTE_ID, c["archivo"], c["sha256"], fecha_prev.get(c["id"], hoy) if c not in parseadas
+                              else hoy, url=c["url"], descargado=c["descargado"], vigente=c["vigente"])
+                for c in registro]
+    sin_cambios = (not parseadas and cap_prev is not None
+                   and sorted(zip(cap_prev.id, cap_prev.vigente)) == sorted((c["id"], c["vigente"]) for c in registro))
+    if not sin_cambios:
+        escribir_fuente(salida, FUENTE_ID, obs, capturas, indicadores())
+        combinar(salida, fuentes)
+    return {"resultado": "sin cambios" if sin_cambios else ("reprocesado" if forzar else "nuevo"),
+            "capturas": len(registro), "vigentes": sum(c["vigente"] for c in registro),
+            "parseadas": len(parseadas), "reutilizadas": sum(c["vigente"] for c in registro) - len(parseadas),
+            "observaciones": len(obs), "_capturas": capturas, "_parseadas": [c["id"] for c in parseadas]}
+
+
+def main(argv=None) -> int:
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("entrada", type=Path, help="carpeta ech_mt de los originales (con capturas.json)")
+    ap.add_argument("--salida", type=Path, default=Path("datos/salida"))
+    ap.add_argument("--fuentes", type=Path, default=RAIZ / "fuentes")
+    ap.add_argument("--forzar", action="store_true", help="parsear de nuevo aunque las capturas no hayan cambiado")
+    args = ap.parse_args(argv)
+    args.salida.mkdir(parents=True, exist_ok=True)
+    historial = Historial(args.salida)
+    r = cargar(args.entrada.parent, args.salida, cargar_fuentes(args.fuentes), args.forzar)
+    capturas = {c["id"]: c for c in r.pop("_capturas")}
+    parseadas = r.pop("_parseadas")
+    if parseadas:
+        for i in parseadas:
+            historial.agregar(capturas[i], r["resultado"])
+    else:
+        ultima = [c for c in capturas.values() if c["vigente"]][-1]
+        historial.agregar(ultima, r["resultado"], "ninguna captura nueva" if r["resultado"] == "sin cambios" else "")
+    print(json.dumps(r, ensure_ascii=False))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
