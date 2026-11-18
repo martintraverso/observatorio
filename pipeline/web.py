@@ -73,6 +73,9 @@ PMTILES_MAXZOOM = 13  # la app hace overzoom; 14 duplicaba el tamaño (~26 MB)
 
 PROPIEDADES = ["id", "codigo", "nombre", "depto"]
 
+# Mismo orden que TEMAS en app/src/lib/mapa/estado.ts.
+ORDEN_TEMAS = ["Población", "Vivienda", "Hogares", "Trabajo", "Ingresos", "Educación"]
+
 # Niveles que arma el pipeline uniendo geometrías del INE (F2.3).
 DERIVADOS = {"pais", "municipio_mvd"}
 
@@ -242,7 +245,10 @@ def valores_por_nivel(territorios: gpd.GeoDataFrame, obs: pd.DataFrame) -> dict[
 def disponibilidad(indicadores: pd.DataFrame, territorios: gpd.GeoDataFrame, obs: pd.DataFrame) -> list[dict]:
     """indicadores.json: cada indicador con los niveles y períodos en que hay datos (AC-M2)."""
     nivel = obs.territorio_id.map(territorios.set_index("id").nivel)
-    filas = registros(indicadores)
+    # En el orden de los temas de la app (el primero es el que muestra el mapa al abrir), no en el de las fuentes.
+    orden = {t: i for i, t in enumerate(ORDEN_TEMAS)}
+    indicadores = indicadores.assign(_o=indicadores.tema.map(orden).fillna(len(orden))).sort_values("_o", kind="stable")
+    filas = registros(indicadores.drop(columns="_o"))
     for f in filas:
         de_este = obs.indicador == f["codigo"]
         f["niveles"] = sorted(nivel[de_este].unique().tolist())
@@ -250,12 +256,16 @@ def disponibilidad(indicadores: pd.DataFrame, territorios: gpd.GeoDataFrame, obs
     return filas
 
 
-def solo_activas(obs, indicadores, capturas, fuentes):
-    """Lo que ve la app: solo valores, indicadores y capturas de fuentes activas. Una fuente con `cargar: true`
-    que todavía no es activa (p. ej. «en preparación» hasta pasar sus controles) queda en el release, no en la app."""
-    activas = set(fuentes.loc[fuentes.estado == "activa", "id"])
-    capturas = capturas[capturas.fuente_id.isin(activas)]
-    return obs[obs.captura_id.isin(capturas.id)], indicadores[indicadores.fuente_id.isin(activas)], capturas
+def solo_activas(obs, indicadores, capturas, fuentes, historial, incluir_en_preparacion=False):
+    """Lo que ve la app: solo valores, indicadores, capturas e historial de fuentes activas. Una fuente con
+    `cargar: true` que todavía no es activa (p. ej. «en preparación» hasta pasar sus controles) queda en el
+    release, no en la app. Con `incluir_en_preparacion` (vista previa local, F2.8a) entran también las fuentes
+    «en preparación»: el workflow de datos nunca lo usa."""
+    estados = {"activa", "en preparación"} if incluir_en_preparacion else {"activa"}
+    visibles = set(fuentes.loc[fuentes.estado.isin(estados), "id"])
+    capturas = capturas[capturas.fuente_id.isin(visibles)]
+    return (obs[obs.captura_id.isin(capturas.id)], indicadores[indicadores.fuente_id.isin(visibles)], capturas,
+            historial[historial.fuente_id.isin(visibles)])
 
 
 def escribir_mini(territorios: gpd.GeoDataFrame, web: Path) -> None:
@@ -441,6 +451,8 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--salida", type=Path, default=Path("datos/salida"))
     ap.add_argument("--sin-pmtiles", action="store_true", help="no generar el PMTiles (desarrollo sin tippecanoe)")
+    ap.add_argument("--incluir-en-preparacion", action="store_true",
+                    help="vista previa local: incluir en la app las fuentes «en preparación» (no publicar; F2.8a)")
     args = ap.parse_args(argv)
     s = args.salida
     if not args.sin_pmtiles and tippecanoe() is None:
@@ -454,8 +466,10 @@ def main(argv=None):
     fuentes = pd.read_parquet(s / "fuentes.parquet")
     correspondencias = pd.read_parquet(s / "correspondencias.parquet")
     historial = pd.read_parquet(s / ARCHIVO_HISTORIAL) if (s / ARCHIVO_HISTORIAL).exists() else capturas.iloc[0:0]
-    obs, indicadores, capturas = solo_activas(obs, indicadores, capturas, fuentes)  # F2.5d
-    historial = historial[historial.fuente_id.isin(set(fuentes.loc[fuentes.estado == "activa", "id"]))]
+    obs, indicadores, capturas, historial = solo_activas(  # F2.5d
+        obs, indicadores, capturas, fuentes, historial, incluir_en_preparacion=args.incluir_en_preparacion)
+    if args.incluir_en_preparacion:
+        print("Vista previa: incluye fuentes «en preparación». No publicar esta salida.", file=sys.stderr)
 
     web = s / "web"
     if web.exists():

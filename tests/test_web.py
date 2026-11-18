@@ -5,6 +5,8 @@ from __future__ import annotations
 import gzip
 import json
 import re
+import subprocess
+import sys
 
 import geopandas as gpd
 import pytest
@@ -311,8 +313,27 @@ def test_la_app_muestra_solo_fuentes_activas():
     capturas = pd.DataFrame([{"id": "a:1", "fuente_id": "a"}, {"id": "b:1", "fuente_id": "b"}])
     indicadores = pd.DataFrame([{"codigo": "x", "fuente_id": "a"}, {"codigo": "y", "fuente_id": "b"}])
     obs = pd.DataFrame([{"indicador": "x", "captura_id": "a:1"}, {"indicador": "y", "captura_id": "b:1"}])
-    o, i, c = solo_activas(obs, indicadores, capturas, fuentes)
+    historial = capturas.assign(resultado="nuevo")
+    o, i, c, h = solo_activas(obs, indicadores, capturas, fuentes, historial)
     assert o.indicador.tolist() == ["x"] and i.codigo.tolist() == ["x"] and c.id.tolist() == ["a:1"]
+    assert h.fuente_id.tolist() == ["a"]
+    # F2.8a (#65): la vista previa local suma las fuentes «en preparación»
+    o, i, c, h = solo_activas(obs, indicadores, capturas, fuentes, historial, incluir_en_preparacion=True)
+    assert o.indicador.tolist() == ["x", "y"] and c.id.tolist() == ["a:1", "b:1"] and h.fuente_id.tolist() == ["a", "b"]
+    a_relevar = fuentes.assign(estado=["activa", "a relevar"])
+    o, *_ = solo_activas(obs, indicadores, capturas, a_relevar, historial, incluir_en_preparacion=True)
+    assert o.indicador.tolist() == ["x"]
+
+
+def test_vista_previa_es_una_opcion_de_web_py_que_no_usa_el_workflow():
+    """El workflow de datos arma la web sin la opción: lo publicado no cambia (F2.8a, #65)."""
+    from conftest import RAIZ
+
+    workflows = "".join(p.read_text(encoding="utf-8") for p in (RAIZ / ".github" / "workflows").glob("*.yml"))
+    assert "--incluir-en-preparacion" not in workflows
+    assert "--incluir-en-preparacion" not in (RAIZ / "pipeline" / "correr.py").read_text(encoding="utf-8")
+    r = subprocess.run([sys.executable, str(RAIZ / "pipeline" / "web.py"), "--help"], capture_output=True, text=True)
+    assert "--incluir-en-preparacion" in r.stdout
 
 
 def test_la_salida_de_la_app_no_tiene_nada_de_fuentes_no_activas(web):

@@ -14,6 +14,18 @@ npm run dev          # copia los datos a static/datos-web/ y abre el servidor de
 
 Con datos de otro lado (por ejemplo `web.zip` del último release, descomprimido): `DATOS_WEB=/ruta/a/web npm run dev`.
 
+### Vista previa con fuentes «en preparación»
+
+Las fuentes que se cargan pero todavía no están activas (p. ej. la ECH, hasta F2.8) quedan en el release de datos y
+no en la app. Para desarrollar con ellas, armá una web aparte (no se publica; el workflow nunca usa la opción):
+
+```sh
+python pipeline/web.py --salida datos/salida --incluir-en-preparacion   # escribe datos/salida/web
+cd app && DATOS_WEB=../datos/salida/web npm run dev                     # o build + test:e2e
+```
+
+Después volvé a correr `python pipeline/web.py` sin la opción para no dejar la vista previa como web local.
+
 ## Tests
 
 ```bash
