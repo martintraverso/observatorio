@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import type { Ficha } from '../datos';
-import { cita, consultaMapa, notaNoAditiva, observacionesDeSeccion, partes, SECCIONES_FICHA } from './logica';
+import type { Ficha, Observacion } from '../datos';
+import { cita, consultaMapa, notaNoAditiva, observacionesDeSeccion, partes, puntosSerie, SECCIONES_FICHA, separarSeries } from './logica';
 
 const obs = (indicador: string, valor: number) => ({
 	indicador,
@@ -105,5 +105,36 @@ describe('enlace al mapa', () => {
 			'?indicador=pob_total&nivel=segmento&periodo=2023&territorio=segmento/0701001'
 		);
 		expect(consultaMapa({ nivel: 'localidad', codigo: '07020' })).toContain('nivel=departamento');
+	});
+});
+
+describe('F2.8c: series en la ficha (AC-L25)', () => {
+	const tm = (indicador: string, fin: string, valor: number | null) => {
+		const [a, m] = fin.split('-').map(Number);
+		const ini = m > 2 ? `${a}-${String(m - 2).padStart(2, '0')}` : `${a - 1}-${String(m + 10).padStart(2, '0')}`;
+		return { ...obs(indicador, valor ?? 0), valor, periodo: `${ini}/${fin}`, periodo_inicio: `${ini}-01`, periodo_fin: `${fin}-28`, tipo_periodo: 'trimestre_movil' as const };
+	};
+	const ficha = (observaciones: Observacion[]) =>
+		({ observaciones, indicadores: { tasa_actividad: { nombre: 'Tasa de actividad', unidad: '%', tema: 'Trabajo' }, pob_total: { nombre: 'Personas', unidad: 'personas', tema: 'Población' } } }) as unknown as Ficha;
+
+	it('separa valores puntuales (Censo) de series (trimestres móviles), en orden de período', () => {
+		const f = ficha([tm('tasa_actividad', '2026-09', 69.1), obs('pob_total', 100), tm('tasa_actividad', '2022-02', 63.2)]);
+		const { puntuales, series } = separarSeries(observacionesDeSeccion(f, ['Trabajo', 'Población']));
+		expect(puntuales.map((o) => o.indicador)).toEqual(['pob_total']);
+		expect([...series.keys()]).toEqual(['tasa_actividad']);
+		expect(series.get('tasa_actividad')!.map((o) => o.periodo)).toEqual(['2021-12/2022-02', '2026-07/2026-09']);
+	});
+
+	it('la línea del país empieza en el primer informe que lo publica (sin sumar territorios)', () => {
+		const territorio = [tm('tasa_actividad', '2022-02', 63.2), tm('tasa_actividad', '2025-02', 64.0), tm('tasa_actividad', '2026-09', 69.1)];
+		const pais = ficha([tm('tasa_actividad', '2025-02', 64.5), tm('tasa_actividad', '2026-09', 64.1)]);
+		const s = puntosSerie(territorio, pais, 'tasa_actividad');
+		expect(s.territorio.map((p) => p.valor)).toEqual([63.2, 64.0, 69.1]);
+		expect(s.pais.map((p) => [p.periodo, p.valor])).toEqual([
+			['2024-12/2025-02', 64.5],
+			['2026-07/2026-09', 64.1]
+		]);
+		expect(s.periodos).toHaveLength(3); // eje: los períodos del territorio
+		expect(puntosSerie(territorio, null, 'tasa_actividad').pais).toEqual([]);
 	});
 });
