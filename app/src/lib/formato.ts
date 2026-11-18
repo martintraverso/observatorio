@@ -4,6 +4,13 @@
 const LOCALE = 'es-UY';
 
 const enteros = new Intl.NumberFormat(LOCALE, { maximumFractionDigits: 0, useGrouping: 'always' });
+const hastaDos = new Intl.NumberFormat(LOCALE, { maximumFractionDigits: 2, useGrouping: 'always' });
+
+/** Un valor tal como lo publica la fuente: sin redondear a entero (p. ej. 14,9 miles de personas de la ECH). */
+export function publicado(valor: number | null | undefined): string {
+	if (valor === null || valor === undefined || Number.isNaN(valor)) return '—';
+	return hastaDos.format(valor);
+}
 
 /** 1300197 -> "1.300.197". Por defecto sin decimales; `decimales` fija la cantidad. */
 export function numero(valor: number | null | undefined, decimales?: number): string {

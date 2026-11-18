@@ -14,6 +14,21 @@ npm run dev          # copia los datos a static/datos-web/ y abre el servidor de
 
 Con datos de otro lado (por ejemplo `web.zip` del último release, descomprimido): `DATOS_WEB=/ruta/a/web npm run dev`.
 
+### Vista previa con fuentes «en preparación»
+
+Las fuentes que se cargan pero todavía no están activas (p. ej. la ECH, hasta F2.8) quedan en el release de datos y
+no en la app. Para desarrollar con ellas, armá una web aparte (no se publica; el workflow nunca usa la opción):
+
+```sh
+mkdir -p ~/.cache/otu-vista-previa
+cp datos/salida/*.parquet datos/salida/observatorio.duckdb ~/.cache/otu-vista-previa/
+python pipeline/web.py --salida ~/.cache/otu-vista-previa --incluir-en-preparacion
+cd app && DATOS_WEB=~/.cache/otu-vista-previa/web npm run dev           # o build + test:e2e
+```
+
+Usá una salida aparte: `web.py` también reescribe `descargas/`, y con una vista previa en `datos/salida` el CSV
+local incluiría la fuente en preparación (y `OBS_DATOS=completo pytest` lo marca como falla).
+
 ## Tests
 
 ```bash

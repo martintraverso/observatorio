@@ -61,7 +61,8 @@ test('AC-F4: el departamento explica que la suma de secciones no es su total', a
 
 test('AC-F5: el CSV tiene exactamente los valores que muestra la ficha', async ({ page }) => {
 	await page.goto('territorio/departamento/07');
-	const filas = page.locator('#poblacion tbody tr, #vivienda tbody tr');
+	// todas las secciones de temas: con la vista previa (F2.8a) también trae Trabajo
+	const filas = page.locator('section.seccion:not(#fuentes) tbody tr');
 	const mostradas = await filas.evaluateAll((trs) =>
 		trs.map((tr) => [...tr.querySelectorAll('td')].slice(0, 3).map((td) => td.textContent!.trim().replace(/\s+/g, ' ')))
 	);
@@ -78,8 +79,13 @@ test('AC-F5: el CSV tiene exactamente los valores que muestra la ficha', async (
 		const fila = mostradas.find(([, valor, periodo]) => valor === `${es.format(Number(c[9]))} ${c[10]}` && periodo === c[5]);
 		expect(fila, linea).toBeTruthy();
 		expect(c[0]).toBe('INE-2023/departamento/07');
-		expect(c.slice(6, 9)).toEqual(['2023-01-01', '2023-01-01', 'censo']); // AC-L27
-		expect(c[13]).toMatch(/\.zip$/);
+		if (c[8] === 'censo') {
+			expect(c.slice(6, 9)).toEqual(['2023-01-01', '2023-01-01', 'censo']); // AC-L27
+			expect(c[13]).toMatch(/\.zip$/);
+		} else {
+			expect(c[8]).toBe('trimestre_movil'); // ECH, solo en la vista previa
+			expect(c[13]).toMatch(/\.html$/);
+		}
 		expect(c[14]).toMatch(/^[0-9a-f]{64}$/);
 	}
 });
@@ -95,8 +101,16 @@ test('AC-F6: cómo citar incluye observatorio, territorio, fecha de consulta e I
 });
 
 test('AC-F7: los temas sin datos lo dicen', async ({ page }) => {
+	// los temas sin datos salen de los datos del build (con la vista previa, Trabajo sí tiene)
+	const conDatos = new Set(
+		(JSON.parse(readFileSync('build/datos-web/indicadores.json', 'utf-8')) as { tema: string }[]).map((i) => i.tema)
+	);
+	// secciones de la ficha y sus temas (src/lib/ficha/logica.ts): sin datos si ninguno de sus temas tiene
+	const secciones: Record<string, string[]> = { trabajo: ['Trabajo', 'Ingresos'], educacion: ['Educación'] };
+	const sinDatos = Object.entries(secciones).filter(([, ts]) => !ts.some((t) => conDatos.has(t))).map(([id]) => id);
+	expect(sinDatos).toContain('educacion');
 	await page.goto('territorio/departamento/07');
-	for (const id of ['trabajo', 'educacion']) {
+	for (const id of sinDatos) {
 		await expect(page.locator(`#${id}`)).toContainText('Todavía no hay fuentes cargadas para este tema');
 	}
 });

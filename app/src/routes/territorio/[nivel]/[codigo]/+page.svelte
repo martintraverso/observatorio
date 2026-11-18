@@ -6,7 +6,7 @@
 	import MiniMapa from '#lib/mapa/MiniMapa.svelte';
 	import { descargarCsv } from '#lib/csv.ts';
 	import { hrefFicha, NOMBRE_NIVEL, NIVELES, partesId, type Nivel, type Observacion, type Relacion } from '#lib/datos.ts';
-	import { fecha, numero } from '#lib/formato.ts';
+	import { fecha, numero, publicado } from '#lib/formato.ts';
 	import { NOMBRE_SITIO } from '#lib/sitio.ts';
 	import {
 		cita,
@@ -165,7 +165,7 @@
 							<tr>
 								<td>{ind(o)?.nombre ?? o.indicador}</td>
 								<td class="num">
-									{numero(o.valor)}
+									{publicado(o.valor)}
 									{ind(o)?.unidad}
 									{#if o.es_estimado}<span class="estimado">estimado</span>{/if}
 								</td>

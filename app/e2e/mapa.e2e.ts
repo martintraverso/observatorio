@@ -142,7 +142,8 @@ test('descargar CSV del territorio (columnas de AC-F5)', async ({ page }) => {
 	const texto = readFileSync((await descarga.path())!, 'utf-8').replace(/^﻿/, '');
 	const [cabecera, ...filas] = texto.trim().split('\r\n');
 	expect(cabecera).toBe('territorio_id,nivel,codigo,nombre,indicador,periodo,periodo_inicio,periodo_fin,tipo_periodo,valor,unidad,es_estimado,fuente,archivo_origen,sha256');
-	expect(filas).toHaveLength(4);
+	const ficha = JSON.parse(readFileSync('build/datos-web/fichas/departamento/07.json', 'utf-8')) as { observaciones: unknown[] };
+	expect(filas).toHaveLength(ficha.observaciones.length); // 4 del Censo (más la ECH en la vista previa)
 	expect(filas.find((f) => f.includes(',pob_total,'))).toContain(',2023,2023-01-01,2023-01-01,censo,26271,personas,false,');
 });
 
