@@ -82,6 +82,10 @@ export interface Captura {
 	archivo: string;
 	sha256: string;
 	fecha_proceso: string;
+	/** De dónde se bajó el original, cuándo (si se registró) y si es la versión vigente (F2.5b). */
+	url?: string | null;
+	descargado?: string | null;
+	vigente?: boolean;
 }
 
 export interface FuenteRef {

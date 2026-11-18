@@ -38,7 +38,7 @@ import pandas as pd
 import shapely
 import yaml
 
-from comun.capturas import Historial, ahora, nueva_captura
+from comun.capturas import Historial, ahora, nueva_captura, tabla_capturas
 from comun.controles import Controles
 from comun.entrada import carpeta_con, extraer_zip
 from comun.huella import huella_entrada
@@ -430,7 +430,7 @@ def procesar(entrada: Path, salida: Path, captura: dict, esperado: dict, fuentes
     pd.DataFrame([{"codigo": c, "nombre": n, "unidad": u, "tema": TEMA[c], "columna_origen": col,
                    "fuente_id": FUENTE_ID, "nota": NOTA_INDICADORES}
                   for c, col, n, u in INDICADORES]).to_parquet(salida / "indicadores.parquet", index=False)
-    pd.DataFrame([captura]).to_parquet(salida / "capturas.parquet", index=False)
+    tabla_capturas([captura]).to_parquet(salida / "capturas.parquet", index=False)
     tabla_fuentes(fuentes).to_parquet(salida / "fuentes.parquet", index=False)
     escribir_duckdb(
         salida,
@@ -469,7 +469,7 @@ def main(argv=None):
     esperado = cargar_esperado(args.esperado)
 
     sha, nombre = huella_entrada(args.entrada, [f"{c}.gpkg" for c in CAPAS])
-    captura = nueva_captura(FUENTE_ID, nombre, sha, ahora())
+    captura = nueva_captura(FUENTE_ID, nombre, sha, ahora(), url=fuentes[FUENTE_ID]["url_descarga"])
     historial = Historial(args.salida)
     ultima = historial.ultima_procesada(FUENTE_ID)
     mismo_original = ultima is not None and ultima["sha256"] == sha
