@@ -30,7 +30,8 @@ LISTADO = "https://www.gub.uy/instituto-nacional-estadistica/tematica/mercado-tr
 PUBLICACIONES = "/instituto-nacional-estadistica/comunicacion/publicaciones/mercado-trabajo-area-geografica-residencia-ech-"
 DOMINIOS_OFICIALES = ("https://www5.ine.gub.uy/", "https://www.gub.uy/instituto-nacional-estadistica/")
 INFORMES = "https://www5.ine.gub.uy/documents/"
-PRIMER_MES = (2022, 2)  # desde febrero de 2022 la ECH publica estimaciones mensuales (MA3)
+PRIMER_MES = (2022, 2)
+MAX_BYTES = 100_000_000  # los informes pesan ~20 MB  # desde febrero de 2022 la ECH publica estimaciones mensuales (MA3)
 
 # El listado mezcla publicaciones con eventos del calendario de difusión: cada resultado es un <li class="Media">.
 RESULTADO = re.compile(r'<li class="Media[" ](.*?)</li>', re.S)
@@ -184,7 +185,10 @@ def bajar_bytes(url: str, timeout: int = 180) -> bytes:
     with urllib.request.urlopen(pedido, timeout=timeout) as r:
         if not r.geturl().startswith(DOMINIOS_OFICIALES):
             raise ErrorDescubrimiento(f"La página terminó fuera de los sitios oficiales del INE: {r.geturl()}")
-        return r.read()
+        datos = r.read(MAX_BYTES + 1)
+        if len(datos) > MAX_BYTES:
+            raise ErrorDescubrimiento(f"{url} pesa más de {MAX_BYTES // 1_000_000} MB")
+        return datos
 
 
 def main(argv=None) -> int:

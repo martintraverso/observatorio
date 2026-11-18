@@ -7,8 +7,10 @@ sha256, la fecha de descarga y si es la versión vigente (AC-L1, AC-L3):
 
 - Un informe ya capturado no se vuelve a bajar, salvo con --revisar.
 - Si el INE publica otra versión (otra URL para el mismo período, p. ej. `v1_1`) o cambia el contenido de
-  la misma URL, se crea una captura nueva y la anterior queda con `vigente = false`. Ningún original se
-  pisa ni se borra: el anterior de la misma URL se renombra a `<archivo>.<sha12>.html`.
+  la misma URL, se crea una captura nueva y la anterior queda con `vigente = false`. Un original guardado
+  nunca se mueve, se pisa ni se borra: si el nombre ya existe, el nuevo se guarda como `<archivo>.<sha12>.html`.
+- Si una URL nueva trae el mismo contenido que una captura ya registrada, no se duplica: se informa.
+- El registro se guarda después de cada captura nueva, así una corrida cortada no lo deja inconsistente.
 - Si un original guardado ya no coincide con su sha256, la captura falla: los originales son inmutables.
 
 La carga en `observaciones` es de F2.5c (#58); subir los originales al release `crudos`, de F2.5d (#59).
@@ -23,7 +25,7 @@ import datetime as dt
 import hashlib
 import json
 import sys
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Callable
 from urllib.parse import unquote, urlsplit
@@ -45,15 +47,17 @@ class ErrorCaptura(ValueError):
 class ResumenCaptura:
     nuevas: int = 0
     sin_cambios: int = 0
+    repetidas: list[str] = field(default_factory=list)  # URLs nuevas con el contenido de otra captura
 
     def como_dict(self) -> dict:
-        return {"nuevas": self.nuevas, "sin_cambios": self.sin_cambios}
+        return {"nuevas": self.nuevas, "sin_cambios": self.sin_cambios, "repetidas": self.repetidas}
 
 
 def nombre_de_archivo(url: str) -> str:
     """Nombre del archivo tal como lo publica el INE (decodificado), si es un .html sin rutas raras."""
     nombre = unquote(urlsplit(url).path.rsplit("/", 1)[-1])
-    if "/" in nombre or "\\" in nombre or nombre.startswith(".") or not nombre.lower().endswith(".html"):
+    if ("/" in nombre or "\\" in nombre or nombre.startswith(".") or not nombre.lower().endswith(".html")
+            or any(ord(c) < 32 for c in nombre) or len(nombre.encode()) > 200):
         raise ErrorCaptura(f"Nombre de archivo inválido para un informe: {nombre!r} ({url})")
     return nombre
 
@@ -66,13 +70,16 @@ def leer_registro(crudo: Path) -> list[dict]:
     path = Path(crudo) / CARPETA / REGISTRO
     if not path.exists():
         return []
-    return json.loads(path.read_text(encoding="utf-8"))["capturas"]
+    capturas = json.loads(path.read_text(encoding="utf-8"))["capturas"]
+    return sorted(capturas, key=lambda c: c["orden"]) if all("orden" in c for c in capturas) else capturas
 
 
 def escribir_registro(crudo: Path, capturas: list[dict]) -> None:
     path = Path(crudo) / CARPETA / REGISTRO
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(".tmp")
+    for i, c in enumerate(capturas):
+        c["orden"] = i  # orden de captura (el archivo se lee en este orden)
     tmp.write_text(json.dumps({"fuente_id": FUENTE_ID, "capturas": capturas}, ensure_ascii=False, indent=2) + "\n",
                    encoding="utf-8")
     tmp.replace(path)
@@ -94,46 +101,52 @@ def capturar(informes: list[Informe], crudo: Path, bajar: Callable[[str], bytes]
     for c in registro:
         verificar(crudo, c)
 
-    for inf in informes:
-        de_la_url = [c for c in registro if c["url"] == inf.url]
-        if de_la_url and not revisar:
-            resumen.sin_cambios += 1
-            continue
-        datos = bajar(inf.url)
-        huella = sha256(datos)
-        if any(c["sha256"] == huella for c in de_la_url):
-            resumen.sin_cambios += 1
-            continue
-        if any(c["sha256"] == huella for c in registro):
-            raise ErrorCaptura(f"{inf.url} tiene el mismo contenido que otra captura ya registrada")
-        nombre = nombre_de_archivo(inf.url)
-        destino = Path(CARPETA) / str(inf.periodo.fin.year) / nombre
-        for c in de_la_url:  # contenido nuevo en la misma URL: el original anterior se conserva con otro nombre
-            if c["archivo"] == destino.as_posix():
-                viejo = destino.with_name(f"{Path(nombre).stem}.{c['sha256'][:12]}.html")
-                (crudo / destino).rename(crudo / viejo)
-                c["archivo"] = viejo.as_posix()
-        (crudo / destino).parent.mkdir(parents=True, exist_ok=True)
-        (crudo / destino).write_bytes(datos)
-        registro.append({"id": captura_id(FUENTE_ID, huella), "fuente_id": FUENTE_ID,
-                         "periodo": inf.periodo.etiqueta, "pagina": inf.pagina, "url": inf.url,
-                         "archivo": destino.as_posix(), "sha256": huella, "descargado": hoy, "vigente": True})
-        resumen.nuevas += 1
-
-    marcar_vigentes(registro, informes)
-    registro.sort(key=lambda c: (c["periodo"][-7:], c["descargado"], c["url"]))
-    escribir_registro(crudo, registro)
+    servida: dict[str, str] = {}  # URL -> sha256 de lo que se bajó en esta corrida
+    try:
+        for inf in informes:
+            de_la_url = [c for c in registro if c["url"] == inf.url]
+            if de_la_url and not revisar:
+                resumen.sin_cambios += 1
+                continue
+            datos = bajar(inf.url)
+            huella = servida[inf.url] = sha256(datos)
+            if any(c["sha256"] == huella for c in de_la_url):
+                resumen.sin_cambios += 1
+                continue
+            if any(c["sha256"] == huella for c in registro):  # el INE movió el mismo archivo a otra URL
+                resumen.repetidas.append(inf.url)
+                continue
+            nombre = nombre_de_archivo(inf.url)
+            destino = Path(CARPETA) / str(inf.periodo.fin.year) / nombre
+            if (crudo / destino).exists():  # nunca se pisa un original: el nuevo lleva su huella en el nombre
+                destino = destino.with_name(f"{Path(nombre).stem}.{huella[:12]}.html")
+            if (crudo / destino).exists():
+                raise ErrorCaptura(f"Ya existe {destino} y no es de ninguna captura registrada")
+            (crudo / destino).parent.mkdir(parents=True, exist_ok=True)
+            (crudo / destino).write_bytes(datos)
+            registro.append({"id": captura_id(FUENTE_ID, huella), "fuente_id": FUENTE_ID,
+                             "periodo": inf.periodo.etiqueta, "pagina": inf.pagina, "url": inf.url,
+                             "archivo": destino.as_posix(), "sha256": huella, "descargado": hoy, "vigente": True})
+            resumen.nuevas += 1
+            escribir_registro(crudo, registro)
+    finally:
+        marcar_vigentes(registro, informes, servida)
+        escribir_registro(crudo, registro)
     return resumen
 
 
-def marcar_vigentes(registro: list[dict], informes: list[Informe]) -> None:
-    """Por período, vigente = la última captura de la URL que hoy enlaza la publicación. Los períodos que
-    el descubrimiento no trajo esta vez conservan su vigente."""
-    actuales = {i.periodo.etiqueta: i.url for i in informes}
-    for periodo, url in actuales.items():
-        del_periodo = [c for c in registro if c["periodo"] == periodo]
-        candidatas = [c for c in del_periodo if c["url"] == url]
-        ultima = candidatas[-1] if candidatas else None  # el registro guarda en orden de captura
+def marcar_vigentes(registro: list[dict], informes: list[Informe], servida: dict[str, str] | None = None) -> None:
+    """Por período, vigente = la captura de la URL que hoy enlaza la publicación: la que coincide con lo que
+    se bajó en esta corrida o, si no se bajó, la última capturada. Los períodos que el descubrimiento no trajo
+    esta vez conservan su vigente."""
+    servida = servida or {}
+    for inf in informes:
+        del_periodo = [c for c in registro if c["periodo"] == inf.periodo.etiqueta]
+        candidatas = [c for c in del_periodo if c["url"] == inf.url]
+        bajada = [c for c in candidatas if c["sha256"] == servida.get(inf.url)]
+        ultima = (bajada or candidatas or [None])[-1]  # el registro está en orden de captura
+        if ultima is None:
+            continue  # nada capturado para la URL actual (p. ej. contenido repetido): no se toca
         for c in del_periodo:
             c["vigente"] = c is ultima
 

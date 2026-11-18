@@ -103,7 +103,9 @@ def test_si_cambia_el_contenido_de_la_misma_url_se_guardan_los_dos(tmp_path):
     assert r.nuevas == 1
     viejas = [c for c in leer_registro(tmp_path) if c["url"] == URL_2026]
     assert [c["vigente"] for c in viejas] == [False, True]
-    assert viejas[0]["archivo"] == f"ech_mt/2026/Mercado_trabajo_IN_SOC_MTR_2026_M_09-_v1_0.{viejas[0]['sha256'][:12]}.html"
+    # el original no se mueve; el nuevo lleva su huella en el nombre
+    assert viejas[0]["archivo"] == "ech_mt/2026/Mercado_trabajo_IN_SOC_MTR_2026_M_09-_v1_0.html"
+    assert viejas[1]["archivo"] == f"ech_mt/2026/Mercado_trabajo_IN_SOC_MTR_2026_M_09-_v1_0.{viejas[1]['sha256'][:12]}.html"
     for c in viejas:
         assert sha((tmp_path / c["archivo"]).read_bytes()) == c["sha256"]  # ninguno se pierde ni se pisa
 
@@ -121,6 +123,55 @@ def test_nombres_de_archivo_inseguros_o_que_no_son_html():
 
     assert nombre_de_archivo(W + "2025/Bolet%C3%ADn_departamental-Noviembre-Enero_2026.html") == \
         "Boletín_departamental-Noviembre-Enero_2026.html"
-    for malo in [W + "a%2F..%2Fb.html", W + "informe.pdf", W + "..%2F.html"]:
+    for malo in [W + "a%2F..%2Fb.html", W + "informe.pdf", W + "..%2F.html", W + "a%00.html", W + "x" * 300 + ".html"]:
         with pytest.raises(ErrorCaptura):
             nombre_de_archivo(malo)
+
+
+def test_otra_url_con_el_mismo_nombre_no_pisa_un_original(tmp_path):
+    capturar(INFORMES, tmp_path, Sitio(), hoy=HOY)
+    otra = URL_2026.replace("/2026/", "/2026/corregido/")
+    sitio = Sitio()
+    sitio.archivos[otra] = sitio.archivos[URL_2026].replace(b"64,1", b"64,2", 1)
+    capturar([informe((2026, 9), otra, "julio-setiembre-2026")], tmp_path, sitio, hoy="2026-12-01")
+    for c in leer_registro(tmp_path):
+        assert sha((tmp_path / c["archivo"]).read_bytes()) == c["sha256"]
+    assert {c["url"]: c["vigente"] for c in leer_registro(tmp_path) if c["periodo"] == "2026-07/2026-09"} == {
+        URL_2026: False, otra: True}
+    capturar(INFORMES, tmp_path, Sitio(), hoy="2026-12-02")  # la corrida siguiente no falla
+
+
+def test_una_corrida_cortada_deja_el_registro_coherente(tmp_path):
+    sitio = Sitio()
+    sitio.archivos[URL_2026] = None  # la segunda bajada falla
+
+    def bajar(url):
+        if sitio.archivos[url] is None:
+            raise TimeoutError("se cortó")
+        return sitio.archivos[url]
+
+    with pytest.raises(TimeoutError):
+        capturar(INFORMES, tmp_path, bajar, hoy=HOY)
+    assert [c["url"] for c in leer_registro(tmp_path)] == [URL_2024]  # la primera quedó registrada
+    r = capturar(INFORMES, tmp_path, Sitio(), hoy=HOY)  # y la siguiente corrida sigue desde ahí
+    assert (r.nuevas, r.sin_cambios) == (1, 1)
+
+
+def test_la_misma_version_en_otra_url_se_informa_sin_duplicar(tmp_path):
+    capturar(INFORMES, tmp_path, Sitio(), hoy=HOY)
+    movida = URL_2026.replace("/2026/", "/2026/otra-carpeta/")
+    sitio = Sitio()
+    sitio.archivos[movida] = sitio.archivos[URL_2026]
+    r = capturar([INFORMES[0], informe((2026, 9), movida, "julio-setiembre-2026")], tmp_path, sitio, hoy=HOY)
+    assert r.repetidas == [movida] and r.nuevas == 0
+    assert len(leer_registro(tmp_path)) == 2
+
+
+def test_si_la_url_vuelve_a_servir_una_version_anterior_esa_es_la_vigente(tmp_path):
+    capturar(INFORMES, tmp_path, Sitio(), hoy=HOY)
+    b = Sitio()
+    b.archivos[URL_2026] = b.archivos[URL_2026].replace(b"64,1", b"64,2", 1)
+    capturar(INFORMES, tmp_path, b, hoy="2026-12-01", revisar=True)
+    capturar(INFORMES, tmp_path, Sitio(), hoy="2026-12-02", revisar=True)  # vuelve a la versión A
+    vig = [c for c in leer_registro(tmp_path) if c["url"] == URL_2026]
+    assert [c["vigente"] for c in vig] == [True, False]
