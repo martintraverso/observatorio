@@ -8,11 +8,12 @@ export const TEMAS = ['Población', 'Vivienda', 'Hogares', 'Trabajo', 'Ingresos'
 export type Tema = (typeof TEMAS)[number];
 
 /** Niveles que se pueden pintar en el mapa, de menos a más detallado. */
-export const NIVELES_MAPA = ['departamento', 'seccion', 'segmento'] as const satisfies readonly Nivel[];
+export const NIVELES_MAPA = ['departamento', 'municipio_mvd', 'seccion', 'segmento'] as const satisfies readonly Nivel[];
 export type NivelMapa = (typeof NIVELES_MAPA)[number];
 
 export const ETIQUETA_NIVEL_MAPA: Record<NivelMapa, string> = {
 	departamento: 'Departamento',
+	municipio_mvd: 'Municipio (Montevideo)',
 	seccion: 'Sección',
 	segmento: 'Segmento'
 };
@@ -46,13 +47,58 @@ export function nivelMasDetallado(ind: IndicadorMapa): NivelMapa | null {
 export function avisoNivel(ind: IndicadorMapa, nivel: NivelMapa): { mensaje: string; alternativa: NivelMapa | null } | null {
 	if (ind.niveles.includes(nivel)) return null;
 	const alternativa = nivelMasDetallado(ind);
-	const donde = ETIQUETA_NIVEL_MAPA[nivel].toLowerCase();
+	const donde = minuscula(ETIQUETA_NIVEL_MAPA[nivel]);
 	return {
 		mensaje: alternativa
-			? `«${ind.nombre}» no se publica por ${donde}. El nivel más detallado con datos es ${ETIQUETA_NIVEL_MAPA[alternativa].toLowerCase()}.`
+			? `«${ind.nombre}» no se publica por ${donde}. El nivel más detallado con datos es ${minuscula(ETIQUETA_NIVEL_MAPA[alternativa])}.`
 			: `«${ind.nombre}» no se publica por ${donde} ni en otro nivel del mapa.`,
 		alternativa
 	};
+}
+
+/** Niveles del mapa en que algún indicador tiene datos (los demás no se ofrecen en el selector). */
+export function nivelesConDatos(indicadores: IndicadorMapa[]): NivelMapa[] {
+	return NIVELES_MAPA.filter((n) => indicadores.some((i) => i.niveles.includes(n)));
+}
+
+/**
+ * Si la fuente publica el total del país para este indicador: en este período ('periodo'), solo en otros
+ * ('otros', p. ej. la ECH antes de 2025) o nunca ('nunca'). Nunca se calcula sumando territorios.
+ */
+export function totalDelPais(
+	valoresPais: { indicadores: Record<string, Record<string, Record<string, number | null>>> } | null,
+	indicador: string,
+	periodo: string
+): 'periodo' | 'otros' | 'nunca' {
+	const porPeriodo = valoresPais?.indicadores[indicador];
+	if (!porPeriodo || !Object.values(porPeriodo).some((v) => v.UY != null)) return 'nunca';
+	return porPeriodo[periodo]?.UY != null ? 'periodo' : 'otros';
+}
+
+/** "Municipio (Montevideo)" -> "municipio (Montevideo)". */
+export function minuscula(s: string): string {
+	return s.charAt(0).toLowerCase() + s.slice(1);
+}
+
+// ---------------------------------------------------------------- período y fuente (AC-L24)
+
+const MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'set', 'oct', 'nov', 'dic'];
+
+/** "2026-07/2026-09" -> "Trimestre móvil jul–set 2026"; "2025-12/2026-02" -> "Trimestre móvil dic 2025–feb 2026". */
+export function etiquetaPeriodo(periodo: string): string {
+	const m = /^(\d{4})-(\d{2})\/(\d{4})-(\d{2})$/.exec(periodo);
+	if (!m) return periodo;
+	const [, a1, m1, a2, m2] = m;
+	const desde = MESES[Number(m1) - 1];
+	const hasta = MESES[Number(m2) - 1];
+	if (!desde || !hasta) return periodo;
+	return a1 === a2 ? `Trimestre móvil ${desde}–${hasta} ${a2}` : `Trimestre móvil ${desde} ${a1}–${hasta} ${a2}`;
+}
+
+/** "INE, ECH" si el nombre de la fuente termina con su sigla entre paréntesis; si no, "INE, <nombre>". */
+export function fuenteCorta(f: { organismo: string; nombre: string }): string {
+	const siglas = (s: string) => /\(([^()]+)\)\s*$/.exec(s)?.[1];
+	return `${siglas(f.organismo) ?? f.organismo}, ${siglas(f.nombre) ?? f.nombre}`;
 }
 
 // ---------------------------------------------------------------- clases (cuantiles)
@@ -83,13 +129,20 @@ export function clase(valor: number, c: Clases): number {
 	return i;
 }
 
-/** Etiquetas de la leyenda en es-UY: "Hasta 1.234", "1.235 a 5.000", "Más de 5.000". */
+/**
+ * Etiquetas de la leyenda en es-UY: "Hasta 1.234", "1.235 a 5.000", "Más de 5.000". Si los valores tienen
+ * decimales (tasas, miles de personas), con un decimal y saltos de 0,1: "Hasta 59,4", "59,5 a 62,6".
+ */
 export function etiquetasLeyenda(c: Clases): string[] {
-	if (!c.cortes.length) return [c.min === c.max ? numero(c.min) : `${numero(c.min)} a ${numero(c.max)}`];
+	const conDecimales = [c.min, c.max, ...c.cortes].some((v) => !Number.isInteger(v));
+	const d = conDecimales ? 1 : undefined;
+	const paso = conDecimales ? 0.1 : 1;
+	const f = (v: number) => numero(v, d);
+	if (!c.cortes.length) return [c.min === c.max ? f(c.min) : `${f(c.min)} a ${f(c.max)}`];
 	return [
-		`Hasta ${numero(c.cortes[0])}`,
-		...c.cortes.slice(1).map((corte, i) => `${numero(c.cortes[i] + 1)} a ${numero(corte)}`),
-		`Más de ${numero(c.cortes.at(-1)!)}`
+		`Hasta ${f(c.cortes[0])}`,
+		...c.cortes.slice(1).map((corte, i) => `${f(c.cortes[i] + paso)} a ${f(corte)}`),
+		`Más de ${f(c.cortes.at(-1)!)}`
 	];
 }
 
