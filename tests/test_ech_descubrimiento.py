@@ -122,6 +122,6 @@ def test_solo_sitios_oficiales():
 
 
 def test_el_listado_es_el_del_registro_de_la_fuente():
-    from comun.registro import cargar_fuentes
+    from comun.registro import RAIZ, cargar_fuentes
 
-    assert cargar_fuentes()["ine_ech_mercado_trabajo_departamental"]["pagina"] == LISTADO
+    assert cargar_fuentes(RAIZ / "fuentes")["ine_ech_mercado_trabajo_departamental"]["pagina"] == LISTADO
