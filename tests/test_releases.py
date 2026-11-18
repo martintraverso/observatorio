@@ -48,10 +48,20 @@ def correr(script: str, *args, env=None):
     return r
 
 
+def solo_censo(carpeta: Path) -> Path:
+    """Registro con solo el Censo: estos tests son de la orquestación sobre su fixture (la ECH, que necesita
+    los 19 departamentos y sus originales en crudos, se prueba en test_ech_cargar.py y más abajo)."""
+    f = carpeta / "fuentes_censo"
+    if not f.exists():
+        f.mkdir(parents=True)
+        shutil.copy(RAIZ / "fuentes" / f"{FUENTE}.yml", f)
+    return f
+
+
 def pipeline(crudo: Path, salida: Path, *extra):
     # Sin PMTiles: acá se prueba la orquestación, no las teselas (eso está en test_web.py).
     r = correr("pipeline/correr.py", "--crudo", crudo, "--salida", salida, "--argumentos", ARG_FIXTURE,
-               "--sin-pmtiles", *extra)
+               "--fuentes", solo_censo(crudo.parent), "--sin-pmtiles", *extra)
     assert r.returncode == 0, r.stderr
     return json.loads(r.stdout.strip().splitlines()[-1])
 
@@ -199,3 +209,84 @@ def test_sin_crudos_ni_fuente_falla(gh, tmp_path):
     fuentes = fuentes_con_url(tmp_path, (tmp_path / "no-existe.zip").as_uri())
     r = correr("scripts/conseguir_originales.py", "--crudo", tmp_path / "crudo", "--fuentes", fuentes, "--espera", 0)
     assert r.returncode != 0 and "FALLA" in r.stderr
+
+
+# ------------------------------------------------------------------ fuentes con carpeta de originales (F2.5d, #59)
+
+ECH = "ine_ech_mercado_trabajo_departamental"
+
+
+def crudo_ech(tmp_path, informes=("2024_09", "2026_09")) -> Path:
+    """datos/crudo con ech_mt/ capturado desde los fixtures (sin red)."""
+    sys.path.insert(0, str(RAIZ / "pipeline"))
+    from ech_captura import capturar
+    from ech_descubrimiento import Informe
+
+    from comun.periodos import trimestre_movil
+
+    w = "https://www5.ine.gub.uy/documents/ECH/"
+    sitio = {f"{w}{i}.html": (FIXTURES / "ech_mt" / f"ech_mt_{i}.html").read_bytes() for i in informes}
+    lista = [Informe(trimestre_movil(int(i[:4]), int(i[5:])), f"https://www.gub.uy/x-{i}", f"{w}{i}.html")
+             for i in informes]
+    c = tmp_path / "crudo_ech"
+    capturar(lista, c, sitio.__getitem__, hoy="2026-11-18")
+    return c
+
+
+def test_subir_crudos_sube_cada_original_una_vez_y_el_registro(gh, tmp_path):
+    c = crudo_ech(tmp_path)
+    r = correr("scripts/crudos_carpeta.py", "subir", "--crudo", c, "--carpeta", "ech_mt")
+    assert r.returncode == 0, r.stderr
+    from ech_captura import leer_registro
+
+    reg = leer_registro(c)
+    subidos = sorted(p.name for p in (gh / "crudos").iterdir())
+    assert [n for n in subidos if n.endswith(".html")] == sorted(f"ech_mt-{x['sha256'][:12]}.html" for x in reg)
+    (registro,) = [n for n in subidos if n.endswith(".json")]
+    assert registro.startswith("ech_mt-capturas-0002-")
+    for x in reg:  # sin cambios
+        assert (gh / "crudos" / f"ech_mt-{x['sha256'][:12]}.html").read_bytes() == (c / x["archivo"]).read_bytes()
+    # otra vez: no sube nada (nunca reemplaza)
+    antes = (gh / "llamadas.log").read_text().count("release upload")
+    assert correr("scripts/crudos_carpeta.py", "subir", "--crudo", c, "--carpeta", "ech_mt").returncode == 0
+    assert (gh / "llamadas.log").read_text().count("release upload") == antes
+
+
+def test_bajar_crudos_reconstruye_la_carpeta_con_el_ultimo_registro(gh, tmp_path):
+    c = crudo_ech(tmp_path, ("2024_09",))
+    assert correr("scripts/crudos_carpeta.py", "subir", "--crudo", c, "--carpeta", "ech_mt").returncode == 0
+    c2 = crudo_ech(tmp_path / "otro", ("2024_09", "2026_09"))
+    assert correr("scripts/crudos_carpeta.py", "subir", "--crudo", c2, "--carpeta", "ech_mt").returncode == 0
+    limpio = tmp_path / "runner"
+    r = correr("scripts/crudos_carpeta.py", "bajar", "--crudo", limpio, "--carpeta", "ech_mt")
+    assert r.returncode == 0, r.stderr
+    from ech_captura import leer_registro, verificar
+
+    reg = leer_registro(limpio)
+    assert len(reg) == 2  # el registro más reciente
+    for x in reg:
+        verificar(limpio, x)
+    # un asset alterado frena la bajada
+    nombre = f"ech_mt-{reg[0]['sha256'][:12]}.html"
+    (gh / "crudos" / nombre).write_bytes(b"otro contenido")
+    r = correr("scripts/crudos_carpeta.py", "bajar", "--crudo", tmp_path / "runner2", "--carpeta", "ech_mt")
+    assert r.returncode != 0 and "sha256" in r.stderr
+
+
+def test_conseguir_originales_baja_tambien_las_carpetas(gh, tmp_path):
+    c = crudo_ech(tmp_path)
+    assert correr("scripts/crudos_carpeta.py", "subir", "--crudo", c, "--carpeta", "ech_mt").returncode == 0
+    shutil.copy(FIXTURES / "ine_2023_mini.zip", gh / "crudos" / ORIGINAL)
+    destino = tmp_path / "crudo"
+    r = correr("scripts/conseguir_originales.py", "--crudo", destino, "--sin-subir")
+    assert r.returncode == 0, r.stderr
+    assert (destino / ORIGINAL).exists() and (destino / "ech_mt" / "capturas.json").exists()
+    assert f"| {ECH} | `ech_mt/` (2 informes) | release crudos |" in r.stdout
+
+
+def test_las_fuentes_a_procesar_son_las_activas_y_las_que_se_cargan_con_la_geografia_primero():
+    from comun.registro import a_procesar, cargar_fuentes
+
+    fuentes = cargar_fuentes(RAIZ / "fuentes")
+    assert fuentes[ECH]["estado"] == "en preparación" and fuentes[ECH]["cargar"] is True
+    assert [f["id"] for f in a_procesar(fuentes)] == [FUENTE, ECH]  # el Censo (territorios) antes que la ECH
