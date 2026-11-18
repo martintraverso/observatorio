@@ -23,6 +23,7 @@ from pathlib import Path
 
 import pandas as pd
 from ech_captura import FUENTE_ID, leer_registro, verificar
+from ech_controles import controles, seccion_reporte
 from ech_mercado_trabajo import INDICADORES, parsear_informe
 
 from comun.capturas import Historial, ahora, nueva_captura
@@ -114,6 +115,10 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False) -> di
     fuera = sorted(set(nivel) - set(fuentes[FUENTE_ID]["niveles_publicados"]))
     if fuera:
         raise ErrorCarga(f"Observaciones en niveles que la fuente no publica: {fuera}")  # AC-P5
+    revision, desempleo = controles(obs)  # AC-L12…L16 (F2.6)
+    if revision.fallas:
+        raise ErrorCarga("Controles de calidad con falla: " + "; ".join(
+            f"{f['control']} ({f['detalle']})" for f in revision.fallas))
 
     hoy = ahora()
     capturas = [nueva_captura(FUENTE_ID, c["archivo"], c["sha256"], fecha_prev.get(c["id"], hoy) if c not in parseadas
@@ -127,7 +132,8 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False) -> di
             "capturas": len(registro), "vigentes": sum(c["vigente"] for c in registro),
             "parseadas": len(parseadas), "reutilizadas": sum(c["vigente"] for c in registro) - len(parseadas),
             "observaciones": len(obs), "advertencias": sum(map(len, advertencias.values())),
-            "_capturas": capturas, "_parseadas": [c["id"] for c in parseadas], "_advertencias": advertencias}
+            "_capturas": capturas, "_parseadas": [c["id"] for c in parseadas], "_advertencias": advertencias,
+            "_obs": obs, "_controles": revision, "_desempleo": desempleo, "_registro": registro}
 
 
 def main(argv=None) -> int:
@@ -149,6 +155,7 @@ def main(argv=None) -> int:
                               f"{type(e).__name__}: {e}")
         raise
     capturas = {c["id"]: c for c in r.pop("_capturas")}
+    obs, revision, desempleo, registro = (r.pop(k) for k in ("_obs", "_controles", "_desempleo", "_registro"))
     parseadas, advertencias = r.pop("_parseadas"), r.pop("_advertencias")
     if parseadas:
         for i in parseadas:
@@ -157,7 +164,8 @@ def main(argv=None) -> int:
     else:
         ultima = {**[c for c in capturas.values() if c["vigente"]][-1], "fecha_proceso": ahora()}
         historial.agregar(ultima, r["resultado"], "ninguna captura nueva" if r["resultado"] == "sin cambios" else "")
-    escribir_reporte(args.salida, capturas)
+    r["advertencias_desempleo"] = len(desempleo)
+    escribir_reporte(args.salida, capturas, obs, registro, revision, desempleo)
     print(json.dumps(r, ensure_ascii=False))
     return 0
 
@@ -166,28 +174,25 @@ PREFIJO_ADVERTENCIA = "advertencias: "
 MARCA, FIN = "<!-- ech_mt -->", "<!-- /ech_mt -->"
 
 
-def escribir_reporte(salida: Path, capturas: dict) -> None:
-    """Sección de la ECH en reporte_validacion.md: las advertencias de las capturas vigentes, tomadas del
-    historial (que se publica), así no se pierden cuando no se vuelve a parsear. F2.6 suma los controles."""
+def escribir_reporte(salida: Path, capturas: dict, obs, registro, revision, desempleo) -> None:
+    """Sección de la ECH en reporte_validacion.md (AC-L21): meses, controles, advertencias y últimos valores.
+    Las diferencias de redondeo de «Total Montevideo» salen del historial (que se publica), así no se pierden
+    cuando no se vuelve a parsear; lo demás se calcula sobre las observaciones vigentes."""
     path = salida / "reporte_validacion.md"
     if not path.exists():
         return
     h = Historial(salida).leer()
     h = h[(h.fuente_id == FUENTE_ID) & h.detalle.fillna("").str.startswith(PREFIJO_ADVERTENCIA)]
-    vigentes = {i: c for i, c in capturas.items() if c["vigente"]}
-    filas = [(r.archivo, r.detalle.removeprefix(PREFIJO_ADVERTENCIA)) for r in h.drop_duplicates("id", keep="last")
-             .itertuples() if r.id in vigentes]
-    lineas = [MARCA, "## Mercado de trabajo (ECH): advertencias", "",
-              f"Capturas vigentes: {len(vigentes)}. Diferencias de redondeo aceptadas (hasta 0,1): {len(filas)}.", ""]
-    lineas += [f"- `{Path(a).name}`: {d}" for a, d in sorted(filas)] or ["- Ninguna."]
-    seccion = "\n".join([*lineas, FIN])
+    vigentes = {i for i, c in capturas.items() if c["vigente"]}
+    redondeo = sorted((Path(r.archivo).name, r.detalle.removeprefix(PREFIJO_ADVERTENCIA))
+                      for r in h.drop_duplicates("id", keep="last").itertuples() if r.id in vigentes)
+    seccion = "\n".join([MARCA, *seccion_reporte(obs, registro, revision, desempleo, redondeo), FIN])
     texto = path.read_text(encoding="utf-8")
     if MARCA in texto and FIN in texto:
         texto = texto[:texto.index(MARCA)] + seccion + texto[texto.index(FIN) + len(FIN):]
     else:
         texto = texto.rstrip("\n") + "\n\n" + seccion + "\n"
     path.write_text(texto, encoding="utf-8")
-
 
 if __name__ == "__main__":
     sys.exit(main())
