@@ -103,7 +103,7 @@ Source: INE, *Mercado de trabajo por área geográfica de residencia* (monthly H
 **Data quality checks** (run on every report; failures stop the run)
 - **AC-L12** [auto] All rates are between 0 and 100; `tasa_empleo ≤ tasa_actividad`.
 - **AC-L13** [auto] `activos − ocupados = desocupados` within ±1 thousand (rounding).
-- **AC-L14** [auto] `desocupados / activos × 100` equals `tasa_desempleo` within ±0.3 points.
+- **AC-L14** [auto] `desocupados / activos × 100` equals `tasa_desempleo` within ±0.3 points; a larger difference is a warning in the validation report, not a failure: in small departments (Flores, ~14 thousand active) rounding the thousands to one decimal moves the ratio up to ~0.4 points (maintainer decision, option c, #45).
 - **AC-L15** [auto] Each report has exactly 19 departments and 8 municipalities per table, plus exactly one «Total país» row (cuadros 1–3) and one «Total Montevideo» row (cuadros 4–6) when the report's format includes them (in the reports surveyed in F2.1, only the 2026 one does). The expected rows for each known format are asserted.
 - **AC-L16** [auto] No labor observation exists for sección, segmento, localidad, barrio or CCZ.
 **Territory: Montevideo municipalities**

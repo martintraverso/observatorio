@@ -160,6 +160,7 @@ Done when: AC-L1…L4; all available months loaded.
 ### F2.6 — Quality checks and report
 1. Implement AC-L12…L16 as pipeline checks (run fails on error).
 2. Add the labor section to `reporte_validacion.md` (AC-L21).
+*Done (2026-11-18, #45):* `pipeline/ech_controles.py`; AC-L14 is a warning, not a failure (maintainer decision). The source stays «en preparación» until the maintainer decides to activate it.
 ### F2.7 — Automation
 Add the labor step to the weekly data workflow (AC-L22). PRs that change workflows wait for the maintainer.
  

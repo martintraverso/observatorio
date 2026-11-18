@@ -200,7 +200,7 @@ def test_las_advertencias_quedan_en_el_historial_y_en_el_reporte(entorno):
     hist = pd.read_parquet(salida / "capturas_historial.parquet")
     assert hist.detalle.str.contains("Total Montevideo» tasa_actividad: 65,4").sum() == 1
     reporte = (salida / "reporte_validacion.md").read_text(encoding="utf-8")
-    assert "## Mercado de trabajo (ECH): advertencias" in reporte and "65,4 en los cuadros de municipios" in reporte
+    assert "## Mercado de trabajo (ECH)" in reporte and "65,4 en los cuadros de municipios" in reporte
     correr(crudo, salida)  # sin cambios: la advertencia sigue en el reporte (sale del historial)
     assert (salida / "reporte_validacion.md").read_text(encoding="utf-8").count("65,4 en los cuadros") == 1
 
@@ -259,3 +259,30 @@ def test_una_captura_que_vuelve_a_ser_vigente_se_parsea(entorno):
     correr(crudo, salida)
     obs = pd.read_parquet(salida / "observaciones.parquet")
     assert (obs.periodo == "2021-12/2022-02").sum() == (19 + 8) * 7
+
+
+def test_un_control_con_falla_frena_la_carga(entorno, monkeypatch):
+    """AC-L12…L16 frenan la corrida: si un control falla, no se publica y el historial registra el error."""
+    from comun.controles import Controles
+
+    crudo, salida = entorno
+
+    def con_falla(obs):
+        c = Controles()
+        c.chk("AC-L12 Tasas entre 0 y 100; empleo ≤ actividad", False, "1 con empleo > actividad")
+        return c, []
+
+    monkeypatch.setattr(ech_cargar, "controles", con_falla)
+    with pytest.raises(ech_cargar.ErrorCarga, match="AC-L12"):
+        ech_cargar.main([str(crudo / "ech_mt"), "--salida", str(salida)])
+    hist = pd.read_parquet(salida / "capturas_historial.parquet")
+    assert hist[hist.fuente_id == ECH].resultado.tolist()[-1] == "error"
+
+
+def test_la_seccion_del_reporte_tiene_meses_controles_y_ultimos_valores(entorno):
+    crudo, salida = entorno
+    correr(crudo, salida)
+    reporte = (salida / "reporte_validacion.md").read_text(encoding="utf-8")
+    seccion = reporte[reporte.index("<!-- ech_mt -->"):]
+    assert "Meses capturados: 3" in seccion and "### Controles" in seccion and "| AC-L15" in seccion
+    assert "### Últimos valores por departamento (2026-07/2026-09)" in seccion and "| Maldonado | 69,1 | 65,3 | 5,5 |" in seccion
