@@ -58,27 +58,45 @@
 	let contenedor: HTMLDivElement;
 	let mapa: MapaLibre | null = $state(null);
 	let listo = $state(false);
+	// Primer dibujo terminado (evento idle): hasta entonces se ve «Cargando el mapa…» (AC-V6).
+	let dibujado = $state(false);
 	let nombreBajoCursor = $state('');
 	let sinMapa = $state(false);
 	let esperandoToque = $state(false);
 	let iniciarMapa: (() => void) | null = null;
 	let pintado: { nivel: string; ids: string[] } = { nivel: '', ids: [] };
 
-	let pendiente: [number, number, number, number] | null = null;
+	let pendiente: { bbox: [number, number, number, number]; zoomMinimo: number } | null = null;
 
-	/** Encuadra un territorio (bbox [oeste, sur, este, norte]); si el mapa no está listo, al cargar. */
-	export function enfocar(bbox: [number, number, number, number]) {
+	/**
+	 * Encuadra un territorio (bbox [oeste, sur, este, norte]); si el mapa no está listo, al cargar.
+	 * `zoomMinimo`: p. ej. el zoom desde el que se dibujan los segmentos, aunque el territorio no entre entero (AC-V7).
+	 */
+	export function enfocar(bbox: [number, number, number, number], zoomMinimo = 0) {
 		if (!mapa || !listo) {
-			pendiente = bbox;
+			pendiente = { bbox, zoomMinimo };
 			return;
 		}
-		mapa.fitBounds(
+		const camara = mapa.cameraForBounds(
 			[
 				[bbox[0], bbox[1]],
 				[bbox[2], bbox[3]]
 			],
-			{ padding: margen(40), maxZoom: 13, duration: 600 }
+			{ padding: margen(40), maxZoom: 13 }
 		);
+		if (!camara) return;
+		if ((camara.zoom ?? 0) >= zoomMinimo) {
+			mapa.easeTo({ ...camara, duration: 600 });
+			return;
+		}
+		// Más cerca de lo que entra: centrado en el territorio (el corrimiento por la leyenda crecería con el zoom).
+		const centro: [number, number] = [(bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2];
+		mapa.easeTo({ center: centro, zoom: zoomMinimo, duration: 600 });
+	}
+
+	/** Vuelve a mostrar todo el país. */
+	export function enfocarPais() {
+		enfocar([URUGUAY[0][0], URUGUAY[0][1], URUGUAY[1][0], URUGUAY[1][1]]);
 	}
 
 	onMount(() => {
@@ -183,10 +201,11 @@
 				listo = true;
 				onzoom?.(m.getZoom());
 				if (pendiente) {
-					enfocar(pendiente);
+					enfocar(pendiente.bbox, pendiente.zoomMinimo);
 					pendiente = null;
 				}
 			});
+			m.once('idle', () => (dibujado = true));
 			mapa = m;
 			// Para los tests e2e (ubicar territorios en pantalla).
 			(window as unknown as { __mapa?: MapaLibre }).__mapa = m;
@@ -270,6 +289,10 @@
 			<button type="button" class="activar" onclick={() => iniciarMapa?.()}>Ver el mapa interactivo</button>
 		</div>
 	{/if}
+	{#if !dibujado && !esperandoToque && !sinMapa}
+		<!-- Ya viene en el HTML prerenderizado: se ve apenas carga la página (AC-V6). -->
+		<div class="cargando" role="status">Cargando el mapa…</div>
+	{/if}
 	{#if sinMapa}
 		<div class="sin-mapa aviso" role="status">
 			<p>Este navegador no puede dibujar el mapa (necesita WebGL2).</p>
@@ -313,6 +336,17 @@
 		font: inherit;
 		font-weight: 600;
 		cursor: pointer;
+	}
+
+	.cargando {
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+		display: grid;
+		place-items: center;
+		color: var(--texto-suave);
+		font-size: var(--texto-s);
+		pointer-events: none;
 	}
 
 	.sin-mapa {

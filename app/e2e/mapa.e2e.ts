@@ -149,7 +149,8 @@ test('descargar CSV del territorio (columnas de AC-F5)', async ({ page }) => {
 
 test('segmentos: pide acercar el mapa', async ({ page }) => {
 	await page.goto('?indicador=pob_total&nivel=segmento&periodo=2023');
-	await expect(page.getByText('Acercá el mapa para ver los segmentos.')).toBeVisible();
+	await expect(page.getByText('Acercá el mapa para ver los segmentos, o elegí un departamento:')).toBeVisible();
+	await expect(page.getByRole('combobox', { name: 'Elegí un departamento' })).toBeVisible();
 });
 
 test('tema sin fuentes lo dice', async ({ page }) => {
@@ -193,4 +194,93 @@ test('el selector de nivel ofrece solo niveles con datos y un nivel sin valores 
 	await expect(page.getByRole('status').filter({ hasText: 'no se publica por municipio (Montevideo)' })).toBeVisible();
 	await page.waitForLoadState('networkidle');
 	expect(errores).toEqual([]);
+});
+
+test('AC-V6: el área del mapa muestra que está cargando hasta el primer dibujo', async ({ page }, info) => {
+	test.skip(info.project.name === 'movil', 'en móvil el mapa arranca al tocarlo');
+	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023', { waitUntil: 'domcontentloaded' });
+	const cargando = page.locator('section[aria-label="Mapa interactivo"]').getByRole('status').filter({ hasText: 'Cargando el mapa…' });
+	await expect(cargando).toBeVisible({ timeout: 300 });
+	await mapaListo(page);
+	await expect(cargando).toHaveCount(0);
+});
+
+type Camara = { __mapa: { getZoom(): number; getCenter(): { lng: number; lat: number }; isMoving(): boolean } };
+
+/** Espera a que el mapa quede quieto con el centro dentro de bbox y zoom ≥ zoomMinimo. */
+async function encuadrado(page: Page, bbox: [number, number, number, number], zoomMinimo: number) {
+	await page.waitForFunction(
+		([b, z]) => {
+			const m = (window as unknown as Camara).__mapa;
+			const c = m.getCenter();
+			return !m.isMoving() && m.getZoom() >= z && c.lng >= b[0] && c.lng <= b[2] && c.lat >= b[1] && c.lat <= b[3];
+		},
+		[bbox, zoomMinimo] as const,
+		{ timeout: 10_000 }
+	);
+}
+
+const ZOOM_SEGMENTOS = 9; // src/lib/mapa/estado.ts
+
+/** Lleva el mapa a la vista del país (para que el encuadre que sigue no sea el que ya había). */
+async function alPais(page: Page): Promise<number> {
+	return page.evaluate(() => {
+		const m = (window as unknown as { __mapa: { jumpTo(o: { center: [number, number]; zoom: number }): void; getZoom(): number } }).__mapa;
+		m.jumpTo({ center: [-55.8, -32.5], zoom: 6 });
+		return m.getZoom();
+	});
+}
+
+const nivelRadio = (page: Page, nombre: string) =>
+	page.getByRole('group', { name: 'Nivel territorial' }).getByRole('radio', { name: nombre, exact: true });
+
+test('AC-V7: al elegir «Municipio» el mapa se encuadra en Montevideo', async ({ page }, info) => {
+	test.skip(info.project.name === 'movil', 'el encuadre se prueba en escritorio');
+	const indicadores = JSON.parse(readFileSync('build/datos-web/indicadores.json', 'utf-8')) as { niveles: string[] }[];
+	test.skip(!indicadores.some((i) => i.niveles.includes('municipio_mvd')), 'el build no trae datos por municipio (fixture)');
+	const mvd = indice.find((t) => t.nivel === 'departamento' && t.codigo === '01')!;
+	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023');
+	await mapaListo(page);
+	const zoomPais = await page.evaluate(() => (window as unknown as Camara).__mapa.getZoom());
+	await nivelRadio(page, 'Municipio Solo Montevideo').check();
+	await encuadrado(page, mvd.bbox, zoomPais + 2);
+});
+
+test('AC-V7: «Segmento» con un departamento elegido se encuadra en él, con los segmentos dibujados', async ({ page }, info) => {
+	test.skip(info.project.name === 'movil', 'el encuadre se prueba en escritorio');
+	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023&territorio=departamento/07');
+	await mapaListo(page);
+	await expect(panel(page).getByRole('heading', { level: 2 })).toHaveText('Flores');
+	await alPais(page);
+	await nivelRadio(page, 'Segmento').check();
+	await encuadrado(page, FLORES.bbox, ZOOM_SEGMENTOS);
+	await expect(page.getByText('Acercá el mapa para ver los segmentos')).toHaveCount(0);
+	// segmentos dibujados (con su capa visible y polígonos en pantalla)
+	await page.waitForFunction(() => {
+		const m = (window as unknown as { __mapa: { areTilesLoaded(): boolean; queryRenderedFeatures(o: { layers: string[] }): unknown[] } }).__mapa;
+		return m.areTilesLoaded() && m.queryRenderedFeatures({ layers: ['relleno-segmento'] }).length > 0;
+	}, undefined, { timeout: 15_000 });
+});
+
+test('AC-V7: «Sección» con un departamento elegido se encuadra en él', async ({ page }, info) => {
+	test.skip(info.project.name === 'movil', 'el encuadre se prueba en escritorio');
+	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023&territorio=departamento/07');
+	await mapaListo(page);
+	await expect(panel(page).getByRole('heading', { level: 2 })).toHaveText('Flores');
+	const zoomPais = await alPais(page);
+	await nivelRadio(page, 'Sección').check();
+	await encuadrado(page, FLORES.bbox, zoomPais + 1);
+});
+
+test('AC-V7: «Segmento» sin departamento elegido ofrece «Elegí un departamento»', async ({ page }, info) => {
+	test.skip(info.project.name === 'movil', 'el encuadre se prueba en escritorio');
+	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023');
+	await mapaListo(page);
+	await nivelRadio(page, 'Segmento').check();
+	const elegir = page.getByRole('combobox', { name: 'Elegí un departamento' });
+	await expect(elegir).toBeVisible();
+	await expect(elegir.getByRole('option')).toHaveCount(1 + indice.filter((t) => t.nivel === 'departamento').length);
+	await elegir.selectOption('07');
+	await encuadrado(page, FLORES.bbox, ZOOM_SEGMENTOS);
+	await expect(elegir).toHaveCount(0); // con zoom suficiente el aviso se va
 });
