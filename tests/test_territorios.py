@@ -301,3 +301,26 @@ def test_capturas_tienen_url_descargado_y_vigente(con):
                         "where fuente_id = 'ine_unidades_geoestadisticas_2023'").fetchall()
     # el zip del Censo viene del release crudos: no se registró cuándo se bajó del INE
     assert filas == [(url, None, True)]
+
+
+# #54: la capa de CCZ del INE trae AREA_KM2 y AREA_HA intercambiados; la superficie se mide sobre la geometría
+def test_superficie_de_los_ccz(con, salida):
+    t = gpd.read_parquet(salida / "territorios.parquet").set_index("id")
+    ccz = t[t.nivel == "ccz_mvd"]
+    assert len(ccz) == 18
+    for i, fila in ccz.iterrows():
+        assert fila.area_km2 == pytest.approx(_area(fila.geometry), rel=0.01), i
+    # los 18 CCZ cubren Montevideo: su superficie suma la del departamento (la del INE)
+    assert ccz.area_km2.sum() == pytest.approx(t.loc["INE-2023/departamento/01"].area_km2, rel=0.02)
+
+
+
+def test_superficie_coherente_con_la_geometria_en_todos_los_niveles(salida):
+    """La superficie publicada de cada territorio está a ±1 % de su área medida (#54: así se detecta otro campo
+    de superficie con unidades equivocadas)."""
+    t = gpd.read_parquet(salida / "territorios.parquet")
+    medida = t.to_crs(32721).area / 1e6
+    fuera = ((t.area_km2 / medida) - 1).abs() > 0.01
+    assert not fuera.any(), t.loc[fuera, ["id", "area_km2"]].assign(medida=medida[fuera]).head().to_string()
+    assert set(t.nivel) >= {"departamento", "seccion", "segmento", "localidad", "barrio_mvd", "ccz_mvd",
+                            "municipio_mvd", "pais"}
