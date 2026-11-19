@@ -675,7 +675,7 @@
 			scroll-padding-inline: 6px 56px;
 		}
 
-		.chips:focus-within {
+		.chips:has(:focus-visible) {
 			mask-image: none;
 		}
 
