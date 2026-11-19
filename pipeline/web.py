@@ -359,14 +359,18 @@ def construir_fichas(territorios, obs, indicadores, capturas, fuentes, correspon
     fichas = {}
     for i, fila in t.iterrows():
         observaciones = obs_por_t.get(i, [])
-        usadas = {o["indicador"] for o in observaciones}
+        padres = [resumen(a) for a in ancestros(i)]
+        # Indicadores propios y los de los niveles que la contienen: la app los nombra y sabe su tema, p. ej.
+        # para decir «Trabajo: se publica por departamento» en la ficha de un segmento (AC-V24). Solo metadatos:
+        # los valores siguen en el nivel donde los publica la fuente.
+        usadas = {o["indicador"] for o in observaciones} | {k for p in padres for k in p["valores"]}
         caps = {o["captura_id"] for o in observaciones}
         fichas[i] = {
             "id": i, "nivel": fila.nivel, "codigo": fila.codigo, "nombre": fila.nombre, "depto": fila.depto,
             "version_geo": fila.version_geo, "area_km2": numero(round(fila.area_km2, 4)),
             "codigo_iso": fila.codigo_iso if isinstance(fila.codigo_iso, str) else None,
             "bbox": bbox(fila.geometry),
-            "padres": [resumen(a) for a in ancestros(i)],
+            "padres": padres,
             "contenidos": {n: [resumen(h) for h in sorted(set(hs))] for n, hs in sorted(contenidos[i].items())},
             "relaciones": [relacion(rel) for rel in relaciones.get(i, [])],
             "observaciones": observaciones,

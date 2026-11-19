@@ -172,3 +172,40 @@ test('AC-L17 y AC-L28: el país y los municipios de Montevideo tienen ficha', as
 	await page.goto(`territorio/ccz_mvd/${ccz[0].codigo}`);
 	await expect(page.getByText('Pertenece al municipio:')).toContainText('Municipio CH');
 });
+
+test('AC-V24: si un tema no se publica al nivel de la ficha, enlaza al nivel que lo contiene y lo publica', async ({ page }) => {
+	// Las secciones de la ficha y sus temas (SECCIONES_FICHA en src/lib/ficha/logica.ts).
+	const SECCIONES_FICHA = [
+		{ id: 'poblacion', temas: ['Población'] },
+		{ id: 'vivienda', temas: ['Vivienda', 'Hogares'] },
+		{ id: 'trabajo', temas: ['Trabajo', 'Ingresos'] },
+		{ id: 'educacion', temas: ['Educación'] }
+	];
+	// Un segmento de San José (con datos completos su departamento tiene la ECH); si no está, uno de Flores.
+	const seg = indice.find((t) => t.nivel === 'segmento' && t.depto === '16') ?? de('segmento');
+	const f = JSON.parse(readFileSync(`build/datos-web/fichas/segmento/${seg.codigo}.json`, 'utf-8')) as {
+		padres: { nivel: string; nombre: string; valores: Record<string, unknown> }[];
+		indicadores: Record<string, { tema: string }>;
+		observaciones: { indicador: string }[];
+	};
+	await page.goto(`territorio/segmento/${seg.codigo}`);
+	let enPadre = 0;
+	for (const s of SECCIONES_FICHA) {
+		const temas = s.temas;
+		const propios = f.observaciones.some((o) => temas.includes(f.indicadores[o.indicador]?.tema));
+		if (propios) continue;
+		const padre = [...f.padres].reverse().find((p) => Object.keys(p.valores).some((k) => temas.includes(f.indicadores[k]?.tema)));
+		const seccion = page.locator(`section#${s.id}`);
+		if (padre) {
+			enPadre++;
+			await expect(seccion).toContainText(`se publica por ${padre.nivel}`);
+			await expect(seccion.getByRole('link', { name: `ver ${padre.nombre}` })).toHaveAttribute('href', new RegExp(`/territorio/${padre.nivel}/\\w+#${s.id}$`));
+			await expect(seccion).not.toContainText('Todavía no hay fuentes cargadas');
+		} else {
+			await expect(seccion).toContainText('Todavía no hay fuentes cargadas para este tema.');
+		}
+	}
+	// Con datos completos la ECH (Trabajo) está por departamento y no por segmento: tiene que aparecer el enlace.
+	const hayEch = Object.values(f.indicadores).some((i) => i.tema === 'Trabajo');
+	expect(enPadre > 0).toBe(hayEch);
+});

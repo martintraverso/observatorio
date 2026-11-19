@@ -139,3 +139,16 @@ export function fuentesDeFicha(f: Pick<Ficha, 'capturas' | 'fuentes'>): FuenteDe
 		return { id, fuente: f.fuentes[id], capturas: orden, ultima: orden[0] };
 	});
 }
+
+/**
+ * AC-V24: si una sección no tiene datos al nivel de la ficha, el nivel más cercano que la contiene y sí los
+ * tiene, con los temas que publica ahí («Trabajo: se publica por departamento → ver San José»). null si
+ * ningún nivel que la contiene tiene datos de esos temas.
+ */
+export function datosEnPadre(f: Pick<Ficha, 'padres' | 'indicadores'>, temas: readonly string[]): { padre: Resumen; temas: string[] } | null {
+	for (const padre of [...f.padres].reverse()) {
+		const conDatos = temas.filter((t) => Object.keys(padre.valores).some((k) => f.indicadores[k]?.tema === t));
+		if (conDatos.length) return { padre, temas: conDatos };
+	}
+	return null;
+}
