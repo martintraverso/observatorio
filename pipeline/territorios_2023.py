@@ -308,7 +308,9 @@ def validar(capas, territorios, obs, esperado, niveles_publicados) -> tuple[Cont
     mvd = territorios.loc[territorios.id == tid("departamento", "01"), "area_km2"]
     if len(ccz) and len(mvd):
         razon = ccz.area_km2.sum() / float(mvd.iloc[0])
-        c.chk("Superficie de los CCZ ≈ la de Montevideo (±2 %)", abs(razon - 1) <= 0.02, f"razón {razon:.3f}")
+        c.chk("Superficie de los CCZ ≈ la de Montevideo (±2 %)", abs(razon - 1) <= 0.02,
+              f"razón {razon:.3f}; medida sobre la geometría: la capa del INE trae AREA_KM2 y AREA_HA "
+              "intercambiados (#54)")
 
     seg = territorios[territorios.nivel == "segmento"]
     prefijo_ok = (seg.codigo.str[:4] == seg.padre_id.str.split("/").str[-1]).all()
