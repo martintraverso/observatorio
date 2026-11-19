@@ -143,8 +143,30 @@
 		if (!ind.periodos.includes(estado.periodo)) estado.periodo = ind.periodos.at(-1) ?? '';
 	}
 
+	/** Departamento del territorio elegido (o del que está en el panel), si hay uno. */
+	function deptoElegido(): string | null {
+		if (ficha?.depto) return ficha.depto;
+		const [nivel, codigo] = estado.territorio?.split('/') ?? [];
+		if (nivel === 'departamento' || nivel === 'seccion' || nivel === 'segmento') return codigo.slice(0, 2);
+		return null;
+	}
+
+	function enfocarDepto(codigo: string, zoomMinimo = 0) {
+		const d = data.departamentos.find((x) => x.codigo === codigo);
+		if (d) mapa?.enfocar(d.bbox, zoomMinimo);
+	}
+
+	/**
+	 * Al cambiar de nivel el mapa se encuadra donde ese nivel tiene sentido (AC-V7): Montevideo para los
+	 * municipios; el departamento elegido para secciones y segmentos (los segmentos, con el zoom desde el
+	 * que se dibujan); el país para departamentos.
+	 */
 	function elegirNivel(n: NivelMapa) {
 		estado.nivel = n;
+		const depto = deptoElegido();
+		if (n === 'municipio_mvd') enfocarDepto('01');
+		else if (n === 'departamento') mapa?.enfocarPais();
+		else if (depto) enfocarDepto(depto, n === 'segmento' ? ZOOM_SEGMENTOS : 0);
 	}
 
 	function seleccionar(id: string) {
@@ -276,7 +298,19 @@
 					{/if}
 				</div>
 			{:else if faltaZoom}
-				<div class="aviso" role="status"><p>Acercá el mapa para ver los segmentos.</p></div>
+				<div class="aviso" role="status">
+					<p>Acercá el mapa para ver los segmentos, o elegí un departamento:</p>
+					<label class="visualmente-oculto" for="elegir-depto">Elegí un departamento</label>
+					<select
+						id="elegir-depto"
+						onchange={(e) => {
+							if (e.currentTarget.value) enfocarDepto(e.currentTarget.value, ZOOM_SEGMENTOS);
+						}}
+					>
+						<option value="">Elegí un departamento</option>
+						{#each data.departamentos as d (d.codigo)}<option value={d.codigo}>{d.nombre}</option>{/each}
+					</select>
+				</div>
 			{/if}
 		</div>
 
@@ -509,6 +543,12 @@
 		width: min(240px, calc(100% - 2 * var(--espacio-3)));
 		box-shadow: var(--sombra);
 		border-radius: var(--radio-m);
+	}
+
+	.avisos select {
+		margin-top: var(--espacio-2);
+		width: auto;
+		min-width: 220px;
 	}
 
 	.avisos button {
