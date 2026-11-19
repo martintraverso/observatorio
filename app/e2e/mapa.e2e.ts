@@ -98,7 +98,7 @@ test('AC-M3: tocar un territorio lo selecciona y muestra sus datos', async ({ pa
 	await expect(panel(page)).toContainText('Departamento · Código INE 07');
 	await expect(panel(page)).toContainText('26.271');
 	await expect(panel(page)).toContainText('Fuente: INE');
-	await expect(panel(page)).toContainText('no publica un total nacional');
+	await expect(panel(page)).toContainText('Total del país: no publicado por la fuente.');
 	await expect(panel(page).getByRole('link', { name: 'Ver ficha completa' })).toHaveAttribute(
 		'href',
 		/territorio\/departamento\/07$/
@@ -388,4 +388,22 @@ test('AC-V12: un departamento que casi no se ve (Montevideo a escala país) llev
 	// y en el nivel sección no hay anillos de departamentos
 	await nivelRadio(page, 'Sección').check();
 	await page.waitForFunction(() => (window as unknown as { __mapa: M }).__mapa.queryRenderedFeatures({ layers: ['anillo-chicos'] }).length === 0);
+});
+
+test('AC-V11: el panel muestra la fuente una vez, sin reglas internas, y los botones del mismo ancho', async ({ page }) => {
+	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023&territorio=departamento/07');
+	const p = panel(page);
+	await expect(p.getByRole('heading', { level: 2 })).toHaveText('Flores');
+	await expect(p.getByText(/^Fuente: /)).toHaveCount(1); // el principal y los otros datos son del Censo
+	await expect(p).not.toContainText('el observatorio');
+	await expect(p).not.toContainText('no suma territorios');
+	await expect(p.getByText('Total del país: no publicado por la fuente.')).toBeVisible();
+	const [a, b] = await Promise.all([
+		p.getByRole('link', { name: 'Ver ficha completa' }).boundingBox(),
+		p.getByRole('button', { name: 'Descargar CSV' }).boundingBox()
+	]);
+	expect(Math.abs(a!.width - b!.width)).toBeLessThanOrEqual(1);
+	// cada botón en una sola línea (alto de un botón, no de dos líneas de texto)
+	expect(a!.height).toBeLessThan(60);
+	expect(b!.height).toBeLessThan(60);
 });

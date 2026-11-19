@@ -61,7 +61,7 @@ test('AC-L24: la leyenda y el panel nombran el trimestre móvil y la fuente', as
 	await expect(leyenda(page)).toContainText(/\d+,\d a \d+,\d/); // clases con decimales
 	await expect(panel(page)).toContainText(`Tasa de actividad · ${etiqueta}`);
 	await expect(panel(page)).toContainText('Fuente: INE, ECH');
-	await expect(panel(page)).toContainText('el INE lo publica para este período'); // total del país del INE
+	await expect(panel(page)).toContainText('Total del país: en la ficha de Uruguay.'); // total del país del INE
 	await expect(page.getByRole('combobox', { name: 'Período' })).toHaveValue(ultimo);
 	await expect(page.getByRole('combobox', { name: 'Período' }).locator('option:checked')).toHaveText(etiqueta);
 });
@@ -82,11 +82,11 @@ test('AC-M3 con municipios: el municipio seleccionado se resalta y su panel se a
 test('la nota del total del país depende del período (nunca se suma)', async ({ page }) => {
 	const primero = trabajo[0].periodos[0]; // 2021-12/2022-02: el INE no publicó total del país
 	await page.goto(`?indicador=tasa_actividad&nivel=departamento&periodo=${primero}&territorio=departamento/10`);
-	await expect(panel(page)).toContainText('el INE no lo publicó para este período');
+	await expect(panel(page)).toContainText('Total del país: no publicado para este período');
 	await page.goto(`?indicador=tasa_actividad&nivel=departamento&periodo=${ultimo}&territorio=departamento/10`);
-	await expect(panel(page)).toContainText('el INE lo publica para este período');
+	await expect(panel(page)).toContainText('Total del país: en la ficha de Uruguay.');
 	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023&territorio=departamento/10');
-	await expect(panel(page)).toContainText('esta fuente no publica un total nacional');
+	await expect(panel(page)).toContainText('Total del país: no publicado por la fuente.');
 });
 
 // ---------------------------------------------------------------- F2.8c (#67): serie en las fichas (AC-L25)
