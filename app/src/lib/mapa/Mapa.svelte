@@ -45,6 +45,18 @@
 	 */
 	const MIN_VISIBLE = 48;
 
+	/**
+	 * Colores de la vista previa (móvil, antes de tocar el mapa): por departamento, con las mismas clases y
+	 * colores que la leyenda (AC-V13). En otros niveles la vista previa no tiene esas unidades: queda el contorno.
+	 */
+	let coloresPrevia = $derived.by(() => {
+		if (nivel !== 'departamento' || !clases) return null;
+		const paleta = coloresClases(clases.cortes.length + 1);
+		return Object.fromEntries(
+			Object.entries(valores).map(([codigo, v]) => [codigo, v === null ? COLOR_SIN_DATO : paleta[clase(v, clases)]])
+		);
+	});
+
 	/** Centros de los departamentos que, con el zoom actual, ocupan menos de MIN_VISIBLE px de lado (p. ej. Montevideo a escala país). */
 	function actualizarChicos() {
 		const m = mapa;
@@ -349,7 +361,7 @@
 	{#if esperandoToque}
 		<div class="previa">
 			<div class="contorno" aria-hidden="true">
-				<MiniMapa nombre="Uruguay" depto="" nivel="pais" bbox={[-58.5, -35.05, -53.05, -30.05]} resaltar={false} />
+				<MiniMapa nombre="Uruguay" depto="" nivel="pais" bbox={[-58.5, -35.05, -53.05, -30.05]} resaltar={false} colores={coloresPrevia} />
 			</div>
 			<button type="button" class="activar" onclick={() => iniciarMapa?.()}>Ver el mapa interactivo</button>
 		</div>
@@ -388,7 +400,6 @@
 
 	.contorno {
 		width: min(70%, 260px);
-		opacity: 0.8;
 	}
 
 	.activar {

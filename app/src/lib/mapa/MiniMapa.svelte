@@ -2,14 +2,15 @@
 	// Mini-mapa de ubicación (AC-M4): Uruguay con el territorio resaltado; los muy chicos, con un anillo.
 	import { onMount } from 'svelte';
 	import { leerJson } from '../datos.ts';
-	import { COLOR_SELECCION } from './colores.ts';
+	import { COLOR_SELECCION, COLOR_SIN_DATO } from './colores.ts';
 
 	let {
 		nombre,
 		depto,
 		nivel,
 		bbox,
-		resaltar = true
+		resaltar = true,
+		colores = null
 	}: {
 		nombre: string;
 		depto: string;
@@ -17,6 +18,8 @@
 		bbox: [number, number, number, number];
 		/** false: solo el contorno de Uruguay (vista previa del mapa). */
 		resaltar?: boolean;
+		/** Vista previa del mapa (AC-V13): color de cada departamento (código → color), los mismos de la leyenda. */
+		colores?: Record<string, string> | null;
 	} = $props();
 
 	interface Mini {
@@ -57,7 +60,15 @@
 	{#each deptos as d (d.codigo + d.nivel)}
 		<path
 			d={d.d}
-			fill={esDepto && d.nivel === 'departamento' && d.codigo === depto ? COLOR_SELECCION : d.codigo === depto ? '#c3d7ec' : '#eaf1f8'}
+			fill={colores
+				? d.nivel === 'departamento'
+					? (colores[d.codigo] ?? COLOR_SIN_DATO)
+					: 'none'
+				: esDepto && d.nivel === 'departamento' && d.codigo === depto
+					? COLOR_SELECCION
+					: d.codigo === depto
+						? '#c3d7ec'
+						: '#eaf1f8'}
 			stroke="#8b96a1"
 			stroke-width="0.6"
 		/>

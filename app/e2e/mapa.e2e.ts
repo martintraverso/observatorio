@@ -407,3 +407,22 @@ test('AC-V11: el panel muestra la fuente una vez, sin reglas internas, y los bot
 	expect(a!.height).toBeLessThan(60);
 	expect(b!.height).toBeLessThan(60);
 });
+
+test('AC-V13: en celular la vista previa del mapa tiene los colores de la leyenda', async ({ page }, info) => {
+	test.skip(info.project.name !== 'movil', 'la vista previa es de celular y tableta');
+	for (const ancho of [390, 768]) {
+		await page.setViewportSize({ width: ancho, height: 900 });
+		await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023');
+		const previa = page.locator('.previa svg.mini'); // decorativa (aria-hidden): el botón «Ver el mapa interactivo» la acompaña
+		await expect(previa).toBeVisible();
+		const leyenda = page.getByRole('region', { name: 'Leyenda' }).locator('visible=true');
+		await expect(leyenda.locator('.muestra').first()).toBeVisible();
+		// esperar a que lleguen los valores y se pinte
+		await expect.poll(async () => new Set(await previa.locator('path').evaluateAll((ps) => ps.map((p) => getComputedStyle(p).fill))).size).toBeGreaterThan(2);
+		const deLaLeyenda = new Set(await leyenda.locator('.muestra').evaluateAll((ms) => ms.map((m) => getComputedStyle(m).backgroundColor)));
+		const deLaPrevia = await previa.locator('path').evaluateAll((ps) => ps.map((p) => getComputedStyle(p).fill).filter((f) => f !== 'none'));
+		const deptos = (JSON.parse(readFileSync('build/datos-web/uruguay_mini.geojson', 'utf-8')) as { features: { properties: { nivel: string } }[] }).features.filter((f) => f.properties.nivel === 'departamento').length;
+		expect(deLaPrevia).toHaveLength(deptos);
+		for (const c of deLaPrevia) expect(deLaLeyenda, `${ancho} px: ${c}`).toContain(c);
+	}
+});
