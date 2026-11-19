@@ -288,11 +288,11 @@ def test_las_fuentes_a_procesar_son_las_activas_y_las_que_se_cargan_con_la_geogr
     from comun.registro import a_procesar, cargar_fuentes
 
     fuentes = cargar_fuentes(RAIZ / "fuentes")
-    assert fuentes[ECH]["estado"] == "en preparación" and fuentes[ECH]["cargar"] is True
+    assert fuentes[ECH]["estado"] == "activa" and fuentes[ECH]["carpeta_original"] == "ech_mt"
     assert [f["id"] for f in a_procesar(fuentes)] == [FUENTE, ECH]  # el Censo (territorios) antes que la ECH
 
 
-def test_una_fuente_que_se_carga_sin_originales_se_omite_y_una_activa_falla(crudo, tmp_path):
+def test_una_fuente_con_carpeta_sin_originales_se_omite_y_una_activa_de_un_archivo_falla(crudo, tmp_path):
     """Como el paso «Datos del fixture» de CI: solo el zip del Censo en crudo."""
     r = correr("pipeline/correr.py", "--crudo", crudo, "--salida", tmp_path / "salida", "--argumentos", ARG_FIXTURE,
                "--sin-pmtiles")

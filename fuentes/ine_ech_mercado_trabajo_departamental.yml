@@ -19,13 +19,12 @@ licencia: >-
 cita: "Fuente: INE - Encuesta Continua de Hogares (pie de cada cuadro del informe; en 2022: «Fuente: INE, Encuesta Continua de Hogares»)."
 contacto: "Depto. de Difusión y Comunicación del INE: difusion@ine.gub.uy, (598) 2902 7303 int. 7723 y 7725 (pie del informe)."
 frecuencia: mensual desde febrero de 2022 (cada informe es un trimestre móvil)
-estado: en preparación     # activa | en preparación | a relevar
+estado: activa     # activa | en preparación | a relevar  — activa desde 2026-11-19 (#69)
 # Originales en datos/crudo/ech_mt/ (un HTML por informe y capturas.json) y script que los carga (F2.5c).
 carpeta_original: ech_mt
 script: pipeline/ech_cargar.py
-# Se carga en los datos (release) aunque esté «en preparación»; la app la muestra recién cuando pase a
-# «activa», después de los controles de F2.6 (#45). Decisión del mantenedor, 2026-11-18 (#59).
-cargar: true
+# Se cargó «en preparación» (cargar: true, #59) hasta pasar los controles de F2.6 (#45) y armar la
+# presentación de F2.8; el mantenedor la activó el 2026-11-19 (#69).
 temas: [Trabajo]
 niveles_publicados: [pais, departamento, municipio_mvd]
 nivel_mas_detallado: municipio_mvd

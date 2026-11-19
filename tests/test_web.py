@@ -254,7 +254,9 @@ def test_indicadores_dicen_donde_hay_datos(web, con):
             select distinct t.nivel from observaciones o join territorios t on t.id = o.territorio_id
             where o.indicador = ?
         """, [i["codigo"]]).fetchall()}
-        assert set(i["niveles"]) == niveles and i["periodos"] == ["2023"] and i["tema"]
+        periodos = sorted(r[0] for r in con.execute(
+            "select distinct periodo from observaciones where indicador = ?", [i["codigo"]]).fetchall())
+        assert set(i["niveles"]) == niveles and i["periodos"] == periodos and i["tema"]
     assert "area_especial" not in {n for i in ind for n in i["niveles"]}
 
 
@@ -337,7 +339,7 @@ def test_vista_previa_es_una_opcion_de_web_py_que_no_usa_el_workflow():
 
 
 def test_la_salida_de_la_app_no_tiene_nada_de_fuentes_no_activas(web):
-    """Sobre lo que genera web.py (con datos completos, la ECH está cargada pero «en preparación»)."""
+    """Sobre lo que genera web.py: nada de fuentes que no estén activas (hoy todas las cargadas lo están)."""
     fuentes = json.loads((web / "fuentes.json").read_text(encoding="utf-8"))
     activas = {f["id"] for f in fuentes if f["estado"] == "activa"}
     capturas = json.loads((web / "capturas.json").read_text(encoding="utf-8"))

@@ -31,10 +31,12 @@ PROCESADO = ("nuevo", "reprocesado")
 def correr_fuente(fuente: dict, crudo: Path, salida: Path, forzar: bool, extra: list[str]) -> dict:
     original = crudo / (fuente.get("archivo_original") or fuente["carpeta_original"])
     if not original.exists():
-        if fuente.get("estado") != "activa":
-            # Se carga pero no se muestra (`cargar: true`): sin sus originales se omite y se informa. En el
-            # workflow de datos no pasa en silencio: conseguir_originales.py falla antes si faltan en crudos.
-            return {"resultado": "omitida", "detalle": f"falta el original {original} (la fuente no está activa)"}
+        if fuente.get("estado") != "activa" or fuente.get("carpeta_original"):
+            # Sin sus originales, una fuente que no está activa, o una con carpeta de originales (que solo se
+            # arma desde el release crudos), se omite y se informa. En el workflow de datos no pasa en silencio:
+            # conseguir_originales.py falla antes si faltan en crudos. Sí es error una fuente activa de un
+            # archivo (p. ej. el Censo). Así CI («Datos del fixture», solo con el zip del Censo) corre igual.
+            return {"resultado": "omitida", "detalle": f"falta el original {original}"}
         return {"resultado": "error", "detalle": f"falta el original {original}"}
     cmd = [sys.executable, str(RAIZ / fuente["script"]), str(original), "--salida", str(salida), *extra]
     if forzar:
