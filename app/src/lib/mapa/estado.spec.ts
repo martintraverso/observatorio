@@ -31,10 +31,13 @@ describe('AC-M2: indicador no publicado en el nivel elegido', () => {
 		expect(avisoNivel(PERSONAS, 'segmento')).toBeNull();
 	});
 
-	it('avisa y nombra el nivel más detallado con datos', () => {
+	it('AC-V9: nombra el nivel elegido y lista los niveles con datos, del más fino al más grueso', () => {
 		const a = avisoNivel(DESEMPLEO, 'seccion');
-		expect(a?.alternativa).toBe('departamento');
-		expect(a?.mensaje).toBe('«Desempleo» no se publica por sección. El nivel más detallado con datos es departamento.');
+		expect(a?.mensaje).toBe('«Desempleo» no se publica por sección. Disponible por:');
+		expect(a?.disponibles).toEqual(['departamento']);
+		const p = avisoNivel(PERSONAS, 'municipio_mvd');
+		expect(p?.mensaje).toBe('«Personas» no se publica por municipio. Disponible por:');
+		expect(p?.disponibles).toEqual(['segmento', 'seccion', 'departamento']);
 	});
 
 	it('nivel más detallado', () => {
@@ -93,7 +96,7 @@ describe('F2.8b: Trabajo en el mapa', () => {
 		expect(avisoNivel(ACTIVIDAD, 'departamento')).toBeNull();
 		expect(avisoNivel(ACTIVIDAD, 'municipio_mvd')).toBeNull();
 		expect(avisoNivel(ACTIVIDAD, 'seccion')?.mensaje).toContain('no se publica por sección');
-		expect(avisoNivel(ACTIVIDAD, 'segmento')?.alternativa).toBe('municipio_mvd');
+		expect(avisoNivel(ACTIVIDAD, 'segmento')?.disponibles).toEqual(['municipio_mvd', 'departamento']);
 		expect(nivelMasDetallado(ind('pob_total', 'Población', ['departamento', 'seccion'], ['2023']))).toBe('seccion');
 	});
 

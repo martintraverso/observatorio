@@ -46,7 +46,8 @@ test('AC-L23: el tema Trabajo ofrece los 7 indicadores por departamento y munici
 	await nivel.getByRole('radio', { name: 'Sección' }).check();
 	const aviso = page.getByRole('status').filter({ hasText: 'no se publica por' });
 	await expect(aviso).toContainText('no se publica por sección');
-	await expect(aviso).toContainText('El nivel más detallado con datos es municipio (Montevideo)');
+	await expect(aviso).toContainText('Disponible por:');
+	await expect(aviso.getByRole('button')).toHaveText(['municipio', 'departamento']);
 	expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
 });
 

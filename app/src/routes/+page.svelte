@@ -143,9 +143,15 @@
 		if (!ind.periodos.includes(estado.periodo)) estado.periodo = ind.periodos.at(-1) ?? '';
 	}
 
-	/** Departamento del territorio elegido (o del que está en el panel), si hay uno. */
+	/** La ficha cargada, solo si es la del territorio elegido (mientras carga otra, la anterior no vale). */
+	function fichaVigente(): Ficha | null {
+		return ficha && estado.territorio && ficha.id === `INE-2023/${estado.territorio}` ? ficha : null;
+	}
+
+	/** Departamento del territorio elegido, si hay uno. */
 	function deptoElegido(): string | null {
-		if (ficha?.depto) return ficha.depto;
+		const f = fichaVigente();
+		if (f?.depto) return f.depto;
 		const [nivel, codigo] = estado.territorio?.split('/') ?? [];
 		if (nivel === 'departamento' || nivel === 'seccion' || nivel === 'segmento') return codigo.slice(0, 2);
 		return null;
@@ -157,13 +163,31 @@
 	}
 
 	/**
+	 * Regla de selección al cambiar de nivel (AC-V8, docs/SYSTEM.md §8): el panel nunca muestra un territorio
+	 * de otro nivel. Si el elegido es de ese nivel, se mantiene; si uno de sus padres lo es (ir a un nivel más
+	 * grueso), se elige ese padre; si no (ir a uno más fino), el panel se vacía y el mapa queda encuadrado en
+	 * el departamento.
+	 */
+	function territorioEnNivel(n: NivelMapa): string | null {
+		const t = estado.territorio;
+		if (!t || t.split('/')[0] === n) return t;
+		const padre = fichaVigente()?.padres.find((p) => p.nivel === n);
+		if (padre) return `${padre.nivel}/${padre.codigo}`;
+		// Sin la ficha todavía: las secciones y los segmentos empiezan con el código de su departamento.
+		const [nivel, codigo] = t.split('/');
+		if (n === 'departamento' && (nivel === 'seccion' || nivel === 'segmento')) return `departamento/${codigo.slice(0, 2)}`;
+		return null;
+	}
+
+	/**
 	 * Al cambiar de nivel el mapa se encuadra donde ese nivel tiene sentido (AC-V7): Montevideo para los
 	 * municipios; el departamento elegido para secciones y segmentos (los segmentos, con el zoom desde el
 	 * que se dibujan); el país para departamentos.
 	 */
 	function elegirNivel(n: NivelMapa) {
-		estado.nivel = n;
 		const depto = deptoElegido();
+		estado.nivel = n;
+		estado.territorio = territorioEnNivel(n);
 		if (n === 'municipio_mvd') enfocarDepto('01');
 		else if (n === 'departamento') mapa?.enfocarPais();
 		else if (depto) enfocarDepto(depto, n === 'segmento' ? ZOOM_SEGMENTOS : 0);
@@ -290,11 +314,13 @@
 			{#if aviso}
 				<div class="aviso" role="status">
 					<p>{aviso.mensaje}</p>
-					{#if aviso.alternativa}
-						{@const alt = aviso.alternativa}
-						<button type="button" onclick={() => elegirNivel(alt)}>
-							Ver por {minuscula(ETIQUETA_NIVEL_MAPA[alt])}
-						</button>
+					{#if aviso.disponibles.length}
+						<div class="disponibles">
+							{#each aviso.disponibles as alt, i (alt)}
+								{#if i > 0}<span aria-hidden="true">·</span>{/if}
+								<button type="button" onclick={() => elegirNivel(alt)}>{minuscula(OPCION_NIVEL_MAPA[alt].etiqueta)}</button>
+							{/each}
+						</div>
 					{/if}
 				</div>
 			{:else if faltaZoom}
@@ -549,6 +575,13 @@
 		margin-top: var(--espacio-2);
 		width: auto;
 		min-width: 220px;
+	}
+
+	.disponibles {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--espacio-2);
 	}
 
 	.avisos button {
