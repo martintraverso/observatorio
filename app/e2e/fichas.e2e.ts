@@ -208,4 +208,9 @@ test('AC-V24: si un tema no se publica al nivel de la ficha, enlaza al nivel que
 	// Con datos completos la ECH (Trabajo) está por departamento y no por segmento: tiene que aparecer el enlace.
 	const hayEch = Object.values(f.indicadores).some((i) => i.tema === 'Trabajo');
 	expect(enPadre > 0).toBe(hayEch);
+	if (hayEch && seg.depto === '16') {
+		// el caso del hallazgo V-19, literal
+		await expect(page.locator('section#trabajo')).toContainText('Trabajo: se publica por departamento');
+		await expect(page.locator('section#trabajo').getByRole('link', { name: 'ver San José' })).toBeVisible();
+	}
 });
