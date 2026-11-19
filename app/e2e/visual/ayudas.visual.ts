@@ -3,7 +3,7 @@
 import { expect, test } from '@playwright/test';
 import { detectarDesbordes, revisarSegmentado, sinTextoInterno } from './ayudas';
 
-const BASE = '<style>body{font:16px/1.4 sans-serif;margin:0} .caja{width:120px}</style>';
+const BASE = '<style>body{font:16px/1.4 sans-serif;margin:0} .caja{width:220px}</style>';
 
 test.describe('detectarDesbordes (AC-V5)', () => {
 	test('acepta textos que entran en su caja', async ({ page }) => {
