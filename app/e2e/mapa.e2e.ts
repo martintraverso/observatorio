@@ -188,7 +188,7 @@ test('el selector de nivel ofrece solo niveles con datos y un nivel sin valores 
 	page.on('pageerror', (e) => errores.push(e.message));
 	await page.goto('?indicador=pob_total&nivel=municipio_mvd&periodo=2023');
 	const nivel = page.getByRole('group', { name: 'Nivel territorial' });
-	await expect(nivel.getByRole('radio', { name: 'Municipio (Montevideo)' })).toHaveCount(conMunicipio ? 1 : 0);
+	await expect(nivel.getByRole('radio', { name: 'Municipio Solo Montevideo' })).toHaveCount(conMunicipio ? 1 : 0);
 	// llegado por URL a un nivel sin datos de Personas: aviso de AC-M2 y ningún error
 	await expect(page.getByRole('status').filter({ hasText: 'no se publica por municipio (Montevideo)' })).toBeVisible();
 	await page.waitForLoadState('networkidle');

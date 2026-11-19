@@ -20,7 +20,8 @@
 		clases,
 		seleccionado,
 		onseleccionar,
-		onzoom
+		onzoom,
+		reservaIzquierda = 0
 	}: {
 		nivel: NivelMapa;
 		/** codigo -> valor del indicador y período elegidos, en el nivel elegido. */
@@ -30,7 +31,20 @@
 		seleccionado: string | null;
 		onseleccionar: (id: string) => void;
 		onzoom?: (zoom: number) => void;
+		/** px que tapa algo superpuesto a la izquierda (la leyenda, AC-V4): los encuadres lo dejan libre. */
+		reservaIzquierda?: number;
 	} = $props();
+
+	/**
+	 * Margen de los encuadres: parejo, más lo que tapa la leyenda a la izquierda. Si el mapa es angosto
+	 * y reservar ese lugar dejaría muy poco para el territorio, no se reserva (la leyenda tapa una esquina).
+	 */
+	function margen(px: number) {
+		const ancho = contenedor?.clientWidth ?? 0;
+		const libre = ancho - reservaIzquierda - 2 * px;
+		const izquierda = libre >= Math.max(200, ancho * 0.4) ? reservaIzquierda : 0;
+		return { top: px, right: px, bottom: px, left: px + izquierda };
+	}
 
 	const FUENTE = 'territorios';
 	const NIVELES = NIVELES_MAPA; // capas que se pintan (incluye municipio_mvd, F2.8b)
@@ -63,7 +77,7 @@
 				[bbox[0], bbox[1]],
 				[bbox[2], bbox[3]]
 			],
-			{ padding: 40, maxZoom: 13, duration: 600 }
+			{ padding: margen(40), maxZoom: 13, duration: 600 }
 		);
 	}
 
@@ -88,7 +102,7 @@
 				m = new maplibregl.Map({
 					container: contenedor,
 					bounds: URUGUAY,
-					fitBoundsOptions: { padding: 16 },
+					fitBoundsOptions: { padding: margen(16) },
 					minZoom: 5,
 					maxZoom: 15,
 					maxBounds: [

@@ -18,6 +18,14 @@ export const ETIQUETA_NIVEL_MAPA: Record<NivelMapa, string> = {
 	segmento: 'Segmento'
 };
 
+/** Cómo se muestra cada nivel en el selector del mapa (AC-V2): nombre corto y, si hace falta, una ayuda. */
+export const OPCION_NIVEL_MAPA: Record<NivelMapa, { etiqueta: string; ayuda?: string }> = {
+	departamento: { etiqueta: 'Departamento' },
+	municipio_mvd: { etiqueta: 'Municipio', ayuda: 'Solo Montevideo' },
+	seccion: { etiqueta: 'Sección' },
+	segmento: { etiqueta: 'Segmento' }
+};
+
 /** Desde qué zoom aparecen los segmentos en el PMTiles (pipeline/web.py PMTILES_MINZOOM). */
 export const ZOOM_SEGMENTOS = 9;
 
@@ -93,6 +101,16 @@ export function etiquetaPeriodo(periodo: string): string {
 	const hasta = MESES[Number(m2) - 1];
 	if (!desde || !hasta) return periodo;
 	return a1 === a2 ? `Trimestre móvil ${desde}–${hasta} ${a2}` : `Trimestre móvil ${desde} ${a1}–${hasta} ${a2}`;
+}
+
+/**
+ * "INE, ECH · Trimestre móvil jul–set 2026". Si el período es un año que la fuente ya nombra, no se repite:
+ * "INE, Unidades geoestadísticas Censo 2023", no "… Censo 2023 · 2023" (AC-V17).
+ */
+export function fuenteYPeriodo(fuente: string, periodo: string): string {
+	if (!periodo) return fuente;
+	const yaEsta = /^\d{4}$/.test(periodo) && new RegExp(`(^|\\D)${periodo}(\\D|$)`).test(fuente);
+	return yaEsta ? fuente : `${fuente} · ${periodo}`;
 }
 
 /** "INE, ECH" si el nombre de la fuente termina con su sigla entre paréntesis; si no, "INE, <nombre>". */
