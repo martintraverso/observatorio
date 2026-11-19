@@ -236,7 +236,14 @@
 			<div class="chips">
 				{#each TEMAS as t (t)}
 					<label class="chip" class:activo={tema === t}>
-						<input type="radio" name="tema" value={t} checked={tema === t} onchange={() => elegirTema(t)} />
+						<input
+							type="radio"
+							name="tema"
+							value={t}
+							checked={tema === t}
+							onchange={() => elegirTema(t)}
+							onfocus={(e) => e.currentTarget.closest('label')?.scrollIntoView({ inline: 'center', block: 'nearest' })}
+						/>
 						{t}
 					</label>
 				{/each}
@@ -661,10 +668,27 @@
 		}
 
 		/* AC-M6: temas como fila horizontal de chips */
+		/* AC-V15: fila desplazable sin barra visible; el borde derecho se desvanece para mostrar que hay más */
 		.chips {
 			flex-wrap: nowrap;
 			overflow-x: auto;
-			padding-bottom: var(--espacio-1);
+			scrollbar-width: none;
+			mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent);
+			/* el último chip termina antes de la zona desvanecida; el enfocado se centra (onfocus) */
+			padding-right: 56px;
+			/* lugar para el anillo de foco, y el chip enfocado queda fuera del desvanecido */
+			padding-block: 6px;
+			padding-left: 6px;
+			margin-left: -6px;
+			scroll-padding-inline: 6px 56px;
+		}
+
+		.chips:has(:focus-visible) {
+			mask-image: none;
+		}
+
+		.chips::-webkit-scrollbar {
+			display: none;
 		}
 
 		.solo-movil {
