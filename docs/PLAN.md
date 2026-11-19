@@ -167,6 +167,8 @@ Add the labor step to the weekly data workflow (AC-L22). PRs that change workflo
 ### F2.8 — App (after M6 and M7)
 Topic "Trabajo" in the map, series chart in fichas, period labels, INE caveats, no rankings (AC-L23…L26).
  
+*Done (2026-11-19, #65–#69):* preview (#65), map (#66), fichas series (#67), INE caveats and no rankings (#68); the maintainer activated the source on 2026-11-19 (#69).
+
 ### F2.9 — Optional: long national series
 Country / Montevideo / Interior monthly series from the INE xlsx files (`series-historicas-actividad-empleo-desempleo`, codes ECH0011–ECH0013) for longer history. Only if the maintainer asks; levels `pais` and the existing departamento 01 for Montevideo; Interior is a new non-geographic aggregate and needs a decision first.
  

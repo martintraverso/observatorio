@@ -91,7 +91,7 @@ def test_valores_del_informe_jul_set_2026_ac_l8():
 
 def test_registro_de_la_fuente_ac_l20():
     f = cargar_fuentes(RAIZ / "fuentes")["ine_ech_mercado_trabajo_departamental"]
-    assert f["estado"] == "en preparación" and f["temas"] == ["Trabajo"]
+    assert f["estado"] == "activa" and f["temas"] == ["Trabajo"]  # activa desde #69
     for clave in ("patrones_url", "descubrimiento", "periodo", "cuadros", "formatos", "advertencias", "cita"):
         assert f.get(clave), clave
     assert len(f["cuadros"]) == 6 and len(f["advertencias"]) >= 5
