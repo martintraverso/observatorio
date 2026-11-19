@@ -7,7 +7,7 @@
 import { expect, test } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 import { nivelesConDatos } from '../../src/lib/mapa/estado.ts';
-import { detectarDesbordes, esperarQuieta, revisarSegmentado, sinTextoInterno, TEXTOS_INTERNOS } from './ayudas';
+import { detectarDesbordes, esperarQuieta, revisarSegmentado, sinTextoInterno } from './ayudas';
 
 type Territorio = { nivel: string; codigo: string; nombre: string; depto: string };
 const indice = JSON.parse(readFileSync('build/datos-web/territorios_index.json', 'utf-8')) as Territorio[];
@@ -24,24 +24,17 @@ const fichaDepto = JSON.parse(readFileSync(`build/datos-web/fichas/departamento/
 const capturasDepto = Object.values(fichaDepto.capturas);
 const fuentesDepto = new Set(capturasDepto.map((c) => c.fuente_id));
 
-/** Fuentes cuyos datos publicados traen textos internos del mantenedor (V-15). */
-const conTextoInterno = new Set(fuentes.filter((f) => TEXTOS_INTERNOS.some((t) => t.test(JSON.stringify(f)))).map((f) => f.id));
 
 /** Vista del proyecto: 'visual-firefox-768' → '768'. */
 const vista = (proyecto: string) => proyecto.split('-').at(-1)!;
 
-// `interno`: si en esta ruta el main todavía tiene el problema (V-15), según los datos.
-const RUTAS: { ruta: string; nombre: string; interno?: boolean }[] = [
+const RUTAS: { ruta: string; nombre: string }[] = [
 	{ ruta: '', nombre: 'Mapa' },
 	{ ruta: 'fichas', nombre: 'Fichas' },
-	{
-		ruta: `territorio/departamento/${DEPTO.codigo}`,
-		nombre: `Ficha departamento (${DEPTO.nombre})`,
-		interno: [...fuentesDepto].some((id) => conTextoInterno.has(id))
-	},
+	{ ruta: `territorio/departamento/${DEPTO.codigo}`, nombre: `Ficha departamento (${DEPTO.nombre})` },
 	{ ruta: `territorio/segmento/${SEGMENTO.codigo}`, nombre: 'Ficha segmento' },
 	{ ruta: 'fuentes', nombre: 'Fuentes' },
-	...fuentes.map((f) => ({ ruta: `fuentes/${f.id}`, nombre: `Fuente ${f.id}`, interno: conTextoInterno.has(f.id) })),
+	...fuentes.map((f) => ({ ruta: `fuentes/${f.id}`, nombre: `Fuente ${f.id}` })),
 	{ ruta: 'datos', nombre: 'Datos' }
 ];
 
@@ -50,7 +43,7 @@ function pendiente(condicion: boolean, historia: string) {
 	test.fail(condicion, `problema conocido, lo corrige ${historia}`);
 }
 
-for (const { ruta, nombre, interno } of RUTAS) {
+for (const { ruta, nombre } of RUTAS) {
 	test.describe(nombre, () => {
 		test('AC-V5: ningún texto desborda ni queda recortado', async ({ page }) => {
 			await page.goto(ruta);
@@ -58,7 +51,6 @@ for (const { ruta, nombre, interno } of RUTAS) {
 		});
 
 		test('AC-V19: sin textos internos del mantenedor', async ({ page }) => {
-			pendiente(!!interno, 'M10.5 (#83)');
 			await page.goto(ruta);
 			expect(await sinTextoInterno(page)).toEqual([]);
 		});
@@ -174,16 +166,29 @@ test('AC-V17: la fuente y el período de la leyenda no repiten un año', async (
 });
 
 test(`AC-V18: «Fuentes de esta ficha» muestra una entrada por fuente (${DEPTO.nombre})`, async ({ page }) => {
-	pendiente(capturasDepto.length > fuentesDepto.size, 'M10.5 (#83)');
 	await page.goto(`territorio/departamento/${DEPTO.codigo}`);
-	await expect(page.locator('#fuentes ul.fuentes > li')).toHaveCount(fuentesDepto.size);
+	const entradas = page.locator('#fuentes ul.fuentes > li');
+	await expect(entradas).toHaveCount(fuentesDepto.size);
+	for (const id of fuentesDepto) {
+		const entrada = entradas.filter({ has: page.locator(`a[href$="/fuentes/${id}"]`) });
+		await expect(entrada).toHaveCount(1);
+		await expect(entrada).toContainText('Licencia:');
+		await expect(entrada).toContainText('Última captura procesada el');
+		const n = capturasDepto.filter((c) => c.fuente_id === id).length;
+		// la lista de archivos, plegada
+		const archivos = entrada.locator('details');
+		await expect(archivos.locator('summary')).toHaveText(n === 1 ? 'Ver el archivo' : `Ver los ${n} archivos`);
+		await expect(archivos).not.toHaveAttribute('open');
+		await expect(archivos.locator('li').first()).toBeHidden();
+	}
+	// la licencia aparece una vez por fuente, no una por archivo
+	expect(await page.locator('#fuentes').getByText('Licencia:').count()).toBe(fuentesDepto.size);
 });
 
 test(`AC-V18: largo de la ficha de Tacuarembó`, async ({ page }, info) => {
 	const maximo = ({ '1440': 6000, '390': 15000 } as Record<string, number>)[vista(info.project.name)];
 	test.skip(!maximo, 'el criterio fija el largo a 1440 y a 390 px');
 	test.skip(DEPTO.codigo !== '18', 'el build no trae Tacuarembó (fixture)');
-	pendiente(capturasDepto.length > fuentesDepto.size, 'M10.5 (#83)');
 	await page.goto(`territorio/departamento/${DEPTO.codigo}`);
 	await esperarQuieta(page);
 	const alto = await page.evaluate(() => document.documentElement.scrollHeight);

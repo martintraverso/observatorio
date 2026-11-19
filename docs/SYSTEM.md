@@ -51,7 +51,7 @@ indicadores(codigo, nombre, unidad, columna_origen, fuente_id, nota)
 capturas(id, fuente_id, archivo, sha256, fecha_proceso, url, descargado, vigente)  -- descargado: download date, if recorded; vigente: latest version (F2.5b)
 capturas_historial(id, fuente_id, archivo, sha256, fecha_proceso, resultado, detalle)  -- append-only, one row per run
 fuentes(id, nombre, organismo, pagina, url_descarga, formato, licencia, frecuencia, estado, contacto,
-        version_geo, temas[], nivel_mas_detallado, niveles_publicados[], notas[])  -- from fuentes/*.yml
+        version_geo, temas[], nivel_mas_detallado, niveles_publicados[], notas[])  -- from fuentes/*.yml; notas_internas[] stays in the yml, never published (AC-V19)
 correspondencias(origen_id, destino_id, tipo, peso, metodo)
 VIEW v_observaciones  -- observaciones joined with territorio, indicador and captura
 ```

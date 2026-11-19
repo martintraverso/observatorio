@@ -1,6 +1,6 @@
 // Lógica de las fichas (M7) sin DOM: secciones por tema, nota de suma no aditiva y cita.
 
-import { NOMBRE_NIVEL, type Ficha, type Observacion, type Resumen } from '../datos.ts';
+import { NOMBRE_NIVEL, type Captura, type Ficha, type FuenteRef, type Observacion, type Resumen } from '../datos.ts';
 import { fecha, numero, porcentaje } from '../formato.ts';
 
 /** Secciones de la ficha y los temas de indicadores que agrupan (SYSTEM.md §8). */
@@ -117,4 +117,25 @@ export function cita(f: Ficha, url: string, accedido: Date): string {
 export function consultaMapa(t: { nivel: string; codigo: string }): string {
 	const nivel = ['departamento', 'seccion', 'segmento'].includes(t.nivel) ? t.nivel : 'departamento';
 	return `?indicador=pob_total&nivel=${nivel}&periodo=2023&territorio=${t.nivel}/${t.codigo}`;
+}
+
+/** Una fuente de la ficha con todas sus capturas, de la más reciente a la más vieja (AC-V18). */
+export interface FuenteDeFicha {
+	id: string;
+	fuente: FuenteRef | undefined;
+	capturas: Captura[];
+	ultima: Captura;
+}
+
+/**
+ * «Fuentes de esta ficha»: una entrada por fuente (no una por captura). La ECH tiene una captura por
+ * informe mensual; repetir nombre y licencia en cada una alargaba la ficha a miles de px (V-14).
+ */
+export function fuentesDeFicha(f: Pick<Ficha, 'capturas' | 'fuentes'>): FuenteDeFicha[] {
+	const grupos = new Map<string, Captura[]>();
+	for (const c of Object.values(f.capturas)) grupos.set(c.fuente_id, [...(grupos.get(c.fuente_id) ?? []), c]);
+	return [...grupos].map(([id, capturas]) => {
+		const orden = [...capturas].sort((a, b) => b.fecha_proceso.localeCompare(a.fecha_proceso) || b.archivo.localeCompare(a.archivo));
+		return { id, fuente: f.fuentes[id], capturas: orden, ultima: orden[0] };
+	});
 }

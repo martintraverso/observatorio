@@ -9,13 +9,17 @@ url_descarga: https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/HTML/ECH/Me
 formato: >-
   Una página HTML por mes (generada con R Markdown), de 19 a 22 MB porque embebe los gráficos
   (plotly, como JSON). Los 6 cuadros son tablas HTML con números (no imágenes). No hay planilla.
-licencia: >-
-  No publicada. Ni el informe, ni la página de la publicación, ni los Términos de uso del portal del
-  INE (https://www.gub.uy/instituto-nacional-estadistica/terminos-y-condiciones-de-uso) indican una
-  licencia para reutilizar estos datos (revisado el 2026-11-17). Los Términos solo dicen: «Salvo
-  indicación en contrario, la información contenida en el Portal será considerada de carácter
-  público.» Decisión del mantenedor (2026-11-17): se deja asentado que no hay licencia publicada y
-  se cita la fuente como indica cada cuadro (campo cita).
+# Texto público (fichas, /fuentes, fuentes.json); redacción confirmada por el mantenedor en #83.
+licencia: "No publicada por el INE. Se cita la fuente según cada cuadro."
+# No se publica (no está en las columnas de la tabla `fuentes`, AC-V19).
+notas_internas:
+  - >-
+    Ni el informe, ni la página de la publicación, ni los Términos de uso del portal del INE
+    (https://www.gub.uy/instituto-nacional-estadistica/terminos-y-condiciones-de-uso) indican una
+    licencia para reutilizar estos datos (revisado el 2026-11-17). Los Términos solo dicen: «Salvo
+    indicación en contrario, la información contenida en el Portal será considerada de carácter
+    público.» Decisión del mantenedor (2026-11-17): se deja asentado que no hay licencia publicada y
+    se cita la fuente como indica cada cuadro (campo cita).
 cita: "Fuente: INE - Encuesta Continua de Hogares (pie de cada cuadro del informe; en 2022: «Fuente: INE, Encuesta Continua de Hogares»)."
 contacto: "Depto. de Difusión y Comunicación del INE: difusion@ine.gub.uy, (598) 2902 7303 int. 7723 y 7725 (pie del informe)."
 frecuencia: mensual desde febrero de 2022 (cada informe es un trimestre móvil)

@@ -11,6 +11,7 @@
 	import {
 		cita,
 		consultaMapa,
+		fuentesDeFicha,
 		notaNoAditiva,
 		observacionesDeSeccion,
 		partes,
@@ -290,16 +291,26 @@
 	{#if Object.keys(f.capturas).length === 0}
 		<p class="suave">Esta ficha no tiene datos propios.</p>
 	{/if}
+	<!-- Una entrada por fuente; los archivos (capturas) plegados (AC-V18). -->
 	<ul class="fuentes">
-		{#each Object.values(f.capturas) as c (c.id)}
-			{@const fu = f.fuentes[c.fuente_id]}
+		{#each fuentesDeFicha(f) as g (g.id)}
+			{@const fu = g.fuente}
 			<li>
-				<strong>{fu?.nombre}</strong> ({fu?.organismo}).
-				Archivo <code>{c.archivo}</code>, sha256 <code>{c.sha256.slice(0, 16)}…</code>, procesado el
-				{fecha(c.fecha_proceso)}.
+				<strong><a href={resolve('/fuentes/[id]', { id: g.id })}>{fu?.nombre ?? g.id}</a></strong>
+				({fu?.organismo}). Última captura procesada el {fecha(g.ultima.fecha_proceso)}.
 				{#if fu?.url_descarga}<a href={fu.url_descarga}>Original</a> ·{/if}
 				{#if fu?.pagina}<a href={fu.pagina}>Metodología y metadatos</a>.{/if}
 				Licencia: «{fu?.licencia}»
+				<details class="archivos">
+					<summary>{g.capturas.length === 1 ? 'Ver el archivo' : `Ver los ${g.capturas.length} archivos`}</summary>
+					<ul>
+						{#each g.capturas as c (c.id)}
+							<li>
+								<code>{c.archivo}</code>, sha256 <code>{c.sha256.slice(0, 16)}…</code>, procesado el {fecha(c.fecha_proceso)}.
+							</li>
+						{/each}
+					</ul>
+				</details>
 			</li>
 		{/each}
 	</ul>
@@ -530,8 +541,22 @@
 		font-size: var(--texto-xs);
 	}
 
-	.fuentes li {
-		margin-bottom: var(--espacio-2);
+	.fuentes > li {
+		margin-bottom: var(--espacio-3);
+	}
+
+	.archivos summary {
+		cursor: pointer;
+		min-height: var(--toque-min);
+		display: inline-flex;
+		align-items: center;
+		color: var(--primario);
+	}
+
+	.archivos ul {
+		margin: 0;
+		padding-left: var(--espacio-4);
+		font-size: var(--texto-s);
 	}
 
 	code {

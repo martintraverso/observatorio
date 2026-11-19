@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Ficha, Observacion } from '../datos';
-import { cita, consultaMapa, notaNoAditiva, observacionesDeSeccion, partes, puntosSerie, SECCIONES_FICHA, separarSeries } from './logica';
+import { cita, consultaMapa, fuentesDeFicha, notaNoAditiva, observacionesDeSeccion, partes, puntosSerie, SECCIONES_FICHA, separarSeries } from './logica';
 
 const obs = (indicador: string, valor: number) => ({
 	indicador,
@@ -139,5 +139,30 @@ describe('F2.8c: series en la ficha (AC-L25)', () => {
 		// un período del país que el territorio no tiene no se dibuja ni se cuenta
 		const conOtro = ficha([...pais.observaciones, tm('tasa_actividad', '2023-05', 60.0)]);
 		expect(puntosSerie(territorio, conOtro, 'tasa_actividad').pais).toHaveLength(2);
+	});
+});
+
+describe('fuentesDeFicha (AC-V18)', () => {
+	const cap = (id: string, fuente_id: string, fecha_proceso: string, archivo = `${id}.html`) => ({ id, fuente_id, archivo, sha256: 'x'.repeat(64), fecha_proceso });
+	const fuente = (nombre: string) => ({ nombre, organismo: 'INE', licencia: 'L', pagina: '', url_descarga: '' });
+
+	it('una entrada por fuente, con sus capturas de la más reciente a la más vieja', () => {
+		const g = fuentesDeFicha({
+			capturas: {
+				a: cap('a', 'ech', '2026-01-10'),
+				b: cap('b', 'censo', '2025-05-01'),
+				c: cap('c', 'ech', '2026-03-10'),
+				d: cap('d', 'ech', '2026-02-10')
+			},
+			fuentes: { ech: fuente('ECH'), censo: fuente('Censo') }
+		});
+		expect(g.map((x) => [x.id, x.capturas.length])).toEqual([['ech', 3], ['censo', 1]]);
+		expect(g[0].capturas.map((c) => c.id)).toEqual(['c', 'd', 'a']);
+		expect(g[0].ultima.id).toBe('c');
+		expect(g[1].fuente?.nombre).toBe('Censo');
+	});
+
+	it('sin capturas, sin entradas', () => {
+		expect(fuentesDeFicha({ capturas: {}, fuentes: {} })).toEqual([]);
 	});
 });
