@@ -52,15 +52,16 @@ export function nivelMasDetallado(ind: IndicadorMapa): NivelMapa | null {
  * AC-M2: si el indicador no se publica en el nivel elegido, un aviso que nombra el nivel más
  * detallado disponible. Nunca se pinta un valor inventado ni se sustituye en silencio.
  */
-export function avisoNivel(ind: IndicadorMapa, nivel: NivelMapa): { mensaje: string; alternativa: NivelMapa | null } | null {
+export function avisoNivel(ind: IndicadorMapa, nivel: NivelMapa): { mensaje: string; disponibles: NivelMapa[] } | null {
 	if (ind.niveles.includes(nivel)) return null;
-	const alternativa = nivelMasDetallado(ind);
-	const donde = minuscula(ETIQUETA_NIVEL_MAPA[nivel]);
+	// AC-V9: los niveles del mapa donde sí está, del más fino al más grueso (cada uno será un botón).
+	const disponibles = NIVELES_MAPA.filter((n) => ind.niveles.includes(n)).reverse();
+	const donde = minuscula(OPCION_NIVEL_MAPA[nivel].etiqueta);
 	return {
-		mensaje: alternativa
-			? `«${ind.nombre}» no se publica por ${donde}. El nivel más detallado con datos es ${minuscula(ETIQUETA_NIVEL_MAPA[alternativa])}.`
+		mensaje: disponibles.length
+			? `«${ind.nombre}» no se publica por ${donde}. Disponible por:`
 			: `«${ind.nombre}» no se publica por ${donde} ni en otro nivel del mapa.`,
-		alternativa
+		disponibles
 	};
 }
 
