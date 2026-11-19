@@ -126,17 +126,20 @@ test('AC-V3: cambiar tema, indicador o nivel no cambia el ancho del panel ni mue
 	const gutter = await panel.evaluate((p) => getComputedStyle(p).scrollbarGutter);
 	expect(gutter).toContain('stable');
 
+	// `cambia`: el clic tiene que cambiar el estado en la URL (si no, el paso no probaría nada).
 	const clics = [
-		panel.getByRole('group', { name: 'Tema' }).getByText('Trabajo', { exact: true }),
-		panel.getByRole('group', { name: 'Tema' }).getByText('Población', { exact: true }),
-		panel.getByRole('group', { name: 'Indicador' }).locator('label').nth(1),
-		panel.getByRole('group', { name: 'Nivel territorial' }).locator('label').last(),
-		panel.getByRole('group', { name: 'Nivel territorial' }).locator('label').first()
+		{ control: panel.getByRole('group', { name: 'Tema' }).getByText('Trabajo', { exact: true }), cambia: false },
+		{ control: panel.getByRole('group', { name: 'Tema' }).getByText('Población', { exact: true }), cambia: false },
+		{ control: panel.getByRole('group', { name: 'Indicador' }).locator('label.indicador:not(.activo)').first(), cambia: true },
+		{ control: panel.getByRole('group', { name: 'Nivel territorial' }).locator('label').last(), cambia: true },
+		{ control: panel.getByRole('group', { name: 'Nivel territorial' }).locator('label').first(), cambia: true }
 	];
-	for (const control of clics) {
+	for (const { control, cambia } of clics) {
 		const yControl = await yEnPanel(control);
 		const antes = await medirPanel(page);
+		const url = page.url();
 		await control.click();
+		if (cambia) await expect(page).not.toHaveURL(url);
 		await esperarQuieta(page);
 		const despues = await medirPanel(page);
 		expect(despues.ancho, 'ancho del panel').toBe(antes.ancho);
@@ -159,11 +162,12 @@ test('AC-V4: a 1440×900 la leyenda se ve entera sin hacer scroll', async ({ pag
 });
 
 test('AC-V17: la fuente y el período de la leyenda no repiten un año', async ({ page }) => {
-	const temas = [...new Set(indicadores.map((i) => (i as { tema?: string }).tema).filter(Boolean))] as string[];
-	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023');
-	for (const tema of temas) {
-		await page.getByRole('group', { name: 'Tema' }).getByText(tema, { exact: true }).click();
-		const texto = (await page.getByRole('region', { name: 'Leyenda' }).locator('visible=true').locator('.fuente').first().textContent()) ?? '';
+	// Cada indicador por departamento, entrando por URL y esperando su propia leyenda.
+	for (const i of indicadores.filter((x) => x.niveles.includes('departamento')) as unknown as { codigo: string; nombre: string }[]) {
+		await page.goto(`?indicador=${i.codigo}&nivel=departamento`);
+		const leyenda = page.getByRole('region', { name: 'Leyenda' }).locator('visible=true');
+		await expect(leyenda.getByRole('heading')).toContainText(i.nombre);
+		const texto = (await leyenda.locator('.fuente').first().textContent()) ?? '';
 		const anios = texto.match(/\b(19|20)\d{2}\b/g) ?? [];
 		expect(new Set(anios).size, texto).toBe(anios.length);
 	}
