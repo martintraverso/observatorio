@@ -139,17 +139,26 @@
 
 
 	/* AC-V14: en celular, dos filas (logo + navegación; búsqueda), ≤ 120 px. El nombre queda para lectores de pantalla. */
-	@media (max-width: 600px) {
+	@media (max-width: 640px) {
 		.fila {
 			display: grid;
 			grid-template-columns: auto minmax(0, 1fr);
 			gap: var(--espacio-2);
 		}
 
+		/* el logo solo, con área táctil de 44 px (AC-G5) */
+		.marca {
+			min-width: var(--toque-min);
+			justify-content: center;
+		}
+
 		.marca .nombre {
 			position: absolute;
 			width: 1px;
 			height: 1px;
+			margin: -1px;
+			padding: 0;
+			border: 0;
 			overflow: hidden;
 			clip: rect(0 0 0 0);
 			white-space: nowrap;
@@ -168,6 +177,18 @@
 		.fila > :global(.buscar) {
 			grid-column: 1 / -1;
 			margin-left: 0;
+		}
+	}
+
+	/* en los celulares más angostos (320 px) la navegación entra junto al logo sin pisarlo */
+	@media (max-width: 360px) {
+		.fila {
+			gap: var(--espacio-1);
+		}
+
+		nav a {
+			padding: 0 var(--espacio-1);
+			font-size: var(--texto-s);
 		}
 	}
 

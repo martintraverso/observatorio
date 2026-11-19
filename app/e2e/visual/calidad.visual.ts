@@ -235,3 +235,42 @@ test('AC-V15: en celular los chips de temas no muestran barra de desplazamiento 
 	expect(estilo.barra).toBe('none');
 	expect(estilo.mascara).toContain('linear-gradient');
 });
+
+test('AC-V14 / AC-G5: a 320 px el logo es un área táctil de 44 px y la navegación no lo pisa', async ({ page }, info) => {
+	test.skip(vista(info.project.name) !== '390', 'se prueba una vez, en la vista de celular');
+	await page.setViewportSize({ width: 320, height: 700 });
+	await page.goto('');
+	await esperarQuieta(page);
+	const r = await page.evaluate(() => {
+		const marca = document.querySelector('header .marca')!.getBoundingClientRect();
+		const primero = document.querySelector('header nav a')!.getBoundingClientRect();
+		const alto = document.querySelector('header.encabezado')!.getBoundingClientRect().height;
+		return { marca: { ancho: marca.width, alto: marca.height, derecha: marca.right }, primero: primero.left, alto, scroll: document.documentElement.scrollWidth - document.documentElement.clientWidth };
+	});
+	expect(r.marca.ancho).toBeGreaterThanOrEqual(44);
+	expect(r.marca.alto).toBeGreaterThanOrEqual(44);
+	expect(r.marca.derecha).toBeLessThanOrEqual(r.primero);
+	expect(r.alto).toBeLessThanOrEqual(120);
+	expect(r.scroll).toBe(0);
+	expect(await detectarDesbordes(page)).toEqual([]);
+});
+
+test('AC-V15: el chip con el foco de teclado no queda bajo el desvanecido', async ({ page }, info) => {
+	test.skip(vista(info.project.name) !== '390', 'la fila desplazable se prueba en celular');
+	await page.goto('');
+	const temas = page.getByRole('group', { name: 'Tema' }).getByRole('radio');
+	await temas.first().focus();
+	for (let i = 1; i < (await temas.count()); i++) {
+		await page.keyboard.press('ArrowRight');
+		const { chip, fila, mascara } = await page.locator('.chips').evaluate((c) => {
+			const enfocado = c.querySelector('label:has(input:focus)')!.getBoundingClientRect();
+			const cs = getComputedStyle(c);
+			return { chip: enfocado, fila: c.getBoundingClientRect(), mascara: cs.maskImage || (cs as unknown as Record<string, string>).webkitMaskImage };
+		});
+		// o no hay máscara mientras hay foco, o el chip termina antes de la zona desvanecida
+		const visible = mascara === 'none' || chip.right <= fila.right - 48;
+		expect(visible).toBe(true);
+		expect(chip.right).toBeLessThanOrEqual(fila.right);
+		expect(chip.left).toBeGreaterThanOrEqual(fila.left);
+	}
+});

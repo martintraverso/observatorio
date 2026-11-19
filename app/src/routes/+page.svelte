@@ -668,6 +668,15 @@
 			scrollbar-width: none;
 			mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent);
 			padding-right: var(--espacio-6);
+			/* lugar para el anillo de foco, y el chip enfocado queda fuera del desvanecido */
+			padding-block: 6px;
+			padding-left: 6px;
+			margin-left: -6px;
+			scroll-padding-inline: 6px 56px;
+		}
+
+		.chips:focus-within {
+			mask-image: none;
 		}
 
 		.chips::-webkit-scrollbar {
