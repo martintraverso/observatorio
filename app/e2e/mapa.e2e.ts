@@ -333,3 +333,59 @@ test('AC-V8: si la ficha del territorio todavía no llegó, igual se elige el de
 	await expect(page).toHaveURL(/territorio=departamento%2F07/);
 	await expect(panel(page).getByRole('heading', { level: 2 })).toHaveText('Flores');
 });
+
+test('AC-V10: sin territorio elegido el mapa ocupa al menos el 70 % del ancho', async ({ page }, info) => {
+	test.skip(info.project.name === 'movil', 'el panel lateral existe en escritorio');
+	for (const width of [1440, 1024]) {
+		await page.setViewportSize({ width, height: 900 });
+		await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023');
+		const proporcion = await page.evaluate(
+			() => document.querySelector('section.centro')!.getBoundingClientRect().width / document.querySelector('.pantalla')!.getBoundingClientRect().width
+		);
+		expect(proporcion, `${width} px`).toBeGreaterThanOrEqual(0.7);
+		await expect(panel(page)).toHaveCount(0);
+		await expect(page.getByText('Tocá un territorio en el mapa para ver sus datos.')).toBeVisible();
+	}
+	// al elegir un territorio aparece el panel
+	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023&territorio=departamento/07');
+	await expect(panel(page).getByRole('heading', { level: 2 })).toHaveText('Flores');
+	await expect(page.getByText('Tocá un territorio en el mapa para ver sus datos.')).toHaveCount(0);
+});
+
+test('AC-V12: un departamento que casi no se ve (Montevideo a escala país) lleva un anillo que lo elige', async ({ page }, info) => {
+	test.skip(info.project.name === 'movil', 'se prueba en escritorio');
+	await page.setViewportSize({ width: 1024, height: 768 });
+	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023');
+	await mapaListo(page);
+	type M = { jumpTo(o: { center: [number, number]; zoom: number }): void; once(e: string, f: () => void): void; queryRenderedFeatures(o: { layers: string[] }): { properties: { id: string } }[]; project(p: [number, number]): { x: number; y: number } };
+	// A escala país, a 1024 px, Montevideo mide ~43 px de lado (menos de 48): lleva anillo; los demás no.
+	await page.waitForFunction(() => {
+		const m = (window as unknown as { __mapa: M }).__mapa;
+		return m.queryRenderedFeatures({ layers: ['anillo-chicos'] }).some((f) => f.properties.id === 'INE-2023/departamento/01');
+	}, undefined, { timeout: 10_000 });
+	const anillos = await page.evaluate(() => (window as unknown as { __mapa: M }).__mapa.queryRenderedFeatures({ layers: ['anillo-chicos'] }).map((f) => f.properties.id));
+	expect(anillos).toEqual(['INE-2023/departamento/01']);
+	// tocar el anillo elige Montevideo
+	const mvd = indice.find((t) => t.nivel === 'departamento' && t.codigo === '01')!;
+	// un punto del anillo que NO está dentro del polígono de Montevideo (así el clic lo maneja el anillo)
+	const punto = await page.evaluate((b) => {
+		type Q = M & { getCanvas(): HTMLCanvasElement; queryRenderedFeatures(p: [number, number], o: { layers: string[] }): { properties: { id: string } }[] };
+		const m = (window as unknown as { __mapa: Q }).__mapa;
+		const c = m.getCanvas().getBoundingClientRect();
+		const centro = m.project([(b[0] + b[2]) / 2, (b[1] + b[3]) / 2]);
+		for (let a = 0; a < 360; a += 15) {
+			const x = centro.x + 14 * Math.cos((a * Math.PI) / 180);
+			const y = centro.y + 14 * Math.sin((a * Math.PI) / 180);
+			const enMvd = m.queryRenderedFeatures([x, y], { layers: ['relleno-departamento'] }).some((f) => f.properties.id === 'INE-2023/departamento/01');
+			const enAnillo = m.queryRenderedFeatures([x, y], { layers: ['anillo-chicos'] }).length > 0;
+			if (!enMvd && enAnillo) return { x: c.x + x, y: c.y + y };
+		}
+		return null;
+	}, mvd.bbox);
+	expect(punto).not.toBeNull();
+	await page.mouse.click(punto!.x, punto!.y);
+	await expect(panel(page).getByRole('heading', { level: 2 })).toHaveText('Montevideo');
+	// y en el nivel sección no hay anillos de departamentos
+	await nivelRadio(page, 'Sección').check();
+	await page.waitForFunction(() => (window as unknown as { __mapa: M }).__mapa.queryRenderedFeatures({ layers: ['anillo-chicos'] }).length === 0);
+});
