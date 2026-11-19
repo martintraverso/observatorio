@@ -85,7 +85,13 @@
 			{ padding: margen(40), maxZoom: 13 }
 		);
 		if (!camara) return;
-		mapa.easeTo({ ...camara, zoom: Math.max(camara.zoom ?? 0, zoomMinimo), duration: 600 });
+		if ((camara.zoom ?? 0) >= zoomMinimo) {
+			mapa.easeTo({ ...camara, duration: 600 });
+			return;
+		}
+		// Más cerca de lo que entra: centrado en el territorio (el corrimiento por la leyenda crecería con el zoom).
+		const centro: [number, number] = [(bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2];
+		mapa.easeTo({ center: centro, zoom: zoomMinimo, duration: 600 });
 	}
 
 	/** Vuelve a mostrar todo el país. */

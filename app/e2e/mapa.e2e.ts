@@ -220,6 +220,17 @@ async function encuadrado(page: Page, bbox: [number, number, number, number], zo
 	);
 }
 
+const ZOOM_SEGMENTOS = 9; // src/lib/mapa/estado.ts
+
+/** Lleva el mapa a la vista del país (para que el encuadre que sigue no sea el que ya había). */
+async function alPais(page: Page): Promise<number> {
+	return page.evaluate(() => {
+		const m = (window as unknown as { __mapa: { jumpTo(o: { center: [number, number]; zoom: number }): void; getZoom(): number } }).__mapa;
+		m.jumpTo({ center: [-55.8, -32.5], zoom: 6 });
+		return m.getZoom();
+	});
+}
+
 const nivelRadio = (page: Page, nombre: string) =>
 	page.getByRole('group', { name: 'Nivel territorial' }).getByRole('radio', { name: nombre, exact: true });
 
@@ -240,9 +251,25 @@ test('AC-V7: «Segmento» con un departamento elegido se encuadra en él, con lo
 	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023&territorio=departamento/07');
 	await mapaListo(page);
 	await expect(panel(page).getByRole('heading', { level: 2 })).toHaveText('Flores');
+	await alPais(page);
 	await nivelRadio(page, 'Segmento').check();
-	await encuadrado(page, FLORES.bbox, 9);
+	await encuadrado(page, FLORES.bbox, ZOOM_SEGMENTOS);
 	await expect(page.getByText('Acercá el mapa para ver los segmentos')).toHaveCount(0);
+	// segmentos dibujados (con su capa visible y polígonos en pantalla)
+	await page.waitForFunction(() => {
+		const m = (window as unknown as { __mapa: { areTilesLoaded(): boolean; queryRenderedFeatures(o: { layers: string[] }): unknown[] } }).__mapa;
+		return m.areTilesLoaded() && m.queryRenderedFeatures({ layers: ['relleno-segmento'] }).length > 0;
+	}, undefined, { timeout: 15_000 });
+});
+
+test('AC-V7: «Sección» con un departamento elegido se encuadra en él', async ({ page }, info) => {
+	test.skip(info.project.name === 'movil', 'el encuadre se prueba en escritorio');
+	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023&territorio=departamento/07');
+	await mapaListo(page);
+	await expect(panel(page).getByRole('heading', { level: 2 })).toHaveText('Flores');
+	const zoomPais = await alPais(page);
+	await nivelRadio(page, 'Sección').check();
+	await encuadrado(page, FLORES.bbox, zoomPais + 1);
 });
 
 test('AC-V7: «Segmento» sin departamento elegido ofrece «Elegí un departamento»', async ({ page }, info) => {
@@ -254,6 +281,6 @@ test('AC-V7: «Segmento» sin departamento elegido ofrece «Elegí un departamen
 	await expect(elegir).toBeVisible();
 	await expect(elegir.getByRole('option')).toHaveCount(1 + indice.filter((t) => t.nivel === 'departamento').length);
 	await elegir.selectOption('07');
-	await encuadrado(page, FLORES.bbox, 9);
+	await encuadrado(page, FLORES.bbox, ZOOM_SEGMENTOS);
 	await expect(elegir).toHaveCount(0); // con zoom suficiente el aviso se va
 });
