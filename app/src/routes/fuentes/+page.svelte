@@ -4,14 +4,14 @@
 	import TablaDesplazable from '#lib/TablaDesplazable.svelte';
 	import { etiquetaNivel, NIVELES } from '#lib/datos.ts';
 	import { fecha, numero } from '#lib/formato.ts';
-	import { ESTADOS, filtrar, resumen, SIN_FILTROS, ultimaCaptura, type Filtros } from '#lib/fuentes.ts';
+	import { ESTADOS, filtrar, SIN_FILTROS, type Filtros } from '#lib/fuentes.ts';
 	import { NOMBRE_SITIO } from '#lib/sitio.ts';
 
 	let { data } = $props();
 
 	let filtros = $state<Filtros>({ ...SIN_FILTROS });
 	let visibles = $derived(filtrar(data.fuentes, filtros));
-	let r = $derived(resumen(data.fuentes, data.historial));
+	let r = $derived(data.resumen);
 	let organismos = $derived([...new Set(data.fuentes.map((f) => f.organismo))].sort());
 	let niveles = $derived([...new Set(data.fuentes.flatMap((f) => f.niveles_publicados as string[]))].sort(
 		(a, b) => orden(a) - orden(b)
@@ -84,7 +84,7 @@
 		</thead>
 		<tbody>
 			{#each visibles as f (f.id)}
-				{@const ultima = ultimaCaptura(data.historial, f.id)}
+				{@const ultima = data.ultimas[f.id]}
 				<tr>
 					<td>
 						<a href={resolve('/fuentes/[id]', { id: f.id })}>{f.nombre}</a><br />
@@ -93,7 +93,7 @@
 					<td>{f.temas.join(', ')}</td>
 					<td>{etiquetaNivel(f.nivel_mas_detallado)}</td>
 					<td>{f.frecuencia}</td>
-					<td>{ultima ? fecha(ultima.fecha_proceso) : '—'}</td>
+					<td>{ultima ? fecha(ultima) : '—'}</td>
 					<td><span class="estado estado-{f.estado.replace(' ', '-')}">{f.estado}</span></td>
 				</tr>
 			{:else}

@@ -58,6 +58,21 @@ export function resumen(fuentes: Fuente[], historial: CapturaHistorial[]) {
 	return { porEstado, ultimaRevision };
 }
 
+/**
+ * Lo que la página /fuentes necesita del historial, calculado en el build: el resumen y la fecha de la
+ * última captura de cada fuente. El historial completo no se incrusta en la página porque crece en cada
+ * corrida de datos (#96, AC-G6); está en /fuentes/<id>.
+ */
+export function datosCatalogo(fuentes: Fuente[], historial: CapturaHistorial[]) {
+	return {
+		resumen: resumen(fuentes, historial),
+		ultimas: Object.fromEntries(fuentes.map((f) => [f.id, ultimaCaptura(historial, f.id)?.fecha_proceso ?? null])) as Record<
+			string,
+			string | null
+		>
+	};
+}
+
 export const TEXTO_RESULTADO: Record<CapturaHistorial['resultado'], string> = {
 	nuevo: 'Nuevo',
 	reprocesado: 'Reprocesado',

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Fuente } from './datos';
-import { filtrar, historialDe, resumen, SIN_FILTROS, ultimaCaptura, type CapturaHistorial } from './fuentes';
+import { datosCatalogo, filtrar, historialDe, resumen, SIN_FILTROS, ultimaCaptura, type CapturaHistorial } from './fuentes';
 
 const f = (id: string, organismo: string, estado: string, niveles: string[], temas: string[]) =>
 	({ id, nombre: id.toUpperCase(), organismo, estado, niveles_publicados: niveles, temas }) as unknown as Fuente;
@@ -50,5 +50,21 @@ describe('capturas', () => {
 		const r = resumen(FUENTES, HISTORIAL);
 		expect(r.porEstado).toEqual({ activa: 1, 'en preparación': 1, 'a relevar': 1 });
 		expect(r.ultimaRevision).toBe('2026-11-18T10:00:00+00:00');
+	});
+});
+
+describe('datosCatalogo (#96, AC-G6)', () => {
+	it('trae el resumen y la última captura por fuente, sin el historial', () => {
+		const d = datosCatalogo(FUENTES, HISTORIAL);
+		expect(d.resumen).toEqual(resumen(FUENTES, HISTORIAL));
+		expect(d.ultimas).toEqual({ censo: '2026-11-16T10:00:00+00:00', ech: null, siniestros: null });
+		expect(d).not.toHaveProperty('historial');
+	});
+
+	it('lo que se incrusta en /fuentes no crece con el historial', () => {
+		const largo = Array.from({ length: 5000 }, (_, i) => c('censo', `2025-01-01T00:00:${String(i % 60).padStart(2, '0')}+00:00`, 'sin cambios'));
+		const chico = JSON.stringify(datosCatalogo(FUENTES, HISTORIAL)).length;
+		const grande = JSON.stringify(datosCatalogo(FUENTES, [...HISTORIAL, ...largo])).length;
+		expect(grande).toBe(chico);
 	});
 });
