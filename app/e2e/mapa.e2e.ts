@@ -367,13 +367,23 @@ test('AC-V12: un departamento que casi no se ve (Montevideo a escala país) llev
 	expect(anillos).toEqual(['INE-2023/departamento/01']);
 	// tocar el anillo elige Montevideo
 	const mvd = indice.find((t) => t.nivel === 'departamento' && t.codigo === '01')!;
+	// un punto del anillo que NO está dentro del polígono de Montevideo (así el clic lo maneja el anillo)
 	const punto = await page.evaluate((b) => {
-		const m = (window as unknown as { __mapa: M & { getCanvas(): HTMLCanvasElement } }).__mapa;
+		type Q = M & { getCanvas(): HTMLCanvasElement; queryRenderedFeatures(p: [number, number], o: { layers: string[] }): { properties: { id: string } }[] };
+		const m = (window as unknown as { __mapa: Q }).__mapa;
 		const c = m.getCanvas().getBoundingClientRect();
-		const p = m.project([(b[0] + b[2]) / 2, (b[1] + b[3]) / 2]);
-		return { x: c.x + p.x + 13, y: c.y + p.y }; // sobre el anillo (radio 14)
+		const centro = m.project([(b[0] + b[2]) / 2, (b[1] + b[3]) / 2]);
+		for (let a = 0; a < 360; a += 15) {
+			const x = centro.x + 14 * Math.cos((a * Math.PI) / 180);
+			const y = centro.y + 14 * Math.sin((a * Math.PI) / 180);
+			const enMvd = m.queryRenderedFeatures([x, y], { layers: ['relleno-departamento'] }).some((f) => f.properties.id === 'INE-2023/departamento/01');
+			const enAnillo = m.queryRenderedFeatures([x, y], { layers: ['anillo-chicos'] }).length > 0;
+			if (!enMvd && enAnillo) return { x: c.x + x, y: c.y + y };
+		}
+		return null;
 	}, mvd.bbox);
-	await page.mouse.click(punto.x, punto.y);
+	expect(punto).not.toBeNull();
+	await page.mouse.click(punto!.x, punto!.y);
 	await expect(panel(page).getByRole('heading', { level: 2 })).toHaveText('Montevideo');
 	// y en el nivel sección no hay anillos de departamentos
 	await nivelRadio(page, 'Sección').check();

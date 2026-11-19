@@ -66,7 +66,7 @@
 	let totalPais = $derived(totalDelPais(valoresPais, estado.indicador, estado.periodo));
 	let seleccionadoId = $derived(estado.territorio ? `INE-2023/${estado.territorio}` : null);
 	// AC-V10: sin territorio elegido no hay panel derecho; el mapa usa ese ancho y la pista va sobre el mapa.
-	let hayPanel = $derived(!!estado.territorio || !!errorFicha);
+	let hayPanel = $derived(!!estado.territorio);
 	let faltaZoom = $derived(estado.nivel === 'segmento' && zoom < ZOOM_SEGMENTOS);
 
 	/** "Instituto Nacional de Estadística (INE)" -> "INE". */
@@ -114,11 +114,15 @@
 		if (!montado) return;
 		if (!t) {
 			ficha = null;
+			errorFicha = '';
 			return;
 		}
 		const [nivel, codigo] = t.split('/');
 		errorFicha = '';
-		if (!esNivel(nivel)) return;
+		if (!esNivel(nivel)) {
+			errorFicha = 'No encontramos ese territorio.';
+			return;
+		}
 		cargarFicha(nivel, codigo)
 			.then((f) => {
 				if (estado.territorio !== t) return;

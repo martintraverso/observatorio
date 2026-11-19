@@ -198,16 +198,18 @@
 								'source-layer': 'departamento',
 								paint: { 'line-color': '#4f5b67', 'line-width': 1.2 }
 							},
+							// halo blanco + trazo oscuro: se ve también sobre la clase más oscura de la coropleta
+							{
+								id: 'anillo-chicos-halo',
+								type: 'circle',
+								source: 'chicos',
+								paint: { 'circle-radius': 14, 'circle-color': 'rgba(0, 0, 0, 0)', 'circle-stroke-color': '#ffffff', 'circle-stroke-width': 5 }
+							},
 							{
 								id: 'anillo-chicos',
 								type: 'circle',
 								source: 'chicos',
-								paint: {
-									'circle-radius': 14,
-									'circle-color': 'rgba(0, 0, 0, 0)',
-									'circle-stroke-color': '#1f4e8c',
-									'circle-stroke-width': 2
-								}
+								paint: { 'circle-radius': 14, 'circle-color': 'rgba(0, 0, 0, 0)', 'circle-stroke-color': '#1b2430', 'circle-stroke-width': 2 }
 							},
 							...NIVELES_SELECCION.map((n) => ({
 								id: `seleccion-${n}`,
@@ -230,6 +232,8 @@
 			m.getCanvas().setAttribute('aria-label', 'Mapa de Uruguay con los límites del INE');
 			for (const n of NIVELES) {
 				m.on('click', `relleno-${n}`, (e: MapLayerMouseEvent) => {
+					// si el clic cae en un anillo, lo maneja el anillo (elige el territorio chico)
+					if (m.queryRenderedFeatures(e.point, { layers: ['anillo-chicos'] }).length) return;
 					const id = e.features?.[0]?.properties?.id;
 					if (typeof id === 'string') onseleccionar(id);
 				});
