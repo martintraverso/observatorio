@@ -310,7 +310,26 @@ test('AC-V8: al ir a un nivel más grueso se elige el que contiene al territorio
 	await nivelRadio(page, 'Departamento').check();
 	await expect(panel(page).getByRole('heading', { level: 2 })).toHaveText('Flores');
 	await expect(page).toHaveURL(/territorio=departamento%2F07/);
-	// y si el territorio es del nivel elegido, se mantiene
+});
+
+test('AC-V8: si el territorio es del nivel elegido, se mantiene', async ({ page }) => {
+	await page.goto('?indicador=pob_total&nivel=seccion&periodo=2023&territorio=departamento/07');
+	await expect(panel(page).getByRole('heading', { level: 2 })).toHaveText('Flores');
 	await nivelRadio(page, 'Departamento').check();
+	await expect(page).toHaveURL(/nivel=departamento/);
+	await expect(panel(page).getByRole('heading', { level: 2 })).toHaveText('Flores');
+	await expect(page).toHaveURL(/territorio=departamento%2F07/);
+});
+
+test('AC-V8: si la ficha del territorio todavía no llegó, igual se elige el departamento que lo contiene', async ({ page }) => {
+	const seccion = indice.find((t) => t.nivel === 'seccion' && t.codigo.startsWith('07'))!;
+	// la ficha de la sección tarda: el cambio de nivel no puede usar la ficha de otro territorio
+	await page.route(`**/fichas/seccion/${seccion.codigo}.json`, async (r) => {
+		await new Promise((ok) => setTimeout(ok, 1500));
+		await r.continue();
+	});
+	await page.goto(`?indicador=pob_total&nivel=seccion&periodo=2023&territorio=seccion/${seccion.codigo}`);
+	await nivelRadio(page, 'Departamento').check();
+	await expect(page).toHaveURL(/territorio=departamento%2F07/);
 	await expect(panel(page).getByRole('heading', { level: 2 })).toHaveText('Flores');
 });

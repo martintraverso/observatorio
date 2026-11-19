@@ -49,8 +49,8 @@ export function nivelMasDetallado(ind: IndicadorMapa): NivelMapa | null {
 }
 
 /**
- * AC-M2: si el indicador no se publica en el nivel elegido, un aviso que nombra el nivel más
- * detallado disponible. Nunca se pinta un valor inventado ni se sustituye en silencio.
+ * AC-M2 / AC-V9: si el indicador no se publica en el nivel elegido, un aviso que nombra ese nivel y lista
+ * los niveles del mapa donde sí está. Nunca se pinta un valor inventado ni se sustituye en silencio.
  */
 export function avisoNivel(ind: IndicadorMapa, nivel: NivelMapa): { mensaje: string; disponibles: NivelMapa[] } | null {
 	if (ind.niveles.includes(nivel)) return null;

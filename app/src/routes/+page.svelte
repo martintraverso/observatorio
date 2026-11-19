@@ -143,9 +143,15 @@
 		if (!ind.periodos.includes(estado.periodo)) estado.periodo = ind.periodos.at(-1) ?? '';
 	}
 
-	/** Departamento del territorio elegido (o del que está en el panel), si hay uno. */
+	/** La ficha cargada, solo si es la del territorio elegido (mientras carga otra, la anterior no vale). */
+	function fichaVigente(): Ficha | null {
+		return ficha && estado.territorio && ficha.id === `INE-2023/${estado.territorio}` ? ficha : null;
+	}
+
+	/** Departamento del territorio elegido, si hay uno. */
 	function deptoElegido(): string | null {
-		if (ficha?.depto) return ficha.depto;
+		const f = fichaVigente();
+		if (f?.depto) return f.depto;
 		const [nivel, codigo] = estado.territorio?.split('/') ?? [];
 		if (nivel === 'departamento' || nivel === 'seccion' || nivel === 'segmento') return codigo.slice(0, 2);
 		return null;
@@ -165,8 +171,12 @@
 	function territorioEnNivel(n: NivelMapa): string | null {
 		const t = estado.territorio;
 		if (!t || t.split('/')[0] === n) return t;
-		const padre = ficha?.padres.find((p) => p.nivel === n);
-		return padre ? `${padre.nivel}/${padre.codigo}` : null;
+		const padre = fichaVigente()?.padres.find((p) => p.nivel === n);
+		if (padre) return `${padre.nivel}/${padre.codigo}`;
+		// Sin la ficha todavía: las secciones y los segmentos empiezan con el código de su departamento.
+		const [nivel, codigo] = t.split('/');
+		if (n === 'departamento' && (nivel === 'seccion' || nivel === 'segmento')) return `departamento/${codigo.slice(0, 2)}`;
+		return null;
 	}
 
 	/**
