@@ -42,6 +42,14 @@ Los e2e usan `scripts/servidor-pages.mjs`, que imita a GitHub Pages: el sitio ba
 
 Además, `npm run test:lighthouse -- <url>` corre Lighthouse móvil 3 veces sobre el sitio servido (falla si la mediana de rendimiento es < 80). En CI y en el deploy los e2e corren también en Firefox y WebKit (Safari); en local, con `OBS_NAVEGADORES=todos` (necesita `npx playwright install firefox webkit`).
 
+### Pruebas visuales (M10, `docs/ACCEPTANCE_CRITERIA_UI.md`)
+
+`e2e/visual/*.visual.ts` corre en los proyectos `visual-1440`, `visual-1024`, `visual-768` y `visual-390` (Chromium, las cuatro vistas) y, en CI, también `visual-firefox-*` y `visual-safari-*` (sin capturas). Entran en `npm run test:e2e`; solas: `npx playwright test --project='visual-*'`.
+
+- `e2e/visual/ayudas.ts`: `detectarDesbordes(page)` (AC-V5, y opciones de un segmentado en más de una línea), `revisarSegmentado(page, contenedor)` (AC-V1) y `sinTextoInterno(page)` (AC-V19). `ayudas.visual.ts` prueba que detectan cada problema sobre HTML armado a mano.
+- `calidad.visual.ts`: los controles sobre cada ruta. Los problemas que el `main` todavía tiene están marcados con `pendiente(condición, historia)` (`test.fail`): el test se pone rojo cuando el problema se corrige, y la historia que lo corrige saca la marca.
+- `capturas.visual.ts`: capturas de AC-V31, en `fixme` hasta M10.10 (#88), que toma las baselines.
+
 Playwright necesita Chromium (`npx playwright install chromium`). En Debian sin `sudo`, si faltan `libnspr4`/`libnss3`:
 
 ```bash
