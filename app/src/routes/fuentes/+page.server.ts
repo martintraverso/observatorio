@@ -1,9 +1,11 @@
 import type { Fuente } from '#lib/datos.ts';
-import type { CapturaHistorial } from '#lib/fuentes.ts';
+import { datosCatalogo, type CapturaHistorial } from '#lib/fuentes.ts';
 import { leerDatos } from '#lib/server/datos-build.ts';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = () => ({
-	fuentes: leerDatos<Fuente[]>('fuentes.json'),
-	historial: leerDatos<{ historial: CapturaHistorial[] }>('capturas.json').historial
-});
+// Sin el historial completo: solo lo que la página muestra (#96, AC-G6).
+export const load: PageServerLoad = () => {
+	const fuentes = leerDatos<Fuente[]>('fuentes.json');
+	const { historial } = leerDatos<{ historial: CapturaHistorial[] }>('capturas.json');
+	return { fuentes, ...datosCatalogo(fuentes, historial) };
+};
