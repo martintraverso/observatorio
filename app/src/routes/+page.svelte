@@ -236,7 +236,14 @@
 			<div class="chips">
 				{#each TEMAS as t (t)}
 					<label class="chip" class:activo={tema === t}>
-						<input type="radio" name="tema" value={t} checked={tema === t} onchange={() => elegirTema(t)} />
+						<input
+							type="radio"
+							name="tema"
+							value={t}
+							checked={tema === t}
+							onchange={() => elegirTema(t)}
+							onfocus={(e) => e.currentTarget.closest('label')?.scrollIntoView({ inline: 'center', block: 'nearest' })}
+						/>
 						{t}
 					</label>
 				{/each}
@@ -667,7 +674,8 @@
 			overflow-x: auto;
 			scrollbar-width: none;
 			mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent);
-			padding-right: var(--espacio-6);
+			/* el último chip termina antes de la zona desvanecida; el enfocado se centra (onfocus) */
+			padding-right: 56px;
 			/* lugar para el anillo de foco, y el chip enfocado queda fuera del desvanecido */
 			padding-block: 6px;
 			padding-left: 6px;
