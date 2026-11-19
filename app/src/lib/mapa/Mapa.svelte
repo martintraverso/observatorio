@@ -21,7 +21,8 @@
 		seleccionado,
 		onseleccionar,
 		onzoom,
-		reservaIzquierda = 0
+		reservaIzquierda = 0,
+		departamentos = []
 	}: {
 		nivel: NivelMapa;
 		/** codigo -> valor del indicador y período elegidos, en el nivel elegido. */
@@ -33,7 +34,38 @@
 		onzoom?: (zoom: number) => void;
 		/** px que tapa algo superpuesto a la izquierda (la leyenda, AC-V4): los encuadres lo dejan libre. */
 		reservaIzquierda?: number;
+		/** Caja de cada departamento, para marcar los que casi no se ven (AC-V12). */
+		departamentos?: { codigo: string; bbox: [number, number, number, number] }[];
 	} = $props();
+
+	/**
+	 * Por debajo de este tamaño en pantalla (px de lado) un departamento lleva un anillo para encontrarlo (AC-V12).
+	 * El AC pide al menos los de menos de 20×20 px; con el zoom mínimo del mapa ninguno llega a eso, pero
+	 * Montevideo a escala país mide ~43 px a 1024 (V-09) y el siguiente más chico, Flores, ~89 px.
+	 */
+	const MIN_VISIBLE = 48;
+
+	/** Centros de los departamentos que, con el zoom actual, ocupan menos de MIN_VISIBLE px de lado (p. ej. Montevideo a escala país). */
+	function actualizarChicos() {
+		const m = mapa;
+		const fuente = m?.getSource('chicos') as { setData(d: unknown): void } | undefined;
+		if (!m || !fuente) return;
+		const features =
+			nivel !== 'departamento'
+				? []
+				: departamentos
+						.filter((d) => {
+							const a = m.project([d.bbox[0], d.bbox[1]]);
+							const b = m.project([d.bbox[2], d.bbox[3]]);
+							return Math.abs(b.x - a.x) < MIN_VISIBLE && Math.abs(b.y - a.y) < MIN_VISIBLE;
+						})
+						.map((d) => ({
+							type: 'Feature',
+							properties: { id: `INE-2023/departamento/${d.codigo}` },
+							geometry: { type: 'Point', coordinates: [(d.bbox[0] + d.bbox[2]) / 2, (d.bbox[1] + d.bbox[3]) / 2] }
+						}));
+		fuente.setData({ type: 'FeatureCollection', features });
+	}
 
 	/**
 	 * Margen de los encuadres: parejo, más lo que tapa la leyenda a la izquierda. Si el mapa es angosto
@@ -133,7 +165,10 @@
 					locale: LOCALE_MAPA,
 					style: {
 						version: 8,
-						sources: { [FUENTE]: { type: 'vector', url: `pmtiles://${pmtiles}`, promoteId: 'id' } },
+						sources: {
+							[FUENTE]: { type: 'vector', url: `pmtiles://${pmtiles}`, promoteId: 'id' },
+							chicos: { type: 'geojson', data: { type: 'FeatureCollection', features: [] } }
+						},
 						layers: [
 							{ id: 'fondo', type: 'background', paint: { 'background-color': '#f6f7f5' } },
 							...NIVELES.flatMap((n) => [
@@ -162,6 +197,17 @@
 								source: FUENTE,
 								'source-layer': 'departamento',
 								paint: { 'line-color': '#4f5b67', 'line-width': 1.2 }
+							},
+							{
+								id: 'anillo-chicos',
+								type: 'circle',
+								source: 'chicos',
+								paint: {
+									'circle-radius': 14,
+									'circle-color': 'rgba(0, 0, 0, 0)',
+									'circle-stroke-color': '#1f4e8c',
+									'circle-stroke-width': 2
+								}
 							},
 							...NIVELES_SELECCION.map((n) => ({
 								id: `seleccion-${n}`,
@@ -197,8 +243,17 @@
 				});
 			}
 			m.on('zoomend', () => onzoom?.(m.getZoom()));
+			m.on('moveend', actualizarChicos);
+			// Tocar el anillo elige el territorio, como tocar el polígono.
+			m.on('click', 'anillo-chicos', (e: MapLayerMouseEvent) => {
+				const id = e.features?.[0]?.properties?.id;
+				if (typeof id === 'string') onseleccionar(id);
+			});
+			m.on('mouseenter', 'anillo-chicos', () => (m.getCanvas().style.cursor = 'pointer'));
+			m.on('mouseleave', 'anillo-chicos', () => (m.getCanvas().style.cursor = ''));
 			m.on('load', () => {
 				listo = true;
+				actualizarChicos();
 				onzoom?.(m.getZoom());
 				if (pendiente) {
 					enfocar(pendiente.bbox, pendiente.zoomMinimo);
@@ -264,6 +319,12 @@
 			? ['match', ['coalesce', ['feature-state', 'clase'], -1], ...colores.flatMap((c, i) => [i, c]), COLOR_SIN_DATO]
 			: COLOR_SIN_DATO;
 		m.setPaintProperty(`relleno-${nivel}`, 'fill-color', expresion as never);
+	});
+
+	// Anillos de territorios chicos: se recalculan al cambiar de nivel (y al mover el mapa, en moveend).
+	$effect(() => {
+		void nivel;
+		if (mapa && listo) actualizarChicos();
 	});
 
 	// Territorio seleccionado: contorno naranja en su capa.

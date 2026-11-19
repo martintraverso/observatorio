@@ -65,6 +65,8 @@
 	let valoresPais = $state<ValoresNivel | null>(null);
 	let totalPais = $derived(totalDelPais(valoresPais, estado.indicador, estado.periodo));
 	let seleccionadoId = $derived(estado.territorio ? `INE-2023/${estado.territorio}` : null);
+	// AC-V10: sin territorio elegido no hay panel derecho; el mapa usa ese ancho y la pista va sobre el mapa.
+	let hayPanel = $derived(!!estado.territorio || !!errorFicha);
 	let faltaZoom = $derived(estado.nivel === 'segmento' && zoom < ZOOM_SEGMENTOS);
 
 	/** "Instituto Nacional de Estadística (INE)" -> "INE". */
@@ -221,7 +223,7 @@
 	{/if}
 {/snippet}
 
-<div class="pantalla">
+<div class="pantalla" class:con-panel={hayPanel}>
 	<aside class="opciones" aria-label="Opciones del mapa">
 		<h1>Mapa</h1>
 
@@ -308,6 +310,7 @@
 			onseleccionar={seleccionar}
 			onzoom={(z) => (zoom = z)}
 			reservaIzquierda={anchoLeyenda}
+			departamentos={data.departamentos}
 		/>
 
 		<div class="avisos">
@@ -340,12 +343,17 @@
 			{/if}
 		</div>
 
+		{#if !hayPanel}
+			<p class="solo-escritorio pista-mapa">Tocá un territorio en el mapa para ver sus datos.</p>
+		{/if}
+
 		<!-- En escritorio la leyenda va sobre el mapa, abajo a la izquierda, siempre a la vista (AC-V4). -->
 		<div class="solo-escritorio leyenda-sobre-mapa" bind:clientWidth={anchoLeyenda}>{@render leyenda()}</div>
 	</section>
 
 	<div class="solo-movil leyenda-movil">{@render leyenda()}</div>
 
+	{#if hayPanel}
 	<aside class="territorio" class:abierto={!!ficha} aria-label="Territorio seleccionado">
 		{#if ficha}
 			<PanelTerritorio
@@ -358,15 +366,16 @@
 		{:else if errorFicha}
 			<p class="aviso">{errorFicha}</p>
 		{:else}
-			<p class="suave pista">Tocá un territorio en el mapa para ver sus datos.</p>
+			<p class="suave pista" role="status">Cargando el territorio…</p>
 		{/if}
 	</aside>
+	{/if}
 </div>
 
 <style>
 	.pantalla {
 		display: grid;
-		grid-template-columns: 290px minmax(0, 1fr) 330px;
+		grid-template-columns: 290px minmax(0, 1fr);
 		height: calc(100dvh - 72px);
 		min-height: 560px;
 		background: var(--fondo);
@@ -598,8 +607,29 @@
 	}
 
 
+	.pantalla.con-panel {
+		grid-template-columns: 290px minmax(0, 1fr) 330px;
+	}
+
 	.pista {
 		margin: 0;
+	}
+
+	.pista-mapa {
+		position: absolute;
+		right: var(--espacio-3);
+		bottom: var(--espacio-6);
+		z-index: 3;
+		margin: 0;
+		max-width: 220px;
+		padding: var(--espacio-2) var(--espacio-3);
+		background: var(--tarjeta);
+		border: 1px solid var(--borde);
+		border-radius: var(--radio-m);
+		box-shadow: var(--sombra);
+		font-size: var(--texto-s);
+		color: var(--texto-suave);
+		pointer-events: none;
 	}
 
 	.solo-movil {
@@ -611,7 +641,8 @@
 	}
 
 	@media (max-width: 900px) {
-		.pantalla {
+		.pantalla,
+		.pantalla.con-panel {
 			grid-template-columns: minmax(0, 1fr);
 			grid-template-rows: auto minmax(420px, 70dvh) auto;
 			height: auto;
