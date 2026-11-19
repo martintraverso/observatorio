@@ -28,7 +28,7 @@ test('AC-L23: el tema Trabajo ofrece los 7 indicadores por departamento y munici
 	const lista = page.getByRole('group', { name: 'Indicador' }).getByRole('radio');
 	await expect(lista).toHaveCount(7);
 	const nivel = page.getByRole('group', { name: 'Nivel territorial' });
-	await nivel.getByRole('radio', { name: 'Municipio (Montevideo)' }).check();
+	await nivel.getByRole('radio', { name: 'Municipio Solo Montevideo' }).check();
 	await expect(page.getByText('no se publica por')).toHaveCount(0); // sin aviso de AC-M2: hay datos por municipio
 	// la capa de municipios se ve y tiene polígonos pintados con clase
 	await page.locator('section[aria-label="Mapa interactivo"]').scrollIntoViewIfNeeded();

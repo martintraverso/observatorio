@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Leyenda de la coropleta (AC-M1, AC-G2): clases con unidad, fuente y período.
 	import { COLOR_SIN_DATO, coloresClases } from './colores.ts';
-	import { etiquetasLeyenda, type Clases } from './estado.ts';
+	import { etiquetasLeyenda, fuenteYPeriodo, type Clases } from './estado.ts';
 
 	let {
 		titulo,
@@ -31,7 +31,7 @@
 		{/each}
 		<li><span class="muestra" style:background={COLOR_SIN_DATO}></span>Sin dato</li>
 	</ul>
-	<p class="fuente">Fuente: {fuente} · {periodo}</p>
+	<p class="fuente">Fuente: {fuenteYPeriodo(fuente, periodo)}</p>
 	{#if hayEstimados}<p class="fuente">Incluye valores estimados.</p>{/if}
 </section>
 

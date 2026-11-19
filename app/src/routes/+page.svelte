@@ -18,6 +18,7 @@
 		minuscula,
 		nivelesConDatos,
 		nivelMasDetallado,
+		OPCION_NIVEL_MAPA,
 		totalDelPais,
 		TEMAS,
 		urlDesdeEstado,
@@ -44,6 +45,8 @@
 	let errorFicha = $state('');
 	let mapa: ReturnType<typeof Mapa> | undefined = $state();
 	let enfocarAlCargar = false;
+	// Ancho de la leyenda superpuesta al mapa (0 en móvil, donde va debajo).
+	let anchoLeyenda = $state(0);
 
 	let indicador = $derived(data.indicadores.find((i) => i.codigo === estado.indicador) ?? data.indicadores[0]);
 	let delTema = $derived(indicadoresDelTema(data.indicadores, tema));
@@ -226,11 +229,14 @@
 
 		<fieldset>
 			<legend>Nivel territorial</legend>
-			<div class="segmentado">
+			<!-- Lista vertical: entra cualquier cantidad de niveles sin cortar ninguno (AC-V1). -->
+			<div class="lista-niveles">
 				{#each niveles as n (n)}
-					<label class:activo={estado.nivel === n}>
+					{@const opcion = OPCION_NIVEL_MAPA[n]}
+					<label class="nivel" class:activo={estado.nivel === n}>
 						<input type="radio" name="nivel" value={n} checked={estado.nivel === n} onchange={() => elegirNivel(n)} />
-						{ETIQUETA_NIVEL_MAPA[n]}
+						<span class="nombre">{opcion.etiqueta}</span>
+						{#if opcion.ayuda}<span class="ayuda">{opcion.ayuda}</span>{/if}
 					</label>
 				{/each}
 			</div>
@@ -244,9 +250,6 @@
 				</select>
 			</div>
 		{/if}
-
-		<!-- La leyenda va fuera del mapa para no tapar territorios. -->
-		<div class="solo-escritorio">{@render leyenda()}</div>
 	</aside>
 
 	<section class="centro" aria-label="Mapa interactivo">
@@ -258,6 +261,7 @@
 			seleccionado={seleccionadoId}
 			onseleccionar={seleccionar}
 			onzoom={(z) => (zoom = z)}
+			reservaIzquierda={anchoLeyenda}
 		/>
 
 		<div class="avisos">
@@ -276,6 +280,8 @@
 			{/if}
 		</div>
 
+		<!-- En escritorio la leyenda va sobre el mapa, abajo a la izquierda, siempre a la vista (AC-V4). -->
+		<div class="solo-escritorio leyenda-sobre-mapa" bind:clientWidth={anchoLeyenda}>{@render leyenda()}</div>
 	</section>
 
 	<div class="solo-movil leyenda-movil">{@render leyenda()}</div>
@@ -314,6 +320,8 @@
 	}
 
 	.opciones {
+		/* el espacio de la barra de scroll queda reservado: cambiar de tema o nivel no mueve nada (AC-V3) */
+		scrollbar-gutter: stable;
 		border-right: 1px solid var(--borde);
 		display: grid;
 		align-content: start;
@@ -352,7 +360,7 @@
 	   que no se salgan de la fila de chips con scroll y estiren la página (AC-G4). */
 	.chip,
 	.indicador,
-	.segmentado label {
+	.nivel {
 		position: relative;
 	}
 
@@ -389,8 +397,7 @@
 		font-size: var(--texto-s);
 	}
 
-	.chip.activo,
-	.segmentado label.activo {
+	.chip.activo {
 		background: var(--primario);
 		border-color: var(--primario);
 		color: var(--sobre-primario);
@@ -411,7 +418,8 @@
 		cursor: pointer;
 	}
 
-	.indicador.activo {
+	.indicador.activo,
+	.nivel.activo {
 		border-color: var(--primario);
 		box-shadow: inset 4px 0 0 var(--primario);
 		background: var(--azul-1);
@@ -428,25 +436,32 @@
 		color: var(--texto-suave);
 	}
 
-	.segmentado {
+	.lista-niveles {
 		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		border: 1px solid var(--borde);
-		border-radius: var(--radio-m);
-		overflow: hidden;
+		gap: var(--espacio-1);
 	}
 
-	.segmentado label {
+	.nivel {
 		display: flex;
 		align-items: center;
-		justify-content: center;
+		justify-content: space-between;
+		gap: var(--espacio-2);
 		min-height: var(--toque-min);
+		padding: 0 var(--espacio-3);
+		border: 1px solid var(--borde);
+		border-radius: var(--radio-m);
 		cursor: pointer;
+		white-space: nowrap;
+	}
+
+	.nivel .nombre {
+		font-weight: 600;
 		font-size: var(--texto-s);
 	}
 
-	.segmentado label + label {
-		border-left: 1px solid var(--borde);
+	.nivel .ayuda {
+		font-size: var(--texto-xs);
+		color: var(--texto-suave);
 	}
 
 	select {
@@ -484,6 +499,16 @@
 
 	.avisos p {
 		margin: 0;
+	}
+
+	.leyenda-sobre-mapa {
+		position: absolute;
+		left: var(--espacio-3);
+		bottom: var(--espacio-6);
+		z-index: 3;
+		width: min(240px, calc(100% - 2 * var(--espacio-3)));
+		box-shadow: var(--sombra);
+		border-radius: var(--radio-m);
 	}
 
 	.avisos button {

@@ -8,10 +8,12 @@ import {
 	etiquetaPeriodo,
 	etiquetasLeyenda,
 	fuenteCorta,
+	fuenteYPeriodo,
 	indicadoresDelTema,
 	NIVELES_MAPA,
 	nivelesConDatos,
 	nivelMasDetallado,
+	OPCION_NIVEL_MAPA,
 	totalDelPais,
 	urlDesdeEstado,
 	type IndicadorMapa
@@ -99,6 +101,19 @@ describe('F2.8b: Trabajo en el mapa', () => {
 		expect(etiquetaPeriodo('2026-07/2026-09')).toBe('Trimestre móvil jul–set 2026');
 		expect(etiquetaPeriodo('2025-12/2026-02')).toBe('Trimestre móvil dic 2025–feb 2026');
 		expect(etiquetaPeriodo('2023')).toBe('2023');
+	});
+
+	it('AC-V17: la fuente y el período no repiten el año', () => {
+		expect(fuenteYPeriodo('INE, Unidades geoestadísticas Censo 2023', '2023')).toBe('INE, Unidades geoestadísticas Censo 2023');
+		expect(fuenteYPeriodo('INE, ECH', 'Trimestre móvil jul–set 2026')).toBe('INE, ECH · Trimestre móvil jul–set 2026');
+		expect(fuenteYPeriodo('INE, ECH', '2025')).toBe('INE, ECH · 2025');
+		expect(fuenteYPeriodo('INE, Censo 2023', '2011')).toBe('INE, Censo 2023 · 2011');
+		expect(fuenteYPeriodo('INE, Censo 12023', '2023')).toBe('INE, Censo 12023 · 2023');
+	});
+
+	it('AC-V2: el municipio se ofrece como «Municipio» con la ayuda «Solo Montevideo»', () => {
+		expect(OPCION_NIVEL_MAPA.municipio_mvd).toEqual({ etiqueta: 'Municipio', ayuda: 'Solo Montevideo' });
+		for (const n of NIVELES_MAPA) expect(OPCION_NIVEL_MAPA[n].etiqueta).not.toMatch(/\(/);
 	});
 
 	it('el selector ofrece solo niveles con datos (con solo el Censo, sin municipio)', () => {

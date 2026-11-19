@@ -14,8 +14,8 @@ export const VISTAS = [
 /** Elementos con texto que no pueden desbordar ni quedar recortados (AC-V5). */
 export const SELECTOR_TEXTOS = 'button, a, label, th, [role=tab], .kpi, .kpis dd';
 
-/** Opciones de un control segmentado: ninguna puede ocupar más de una línea (AC-V1). */
-export const SELECTOR_SEGMENTADO = '.segmentado label';
+/** Opciones de un control segmentado o lista de opciones: ninguna puede ocupar más de una línea (AC-V1). */
+export const SELECTOR_SEGMENTADO = '.segmentado label, .lista-niveles label';
 
 /** Textos internos del mantenedor que nunca se muestran (AC-V19). */
 export const TEXTOS_INTERNOS = [/decisi[oó]n del mantenedor/i, /se deja asentado/i, /\bTODO\b/, /\bFIXME\b/];
