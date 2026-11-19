@@ -661,10 +661,17 @@
 		}
 
 		/* AC-M6: temas como fila horizontal de chips */
+		/* AC-V15: fila desplazable sin barra visible; el borde derecho se desvanece para mostrar que hay más */
 		.chips {
 			flex-wrap: nowrap;
 			overflow-x: auto;
-			padding-bottom: var(--espacio-1);
+			scrollbar-width: none;
+			mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent);
+			padding-right: var(--espacio-6);
+		}
+
+		.chips::-webkit-scrollbar {
+			display: none;
 		}
 
 		.solo-movil {

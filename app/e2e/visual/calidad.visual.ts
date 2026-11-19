@@ -194,3 +194,44 @@ test(`AC-V18: largo de la ficha de Tacuarembó`, async ({ page }, info) => {
 	const alto = await page.evaluate(() => document.documentElement.scrollHeight);
 	expect(alto, `${alto} px`).toBeLessThanOrEqual(maximo!);
 });
+
+test('AC-V14: en celular y tableta el encabezado tiene como máximo 2 filas (≤ 120 px)', async ({ page }, info) => {
+	test.skip(!['768', '390'].includes(vista(info.project.name)), 'el criterio es para celular y tableta');
+	await page.goto('');
+	await esperarQuieta(page);
+	const { alto, filas } = await page.locator('header.encabezado').evaluate((h) => {
+		const partes = [h.querySelector('.marca'), h.querySelector('nav'), h.querySelector('form.buscar')].map((e) => e!.getBoundingClientRect());
+		const tops: number[] = [];
+		for (const r of partes) if (!tops.some((t) => Math.abs(t - r.top) < r.height / 2)) tops.push(r.top);
+		return { alto: h.getBoundingClientRect().height, filas: tops.length };
+	});
+	expect(alto).toBeLessThanOrEqual(120);
+	expect(filas).toBeLessThanOrEqual(2);
+	// el nombre del sitio sigue en el enlace para lectores de pantalla
+	await expect(page.getByRole('link', { name: 'Observatorio Uruguay' })).toBeVisible();
+});
+
+test('AC-V16: el texto de ayuda de la búsqueda nunca queda cortado', async ({ page }) => {
+	await page.goto('');
+	await esperarQuieta(page);
+	const { texto, entra } = await page.locator('#buscar').evaluate((i: HTMLInputElement) => {
+		const cs = getComputedStyle(i);
+		const ctx = document.createElement('canvas').getContext('2d')!;
+		ctx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+		return { texto: i.placeholder, entra: ctx.measureText(i.placeholder).width <= i.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight) };
+	});
+	expect(entra, texto).toBe(true);
+	// el nombre accesible del campo sigue siendo el completo
+	await expect(page.getByRole('combobox', { name: 'Buscar departamento, localidad o código INE' })).toBeVisible();
+});
+
+test('AC-V15: en celular los chips de temas no muestran barra de desplazamiento y se desvanecen en el borde', async ({ page }, info) => {
+	test.skip(!['768', '390'].includes(vista(info.project.name)), 'la fila desplazable es de celular y tableta');
+	await page.goto('');
+	const estilo = await page.locator('.chips').evaluate((c) => {
+		const cs = getComputedStyle(c);
+		return { barra: cs.scrollbarWidth, mascara: cs.maskImage || (cs as unknown as Record<string, string>).webkitMaskImage };
+	});
+	expect(estilo.barra).toBe('none');
+	expect(estilo.mascara).toContain('linear-gradient');
+});
