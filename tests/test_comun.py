@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 import zipfile
 
 import pytest
@@ -9,7 +10,7 @@ import pytest
 from comun.capturas import Historial, nueva_captura
 from comun.controles import Controles
 from comun.entrada import extraer_zip
-from comun.registro import cargar_fuentes, validar_fuente
+from comun.registro import RAIZ, cargar_fuentes, tabla_fuentes, validar_fuente
 
 
 def captura(sha="a" * 64, fecha="2026-01-01T00:00:00+00:00"):
@@ -64,6 +65,18 @@ def test_registro_detecta_campos_faltantes(tmp_path):
         cargar_fuentes(tmp_path)
     assert "falta 'organismo'" in str(e.value)
     assert "estado 'inventado'" in str(e.value)
+
+
+def test_notas_internas_no_se_publican():
+    """AC-V19: las decisiones del mantenedor van en `notas_internas`, que no llega a la tabla `fuentes`
+    (ni, por lo tanto, a fuentes.json ni a las fichas); lo que sí se publica no trae textos internos."""
+    fuentes = cargar_fuentes(RAIZ / "fuentes")
+    tabla = tabla_fuentes(fuentes)
+    assert "notas_internas" not in tabla.columns
+    publicado = tabla.astype(str).to_string()
+    for patron in (r"(?i)decisi[oó]n del mantenedor", r"(?i)se deja asentado", r"\bTODO\b", r"\bFIXME\b"):
+        assert not re.search(patron, publicado), patron
+    assert fuentes["ine_ech_mercado_trabajo_departamental"]["notas_internas"]
 
 
 def test_registro_exige_nivel_mas_detallado_publicado():
