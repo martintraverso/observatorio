@@ -203,3 +203,46 @@ test('AC-V22: información, advertencia y error tienen estilos distintos y se us
 	await expect(error).toHaveCount(0);
 	await expect(page).not.toHaveURL(/territorio=/);
 });
+
+test('AC-V26: las fichas de segmento, sección y localidad muestran la unidad de cerca entre sus vecinos', async ({ page }, info) => {
+	test.skip(!['escritorio', 'movil'].includes(info.project.name), 'el mapa de cerca necesita WebGL (Chromium)');
+	type L = { loaded(): boolean; areTilesLoaded(): boolean; queryRenderedFeatures(o: { layers: string[] }): { properties: { id: string } }[] };
+	// además del urbano, el segmento de caja más grande (rural): no puede quedar en blanco por el zoom mínimo del PMTiles
+	const area = (t: { bbox: number[] }) => (t.bbox[2] - t.bbox[0]) * (t.bbox[3] - t.bbox[1]);
+	const rural = (indice as unknown as { nivel: string; codigo: string; nombre: string; depto: string; bbox: number[] }[])
+		.filter((t) => t.nivel === 'segmento')
+		.sort((a, b) => area(b) - area(a))[0];
+	const casos = [
+		de('segmento'),
+		rural,
+		de('seccion'),
+		indice.find((t) => t.nivel === 'localidad' && existsSync(`build/territorio/localidad/${t.codigo}.html`))!
+	].filter(Boolean);
+	for (const t of casos) {
+		await page.goto(`territorio/${t.nivel}/${t.codigo}`);
+		const cerca = page.getByRole('img', { name: `${t.nombre} y sus vecinos, de cerca` });
+		await cerca.scrollIntoViewIfNeeded();
+		await expect(cerca).toBeVisible();
+		await page.waitForFunction(() => {
+			const m = (window as unknown as { __localizador?: L }).__localizador;
+			return !!m && m.loaded() && m.areTilesLoaded();
+		}, undefined, { timeout: 20_000 });
+		const { propio, vecinos } = await page.evaluate((id) => {
+			const m = (window as unknown as { __localizador: L & { getLayer(id: string): unknown } }).__localizador;
+			// un segmento rural grande se marca con el rectángulo que ocupa (cerca-caja); los demás, con su polígono
+			const marca = m.getLayer('cerca-caja')
+				? m.queryRenderedFeatures({ layers: ['cerca-caja'] }).length
+				: m.queryRenderedFeatures({ layers: ['cerca-seleccion'] }).filter((f) => f.properties.id === id).length;
+			return {
+				propio: marca,
+				vecinos: new Set(m.queryRenderedFeatures({ layers: ['cerca-vecinos'] }).map((f) => f.properties.id)).size
+			};
+		}, `INE-2023/${t.nivel}/${t.codigo}`);
+		expect(propio, t.nivel).toBeGreaterThan(0);
+		// con vecinos alrededor (para una localidad, las secciones que la rodean)
+		expect(vecinos, t.nivel).toBeGreaterThan(1);
+	}
+	// los departamentos no lo llevan
+	await page.goto('territorio/departamento/07');
+	await expect(page.getByRole('img', { name: /de cerca/ })).toHaveCount(0);
+});

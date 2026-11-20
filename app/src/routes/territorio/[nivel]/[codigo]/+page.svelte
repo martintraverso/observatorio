@@ -4,6 +4,7 @@
 	import { resolve } from '$app/paths';
 	import TablaDesplazable from '#lib/TablaDesplazable.svelte';
 	import MiniMapa from '#lib/mapa/MiniMapa.svelte';
+	import LocalizadorCerca from '#lib/mapa/LocalizadorCerca.svelte';
 	import { descargarCsv } from '#lib/csv.ts';
 	import { hrefFicha, NOMBRE_NIVEL, NIVELES, partesId, type Nivel, type Observacion, type Relacion } from '#lib/datos.ts';
 	import { fecha, numero, publicado } from '#lib/formato.ts';
@@ -126,6 +127,10 @@
 	</div>
 	<div class="ubicacion">
 		<MiniMapa nombre={f.nombre} depto={f.depto} nivel={f.nivel} bbox={f.bbox} />
+		<!-- AC-V26: las unidades chicas, además, de cerca entre sus vecinos -->
+		{#if f.nivel === 'segmento' || f.nivel === 'seccion' || f.nivel === 'localidad'}
+			{#key f.id}<LocalizadorCerca nombre={f.nombre} nivel={f.nivel} id={f.id} bbox={f.bbox} />{/key}
+		{/if}
 	</div>
 </header>
 

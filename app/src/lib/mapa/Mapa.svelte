@@ -1,8 +1,3 @@
-<script lang="ts" module>
-	// El protocolo pmtiles:// se registra una sola vez por página.
-	let protocoloRegistrado = false;
-</script>
-
 <script lang="ts">
 	// Mapa de MapLibre GL sobre territorios.pmtiles (M6, AC-M1). Sin mapa base: los límites del INE sobre el fondo.
 	import 'maplibre-gl/dist/maplibre-gl.css';
@@ -13,6 +8,7 @@
 	import { clase, NIVELES_MAPA, type Clases, type NivelMapa, ZOOM_SEGMENTOS } from './estado.ts';
 	import MiniMapa from './MiniMapa.svelte';
 	import { LOCALE_MAPA } from './idioma.ts';
+	import { cargarMapLibre } from './cargar.ts';
 
 	let {
 		nivel,
@@ -146,18 +142,8 @@
 	onMount(() => {
 		let destruido = false;
 		const iniciar = async () => {
-			const [maplibregl, { Protocol }, { default: urlWorker }] = await Promise.all([
-				import('maplibre-gl'),
-				import('pmtiles'),
-				// MapLibre 6 corre en un worker de módulo aparte; Vite lo copia y da su URL.
-				import('maplibre-gl/dist/maplibre-gl-worker.mjs?url')
-			]);
+			const maplibregl = await cargarMapLibre();
 			if (destruido) return;
-			if (!protocoloRegistrado) {
-				maplibregl.setWorkerUrl(urlWorker);
-				maplibregl.addProtocol('pmtiles', new Protocol().tile);
-				protocoloRegistrado = true;
-			}
 			const pmtiles = new URL(urlDatos('territorios.pmtiles'), location.href).href;
 			let m: MapaLibre;
 			try {
