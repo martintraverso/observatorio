@@ -458,7 +458,7 @@
 		gap: var(--espacio-1) var(--espacio-4);
 		list-style: none;
 		margin: 0;
-		padding: 0 var(--espacio-6) 0 0;
+		padding: 0 40px 0 0; /* tanto como el desvanecido: el último enlace termina fuera de él */
 		overflow-x: auto;
 		white-space: nowrap;
 		scrollbar-width: none;

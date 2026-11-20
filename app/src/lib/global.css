@@ -123,7 +123,6 @@ td {
 	vertical-align: middle;
 }
 
-/* En pantallas angostas la tabla se desplaza dentro de su región en vez de apretarse. */
 /*
  * AC-V25: en celular, las tablas de indicadores (.tabla-apilada) pasan a filas apiladas, sin desplazamiento
  * horizontal: cada celda lleva su encabezado (data-etiqueta) delante. Las demás tablas siguen desplazándose.
@@ -159,6 +158,12 @@ td {
 		overflow-wrap: anywhere;
 	}
 
+	/* la insignia «estimado» va junto al valor, no en la columna de la etiqueta */
+	.tabla-apilada td .estimado {
+		grid-column: 2;
+		justify-self: start;
+	}
+
 	.tabla-apilada td::before {
 		content: attr(data-etiqueta);
 		/* solo visual: el lector de pantalla ya anuncia el encabezado de la columna */
@@ -168,6 +173,7 @@ td {
 	}
 }
 
+/* En pantallas angostas la tabla se desplaza dentro de su región en vez de apretarse. */
 .tabla-scroll table {
 	min-width: 560px;
 }
