@@ -139,7 +139,7 @@
 </nav>
 
 {#if f.nivel === 'area_especial'}
-	<p class="aviso">
+	<p class="info">
 		Este polígono no tiene datos propios: el INE repite en él los conteos de Artigas, por eso no se guardan.
 	</p>
 {/if}
@@ -150,7 +150,7 @@
 	<section id={s.id} class="tarjeta seccion" aria-labelledby="titulo-{s.id}">
 		<h2 id="titulo-{s.id}">{s.titulo}</h2>
 		{#if lista.length === 0}
-			<p class="aviso vacio">{SIN_FUENTES}</p>
+			<p class="info vacio">{SIN_FUENTES}</p>
 		{/if}
 		{#if series.size}
 			<SerieFicha ficha={f} {series} pais={data.pais} fuenteDe={fuenteDe} titulo={s.titulo} />
@@ -189,7 +189,7 @@
 			</TablaDesplazable>
 		{/if}
 		{#if s.id === 'poblacion'}
-			{#if nota}<p class="aviso nota">{nota}</p>{/if}
+			{#if nota}<p class="info nota">{nota}</p>{/if}
 			<p class="suave">Pirámide de población: todavía no hay datos por edad cargados.</p>
 		{/if}
 	</section>
@@ -278,11 +278,11 @@
 {#if f.nivel === 'segmento'}
 	<section class="tarjeta seccion" aria-labelledby="titulo-hechos">
 		<h2 id="titulo-hechos">Hechos registrados</h2>
-		<p class="aviso vacio">Todavía no hay fuentes de hechos con ubicación (por ejemplo, siniestros o centros educativos).</p>
+		<p class="info vacio">Todavía no hay fuentes de hechos con ubicación (por ejemplo, siniestros o centros educativos).</p>
 	</section>
 	<section class="tarjeta seccion" aria-labelledby="titulo-anteriores">
 		<h2 id="titulo-anteriores">En censos anteriores</h2>
-		<p class="aviso vacio">Todavía no está cargada la correspondencia con los segmentos del Censo 2011.</p>
+		<p class="info vacio">Todavía no está cargada la correspondencia con los segmentos del Censo 2011.</p>
 	</section>
 {/if}
 

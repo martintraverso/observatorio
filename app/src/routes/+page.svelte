@@ -308,7 +308,7 @@
 		<fieldset>
 			<legend>Indicador</legend>
 			{#if delTema.length === 0}
-				<p class="aviso">Todavía no hay fuentes cargadas para este tema.</p>
+				<p class="info">Todavía no hay fuentes cargadas para este tema.</p>
 			{:else}
 				<label class="visualmente-oculto" for="indicador-movil">Indicador</label>
 				<select
@@ -382,7 +382,7 @@
 
 		<div class="avisos">
 			{#if aviso}
-				<div class="aviso" role="status">
+				<div class="info" role="status">
 					<p>{aviso.mensaje}</p>
 					{#if aviso.disponibles.length}
 						<div class="disponibles">
@@ -394,7 +394,7 @@
 					{/if}
 				</div>
 			{:else if faltaZoom}
-				<div class="aviso" role="status">
+				<div class="info" role="status">
 					<p>Acercá el mapa para ver los segmentos, o elegí un departamento:</p>
 					<label class="visualmente-oculto" for="elegir-depto">Elegí un departamento</label>
 					<select
@@ -421,7 +421,7 @@
 	<div class="solo-movil leyenda-movil">{@render leyenda()}</div>
 
 	{#if hayPanel}
-	<aside class="territorio" class:abierto={!!ficha} aria-label="Territorio seleccionado">
+	<aside class="territorio" class:abierto={!!ficha || !!errorFicha} aria-label="Territorio seleccionado">
 		{#if ficha}
 			<PanelTerritorio
 				{ficha}
@@ -431,7 +431,7 @@
 				oncerrar={() => (estado.territorio = null)}
 			/>
 		{:else if errorFicha}
-			<p class="aviso">{errorFicha}</p>
+			<p class="error">{errorFicha}</p>
 		{:else}
 			<p class="suave pista" role="status">Cargando el territorio…</p>
 		{/if}
@@ -639,7 +639,7 @@
 		pointer-events: none;
 	}
 
-	.avisos .aviso {
+	.avisos .info {
 		pointer-events: auto;
 		max-width: 520px;
 		box-shadow: var(--sombra);
@@ -676,10 +676,10 @@
 		margin-top: var(--espacio-2);
 		min-height: var(--toque-min);
 		padding: 0 var(--espacio-3);
-		border: 1px solid var(--aviso-borde);
+		border: 1px solid var(--info-borde);
 		border-radius: var(--radio-s);
 		background: var(--tarjeta);
-		color: var(--aviso-texto);
+		color: var(--info-texto);
 		font: inherit;
 		font-weight: 600;
 		cursor: pointer;

@@ -72,7 +72,7 @@
 			<AdvertenciasFuente fuente={refFuente(principal)?.nombre ?? ''} advertencias={refFuente(principal)?.advertencias ?? []} />
 		</div>
 	{:else}
-		<p class="aviso">Este territorio no tiene datos de este indicador para {etiquetaPeriodo(periodo)}.</p>
+		<p class="info">Este territorio no tiene datos de este indicador para {etiquetaPeriodo(periodo)}.</p>
 	{/if}
 
 	{#if otros.length}
