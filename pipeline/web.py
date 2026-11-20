@@ -107,7 +107,7 @@ def fecha_iso(d) -> str:
 
 def bbox(geom) -> list[float] | None:
     """Caja [oeste, sur, este, norte], redondeada hacia afuera a DECIMALES; None si no hay geometría."""
-    if not isinstance(geom, shapely.Geometry) or geom.is_empty:  # None o NaN (iterrows) en los niveles sin geometría
+    if not isinstance(geom, shapely.Geometry):  # None o NaN (iterrows): niveles sin geometría (region)
         return None
     x0, y0, x1, y1 = geom.bounds
     k = 10 ** DECIMALES

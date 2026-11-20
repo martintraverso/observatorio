@@ -9,6 +9,7 @@ import re
 import geopandas as gpd
 import pyogrio
 import pytest
+from territorios_2023 import SIN_GEOMETRIA
 
 INDICADORES = ["pob_total", "pob_hombres", "pob_mujeres", "viviendas_total"]
 
@@ -35,7 +36,7 @@ def test_ids_unicos_y_con_formato(con):
 # AC-T3
 def test_geometrias_validas_y_no_vacias(salida):
     t = gpd.read_parquet(salida / "territorios.parquet")
-    t = t[t.nivel != "region"]  # sin geometría (F3.2, AC-I3; ver test_region.py)
+    t = t[~t.nivel.isin(SIN_GEOMETRIA)]  # region no tiene geometría (F3.2, AC-I3; ver test_region.py)
     assert t.geometry.notna().all()
     assert t.geometry.is_valid.all(), t.loc[~t.geometry.is_valid, "id"].tolist()[:5]
     assert (~t.geometry.is_empty).all(), t.loc[t.geometry.is_empty, "id"].tolist()[:5]

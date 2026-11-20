@@ -288,7 +288,10 @@ def construir_correspondencias(capas) -> pd.DataFrame:
         "tipo": "pertenece_a", "peso": 1.0, "metodo": "los departamentos forman el país",
     })
     # AC-I2: el Interior son todos los departamentos salvo Montevideo; sus dos partes, por tamaño de localidad,
-    # son del Interior; el Interior es del país. Solo relaciones: nada se calcula a partir de ellas.
+    # son del Interior; el Interior es del país. Solo relaciones: nada se calcula a partir de ellas. Las regiones
+    # existen solo si hay departamentos (igual que en construir_derivados).
+    if not deptos:
+        return pd.concat([segmentos, ccz, pais], ignore_index=True)
     regiones = pd.DataFrame([
         *[{"origen_id": tid("departamento", c), "destino_id": tid("region", INTERIOR),
            "metodo": "el Interior son todos los departamentos salvo Montevideo (INE, ECH)"} for c in deptos if c != "01"],

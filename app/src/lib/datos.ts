@@ -151,6 +151,8 @@ export interface Manifest {
 
 export const NOMBRE_NIVEL: Record<Nivel, string> = {
 	pais: 'País',
+	// F3.2 (#126): regiones de la ECH de ingresos (Interior y sus partes), sin geometría
+	region: 'Región',
 	departamento: 'Departamento',
 	seccion: 'Sección censal',
 	segmento: 'Segmento censal',
@@ -158,9 +160,7 @@ export const NOMBRE_NIVEL: Record<Nivel, string> = {
 	barrio_mvd: 'Barrio (Montevideo)',
 	municipio_mvd: 'Municipio (Montevideo)',
 	ccz_mvd: 'CCZ (Montevideo)',
-	area_especial: 'Área especial',
-	// F3.2 (#126): regiones de la ECH de ingresos (Interior y sus partes), sin geometría
-	region: 'Región'
+	area_especial: 'Área especial'
 };
 
 export const NIVELES: Nivel[] = Object.keys(NOMBRE_NIVEL) as Nivel[];
