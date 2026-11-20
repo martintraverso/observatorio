@@ -156,31 +156,37 @@
 			<SerieFicha ficha={f} {series} pais={data.pais} fuenteDe={fuenteDe} titulo={s.titulo} />
 		{/if}
 		{#if puntuales.length}
-			<TablaDesplazable etiqueta="{s.titulo} en {f.nombre}">
-				<table>
+			<TablaDesplazable etiqueta="{s.titulo} en {f.nombre}" clase="tabla-apilada">
+				<!-- roles explícitos: con las filas apiladas (CSS) la tabla conserva su semántica -->
+				<!-- svelte-ignore a11y_no_redundant_roles (las filas apiladas por CSS pierden la semántica de tabla) -->
+				<table role="table">
 					<caption class="visualmente-oculto">{s.titulo} en {f.nombre}</caption>
-					<thead>
-						<tr>
-							<th scope="col">Indicador</th>
-							<th scope="col" class="num">Valor</th>
-							<th scope="col">Período</th>
-							<th scope="col">Fuente</th>
-							{#if f.padres.length}<th scope="col">En relación con</th>{/if}
+					<!-- svelte-ignore a11y_no_redundant_roles (las filas apiladas por CSS pierden la semántica de tabla) -->
+					<thead role="rowgroup">
+						<!-- svelte-ignore a11y_no_redundant_roles (las filas apiladas por CSS pierden la semántica de tabla) -->
+						<tr role="row">
+							<th role="columnheader" scope="col">Indicador</th>
+							<th role="columnheader" scope="col" class="num">Valor</th>
+							<th role="columnheader" scope="col">Período</th>
+							<th role="columnheader" scope="col">Fuente</th>
+							{#if f.padres.length}<th role="columnheader" scope="col">En relación con</th>{/if}
 						</tr>
 					</thead>
-					<tbody>
+					<!-- svelte-ignore a11y_no_redundant_roles (las filas apiladas por CSS pierden la semántica de tabla) -->
+					<tbody role="rowgroup">
 						{#each puntuales as o (o.indicador + o.periodo)}
-							<tr>
-								<td>{ind(o)?.nombre ?? o.indicador}</td>
-								<td class="num">
+							<!-- svelte-ignore a11y_no_redundant_roles (las filas apiladas por CSS pierden la semántica de tabla) -->
+							<tr role="row">
+								<td role="cell" data-etiqueta="Indicador">{ind(o)?.nombre ?? o.indicador}</td>
+								<td role="cell" class="num" data-etiqueta="Valor">
 									{publicado(o.valor)}
 									{ind(o)?.unidad}
 									{#if o.es_estimado}<span class="estimado">estimado</span>{/if}
 								</td>
-								<td>{o.periodo}</td>
-								<td>{fuenteDe(o)}</td>
+								<td role="cell" data-etiqueta="Período">{o.periodo}</td>
+								<td role="cell" data-etiqueta="Fuente">{fuenteDe(o)}</td>
 								{#if f.padres.length}
-									<td>{partes(o, f).map((p) => p.texto).join(' · ')}</td>
+									<td role="cell" data-etiqueta="En relación con">{partes(o, f).map((p) => p.texto).join(' · ')}</td>
 								{/if}
 							</tr>
 						{/each}
@@ -446,14 +452,25 @@
 		margin-top: var(--espacio-5);
 	}
 
+	/* desplazable sin barra visible; el borde derecho se desvanece para mostrar que hay más (AC-V25) */
 	.indice ul {
 		display: flex;
 		gap: var(--espacio-1) var(--espacio-4);
 		list-style: none;
 		margin: 0;
-		padding: 0;
+		padding: 0 var(--espacio-6) 0 0;
 		overflow-x: auto;
 		white-space: nowrap;
+		scrollbar-width: none;
+		mask-image: linear-gradient(to right, #000 calc(100% - 40px), transparent);
+	}
+
+	.indice ul::-webkit-scrollbar {
+		display: none;
+	}
+
+	.indice ul:has(:focus-visible) {
+		mask-image: none;
 	}
 
 	.seccion h2 {
@@ -570,6 +587,14 @@
 		border-left: 4px solid var(--primario);
 		background: var(--fondo);
 		overflow-wrap: anywhere;
+	}
+
+	/* AC-V25: los valores KPI no se cortan en dos líneas */
+	@media (max-width: 600px) {
+		.kpis dd {
+			white-space: nowrap;
+			font-size: var(--texto-l);
+		}
 	}
 
 	@media (max-width: 700px) {

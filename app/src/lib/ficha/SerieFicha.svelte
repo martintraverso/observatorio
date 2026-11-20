@@ -134,28 +134,33 @@
 
 	<details>
 		<summary>Ver los datos de la serie ({[...series.values()].reduce((n, s) => n + s.length, 0)} valores)</summary>
-		<TablaDesplazable etiqueta="{titulo}: serie en {ficha.nombre}">
-			<table>
+		<TablaDesplazable etiqueta="{titulo}: serie en {ficha.nombre}" clase="tabla-apilada">
+			<!-- svelte-ignore a11y_no_redundant_roles (las filas apiladas por CSS pierden la semántica de tabla) -->
+			<table role="table">
 				<caption class="visualmente-oculto">{titulo}: serie en {ficha.nombre}</caption>
-				<thead>
-					<tr>
-						<th scope="col">Indicador</th>
-						<th scope="col" class="num">Valor</th>
-						<th scope="col">Período</th>
-						<th scope="col">Fuente</th>
+				<!-- svelte-ignore a11y_no_redundant_roles (las filas apiladas por CSS pierden la semántica de tabla) -->
+				<thead role="rowgroup">
+					<!-- svelte-ignore a11y_no_redundant_roles (las filas apiladas por CSS pierden la semántica de tabla) -->
+					<tr role="row">
+						<th role="columnheader" scope="col">Indicador</th>
+						<th role="columnheader" scope="col" class="num">Valor</th>
+						<th role="columnheader" scope="col">Período</th>
+						<th role="columnheader" scope="col">Fuente</th>
 					</tr>
 				</thead>
-				<tbody>
+				<!-- svelte-ignore a11y_no_redundant_roles (las filas apiladas por CSS pierden la semántica de tabla) -->
+				<tbody role="rowgroup">
 					{#each [...series.values()].flat() as o (o.indicador + o.periodo)}
-						<tr>
-							<td>{ficha.indicadores[o.indicador]?.nombre ?? o.indicador}</td>
-							<td class="num">
+						<!-- svelte-ignore a11y_no_redundant_roles (las filas apiladas por CSS pierden la semántica de tabla) -->
+						<tr role="row">
+							<td role="cell" data-etiqueta="Indicador">{ficha.indicadores[o.indicador]?.nombre ?? o.indicador}</td>
+							<td role="cell" class="num" data-etiqueta="Valor">
 								{publicado(o.valor)}
 								{ficha.indicadores[o.indicador]?.unidad}
 								{#if o.es_estimado}<span class="estimado">estimado</span>{/if}
 							</td>
-							<td>{o.periodo}</td>
-							<td>{fuenteDe(o)}</td>
+							<td role="cell" data-etiqueta="Período">{o.periodo}</td>
+							<td role="cell" data-etiqueta="Fuente">{fuenteDe(o)}</td>
 						</tr>
 					{/each}
 				</tbody>

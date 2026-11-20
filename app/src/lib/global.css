@@ -124,6 +124,50 @@ td {
 }
 
 /* En pantallas angostas la tabla se desplaza dentro de su región en vez de apretarse. */
+/*
+ * AC-V25: en celular, las tablas de indicadores (.tabla-apilada) pasan a filas apiladas, sin desplazamiento
+ * horizontal: cada celda lleva su encabezado (data-etiqueta) delante. Las demás tablas siguen desplazándose.
+ */
+@media (max-width: 600px) {
+	.tabla-scroll.tabla-apilada table {
+		min-width: 0;
+	}
+
+	.tabla-apilada thead {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
+	}
+
+	.tabla-apilada tr {
+		display: block;
+		padding: var(--espacio-2) 0;
+		border-bottom: 1px solid var(--borde);
+	}
+
+	.tabla-apilada td,
+	.tabla-apilada td.num {
+		display: grid;
+		grid-template-columns: 7.5rem minmax(0, 1fr);
+		gap: var(--espacio-2);
+		padding: var(--espacio-1) 0;
+		border: 0;
+		text-align: left;
+		white-space: normal;
+		overflow-wrap: anywhere;
+	}
+
+	.tabla-apilada td::before {
+		content: attr(data-etiqueta);
+		/* solo visual: el lector de pantalla ya anuncia el encabezado de la columna */
+		content: attr(data-etiqueta) / '';
+		color: var(--texto-suave);
+		font-size: var(--texto-xs);
+	}
+}
+
 .tabla-scroll table {
 	min-width: 560px;
 }
