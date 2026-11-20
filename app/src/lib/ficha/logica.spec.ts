@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Ficha, Observacion } from '../datos';
-import { cita, consultaMapa, fuentesDeFicha, notaNoAditiva, observacionesDeSeccion, partes, puntosSerie, SECCIONES_FICHA, separarSeries } from './logica';
+import { cita, consultaMapa, decimalesComunes, fuentesDeFicha, indicesEtiquetas, marcasRedondas, notaNoAditiva, observacionesDeSeccion, partes, puntosSerie, SECCIONES_FICHA, separarSeries } from './logica';
 
 const obs = (indicador: string, valor: number) => ({
 	indicador,
@@ -164,5 +164,35 @@ describe('fuentesDeFicha (AC-V18)', () => {
 
 	it('sin capturas, sin entradas', () => {
 		expect(fuentesDeFicha({ capturas: {}, fuentes: {} })).toEqual([]);
+	});
+});
+
+describe('ejes de los gráficos de series (AC-V20)', () => {
+	it('marcas redondas (1, 2, 2,5 o 5 × 10ⁿ) que cubren el rango', () => {
+		const m = marcasRedondas(52.2, 65.7);
+		expect(m).toEqual([50, 55, 60, 65, 70]);
+		for (const [min, max] of [[0.3, 0.9], [12, 980], [3.1, 3.4], [1200, 1450], [52.2, 65.7]] as const) {
+			const t = marcasRedondas(min, max);
+			expect(t[0]).toBeLessThanOrEqual(min);
+			expect(t.at(-1)).toBeGreaterThanOrEqual(max);
+			expect(t.length).toBeGreaterThanOrEqual(3);
+			expect(t.length).toBeLessThanOrEqual(7);
+			const paso = t[1] - t[0];
+			const mantisa = paso / 10 ** Math.floor(Math.log10(paso));
+			expect([1, 2, 2.5, 5]).toContain(Number(mantisa.toFixed(6)));
+		}
+		expect(marcasRedondas(5, 5).length).toBeGreaterThanOrEqual(2); // rango vacío: igual hay eje
+	});
+
+	it('al menos 4 etiquetas en el eje x, la primera y la última incluidas', () => {
+		expect(indicesEtiquetas(57, 5)).toEqual([0, 14, 28, 42, 56]);
+		expect(indicesEtiquetas(3, 5)).toEqual([0, 1, 2]);
+		expect(indicesEtiquetas(1, 5)).toEqual([0]);
+	});
+
+	it('los mismos decimales para el territorio y el país', () => {
+		expect(decimalesComunes([60, 64.1])).toBe(1);
+		expect(decimalesComunes([60, 61])).toBe(0);
+		expect(decimalesComunes([1.25, 3])).toBe(2);
 	});
 });
