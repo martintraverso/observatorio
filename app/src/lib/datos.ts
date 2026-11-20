@@ -20,7 +20,8 @@ export type Nivel =
 	| 'barrio_mvd'
 	| 'municipio_mvd'
 	| 'ccz_mvd'
-	| 'area_especial';
+	| 'area_especial'
+	| 'region';
 
 export interface EntradaIndice {
 	id: string;
@@ -30,7 +31,8 @@ export interface EntradaIndice {
 	nombre_busqueda: string;
 	depto: string;
 	padre_id: string | null;
-	bbox: [number, number, number, number];
+	/** null en los niveles sin geometría (region, F3.2) */
+	bbox: [number, number, number, number] | null;
 }
 
 export interface Observacion {
@@ -109,7 +111,8 @@ export interface Ficha {
 	version_geo: string;
 	area_km2: number | null;
 	codigo_iso: string | null;
-	bbox: [number, number, number, number];
+	/** null en los niveles sin geometría (region, F3.2) */
+	bbox: [number, number, number, number] | null;
 	padres: Resumen[];
 	contenidos: Partial<Record<Nivel, Resumen[]>>;
 	relaciones: Relacion[];
@@ -155,7 +158,9 @@ export const NOMBRE_NIVEL: Record<Nivel, string> = {
 	barrio_mvd: 'Barrio (Montevideo)',
 	municipio_mvd: 'Municipio (Montevideo)',
 	ccz_mvd: 'CCZ (Montevideo)',
-	area_especial: 'Área especial'
+	area_especial: 'Área especial',
+	// F3.2 (#126): regiones de la ECH de ingresos (Interior y sus partes), sin geometría
+	region: 'Región'
 };
 
 export const NIVELES: Nivel[] = Object.keys(NOMBRE_NIVEL) as Nivel[];

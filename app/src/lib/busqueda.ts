@@ -22,10 +22,10 @@ export const NIVEL_POR_LARGO: Record<number, Nivel> = {
 };
 
 /** Niveles que se buscan por nombre; secciones y segmentos solo por código ("Sección 05" se repite). */
-const POR_NOMBRE = new Set<Nivel>(['departamento', 'localidad', 'barrio_mvd', 'ccz_mvd']);
+const POR_NOMBRE = new Set<Nivel>(['departamento', 'region', 'localidad', 'barrio_mvd', 'ccz_mvd']);
 
 /** Orden de los niveles cuando empatan. */
-const ORDEN_NIVEL: Nivel[] = ['departamento', 'localidad', 'barrio_mvd', 'ccz_mvd', 'seccion', 'segmento', 'area_especial'];
+const ORDEN_NIVEL: Nivel[] = ['departamento', 'region', 'localidad', 'barrio_mvd', 'ccz_mvd', 'seccion', 'segmento', 'area_especial'];
 
 export interface Resultado {
 	t: EntradaIndice;
@@ -50,7 +50,8 @@ const ETIQUETA: Record<Nivel, string> = {
 	barrio_mvd: 'Barrio',
 	municipio_mvd: 'Municipio',
 	ccz_mvd: 'CCZ',
-	area_especial: 'Área especial'
+	area_especial: 'Área especial',
+	region: 'Región'
 };
 
 export function crearBuscador(indice: EntradaIndice[]): Buscador {

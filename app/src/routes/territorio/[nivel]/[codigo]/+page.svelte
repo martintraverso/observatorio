@@ -32,7 +32,8 @@
 	const PERTENECE: Partial<Record<string, string>> = {
 		localidad: 'Pertenece a la localidad:',
 		municipio_mvd: 'Pertenece al municipio:',
-		pais: 'Pertenece al país:'
+		pais: 'Pertenece al país:',
+		region: 'Pertenece a la región:'
 	};
 	let contenidos = $derived(NIVELES.filter((n) => f.contenidos[n]?.length).map((n) => [n, f.contenidos[n]!] as const));
 	let pestana = $state<Nivel | null>(null);
@@ -88,7 +89,8 @@
 <nav aria-label="Ubicación" class="migas">
 	<ol>
 		<li><a href={resolve('/fichas')}>Uruguay</a></li>
-		{#each f.padres as p (p.id)}
+		<!-- el país ya es la raíz («Uruguay»): no se repite cuando es el padre (regiones, F3.2) -->
+		{#each f.padres.filter((p) => p.nivel !== 'pais') as p (p.id)}
 			<li><a href={hrefFicha(p)}>{p.nombre}</a></li>
 		{/each}
 		<li aria-current="page">{f.nombre}</li>
@@ -100,7 +102,8 @@
 		<h1>{f.nombre}</h1>
 		<p class="chips">
 			<span class="chip">{NOMBRE_NIVEL[f.nivel]}</span>
-			<span class="chip">Código INE {f.codigo}</span>
+			<!-- el código de las regiones lo pone el observatorio: no es un código del INE -->
+			{#if f.nivel !== 'region'}<span class="chip">Código INE {f.codigo}</span>{/if}
 			{#if f.codigo_iso}<span class="chip">ISO {f.codigo_iso}</span>{/if}
 		</p>
 		{#each f.relaciones as r (r.destino_id)}
@@ -138,7 +141,7 @@
 		</p>
 
 		<div class="acciones">
-			<a class="boton primario" href={hrefMapa(f)}>Ver en el mapa</a>
+			{#if f.bbox}<a class="boton primario" href={hrefMapa(f)}>Ver en el mapa</a>{/if}
 			<button type="button" class="boton" onclick={() => descargarCsv(f)}>Descargar CSV</button>
 			<button type="button" class="boton" onclick={() => copiar(url, 'Enlace copiado.')}>Copiar enlace</button>
 			<a class="boton" href="#citar">Cómo citar</a>
@@ -146,13 +149,16 @@
 		<p class="visualmente-oculto" role="status" aria-live="polite">{mensaje}</p>
 		{#if mensaje}<p class="suave mensaje" aria-hidden="true">{mensaje}</p>{/if}
 	</div>
-	<div class="ubicacion">
-		<MiniMapa nombre={f.nombre} depto={f.depto} nivel={f.nivel} bbox={f.bbox} />
-		<!-- AC-V26: las unidades chicas, además, de cerca entre sus vecinos -->
-		{#if f.nivel === 'segmento' || f.nivel === 'seccion' || f.nivel === 'localidad'}
-			{#key f.id}<LocalizadorCerca nombre={f.nombre} nivel={f.nivel} id={f.id} bbox={f.bbox} />{/key}
-		{/if}
-	</div>
+	<!-- Las regiones (F3.2) no tienen geometría: sin mapa de ubicación (AC-I23 completa la ficha en F3.7) -->
+	{#if f.bbox}
+		<div class="ubicacion">
+			<MiniMapa nombre={f.nombre} depto={f.depto} nivel={f.nivel} bbox={f.bbox} />
+			<!-- AC-V26: las unidades chicas, además, de cerca entre sus vecinos -->
+			{#if f.nivel === 'segmento' || f.nivel === 'seccion' || f.nivel === 'localidad'}
+				{#key f.id}<LocalizadorCerca nombre={f.nombre} nivel={f.nivel} id={f.id} bbox={f.bbox} />{/key}
+			{/if}
+		</div>
+	{/if}
 </header>
 
 <nav aria-label="Secciones de la ficha" class="indice">

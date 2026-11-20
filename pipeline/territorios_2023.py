@@ -97,6 +97,18 @@ NOTA_INDICADORES = (
 
 MINUSCULAS = {"de", "del", "la", "las", "los", "el", "y", "e", "a"}
 
+# F3.2 (#126): regiones en las que el INE publica las series de ingresos de la ECH (decisión del mantenedor,
+# 2026-11-19). No tienen geometría: no se dibujan ni se exportan como capa, pero tienen ficha y se buscan.
+# Solo relaciones en `correspondencias`: ningún valor se suma ni se reparte entre ellas (SYSTEM.md §4).
+INTERIOR = "interior"
+REGIONES = [  # codigo, nombre, pertenece_a
+    (INTERIOR, "Interior del país", None),
+    ("interior-5000", "Interior: localidades de 5.000 o más habitantes", INTERIOR),
+    ("interior-menores", "Interior: localidades pequeñas y zonas rurales", INTERIOR),
+]
+# Niveles que no tienen geometría (los controles y exportaciones de geometría los saltean, AC-I3).
+SIN_GEOMETRIA = {"region"}
+
 LINEA_CORRIDA = "Última corrida:"
 
 
@@ -201,6 +213,7 @@ def construir_derivados(territorios: gpd.GeoDataFrame, capas) -> gpd.GeoDataFram
     - pais: INE-2023/pais/UY, unión de los departamentos (sin el área especial), para los totales
       nacionales que publica el INE (AC-L28).
     - municipio_mvd: INE-2023/municipio_mvd/<letra>, unión de los CCZ de cada municipio (AC-L17).
+    - region: INE-2023/region/<codigo>, sin geometría ni superficie (F3.2, AC-I1); hijas del país.
     Solo se unen geometrías: ningún valor se suma hacia arriba (SYSTEM.md §4). La superficie se mide
     sobre la geometría unida (proyección de áreas iguales), no se suma la de las partes: el AREA_KM2
     de la capa de CCZ del INE no está en km² (es unas 100 veces el área real).
@@ -219,6 +232,11 @@ def construir_derivados(territorios: gpd.GeoDataFrame, capas) -> gpd.GeoDataFram
     letra = ccz.codigo.map(municipio_de_ccz(capas))
     for m, partes in ccz.groupby(letra):
         filas.append(fila("municipio_mvd", m, f"Municipio {m}", "01", tid("departamento", "01"), partes))
+    if not deptos.empty:
+        for codigo, nombre, _ in REGIONES:
+            filas.append({"id": tid("region", codigo), "nivel": "region", "codigo": codigo, "nombre": nombre,
+                          "depto": "", "padre_id": tid("pais", "UY"), "version_geo": VERSION_GEO,
+                          "area_km2": None, "geometry": None})
     return gpd.GeoDataFrame(filas, columns=territorios.columns, geometry="geometry", crs=territorios.crs)
 
 
@@ -269,7 +287,17 @@ def construir_correspondencias(capas) -> pd.DataFrame:
         "destino_id": tid("pais", "UY"),
         "tipo": "pertenece_a", "peso": 1.0, "metodo": "los departamentos forman el país",
     })
-    return pd.concat([segmentos, ccz, pais], ignore_index=True)
+    # AC-I2: el Interior son todos los departamentos salvo Montevideo; sus dos partes, por tamaño de localidad,
+    # son del Interior; el Interior es del país. Solo relaciones: nada se calcula a partir de ellas.
+    regiones = pd.DataFrame([
+        *[{"origen_id": tid("departamento", c), "destino_id": tid("region", INTERIOR),
+           "metodo": "el Interior son todos los departamentos salvo Montevideo (INE, ECH)"} for c in deptos if c != "01"],
+        *[{"origen_id": tid("region", c), "destino_id": tid("region", p),
+           "metodo": "parte del Interior por tamaño de localidad (INE, ECH)"} for c, _, p in REGIONES if p],
+        {"origen_id": tid("region", INTERIOR), "destino_id": tid("pais", "UY"),
+         "metodo": "el Interior y Montevideo forman el país (INE, ECH)"},
+    ]).assign(tipo="pertenece_a", peso=1.0)[["origen_id", "destino_id", "tipo", "peso", "metodo"]]
+    return pd.concat([segmentos, ccz, pais, regiones], ignore_index=True)
 
 
 def cargar_esperado(path: Path) -> dict:
@@ -290,9 +318,14 @@ def validar(capas, territorios, obs, esperado, niveles_publicados) -> tuple[Cont
     otros = set(conteo.index) - set(esperado["territorios_por_nivel"])
     c.chk("Ningún nivel inesperado", not otros, ", ".join(sorted(otros)))
     c.chk("IDs únicos", territorios.id.is_unique, f"{len(territorios)} territorios")
-    c.chk("Geometrías válidas", territorios.geometry.is_valid.all(),
-          f"{(~territorios.geometry.is_valid).sum()} inválidas")
-    c.chk("Ninguna geometría vacía", (~territorios.geometry.is_empty).all())
+    # AC-T3 vale para los niveles con geometría; region no tiene (AC-I3) y ningún otro nivel puede quedar sin.
+    sin = territorios.nivel.isin(SIN_GEOMETRIA)
+    con_geom = territorios[~sin]
+    c.chk("Geometrías válidas", con_geom.geometry.is_valid.all(),
+          f"{(~con_geom.geometry.is_valid).sum()} inválidas")
+    c.chk("Ninguna geometría vacía", (con_geom.geometry.notna() & ~con_geom.geometry.is_empty).all())
+    c.chk("Sin geometría solo el nivel region", territorios[sin].geometry.isna().all()
+          and territorios[sin].area_km2.isna().all(), f"{int(sin.sum())} territorios sin geometría")
 
     ids = set(territorios.id)
     padres = territorios.padre_id.dropna()
@@ -382,8 +415,8 @@ def escribir_reporte(path, controles, comp, territorios, obs, captura, resultado
         "",
         "| Nivel | Cantidad |", "|---|---:|",
         *[f"| {n} | {conteo.get(n, 0)} |" for n in
-          ["pais", "departamento", "seccion", "segmento", "localidad", "barrio_mvd", "municipio_mvd", "ccz_mvd",
-           "area_especial"]],
+          ["pais", "region", "departamento", "seccion", "segmento", "localidad", "barrio_mvd", "municipio_mvd",
+           "ccz_mvd", "area_especial"]],
         "",
         f"Observaciones: {len(obs)} ({obs.indicador.nunique()} indicadores).",
         "",

@@ -79,6 +79,9 @@ ORDEN_TEMAS = ["Población", "Vivienda", "Hogares", "Trabajo", "Ingresos", "Educ
 
 # Niveles que arma el pipeline uniendo geometrías del INE (F2.3).
 DERIVADOS = {"pais", "municipio_mvd"}
+# Niveles sin geometría (F3.2, AC-I3): no van a GeoJSON, PMTiles ni descargas por nivel; en el índice y las
+# fichas llevan bbox = null. Igual que SIN_GEOMETRIA en territorios_2023.py.
+SIN_GEOMETRIA = {"region"}
 
 
 # ---------------------------------------------------------------- utilidades
@@ -102,8 +105,10 @@ def fecha_iso(d) -> str:
     return d.isoformat()[:10] if hasattr(d, "isoformat") else str(d)[:10]
 
 
-def bbox(geom) -> list[float]:
-    """Caja [oeste, sur, este, norte], redondeada hacia afuera a DECIMALES."""
+def bbox(geom) -> list[float] | None:
+    """Caja [oeste, sur, este, norte], redondeada hacia afuera a DECIMALES; None si no hay geometría."""
+    if not isinstance(geom, shapely.Geometry) or geom.is_empty:  # None o NaN (iterrows) en los niveles sin geometría
+        return None
     x0, y0, x1, y1 = geom.bounds
     k = 10 ** DECIMALES
     return [math.floor(x0 * k) / k, math.floor(y0 * k) / k, math.ceil(x1 * k) / k, math.ceil(y1 * k) / k]
@@ -376,7 +381,7 @@ def construir_fichas(territorios, obs, indicadores, capturas, fuentes, correspon
         caps = {o["captura_id"] for o in observaciones}
         fichas[i] = {
             "id": i, "nivel": fila.nivel, "codigo": fila.codigo, "nombre": fila.nombre, "depto": fila.depto,
-            "version_geo": fila.version_geo, "area_km2": numero(round(fila.area_km2, 4)),
+            "version_geo": fila.version_geo, "area_km2": None if pd.isna(fila.area_km2) else numero(round(fila.area_km2, 4)),
             "codigo_iso": fila.codigo_iso if isinstance(fila.codigo_iso, str) else None,
             "bbox": bbox(fila.geometry),
             "padres": padres,
@@ -451,7 +456,8 @@ def escribir_descargas(s: Path, territorios, obs, indicadores, capturas, fuentes
         registrar(gj, "Territorios", f"{nivel}: geometría simplificada (GeoJSON, 5 decimales).")
 
     registrar(s / "territorios.parquet", "Territorios", "Todos los niveles juntos, con geometría completa (GeoParquet).")
-    registrar(s / "correspondencias.parquet", "Territorios", "Relaciones entre territorios (segmento → localidad, CCZ → municipio, departamento → país).")
+    registrar(s / "correspondencias.parquet", "Territorios", "Relaciones entre territorios (segmento → localidad, CCZ → municipio, "
+              "departamento → país, departamento → Interior).")
     registrar(s / "observatorio.duckdb", "Base completa", "Todo en una base DuckDB. Empezar por la vista v_observaciones.")
     registrar(s / "reporte_validacion.md", "Base completa", "Controles de calidad de la última corrida.")
     return {"generado": generado, "licencia": LICENCIA, "cita": CITA, "archivos": archivos}
