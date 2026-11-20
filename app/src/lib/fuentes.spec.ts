@@ -76,5 +76,7 @@ describe('nivelesDetallados (AC-V28)', () => {
 		expect(nivelesDetallados(fu(['departamento', 'seccion', 'segmento', 'localidad', 'barrio_mvd', 'ccz_mvd']))).toBe('Segmento censal');
 		expect(nivelesDetallados(fu(['departamento']))).toBe('Departamento');
 		expect(nivelesDetallados(fu(['pais']))).toBe('País');
+		// de Montevideo, solo el más fino
+		expect(nivelesDetallados(fu(['departamento', 'municipio_mvd', 'ccz_mvd']))).toBe('Departamento · CCZ (solo Montevideo)');
 	});
 });
