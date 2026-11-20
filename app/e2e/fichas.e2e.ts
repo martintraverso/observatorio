@@ -207,8 +207,14 @@ test('AC-V22: información, advertencia y error tienen estilos distintos y se us
 test('AC-V26: las fichas de segmento, sección y localidad muestran la unidad de cerca entre sus vecinos', async ({ page }, info) => {
 	test.skip(!['escritorio', 'movil'].includes(info.project.name), 'el mapa de cerca necesita WebGL (Chromium)');
 	type L = { loaded(): boolean; areTilesLoaded(): boolean; queryRenderedFeatures(o: { layers: string[] }): { properties: { id: string } }[] };
+	// además del urbano, el segmento de caja más grande (rural): no puede quedar en blanco por el zoom mínimo del PMTiles
+	const area = (t: { bbox: number[] }) => (t.bbox[2] - t.bbox[0]) * (t.bbox[3] - t.bbox[1]);
+	const rural = (indice as unknown as { nivel: string; codigo: string; nombre: string; depto: string; bbox: number[] }[])
+		.filter((t) => t.nivel === 'segmento')
+		.sort((a, b) => area(b) - area(a))[0];
 	const casos = [
 		de('segmento'),
+		rural,
 		de('seccion'),
 		indice.find((t) => t.nivel === 'localidad' && existsSync(`build/territorio/localidad/${t.codigo}.html`))!
 	].filter(Boolean);
@@ -222,9 +228,13 @@ test('AC-V26: las fichas de segmento, sección y localidad muestran la unidad de
 			return !!m && m.loaded() && m.areTilesLoaded();
 		}, undefined, { timeout: 20_000 });
 		const { propio, vecinos } = await page.evaluate((id) => {
-			const m = (window as unknown as { __localizador: L }).__localizador;
+			const m = (window as unknown as { __localizador: L & { getLayer(id: string): unknown } }).__localizador;
+			// un segmento rural grande se marca con el rectángulo que ocupa (cerca-caja); los demás, con su polígono
+			const marca = m.getLayer('cerca-caja')
+				? m.queryRenderedFeatures({ layers: ['cerca-caja'] }).length
+				: m.queryRenderedFeatures({ layers: ['cerca-seleccion'] }).filter((f) => f.properties.id === id).length;
 			return {
-				propio: m.queryRenderedFeatures({ layers: ['cerca-seleccion'] }).filter((f) => f.properties.id === id).length,
+				propio: marca,
 				vecinos: new Set(m.queryRenderedFeatures({ layers: ['cerca-vecinos'] }).map((f) => f.properties.id)).size
 			};
 		}, `INE-2023/${t.nivel}/${t.codigo}`);

@@ -15,5 +15,7 @@ export function cargarMapLibre(): Promise<MapLibre> {
 		maplibregl.addProtocol('pmtiles', new Protocol().tile);
 		return maplibregl;
 	});
+	// si falla (p. ej. sin red), que el próximo intento vuelva a probar
+	carga.catch(() => (carga = null));
 	return carga;
 }

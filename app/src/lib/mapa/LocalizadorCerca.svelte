@@ -4,10 +4,11 @@
 	// cuando se ve. Si el navegador no puede dibujarlo (sin WebGL2), no se muestra: queda el mini-mapa del país.
 	import 'maplibre-gl/dist/maplibre-gl.css';
 	import { onMount } from 'svelte';
-	import type { Map as MapaLibre } from 'maplibre-gl';
+	import type { Map as MapaLibre, StyleSpecification } from 'maplibre-gl';
 	import { urlDatos } from '../datos.ts';
 	import { ATRIBUCION_MAPA, COLOR_SELECCION } from './colores.ts';
 	import { cargarMapLibre } from './cargar.ts';
+	import { ZOOM_SEGMENTOS } from './estado.ts';
 
 	let { nombre, nivel, id, bbox }: { nombre: string; nivel: string; id: string; bbox: [number, number, number, number] } = $props();
 
@@ -26,11 +27,52 @@
 		];
 	}
 
+	/** Estilo del mapa. `grande`: segmento que no entra al zoom de los segmentos (contexto: secciones + su caja). */
+	function estilo(grande: boolean): StyleSpecification {
+		const capa = grande ? 'seccion' : contexto;
+		const [o, s, e, n] = bbox;
+		return {
+			version: 8,
+			sources: {
+				territorios: { type: 'vector', url: `pmtiles://${new URL(urlDatos('territorios.pmtiles'), location.href).href}` },
+				caja: {
+					type: 'geojson',
+					data: {
+						type: 'Feature',
+						properties: {},
+						geometry: { type: 'Polygon', coordinates: [[[o, s], [e, s], [e, n], [o, n], [o, s]]] }
+					}
+				}
+			},
+			layers: [
+				{ id: 'fondo', type: 'background', paint: { 'background-color': '#f6f7f5' } },
+				{ id: 'cerca-vecinos', type: 'fill', source: 'territorios', 'source-layer': capa, paint: { 'fill-color': '#eaf1f8' } },
+				grande
+					? { id: 'cerca-caja', type: 'line', source: 'caja', paint: { 'line-color': COLOR_SELECCION, 'line-width': 2.5 } }
+					: {
+							id: 'cerca-seleccion',
+							type: 'fill',
+							source: 'territorios',
+							'source-layer': nivel,
+							filter: ['==', ['get', 'id'], id],
+							paint: { 'fill-color': COLOR_SELECCION }
+						},
+				{ id: 'cerca-bordes', type: 'line', source: 'territorios', 'source-layer': capa, paint: { 'line-color': '#8b96a1', 'line-width': 0.8 } }
+			]
+		};
+	}
+
 	onMount(() => {
 		let mapa: MapaLibre | null = null;
 		let destruido = false;
 		const iniciar = async () => {
-			const maplibregl = await cargarMapLibre();
+			let maplibregl: Awaited<ReturnType<typeof cargarMapLibre>>;
+			try {
+				maplibregl = await cargarMapLibre();
+			} catch {
+				sinMapa = true; // no se pudo bajar MapLibre: queda el mini-mapa del país
+				return;
+			}
 			if (destruido) return;
 			try {
 				mapa = new maplibregl.Map({
@@ -39,26 +81,11 @@
 					fitBoundsOptions: { padding: 8, maxZoom: 15 },
 					interactive: false,
 					attributionControl: false, // la atribución va en el pie, para no tapar un mapa tan chico
-					style: {
-						version: 8,
-						sources: {
-							territorios: { type: 'vector', url: `pmtiles://${new URL(urlDatos('territorios.pmtiles'), location.href).href}` }
-						},
-						layers: [
-							{ id: 'fondo', type: 'background', paint: { 'background-color': '#f6f7f5' } },
-							{ id: 'cerca-vecinos', type: 'fill', source: 'territorios', 'source-layer': contexto, paint: { 'fill-color': '#eaf1f8' } },
-							{
-								id: 'cerca-seleccion',
-								type: 'fill',
-								source: 'territorios',
-								'source-layer': nivel,
-								filter: ['==', ['get', 'id'], id],
-								paint: { 'fill-color': COLOR_SELECCION }
-							},
-							{ id: 'cerca-bordes', type: 'line', source: 'territorios', 'source-layer': contexto, paint: { 'line-color': '#8b96a1', 'line-width': 0.8 } }
-						]
-					}
+					style: estilo(false)
 				});
+				// Los segmentos están en el PMTiles desde ZOOM_SEGMENTOS. Un segmento rural grande no entra a ese zoom:
+				// se muestra con las secciones como contexto y el rectángulo que ocupa, en vez de un mapa en blanco.
+				if (nivel === 'segmento' && mapa.getZoom() < ZOOM_SEGMENTOS) mapa.setStyle(estilo(true));
 				// Para los tests e2e.
 				(window as unknown as { __localizador?: MapaLibre }).__localizador = mapa;
 			} catch {
