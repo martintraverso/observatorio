@@ -462,4 +462,12 @@ test('AC-V13: en celular el mapa empieza en la primera pantalla; los controles s
 	await expect(page.locator('#controles-mapa')).toBeHidden();
 	await expect(barra).toBeFocused();
 	await expect(barra).toContainText('Personas · Sección · 2023');
+	// al abrir, el foco va al tema elegido; «Listo» cierra y lo devuelve a la barra; axe con la hoja abierta
+	await barra.click();
+	await expect(page.getByRole('group', { name: 'Tema' }).getByRole('radio', { name: 'Población' })).toBeFocused();
+	const graves = (await new AxeBuilder({ page }).analyze()).violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');
+	expect(graves.map((v) => v.id)).toEqual([]);
+	await page.getByRole('button', { name: 'Listo' }).click();
+	await expect(page.locator('#controles-mapa')).toBeHidden();
+	await expect(barra).toBeFocused();
 });

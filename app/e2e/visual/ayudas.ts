@@ -188,7 +188,11 @@ export async function sinTextoInterno(page: Page): Promise<string[]> {
 export async function abrirOpciones(page: Page) {
 	const barra = page.getByRole('button', { name: /Cambiar$/ });
 	if (await barra.isVisible()) {
-		await barra.click();
-		await page.locator('#controles-mapa').waitFor({ state: 'visible' });
+		// reintenta: si la página todavía no se hidrató, el primer clic no hace nada
+		const { expect } = await import('@playwright/test');
+		await expect(async () => {
+			if (!(await page.locator('#controles-mapa').isVisible())) await barra.click();
+			await expect(page.locator('#controles-mapa')).toBeVisible({ timeout: 1000 });
+		}).toPass({ timeout: 10_000 });
 	}
 }

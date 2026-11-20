@@ -78,7 +78,8 @@
 	async function abrirOpciones() {
 		opcionesAbiertas = true;
 		await tick();
-		controles?.querySelector<HTMLElement>('input:checked, select, button')?.focus();
+		// el foco va a lo elegido (el tema), no al botón «Listo» de la cabecera
+		controles?.querySelector<HTMLElement>('fieldset input:checked, select')?.focus();
 	}
 
 	function cerrarOpciones() {
@@ -233,7 +234,8 @@
 
 <svelte:window
 	onkeydown={(e) => {
-		if (e.key === 'Escape' && opcionesAbiertas) cerrarOpciones();
+		// solo si el foco está en la hoja: Escape en el buscador u otro lado hace lo suyo
+		if (e.key === 'Escape' && opcionesAbiertas && controles?.contains(document.activeElement)) cerrarOpciones();
 	}}
 />
 
