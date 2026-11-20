@@ -4,7 +4,7 @@
 	import TablaDesplazable from '#lib/TablaDesplazable.svelte';
 	import { etiquetaNivel, NIVELES } from '#lib/datos.ts';
 	import { fecha, numero } from '#lib/formato.ts';
-	import { ESTADOS, filtrar, SIN_FILTROS, type Filtros } from '#lib/fuentes.ts';
+	import { ESTADOS, filtrar, nivelesDetallados, SIN_FILTROS, type Filtros } from '#lib/fuentes.ts';
 	import { NOMBRE_SITIO } from '#lib/sitio.ts';
 
 	let { data } = $props();
@@ -91,7 +91,7 @@
 						<span class="suave">{f.organismo}</span>
 					</td>
 					<td>{f.temas.join(', ')}</td>
-					<td>{etiquetaNivel(f.nivel_mas_detallado)}</td>
+					<td>{nivelesDetallados(f)}</td>
 					<td>{f.frecuencia}</td>
 					<td>{ultima ? fecha(ultima) : '—'}</td>
 					<td><span class="estado estado-{f.estado.replace(' ', '-')}">{f.estado}</span></td>

@@ -173,6 +173,48 @@ test('AC-L17 y AC-L28: el país y los municipios de Montevideo tienen ficha', as
 	await expect(page.getByText('Pertenece al municipio:')).toContainText('Municipio CH');
 });
 
+test('AC-V24: si un tema no se publica al nivel de la ficha, enlaza al nivel que lo contiene y lo publica', async ({ page }) => {
+	// Las secciones de la ficha y sus temas (SECCIONES_FICHA en src/lib/ficha/logica.ts).
+	const SECCIONES_FICHA = [
+		{ id: 'poblacion', temas: ['Población'] },
+		{ id: 'vivienda', temas: ['Vivienda', 'Hogares'] },
+		{ id: 'trabajo', temas: ['Trabajo', 'Ingresos'] },
+		{ id: 'educacion', temas: ['Educación'] }
+	];
+	// Un segmento de San José (con datos completos su departamento tiene la ECH); si no está, uno de Flores.
+	const seg = indice.find((t) => t.nivel === 'segmento' && t.depto === '16') ?? de('segmento');
+	const f = JSON.parse(readFileSync(`build/datos-web/fichas/segmento/${seg.codigo}.json`, 'utf-8')) as {
+		padres: { nivel: string; nombre: string; valores: Record<string, unknown> }[];
+		indicadores: Record<string, { tema: string }>;
+		observaciones: { indicador: string }[];
+	};
+	await page.goto(`territorio/segmento/${seg.codigo}`);
+	let enPadre = 0;
+	for (const s of SECCIONES_FICHA) {
+		const temas = s.temas;
+		const propios = f.observaciones.some((o) => temas.includes(f.indicadores[o.indicador]?.tema));
+		if (propios) continue;
+		const padre = [...f.padres].reverse().find((p) => Object.keys(p.valores).some((k) => temas.includes(f.indicadores[k]?.tema)));
+		const seccion = page.locator(`section#${s.id}`);
+		if (padre) {
+			enPadre++;
+			await expect(seccion).toContainText(`se publica por ${padre.nivel}`);
+			await expect(seccion.getByRole('link', { name: `ver ${padre.nombre}` })).toHaveAttribute('href', new RegExp(`/territorio/${padre.nivel}/\\w+#${s.id}$`));
+			await expect(seccion).not.toContainText('Todavía no hay fuentes cargadas');
+		} else {
+			await expect(seccion).toContainText('Todavía no hay fuentes cargadas para este tema.');
+		}
+	}
+	// Con datos completos la ECH (Trabajo) está por departamento y no por segmento: tiene que aparecer el enlace.
+	const hayEch = Object.values(f.indicadores).some((i) => i.tema === 'Trabajo');
+	expect(enPadre > 0).toBe(hayEch);
+	if (hayEch && seg.depto === '16') {
+		// el caso del hallazgo V-19, literal
+		await expect(page.locator('section#trabajo')).toContainText('Trabajo: se publica por departamento');
+		await expect(page.locator('section#trabajo').getByRole('link', { name: 'ver San José' })).toBeVisible();
+	}
+});
+
 test('AC-V22: información, advertencia y error tienen estilos distintos y se usan según el tipo de mensaje', async ({ page }) => {
 	await page.goto('territorio/departamento/07');
 	// explicaciones y «todavía no hay…»: información (azul), no advertencia
@@ -202,4 +244,47 @@ test('AC-V22: información, advertencia y error tienen estilos distintos y se us
 	await error.getByRole('button', { name: 'Cerrar' }).click();
 	await expect(error).toHaveCount(0);
 	await expect(page).not.toHaveURL(/territorio=/);
+});
+
+test('AC-V26: las fichas de segmento, sección y localidad muestran la unidad de cerca entre sus vecinos', async ({ page }, info) => {
+	test.skip(!['escritorio', 'movil'].includes(info.project.name), 'el mapa de cerca necesita WebGL (Chromium)');
+	type L = { loaded(): boolean; areTilesLoaded(): boolean; queryRenderedFeatures(o: { layers: string[] }): { properties: { id: string } }[] };
+	// además del urbano, el segmento de caja más grande (rural): no puede quedar en blanco por el zoom mínimo del PMTiles
+	const area = (t: { bbox: number[] }) => (t.bbox[2] - t.bbox[0]) * (t.bbox[3] - t.bbox[1]);
+	const rural = (indice as unknown as { nivel: string; codigo: string; nombre: string; depto: string; bbox: number[] }[])
+		.filter((t) => t.nivel === 'segmento')
+		.sort((a, b) => area(b) - area(a))[0];
+	const casos = [
+		de('segmento'),
+		rural,
+		de('seccion'),
+		indice.find((t) => t.nivel === 'localidad' && existsSync(`build/territorio/localidad/${t.codigo}.html`))!
+	].filter(Boolean);
+	for (const t of casos) {
+		await page.goto(`territorio/${t.nivel}/${t.codigo}`);
+		const cerca = page.getByRole('img', { name: `${t.nombre} y sus vecinos, de cerca` });
+		await cerca.scrollIntoViewIfNeeded();
+		await expect(cerca).toBeVisible();
+		await page.waitForFunction(() => {
+			const m = (window as unknown as { __localizador?: L }).__localizador;
+			return !!m && m.loaded() && m.areTilesLoaded();
+		}, undefined, { timeout: 20_000 });
+		const { propio, vecinos } = await page.evaluate((id) => {
+			const m = (window as unknown as { __localizador: L & { getLayer(id: string): unknown } }).__localizador;
+			// un segmento rural grande se marca con el rectángulo que ocupa (cerca-caja); los demás, con su polígono
+			const marca = m.getLayer('cerca-caja')
+				? m.queryRenderedFeatures({ layers: ['cerca-caja'] }).length
+				: m.queryRenderedFeatures({ layers: ['cerca-seleccion'] }).filter((f) => f.properties.id === id).length;
+			return {
+				propio: marca,
+				vecinos: new Set(m.queryRenderedFeatures({ layers: ['cerca-vecinos'] }).map((f) => f.properties.id)).size
+			};
+		}, `INE-2023/${t.nivel}/${t.codigo}`);
+		expect(propio, t.nivel).toBeGreaterThan(0);
+		// con vecinos alrededor (para una localidad, las secciones que la rodean)
+		expect(vecinos, t.nivel).toBeGreaterThan(1);
+	}
+	// los departamentos no lo llevan
+	await page.goto('territorio/departamento/07');
+	await expect(page.getByRole('img', { name: /de cerca/ })).toHaveCount(0);
 });

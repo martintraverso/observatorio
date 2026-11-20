@@ -4,9 +4,13 @@
 	import favicon from '#lib/assets/favicon.svg';
 	import { page } from '$app/state';
 	import { resolve } from '$app/paths';
-	import { ATRIBUCION, NAVEGACION, NOMBRE_SITIO, URL_REPOSITORIO } from '#lib/sitio.ts';
+	import { NAVEGACION, NOMBRE_SITIO, URL_REPOSITORIO } from '#lib/sitio.ts';
 
-	let { children } = $props();
+	let { children, data } = $props();
+	/** "Instituto Nacional de Estadística (INE)" -> "INE". */
+	// en la página de error el layout puede no traer datos
+	let fuentesPie = $derived(data?.fuentesActivas ?? []);
+	const siglas = (organismo: string) => organismo.replace(/^.*\((\w+)\)$/, '$1');
 
 	function activo(ruta: string): boolean {
 		const actual = page.route.id ?? '';
@@ -55,9 +59,12 @@
 
 <footer class="pie">
 	<div class="contenedor">
+		<!-- AC-V29: todas las fuentes activas, desde fuentes.json -->
 		<p>
-			{ATRIBUCION}. Según sus metadatos: «El uso es libre, citando como fuente al INE.»
-			Cada valor indica de qué archivo salió; ver <a href={resolve('/fuentes')}>Fuentes</a>.
+			{fuentesPie.length === 1 ? 'Fuente' : 'Fuentes'}:
+			{#each fuentesPie as f, i (f.id)}{i > 0 ? ' · ' : ''}<a href={resolve('/fuentes/[id]', { id: f.id })}
+					>{siglas(f.organismo)}, {f.nombre}</a
+				>{/each}. Cada valor indica de qué archivo salió y con qué licencia; ver <a href={resolve('/fuentes')}>Fuentes</a>.
 		</p>
 		<p class="suave">
 			Observatorio Uruguay · <a href={URL_REPOSITORIO}>Código y datos en GitHub</a>
@@ -190,6 +197,10 @@
 			padding: 0 var(--espacio-1);
 			font-size: var(--texto-s);
 		}
+	}
+
+	main {
+		flex: 1 0 auto;
 	}
 
 	main.contenedor {

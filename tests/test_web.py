@@ -188,6 +188,21 @@ def test_ficha_de_segmento_tiene_padres_localidad_y_fuentes(web, con):
         assert c["fuente_id"] in f["fuentes"] and o["indicador"] in f["indicadores"]
 
 
+def test_ficha_describe_los_indicadores_de_sus_padres(web):
+    """AC-V24: la ficha trae nombre y tema de cada indicador que tienen los niveles que la contienen, para
+    enlazarlos cuando un tema no se publica a su nivel. Las observaciones siguen siendo solo las propias."""
+    revisadas = 0
+    for archivo in sorted((web / "fichas" / "segmento").glob("*.json"))[:200]:
+        f = json.loads(archivo.read_text(encoding="utf-8"))
+        for p in f["padres"]:
+            for k in p["valores"]:
+                assert k in f["indicadores"] and f["indicadores"][k]["tema"], (f["id"], k)
+                revisadas += 1
+        propias = {o["indicador"] for o in f["observaciones"]}
+        assert all(o["captura_id"] in f["capturas"] for o in f["observaciones"]) and propias <= set(f["indicadores"])
+    assert revisadas
+
+
 def test_ficha_de_departamento_tiene_contenidos(web, con):
     f = ficha(web, "departamento", "07")
     assert f["nombre"] == "Flores" and f["padres"] == []

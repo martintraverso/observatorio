@@ -37,7 +37,7 @@ for (const { ruta, titulo } of RUTAS) {
 			await expect(page.getByRole('heading', { level: 1 })).toHaveText(titulo);
 			await expect(page.getByRole('navigation', { name: 'Principal' })).toBeVisible();
 			await expect(page.getByRole('combobox', { name: /Buscar departamento/ })).toBeVisible();
-			await expect(page.getByRole('contentinfo')).toContainText('Fuente: INE');
+			await expect(page.getByRole('contentinfo')).toContainText(/Fuentes?: INE/);
 			await page.waitForLoadState('networkidle');
 			expect(errores).toEqual([]);
 		});

@@ -1,6 +1,20 @@
 import { describe, expect, it } from 'vitest';
 import type { Ficha, Observacion } from '../datos';
-import { cita, consultaMapa, decimalesComunes, fuentesDeFicha, indicesEtiquetas, marcasRedondas, notaNoAditiva, observacionesDeSeccion, partes, puntosSerie, SECCIONES_FICHA, separarSeries } from './logica';
+import {
+	cita,
+	consultaMapa,
+	datosEnPadre,
+	decimalesComunes,
+	fuentesDeFicha,
+	indicesEtiquetas,
+	marcasRedondas,
+	notaNoAditiva,
+	observacionesDeSeccion,
+	partes,
+	puntosSerie,
+	SECCIONES_FICHA,
+	separarSeries
+} from './logica';
 
 const obs = (indicador: string, valor: number) => ({
 	indicador,
@@ -164,6 +178,31 @@ describe('fuentesDeFicha (AC-V18)', () => {
 
 	it('sin capturas, sin entradas', () => {
 		expect(fuentesDeFicha({ capturas: {}, fuentes: {} })).toEqual([]);
+	});
+});
+
+describe('datosEnPadre (AC-V24)', () => {
+	const res = (nivel: string, codigo: string, nombre: string, valores: Record<string, Record<string, number>>) =>
+		({ id: `INE-2023/${nivel}/${codigo}`, nivel, codigo, nombre, valores }) as never;
+	const indicadores = {
+		pob_total: { codigo: 'pob_total', nombre: 'Personas', tema: 'Población', unidad: 'personas' },
+		tasa_actividad: { codigo: 'tasa_actividad', nombre: 'Tasa de actividad', tema: 'Trabajo', unidad: '%' }
+	} as never;
+	const padres = [
+		res('departamento', '16', 'San José', { pob_total: { '2023': 1 }, tasa_actividad: { '2026-07/2026-09': 60 } }),
+		res('seccion', '1601', 'Sección 01', { pob_total: { '2023': 1 } })
+	];
+
+	it('el nivel más cercano que tiene datos del tema', () => {
+		const r = datosEnPadre({ padres, indicadores }, ['Trabajo', 'Ingresos']);
+		expect(r?.padre.nombre).toBe('San José');
+		expect(r?.temas).toEqual(['Trabajo']);
+		expect(datosEnPadre({ padres, indicadores }, ['Población'])?.padre.nivel).toBe('seccion');
+	});
+
+	it('null si ningún nivel que la contiene tiene datos', () => {
+		expect(datosEnPadre({ padres, indicadores }, ['Educación'])).toBeNull();
+		expect(datosEnPadre({ padres: [], indicadores }, ['Trabajo'])).toBeNull();
 	});
 });
 
