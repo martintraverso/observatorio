@@ -1,0 +1,32 @@
+# Fixtures de F3.1 (#125). Generado por scripts/crear_fixtures_ech_ingresos.py; no editar a mano.
+# Cada archivo es un recorte del original: solo las celdas de A:H en las filas 1–120 de la hoja
+# (el original trae ~550.000 celdas vacías con formato). Valores, fórmulas con su valor calculado,
+# textos, estilos y notas al pie quedan como en el original.
+archivos:
+- archivo: ECHING07.xlsx
+  codigo: ECHING07
+  titulo_enlace: Con aguinaldo, con valor locativo (ECHING07)
+  pagina: https://www.gub.uy/instituto-nacional-estadistica/datos-y-estadisticas/estadisticas/series-historicas-ech-ingresos-personas-hogares
+  url: https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHING07.xlsx
+  sha256_original: bf4c0044551b3a27b78ecd6deddeab807029b4a650b13ed5a479294d8ba9c42a
+  bytes_original: 1398855
+  bytes_recorte: 14041
+  descargado: '2026-11-20'
+- archivo: ECHING09.xlsx
+  codigo: ECHING09
+  titulo_enlace: Con aguinaldo, sin valor locativo (ECHING09)
+  pagina: https://www.gub.uy/instituto-nacional-estadistica/datos-y-estadisticas/estadisticas/series-historicas-ech-ingresos-personas-hogares
+  url: https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHING09.xlsx
+  sha256_original: 74fd828b882e5b2206264b7101cbb800800e80e4b3cb9d3320ae4bafee605bde
+  bytes_original: 2315702
+  bytes_recorte: 14088
+  descargado: '2026-11-20'
+- archivo: ECHINGRESOS2.xlsx
+  codigo: ECHINGRESOS2
+  titulo_enlace: Ingreso medio de los hogares (ECHINGRESOS2)
+  pagina: https://www.gub.uy/instituto-nacional-estadistica/datos-y-estadisticas/estadisticas/series-historicas-ech-ingresos-personas-hogares
+  url: https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHINGRESOS2.xlsx
+  sha256_original: 46a6c57fd47a21250deb654cc12b3ecb1b70f5bc47268a46b460e35c41258d8b
+  bytes_original: 1728662
+  bytes_recorte: 13771
+  descargado: '2026-11-20'

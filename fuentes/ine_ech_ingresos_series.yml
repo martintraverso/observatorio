@@ -1,0 +1,170 @@
+# Registro de fuente: una entrada por dataset (AC-P9, AC-I18). Relevado en F3.1 (#125), 2026-11-20.
+id: ine_ech_ingresos_series
+nombre: Series históricas de ingresos de las personas y los hogares (ECH)
+organismo: Instituto Nacional de Estadística (INE)
+# Página oficial con los enlaces a todas las planillas. Las URL se toman de esta página, no se arman: hay dos
+# carpetas («Ingresos de las personas y los hogares/» y «Ingresos 2024/») y la página mezcla enlaces a las dos.
+pagina: https://www.gub.uy/instituto-nacional-estadistica/datos-y-estadisticas/estadisticas/series-historicas-ech-ingresos-personas-hogares
+# Planilla del titular del INE (ver variante_titular). Todas las planillas: ver archivos.
+url_descarga: https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHING10.xlsx
+formato: >-
+  Una planilla xlsx por cuadro, con una sola hoja. Título en las filas 1–3 (concepto, variante, base de precios,
+  «Período: 2016 -»); encabezado en dos filas (fila 6: «Mes, Trimestre y Año», «Total Pais», «Montevideo», «Total»,
+  «Localidades de», «Localidades Pequeñas»; fila 7: «5.000 o más hab.», «y Zonas rurales»; «Interior» combinado
+  sobre las tres últimas columnas en la fila 5). Por cada año, una fila con el año (número), cuatro filas
+  trimestrales («Enero - Marzo/16» … «Octubre - Diciembre/16») y una fila «Total 2016». Notas al pie al final.
+  Cada archivo pesa 1,4–2,3 MB porque la hoja trae ~550.000 celdas vacías con formato (hasta la columna XFD).
+# Texto público (fichas, /fuentes, fuentes.json). Mismo criterio que la otra fuente del INE (decisión del
+# mantenedor del 2026-11-17, #83): el INE no publica una licencia para estas planillas.
+licencia: "No publicada por el INE. Se cita la fuente según cada cuadro."
+cita: "Fuente: Instituto Nacional de Estadística (INE). (pie de cada planilla)"
+contacto: "Depto. de Difusión y Comunicación del INE: difusion@ine.gub.uy, (598) 2902 7303 int. 7723 y 7725 (pie de los informes trimestrales)."
+frecuencia: trimestral desde 2016 (cada planilla se actualiza con un trimestre más; los totales anuales, al cerrar el año)
+# en preparación hasta F3.4 (#128): la carga (cargar: true, script y carpeta_original) se agrega con el script
+# que la hace. Con cargar: true sin script el registro no valida y el pipeline no corre (comun/registro.py).
+estado: en preparación     # activa | en preparación | a relevar
+carpeta_original: ech_ingresos
+temas: [Ingresos]
+# pais/UY y departamento/01 (solo Montevideo; ningún otro departamento ni nivel más chico, AC-I17). Las columnas
+# del Interior van al nivel region (ver columnas), que todavía no existe: F3.2 (#126) lo crea y lo agrega acá.
+niveles_publicados: [pais, departamento]
+nivel_mas_detallado: departamento
+
+periodo: >-
+  Trimestres calendario («Enero - Marzo/16» = 2016-01-01…2016-03-31) y años («Total 2016»). Las cifras son
+  ingresos medios en pesos; ni las planillas ni los informes dicen si son «por mes» (pregunta abierta en el PR de
+  F3.1, #125).
+
+# Columna → territorio (AC-I7). El encabezado varía entre planillas: «Total Pais» (ECHING07–14, ECHINGRESOS3) o
+# «Total País» (ECHINGRESOS2), y a veces con espacios de más («Mes, Trimestre y Año »).
+columnas:
+  "Total Pais / Total País": pais/UY
+  Montevideo: departamento/01
+  "Interior · Total": region/interior
+  "Interior · Localidades de 5.000 o más hab.": region/interior-5000
+  "Interior · Localidades Pequeñas y Zonas rurales": region/interior-menores
+
+bases_de_precios:
+  - "Precios corrientes: ECHING07–ECHING14."
+  - "Precios de enero de 2005: ECHINGRESOS2 y ECHINGRESOS3 (solo sin aguinaldo y sin valor locativo), y los cuadros por fuente de ingreso."
+  - "El observatorio no deflacta ni convierte: cada base de precios es un indicador distinto (docs/PLAN_ingresos.md)."
+
+# Variante que el INE usa como titular en sus informes trimestrales (AC-I21): sin aguinaldo y sin valor locativo,
+# a precios corrientes. El informe del 3.er trimestre de 2026 da $98.653 (hogares) y $35.010 (per cápita), que son
+# exactamente «Julio - Setiembre/26» de ECHING10 y ECHING14, columna Total País.
+variante_titular: sagu_svl
+
+# Planillas enlazadas en la página al 2026-11-20 (29 enlaces, 24 responden). `indicador`: AC-I9; null = fuera del
+# conjunto mínimo (F3.8, #132). sha256 de los fixtures: tests/fixtures/ech_ingresos/fixtures.yml.
+archivos:
+  - codigo: ECHING07
+    titulo: "Ingreso medio de los hogares, con valor locativo, por área geográfica a precios corrientes, con aguinaldo"
+    url: https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHING07.xlsx
+    indicador: ing_hogar_medio_cagu_cvl
+  - codigo: ECHING08
+    titulo: "Ingreso medio de los hogares, con valor locativo, por área geográfica a precios corrientes, sin aguinaldo"
+    url: https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHING08.xlsx
+    indicador: ing_hogar_medio_sagu_cvl
+  - codigo: ECHING09
+    titulo: "Ingreso medio de los hogares, sin valor locativo, por área geográfica a precios corrientes, con aguinaldo"
+    url: https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHING09.xlsx
+    indicador: ing_hogar_medio_cagu_svl
+  - codigo: ECHING10
+    titulo: "Ingreso medio de los hogares, sin valor locativo, por área geográfica a precios corrientes, sin aguinaldo"
+    url: https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHING10.xlsx
+    indicador: ing_hogar_medio_sagu_svl
+  - codigo: ECHING11
+    titulo: "Ingreso medio per capita (1), con valor locativo, por área geográfica a precios corrientes, con aguinaldo"
+    url: https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHING11.xlsx
+    indicador: ing_pc_medio_cagu_cvl
+  - codigo: ECHING12
+    titulo: "Ingreso medio per capita (1), con valor locativo, por área geográfica a precios corrientes, sin aguinaldo"
+    url: https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHING12.xlsx
+    indicador: ing_pc_medio_sagu_cvl
+  - codigo: ECHING13
+    titulo: "Ingreso medio per capita (1), sin valor locativo, por área geográfica a precios corrientes, con aguinaldo"
+    url: https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHING13.xlsx
+    indicador: ing_pc_medio_cagu_svl
+  - codigo: ECHING14
+    titulo: "Ingreso medio per capita (1), sin valor locativo, por área geográfica a precios corrientes, sin aguinaldo"
+    url: https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHING14.xlsx
+    indicador: ing_pc_medio_sagu_svl
+  - codigo: ECHINGRESOS2
+    titulo: "Ingreso medio de los hogares, sin valor locativo, por área geográfica a precios de Enero 2005, sin aguinaldo"
+    url: https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHINGRESOS2.xlsx
+    indicador: ing_hogar_medio_sagu_svl_ene2005
+  - codigo: ECHINGRESOS3
+    titulo: "Ingreso medio per capita (1), sin valor locativo, por área geográfica a precios de Enero 2005, sin aguinaldo"
+    url: https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHINGRESOS3.xlsx
+    indicador: ing_pc_medio_sagu_svl_ene2005
+  # Fuera del conjunto mínimo (F3.8, #132): otra estructura (columnas por fuente de ingreso, no por área).
+  - codigo: ECHINGRESOS_4
+    titulo: "Ingreso medio de los perceptores, por fuentes de ingresos a precios de Enero 2005. Total País (2016–)"
+    url: https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHINGRESOS_4.xlsx
+    indicador: null
+  - codigo: ECHINGRESOS_6
+    titulo: "Ingreso medio de los perceptores, por fuentes de ingresos a precios de Enero 2005. Montevideo (2016–)"
+    url: https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHINGRESOS_6.xlsx
+    indicador: null
+  - codigo: ECHINGRESOS_7
+    titulo: "Ingreso medio de los perceptores, por fuentes de ingresos a precios de Enero 2005. Interior del País (2016–)"
+    url: https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHINGRESOS_7.xlsx
+    indicador: null
+  - codigo: ECHINGRESOS_8
+    titulo: "Ingreso medio de los perceptores, por fuentes de ingresos a precios de Enero 2005. Interior, localidades de 5.000 o más (2016–)"
+    url: https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHINGRESOS_8.xlsx
+    indicador: null
+  - codigo: ECHINGRESOS_9
+    titulo: "Ingreso medio de los perceptores, por fuentes de ingresos a precios de Enero 2005. Localidades pequeñas y zonas rurales (2016–)"
+    url: https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHINGRESOS_9.xlsx
+    indicador: null
+  # Serie anterior (concepto de ingreso viejo, 1999–2024, otras áreas: Localidades de 5.000 o más, Área
+  # Metropolitana, Resto Interior Urbano). No comparable con las de arriba.
+  - codigo: ECHINGRESOS1
+    titulo: "Ingreso de los hogares, sin valor locativo, por área geográfica a precios de Enero 2005 (1999–2024)"
+    url: https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHINGRESOS1.xlsx
+    indicador: null
+
+# Enlaces de la página que no responden o que apuntan a la carpeta «Ingresos 2024/» (versiones que terminan en
+# 2024, con el concepto de ingreso anterior al YDA). Relevado el 2026-11-20.
+enlaces_rotos:  # HTTP 404
+  - ".../Ingresos de las personas y los hogares/Mediana Ingresos hogares corriente.xlsx"
+  - ".../Ingresos de las personas y los hogares/Mediana Ingresos hogares per capita corriente.xlsx"
+  - ".../Ingresos de las personas y los hogares/Ingreso medio de los ocupados.xlsx"
+  - ".../Ingresos 2024/MEDIANA_ING_HOG.xlsx"
+  - ".../Ingresos 2024/MEDIANA_PC_HOG.xlsx"
+carpeta_2024:  # responden, pero terminan en 2024
+  - "Mediana Ingresos hogares corriente.xlsx y … per capita corriente.xlsx: medianas con intervalo de confianza al 95 %, 2019–2024."
+  - "Ingreso medio de los ocupados.xlsx: total país por categoría de ocupación, 2019–2024."
+  - "ECHINGRESOS_5, _6, _8, _9: perceptores por fuente de ingreso a precios de enero de 2005, 2004–2024."
+  - "Nota aclaratoria a series.pdf (16/05/2025): definición del ingreso disponible ajustado (YDA)."
+
+notas_al_pie:
+  # Texto del pie de las planillas (igual en todas las relevadas, salvo la numeración de las llamadas).
+  - "Fuente: Instituto Nacional de Estadística (INE)."
+  - "Nota: En algunos casos los promedios trimestrales pueden quedar mínimamente fuera de rango debido a los procedimientos de expansión."
+  - "Las cifras presentadas están sujetas a revisión, en función del cierre anual de la base."
+  - "Planillas de hogares: «(1): Cifras actualizadas a noviembre 2026.» (marca los dos primeros trimestres de 2026)."
+  - "Planillas per cápita: «(1): Incluye ingresos del hogar.» (llamada del título) y «(2): Cifras actualizadas a noviembre 2026.»"
+
+# Cambio de 2025: ingreso disponible ajustado (YDA). Determinado en F3.1 con material del INE, no supuesto.
+cambio_2025_yda: >-
+  Desde el informe del 1.er trimestre de 2025 el INE usa el ingreso disponible ajustado (YDA), que a diferencia del
+  vector anterior no incluye las cuotas de salud imputadas por FONASA ni por Sanidad militar/policial (Nota
+  aclaratoria del 16/05/2025). Las planillas 2016– se recalcularon enteras con el YDA: el informe del 1.er trimestre
+  de 2025 dice que el nuevo vector «no es comparable con el utilizado previamente», que «se presentan series
+  temporales para el período 2016-2025» y que «estas series difieren de las presentadas en informes anteriores».
+  Comprobado: para el 4.º trimestre de 2024, el informe de ese trimestre (método anterior) da $95.182 y ECHING10 da
+  $86.384, el mismo valor que el informe del 1.er trimestre de 2025 con el YDA. La serie es comparable dentro de sí
+  misma desde 2016, pero no con cifras de informes anteriores a 2025.
+
+notas:
+  - Solo sitios oficiales del INE (www.gub.uy/instituto-nacional-estadistica y www5.ine.gub.uy) son fuentes válidas.
+  - "Los totales anuales («Total 2016») no son estimaciones aparte: en la planilla son fórmulas (=+AVERAGE de los cuatro trimestres) con su valor calculado guardado. El control AC-I15 (total dentro de ±5 % del promedio) siempre da 0 % con estas planillas."
+  - "Las cifras de 2016–2025 vienen con todos los decimales; las de 2026 vienen redondeadas a enteros en la planilla."
+  - "El nivel region (sin geometría) lo agrega F3.2 (#126); hasta entonces las columnas del Interior no tienen territorio donde cargarse."
+  - "/fuentes muestra «Departamento» como nivel más detallado aunque el INE solo publica Montevideo; la app todavía no conoce el nivel region (sin nombre, aparecería como «region»). F3.2 (#126) agrega region a niveles_publicados y F3.7 (#131) su presentación."
+
+# No se publica (no está en las columnas de la tabla `fuentes`, AC-V19).
+notas_internas:
+  - "Fuente activa o no, la decide el mantenedor después de F3.5 (#129), como con la ECH de trabajo (#69)."
