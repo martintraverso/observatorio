@@ -38,7 +38,8 @@ periodo: >-
 # Columna → territorio (AC-I7). El encabezado varía entre planillas: «Total Pais» (ECHING07–14, ECHINGRESOS3) o
 # «Total País» (ECHINGRESOS2), y a veces con espacios de más («Mes, Trimestre y Año »).
 columnas:
-  "Total Pais / Total País": pais/UY
+  Total Pais: pais/UY
+  Total País: pais/UY
   Montevideo: departamento/01
   "Interior · Total": region/interior
   "Interior · Localidades de 5.000 o más hab.": region/interior-5000
@@ -48,6 +49,14 @@ bases_de_precios:
   - "Precios corrientes: ECHING07–ECHING14."
   - "Precios de enero de 2005: ECHINGRESOS2 y ECHINGRESOS3 (solo sin aguinaldo y sin valor locativo), y los cuadros por fuente de ingreso."
   - "El observatorio no deflacta ni convierte: cada base de precios es un indicador distinto (docs/PLAN_ingresos.md)."
+
+# Informes trimestrales «Ingresos de los hogares y de las personas» leídos en F3.1 (evidencia de variante_titular
+# y cambio_2025_yda). Listado: https://www.gub.uy/instituto-nacional-estadistica/comunicacion/publicaciones
+informes:
+  - "4.º trimestre de 2024 (método anterior): https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/HTML/ECH/Ingresos/2024/Informe_Ingresos_T4_2024.html"
+  - "1.er trimestre de 2025 (primer informe con YDA): https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/HTML/ECH/Ingresos/2025/Informe_Ingresos_T1_2025.html"
+  - "3.er trimestre de 2026: https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/HTML/ECH/Ingresos/2026/Ingresos_IN_SOC_ING_2026_T_03_v2_0.html"
+  - "Nota aclaratoria a series (16/05/2025): https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%202024/Nota%20aclaratoria%20a%20series.pdf"
 
 # Variante que el INE usa como titular en sus informes trimestrales (AC-I21): sin aguinaldo y sin valor locativo,
 # a precios corrientes. El informe del 3.er trimestre de 2026 da $98.653 (hogares) y $35.010 (per cápita), que son
@@ -160,11 +169,12 @@ cambio_2025_yda: >-
 
 notas:
   - Solo sitios oficiales del INE (www.gub.uy/instituto-nacional-estadistica y www5.ine.gub.uy) son fuentes válidas.
-  - "Los totales anuales («Total 2016») no son estimaciones aparte: en la planilla son fórmulas (=+AVERAGE de los cuatro trimestres) con su valor calculado guardado. El control AC-I15 (total dentro de ±5 % del promedio) siempre da 0 % con estas planillas."
-  - "Las cifras de 2016–2025 vienen con todos los decimales; las de 2026 vienen redondeadas a enteros en la planilla."
-  - "El nivel region (sin geometría) lo agrega F3.2 (#126); hasta entonces las columnas del Interior no tienen territorio donde cargarse."
-  - "/fuentes muestra «Departamento» como nivel más detallado aunque el INE solo publica Montevideo; la app todavía no conoce el nivel region (sin nombre, aparecería como «region»). F3.2 (#126) agrega region a niveles_publicados y F3.7 (#131) su presentación."
+  - "El total de cada año es el promedio de sus cuatro trimestres, calculado en la propia planilla del INE."
+  - "Las cifras de 2016–2025 se publican con todos los decimales; las de 2026, redondeadas a pesos."
 
 # No se publica (no está en las columnas de la tabla `fuentes`, AC-V19).
 notas_internas:
+  - "AC-I15 (total dentro de ±5 % del promedio de los trimestres) siempre da 0 % con estas planillas: el total es una fórmula =+AVERAGE de los cuatro trimestres."
+  - "El nivel region (sin geometría) lo agrega F3.2 (#126), y lo suma a niveles_publicados; hasta entonces las columnas del Interior no tienen territorio donde cargarse."
+  - "/fuentes muestra «Departamento» como nivel más detallado aunque el INE solo publica Montevideo; la app todavía no conoce el nivel region (sin nombre, aparecería como «region»). Presentación: F3.7 (#131)."
   - "Fuente activa o no, la decide el mantenedor después de F3.5 (#129), como con la ECH de trabajo (#69)."
