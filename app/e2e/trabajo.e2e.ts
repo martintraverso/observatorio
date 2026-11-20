@@ -190,3 +190,21 @@ test('AC-V20 y AC-V21: el gráfico de la serie tiene ejes redondos y legibles, d
 	// AC-V21
 	await expect(seccion.locator('figcaption')).toContainText(/Total del país \(INE, desde [a-z]{3} \d{4}–[a-z]{3} \d{4}\)/);
 });
+
+test('AC-V23: las advertencias del INE muestran un resumen corto y la lista completa se abre aparte', async ({ page }) => {
+	await page.goto('territorio/departamento/10');
+	const grupo = page.locator('#trabajo').getByRole('group', { name: /Advertencias del INE/ });
+	await expect(grupo).toBeVisible();
+	// resumen: como mucho 2 líneas
+	const resumen = grupo.locator('.resumen');
+	await expect(resumen).toBeVisible();
+	const { alto, linea } = await resumen.evaluate((el) => ({ alto: el.getBoundingClientRect().height, linea: parseFloat(getComputedStyle(el).lineHeight) }));
+	expect(alto).toBeLessThanOrEqual(2 * linea + 1);
+	// lista completa plegada detrás de «Ver todas las advertencias (N)»
+	const lista = grupo.locator('details');
+	await expect(lista).not.toHaveAttribute('open');
+	await expect(lista.locator('li').first()).toBeHidden();
+	await lista.getByText(/^Ver todas las advertencias \(\d+\)$/).click();
+	await expect(lista.locator('li').first()).toBeVisible();
+	for (const t of TEMAS_ADVERTENCIAS) await expect(lista).toContainText(t);
+});
