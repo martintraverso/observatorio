@@ -7,7 +7,8 @@
 //   correr el CI, bajar el artefacto `playwright` de la corrida que falla y copiar los `*-actual.png` como
 //   referencias (ver app/README.md).
 // - Lo que cambia entre corridas se estabiliza: las fechas se reemplazan por «00/00/0000» y los lienzos de
-//   MapLibre (mapa y localizador de cerca) se enmascaran; paneles, leyenda y textos quedan en la captura.
+//   MapLibre (mapa y localizador de cerca) se ocultan con CSS (no con una máscara, que taparía también la
+//   leyenda superpuesta): paneles, leyenda y textos quedan en la captura.
 import { expect, test, type Page } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 import { esperarQuieta } from './ayudas';
@@ -54,7 +55,7 @@ async function fechasFijas(page: Page) {
 	});
 }
 
-/** Captura de página completa; los lienzos de MapLibre se enmascaran, pero paneles y leyenda quedan. */
+/** Captura de página completa; los lienzos de MapLibre no se ven, pero paneles y leyenda quedan. */
 async function capturar(page: Page, nombre: string) {
 	await esperarQuieta(page);
 	await mapasQuietos(page);
@@ -63,7 +64,7 @@ async function capturar(page: Page, nombre: string) {
 		fullPage: true,
 		animations: 'disabled',
 		caret: 'hide',
-		mask: [page.locator('canvas.maplibregl-canvas')],
+		style: 'canvas.maplibregl-canvas { opacity: 0 !important; }',
 		maxDiffPixelRatio: 0.01
 	});
 }
