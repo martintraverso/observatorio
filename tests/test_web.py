@@ -401,3 +401,20 @@ def test_construir_fichas_suma_las_advertencias_de_la_fuente(salida):
     assert con_fuente and all(f["fuentes"][fid]["advertencias"] == ["Advertencia de prueba."] for f in con_fuente)
     otras = [r for f in fichas.values() for k, r in f["fuentes"].items() if k != fid]
     assert all("advertencias" not in r for r in otras)  # solo la fuente que las tiene
+
+
+def test_el_resumen_de_las_advertencias_llega_a_la_web(web):
+    """AC-L26 / AC-V23: el resumen visible de la ECH nombra los cuatro temas y llega a fuentes.json y a las
+    fichas con datos de esa fuente, junto a las advertencias completas."""
+    import re
+
+    fuentes = {f["id"]: f for f in json.loads((web / "fuentes.json").read_text(encoding="utf-8"))}
+    ech = "ine_ech_mercado_trabajo_departamental"
+    resumen = fuentes[ech]["resumen_advertencias"]
+    for tema in (r"lugar de residencia", r"departamentos chicos", r"estacional", r"ranking"):
+        assert re.search(tema, resumen), tema
+    assert "resumen_advertencias" not in fuentes["ine_unidades_geoestadisticas_2023"]
+    for archivo in list((web / "fichas").glob("*/*.json"))[:300]:
+        refs = json.loads(archivo.read_text(encoding="utf-8"))["fuentes"]
+        if ech in refs:
+            assert refs[ech]["resumen_advertencias"] == resumen

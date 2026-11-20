@@ -69,7 +69,11 @@
 					Total del país: no publicado por la fuente.
 				{/if}
 			</p>
-			<AdvertenciasFuente fuente={refFuente(principal)?.nombre ?? ''} advertencias={refFuente(principal)?.advertencias ?? []} />
+			<AdvertenciasFuente
+				fuente={refFuente(principal)?.nombre ?? ''}
+				advertencias={refFuente(principal)?.advertencias ?? []}
+				resumen={refFuente(principal)?.resumen_advertencias}
+			/>
 		</div>
 	{:else}
 		<p class="info">Este territorio no tiene datos de este indicador para {etiquetaPeriodo(periodo)}.</p>
