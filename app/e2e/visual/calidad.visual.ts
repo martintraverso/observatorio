@@ -276,3 +276,26 @@ test('AC-V15: el chip con el foco de teclado no queda bajo el desvanecido', asyn
 		expect(chip.left).toBeGreaterThanOrEqual(fila.left);
 	}
 });
+
+test('AC-V25: en celular la ficha no tiene KPIs cortados, tablas de indicadores con scroll ni barra de secciones visible', async ({ page }, info) => {
+	test.skip(vista(info.project.name) !== '390', 'el criterio es a 390 px');
+	await page.goto(`territorio/departamento/${DEPTO.codigo}`);
+	await esperarQuieta(page);
+	// KPI en una sola línea
+	const kpis = await page.locator('.kpis dd').evaluateAll((dds) =>
+		dds.map((dd) => ({ texto: dd.textContent?.trim(), alto: dd.getBoundingClientRect().height, linea: parseFloat(getComputedStyle(dd).lineHeight) }))
+	);
+	expect(kpis.length).toBeGreaterThan(0);
+	for (const k of kpis) expect(k.alto, k.texto).toBeLessThan(k.linea * 1.5);
+	// tablas de indicadores apiladas, sin desplazamiento horizontal, y con la columna Fuente a la vista
+	const tablas = page.locator('section.seccion .tabla-apilada');
+	expect(await tablas.count()).toBeGreaterThan(0);
+	for (const t of await tablas.all()) {
+		const { ancho, visible } = await t.evaluate((el) => ({ ancho: el.scrollWidth - el.clientWidth, visible: el.offsetParent !== null }));
+		if (visible) expect(ancho).toBeLessThanOrEqual(1);
+	}
+	await expect(page.locator('section.seccion .tabla-apilada td[data-etiqueta="Fuente"]').first()).toBeVisible();
+	// barra de secciones sin scrollbar visible
+	const barra = await page.locator('nav.indice ul').evaluate((ul) => getComputedStyle(ul).scrollbarWidth);
+	expect(barra).toBe('none');
+});
