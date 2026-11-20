@@ -172,3 +172,34 @@ test('AC-L17 y AC-L28: el país y los municipios de Montevideo tienen ficha', as
 	await page.goto(`territorio/ccz_mvd/${ccz[0].codigo}`);
 	await expect(page.getByText('Pertenece al municipio:')).toContainText('Municipio CH');
 });
+
+test('AC-V22: información, advertencia y error tienen estilos distintos y se usan según el tipo de mensaje', async ({ page }) => {
+	await page.goto('territorio/departamento/07');
+	// explicaciones y «todavía no hay…»: información (azul), no advertencia
+	await expect(page.locator('#poblacion .nota')).toHaveClass(/\binfo\b/);
+	await expect(page.locator('#educacion .vacio')).toHaveClass(/\binfo\b/);
+	await expect(page.locator('section .aviso')).toHaveCount(0);
+	const fondo = (sel: string) => page.locator(sel).first().evaluate((el) => getComputedStyle(el).backgroundColor);
+	const info = await fondo('#poblacion .nota');
+	// algo que no existe: error (rojo)
+	await page.goto('./?indicador=pob_total&nivel=departamento&periodo=2023&territorio=departamento/99');
+	const error = page.getByRole('complementary', { name: 'Territorio seleccionado' }).getByRole('alert');
+	await expect(error).toBeVisible(); // también en celular (la hoja se abre con el error)
+	await expect(error).toContainText('No encontramos ese territorio.');
+	await expect(error).toHaveClass(/\berror\b/);
+	const rojo = await error.evaluate((el) => getComputedStyle(el).backgroundColor);
+	// la advertencia (naranja) sigue existiendo para lo que se puede malinterpretar
+	const naranja = await page.evaluate(() => {
+		const p = document.createElement('p');
+		p.className = 'aviso';
+		document.body.append(p);
+		const c = getComputedStyle(p).backgroundColor;
+		p.remove();
+		return c;
+	});
+	expect(new Set([info, rojo, naranja]).size).toBe(3);
+	// y se puede cerrar
+	await error.getByRole('button', { name: 'Cerrar' }).click();
+	await expect(error).toHaveCount(0);
+	await expect(page).not.toHaveURL(/territorio=/);
+});

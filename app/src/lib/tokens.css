@@ -18,6 +18,13 @@
 	--aviso-fondo: #fdf1e6;
 	--aviso-borde: #e07a1f;
 	--aviso-texto: #7a3d06;
+	/* AC-V22: tres estilos de mensaje — información (azul neutro), advertencia (naranja), error (rojo) */
+	--info-fondo: #eef4fa;
+	--info-borde: #8db4db;
+	--info-texto: #1b3a5e;
+	--error-fondo: #fdecec;
+	--error-borde: #c0392b;
+	--error-texto: #8a1c13;
 	--foco: #1f4e8c;
 
 	/* Rampa secuencial azul (coropletas) */

@@ -4,7 +4,8 @@
 </script>
 
 {#if advertencias.length}
-	<details class="advertencias" open>
+	<!-- advertencias metodológicas de la fuente: información, no alarma (AC-V22) -->
+	<details class="advertencias info" open>
 		<summary>Advertencias del INE (resumidas) sobre estos datos · {fuente}</summary>
 		<ul>
 			{#each advertencias as a (a)}<li>{a}</li>{/each}
@@ -14,10 +15,6 @@
 
 <style>
 	.advertencias {
-		background: var(--aviso-fondo);
-		border: 1px solid var(--aviso-borde);
-		color: var(--aviso-texto);
-		border-radius: var(--radio-m);
 		padding: var(--espacio-2) var(--espacio-3);
 		font-size: var(--texto-s);
 	}

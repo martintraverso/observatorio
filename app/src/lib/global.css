@@ -68,12 +68,36 @@ a:hover {
 	box-shadow: var(--sombra);
 }
 
+/*
+ * Mensajes (AC-V22). Se usan siempre con este criterio:
+ * - .info: explicaciones, advertencias metodológicas de la fuente, «todavía no hay…» (azul neutro);
+ * - .aviso: datos que se pueden malinterpretar, p. ej. estimados (naranja);
+ * - .error: algo que falló o no existe (rojo).
+ */
+.aviso,
+.info,
+.error {
+	border: 1px solid;
+	border-radius: var(--radio-m);
+	padding: var(--espacio-3) var(--espacio-4);
+}
+
 .aviso {
 	background: var(--aviso-fondo);
-	border: 1px solid var(--aviso-borde);
-	border-radius: var(--radio-m);
+	border-color: var(--aviso-borde);
 	color: var(--aviso-texto);
-	padding: var(--espacio-3) var(--espacio-4);
+}
+
+.info {
+	background: var(--info-fondo);
+	border-color: var(--info-borde);
+	color: var(--info-texto);
+}
+
+.error {
+	background: var(--error-fondo);
+	border-color: var(--error-borde);
+	color: var(--error-texto);
 }
 
 .suave {

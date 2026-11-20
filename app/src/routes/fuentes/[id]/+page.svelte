@@ -93,7 +93,7 @@
 		</TablaDesplazable>
 		{#if data.indicadores[0]?.nota}<p class="suave nota">{data.indicadores[0].nota}</p>{/if}
 	{:else}
-		<p class="aviso">Esta fuente todavía no aporta indicadores.</p>
+		<p class="info">Esta fuente todavía no aporta indicadores.</p>
 	{/if}
 </section>
 
@@ -127,7 +127,7 @@
 			</table>
 		</TablaDesplazable>
 	{:else}
-		<p class="aviso">Todavía no hay capturas de esta fuente.</p>
+		<p class="info">Todavía no hay capturas de esta fuente.</p>
 	{/if}
 </section>
 
@@ -253,9 +253,9 @@
 	}
 
 	.resultado-error {
-		background: var(--aviso-fondo);
-		border-color: var(--aviso-borde);
-		color: var(--aviso-texto);
+		background: var(--error-fondo);
+		border-color: var(--error-borde);
+		color: var(--error-texto);
 	}
 
 	.detalle {
