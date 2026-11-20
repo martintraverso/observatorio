@@ -295,7 +295,7 @@ test('AC-V27: cada KPI dice de dónde sale y la ficha de departamento trae la de
 		observaciones: { indicador: string; periodo: string; valor: number }[];
 	};
 	const personas = f.observaciones.find((o) => o.indicador === 'pob_total' && o.periodo === '2023')!.valor;
-	const esperado = new Intl.NumberFormat('es-UY', { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(personas / f.area_km2);
+	const esperado = new Intl.NumberFormat('es-UY', { minimumFractionDigits: 1, maximumFractionDigits: 1, useGrouping: 'always' }).format(personas / f.area_km2);
 	await page.goto('territorio/departamento/07');
 	const kpi = page.locator('.kpis div').filter({ hasText: 'Densidad' });
 	await expect(kpi.locator('dt')).toContainText('calculada');
@@ -304,7 +304,7 @@ test('AC-V27: cada KPI dice de dónde sale y la ficha de departamento trae la de
 	await expect(notas).toContainText('Personas y viviendas: INE · Unidades geoestadísticas Censo 2023');
 	await expect(notas).toContainText('Superficie y localidades: a partir de la geometría del INE');
 	await expect(notas).toContainText('Densidad: calculada por el observatorio');
-	// no es una observación: no está en la tabla ni en el CSV
+	// no es una observación: no está en la tabla de indicadores (el CSV sale de las observaciones)
 	expect(await page.locator('section.seccion tbody').allTextContents()).not.toContainEqual(expect.stringContaining('Densidad'));
 	// solo en los departamentos
 	await page.goto(`territorio/segmento/${de('segmento').codigo}`);

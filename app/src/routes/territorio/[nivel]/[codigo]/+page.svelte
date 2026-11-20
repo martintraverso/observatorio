@@ -133,8 +133,8 @@
 		<!-- AC-V27: de dónde sale cada cifra destacada -->
 		<p class="suave notas-kpi">
 			{#if fuenteKpi}Personas y viviendas: {fuenteKpi}.{/if}
-			Superficie{f.contenidos.localidad?.length ? ' y localidades' : ''}: a partir de la geometría del INE (Unidades geoestadísticas Censo 2023).
-			{#if densidadDepto !== null}Densidad: calculada por el observatorio, personas ({PERIODO}) ÷ superficie; no la publica el INE.{/if}
+			{#if f.area_km2 !== null}Superficie{f.contenidos.localidad?.length ? ' y localidades' : ''}: a partir de la geometría del INE (Unidades geoestadísticas Censo 2023).{/if}
+			{#if densidadDepto !== null}Densidad: calculada por el observatorio, personas (Censo {PERIODO}) ÷ superficie (geometría del INE); no la publica el INE.{/if}
 		</p>
 
 		<div class="acciones">
