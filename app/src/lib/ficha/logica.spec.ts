@@ -5,6 +5,7 @@ import {
 	consultaMapa,
 	datosEnPadre,
 	decimalesComunes,
+	densidad,
 	fuentesDeFicha,
 	indicesEtiquetas,
 	marcasRedondas,
@@ -234,5 +235,14 @@ describe('ejes de los gráficos de series (AC-V20)', () => {
 		expect(decimalesComunes([60, 64.1])).toBe(1);
 		expect(decimalesComunes([60, 61])).toBe(0);
 		expect(decimalesComunes([1.25, 3])).toBe(2);
+	});
+});
+
+describe('densidad (AC-V27)', () => {
+	it('personas ÷ km², sin inventar si falta un dato', () => {
+		expect(densidad(26271, 5144)).toBeCloseTo(5.107, 3);
+		expect(densidad(null, 5144)).toBeNull();
+		expect(densidad(26271, null)).toBeNull();
+		expect(densidad(26271, 0)).toBeNull();
 	});
 });

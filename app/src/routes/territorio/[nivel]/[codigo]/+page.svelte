@@ -13,6 +13,7 @@
 		cita,
 		consultaMapa,
 		datosEnPadre,
+		densidad,
 		fuentesDeFicha,
 		notaNoAditiva,
 		observacionesDeSeccion,
@@ -53,6 +54,13 @@
 		const fu = c && f.fuentes[c.fuente_id];
 		return fu ? `${fu.organismo.replace(/^.*\((\w+)\)$/, '$1')} · ${fu.nombre}` : o.captura_id;
 	}
+
+	// AC-V27: solo en las fichas de departamento; no es una observación (decisión del mantenedor, #111)
+	let densidadDepto = $derived(f.nivel === 'departamento' ? densidad(valor('pob_total'), f.area_km2) : null);
+	let fuenteKpi = $derived.by(() => {
+		const o = f.observaciones.find((x) => x.indicador === 'pob_total' && x.periodo === PERIODO);
+		return o ? fuenteDe(o) : '';
+	});
 
 	function textoRelacion(r: Relacion): string {
 		if (r.existe) return r.nombre ?? r.codigo;
@@ -115,7 +123,19 @@
 			{#if f.contenidos.localidad?.length}
 				<div><dt>Localidades</dt><dd>{numero(f.contenidos.localidad.length)}</dd></div>
 			{/if}
+			{#if densidadDepto !== null}
+				<div>
+					<dt>Densidad ({PERIODO}) <span class="calculada">calculada</span></dt>
+					<dd>{numero(densidadDepto, 1)} <span class="unidad-kpi">pers./km²</span></dd>
+				</div>
+			{/if}
 		</dl>
+		<!-- AC-V27: de dónde sale cada cifra destacada -->
+		<p class="suave notas-kpi">
+			{#if fuenteKpi}Personas y viviendas: {fuenteKpi}.{/if}
+			Superficie{f.contenidos.localidad?.length ? ' y localidades' : ''}: a partir de la geometría del INE (Unidades geoestadísticas Censo 2023).
+			{#if densidadDepto !== null}Densidad: calculada por el observatorio, personas ({PERIODO}) ÷ superficie; no la publica el INE.{/if}
+		</p>
 
 		<div class="acciones">
 			<a class="boton primario" href={hrefMapa(f)}>Ver en el mapa</a>
@@ -412,6 +432,26 @@
 	.kpis dt {
 		font-size: var(--texto-s);
 		color: var(--texto-suave);
+	}
+
+	.notas-kpi {
+		margin: calc(-1 * var(--espacio-2)) 0 var(--espacio-4);
+		font-size: var(--texto-xs);
+	}
+
+	.calculada {
+		margin-left: var(--espacio-1);
+		padding: 0 var(--espacio-1);
+		border: 1px solid var(--info-borde);
+		border-radius: var(--radio-s);
+		background: var(--info-fondo);
+		color: var(--info-texto);
+		font-size: var(--texto-xs);
+	}
+
+	.unidad-kpi {
+		font-size: var(--texto-s);
+		font-weight: 400;
 	}
 
 	.kpis dd {

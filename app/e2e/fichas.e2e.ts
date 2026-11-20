@@ -288,3 +288,26 @@ test('AC-V26: las fichas de segmento, sección y localidad muestran la unidad de
 	await page.goto('territorio/departamento/07');
 	await expect(page.getByRole('img', { name: /de cerca/ })).toHaveCount(0);
 });
+
+test('AC-V27: cada KPI dice de dónde sale y la ficha de departamento trae la densidad, marcada como calculada', async ({ page }) => {
+	const f = JSON.parse(readFileSync('build/datos-web/fichas/departamento/07.json', 'utf-8')) as {
+		area_km2: number;
+		observaciones: { indicador: string; periodo: string; valor: number }[];
+	};
+	const personas = f.observaciones.find((o) => o.indicador === 'pob_total' && o.periodo === '2023')!.valor;
+	const esperado = new Intl.NumberFormat('es-UY', { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(personas / f.area_km2);
+	await page.goto('territorio/departamento/07');
+	const kpi = page.locator('.kpis div').filter({ hasText: 'Densidad' });
+	await expect(kpi.locator('dt')).toContainText('calculada');
+	await expect(kpi.locator('dd')).toContainText(`${esperado} pers./km²`);
+	const notas = page.locator('.notas-kpi');
+	await expect(notas).toContainText('Personas y viviendas: INE · Unidades geoestadísticas Censo 2023');
+	await expect(notas).toContainText('Superficie y localidades: a partir de la geometría del INE');
+	await expect(notas).toContainText('Densidad: calculada por el observatorio');
+	// no es una observación: no está en la tabla ni en el CSV
+	expect(await page.locator('section.seccion tbody').allTextContents()).not.toContainEqual(expect.stringContaining('Densidad'));
+	// solo en los departamentos
+	await page.goto(`territorio/segmento/${de('segmento').codigo}`);
+	await expect(page.locator('.kpis')).not.toContainText('Densidad');
+	await expect(page.locator('.notas-kpi')).toContainText('Superficie');
+});
