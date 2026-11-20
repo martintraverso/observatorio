@@ -1,6 +1,6 @@
 // Catálogo de fuentes (M8, AC-SRC1…SRC3): resumen, filtros y capturas.
 
-import type { Fuente, Nivel } from './datos.ts';
+import { etiquetaNivel, type Fuente, type Nivel } from './datos.ts';
 
 export interface CapturaHistorial {
 	id: string;
@@ -79,3 +79,31 @@ export const TEXTO_RESULTADO: Record<CapturaHistorial['resultado'], string> = {
 	'sin cambios': 'Sin cambios',
 	error: 'Error'
 };
+
+/** Qué tan fino es cada nivel (para comparar). Los de Montevideo cubren solo ese departamento. */
+const FINURA: Record<string, number> = {
+	pais: 0,
+	departamento: 1,
+	municipio_mvd: 2,
+	ccz_mvd: 2,
+	seccion: 3,
+	barrio_mvd: 3,
+	localidad: 3,
+	segmento: 4
+};
+const SOLO_MONTEVIDEO = ['municipio_mvd', 'ccz_mvd', 'barrio_mvd'];
+
+/**
+ * AC-V28: «Nivel más detallado» de una fuente, sin engañar: el nivel más fino con alcance en todo el país y,
+ * si hay uno de Montevideo más fino, también ese («Departamento · Municipio (solo Montevideo)»).
+ */
+export function nivelesDetallados(f: Pick<Fuente, 'niveles_publicados'>): string {
+	const niveles = f.niveles_publicados as string[];
+	const finura = (n: string) => FINURA[n] ?? 0;
+	const nacionales = niveles.filter((n) => !SOLO_MONTEVIDEO.includes(n));
+	const nacional = nacionales.reduce<string | null>((a, n) => (a === null || finura(n) > finura(a) ? n : a), null);
+	const montevideo = niveles
+		.filter((n) => SOLO_MONTEVIDEO.includes(n) && (nacional === null || finura(n) > finura(nacional)))
+		.map((n) => `${etiquetaNivel(n).replace(' (Montevideo)', '')} (solo Montevideo)`);
+	return [...(nacional ? [etiquetaNivel(nacional)] : []), ...montevideo].join(' · ');
+}

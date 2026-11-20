@@ -16,11 +16,22 @@ html {
 
 body {
 	margin: 0;
+	/* el pie queda abajo también en páginas cortas (AC-V29) */
+	min-height: 100dvh;
+	display: flex;
+	flex-direction: column;
 	background: var(--fondo);
 	color: var(--texto);
 	font-family: var(--fuente-texto);
 	font-size: var(--texto-m);
 	line-height: 1.5;
+}
+
+/* los hijos de un contenedor flex no se achican por debajo de su contenido sin esto: evita scroll horizontal (AC-G4) */
+body > div > :is(header, main, footer) {
+	min-width: 0;
+	/* con márgenes auto (.contenedor) un hijo de flex en columna no se estira: el ancho lo fija esto */
+	width: 100%;
 }
 
 h1,

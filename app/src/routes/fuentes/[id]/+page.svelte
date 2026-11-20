@@ -4,7 +4,7 @@
 	import TablaDesplazable from '#lib/TablaDesplazable.svelte';
 	import { etiquetaNivel } from '#lib/datos.ts';
 	import { fecha, numero } from '#lib/formato.ts';
-	import { TEXTO_RESULTADO } from '#lib/fuentes.ts';
+	import { nivelesDetallados, TEXTO_RESULTADO } from '#lib/fuentes.ts';
 	import { NOMBRE_SITIO, URL_REPOSITORIO } from '#lib/sitio.ts';
 
 	let { data } = $props();
@@ -53,7 +53,7 @@
 
 	<section class="tarjeta" aria-labelledby="titulo-alcance">
 		<h2 id="titulo-alcance">Hasta dónde llega en el territorio</h2>
-		<p>Nivel más detallado: <strong>{nivel(f.nivel_mas_detallado)}</strong>.</p>
+		<p>Nivel más detallado: <strong>{nivelesDetallados(f)}</strong>.</p>
 		<ul class="niveles">
 			{#each f.niveles_publicados as n (n)}
 				<li>{nivel(n)} <span class="suave">· {numero(data.territoriosPorNivel[n] ?? 0)} territorios</span></li>

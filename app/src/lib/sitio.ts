@@ -11,7 +11,6 @@ export function urlDescarga(archivo: string): string {
 
 export const NOMBRE_SITIO = 'Observatorio Uruguay';
 
-export const ATRIBUCION = 'Fuente: INE, Unidades geoestadísticas Censo 2023';
 
 export const NAVEGACION = [
 	{ ruta: '/', texto: 'Mapa' },

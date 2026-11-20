@@ -1,6 +1,8 @@
 <script lang="ts">
 	// Descargas (M8, AC-D1, AC-D2): cada archivo con tamaño, fecha, licencia y cómo citar.
 	import TablaDesplazable from '#lib/TablaDesplazable.svelte';
+	import { resolve } from '$app/paths';
+	import { etiquetaNivel, NIVELES } from '#lib/datos.ts';
 	import { fecha, tamano } from '#lib/formato.ts';
 	import { NOMBRE_SITIO, URL_REPOSITORIO, urlDescarga } from '#lib/sitio.ts';
 
@@ -10,6 +12,25 @@
 	let grupos = $derived(
 		GRUPOS.map((g) => [g, data.archivos.filter((a) => a.grupo === g)] as const).filter(([, l]) => l.length)
 	);
+	// AC-V30: territorios agrupados por nivel (nombre legible), una columna por formato
+	const FORMATOS = ['parquet', 'geojson'];
+	let territorios = $derived.by(() => {
+		const porNivel = new Map<string, Record<string, (typeof data.archivos)[number]>>();
+		for (const a of data.archivos.filter((x) => x.grupo === 'Territorios')) {
+			const m = /^territorios_(.+)\.(\w+)$/.exec(a.nombre);
+			if (!m) continue;
+			porNivel.set(m[1], { ...porNivel.get(m[1]), [m[2]]: a });
+		}
+		const orden = (n: string) => (NIVELES as string[]).indexOf(n) + 1 || 99;
+		return [...porNivel].sort(([a], [b]) => orden(a) - orden(b));
+	});
+	// los demás archivos del grupo (todos los niveles juntos, correspondencias), en filas aparte
+	let otrosTerritorios = $derived(data.archivos.filter((a) => a.grupo === 'Territorios' && !/^territorios_.+\.\w+$/.test(a.nombre)));
+	const NOMBRE_OTRO: Record<string, string> = {
+		'territorios.parquet': 'Todos los niveles',
+		'correspondencias.parquet': 'Correspondencias entre niveles'
+	};
+	let fuentesNombradas = $derived(data.fuentes.map((f) => `${f.organismo.replace(/^.*\((\w+)\)$/, '$1')}, ${f.nombre}`).join('; '));
 	const formato = (nombre: string) => nombre.split('.').at(-1)!.toUpperCase().replace('MD', 'Markdown');
 </script>
 
@@ -24,12 +45,64 @@
 </p>
 
 <div class="licencia tarjeta">
-	<h2>Licencia y cómo citar</h2>
-	<p>Licencia de la fuente: «{data.licencia}»</p>
-	<p>Cita sugerida: {data.cita}</p>
+	<h2>Licencias y cómo citar</h2>
+	<ul>
+		{#each data.fuentes as f (f.id)}
+			<li><a href={resolve('/fuentes/[id]', { id: f.id })}>{f.nombre}</a> ({f.organismo}): «{f.licencia}»</li>
+		{/each}
+	</ul>
+	<p>Cita sugerida: Observatorio Uruguay, a partir de {fuentesNombradas}. Indicar el archivo y la fecha de descarga.</p>
 </div>
 
+
 {#each grupos as [grupo, lista] (grupo)}
+	{#if grupo === 'Territorios'}
+		<section aria-labelledby="g-territorios">
+			<h2 id="g-territorios">Territorios</h2>
+			<p class="suave">Geometrías de cada nivel: completas (GeoParquet, EPSG:4326) y simplificadas (GeoJSON).</p>
+			<TablaDesplazable etiqueta="Territorios" clase="tarjeta">
+				<table>
+					<caption class="visualmente-oculto">Territorios: archivos para descargar, por nivel</caption>
+					<thead>
+						<tr>
+							<th scope="col">Nivel</th>
+							<th scope="col">GeoParquet (completa)</th>
+							<th scope="col">GeoJSON (simplificada)</th>
+							<th scope="col">Generado</th>
+						</tr>
+					</thead>
+					<tbody>
+						{#each territorios as [nivel, archivos] (nivel)}
+							<tr>
+								<th scope="row">{etiquetaNivel(nivel)}</th>
+								{#each FORMATOS as formato (formato)}
+									{@const a = archivos[formato]}
+									<td>
+										{#if a}
+											<a href={urlDescarga(a.nombre)} download><code>{a.nombre}</code></a>
+											<span class="suave tamano">{tamano(a.bytes)}</span>
+										{:else}—{/if}
+									</td>
+								{/each}
+								<td>{fecha(data.generado)}</td>
+							</tr>
+						{/each}
+					{#each otrosTerritorios as a (a.nombre)}
+						<tr>
+							<th scope="row">{NOMBRE_OTRO[a.nombre] ?? a.descripcion}</th>
+							<td>
+								<a href={urlDescarga(a.nombre)} download><code>{a.nombre}</code></a>
+								<span class="suave tamano">{tamano(a.bytes)}</span>
+							</td>
+							<td>—</td>
+							<td>{fecha(data.generado)}</td>
+						</tr>
+					{/each}
+					</tbody>
+				</table>
+			</TablaDesplazable>
+		</section>
+	{:else}
 	<section aria-labelledby="g-{grupo}">
 		<h2 id="g-{grupo}">{grupo}</h2>
 		<TablaDesplazable etiqueta={grupo} clase="tarjeta">
@@ -58,6 +131,7 @@
 			</table>
 		</TablaDesplazable>
 	</section>
+	{/if}
 {/each}
 
 <p class="suave">
@@ -68,6 +142,16 @@
 </p>
 
 <style>
+	.licencia ul {
+		margin: 0 0 var(--espacio-2);
+		padding-left: var(--espacio-4);
+	}
+
+	.tamano {
+		display: block;
+		font-size: var(--texto-xs);
+	}
+
 	.licencia h2 {
 		font-size: var(--texto-m);
 		margin-bottom: var(--espacio-2);
