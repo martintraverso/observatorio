@@ -133,12 +133,16 @@ test('AC-L25: municipios con serie y comparación; la ficha del país, sin líne
 // ---------------------------------------------------------------- F2.8d (#68): advertencias y sin rankings (AC-L26)
 
 const TEMAS_ADVERTENCIAS = [/lugar de residencia/, /zafrales o estacionales/, /muestra/, /ranking/];
+// AC-L26: los cuatro temas, a la vista en el resumen (la lista completa va plegada, AC-V23)
+const TEMAS_RESUMEN = [/lugar de residencia/, /departamentos chicos/, /estacional/, /ranking/];
 
 test('AC-L26: las advertencias del INE se ven junto a los datos de trabajo (ficha y panel)', async ({ page }) => {
 	await page.goto('territorio/departamento/10');
 	const enFicha = page.locator('#trabajo').getByRole('group').filter({ hasText: 'Advertencias del INE' });
 	await expect(enFicha).toBeVisible();
 	for (const t of TEMAS_ADVERTENCIAS) await expect(enFicha).toContainText(t);
+	await expect(enFicha.locator('.resumen')).toBeVisible();
+	for (const t of TEMAS_RESUMEN) await expect(enFicha.locator('.resumen')).toContainText(t);
 	await expect(page.locator('#poblacion')).not.toContainText('Advertencias del INE'); // el Censo no las trae
 	expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
 
@@ -146,6 +150,8 @@ test('AC-L26: las advertencias del INE se ven junto a los datos de trabajo (fich
 	const enPanel = panel(page).getByRole('group').filter({ hasText: 'Advertencias del INE' });
 	await expect(enPanel).toBeVisible();
 	for (const t of TEMAS_ADVERTENCIAS) await expect(enPanel).toContainText(t);
+	await expect(enPanel.locator('.resumen')).toBeVisible();
+	for (const t of TEMAS_RESUMEN) await expect(enPanel.locator('.resumen')).toContainText(t);
 	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023&territorio=departamento/10');
 	await expect(panel(page)).toContainText('Maldonado');
 	await expect(panel(page)).not.toContainText('Advertencias del INE');
@@ -191,7 +197,7 @@ test('AC-V20 y AC-V21: el gráfico de la serie tiene ejes redondos y legibles, d
 	await expect(seccion.locator('figcaption')).toContainText(/Total del país \(INE, desde [a-z]{3} \d{4}–[a-z]{3} \d{4}\)/);
 });
 
-test('AC-V23: las advertencias del INE muestran un resumen corto y la lista completa se abre aparte', async ({ page }) => {
+test('AC-V23: las advertencias del INE muestran un resumen corto y la lista completa se abre aparte', async ({ page }, info) => {
 	await page.goto('territorio/departamento/10');
 	const grupo = page.locator('#trabajo').getByRole('group', { name: /Advertencias del INE/ });
 	await expect(grupo).toBeVisible();
@@ -199,7 +205,7 @@ test('AC-V23: las advertencias del INE muestran un resumen corto y la lista comp
 	const resumen = grupo.locator('.resumen');
 	await expect(resumen).toBeVisible();
 	const { alto, linea } = await resumen.evaluate((el) => ({ alto: el.getBoundingClientRect().height, linea: parseFloat(getComputedStyle(el).lineHeight) }));
-	expect(alto).toBeLessThanOrEqual(2 * linea + 1);
+	if (info.project.name !== 'movil') expect(alto).toBeLessThanOrEqual(2 * linea + 1); // 1–2 líneas en escritorio
 	// lista completa plegada detrás de «Ver todas las advertencias (N)»
 	const lista = grupo.locator('details');
 	await expect(lista).not.toHaveAttribute('open');

@@ -96,6 +96,8 @@ export interface FuenteRef {
 	url_descarga: string;
 	/** Advertencias de la fuente (texto del INE), si las tiene (AC-L26). */
 	advertencias?: string[];
+	/** Resumen de una o dos líneas de las advertencias, siempre a la vista (AC-L26, AC-V23). */
+	resumen_advertencias?: string;
 }
 
 export interface Ficha {

@@ -75,6 +75,11 @@ formatos:
   - "El informe dice «empleados» y «desempleados»; los criterios usan ocupados y desocupados (mismo concepto, según la sección Conceptos del informe)."
   - "Cada cuadro termina con una fila de fuente («Fuente: INE - Encuesta Continua de Hogares»)."
 
+# Lo que la app muestra siempre a la vista, junto a los datos (AC-L26, AC-V23): los cuatro temas en una o dos
+# líneas. Las advertencias completas quedan plegadas. Redacción decidida por el mantenedor en #108 (2026-11-19).
+resumen_advertencias: >-
+  Estimaciones por lugar de residencia, de una muestra (menos precisas en departamentos chicos) y con efectos
+  estacionales; no sirven para hacer rankings.
 advertencias:
   # Texto del INE, resumido: «Nota» e «Introducción» de los informes.
   - Las estadísticas son por lugar de residencia, no de trabajo (por ejemplo, quien vive en Canelones y trabaja en Montevideo cuenta en Canelones).

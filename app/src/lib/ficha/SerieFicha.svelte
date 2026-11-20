@@ -130,7 +130,11 @@
 		</dl>
 	{/if}
 
-	<AdvertenciasFuente fuente={fuenteRef?.nombre ?? ''} advertencias={fuenteRef?.advertencias ?? []} />
+	<AdvertenciasFuente
+		fuente={fuenteRef?.nombre ?? ''}
+		advertencias={fuenteRef?.advertencias ?? []}
+		resumen={fuenteRef?.resumen_advertencias}
+	/>
 
 	<details>
 		<summary>Ver los datos de la serie ({[...series.values()].reduce((n, s) => n + s.length, 0)} valores)</summary>
