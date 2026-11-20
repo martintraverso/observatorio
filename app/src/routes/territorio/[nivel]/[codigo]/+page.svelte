@@ -12,6 +12,7 @@
 	import {
 		cita,
 		consultaMapa,
+		datosEnPadre,
 		fuentesDeFicha,
 		notaNoAditiva,
 		observacionesDeSeccion,
@@ -155,7 +156,16 @@
 	<section id={s.id} class="tarjeta seccion" aria-labelledby="titulo-{s.id}">
 		<h2 id="titulo-{s.id}">{s.titulo}</h2>
 		{#if lista.length === 0}
-			<p class="info vacio">{SIN_FUENTES}</p>
+			{@const arriba = datosEnPadre(f, s.temas)}
+			{#if arriba}
+				<!-- AC-V24: el tema no se publica a este nivel, pero sí en uno que lo contiene -->
+				<p class="info vacio en-padre">
+					{arriba.temas.join(' e ')}: se publica por {NOMBRE_NIVEL[arriba.padre.nivel].toLowerCase()} →
+					<a href="{hrefFicha(arriba.padre)}#{s.id}">ver {arriba.padre.nombre}</a>
+				</p>
+			{:else}
+				<p class="info vacio">{SIN_FUENTES}</p>
+			{/if}
 		{/if}
 		{#if series.size}
 			<SerieFicha ficha={f} {series} pais={data.pais} fuenteDe={fuenteDe} titulo={s.titulo} />
@@ -272,7 +282,8 @@
 					<h3><a href={hrefFicha(p)}>{p.nombre}</a></h3>
 					<p class="suave">{NOMBRE_NIVEL[p.nivel]} · Código INE {p.codigo}</p>
 					<dl class="valores">
-						{#each Object.entries(p.valores) as [codigo, porPeriodo] (codigo)}
+						<!-- solo los valores del Censo 2023; las series (p. ej. la ECH) están en la ficha del padre -->
+						{#each Object.entries(p.valores).filter(([, v]) => v[PERIODO] != null) as [codigo, porPeriodo] (codigo)}
 							<div>
 								<dt>{f.indicadores[codigo]?.nombre ?? codigo} ({PERIODO})</dt>
 								<dd>{numero(porPeriodo[PERIODO])} {f.indicadores[codigo]?.unidad}</dd>

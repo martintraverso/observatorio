@@ -141,6 +141,19 @@ export function fuentesDeFicha(f: Pick<Ficha, 'capturas' | 'fuentes'>): FuenteDe
 }
 
 /**
+ * AC-V24: si una sección no tiene datos al nivel de la ficha, el nivel más cercano que la contiene y sí los
+ * tiene, con los temas que publica ahí («Trabajo: se publica por departamento → ver San José»). null si
+ * ningún nivel que la contiene tiene datos de esos temas.
+ */
+export function datosEnPadre(f: Pick<Ficha, 'padres' | 'indicadores'>, temas: readonly string[]): { padre: Resumen; temas: string[] } | null {
+	for (const padre of [...f.padres].reverse()) {
+		const conDatos = temas.filter((t) => Object.keys(padre.valores).some((k) => f.indicadores[k]?.tema === t));
+		if (conDatos.length) return { padre, temas: conDatos };
+	}
+	return null;
+}
+
+/**
  * AC-V20: marcas del eje y en valores redondos (paso de 1, 2, 2,5 o 5 × 10ⁿ), como mucho 5 intervalos, que
  * cubren [min, max]. El eje va de la primera a la última marca.
  */
