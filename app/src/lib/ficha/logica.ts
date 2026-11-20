@@ -139,3 +139,36 @@ export function fuentesDeFicha(f: Pick<Ficha, 'capturas' | 'fuentes'>): FuenteDe
 		return { id, fuente: f.fuentes[id], capturas: orden, ultima: orden[0] };
 	});
 }
+
+/**
+ * AC-V20: marcas del eje y en valores redondos (paso de 1, 2, 2,5 o 5 × 10ⁿ), como mucho 5 intervalos, que
+ * cubren [min, max]. El eje va de la primera a la última marca.
+ */
+export function marcasRedondas(min: number, max: number): number[] {
+	if (!Number.isFinite(min) || !Number.isFinite(max)) return [0, 1];
+	if (!(max > min)) {
+		const d = Math.abs(min) * 0.1 || 1;
+		return marcasRedondas(min - d, max + d);
+	}
+	const potencia = 10 ** Math.floor(Math.log10((max - min) / 5));
+	const e = 1e-9; // tolerancia de coma flotante
+	const intervalos = (p: number) => Math.ceil(max / p - e) - Math.floor(min / p + e);
+	// el paso redondo más chico que deja como mucho 5 intervalos una vez redondeados los extremos
+	const paso = [1, 2, 2.5, 5, 10, 20, 25, 50].map((m) => m * potencia).find((p) => intervalos(p) <= 5) ?? 100 * potencia;
+	const desde = Math.floor(min / paso + e) * paso;
+	const hasta = Math.ceil(max / paso - e) * paso;
+	const marcas: number[] = [];
+	for (let v = desde; v <= hasta + paso / 2; v += paso) marcas.push(Number(v.toFixed(10)));
+	return marcas;
+}
+
+/** AC-V20: índices de los períodos que llevan etiqueta en el eje x (n repartidos, el primero y el último incluidos). */
+export function indicesEtiquetas(cantidad: number, n = 5): number[] {
+	if (cantidad <= n) return Array.from({ length: cantidad }, (_, i) => i);
+	return Array.from({ length: n }, (_, i) => Math.round((i * (cantidad - 1)) / (n - 1)));
+}
+
+/** AC-V20: decimales para mostrar juntos valores comparables (territorio y país): los del que más tiene (hasta 2). */
+export function decimalesComunes(valores: number[]): number {
+	return Math.min(2, Math.max(0, ...valores.map((v) => (String(v).split('.')[1] ?? '').length)));
+}

@@ -110,7 +110,7 @@ test('AC-L25: la ficha de un departamento muestra la serie desde 2022 frente al 
 	await expect(grafico).toHaveAttribute('data-puntos-pais', String(nPeriodos('pais', 'UY', 'tasa_actividad')));
 	expect(nPeriodos('departamento', '10', 'tasa_actividad')).toBeGreaterThan(nPeriodos('pais', 'UY', 'tasa_actividad'));
 	await expect(grafico).toHaveAttribute('aria-label', /Tasa de actividad: \d+ períodos desde Trimestre móvil dic 2021–feb 2022/);
-	await expect(seccion).toContainText('Total del país (lo publica el INE desde');
+	await expect(seccion).toContainText('Total del país (INE, desde');
 	const selector = seccion.getByRole('combobox', { name: 'Indicador' });
 	await expect(selector.locator('option')).toHaveCount(7);
 	await selector.selectOption({ label: 'Tasa de desempleo' });
@@ -127,7 +127,7 @@ test('AC-L25: municipios con serie y comparación; la ficha del país, sin líne
 	await expect(page.locator('#trabajo').getByRole('img')).toHaveAttribute('data-puntos-pais', /^[1-9]\d*$/);
 	await page.goto('territorio/pais/UY');
 	await expect(page.locator('#trabajo').getByRole('img')).toHaveAttribute('data-puntos-pais', '0');
-	await expect(page.locator('#trabajo')).not.toContainText('Total del país (lo publica');
+	await expect(page.locator('#trabajo')).not.toContainText('Total del país (INE');
 });
 
 // ---------------------------------------------------------------- F2.8d (#68): advertencias y sin rankings (AC-L26)
@@ -162,4 +162,31 @@ test('AC-L26: ninguna vista ofrece un ranking de territorios por el valor de un 
 	const nombres = await page.getByRole('tabpanel').locator('tbody tr th, tbody tr td:first-child').allTextContents();
 	const letras = nombres.map((n) => n.trim().replace(/^Municipio /, '')).filter((n) => /^[A-Z]{1,2}$/.test(n));
 	expect(letras).toEqual(['A', 'B', 'C', 'CH', 'D', 'E', 'F', 'G']);
+});
+
+test('AC-V20 y AC-V21: el gráfico de la serie tiene ejes redondos y legibles, decimales parejos y selector con estilo', async ({ page }, info) => {
+	test.skip(info.project.name === 'movil', 'las etiquetas del eje x se piden en escritorio');
+	await page.goto('territorio/departamento/10');
+	const seccion = page.locator('#trabajo');
+	const grafico = seccion.getByRole('img');
+	await expect(grafico).toBeVisible();
+	// eje y: valores redondos con paso de 1, 2, 2,5 o 5 × 10ⁿ
+	const y = await grafico.locator('text.eje[text-anchor="end"]').allTextContents();
+	const marcas = y.map((t) => Number(t.replace(/\./g, '').replace(',', '.'))).filter((v) => !Number.isNaN(v));
+	const paso = marcas[1] - marcas[0];
+	expect(marcas.length).toBeGreaterThanOrEqual(3);
+	const mantisa = Number((paso / 10 ** Math.floor(Math.log10(paso))).toFixed(6));
+	expect([1, 2, 2.5, 5]).toContain(mantisa);
+	for (let i = 1; i < marcas.length; i++) expect(Math.abs(marcas[i] - marcas[i - 1] - paso)).toBeLessThan(1e-6);
+	// eje x: al menos 4 etiquetas
+	expect(await grafico.locator('text.eje[y="232"]').count()).toBeGreaterThanOrEqual(4);
+	// territorio y país con los mismos decimales
+	const ultimo = (await seccion.locator('dl.ultimo dd').textContent()) ?? '';
+	const numeros = [...ultimo.matchAll(/\d+(?:,(\d+))?/g)].map((m) => (m[1] ?? '').length);
+	expect(new Set(numeros).size, ultimo).toBe(1);
+	// selector con el estilo del resto
+	const estilo = await seccion.getByRole('combobox', { name: 'Indicador' }).evaluate((el) => getComputedStyle(el).borderRadius);
+	expect(estilo).not.toBe('0px');
+	// AC-V21
+	await expect(seccion.locator('figcaption')).toContainText(/Total del país \(INE, desde [a-z]{3} \d{4}–[a-z]{3} \d{4}\)/);
 });
