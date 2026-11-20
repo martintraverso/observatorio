@@ -214,3 +214,77 @@ test('AC-V24: si un tema no se publica al nivel de la ficha, enlaza al nivel que
 		await expect(page.locator('section#trabajo').getByRole('link', { name: 'ver San José' })).toBeVisible();
 	}
 });
+
+test('AC-V22: información, advertencia y error tienen estilos distintos y se usan según el tipo de mensaje', async ({ page }) => {
+	await page.goto('territorio/departamento/07');
+	// explicaciones y «todavía no hay…»: información (azul), no advertencia
+	await expect(page.locator('#poblacion .nota')).toHaveClass(/\binfo\b/);
+	await expect(page.locator('#educacion .vacio')).toHaveClass(/\binfo\b/);
+	await expect(page.locator('section .aviso')).toHaveCount(0);
+	const fondo = (sel: string) => page.locator(sel).first().evaluate((el) => getComputedStyle(el).backgroundColor);
+	const info = await fondo('#poblacion .nota');
+	// algo que no existe: error (rojo)
+	await page.goto('./?indicador=pob_total&nivel=departamento&periodo=2023&territorio=departamento/99');
+	const error = page.getByRole('complementary', { name: 'Territorio seleccionado' }).getByRole('alert');
+	await expect(error).toBeVisible(); // también en celular (la hoja se abre con el error)
+	await expect(error).toContainText('No encontramos ese territorio.');
+	await expect(error).toHaveClass(/\berror\b/);
+	const rojo = await error.evaluate((el) => getComputedStyle(el).backgroundColor);
+	// la advertencia (naranja) sigue existiendo para lo que se puede malinterpretar
+	const naranja = await page.evaluate(() => {
+		const p = document.createElement('p');
+		p.className = 'aviso';
+		document.body.append(p);
+		const c = getComputedStyle(p).backgroundColor;
+		p.remove();
+		return c;
+	});
+	expect(new Set([info, rojo, naranja]).size).toBe(3);
+	// y se puede cerrar
+	await error.getByRole('button', { name: 'Cerrar' }).click();
+	await expect(error).toHaveCount(0);
+	await expect(page).not.toHaveURL(/territorio=/);
+});
+
+test('AC-V26: las fichas de segmento, sección y localidad muestran la unidad de cerca entre sus vecinos', async ({ page }, info) => {
+	test.skip(!['escritorio', 'movil'].includes(info.project.name), 'el mapa de cerca necesita WebGL (Chromium)');
+	type L = { loaded(): boolean; areTilesLoaded(): boolean; queryRenderedFeatures(o: { layers: string[] }): { properties: { id: string } }[] };
+	// además del urbano, el segmento de caja más grande (rural): no puede quedar en blanco por el zoom mínimo del PMTiles
+	const area = (t: { bbox: number[] }) => (t.bbox[2] - t.bbox[0]) * (t.bbox[3] - t.bbox[1]);
+	const rural = (indice as unknown as { nivel: string; codigo: string; nombre: string; depto: string; bbox: number[] }[])
+		.filter((t) => t.nivel === 'segmento')
+		.sort((a, b) => area(b) - area(a))[0];
+	const casos = [
+		de('segmento'),
+		rural,
+		de('seccion'),
+		indice.find((t) => t.nivel === 'localidad' && existsSync(`build/territorio/localidad/${t.codigo}.html`))!
+	].filter(Boolean);
+	for (const t of casos) {
+		await page.goto(`territorio/${t.nivel}/${t.codigo}`);
+		const cerca = page.getByRole('img', { name: `${t.nombre} y sus vecinos, de cerca` });
+		await cerca.scrollIntoViewIfNeeded();
+		await expect(cerca).toBeVisible();
+		await page.waitForFunction(() => {
+			const m = (window as unknown as { __localizador?: L }).__localizador;
+			return !!m && m.loaded() && m.areTilesLoaded();
+		}, undefined, { timeout: 20_000 });
+		const { propio, vecinos } = await page.evaluate((id) => {
+			const m = (window as unknown as { __localizador: L & { getLayer(id: string): unknown } }).__localizador;
+			// un segmento rural grande se marca con el rectángulo que ocupa (cerca-caja); los demás, con su polígono
+			const marca = m.getLayer('cerca-caja')
+				? m.queryRenderedFeatures({ layers: ['cerca-caja'] }).length
+				: m.queryRenderedFeatures({ layers: ['cerca-seleccion'] }).filter((f) => f.properties.id === id).length;
+			return {
+				propio: marca,
+				vecinos: new Set(m.queryRenderedFeatures({ layers: ['cerca-vecinos'] }).map((f) => f.properties.id)).size
+			};
+		}, `INE-2023/${t.nivel}/${t.codigo}`);
+		expect(propio, t.nivel).toBeGreaterThan(0);
+		// con vecinos alrededor (para una localidad, las secciones que la rodean)
+		expect(vecinos, t.nivel).toBeGreaterThan(1);
+	}
+	// los departamentos no lo llevan
+	await page.goto('territorio/departamento/07');
+	await expect(page.getByRole('img', { name: /de cerca/ })).toHaveCount(0);
+});

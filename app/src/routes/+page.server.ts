@@ -3,7 +3,14 @@ import type { IndicadorMapa } from '#lib/mapa/estado.ts';
 import { leerDatos } from '#lib/server/datos-build.ts';
 import type { PageServerLoad } from './$types';
 
+// Departamentos con su caja, para encuadrar el mapa al cambiar de nivel (AC-V7). ~2 KB.
+type EntradaIndice = { nivel: string; codigo: string; nombre: string; bbox: [number, number, number, number] };
+
 export const load: PageServerLoad = () => ({
+	departamentos: leerDatos<EntradaIndice[]>('territorios_index.json')
+		.filter((t) => t.nivel === 'departamento')
+		.map(({ codigo, nombre, bbox }) => ({ codigo, nombre, bbox }))
+		.sort((a, b) => a.nombre.localeCompare(b.nombre, 'es')),
 	indicadores: leerDatos<IndicadorMapa[]>('indicadores.json'),
 	fuentes: leerDatos<Fuente[]>('fuentes.json').map((f) => ({ id: f.id, nombre: f.nombre, organismo: f.organismo }))
 });

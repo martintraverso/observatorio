@@ -4,7 +4,7 @@
 	import TablaDesplazable from '#lib/TablaDesplazable.svelte';
 	import { etiquetaNivel } from '#lib/datos.ts';
 	import { fecha, numero } from '#lib/formato.ts';
-	import { TEXTO_RESULTADO } from '#lib/fuentes.ts';
+	import { nivelesDetallados, TEXTO_RESULTADO } from '#lib/fuentes.ts';
 	import { NOMBRE_SITIO, URL_REPOSITORIO } from '#lib/sitio.ts';
 
 	let { data } = $props();
@@ -53,7 +53,7 @@
 
 	<section class="tarjeta" aria-labelledby="titulo-alcance">
 		<h2 id="titulo-alcance">Hasta dónde llega en el territorio</h2>
-		<p>Nivel más detallado: <strong>{nivel(f.nivel_mas_detallado)}</strong>.</p>
+		<p>Nivel más detallado: <strong>{nivelesDetallados(f)}</strong>.</p>
 		<ul class="niveles">
 			{#each f.niveles_publicados as n (n)}
 				<li>{nivel(n)} <span class="suave">· {numero(data.territoriosPorNivel[n] ?? 0)} territorios</span></li>
@@ -93,7 +93,7 @@
 		</TablaDesplazable>
 		{#if data.indicadores[0]?.nota}<p class="suave nota">{data.indicadores[0].nota}</p>{/if}
 	{:else}
-		<p class="aviso">Esta fuente todavía no aporta indicadores.</p>
+		<p class="info">Esta fuente todavía no aporta indicadores.</p>
 	{/if}
 </section>
 
@@ -127,7 +127,7 @@
 			</table>
 		</TablaDesplazable>
 	{:else}
-		<p class="aviso">Todavía no hay capturas de esta fuente.</p>
+		<p class="info">Todavía no hay capturas de esta fuente.</p>
 	{/if}
 </section>
 
@@ -253,9 +253,9 @@
 	}
 
 	.resultado-error {
-		background: var(--aviso-fondo);
-		border-color: var(--aviso-borde);
-		color: var(--aviso-texto);
+		background: var(--error-fondo);
+		border-color: var(--error-borde);
+		color: var(--error-texto);
 	}
 
 	.detalle {

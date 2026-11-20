@@ -99,9 +99,10 @@ Visual system: Inter (body) + Space Grotesk (headings); ground `#F6F7F5`, cards 
 Global header: logo + "Observatorio Uruguay", nav (Mapa · Fichas · Datos · Fuentes), search box "Buscar departamento, localidad o código INE".
  
 **Mapa** (`/`)
-- Left panel: Tema pills (Población, Vivienda, Hogares, Trabajo, Ingresos, Educación) → Indicador list (each shows source and the finest level available) → Nivel territorial (Departamento | Sección | Segmento) → Período.
+- Left panel: Tema pills (Población, Vivienda, Hogares, Trabajo, Ingresos, Educación) → Indicador list (each shows source and the finest level available) → Nivel territorial (vertical list: Departamento | Municipio «Solo Montevideo» | Sección | Segmento; only levels with data) → Período.
+- Changing the level reframes the map (Montevideo for Municipio; the selected department for Sección/Segmento) and applies the **selection rule** (AC-V8): the side panel never shows a territory of another level. The selection is kept if it belongs to the new level; if one of its parents does (going coarser), that parent is selected; otherwise (going finer) the panel is cleared and the map stays framed on the department.
 - Center: choropleth map with real INE boundaries, legend, zoom controls, attribution "Límites: INE, unidades geoestadísticas 2023".
-- If the chosen indicator is not published at the chosen level → orange notice explaining it and showing the nearest available level.
+- If the chosen indicator is not published at the chosen level → notice naming that level and listing, as buttons, the levels where it exists, finest first (AC-V9): «Personas» no se publica por municipio. Disponible por: segmento · sección · departamento.
 - Right panel: selected territory name, level and INE code; **locator mini-map** of Uruguay with the territory highlighted (circle around very small ones like Montevideo); main value with unit, national total, source + methodology link; 3 other indicators; buttons "Ver ficha completa" and "Descargar CSV".
 - Mobile: topic chips row, indicator dropdown, map, bottom sheet with the selected territory.
 **Ficha de departamento** (`/territorio/<nivel>/<codigo>`)

@@ -183,3 +183,16 @@ export async function sinTextoInterno(page: Page): Promise<string[]> {
 	}
 	return problemas;
 }
+
+/** En celular y tableta los controles del mapa están en una hoja que abre la barra «… Cambiar» (AC-V13): la abre si hace falta. */
+export async function abrirOpciones(page: Page) {
+	const barra = page.getByRole('button', { name: /Cambiar$/ });
+	if (await barra.isVisible()) {
+		// reintenta: si la página todavía no se hidrató, el primer clic no hace nada
+		const { expect } = await import('@playwright/test');
+		await expect(async () => {
+			if (!(await page.locator('#controles-mapa').isVisible())) await barra.click();
+			await expect(page.locator('#controles-mapa')).toBeVisible({ timeout: 1000 });
+		}).toPass({ timeout: 10_000 });
+	}
+}

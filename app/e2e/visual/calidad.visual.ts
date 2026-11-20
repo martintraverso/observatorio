@@ -7,7 +7,7 @@
 import { expect, test } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 import { nivelesConDatos } from '../../src/lib/mapa/estado.ts';
-import { detectarDesbordes, esperarQuieta, revisarSegmentado, sinTextoInterno } from './ayudas';
+import { abrirOpciones, detectarDesbordes, esperarQuieta, revisarSegmentado, sinTextoInterno } from './ayudas';
 
 type Territorio = { nivel: string; codigo: string; nombre: string; depto: string };
 const indice = JSON.parse(readFileSync('build/datos-web/territorios_index.json', 'utf-8')) as Territorio[];
@@ -62,6 +62,7 @@ const NIVEL_TERRITORIAL = 'fieldset:has(> legend:text-is("Nivel territorial"))';
 for (const cantidad of [3, 4, 5]) {
 	test(`AC-V1: el selector «Nivel territorial» con ${cantidad} niveles: una fila o una lista vertical, sin cortes`, async ({ page }) => {
 		await page.goto('');
+		await abrirOpciones(page);
 		await expect(page.locator(NIVEL_TERRITORIAL).getByRole('radio')).toHaveCount(NIVELES.length);
 		// Con otra cantidad de niveles que la del build: se copian o se quitan opciones (el diseño no depende de cuántas haya).
 		await page.locator(NIVEL_TERRITORIAL).evaluate((g, n) => {
@@ -193,4 +194,108 @@ test(`AC-V18: largo de la ficha de Tacuarembó`, async ({ page }, info) => {
 	await esperarQuieta(page);
 	const alto = await page.evaluate(() => document.documentElement.scrollHeight);
 	expect(alto, `${alto} px`).toBeLessThanOrEqual(maximo!);
+});
+
+test('AC-V14: en celular y tableta el encabezado tiene como máximo 2 filas (≤ 120 px)', async ({ page }, info) => {
+	test.skip(!['768', '390'].includes(vista(info.project.name)), 'el criterio es para celular y tableta');
+	await page.goto('');
+	await esperarQuieta(page);
+	const { alto, filas } = await page.locator('header.encabezado').evaluate((h) => {
+		const partes = [h.querySelector('.marca'), h.querySelector('nav'), h.querySelector('form.buscar')].map((e) => e!.getBoundingClientRect());
+		const tops: number[] = [];
+		for (const r of partes) if (!tops.some((t) => Math.abs(t - r.top) < r.height / 2)) tops.push(r.top);
+		return { alto: h.getBoundingClientRect().height, filas: tops.length };
+	});
+	expect(alto).toBeLessThanOrEqual(120);
+	expect(filas).toBeLessThanOrEqual(2);
+	// el nombre del sitio sigue en el enlace para lectores de pantalla
+	await expect(page.getByRole('link', { name: 'Observatorio Uruguay' })).toBeVisible();
+});
+
+test('AC-V16: el texto de ayuda de la búsqueda nunca queda cortado', async ({ page }) => {
+	await page.goto('');
+	await esperarQuieta(page);
+	const { texto, entra } = await page.locator('#buscar').evaluate((i: HTMLInputElement) => {
+		const cs = getComputedStyle(i);
+		const ctx = document.createElement('canvas').getContext('2d')!;
+		ctx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+		return { texto: i.placeholder, entra: ctx.measureText(i.placeholder).width <= i.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight) };
+	});
+	expect(entra, texto).toBe(true);
+	// el nombre accesible del campo sigue siendo el completo
+	await expect(page.getByRole('combobox', { name: 'Buscar departamento, localidad o código INE' })).toBeVisible();
+});
+
+test('AC-V15: en celular los chips de temas no muestran barra de desplazamiento y se desvanecen en el borde', async ({ page }, info) => {
+	test.skip(!['768', '390'].includes(vista(info.project.name)), 'la fila desplazable es de celular y tableta');
+	await page.goto('');
+	const estilo = await page.locator('.chips').evaluate((c) => {
+		const cs = getComputedStyle(c);
+		return { barra: cs.scrollbarWidth, mascara: cs.maskImage || (cs as unknown as Record<string, string>).webkitMaskImage };
+	});
+	expect(estilo.barra).toBe('none');
+	expect(estilo.mascara).toContain('linear-gradient');
+});
+
+test('AC-V14 / AC-G5: a 320 px el logo es un área táctil de 44 px y la navegación no lo pisa', async ({ page }, info) => {
+	test.skip(vista(info.project.name) !== '390', 'se prueba una vez, en la vista de celular');
+	await page.setViewportSize({ width: 320, height: 700 });
+	await page.goto('');
+	await esperarQuieta(page);
+	const r = await page.evaluate(() => {
+		const marca = document.querySelector('header .marca')!.getBoundingClientRect();
+		const primero = document.querySelector('header nav a')!.getBoundingClientRect();
+		const alto = document.querySelector('header.encabezado')!.getBoundingClientRect().height;
+		return { marca: { ancho: marca.width, alto: marca.height, derecha: marca.right }, primero: primero.left, alto, scroll: document.documentElement.scrollWidth - document.documentElement.clientWidth };
+	});
+	expect(r.marca.ancho).toBeGreaterThanOrEqual(44);
+	expect(r.marca.alto).toBeGreaterThanOrEqual(44);
+	expect(r.marca.derecha).toBeLessThanOrEqual(r.primero);
+	expect(r.alto).toBeLessThanOrEqual(120);
+	expect(r.scroll).toBe(0);
+	expect(await detectarDesbordes(page)).toEqual([]);
+});
+
+test('AC-V15: el chip con el foco de teclado no queda bajo el desvanecido', async ({ page }, info) => {
+	test.skip(vista(info.project.name) !== '390', 'la fila desplazable se prueba en celular');
+	await page.goto('');
+	await abrirOpciones(page);
+	const temas = page.getByRole('group', { name: 'Tema' }).getByRole('radio');
+	await temas.first().focus();
+	for (let i = 1; i < (await temas.count()); i++) {
+		await page.keyboard.press('ArrowRight');
+		const { chip, fila, mascara } = await page.locator('.chips').evaluate((c) => {
+			const enfocado = c.querySelector('label:has(input:focus)')!.getBoundingClientRect();
+			const cs = getComputedStyle(c);
+			return { chip: enfocado, fila: c.getBoundingClientRect(), mascara: cs.maskImage || (cs as unknown as Record<string, string>).webkitMaskImage };
+		});
+		// o no hay máscara mientras hay foco, o el chip termina antes de la zona desvanecida
+		const visible = mascara === 'none' || chip.right <= fila.right - 48;
+		expect(visible).toBe(true);
+		expect(chip.right).toBeLessThanOrEqual(fila.right);
+		expect(chip.left).toBeGreaterThanOrEqual(fila.left);
+	}
+});
+
+test('AC-V25: en celular la ficha no tiene KPIs cortados, tablas de indicadores con scroll ni barra de secciones visible', async ({ page }, info) => {
+	test.skip(vista(info.project.name) !== '390', 'el criterio es a 390 px');
+	await page.goto(`territorio/departamento/${DEPTO.codigo}`);
+	await esperarQuieta(page);
+	// KPI en una sola línea
+	const kpis = await page.locator('.kpis dd').evaluateAll((dds) =>
+		dds.map((dd) => ({ texto: dd.textContent?.trim(), alto: dd.getBoundingClientRect().height, linea: parseFloat(getComputedStyle(dd).lineHeight) }))
+	);
+	expect(kpis.length).toBeGreaterThan(0);
+	for (const k of kpis) expect(k.alto, k.texto).toBeLessThan(k.linea * 1.5);
+	// tablas de indicadores apiladas, sin desplazamiento horizontal, y con la columna Fuente a la vista
+	const tablas = page.locator('section.seccion .tabla-apilada');
+	expect(await tablas.count()).toBeGreaterThan(0);
+	for (const t of await tablas.all()) {
+		const { ancho, visible } = await t.evaluate((el) => ({ ancho: el.scrollWidth - el.clientWidth, visible: el.offsetParent !== null }));
+		if (visible) expect(ancho).toBeLessThanOrEqual(1);
+	}
+	await expect(page.locator('section.seccion .tabla-apilada td[data-etiqueta="Fuente"]').first()).toBeVisible();
+	// barra de secciones sin scrollbar visible
+	const barra = await page.locator('nav.indice ul').evaluate((ul) => getComputedStyle(ul).scrollbarWidth);
+	expect(barra).toBe('none');
 });

@@ -4,6 +4,7 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
 import { readFileSync } from 'node:fs';
+import { abrirOpciones } from './visual/ayudas';
 
 const indicadores = JSON.parse(readFileSync('build/datos-web/indicadores.json', 'utf-8')) as {
 	codigo: string;
@@ -46,11 +47,12 @@ test('AC-L23: el tema Trabajo ofrece los 7 indicadores por departamento y munici
 	await nivel.getByRole('radio', { name: 'Sección' }).check();
 	const aviso = page.getByRole('status').filter({ hasText: 'no se publica por' });
 	await expect(aviso).toContainText('no se publica por sección');
-	await expect(aviso).toContainText('El nivel más detallado con datos es municipio (Montevideo)');
+	await expect(aviso).toContainText('Disponible por:');
+	await expect(aviso.getByRole('button')).toHaveText(['municipio', 'departamento']);
 	expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
 });
 
-test('AC-L24: la leyenda y el panel nombran el trimestre móvil y la fuente', async ({ page }) => {
+test('AC-L24: la leyenda y el panel nombran el trimestre móvil y la fuente', async ({ page }, info) => {
 	const [inicio, fin] = ultimo.split('/');
 	const meses = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'set', 'oct', 'nov', 'dic'];
 	const etiqueta = `Trimestre móvil ${meses[Number(inicio.slice(5)) - 1]}–${meses[Number(fin.slice(5)) - 1]} ${fin.slice(0, 4)}`;
@@ -60,7 +62,10 @@ test('AC-L24: la leyenda y el panel nombran el trimestre móvil y la fuente', as
 	await expect(leyenda(page)).toContainText(/\d+,\d a \d+,\d/); // clases con decimales
 	await expect(panel(page)).toContainText(`Tasa de actividad · ${etiqueta}`);
 	await expect(panel(page)).toContainText('Fuente: INE, ECH');
-	await expect(panel(page)).toContainText('el INE lo publica para este período'); // total del país del INE
+	await expect(panel(page)).toContainText('Total del país: en la ficha de Uruguay.'); // total del país del INE
+	// en celular el período también se lee en la barra compacta, y el selector está en la hoja (AC-V13)
+	if (info.project.name === 'movil') await expect(page.getByRole('button', { name: /Cambiar$/ })).toContainText(etiqueta);
+	await abrirOpciones(page);
 	await expect(page.getByRole('combobox', { name: 'Período' })).toHaveValue(ultimo);
 	await expect(page.getByRole('combobox', { name: 'Período' }).locator('option:checked')).toHaveText(etiqueta);
 });
@@ -81,11 +86,11 @@ test('AC-M3 con municipios: el municipio seleccionado se resalta y su panel se a
 test('la nota del total del país depende del período (nunca se suma)', async ({ page }) => {
 	const primero = trabajo[0].periodos[0]; // 2021-12/2022-02: el INE no publicó total del país
 	await page.goto(`?indicador=tasa_actividad&nivel=departamento&periodo=${primero}&territorio=departamento/10`);
-	await expect(panel(page)).toContainText('el INE no lo publicó para este período');
+	await expect(panel(page)).toContainText('Total del país: no publicado para este período');
 	await page.goto(`?indicador=tasa_actividad&nivel=departamento&periodo=${ultimo}&territorio=departamento/10`);
-	await expect(panel(page)).toContainText('el INE lo publica para este período');
+	await expect(panel(page)).toContainText('Total del país: en la ficha de Uruguay.');
 	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023&territorio=departamento/10');
-	await expect(panel(page)).toContainText('esta fuente no publica un total nacional');
+	await expect(panel(page)).toContainText('Total del país: no publicado por la fuente.');
 });
 
 // ---------------------------------------------------------------- F2.8c (#67): serie en las fichas (AC-L25)
@@ -105,7 +110,7 @@ test('AC-L25: la ficha de un departamento muestra la serie desde 2022 frente al 
 	await expect(grafico).toHaveAttribute('data-puntos-pais', String(nPeriodos('pais', 'UY', 'tasa_actividad')));
 	expect(nPeriodos('departamento', '10', 'tasa_actividad')).toBeGreaterThan(nPeriodos('pais', 'UY', 'tasa_actividad'));
 	await expect(grafico).toHaveAttribute('aria-label', /Tasa de actividad: \d+ períodos desde Trimestre móvil dic 2021–feb 2022/);
-	await expect(seccion).toContainText('Total del país (lo publica el INE desde');
+	await expect(seccion).toContainText('Total del país (INE, desde');
 	const selector = seccion.getByRole('combobox', { name: 'Indicador' });
 	await expect(selector.locator('option')).toHaveCount(7);
 	await selector.selectOption({ label: 'Tasa de desempleo' });
@@ -122,7 +127,7 @@ test('AC-L25: municipios con serie y comparación; la ficha del país, sin líne
 	await expect(page.locator('#trabajo').getByRole('img')).toHaveAttribute('data-puntos-pais', /^[1-9]\d*$/);
 	await page.goto('territorio/pais/UY');
 	await expect(page.locator('#trabajo').getByRole('img')).toHaveAttribute('data-puntos-pais', '0');
-	await expect(page.locator('#trabajo')).not.toContainText('Total del país (lo publica');
+	await expect(page.locator('#trabajo')).not.toContainText('Total del país (INE');
 });
 
 // ---------------------------------------------------------------- F2.8d (#68): advertencias y sin rankings (AC-L26)
@@ -157,4 +162,31 @@ test('AC-L26: ninguna vista ofrece un ranking de territorios por el valor de un 
 	const nombres = await page.getByRole('tabpanel').locator('tbody tr th, tbody tr td:first-child').allTextContents();
 	const letras = nombres.map((n) => n.trim().replace(/^Municipio /, '')).filter((n) => /^[A-Z]{1,2}$/.test(n));
 	expect(letras).toEqual(['A', 'B', 'C', 'CH', 'D', 'E', 'F', 'G']);
+});
+
+test('AC-V20 y AC-V21: el gráfico de la serie tiene ejes redondos y legibles, decimales parejos y selector con estilo', async ({ page }, info) => {
+	test.skip(info.project.name === 'movil', 'las etiquetas del eje x se piden en escritorio');
+	await page.goto('territorio/departamento/10');
+	const seccion = page.locator('#trabajo');
+	const grafico = seccion.getByRole('img');
+	await expect(grafico).toBeVisible();
+	// eje y: valores redondos con paso de 1, 2, 2,5 o 5 × 10ⁿ
+	const y = await grafico.locator('text.eje[text-anchor="end"]').allTextContents();
+	const marcas = y.map((t) => Number(t.replace(/\./g, '').replace(',', '.'))).filter((v) => !Number.isNaN(v));
+	const paso = marcas[1] - marcas[0];
+	expect(marcas.length).toBeGreaterThanOrEqual(3);
+	const mantisa = Number((paso / 10 ** Math.floor(Math.log10(paso))).toFixed(6));
+	expect([1, 2, 2.5, 5]).toContain(mantisa);
+	for (let i = 1; i < marcas.length; i++) expect(Math.abs(marcas[i] - marcas[i - 1] - paso)).toBeLessThan(1e-6);
+	// eje x: al menos 4 etiquetas
+	expect(await grafico.locator('text.eje[y="232"]').count()).toBeGreaterThanOrEqual(4);
+	// territorio y país con los mismos decimales
+	const ultimo = (await seccion.locator('dl.ultimo dd').textContent()) ?? '';
+	const numeros = [...ultimo.matchAll(/\d+(?:,(\d+))?/g)].map((m) => (m[1] ?? '').length);
+	expect(new Set(numeros).size, ultimo).toBe(1);
+	// selector con el estilo del resto
+	const estilo = await seccion.getByRole('combobox', { name: 'Indicador' }).evaluate((el) => getComputedStyle(el).borderRadius);
+	expect(estilo).not.toBe('0px');
+	// AC-V21
+	await expect(seccion.locator('figcaption')).toContainText(/Total del país \(INE, desde [a-z]{3} \d{4}–[a-z]{3} \d{4}\)/);
 });

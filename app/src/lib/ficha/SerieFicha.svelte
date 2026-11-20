@@ -4,10 +4,10 @@
 	// valores y la tabla con toda la serie (equivalente accesible del gráfico; es lo que baja el CSV, AC-F5).
 	import TablaDesplazable from '#lib/TablaDesplazable.svelte';
 	import type { Ficha, Observacion } from '#lib/datos.ts';
-	import { publicado } from '#lib/formato.ts';
+	import { numero, publicado } from '#lib/formato.ts';
 	import { etiquetaPeriodo } from '#lib/mapa/estado.ts';
 	import AdvertenciasFuente from '#lib/AdvertenciasFuente.svelte';
-	import { puntosSerie } from './logica.ts';
+	import { decimalesComunes, indicesEtiquetas, marcasRedondas, puntosSerie } from './logica.ts';
 
 	let {
 		ficha,
@@ -42,14 +42,19 @@
 		const pos = new Map(p.periodos.map((per, i) => [per, M.izq + (i * (W - M.izq - M.der)) / n]));
 		return (per: string) => pos.get(per) ?? null;
 	});
-	let rango = $derived.by(() => {
+	// AC-V20: el eje y va de una marca redonda a otra (paso de 1, 2, 2,5 o 5 × 10ⁿ).
+	let marcas = $derived.by(() => {
 		const v = [...p.territorio, ...p.pais].map((q) => q.valor);
-		if (!v.length) return { min: 0, max: 1 };
-		const min = Math.min(...v);
-		const max = Math.max(...v);
-		const margen = (max - min || Math.abs(max) || 1) * 0.1;
-		return { min: min - margen, max: max + margen };
+		return v.length ? marcasRedondas(Math.min(...v), Math.max(...v)) : [0, 1];
 	});
+	let rango = $derived({ min: marcas[0], max: marcas.at(-1)! });
+	let decimalesEje = $derived(decimalesComunes(marcas));
+	/** "2021-12/2022-02" -> "dic 21–feb 22" (etiqueta corta del eje x). */
+	const corta = (per: string) =>
+		etiquetaPeriodo(per)
+			.replace('Trimestre móvil ', '')
+			.replace(/(\d{2})(\d{2})/g, '$2');
+	let etiquetasX = $derived(indicesEtiquetas(p.periodos.length, 5).map((i) => p.periodos[i]));
 	const y = (v: number) => M.arr + ((rango.max - v) * (H - M.arr - M.aba)) / (rango.max - rango.min);
 	const linea = (pts: { periodo: string; valor: number }[]) =>
 		pts
@@ -57,11 +62,13 @@
 			.filter(([px]) => px !== null)
 			.map(([px, py]) => `${px!.toFixed(1)},${py.toFixed(1)}`)
 			.join(' ');
-	let marcas = $derived([rango.min, (rango.min + rango.max) / 2, rango.max]);
 	let ultimo = $derived(p.territorio.at(-1));
 	let ultimoObs = $derived((series.get(indicador) ?? []).at(-1));
 	let fuenteRef = $derived(ultimoObs ? ficha.fuentes[ficha.capturas[ultimoObs.captura_id]?.fuente_id] : undefined);
 	let paisUltimo = $derived(p.pais.find((q) => q.periodo === ultimo?.periodo));
+	// AC-V20: territorio y país con los mismos decimales
+	let decimales = $derived(decimalesComunes([ultimo?.valor, paisUltimo?.valor].filter((v): v is number => v != null)));
+	let siglasFuente = $derived(fuenteRef?.organismo.replace(/^.*\((\w+)\)$/, '$1') ?? '');
 	let resumen = $derived(
 		ultimo
 			? `${info?.nombre}: ${p.territorio.length} períodos desde ${etiquetaPeriodo(p.territorio[0].periodo)}; ` +
@@ -83,14 +90,16 @@
 		<svg viewBox="0 0 {W} {H}" role="img" aria-label={resumen} data-puntos={p.territorio.length} data-puntos-pais={p.pais.length}>
 			{#each marcas as m (m)}
 				<line class="guia" x1={M.izq} x2={W - M.der} y1={y(m)} y2={y(m)} />
-				<text class="eje" x={M.izq - 6} y={y(m) + 4} text-anchor="end">{publicado(Math.round(m * 10) / 10)}</text>
+				<text class="eje" x={M.izq - 6} y={y(m) + 4} text-anchor="end">{numero(m, decimalesEje)}</text>
 			{/each}
-			{#if p.periodos.length}
-				<text class="eje" x={M.izq} y={H - 8}>{etiquetaPeriodo(p.periodos[0]).replace('Trimestre móvil ', '')}</text>
-				<text class="eje" x={W - M.der} y={H - 8} text-anchor="end"
-					>{etiquetaPeriodo(p.periodos.at(-1)!).replace('Trimestre móvil ', '')}</text
+			{#each etiquetasX as per, i (per)}
+				<text
+					class="eje"
+					x={x(per)}
+					y={H - 8}
+					text-anchor={i === 0 ? 'start' : i === etiquetasX.length - 1 ? 'end' : 'middle'}>{corta(per)}</text
 				>
-			{/if}
+			{/each}
 			{#if p.pais.length}<polyline class="pais" points={linea(p.pais)} />{/if}
 			<polyline class="territorio" points={linea(p.territorio)} />
 		</svg>
@@ -98,7 +107,10 @@
 			<span class="item"><span class="clave territorio"></span>{ficha.nombre}</span>
 			{#if p.pais.length}
 				<span class="item"
-					><span class="clave pais"></span>Total del país (lo publica el INE desde {etiquetaPeriodo(p.pais[0].periodo)})</span
+					><span class="clave pais"></span>Total del país ({siglasFuente}, desde {etiquetaPeriodo(p.pais[0].periodo).replace(
+						'Trimestre móvil ',
+						''
+					)})</span
 				>
 			{/if}
 			<span class="item">{info?.unidad} · Fuente: {ultimoObs ? fuenteDe(ultimoObs) : ''}</span>
@@ -110,9 +122,9 @@
 			<div>
 				<dt>{info?.nombre} · {etiquetaPeriodo(ultimo.periodo)}</dt>
 				<dd>
-					{publicado(ultimo.valor)}
+					{numero(ultimo.valor, decimales)}
 					{info?.unidad}
-					{#if paisUltimo}<span class="suave"> (país: {publicado(paisUltimo.valor)} {info?.unidad})</span>{/if}
+					{#if paisUltimo}<span class="suave"> (país: {numero(paisUltimo.valor, decimales)} {info?.unidad})</span>{/if}
 				</dd>
 			</div>
 		</dl>
@@ -122,28 +134,33 @@
 
 	<details>
 		<summary>Ver los datos de la serie ({[...series.values()].reduce((n, s) => n + s.length, 0)} valores)</summary>
-		<TablaDesplazable etiqueta="{titulo}: serie en {ficha.nombre}">
-			<table>
+		<TablaDesplazable etiqueta="{titulo}: serie en {ficha.nombre}" clase="tabla-apilada">
+			<!-- svelte-ignore a11y_no_redundant_roles (las filas apiladas por CSS pierden la semántica de tabla) -->
+			<table role="table">
 				<caption class="visualmente-oculto">{titulo}: serie en {ficha.nombre}</caption>
-				<thead>
-					<tr>
-						<th scope="col">Indicador</th>
-						<th scope="col" class="num">Valor</th>
-						<th scope="col">Período</th>
-						<th scope="col">Fuente</th>
+				<!-- svelte-ignore a11y_no_redundant_roles (las filas apiladas por CSS pierden la semántica de tabla) -->
+				<thead role="rowgroup">
+					<!-- svelte-ignore a11y_no_redundant_roles (las filas apiladas por CSS pierden la semántica de tabla) -->
+					<tr role="row">
+						<th role="columnheader" scope="col">Indicador</th>
+						<th role="columnheader" scope="col" class="num">Valor</th>
+						<th role="columnheader" scope="col">Período</th>
+						<th role="columnheader" scope="col">Fuente</th>
 					</tr>
 				</thead>
-				<tbody>
+				<!-- svelte-ignore a11y_no_redundant_roles (las filas apiladas por CSS pierden la semántica de tabla) -->
+				<tbody role="rowgroup">
 					{#each [...series.values()].flat() as o (o.indicador + o.periodo)}
-						<tr>
-							<td>{ficha.indicadores[o.indicador]?.nombre ?? o.indicador}</td>
-							<td class="num">
+						<!-- svelte-ignore a11y_no_redundant_roles (las filas apiladas por CSS pierden la semántica de tabla) -->
+						<tr role="row">
+							<td role="cell" data-etiqueta="Indicador">{ficha.indicadores[o.indicador]?.nombre ?? o.indicador}</td>
+							<td role="cell" class="num" data-etiqueta="Valor">
 								{publicado(o.valor)}
 								{ficha.indicadores[o.indicador]?.unidad}
 								{#if o.es_estimado}<span class="estimado">estimado</span>{/if}
 							</td>
-							<td>{o.periodo}</td>
-							<td>{fuenteDe(o)}</td>
+							<td role="cell" data-etiqueta="Período">{o.periodo}</td>
+							<td role="cell" data-etiqueta="Fuente">{fuenteDe(o)}</td>
 						</tr>
 					{/each}
 				</tbody>
@@ -254,7 +271,14 @@
 		flex-wrap: wrap;
 	}
 
+	/* con el estilo de los demás selectores del sitio (AC-V20) */
 	select {
 		min-height: var(--toque-min);
+		border: 1px solid var(--borde);
+		border-radius: var(--radio-m);
+		background: var(--tarjeta);
+		padding: 0 var(--espacio-3);
+		font: inherit;
+		color: var(--texto);
 	}
 </style>

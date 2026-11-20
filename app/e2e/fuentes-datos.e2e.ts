@@ -48,7 +48,7 @@ test('AC-SRC2: los filtros funcionan y se combinan', async ({ page }) => {
 
 test('AC-SRC3 y AC-SRC4: detalle de la fuente con ficha técnica, indicadores, capturas y licencia literal', async ({ page }) => {
 	await page.goto('fuentes/');
-	await page.getByRole('link', { name: F.nombre }).click();
+	await page.getByRole('main').getByRole('link', { name: F.nombre }).click();
 	await expect(page).toHaveURL(new RegExp(`/fuentes/${F.id}/?$`));
 	await expect(page.getByRole('heading', { level: 1 })).toHaveText(F.nombre);
 	const tecnica = page.getByRole('region', { name: 'Ficha técnica' });
@@ -85,4 +85,46 @@ test('accesibilidad del detalle de fuente (axe)', async ({ page }) => {
 	const { violations } = await new AxeBuilder({ page }).analyze();
 	const graves = violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');
 	expect(graves.map((v) => `${v.id}: ${v.nodes.length} nodos`)).toEqual([]);
+});
+
+const activas = leer<{ id: string; nombre: string; estado: string; licencia: string; niveles_publicados: string[] }[]>('fuentes.json').filter(
+	(f) => f.estado === 'activa'
+);
+
+test('AC-V28: el nivel más detallado de la ECH dice «Departamento · Municipio (solo Montevideo)»', async ({ page }) => {
+	const ech = activas.find((f) => f.id === 'ine_ech_mercado_trabajo_departamental');
+	test.skip(!ech, 'la ECH no está activa en este build');
+	await page.goto('fuentes');
+	const fila = page.getByRole('table', { name: 'Fuentes de datos' }).getByRole('row').filter({ hasText: ech!.nombre });
+	await expect(fila).toContainText('Departamento · Municipio (solo Montevideo)');
+	await page.goto(`fuentes/${ech!.id}/`);
+	await expect(page.getByText('Nivel más detallado: Departamento · Municipio (solo Montevideo).')).toBeVisible();
+});
+
+test('AC-V29: el pie nombra todas las fuentes activas y queda abajo en páginas cortas', async ({ page }) => {
+	await page.setViewportSize({ width: 1440, height: 900 });
+	for (const ruta of ['fuentes', 'datos', 'fichas']) {
+		await page.goto(ruta);
+		const pie = page.getByRole('contentinfo');
+		for (const f of activas) await expect(pie.getByRole('link', { name: new RegExp(f.nombre.replace(/[()]/g, '\\$&')) })).toBeVisible();
+		const { abajo, alto } = await pie.evaluate((el) => ({ abajo: el.getBoundingClientRect().bottom + window.scrollY, alto: window.innerHeight }));
+		expect(abajo, ruta).toBeGreaterThanOrEqual(alto - 1);
+	}
+	// la página de error no se rompe
+	const r = await page.goto('territorio/departamento/99');
+	expect(r?.status()).toBe(404);
+	await expect(page.getByRole('contentinfo')).toBeVisible();
+});
+
+test('AC-V30: /datos muestra la licencia de cada fuente activa y los territorios por nivel con nombres legibles', async ({ page }) => {
+	await page.goto('datos');
+	const licencias = page.locator('.licencia');
+	for (const f of activas) await expect(licencias).toContainText(f.licencia);
+	const tabla = page.getByRole('table', { name: /Territorios/ });
+	await expect(tabla.getByRole('rowheader', { name: 'Departamento', exact: true })).toBeVisible();
+	await expect(tabla.getByRole('rowheader', { name: 'Sección censal' })).toBeVisible();
+	await expect(tabla.getByRole('rowheader')).not.toContainText([/^(pais|seccion|barrio_mvd|area_especial)$/]);
+	// una fila por nivel, con su GeoParquet y su GeoJSON
+	const depto = tabla.getByRole('row').filter({ has: page.getByRole('rowheader', { name: 'Departamento', exact: true }) });
+	await expect(depto.getByRole('link')).toHaveText(['territorios_departamento.parquet', 'territorios_departamento.geojson']);
 });

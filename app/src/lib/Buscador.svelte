@@ -7,6 +7,21 @@
 
 	const ID_LISTA = 'buscar-sugerencias';
 	const PLACEHOLDER = 'Buscar departamento, localidad o código INE';
+	/** Si el texto largo no entra en el campo, este (AC-V16: nunca cortado). */
+	const PLACEHOLDER_CORTO = 'Buscar territorio o código';
+	let anchoCampo = $state(0);
+	let lienzo: HTMLCanvasElement | null = null;
+	let placeholder = $derived.by(() => (anchoCampo && !entra(PLACEHOLDER, anchoCampo) ? PLACEHOLDER_CORTO : PLACEHOLDER));
+
+	/** Si el texto entra en el campo, con su letra y sin el relleno. */
+	function entra(texto: string, ancho: number): boolean {
+		if (!campo) return true;
+		const cs = getComputedStyle(campo);
+		const ctx = (lienzo ??= document.createElement('canvas')).getContext('2d');
+		if (!ctx) return true;
+		ctx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+		return ctx.measureText(texto).width <= ancho - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+	}
 
 	let consulta = $state('');
 	let abierto = $state(false);
@@ -87,6 +102,7 @@
 	<input
 		bind:this={campo}
 		bind:value={consulta}
+		bind:clientWidth={anchoCampo}
 		id="buscar"
 		type="text"
 		role="combobox"
@@ -94,7 +110,7 @@
 		aria-expanded={mostrarLista}
 		aria-controls={ID_LISTA}
 		aria-activedescendant={mostrarLista && activo >= 0 ? `${ID_LISTA}-${activo}` : undefined}
-		placeholder={PLACEHOLDER}
+		{placeholder}
 		autocomplete="off"
 		spellcheck="false"
 		onfocus={cargar}

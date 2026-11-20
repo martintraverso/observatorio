@@ -16,11 +16,22 @@ html {
 
 body {
 	margin: 0;
+	/* el pie queda abajo también en páginas cortas (AC-V29) */
+	min-height: 100dvh;
+	display: flex;
+	flex-direction: column;
 	background: var(--fondo);
 	color: var(--texto);
 	font-family: var(--fuente-texto);
 	font-size: var(--texto-m);
 	line-height: 1.5;
+}
+
+/* los hijos de un contenedor flex no se achican por debajo de su contenido sin esto: evita scroll horizontal (AC-G4) */
+body > div > :is(header, main, footer) {
+	min-width: 0;
+	/* con márgenes auto (.contenedor) un hijo de flex en columna no se estira: el ancho lo fija esto */
+	width: 100%;
 }
 
 h1,
@@ -68,12 +79,36 @@ a:hover {
 	box-shadow: var(--sombra);
 }
 
+/*
+ * Mensajes (AC-V22). Se usan siempre con este criterio:
+ * - .info: explicaciones, advertencias metodológicas de la fuente, «todavía no hay…» (azul neutro);
+ * - .aviso: datos que se pueden malinterpretar, p. ej. estimados (naranja);
+ * - .error: algo que falló o no existe (rojo).
+ */
+.aviso,
+.info,
+.error {
+	border: 1px solid;
+	border-radius: var(--radio-m);
+	padding: var(--espacio-3) var(--espacio-4);
+}
+
 .aviso {
 	background: var(--aviso-fondo);
-	border: 1px solid var(--aviso-borde);
-	border-radius: var(--radio-m);
+	border-color: var(--aviso-borde);
 	color: var(--aviso-texto);
-	padding: var(--espacio-3) var(--espacio-4);
+}
+
+.info {
+	background: var(--info-fondo);
+	border-color: var(--info-borde);
+	color: var(--info-texto);
+}
+
+.error {
+	background: var(--error-fondo);
+	border-color: var(--error-borde);
+	color: var(--error-texto);
 }
 
 .suave {
@@ -97,6 +132,56 @@ td {
 	padding: var(--espacio-2) var(--espacio-3);
 	border-bottom: 1px solid var(--borde);
 	vertical-align: middle;
+}
+
+/*
+ * AC-V25: en celular, las tablas de indicadores (.tabla-apilada) pasan a filas apiladas, sin desplazamiento
+ * horizontal: cada celda lleva su encabezado (data-etiqueta) delante. Las demás tablas siguen desplazándose.
+ */
+@media (max-width: 600px) {
+	.tabla-scroll.tabla-apilada table {
+		min-width: 0;
+	}
+
+	.tabla-apilada thead {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
+	}
+
+	.tabla-apilada tr {
+		display: block;
+		padding: var(--espacio-2) 0;
+		border-bottom: 1px solid var(--borde);
+	}
+
+	.tabla-apilada td,
+	.tabla-apilada td.num {
+		display: grid;
+		grid-template-columns: 7.5rem minmax(0, 1fr);
+		gap: var(--espacio-2);
+		padding: var(--espacio-1) 0;
+		border: 0;
+		text-align: left;
+		white-space: normal;
+		overflow-wrap: anywhere;
+	}
+
+	/* la insignia «estimado» va junto al valor, no en la columna de la etiqueta */
+	.tabla-apilada td .estimado {
+		grid-column: 2;
+		justify-self: start;
+	}
+
+	.tabla-apilada td::before {
+		content: attr(data-etiqueta);
+		/* solo visual: el lector de pantalla ya anuncia el encabezado de la columna */
+		content: attr(data-etiqueta) / '';
+		color: var(--texto-suave);
+		font-size: var(--texto-xs);
+	}
 }
 
 /* En pantallas angostas la tabla se desplaza dentro de su región en vez de apretarse. */

@@ -1,8 +1,3 @@
-<script lang="ts" module>
-	// El protocolo pmtiles:// se registra una sola vez por página.
-	let protocoloRegistrado = false;
-</script>
-
 <script lang="ts">
 	// Mapa de MapLibre GL sobre territorios.pmtiles (M6, AC-M1). Sin mapa base: los límites del INE sobre el fondo.
 	import 'maplibre-gl/dist/maplibre-gl.css';
@@ -13,6 +8,7 @@
 	import { clase, NIVELES_MAPA, type Clases, type NivelMapa, ZOOM_SEGMENTOS } from './estado.ts';
 	import MiniMapa from './MiniMapa.svelte';
 	import { LOCALE_MAPA } from './idioma.ts';
+	import { cargarMapLibre } from './cargar.ts';
 
 	let {
 		nivel,
@@ -21,7 +17,8 @@
 		seleccionado,
 		onseleccionar,
 		onzoom,
-		reservaIzquierda = 0
+		reservaIzquierda = 0,
+		departamentos = []
 	}: {
 		nivel: NivelMapa;
 		/** codigo -> valor del indicador y período elegidos, en el nivel elegido. */
@@ -33,7 +30,50 @@
 		onzoom?: (zoom: number) => void;
 		/** px que tapa algo superpuesto a la izquierda (la leyenda, AC-V4): los encuadres lo dejan libre. */
 		reservaIzquierda?: number;
+		/** Caja de cada departamento, para marcar los que casi no se ven (AC-V12). */
+		departamentos?: { codigo: string; bbox: [number, number, number, number] }[];
 	} = $props();
+
+	/**
+	 * Por debajo de este tamaño en pantalla (px de lado) un departamento lleva un anillo para encontrarlo (AC-V12).
+	 * El AC pide al menos los de menos de 20×20 px; con el zoom mínimo del mapa ninguno llega a eso, pero
+	 * Montevideo a escala país mide ~43 px a 1024 (V-09) y el siguiente más chico, Flores, ~89 px.
+	 */
+	const MIN_VISIBLE = 48;
+
+	/**
+	 * Colores de la vista previa (móvil, antes de tocar el mapa): por departamento, con las mismas clases y
+	 * colores que la leyenda (AC-V13). En otros niveles la vista previa no tiene esas unidades: queda el contorno.
+	 */
+	let coloresPrevia = $derived.by(() => {
+		if (nivel !== 'departamento' || !clases) return null;
+		const paleta = coloresClases(clases.cortes.length + 1);
+		return Object.fromEntries(
+			Object.entries(valores).map(([codigo, v]) => [codigo, v === null ? COLOR_SIN_DATO : paleta[clase(v, clases)]])
+		);
+	});
+
+	/** Centros de los departamentos que, con el zoom actual, ocupan menos de MIN_VISIBLE px de lado (p. ej. Montevideo a escala país). */
+	function actualizarChicos() {
+		const m = mapa;
+		const fuente = m?.getSource('chicos') as { setData(d: unknown): void } | undefined;
+		if (!m || !fuente) return;
+		const features =
+			nivel !== 'departamento'
+				? []
+				: departamentos
+						.filter((d) => {
+							const a = m.project([d.bbox[0], d.bbox[1]]);
+							const b = m.project([d.bbox[2], d.bbox[3]]);
+							return Math.abs(b.x - a.x) < MIN_VISIBLE && Math.abs(b.y - a.y) < MIN_VISIBLE;
+						})
+						.map((d) => ({
+							type: 'Feature',
+							properties: { id: `INE-2023/departamento/${d.codigo}` },
+							geometry: { type: 'Point', coordinates: [(d.bbox[0] + d.bbox[2]) / 2, (d.bbox[1] + d.bbox[3]) / 2] }
+						}));
+		fuente.setData({ type: 'FeatureCollection', features });
+	}
 
 	/**
 	 * Margen de los encuadres: parejo, más lo que tapa la leyenda a la izquierda. Si el mapa es angosto
@@ -58,44 +98,52 @@
 	let contenedor: HTMLDivElement;
 	let mapa: MapaLibre | null = $state(null);
 	let listo = $state(false);
+	// Primer dibujo terminado (evento idle): hasta entonces se ve «Cargando el mapa…» (AC-V6).
+	let dibujado = $state(false);
 	let nombreBajoCursor = $state('');
 	let sinMapa = $state(false);
 	let esperandoToque = $state(false);
 	let iniciarMapa: (() => void) | null = null;
 	let pintado: { nivel: string; ids: string[] } = { nivel: '', ids: [] };
 
-	let pendiente: [number, number, number, number] | null = null;
+	let pendiente: { bbox: [number, number, number, number]; zoomMinimo: number } | null = null;
 
-	/** Encuadra un territorio (bbox [oeste, sur, este, norte]); si el mapa no está listo, al cargar. */
-	export function enfocar(bbox: [number, number, number, number]) {
+	/**
+	 * Encuadra un territorio (bbox [oeste, sur, este, norte]); si el mapa no está listo, al cargar.
+	 * `zoomMinimo`: p. ej. el zoom desde el que se dibujan los segmentos, aunque el territorio no entre entero (AC-V7).
+	 */
+	export function enfocar(bbox: [number, number, number, number], zoomMinimo = 0) {
 		if (!mapa || !listo) {
-			pendiente = bbox;
+			pendiente = { bbox, zoomMinimo };
 			return;
 		}
-		mapa.fitBounds(
+		const camara = mapa.cameraForBounds(
 			[
 				[bbox[0], bbox[1]],
 				[bbox[2], bbox[3]]
 			],
-			{ padding: margen(40), maxZoom: 13, duration: 600 }
+			{ padding: margen(40), maxZoom: 13 }
 		);
+		if (!camara) return;
+		if ((camara.zoom ?? 0) >= zoomMinimo) {
+			mapa.easeTo({ ...camara, duration: 600 });
+			return;
+		}
+		// Más cerca de lo que entra: centrado en el territorio (el corrimiento por la leyenda crecería con el zoom).
+		const centro: [number, number] = [(bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2];
+		mapa.easeTo({ center: centro, zoom: zoomMinimo, duration: 600 });
+	}
+
+	/** Vuelve a mostrar todo el país. */
+	export function enfocarPais() {
+		enfocar([URUGUAY[0][0], URUGUAY[0][1], URUGUAY[1][0], URUGUAY[1][1]]);
 	}
 
 	onMount(() => {
 		let destruido = false;
 		const iniciar = async () => {
-			const [maplibregl, { Protocol }, { default: urlWorker }] = await Promise.all([
-				import('maplibre-gl'),
-				import('pmtiles'),
-				// MapLibre 6 corre en un worker de módulo aparte; Vite lo copia y da su URL.
-				import('maplibre-gl/dist/maplibre-gl-worker.mjs?url')
-			]);
+			const maplibregl = await cargarMapLibre();
 			if (destruido) return;
-			if (!protocoloRegistrado) {
-				maplibregl.setWorkerUrl(urlWorker);
-				maplibregl.addProtocol('pmtiles', new Protocol().tile);
-				protocoloRegistrado = true;
-			}
 			const pmtiles = new URL(urlDatos('territorios.pmtiles'), location.href).href;
 			let m: MapaLibre;
 			try {
@@ -115,7 +163,10 @@
 					locale: LOCALE_MAPA,
 					style: {
 						version: 8,
-						sources: { [FUENTE]: { type: 'vector', url: `pmtiles://${pmtiles}`, promoteId: 'id' } },
+						sources: {
+							[FUENTE]: { type: 'vector', url: `pmtiles://${pmtiles}`, promoteId: 'id' },
+							chicos: { type: 'geojson', data: { type: 'FeatureCollection', features: [] } }
+						},
 						layers: [
 							{ id: 'fondo', type: 'background', paint: { 'background-color': '#f6f7f5' } },
 							...NIVELES.flatMap((n) => [
@@ -145,6 +196,19 @@
 								'source-layer': 'departamento',
 								paint: { 'line-color': '#4f5b67', 'line-width': 1.2 }
 							},
+							// halo blanco + trazo oscuro: se ve también sobre la clase más oscura de la coropleta
+							{
+								id: 'anillo-chicos-halo',
+								type: 'circle',
+								source: 'chicos',
+								paint: { 'circle-radius': 14, 'circle-color': 'rgba(0, 0, 0, 0)', 'circle-stroke-color': '#ffffff', 'circle-stroke-width': 5 }
+							},
+							{
+								id: 'anillo-chicos',
+								type: 'circle',
+								source: 'chicos',
+								paint: { 'circle-radius': 14, 'circle-color': 'rgba(0, 0, 0, 0)', 'circle-stroke-color': '#1b2430', 'circle-stroke-width': 2 }
+							},
 							...NIVELES_SELECCION.map((n) => ({
 								id: `seleccion-${n}`,
 								type: 'line' as const,
@@ -166,6 +230,8 @@
 			m.getCanvas().setAttribute('aria-label', 'Mapa de Uruguay con los límites del INE');
 			for (const n of NIVELES) {
 				m.on('click', `relleno-${n}`, (e: MapLayerMouseEvent) => {
+					// si el clic cae en un anillo, lo maneja el anillo (elige el territorio chico)
+					if (m.queryRenderedFeatures(e.point, { layers: ['anillo-chicos'] }).length) return;
 					const id = e.features?.[0]?.properties?.id;
 					if (typeof id === 'string') onseleccionar(id);
 				});
@@ -179,14 +245,24 @@
 				});
 			}
 			m.on('zoomend', () => onzoom?.(m.getZoom()));
+			m.on('moveend', actualizarChicos);
+			// Tocar el anillo elige el territorio, como tocar el polígono.
+			m.on('click', 'anillo-chicos', (e: MapLayerMouseEvent) => {
+				const id = e.features?.[0]?.properties?.id;
+				if (typeof id === 'string') onseleccionar(id);
+			});
+			m.on('mouseenter', 'anillo-chicos', () => (m.getCanvas().style.cursor = 'pointer'));
+			m.on('mouseleave', 'anillo-chicos', () => (m.getCanvas().style.cursor = ''));
 			m.on('load', () => {
 				listo = true;
+				actualizarChicos();
 				onzoom?.(m.getZoom());
 				if (pendiente) {
-					enfocar(pendiente);
+					enfocar(pendiente.bbox, pendiente.zoomMinimo);
 					pendiente = null;
 				}
 			});
+			m.once('idle', () => (dibujado = true));
 			mapa = m;
 			// Para los tests e2e (ubicar territorios en pantalla).
 			(window as unknown as { __mapa?: MapaLibre }).__mapa = m;
@@ -247,6 +323,12 @@
 		m.setPaintProperty(`relleno-${nivel}`, 'fill-color', expresion as never);
 	});
 
+	// Anillos de territorios chicos: se recalculan al cambiar de nivel (y al mover el mapa, en moveend).
+	$effect(() => {
+		void nivel;
+		if (mapa && listo) actualizarChicos();
+	});
+
 	// Territorio seleccionado: contorno naranja en su capa.
 	$effect(() => {
 		const m = mapa;
@@ -265,10 +347,14 @@
 	{#if esperandoToque}
 		<div class="previa">
 			<div class="contorno" aria-hidden="true">
-				<MiniMapa nombre="Uruguay" depto="" nivel="pais" bbox={[-58.5, -35.05, -53.05, -30.05]} resaltar={false} />
+				<MiniMapa nombre="Uruguay" depto="" nivel="pais" bbox={[-58.5, -35.05, -53.05, -30.05]} resaltar={false} colores={coloresPrevia} />
 			</div>
 			<button type="button" class="activar" onclick={() => iniciarMapa?.()}>Ver el mapa interactivo</button>
 		</div>
+	{/if}
+	{#if !dibujado && !esperandoToque && !sinMapa}
+		<!-- Ya viene en el HTML prerenderizado: se ve apenas carga la página (AC-V6). -->
+		<div class="cargando" role="status">Cargando el mapa…</div>
 	{/if}
 	{#if sinMapa}
 		<div class="sin-mapa aviso" role="status">
@@ -300,7 +386,6 @@
 
 	.contorno {
 		width: min(70%, 260px);
-		opacity: 0.8;
 	}
 
 	.activar {
@@ -313,6 +398,17 @@
 		font: inherit;
 		font-weight: 600;
 		cursor: pointer;
+	}
+
+	.cargando {
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+		display: grid;
+		place-items: center;
+		color: var(--texto-suave);
+		font-size: var(--texto-s);
+		pointer-events: none;
 	}
 
 	.sin-mapa {

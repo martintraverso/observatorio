@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Fuente } from './datos';
-import { datosCatalogo, filtrar, historialDe, resumen, SIN_FILTROS, ultimaCaptura, type CapturaHistorial } from './fuentes';
+import { datosCatalogo, filtrar, nivelesDetallados, historialDe, resumen, SIN_FILTROS, ultimaCaptura, type CapturaHistorial } from './fuentes';
 
 const f = (id: string, organismo: string, estado: string, niveles: string[], temas: string[]) =>
 	({ id, nombre: id.toUpperCase(), organismo, estado, niveles_publicados: niveles, temas }) as unknown as Fuente;
@@ -66,5 +66,17 @@ describe('datosCatalogo (#96, AC-G6)', () => {
 		const chico = JSON.stringify(datosCatalogo(FUENTES, HISTORIAL)).length;
 		const grande = JSON.stringify(datosCatalogo(FUENTES, [...HISTORIAL, ...largo])).length;
 		expect(grande).toBe(chico);
+	});
+});
+
+describe('nivelesDetallados (AC-V28)', () => {
+	const fu = (niveles: string[]) => ({ niveles_publicados: niveles }) as unknown as Fuente;
+	it('el nivel más fino de alcance nacional y, si es más fino, el de Montevideo', () => {
+		expect(nivelesDetallados(fu(['pais', 'departamento', 'municipio_mvd']))).toBe('Departamento · Municipio (solo Montevideo)');
+		expect(nivelesDetallados(fu(['departamento', 'seccion', 'segmento', 'localidad', 'barrio_mvd', 'ccz_mvd']))).toBe('Segmento censal');
+		expect(nivelesDetallados(fu(['departamento']))).toBe('Departamento');
+		expect(nivelesDetallados(fu(['pais']))).toBe('País');
+		// de Montevideo, solo el más fino
+		expect(nivelesDetallados(fu(['departamento', 'municipio_mvd', 'ccz_mvd']))).toBe('Departamento · CCZ (solo Montevideo)');
 	});
 });

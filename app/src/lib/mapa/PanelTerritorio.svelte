@@ -57,24 +57,22 @@
 				{#if principal.es_estimado}<span class="estimado">estimado</span>{/if}
 			</p>
 			<p class="suave fuente">Fuente: {fuente(principal)}</p>
+			<!-- AC-V11: una línea corta. El total es el que publica la fuente; nunca se calcula sumando territorios. -->
 			<p class="suave fuente">
 				{#if totalPais === 'periodo'}
-					Total del país: el INE lo publica para este período; está en la <a
-						href={hrefFicha({ nivel: 'pais', codigo: 'UY' })}>ficha de Uruguay</a
-					>. El observatorio no suma territorios para calcularlo.
+					Total del país: en la <a href={hrefFicha({ nivel: 'pais', codigo: 'UY' })}>ficha de Uruguay</a>.
 				{:else if totalPais === 'otros'}
-					Total del país: el INE no lo publicó para este período (sí para otros, en la <a
+					Total del país: no publicado para este período (sí para otros, en la <a
 						href={hrefFicha({ nivel: 'pais', codigo: 'UY' })}>ficha de Uruguay</a
-					>), y el observatorio no suma territorios para calcularlo.
+					>).
 				{:else}
-					Total del país: esta fuente no publica un total nacional, y el observatorio no suma territorios para
-					calcularlo.
+					Total del país: no publicado por la fuente.
 				{/if}
 			</p>
 			<AdvertenciasFuente fuente={refFuente(principal)?.nombre ?? ''} advertencias={refFuente(principal)?.advertencias ?? []} />
 		</div>
 	{:else}
-		<p class="aviso">Este territorio no tiene datos de este indicador para {etiquetaPeriodo(periodo)}.</p>
+		<p class="info">Este territorio no tiene datos de este indicador para {etiquetaPeriodo(periodo)}.</p>
 	{/if}
 
 	{#if otros.length}
@@ -90,7 +88,8 @@
 				</div>
 			{/each}
 		</dl>
-		<p class="suave fuente">Fuente: {fuente(otros[0])}</p>
+		<!-- la fuente, una sola vez: solo si los otros datos son de otra fuente que el principal (AC-V11) -->
+		{#if !principal || fuente(otros[0]) !== fuente(principal)}<p class="suave fuente">Fuente: {fuente(otros[0])}</p>{/if}
 	{/if}
 
 	<div class="acciones">
@@ -204,10 +203,16 @@
 		font-size: var(--texto-xs);
 	}
 
+	/* los botones del mismo ancho, uno debajo del otro: en 330 px dos columnas cortaban el texto (AC-V11) */
 	.acciones {
-		display: flex;
-		flex-wrap: wrap;
+		display: grid;
+		grid-template-columns: 1fr;
 		gap: var(--espacio-2);
+	}
+
+	.acciones .boton {
+		justify-content: center;
+		text-align: center;
 	}
 
 	.boton {
