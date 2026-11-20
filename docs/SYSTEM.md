@@ -96,31 +96,41 @@ Design canvas: https://claude.ai/artifact/Ptk7RiGZ5N6KerdktAGkaz (may not be acc
  
 Visual system: Inter (body) + Space Grotesk (headings); ground `#F6F7F5`, cards `#FFFFFF` with `#DDE1E5` borders, radius 10–16 px; sequential blue ramp `#EAF1F8 #C3D7EC #8DB4DB #4F86C0 #1F5A96`; selection accent orange `#E07A1F`; primary button `#1F4E8C`. Touch targets ≥ 44 px. Text contrast ≥ 4.5:1.
  
-Global header: logo + "Observatorio Uruguay", nav (Mapa · Fichas · Datos · Fuentes), search box "Buscar departamento, localidad o código INE".
+Global header: logo + "Observatorio Uruguay", nav (Mapa · Fichas · Datos · Fuentes), search box "Buscar departamento, localidad o código INE" (shorter placeholder "Buscar territorio o código" when the long one does not fit). On mobile (≤ 640 px) the header has two rows: logo (name for screen readers only) + nav; search.
+
+Global footer: every active source (from `fuentes.json`) with a link to its page; it sits at the bottom on short pages.
+
+Messages (M10, AC-V22): three styles used consistently — **info** (blue: explanations, source caveats, "todavía no hay…"), **warning** (orange: data that can be misread, e.g. estimates), **error** (red: something failed or does not exist).
  
 **Mapa** (`/`)
 - Left panel: Tema pills (Población, Vivienda, Hogares, Trabajo, Ingresos, Educación) → Indicador list (each shows source and the finest level available) → Nivel territorial (vertical list: Departamento | Municipio «Solo Montevideo» | Sección | Segmento; only levels with data) → Período.
 - Changing the level reframes the map (Montevideo for Municipio; the selected department for Sección/Segmento) and applies the **selection rule** (AC-V8): the side panel never shows a territory of another level. The selection is kept if it belongs to the new level; if one of its parents does (going coarser), that parent is selected; otherwise (going finer) the panel is cleared and the map stays framed on the department.
-- Center: choropleth map with real INE boundaries, legend, zoom controls, attribution "Límites: INE, unidades geoestadísticas 2023".
+- Center: choropleth map with real INE boundaries, legend as an overlay (bottom-left; map fits leave its space), zoom controls, attribution "Límites: INE, unidades geoestadísticas 2023". A "Cargando el mapa…" state until the first draw. Departments smaller than 48 px on screen (Montevideo at country scale) get a ring that selects them. With nothing selected the right panel is not shown and a hint sits over the map.
 - If the chosen indicator is not published at the chosen level → notice naming that level and listing, as buttons, the levels where it exists, finest first (AC-V9): «Personas» no se publica por municipio. Disponible por: segmento · sección · departamento.
 - Right panel: selected territory name, level and INE code; **locator mini-map** of Uruguay with the territory highlighted (circle around very small ones like Montevideo); main value with unit, national total, source + methodology link; 3 other indicators; buttons "Ver ficha completa" and "Descargar CSV".
-- Mobile: topic chips row, indicator dropdown, map, bottom sheet with the selected territory.
+- Mobile (≤ 900 px): a compact bar summarises the choice ("Personas · Departamento · 2023 · Cambiar") and opens the controls in a bottom sheet, so the map starts within the first screen; before tapping, the map preview is coloured with the legend classes; topic chips scroll without a visible scrollbar and fade at the edge; bottom sheet with the selected territory.
 **Ficha de departamento** (`/territorio/<nivel>/<codigo>`)
-- Breadcrumb; name, level, code; 4 KPIs (población, superficie, densidad, localidades); locator map; actions: Comparar, Descargar CSV, Copiar enlace, Cómo citar.
+- Breadcrumb; name, level, code; KPIs (personas, viviendas, superficie, localidades, and for departments "Densidad", **computed by the app** from the census population and the INE geometry area, marked "calculada", never stored as an observation — #111) with a footnote naming the source of each; locator map; actions: Descargar CSV, Copiar enlace, Cómo citar.
 - Section nav: Población · Vivienda y hogares · Trabajo e ingresos · Educación · Dentro del departamento · Fuentes.
 - Indicator cards compare the territory vs. national total; population pyramid; annual series chart for survey indicators.
 - "Dentro del departamento": table of child units (secciones / localidades / segmentos) with counts and "Ver en el mapa".
-- Empty topics show an explicit "no sources loaded yet" notice instead of blank space.
-- "Fuentes de esta ficha": each dataset with download date, link to original, methodology; citation text.
+- Empty topics show an explicit "no sources loaded yet" notice instead of blank space; if a containing level has data for that topic, the ficha says so and links there ("Trabajo: se publica por departamento → ver San José").
+- Series charts: round y ticks, ≥ 4 x labels, same decimals for territory and country. Source caveats (e.g. INE for the ECH): a visible summary naming every topic and the full list folded ("Ver todas las advertencias").
+- Mobile: KPI values on one line, indicator tables as stacked rows, section nav without a visible scrollbar.
+- "Fuentes de esta ficha": one entry per source (name linked to `/fuentes/<id>`, license once, last capture) with its files folded behind "Ver los N archivos"; citation text. Maintainer notes stay in `notas_internas` and are never shown.
 **Ficha de segmento** (designed as "zona"; implement as segmento)
-- Breadcrumb Uruguay › Depto › Sección › Segmento; code chips; counts (personas, viviendas) with share of section and department; locator map + close-up of the unit among neighbours.
+- Breadcrumb Uruguay › Depto › Sección › Segmento; code chips; counts (personas, viviendas) with share of section and department; locator map + close-up of the unit among neighbours (segment, section and locality fichas; for localities the context is the surrounding sections; large rural segments, below the PMTiles segment zoom, are shown as their bounding box among sections).
 - "Más datos en los niveles que contienen este territorio": cards for sección and departamento with their indicators and links.
 - "Hechos registrados" placeholder for future point sources; "En censos anteriores" placeholder for 2011 correspondence.
 **Fuentes** (`/fuentes`) — catalog: summary counts (activas, en preparación, a relevar, última revisión), filters (search, organismo, nivel, estado), table (fuente, temas, nivel más detallado, frecuencia, última captura, estado badge), and a 4-step "Cómo trabajamos con cada fuente" explainer.
  
 **Detalle de fuente** (`/fuentes/<id>`) — description, ficha técnica, indicators derived, capture history (date, file, sha256, result: nuevo / sin cambios / error), notes/warnings, "hasta dónde llega en el territorio", related tools, "Reportar un problema".
  
-**Datos** (`/datos`) — not designed yet: bulk downloads (Parquet, CSV, GeoJSON) per level and per indicator, with license and citation.
+**Datos** (`/datos`) — bulk downloads: observations, territories grouped by level (one row per level with readable names, one column per format: GeoParquet, GeoJSON), full database; the license of every active source and a citation naming them.
+
+The "Nivel más detallado" of a source (in `/fuentes`) names the finest nationwide level and, if finer, the Montevideo-only one ("Departamento · Municipio (solo Montevideo)").
+
+Visual regression (AC-V31): Playwright screenshot baselines of the main pages at 1440, 1024, 768 and 390 px, taken on the CI runner with the fixture; updated only in PRs labelled `visual`.
  
 ## 9. Known sources (see `fuentes/` and project notes)
  
