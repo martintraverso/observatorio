@@ -32,8 +32,7 @@ nivel_mas_detallado: departamento
 
 periodo: >-
   Trimestres calendario («Enero - Marzo/16» = 2016-01-01…2016-03-31) y años («Total 2016»). Las cifras son
-  ingresos medios en pesos; ni las planillas ni los informes dicen si son «por mes» (pregunta abierta en el PR de
-  F3.1, #125).
+  ingresos medios mensuales, en pesos por mes.
 
 # Columna → territorio (AC-I7). El encabezado varía entre planillas: «Total Pais» (ECHING07–14, ECHINGRESOS3) o
 # «Total País» (ECHINGRESOS2), y a veces con espacios de más («Mes, Trimestre y Año »).
@@ -174,6 +173,7 @@ notas:
 
 # No se publica (no está en las columnas de la tabla `fuentes`, AC-V19).
 notas_internas:
+  - "Decisiones del mantenedor sobre las preguntas de F3.1 (PR #134, 2026-11-20): (a) los valores son por mes: unidad «pesos corrientes por mes» / «pesos de enero de 2005 por mes» (AC-I9), aunque ni las planillas ni los informes relevados lo digan; (b) los totales anuales se guardan (tipo_periodo anio, AC-I8) aunque sean el promedio de los trimestres calculado por la planilla; (c) los valores de 2026 se guardan tal cual, redondeados a enteros como vienen (AC-I10)."
   - "AC-I15 (total dentro de ±5 % del promedio de los trimestres) siempre da 0 % con estas planillas: el total es una fórmula =+AVERAGE de los cuatro trimestres."
   - "El nivel region (sin geometría) lo agrega F3.2 (#126), y lo suma a niveles_publicados; hasta entonces las columnas del Interior no tienen territorio donde cargarse."
   - "/fuentes muestra «Departamento» como nivel más detallado aunque el INE solo publica Montevideo; la app todavía no conoce el nivel region (sin nombre, aparecería como «region»). Presentación: F3.7 (#131)."
