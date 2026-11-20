@@ -79,7 +79,7 @@ formatos:
 # líneas. Las advertencias completas quedan plegadas. Redacción decidida por el mantenedor en #108 (2026-11-19).
 resumen_advertencias: >-
   Estimaciones por lugar de residencia, de una muestra (menos precisas en departamentos chicos) y con efectos
-  estacionales; no sirven para hacer rankings.
+  estacionales; no conviene usarlas como ranking.
 advertencias:
   # Texto del INE, resumido: «Nota» e «Introducción» de los informes.
   - Las estadísticas son por lugar de residencia, no de trabajo (por ejemplo, quien vive en Canelones y trabaja en Montevideo cuenta en Canelones).
