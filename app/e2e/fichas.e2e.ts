@@ -183,8 +183,10 @@ test('AC-V22: información, advertencia y error tienen estilos distintos y se us
 	const info = await fondo('#poblacion .nota');
 	// algo que no existe: error (rojo)
 	await page.goto('./?indicador=pob_total&nivel=departamento&periodo=2023&territorio=departamento/99');
-	const error = page.getByRole('complementary', { name: 'Territorio seleccionado' }).locator('.error');
-	await expect(error).toHaveText('No encontramos ese territorio.');
+	const error = page.getByRole('complementary', { name: 'Territorio seleccionado' }).getByRole('alert');
+	await expect(error).toBeVisible(); // también en celular (la hoja se abre con el error)
+	await expect(error).toContainText('No encontramos ese territorio.');
+	await expect(error).toHaveClass(/\berror\b/);
 	const rojo = await error.evaluate((el) => getComputedStyle(el).backgroundColor);
 	// la advertencia (naranja) sigue existiendo para lo que se puede malinterpretar
 	const naranja = await page.evaluate(() => {
@@ -196,4 +198,8 @@ test('AC-V22: información, advertencia y error tienen estilos distintos y se us
 		return c;
 	});
 	expect(new Set([info, rojo, naranja]).size).toBe(3);
+	// y se puede cerrar
+	await error.getByRole('button', { name: 'Cerrar' }).click();
+	await expect(error).toHaveCount(0);
+	await expect(page).not.toHaveURL(/territorio=/);
 });

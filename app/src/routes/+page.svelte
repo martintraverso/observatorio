@@ -431,7 +431,10 @@
 				oncerrar={() => (estado.territorio = null)}
 			/>
 		{:else if errorFicha}
-			<p class="error">{errorFicha}</p>
+			<div class="error error-ficha" role="alert">
+				<p>{errorFicha}</p>
+				<button type="button" class="boton" onclick={() => (estado.territorio = null)}>Cerrar</button>
+			</div>
 		{:else}
 			<p class="suave pista" role="status">Cargando el territorio…</p>
 		{/if}
@@ -676,7 +679,8 @@
 		margin-top: var(--espacio-2);
 		min-height: var(--toque-min);
 		padding: 0 var(--espacio-3);
-		border: 1px solid var(--info-borde);
+		/* borde con contraste ≥ 3:1 sobre el aviso (WCAG 1.4.11) */
+		border: 1px solid var(--foco);
 		border-radius: var(--radio-s);
 		background: var(--tarjeta);
 		color: var(--info-texto);
@@ -691,6 +695,16 @@
 	}
 
 	.pista {
+		margin: 0;
+	}
+
+	.error-ficha {
+		display: grid;
+		gap: var(--espacio-2);
+		justify-items: start;
+	}
+
+	.error-ficha p {
 		margin: 0;
 	}
 
