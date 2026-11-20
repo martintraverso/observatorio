@@ -183,3 +183,12 @@ export async function sinTextoInterno(page: Page): Promise<string[]> {
 	}
 	return problemas;
 }
+
+/** En celular y tableta los controles del mapa están en una hoja que abre la barra «… Cambiar» (AC-V13): la abre si hace falta. */
+export async function abrirOpciones(page: Page) {
+	const barra = page.getByRole('button', { name: /Cambiar$/ });
+	if (await barra.isVisible()) {
+		await barra.click();
+		await page.locator('#controles-mapa').waitFor({ state: 'visible' });
+	}
+}

@@ -4,6 +4,7 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
 import { readFileSync } from 'node:fs';
+import { abrirOpciones } from './visual/ayudas';
 
 const indicadores = JSON.parse(readFileSync('build/datos-web/indicadores.json', 'utf-8')) as {
 	codigo: string;
@@ -51,7 +52,7 @@ test('AC-L23: el tema Trabajo ofrece los 7 indicadores por departamento y munici
 	expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
 });
 
-test('AC-L24: la leyenda y el panel nombran el trimestre móvil y la fuente', async ({ page }) => {
+test('AC-L24: la leyenda y el panel nombran el trimestre móvil y la fuente', async ({ page }, info) => {
 	const [inicio, fin] = ultimo.split('/');
 	const meses = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'set', 'oct', 'nov', 'dic'];
 	const etiqueta = `Trimestre móvil ${meses[Number(inicio.slice(5)) - 1]}–${meses[Number(fin.slice(5)) - 1]} ${fin.slice(0, 4)}`;
@@ -62,6 +63,9 @@ test('AC-L24: la leyenda y el panel nombran el trimestre móvil y la fuente', as
 	await expect(panel(page)).toContainText(`Tasa de actividad · ${etiqueta}`);
 	await expect(panel(page)).toContainText('Fuente: INE, ECH');
 	await expect(panel(page)).toContainText('Total del país: en la ficha de Uruguay.'); // total del país del INE
+	// en celular el período también se lee en la barra compacta, y el selector está en la hoja (AC-V13)
+	if (info.project.name === 'movil') await expect(page.getByRole('button', { name: /Cambiar$/ })).toContainText(etiqueta);
+	await abrirOpciones(page);
 	await expect(page.getByRole('combobox', { name: 'Período' })).toHaveValue(ultimo);
 	await expect(page.getByRole('combobox', { name: 'Período' }).locator('option:checked')).toHaveText(etiqueta);
 });

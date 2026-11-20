@@ -7,7 +7,7 @@
 import { expect, test } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 import { nivelesConDatos } from '../../src/lib/mapa/estado.ts';
-import { detectarDesbordes, esperarQuieta, revisarSegmentado, sinTextoInterno } from './ayudas';
+import { abrirOpciones, detectarDesbordes, esperarQuieta, revisarSegmentado, sinTextoInterno } from './ayudas';
 
 type Territorio = { nivel: string; codigo: string; nombre: string; depto: string };
 const indice = JSON.parse(readFileSync('build/datos-web/territorios_index.json', 'utf-8')) as Territorio[];
@@ -62,6 +62,7 @@ const NIVEL_TERRITORIAL = 'fieldset:has(> legend:text-is("Nivel territorial"))';
 for (const cantidad of [3, 4, 5]) {
 	test(`AC-V1: el selector «Nivel territorial» con ${cantidad} niveles: una fila o una lista vertical, sin cortes`, async ({ page }) => {
 		await page.goto('');
+		await abrirOpciones(page);
 		await expect(page.locator(NIVEL_TERRITORIAL).getByRole('radio')).toHaveCount(NIVELES.length);
 		// Con otra cantidad de niveles que la del build: se copian o se quitan opciones (el diseño no depende de cuántas haya).
 		await page.locator(NIVEL_TERRITORIAL).evaluate((g, n) => {
@@ -258,6 +259,7 @@ test('AC-V14 / AC-G5: a 320 px el logo es un área táctil de 44 px y la navegac
 test('AC-V15: el chip con el foco de teclado no queda bajo el desvanecido', async ({ page }, info) => {
 	test.skip(vista(info.project.name) !== '390', 'la fila desplazable se prueba en celular');
 	await page.goto('');
+	await abrirOpciones(page);
 	const temas = page.getByRole('group', { name: 'Tema' }).getByRole('radio');
 	await temas.first().focus();
 	for (let i = 1; i < (await temas.count()); i++) {

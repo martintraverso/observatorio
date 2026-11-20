@@ -1,6 +1,7 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
 import { readFileSync } from 'node:fs';
+import { abrirOpciones } from './visual/ayudas';
 
 const indice = JSON.parse(readFileSync('build/datos-web/territorios_index.json', 'utf-8')) as {
 	nivel: string;
@@ -61,6 +62,7 @@ test('AC-G1: los controles del mapa están en español', async ({ page }) => {
 test('AC-M5: el estado del mapa queda en la URL y se restaura', async ({ page }) => {
 	await page.goto('');
 	await mapaListo(page);
+	await abrirOpciones(page);
 	await page.getByText('Vivienda', { exact: true }).click();
 	await page.getByText('Sección', { exact: true }).click();
 	await expect(page).toHaveURL(/indicador=viviendas_total/);
@@ -69,6 +71,7 @@ test('AC-M5: el estado del mapa queda en la URL y se restaura', async ({ page })
 
 	await page.reload();
 	await mapaListo(page);
+	await abrirOpciones(page);
 	await expect(page.getByRole('radio', { name: 'Sección', exact: true })).toBeChecked();
 	await expect(page.getByRole('radio', { name: 'Vivienda', exact: true })).toBeChecked();
 	await expect(leyenda(page)).toContainText('Viviendas');
@@ -155,6 +158,7 @@ test('segmentos: pide acercar el mapa', async ({ page }) => {
 
 test('tema sin fuentes lo dice', async ({ page }) => {
 	await page.goto('');
+	await abrirOpciones(page);
 	await page.getByText('Educación', { exact: true }).click();
 	await expect(page.getByText('Todavía no hay fuentes cargadas para este tema.')).toBeVisible();
 });
@@ -164,7 +168,9 @@ test('AC-M6: en móvil, temas en fila de chips y panel como hoja inferior', asyn
 	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023&territorio=departamento/07');
 	const chips = page.locator('.chips');
 	await expect(chips).toHaveCSS('flex-wrap', 'nowrap');
+	await abrirOpciones(page);
 	await expect(page.getByRole('combobox', { name: 'Indicador' })).toBeVisible();
+	await page.getByRole('button', { name: 'Listo' }).click();
 	await expect(panel(page)).toHaveCSS('position', 'fixed');
 	const caja = await panel(page).boundingBox();
 	const alto = page.viewportSize()!.height;
@@ -188,6 +194,7 @@ test('el selector de nivel ofrece solo niveles con datos y un nivel sin valores 
 	const errores: string[] = [];
 	page.on('pageerror', (e) => errores.push(e.message));
 	await page.goto('?indicador=pob_total&nivel=municipio_mvd&periodo=2023');
+	await abrirOpciones(page);
 	const nivel = page.getByRole('group', { name: 'Nivel territorial' });
 	await expect(nivel.getByRole('radio', { name: 'Municipio Solo Montevideo' })).toHaveCount(conMunicipio ? 1 : 0);
 	// llegado por URL a un nivel sin datos de Personas: aviso de AC-M2 y ningún error
@@ -242,6 +249,7 @@ test('AC-V7: al elegir «Municipio» el mapa se encuadra en Montevideo', async (
 	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023');
 	await mapaListo(page);
 	const zoomPais = await page.evaluate(() => (window as unknown as Camara).__mapa.getZoom());
+	await abrirOpciones(page);
 	await nivelRadio(page, 'Municipio Solo Montevideo').check();
 	await encuadrado(page, mvd.bbox, zoomPais + 2);
 });
@@ -252,6 +260,7 @@ test('AC-V7: «Segmento» con un departamento elegido se encuadra en él, con lo
 	await mapaListo(page);
 	await expect(panel(page).getByRole('heading', { level: 2 })).toHaveText('Flores');
 	await alPais(page);
+	await abrirOpciones(page);
 	await nivelRadio(page, 'Segmento').check();
 	await encuadrado(page, FLORES.bbox, ZOOM_SEGMENTOS);
 	await expect(page.getByText('Acercá el mapa para ver los segmentos')).toHaveCount(0);
@@ -268,6 +277,7 @@ test('AC-V7: «Sección» con un departamento elegido se encuadra en él', async
 	await mapaListo(page);
 	await expect(panel(page).getByRole('heading', { level: 2 })).toHaveText('Flores');
 	const zoomPais = await alPais(page);
+	await abrirOpciones(page);
 	await nivelRadio(page, 'Sección').check();
 	await encuadrado(page, FLORES.bbox, zoomPais + 1);
 });
@@ -276,6 +286,7 @@ test('AC-V7: «Segmento» sin departamento elegido ofrece «Elegí un departamen
 	test.skip(info.project.name === 'movil', 'el encuadre se prueba en escritorio');
 	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023');
 	await mapaListo(page);
+	await abrirOpciones(page);
 	await nivelRadio(page, 'Segmento').check();
 	const elegir = page.getByRole('combobox', { name: 'Elegí un departamento' });
 	await expect(elegir).toBeVisible();
@@ -291,6 +302,7 @@ test('AC-V9: el aviso nombra el nivel elegido y ofrece, como botones, los nivele
 	await expect(aviso).toContainText('«Personas» no se publica por municipio. Disponible por:');
 	await expect(aviso.getByRole('button')).toHaveText(['segmento', 'sección', 'departamento']);
 	await aviso.getByRole('button', { name: 'sección' }).click();
+	await abrirOpciones(page);
 	await expect(nivelRadio(page, 'Sección')).toBeChecked();
 	await expect(aviso).toHaveCount(0);
 });
@@ -298,6 +310,7 @@ test('AC-V9: el aviso nombra el nivel elegido y ofrece, como botones, los nivele
 test('AC-V8: al ir a un nivel más fino el panel se vacía (no queda un territorio de otro nivel)', async ({ page }) => {
 	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023&territorio=departamento/07');
 	await expect(panel(page).getByRole('heading', { level: 2 })).toHaveText('Flores');
+	await abrirOpciones(page);
 	await nivelRadio(page, 'Segmento').check();
 	await expect(panel(page).getByRole('heading', { level: 2 })).toHaveCount(0);
 	await expect(page).not.toHaveURL(/territorio=/);
@@ -307,6 +320,7 @@ test('AC-V8: al ir a un nivel más grueso se elige el que contiene al territorio
 	const seccion = indice.find((t) => t.nivel === 'seccion' && t.codigo.startsWith('07'))!;
 	await page.goto(`?indicador=pob_total&nivel=seccion&periodo=2023&territorio=seccion/${seccion.codigo}`);
 	await expect(panel(page).getByRole('heading', { level: 2 })).toHaveText(seccion.nombre);
+	await abrirOpciones(page);
 	await nivelRadio(page, 'Departamento').check();
 	await expect(panel(page).getByRole('heading', { level: 2 })).toHaveText('Flores');
 	await expect(page).toHaveURL(/territorio=departamento%2F07/);
@@ -315,6 +329,7 @@ test('AC-V8: al ir a un nivel más grueso se elige el que contiene al territorio
 test('AC-V8: si el territorio es del nivel elegido, se mantiene', async ({ page }) => {
 	await page.goto('?indicador=pob_total&nivel=seccion&periodo=2023&territorio=departamento/07');
 	await expect(panel(page).getByRole('heading', { level: 2 })).toHaveText('Flores');
+	await abrirOpciones(page);
 	await nivelRadio(page, 'Departamento').check();
 	await expect(page).toHaveURL(/nivel=departamento/);
 	await expect(panel(page).getByRole('heading', { level: 2 })).toHaveText('Flores');
@@ -329,6 +344,7 @@ test('AC-V8: si la ficha del territorio todavía no llegó, igual se elige el de
 		await r.continue();
 	});
 	await page.goto(`?indicador=pob_total&nivel=seccion&periodo=2023&territorio=seccion/${seccion.codigo}`);
+	await abrirOpciones(page);
 	await nivelRadio(page, 'Departamento').check();
 	await expect(page).toHaveURL(/territorio=departamento%2F07/);
 	await expect(panel(page).getByRole('heading', { level: 2 })).toHaveText('Flores');
@@ -386,6 +402,7 @@ test('AC-V12: un departamento que casi no se ve (Montevideo a escala país) llev
 	await page.mouse.click(punto!.x, punto!.y);
 	await expect(panel(page).getByRole('heading', { level: 2 })).toHaveText('Montevideo');
 	// y en el nivel sección no hay anillos de departamentos
+	await abrirOpciones(page);
 	await nivelRadio(page, 'Sección').check();
 	await page.waitForFunction(() => (window as unknown as { __mapa: M }).__mapa.queryRenderedFeatures({ layers: ['anillo-chicos'] }).length === 0);
 });
@@ -425,4 +442,24 @@ test('AC-V13: en celular la vista previa del mapa tiene los colores de la leyend
 		expect(deLaPrevia).toHaveLength(deptos);
 		for (const c of deLaPrevia) expect(deLaLeyenda, `${ancho} px: ${c}`).toContain(c);
 	}
+});
+
+test('AC-V13: en celular el mapa empieza en la primera pantalla; los controles se abren en una hoja', async ({ page }, info) => {
+	test.skip(info.project.name !== 'movil', 'diseño de celular');
+	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023');
+	const mapa = page.locator('section[aria-label="Mapa interactivo"]');
+	expect((await mapa.boundingBox())!.y).toBeLessThan(844);
+	const barra = page.getByRole('button', { name: /Cambiar$/ });
+	await expect(barra).toContainText('Personas · Departamento · 2023');
+	await expect(barra).toHaveAttribute('aria-expanded', 'false');
+	await expect(page.locator('#controles-mapa')).toBeHidden();
+	await barra.click();
+	await expect(barra).toHaveAttribute('aria-expanded', 'true');
+	await expect(page.getByRole('group', { name: 'Nivel territorial' })).toBeVisible();
+	// elegir otro nivel actualiza el resumen; Escape cierra y el foco vuelve a la barra
+	await nivelRadio(page, 'Sección').check();
+	await page.keyboard.press('Escape');
+	await expect(page.locator('#controles-mapa')).toBeHidden();
+	await expect(barra).toBeFocused();
+	await expect(barra).toContainText('Personas · Sección · 2023');
 });
