@@ -182,6 +182,7 @@ describe('ejes de los gráficos de series (AC-V20)', () => {
 			expect([1, 2, 2.5, 5]).toContain(Number(mantisa.toFixed(6)));
 		}
 		expect(marcasRedondas(5, 5).length).toBeGreaterThanOrEqual(2); // rango vacío: igual hay eje
+		expect(marcasRedondas(NaN, 3)).toEqual([0, 1]); // sin valores válidos no se cuelga
 	});
 
 	it('al menos 4 etiquetas en el eje x, la primera y la última incluidas', () => {

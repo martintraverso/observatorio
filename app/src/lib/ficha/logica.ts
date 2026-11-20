@@ -141,10 +141,11 @@ export function fuentesDeFicha(f: Pick<Ficha, 'capturas' | 'fuentes'>): FuenteDe
 }
 
 /**
- * AC-V20: marcas del eje y en valores redondos (paso de 1, 2, 2,5 o 5 × 10ⁿ), entre 4 y 6 intervalos, que
+ * AC-V20: marcas del eje y en valores redondos (paso de 1, 2, 2,5 o 5 × 10ⁿ), como mucho 5 intervalos, que
  * cubren [min, max]. El eje va de la primera a la última marca.
  */
 export function marcasRedondas(min: number, max: number): number[] {
+	if (!Number.isFinite(min) || !Number.isFinite(max)) return [0, 1];
 	if (!(max > min)) {
 		const d = Math.abs(min) * 0.1 || 1;
 		return marcasRedondas(min - d, max + d);
