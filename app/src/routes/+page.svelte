@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Pantalla Mapa (M6): tema → indicador → nivel → período; coropleta; panel del territorio.
-	import { onMount, untrack } from 'svelte';
+	import { onMount, tick, untrack } from 'svelte';
 	import { replaceState } from '$app/navigation';
 	import { cargarFicha, esNivel, leerJson, type Ficha } from '#lib/datos.ts';
 	import { NOMBRE_SITIO } from '#lib/sitio.ts';
@@ -65,6 +65,28 @@
 	let valoresPais = $state<ValoresNivel | null>(null);
 	let totalPais = $derived(totalDelPais(valoresPais, estado.indicador, estado.periodo));
 	let seleccionadoId = $derived(estado.territorio ? `INE-2023/${estado.territorio}` : null);
+	// AC-V13: en celular y tableta los controles van en una hoja que se abre desde una barra compacta.
+	let opcionesAbiertas = $state(false);
+	let resumenOpciones = $derived(
+		[indicador?.nombre ?? tema, OPCION_NIVEL_MAPA[estado.nivel].etiqueta, indicador ? etiquetaPeriodo(estado.periodo) : null]
+			.filter(Boolean)
+			.join(' · ')
+	);
+	let barraOpciones: HTMLButtonElement | undefined = $state();
+	let controles: HTMLDivElement | undefined = $state();
+
+	async function abrirOpciones() {
+		opcionesAbiertas = true;
+		await tick();
+		// el foco va a lo elegido (el tema), no al botón «Listo» de la cabecera
+		controles?.querySelector<HTMLElement>('fieldset input:checked, select')?.focus();
+	}
+
+	function cerrarOpciones() {
+		opcionesAbiertas = false;
+		barraOpciones?.focus();
+	}
+
 	// AC-V10: sin territorio elegido no hay panel derecho; el mapa usa ese ancho y la pista va sobre el mapa.
 	let hayPanel = $derived(!!estado.territorio);
 	let faltaZoom = $derived(estado.nivel === 'segmento' && zoom < ZOOM_SEGMENTOS);
@@ -210,6 +232,13 @@
 	}
 </script>
 
+<svelte:window
+	onkeydown={(e) => {
+		// solo si el foco está en la hoja: Escape en el buscador u otro lado hace lo suyo
+		if (e.key === 'Escape' && opcionesAbiertas && controles?.contains(document.activeElement)) cerrarOpciones();
+	}}
+/>
+
 <svelte:head>
 	<title>Mapa · {NOMBRE_SITIO}</title>
 </svelte:head>
@@ -230,6 +259,32 @@
 <div class="pantalla" class:con-panel={hayPanel}>
 	<aside class="opciones" aria-label="Opciones del mapa">
 		<h1>Mapa</h1>
+
+		<!-- Celular y tableta: un resumen de lo elegido; abre los controles en una hoja (AC-V13). -->
+		<button
+			type="button"
+			class="barra-opciones"
+			bind:this={barraOpciones}
+			aria-expanded={opcionesAbiertas}
+			aria-controls="controles-mapa"
+			onclick={abrirOpciones}
+		>
+			<span class="resumen">{resumenOpciones}</span>
+			<span class="cambiar">Cambiar</span>
+		</button>
+
+		<div
+			id="controles-mapa"
+			class="controles"
+			class:abiertas={opcionesAbiertas}
+			bind:this={controles}
+			role="group"
+			aria-label="Opciones del mapa"
+		>
+		<div class="cabecera-hoja">
+			<span>Opciones del mapa</span>
+			<button type="button" class="boton-listo" onclick={cerrarOpciones}>Listo</button>
+		</div>
 
 		<fieldset class="temas">
 			<legend>Tema</legend>
@@ -309,6 +364,7 @@
 				</select>
 			</div>
 		{/if}
+		</div>
 	</aside>
 
 	<section class="centro" aria-label="Mapa interactivo">
@@ -516,6 +572,18 @@
 		color: var(--texto-suave);
 	}
 
+	/* En escritorio los controles se ven siempre: sin barra ni cabecera de hoja. */
+	.controles {
+		display: grid;
+		align-content: start;
+		gap: var(--espacio-4);
+	}
+
+	.barra-opciones,
+	.cabecera-hoja {
+		display: none;
+	}
+
 	.lista-niveles {
 		display: grid;
 		gap: var(--espacio-1);
@@ -665,6 +733,76 @@
 			border-bottom: 1px solid var(--borde);
 			gap: var(--espacio-3);
 			overflow: visible;
+		}
+
+		/* AC-V13: barra compacta; los controles, en una hoja inferior que se abre desde ella */
+		.barra-opciones {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: var(--espacio-2);
+			width: 100%;
+			min-height: var(--toque-min);
+			padding: var(--espacio-2) var(--espacio-3);
+			border: 1px solid var(--borde);
+			border-radius: var(--radio-m);
+			background: var(--tarjeta);
+			font: inherit;
+			color: var(--texto);
+			text-align: left;
+			cursor: pointer;
+		}
+
+		.barra-opciones .resumen {
+			font-weight: 600;
+			font-size: var(--texto-s);
+			min-width: 0;
+		}
+
+		.barra-opciones .cambiar {
+			flex: none;
+			color: var(--primario);
+			font-weight: 600;
+			font-size: var(--texto-s);
+		}
+
+		.controles {
+			display: none;
+		}
+
+		.controles.abiertas {
+			display: grid;
+			position: fixed;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			z-index: 40;
+			max-height: 85dvh;
+			overflow-y: auto;
+			padding: var(--espacio-4);
+			background: var(--tarjeta);
+			border-top: 1px solid var(--borde);
+			border-radius: var(--radio-l) var(--radio-l) 0 0;
+			box-shadow: 0 -4px 16px rgb(27 36 48 / 0.15);
+		}
+
+		.cabecera-hoja {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			font-weight: 600;
+		}
+
+		.boton-listo {
+			min-height: var(--toque-min);
+			padding: 0 var(--espacio-4);
+			border: 0;
+			border-radius: var(--radio-m);
+			background: var(--primario);
+			color: var(--sobre-primario);
+			font: inherit;
+			font-weight: 600;
+			cursor: pointer;
 		}
 
 		/* AC-M6: temas como fila horizontal de chips */
