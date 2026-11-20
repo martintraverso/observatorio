@@ -88,7 +88,7 @@ Severity: **A** = broken or misleading, **B** = clearly wrong/awkward, **C** = p
 - **AC-V24** [auto] *(V-19)* When a topic has no data at the ficha's level but has data at a containing level, the ficha says so and links there: "Trabajo: se publica por departamento → ver San José". "Todavía no hay fuentes cargadas" appears only when no level has data.
 - **AC-V25** [auto] *(V-20)* At 390: KPI values do not wrap (font scales down or units go on their own line by design), indicator tables become stacked rows with no horizontal scroll, and in-page section navigation has no visible scrollbar.
 - **AC-V26** [manual] *(V-21)* Segment, section and locality fichas show a close-up locator (the unit and its neighbours) besides the country locator.
-- **AC-V27** [manual] *(V-22)* Every KPI shows its source on hover/focus or in a footnote; department fichas include "Densidad" computed in the pipeline and marked as derived.
+- **AC-V27** [manual] *(V-22)* Every KPI shows its source on hover/focus or in a footnote; department fichas include "Densidad", computed by the app from the census population and the INE geometry area (not stored as an observation; maintainer decision, #111) and marked as derived.
 
 ### Fuentes, Datos, layout
 

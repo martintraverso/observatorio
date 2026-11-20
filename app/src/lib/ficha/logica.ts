@@ -185,3 +185,13 @@ export function indicesEtiquetas(cantidad: number, n = 5): number[] {
 export function decimalesComunes(valores: number[]): number {
 	return Math.min(2, Math.max(0, ...valores.map((v) => (String(v).split('.')[1] ?? '').length)));
 }
+
+/**
+ * AC-V27: densidad de población (personas por km²). No es una observación: la calcula la app al mostrar la
+ * ficha con la población del Censo y la superficie de la geometría del INE (decisión del mantenedor, #111).
+ * null si falta alguno de los dos datos.
+ */
+export function densidad(personas: number | null, km2: number | null): number | null {
+	if (personas === null || km2 === null || !(km2 > 0)) return null;
+	return personas / km2;
+}
