@@ -120,6 +120,16 @@ export interface Ficha {
 	indicadores: Record<string, Indicador>;
 	capturas: Record<string, Captura>;
 	fuentes: Record<string, FuenteRef>;
+	/** F3.7a (#148): fuera de Montevideo, la región del Interior y los temas que tienen datos en ella */
+	region?: RegionRef;
+}
+
+export interface RegionRef {
+	id: string;
+	nivel: 'region';
+	codigo: string;
+	nombre: string;
+	temas: string[];
 }
 
 export interface Fuente extends FuenteRef {

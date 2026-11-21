@@ -154,6 +154,28 @@ export function datosEnPadre(f: Pick<Ficha, 'padres' | 'indicadores'>, temas: re
 }
 
 /**
+ * AC-I22 (F3.7a): temas de la sección que no tienen datos en la ficha ni en un nivel que la contiene, pero sí en la
+ * región del Interior (p. ej. los ingresos de un departamento que no es Montevideo).
+ */
+export function datosEnRegion(
+	f: Pick<Ficha, 'observaciones' | 'indicadores' | 'padres' | 'region'>,
+	temas: readonly string[]
+): { region: NonNullable<Ficha['region']>; temas: string[] } | null {
+	if (!f.region) return null;
+	const propios = new Set(f.observaciones.map((o) => f.indicadores[o.indicador]?.tema));
+	const arriba = new Set(datosEnPadre(f, temas)?.temas ?? []);
+	const enRegion = temas.filter((t) => !propios.has(t) && !arriba.has(t) && f.region!.temas.includes(t));
+	return enRegion.length ? { region: f.region, temas: enRegion } : null;
+}
+
+/** AC-I23 (F3.7a): qué es cada región, en una frase. */
+export const DESCRIPCION_REGION: Record<string, string> = {
+	interior: 'Todos los departamentos salvo Montevideo.',
+	'interior-5000': 'Las localidades de 5.000 o más habitantes de todos los departamentos salvo Montevideo.',
+	'interior-menores': 'Las localidades de menos de 5.000 habitantes y las zonas rurales de todos los departamentos salvo Montevideo.'
+};
+
+/**
  * AC-V20: marcas del eje y en valores redondos (paso de 1, 2, 2,5 o 5 × 10ⁿ), como mucho 5 intervalos, que
  * cubren [min, max]. El eje va de la primera a la última marca.
  */

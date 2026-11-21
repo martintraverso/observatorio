@@ -311,3 +311,34 @@ test('AC-V27: cada KPI dice de dónde sale y la ficha de departamento trae la de
 	await expect(page.locator('.kpis')).not.toContainText('Densidad');
 	await expect(page.locator('.notas-kpi')).toContainText('Superficie');
 });
+
+test('AC-I23 y AC-I22: la ficha de región explica qué es; sin ingresos publicados, no hay enlace a una ficha vacía', async ({ page }) => {
+	await page.goto('territorio/region/interior-5000');
+	const desc = page.locator('.descripcion-region');
+	await expect(desc).toContainText('Las localidades de 5.000 o más habitantes de todos los departamentos salvo Montevideo.');
+	await expect(desc.getByRole('link', { name: 'Uruguay' })).toHaveAttribute('href', /territorio\/pais\/UY$/);
+	await expect(desc.getByRole('link', { name: 'Montevideo' })).toHaveAttribute('href', /territorio\/departamento\/01$/);
+	await expect(page.locator('.ubicacion')).toHaveCount(0);
+	expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+	// los ingresos de la app vienen solo de fuentes activas: mientras estén «en preparación», Flores no enlaza al Interior
+	await page.goto('territorio/departamento/07');
+	await expect(page.locator('.en-region')).toHaveCount(0);
+});
+
+test('AC-I22: con ingresos en el Interior, un departamento que no es Montevideo enlaza a la región', async ({ page }) => {
+	// Simula la fuente activa: la ficha de Flores llega con la región y el tema Ingresos. Se navega desde la ficha
+	// del Interior para que la app pida el JSON (la carga directa viene prerenderizada).
+	await page.route('**/datos-web/fichas/departamento/07.json', async (route) => {
+		const r = await route.fetch();
+		const f = await r.json();
+		await route.fulfill({ response: r, json: { ...f, region: { ...f.region, temas: ['Ingresos'] } } });
+	});
+	await page.goto('territorio/region/interior');
+	await page.getByRole('tab', { name: /^Departamento/ }).click();
+	await page.getByRole('link', { name: 'Flores', exact: true }).first().click();
+	await expect(page).toHaveURL(/territorio\/departamento\/07$/);
+	const aviso = page.locator('#trabajo .en-region');
+	await expect(aviso).toHaveText('Ingresos: se publican para el Interior del país → ver Interior del país');
+	await expect(aviso.getByRole('link')).toHaveAttribute('href', /territorio\/region\/interior#trabajo$/);
+	await expect(page.locator('#trabajo')).not.toContainText('Todavía no hay fuentes cargadas');
+});
