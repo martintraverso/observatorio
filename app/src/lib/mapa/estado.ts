@@ -95,6 +95,9 @@ const MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'set', 'o
 
 /** "2026-07/2026-09" -> "Trimestre móvil jul–set 2026"; "2025-12/2026-02" -> "Trimestre móvil dic 2025–feb 2026". */
 export function etiquetaPeriodo(periodo: string): string {
+	// F3.7b: trimestre calendario «2026-T3» -> «jul–set 2026»
+	const t = /^(\d{4})-T([1-4])$/.exec(periodo);
+	if (t) return `${MESES[(Number(t[2]) - 1) * 3]}–${MESES[Number(t[2]) * 3 - 1]} ${t[1]}`;
 	const m = /^(\d{4})-(\d{2})\/(\d{4})-(\d{2})$/.exec(periodo);
 	if (!m) return periodo;
 	const [, a1, m1, a2, m2] = m;

@@ -1,0 +1,1682 @@
+{
+ "id": "INE-2023/region/interior",
+ "nivel": "region",
+ "codigo": "interior",
+ "nombre": "Interior del país",
+ "depto": "",
+ "version_geo": "INE-2023",
+ "area_km2": null,
+ "codigo_iso": null,
+ "bbox": null,
+ "padres": [
+  {
+   "id": "INE-2023/pais/UY",
+   "nivel": "pais",
+   "codigo": "UY",
+   "nombre": "Uruguay",
+   "valores": {}
+  }
+ ],
+ "contenidos": {
+  "departamento": [
+   {
+    "id": "INE-2023/departamento/02",
+    "nivel": "departamento",
+    "codigo": "02",
+    "nombre": "Artigas",
+    "valores": {}
+   },
+   {
+    "id": "INE-2023/departamento/03",
+    "nivel": "departamento",
+    "codigo": "03",
+    "nombre": "Canelones",
+    "valores": {}
+   },
+   {
+    "id": "INE-2023/departamento/04",
+    "nivel": "departamento",
+    "codigo": "04",
+    "nombre": "Cerro Largo",
+    "valores": {}
+   },
+   {
+    "id": "INE-2023/departamento/05",
+    "nivel": "departamento",
+    "codigo": "05",
+    "nombre": "Colonia",
+    "valores": {}
+   },
+   {
+    "id": "INE-2023/departamento/06",
+    "nivel": "departamento",
+    "codigo": "06",
+    "nombre": "Durazno",
+    "valores": {}
+   },
+   {
+    "id": "INE-2023/departamento/07",
+    "nivel": "departamento",
+    "codigo": "07",
+    "nombre": "Flores",
+    "valores": {}
+   },
+   {
+    "id": "INE-2023/departamento/08",
+    "nivel": "departamento",
+    "codigo": "08",
+    "nombre": "Florida",
+    "valores": {}
+   },
+   {
+    "id": "INE-2023/departamento/09",
+    "nivel": "departamento",
+    "codigo": "09",
+    "nombre": "Lavalleja",
+    "valores": {}
+   },
+   {
+    "id": "INE-2023/departamento/10",
+    "nivel": "departamento",
+    "codigo": "10",
+    "nombre": "Maldonado",
+    "valores": {}
+   },
+   {
+    "id": "INE-2023/departamento/11",
+    "nivel": "departamento",
+    "codigo": "11",
+    "nombre": "Paysandú",
+    "valores": {}
+   },
+   {
+    "id": "INE-2023/departamento/12",
+    "nivel": "departamento",
+    "codigo": "12",
+    "nombre": "Río Negro",
+    "valores": {}
+   },
+   {
+    "id": "INE-2023/departamento/13",
+    "nivel": "departamento",
+    "codigo": "13",
+    "nombre": "Rivera",
+    "valores": {}
+   },
+   {
+    "id": "INE-2023/departamento/14",
+    "nivel": "departamento",
+    "codigo": "14",
+    "nombre": "Rocha",
+    "valores": {}
+   },
+   {
+    "id": "INE-2023/departamento/15",
+    "nivel": "departamento",
+    "codigo": "15",
+    "nombre": "Salto",
+    "valores": {}
+   },
+   {
+    "id": "INE-2023/departamento/16",
+    "nivel": "departamento",
+    "codigo": "16",
+    "nombre": "San José",
+    "valores": {}
+   },
+   {
+    "id": "INE-2023/departamento/17",
+    "nivel": "departamento",
+    "codigo": "17",
+    "nombre": "Soriano",
+    "valores": {}
+   },
+   {
+    "id": "INE-2023/departamento/18",
+    "nivel": "departamento",
+    "codigo": "18",
+    "nombre": "Tacuarembó",
+    "valores": {}
+   },
+   {
+    "id": "INE-2023/departamento/19",
+    "nivel": "departamento",
+    "codigo": "19",
+    "nombre": "Treinta y Tres",
+    "valores": {}
+   }
+  ],
+  "region": [
+   {
+    "id": "INE-2023/region/interior-5000",
+    "nivel": "region",
+    "codigo": "interior-5000",
+    "nombre": "Interior: localidades de 5.000 o más habitantes",
+    "valores": {}
+   },
+   {
+    "id": "INE-2023/region/interior-menores",
+    "nivel": "region",
+    "codigo": "interior-menores",
+    "nombre": "Interior: localidades pequeñas y zonas rurales",
+    "valores": {}
+   }
+  ]
+ },
+ "relaciones": [
+  {
+   "tipo": "pertenece_a",
+   "destino_id": "INE-2023/pais/UY",
+   "metodo": "el Interior y Montevideo forman el país (INE, ECH)",
+   "nivel": "pais",
+   "codigo": "UY",
+   "nombre": "Uruguay",
+   "existe": true
+  }
+ ],
+ "observaciones": [
+  {
+   "indicador": "ing_hogar_medio_cagu_cvl",
+   "periodo": "2024",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "anio",
+   "valor": 88179.7644462426,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:bf4c0044551b"
+  },
+  {
+   "indicador": "ing_hogar_medio_cagu_cvl",
+   "periodo": "2024-T1",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 90992.91915972694,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:bf4c0044551b"
+  },
+  {
+   "indicador": "ing_hogar_medio_cagu_cvl",
+   "periodo": "2024-T2",
+   "periodo_inicio": "2024-04-01",
+   "periodo_fin": "2024-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 85402.96526905124,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:bf4c0044551b"
+  },
+  {
+   "indicador": "ing_hogar_medio_cagu_cvl",
+   "periodo": "2024-T3",
+   "periodo_inicio": "2024-07-01",
+   "periodo_fin": "2024-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 90604.29848876187,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:bf4c0044551b"
+  },
+  {
+   "indicador": "ing_hogar_medio_cagu_cvl",
+   "periodo": "2024-T4",
+   "periodo_inicio": "2024-10-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "trimestre",
+   "valor": 85718.8748674303,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:bf4c0044551b"
+  },
+  {
+   "indicador": "ing_hogar_medio_cagu_cvl",
+   "periodo": "2025",
+   "periodo_inicio": "2025-01-01",
+   "periodo_fin": "2025-12-31",
+   "tipo_periodo": "anio",
+   "valor": 94596.53984021886,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:bf4c0044551b"
+  },
+  {
+   "indicador": "ing_hogar_medio_cagu_cvl",
+   "periodo": "2025-T1",
+   "periodo_inicio": "2025-01-01",
+   "periodo_fin": "2025-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 96278.57253011003,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:bf4c0044551b"
+  },
+  {
+   "indicador": "ing_hogar_medio_cagu_cvl",
+   "periodo": "2025-T2",
+   "periodo_inicio": "2025-04-01",
+   "periodo_fin": "2025-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 87873.7372398204,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:bf4c0044551b"
+  },
+  {
+   "indicador": "ing_hogar_medio_cagu_cvl",
+   "periodo": "2025-T3",
+   "periodo_inicio": "2025-07-01",
+   "periodo_fin": "2025-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 99218.1438893521,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:bf4c0044551b"
+  },
+  {
+   "indicador": "ing_hogar_medio_cagu_cvl",
+   "periodo": "2025-T4",
+   "periodo_inicio": "2025-10-01",
+   "periodo_fin": "2025-12-31",
+   "tipo_periodo": "trimestre",
+   "valor": 95015.7057015929,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:bf4c0044551b"
+  },
+  {
+   "indicador": "ing_hogar_medio_cagu_cvl",
+   "periodo": "2026-T1",
+   "periodo_inicio": "2026-01-01",
+   "periodo_fin": "2026-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 106156,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:bf4c0044551b"
+  },
+  {
+   "indicador": "ing_hogar_medio_cagu_cvl",
+   "periodo": "2026-T2",
+   "periodo_inicio": "2026-04-01",
+   "periodo_fin": "2026-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 98562,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:bf4c0044551b"
+  },
+  {
+   "indicador": "ing_hogar_medio_cagu_cvl",
+   "periodo": "2026-T3",
+   "periodo_inicio": "2026-07-01",
+   "periodo_fin": "2026-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 102435,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:bf4c0044551b"
+  },
+  {
+   "indicador": "ing_hogar_medio_cagu_svl",
+   "periodo": "2024",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "anio",
+   "valor": 76518.165321674,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:74fd828b882e"
+  },
+  {
+   "indicador": "ing_hogar_medio_cagu_svl",
+   "periodo": "2024-T1",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 79170.27205932411,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:74fd828b882e"
+  },
+  {
+   "indicador": "ing_hogar_medio_cagu_svl",
+   "periodo": "2024-T2",
+   "periodo_inicio": "2024-04-01",
+   "periodo_fin": "2024-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 73657.92807046094,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:74fd828b882e"
+  },
+  {
+   "indicador": "ing_hogar_medio_cagu_svl",
+   "periodo": "2024-T3",
+   "periodo_inicio": "2024-07-01",
+   "periodo_fin": "2024-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 79165.63623171604,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:74fd828b882e"
+  },
+  {
+   "indicador": "ing_hogar_medio_cagu_svl",
+   "periodo": "2024-T4",
+   "periodo_inicio": "2024-10-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "trimestre",
+   "valor": 74078.8249251949,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:74fd828b882e"
+  },
+  {
+   "indicador": "ing_hogar_medio_cagu_svl",
+   "periodo": "2025",
+   "periodo_inicio": "2025-01-01",
+   "periodo_fin": "2025-12-31",
+   "tipo_periodo": "anio",
+   "valor": 82284.76055221024,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:74fd828b882e"
+  },
+  {
+   "indicador": "ing_hogar_medio_cagu_svl",
+   "periodo": "2025-T1",
+   "periodo_inicio": "2025-01-01",
+   "periodo_fin": "2025-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 84203.10948856923,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:74fd828b882e"
+  },
+  {
+   "indicador": "ing_hogar_medio_cagu_svl",
+   "periodo": "2025-T2",
+   "periodo_inicio": "2025-04-01",
+   "periodo_fin": "2025-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 76032,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:74fd828b882e"
+  },
+  {
+   "indicador": "ing_hogar_medio_cagu_svl",
+   "periodo": "2025-T3",
+   "periodo_inicio": "2025-07-01",
+   "periodo_fin": "2025-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 86568.6544528249,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:74fd828b882e"
+  },
+  {
+   "indicador": "ing_hogar_medio_cagu_svl",
+   "periodo": "2025-T4",
+   "periodo_inicio": "2025-10-01",
+   "periodo_fin": "2025-12-31",
+   "tipo_periodo": "trimestre",
+   "valor": 82335.2782674468,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:74fd828b882e"
+  },
+  {
+   "indicador": "ing_hogar_medio_cagu_svl",
+   "periodo": "2026-T1",
+   "periodo_inicio": "2026-01-01",
+   "periodo_fin": "2026-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 93449,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:74fd828b882e"
+  },
+  {
+   "indicador": "ing_hogar_medio_cagu_svl",
+   "periodo": "2026-T2",
+   "periodo_inicio": "2026-04-01",
+   "periodo_fin": "2026-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 85196,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:74fd828b882e"
+  },
+  {
+   "indicador": "ing_hogar_medio_cagu_svl",
+   "periodo": "2026-T3",
+   "periodo_inicio": "2026-07-01",
+   "periodo_fin": "2026-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 89474,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:74fd828b882e"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_cvl",
+   "periodo": "2024",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "anio",
+   "valor": 85359.63816713219,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:778c6bca110a"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_cvl",
+   "periodo": "2024-T1",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 85586.853042332,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:778c6bca110a"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_cvl",
+   "periodo": "2024-T2",
+   "periodo_inicio": "2024-04-01",
+   "periodo_fin": "2024-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 85307.23858259572,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:778c6bca110a"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_cvl",
+   "periodo": "2024-T3",
+   "periodo_inicio": "2024-07-01",
+   "periodo_fin": "2024-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 84886.42793791162,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:778c6bca110a"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_cvl",
+   "periodo": "2024-T4",
+   "periodo_inicio": "2024-10-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "trimestre",
+   "valor": 85658.03310568945,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:778c6bca110a"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_cvl",
+   "periodo": "2025",
+   "periodo_inicio": "2025-01-01",
+   "periodo_fin": "2025-12-31",
+   "tipo_periodo": "anio",
+   "valor": 91688.79870723288,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:778c6bca110a"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_cvl",
+   "periodo": "2025-T1",
+   "periodo_inicio": "2025-01-01",
+   "periodo_fin": "2025-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 90483.76898069931,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:778c6bca110a"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_cvl",
+   "periodo": "2025-T2",
+   "periodo_inicio": "2025-04-01",
+   "periodo_fin": "2025-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 87859,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:778c6bca110a"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_cvl",
+   "periodo": "2025-T3",
+   "periodo_inicio": "2025-07-01",
+   "periodo_fin": "2025-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 93396.7201466393,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:778c6bca110a"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_cvl",
+   "periodo": "2025-T4",
+   "periodo_inicio": "2025-10-01",
+   "periodo_fin": "2025-12-31",
+   "tipo_periodo": "trimestre",
+   "valor": 95015.7057015929,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:778c6bca110a"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_cvl",
+   "periodo": "2026-T1",
+   "periodo_inicio": "2026-01-01",
+   "periodo_fin": "2026-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 99944,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:778c6bca110a"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_cvl",
+   "periodo": "2026-T2",
+   "periodo_inicio": "2026-04-01",
+   "periodo_fin": "2026-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 98526,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:778c6bca110a"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_cvl",
+   "periodo": "2026-T3",
+   "periodo_inicio": "2026-07-01",
+   "periodo_fin": "2026-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 96613,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:778c6bca110a"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_svl",
+   "periodo": "2024",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "anio",
+   "valor": 73698.0390425636,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:30a02d757ee9"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_svl",
+   "periodo": "2024-T1",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 73764.20594192918,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:30a02d757ee9"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_svl",
+   "periodo": "2024-T2",
+   "periodo_inicio": "2024-04-01",
+   "periodo_fin": "2024-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 73562.2013840054,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:30a02d757ee9"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_svl",
+   "periodo": "2024-T3",
+   "periodo_inicio": "2024-07-01",
+   "periodo_fin": "2024-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 73447.76568086578,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:30a02d757ee9"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_svl",
+   "periodo": "2024-T4",
+   "periodo_inicio": "2024-10-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "trimestre",
+   "valor": 74017.98316345403,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:30a02d757ee9"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_svl",
+   "periodo": "2025",
+   "periodo_inicio": "2025-01-01",
+   "periodo_fin": "2025-12-31",
+   "tipo_periodo": "anio",
+   "valor": 79376.91893380642,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:30a02d757ee9"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_svl",
+   "periodo": "2025-T1",
+   "periodo_inicio": "2025-01-01",
+   "periodo_fin": "2025-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 78408.30593915851,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:30a02d757ee9"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_svl",
+   "periodo": "2025-T2",
+   "periodo_inicio": "2025-04-01",
+   "periodo_fin": "2025-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 76016.8608185083,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:30a02d757ee9"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_svl",
+   "periodo": "2025-T3",
+   "periodo_inicio": "2025-07-01",
+   "periodo_fin": "2025-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 80747.2307101121,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:30a02d757ee9"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_svl",
+   "periodo": "2025-T4",
+   "periodo_inicio": "2025-10-01",
+   "periodo_fin": "2025-12-31",
+   "tipo_periodo": "trimestre",
+   "valor": 82335.2782674468,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:30a02d757ee9"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_svl",
+   "periodo": "2026-T1",
+   "periodo_inicio": "2026-01-01",
+   "periodo_fin": "2026-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 87237,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:30a02d757ee9"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_svl",
+   "periodo": "2026-T2",
+   "periodo_inicio": "2026-04-01",
+   "periodo_fin": "2026-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 85160,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:30a02d757ee9"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_svl",
+   "periodo": "2026-T3",
+   "periodo_inicio": "2026-07-01",
+   "periodo_fin": "2026-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 83651,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:30a02d757ee9"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_svl_ene2005",
+   "periodo": "2024",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "anio",
+   "valor": 17658.167555267068,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:46a6c57fd47a"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_svl_ene2005",
+   "periodo": "2024-T1",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 17973.117221015196,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:46a6c57fd47a"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_svl_ene2005",
+   "periodo": "2024-T2",
+   "periodo_inicio": "2024-04-01",
+   "periodo_fin": "2024-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 17687.35208185526,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:46a6c57fd47a"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_svl_ene2005",
+   "periodo": "2024-T3",
+   "periodo_inicio": "2024-07-01",
+   "periodo_fin": "2024-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 17494.49360403526,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:46a6c57fd47a"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_svl_ene2005",
+   "periodo": "2024-T4",
+   "periodo_inicio": "2024-10-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "trimestre",
+   "valor": 17477.70731416256,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:46a6c57fd47a"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_svl_ene2005",
+   "periodo": "2025",
+   "periodo_inicio": "2025-01-01",
+   "periodo_fin": "2025-12-31",
+   "tipo_periodo": "anio",
+   "valor": 18185.438017333003,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:46a6c57fd47a"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_svl_ene2005",
+   "periodo": "2025-T1",
+   "periodo_inicio": "2025-01-01",
+   "periodo_fin": "2025-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 18206.16472087351,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:46a6c57fd47a"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_svl_ene2005",
+   "periodo": "2025-T2",
+   "periodo_inicio": "2025-04-01",
+   "periodo_fin": "2025-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 17378.3073249402,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:46a6c57fd47a"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_svl_ene2005",
+   "periodo": "2025-T3",
+   "periodo_inicio": "2025-07-01",
+   "periodo_fin": "2025-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 18467.2987576146,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:46a6c57fd47a"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_svl_ene2005",
+   "periodo": "2025-T4",
+   "periodo_inicio": "2025-10-01",
+   "periodo_fin": "2025-12-31",
+   "tipo_periodo": "trimestre",
+   "valor": 18689.9812659037,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:46a6c57fd47a"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_svl_ene2005",
+   "periodo": "2026-T1",
+   "periodo_inicio": "2026-01-01",
+   "periodo_fin": "2026-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 19609,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:46a6c57fd47a"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_svl_ene2005",
+   "periodo": "2026-T2",
+   "periodo_inicio": "2026-04-01",
+   "periodo_fin": "2026-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 18893,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:46a6c57fd47a"
+  },
+  {
+   "indicador": "ing_hogar_medio_sagu_svl_ene2005",
+   "periodo": "2026-T3",
+   "periodo_inicio": "2026-07-01",
+   "periodo_fin": "2026-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 18353,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:46a6c57fd47a"
+  },
+  {
+   "indicador": "ing_pc_medio_cagu_cvl",
+   "periodo": "2024",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "anio",
+   "valor": 35113.39277775658,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:785716c2db19"
+  },
+  {
+   "indicador": "ing_pc_medio_cagu_cvl",
+   "periodo": "2024-T1",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 35975.347665347006,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:785716c2db19"
+  },
+  {
+   "indicador": "ing_pc_medio_cagu_cvl",
+   "periodo": "2024-T2",
+   "periodo_inicio": "2024-04-01",
+   "periodo_fin": "2024-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 34341.93569123091,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:785716c2db19"
+  },
+  {
+   "indicador": "ing_pc_medio_cagu_cvl",
+   "periodo": "2024-T3",
+   "periodo_inicio": "2024-07-01",
+   "periodo_fin": "2024-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 35756.276473013124,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:785716c2db19"
+  },
+  {
+   "indicador": "ing_pc_medio_cagu_cvl",
+   "periodo": "2024-T4",
+   "periodo_inicio": "2024-10-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "trimestre",
+   "valor": 34380.01128143526,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:785716c2db19"
+  },
+  {
+   "indicador": "ing_pc_medio_cagu_cvl",
+   "periodo": "2025",
+   "periodo_inicio": "2025-01-01",
+   "periodo_fin": "2025-12-31",
+   "tipo_periodo": "anio",
+   "valor": 37232.86628595365,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:785716c2db19"
+  },
+  {
+   "indicador": "ing_pc_medio_cagu_cvl",
+   "periodo": "2025-T1",
+   "periodo_inicio": "2025-01-01",
+   "periodo_fin": "2025-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 37752.263689809195,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:785716c2db19"
+  },
+  {
+   "indicador": "ing_pc_medio_cagu_cvl",
+   "periodo": "2025-T2",
+   "periodo_inicio": "2025-04-01",
+   "periodo_fin": "2025-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 34782.173702783,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:785716c2db19"
+  },
+  {
+   "indicador": "ing_pc_medio_cagu_cvl",
+   "periodo": "2025-T3",
+   "periodo_inicio": "2025-07-01",
+   "periodo_fin": "2025-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 39147.4413823359,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:785716c2db19"
+  },
+  {
+   "indicador": "ing_pc_medio_cagu_cvl",
+   "periodo": "2025-T4",
+   "periodo_inicio": "2025-10-01",
+   "periodo_fin": "2025-12-31",
+   "tipo_periodo": "trimestre",
+   "valor": 37249.5863688865,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:785716c2db19"
+  },
+  {
+   "indicador": "ing_pc_medio_cagu_cvl",
+   "periodo": "2026-T1",
+   "periodo_inicio": "2026-01-01",
+   "periodo_fin": "2026-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 41517,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:785716c2db19"
+  },
+  {
+   "indicador": "ing_pc_medio_cagu_cvl",
+   "periodo": "2026-T2",
+   "periodo_inicio": "2026-04-01",
+   "periodo_fin": "2026-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 39278,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:785716c2db19"
+  },
+  {
+   "indicador": "ing_pc_medio_cagu_cvl",
+   "periodo": "2026-T3",
+   "periodo_inicio": "2026-07-01",
+   "periodo_fin": "2026-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 40654,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:785716c2db19"
+  },
+  {
+   "indicador": "ing_pc_medio_cagu_svl",
+   "periodo": "2024",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "anio",
+   "valor": 26419.889895714765,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:ea48558a3805"
+  },
+  {
+   "indicador": "ing_pc_medio_cagu_svl",
+   "periodo": "2024-T1",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 27320.268908672046,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:ea48558a3805"
+  },
+  {
+   "indicador": "ing_pc_medio_cagu_svl",
+   "periodo": "2024-T2",
+   "periodo_inicio": "2024-04-01",
+   "periodo_fin": "2024-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 25445.956615611663,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:ea48558a3805"
+  },
+  {
+   "indicador": "ing_pc_medio_cagu_svl",
+   "periodo": "2024-T3",
+   "periodo_inicio": "2024-07-01",
+   "periodo_fin": "2024-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 27327.41879496026,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:ea48558a3805"
+  },
+  {
+   "indicador": "ing_pc_medio_cagu_svl",
+   "periodo": "2024-T4",
+   "periodo_inicio": "2024-10-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "trimestre",
+   "valor": 25585.91526361508,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:ea48558a3805"
+  },
+  {
+   "indicador": "ing_pc_medio_cagu_svl",
+   "periodo": "2025",
+   "periodo_inicio": "2025-01-01",
+   "periodo_fin": "2025-12-31",
+   "tipo_periodo": "anio",
+   "valor": 28401.47850650178,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:ea48558a3805"
+  },
+  {
+   "indicador": "ing_pc_medio_cagu_svl",
+   "periodo": "2025-T1",
+   "periodo_inicio": "2025-01-01",
+   "periodo_fin": "2025-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 29055.93478909301,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:ea48558a3805"
+  },
+  {
+   "indicador": "ing_pc_medio_cagu_svl",
+   "periodo": "2025-T2",
+   "periodo_inicio": "2025-04-01",
+   "periodo_fin": "2025-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 26239.2724264088,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:ea48558a3805"
+  },
+  {
+   "indicador": "ing_pc_medio_cagu_svl",
+   "periodo": "2025-T3",
+   "periodo_inicio": "2025-07-01",
+   "periodo_fin": "2025-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 29903.332303235,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:ea48558a3805"
+  },
+  {
+   "indicador": "ing_pc_medio_cagu_svl",
+   "periodo": "2025-T4",
+   "periodo_inicio": "2025-10-01",
+   "periodo_fin": "2025-12-31",
+   "tipo_periodo": "trimestre",
+   "valor": 28407.3745072703,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:ea48558a3805"
+  },
+  {
+   "indicador": "ing_pc_medio_cagu_svl",
+   "periodo": "2026-T1",
+   "periodo_inicio": "2026-01-01",
+   "periodo_fin": "2026-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 32252,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:ea48558a3805"
+  },
+  {
+   "indicador": "ing_pc_medio_cagu_svl",
+   "periodo": "2026-T2",
+   "periodo_inicio": "2026-04-01",
+   "periodo_fin": "2026-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 29396,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:ea48558a3805"
+  },
+  {
+   "indicador": "ing_pc_medio_cagu_svl",
+   "periodo": "2026-T3",
+   "periodo_inicio": "2026-07-01",
+   "periodo_fin": "2026-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 30889,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:ea48558a3805"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_cvl",
+   "periodo": "2024",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "anio",
+   "valor": 34140.31063401464,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:0baf19fc62a0"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_cvl",
+   "periodo": "2024-T1",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 34117.27220444389,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:0baf19fc62a0"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_cvl",
+   "periodo": "2024-T2",
+   "periodo_inicio": "2024-04-01",
+   "periodo_fin": "2024-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 34296.72794548974,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:0baf19fc62a0"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_cvl",
+   "periodo": "2024-T3",
+   "periodo_inicio": "2024-07-01",
+   "periodo_fin": "2024-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 33783.96515457526,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:0baf19fc62a0"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_cvl",
+   "periodo": "2024-T4",
+   "periodo_inicio": "2024-10-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "trimestre",
+   "valor": 34363.27723154966,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:0baf19fc62a0"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_cvl",
+   "periodo": "2025",
+   "periodo_inicio": "2025-01-01",
+   "periodo_fin": "2025-12-31",
+   "tipo_periodo": "anio",
+   "valor": 36226.40020246418,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:0baf19fc62a0"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_cvl",
+   "periodo": "2025-T1",
+   "periodo_inicio": "2025-01-01",
+   "periodo_fin": "2025-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 35753.30796924644,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:0baf19fc62a0"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_cvl",
+   "periodo": "2025-T2",
+   "periodo_inicio": "2025-04-01",
+   "periodo_fin": "2025-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 34777.4340010069,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:0baf19fc62a0"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_cvl",
+   "periodo": "2025-T3",
+   "periodo_inicio": "2025-07-01",
+   "periodo_fin": "2025-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 37125.2724707169,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:0baf19fc62a0"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_cvl",
+   "periodo": "2025-T4",
+   "periodo_inicio": "2025-10-01",
+   "periodo_fin": "2025-12-31",
+   "tipo_periodo": "trimestre",
+   "valor": 37249.5863688865,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:0baf19fc62a0"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_cvl",
+   "periodo": "2026-T1",
+   "periodo_inicio": "2026-01-01",
+   "periodo_fin": "2026-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 39330,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:0baf19fc62a0"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_cvl",
+   "periodo": "2026-T2",
+   "periodo_inicio": "2026-04-01",
+   "periodo_fin": "2026-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 39268,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:0baf19fc62a0"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_cvl",
+   "periodo": "2026-T3",
+   "periodo_inicio": "2026-07-01",
+   "periodo_fin": "2026-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 38573,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:0baf19fc62a0"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_svl",
+   "periodo": "2024",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "anio",
+   "valor": 25446.54220281183,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:40ac0f2bc9f2"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_svl",
+   "periodo": "2024-T1",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 25454.730541510457,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:40ac0f2bc9f2"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_svl",
+   "periodo": "2024-T2",
+   "periodo_inicio": "2024-04-01",
+   "periodo_fin": "2024-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 25412.886759123525,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:40ac0f2bc9f2"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_svl",
+   "periodo": "2024-T3",
+   "periodo_inicio": "2024-07-01",
+   "periodo_fin": "2024-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 25353.650243399563,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:40ac0f2bc9f2"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_svl",
+   "periodo": "2024-T4",
+   "periodo_inicio": "2024-10-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "trimestre",
+   "valor": 25564.901267213776,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:40ac0f2bc9f2"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_svl",
+   "periodo": "2025",
+   "periodo_inicio": "2025-01-01",
+   "periodo_fin": "2025-12-31",
+   "tipo_periodo": "anio",
+   "valor": 27397.546181629863,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:40ac0f2bc9f2"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_svl",
+   "periodo": "2025-T1",
+   "periodo_inicio": "2025-01-01",
+   "periodo_fin": "2025-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 27056.324144427457,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:40ac0f2bc9f2"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_svl",
+   "periodo": "2025-T2",
+   "periodo_inicio": "2025-04-01",
+   "periodo_fin": "2025-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 26234.0429295226,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:40ac0f2bc9f2"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_svl",
+   "periodo": "2025-T3",
+   "periodo_inicio": "2025-07-01",
+   "periodo_fin": "2025-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 27892.4431452991,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:40ac0f2bc9f2"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_svl",
+   "periodo": "2025-T4",
+   "periodo_inicio": "2025-10-01",
+   "periodo_fin": "2025-12-31",
+   "tipo_periodo": "trimestre",
+   "valor": 28407.3745072703,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:40ac0f2bc9f2"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_svl",
+   "periodo": "2026-T1",
+   "periodo_inicio": "2026-01-01",
+   "periodo_fin": "2026-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 30108,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:40ac0f2bc9f2"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_svl",
+   "periodo": "2026-T2",
+   "periodo_inicio": "2026-04-01",
+   "periodo_fin": "2026-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 29384,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:40ac0f2bc9f2"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_svl",
+   "periodo": "2026-T3",
+   "periodo_inicio": "2026-07-01",
+   "periodo_fin": "2026-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 28878,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:40ac0f2bc9f2"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_svl_ene2005",
+   "periodo": "2024",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "anio",
+   "valor": 6097.015404522567,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:aaf016e8cfbe"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_svl_ene2005",
+   "periodo": "2024-T1",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 6202.20674797327,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:aaf016e8cfbe"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_svl_ene2005",
+   "periodo": "2024-T2",
+   "periodo_inicio": "2024-04-01",
+   "periodo_fin": "2024-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 6110.293969841244,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:aaf016e8cfbe"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_svl_ene2005",
+   "periodo": "2024-T3",
+   "periodo_inicio": "2024-07-01",
+   "periodo_fin": "2024-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 6038.975698040217,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:aaf016e8cfbe"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_svl_ene2005",
+   "periodo": "2024-T4",
+   "periodo_inicio": "2024-10-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "trimestre",
+   "valor": 6036.585202235538,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:aaf016e8cfbe"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_svl_ene2005",
+   "periodo": "2025",
+   "periodo_inicio": "2025-01-01",
+   "periodo_fin": "2025-12-31",
+   "tipo_periodo": "anio",
+   "valor": 6276.840866939556,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:aaf016e8cfbe"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_svl_ene2005",
+   "periodo": "2025-T1",
+   "periodo_inicio": "2025-01-01",
+   "periodo_fin": "2025-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 6282.394297576376,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:aaf016e8cfbe"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_svl_ene2005",
+   "periodo": "2025-T2",
+   "periodo_inicio": "2025-04-01",
+   "periodo_fin": "2025-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 5997.39657091862,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:aaf016e8cfbe"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_svl_ene2005",
+   "periodo": "2025-T3",
+   "periodo_inicio": "2025-07-01",
+   "periodo_fin": "2025-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 6379.14236951674,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:aaf016e8cfbe"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_svl_ene2005",
+   "periodo": "2025-T4",
+   "periodo_inicio": "2025-10-01",
+   "periodo_fin": "2025-12-31",
+   "tipo_periodo": "trimestre",
+   "valor": 6448.43022974649,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:aaf016e8cfbe"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_svl_ene2005",
+   "periodo": "2026-T1",
+   "periodo_inicio": "2026-01-01",
+   "periodo_fin": "2026-03-31",
+   "tipo_periodo": "trimestre",
+   "valor": 6768,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:aaf016e8cfbe"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_svl_ene2005",
+   "periodo": "2026-T2",
+   "periodo_inicio": "2026-04-01",
+   "periodo_fin": "2026-06-30",
+   "tipo_periodo": "trimestre",
+   "valor": 6519,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:aaf016e8cfbe"
+  },
+  {
+   "indicador": "ing_pc_medio_sagu_svl_ene2005",
+   "periodo": "2026-T3",
+   "periodo_inicio": "2026-07-01",
+   "periodo_fin": "2026-09-30",
+   "tipo_periodo": "trimestre",
+   "valor": 6336,
+   "es_estimado": false,
+   "captura_id": "ine_ech_ingresos_series:aaf016e8cfbe"
+  }
+ ],
+ "indicadores": {
+  "ing_hogar_medio_cagu_cvl": {
+   "codigo": "ing_hogar_medio_cagu_cvl",
+   "nombre": "Ingreso medio de los hogares (con aguinaldo, con valor locativo, a precios corrientes)",
+   "unidad": "pesos corrientes por mes",
+   "tema": "Ingresos",
+   "columna_origen": "Planilla ECHING07",
+   "fuente_id": "ine_ech_ingresos_series",
+   "nota": "Serie histórica de la Encuesta Continua de Hogares (INE). Desde 2025 el INE usa el ingreso disponible ajustado (YDA); la serie desde 2016 se recalculó con él. Los totales anuales son el promedio de los cuatro trimestres, como los publica el INE."
+  },
+  "ing_hogar_medio_cagu_svl": {
+   "codigo": "ing_hogar_medio_cagu_svl",
+   "nombre": "Ingreso medio de los hogares (con aguinaldo, sin valor locativo, a precios corrientes)",
+   "unidad": "pesos corrientes por mes",
+   "tema": "Ingresos",
+   "columna_origen": "Planilla ECHING09",
+   "fuente_id": "ine_ech_ingresos_series",
+   "nota": "Serie histórica de la Encuesta Continua de Hogares (INE). Desde 2025 el INE usa el ingreso disponible ajustado (YDA); la serie desde 2016 se recalculó con él. Los totales anuales son el promedio de los cuatro trimestres, como los publica el INE."
+  },
+  "ing_hogar_medio_sagu_cvl": {
+   "codigo": "ing_hogar_medio_sagu_cvl",
+   "nombre": "Ingreso medio de los hogares (sin aguinaldo, con valor locativo, a precios corrientes)",
+   "unidad": "pesos corrientes por mes",
+   "tema": "Ingresos",
+   "columna_origen": "Planilla ECHING08",
+   "fuente_id": "ine_ech_ingresos_series",
+   "nota": "Serie histórica de la Encuesta Continua de Hogares (INE). Desde 2025 el INE usa el ingreso disponible ajustado (YDA); la serie desde 2016 se recalculó con él. Los totales anuales son el promedio de los cuatro trimestres, como los publica el INE."
+  },
+  "ing_hogar_medio_sagu_svl": {
+   "codigo": "ing_hogar_medio_sagu_svl",
+   "nombre": "Ingreso medio de los hogares (sin aguinaldo, sin valor locativo, a precios corrientes)",
+   "unidad": "pesos corrientes por mes",
+   "tema": "Ingresos",
+   "columna_origen": "Planilla ECHING10",
+   "fuente_id": "ine_ech_ingresos_series",
+   "nota": "Serie histórica de la Encuesta Continua de Hogares (INE). Desde 2025 el INE usa el ingreso disponible ajustado (YDA); la serie desde 2016 se recalculó con él. Los totales anuales son el promedio de los cuatro trimestres, como los publica el INE."
+  },
+  "ing_hogar_medio_sagu_svl_ene2005": {
+   "codigo": "ing_hogar_medio_sagu_svl_ene2005",
+   "nombre": "Ingreso medio de los hogares (sin aguinaldo, sin valor locativo, a precios de enero de 2005)",
+   "unidad": "pesos de enero de 2005 por mes",
+   "tema": "Ingresos",
+   "columna_origen": "Planilla ECHINGRESOS2",
+   "fuente_id": "ine_ech_ingresos_series",
+   "nota": "Serie histórica de la Encuesta Continua de Hogares (INE). Desde 2025 el INE usa el ingreso disponible ajustado (YDA); la serie desde 2016 se recalculó con él. Los totales anuales son el promedio de los cuatro trimestres, como los publica el INE."
+  },
+  "ing_pc_medio_cagu_cvl": {
+   "codigo": "ing_pc_medio_cagu_cvl",
+   "nombre": "Ingreso medio per cápita de los hogares (con aguinaldo, con valor locativo, a precios corrientes)",
+   "unidad": "pesos corrientes por mes",
+   "tema": "Ingresos",
+   "columna_origen": "Planilla ECHING11",
+   "fuente_id": "ine_ech_ingresos_series",
+   "nota": "Serie histórica de la Encuesta Continua de Hogares (INE). Desde 2025 el INE usa el ingreso disponible ajustado (YDA); la serie desde 2016 se recalculó con él. Los totales anuales son el promedio de los cuatro trimestres, como los publica el INE."
+  },
+  "ing_pc_medio_cagu_svl": {
+   "codigo": "ing_pc_medio_cagu_svl",
+   "nombre": "Ingreso medio per cápita de los hogares (con aguinaldo, sin valor locativo, a precios corrientes)",
+   "unidad": "pesos corrientes por mes",
+   "tema": "Ingresos",
+   "columna_origen": "Planilla ECHING13",
+   "fuente_id": "ine_ech_ingresos_series",
+   "nota": "Serie histórica de la Encuesta Continua de Hogares (INE). Desde 2025 el INE usa el ingreso disponible ajustado (YDA); la serie desde 2016 se recalculó con él. Los totales anuales son el promedio de los cuatro trimestres, como los publica el INE."
+  },
+  "ing_pc_medio_sagu_cvl": {
+   "codigo": "ing_pc_medio_sagu_cvl",
+   "nombre": "Ingreso medio per cápita de los hogares (sin aguinaldo, con valor locativo, a precios corrientes)",
+   "unidad": "pesos corrientes por mes",
+   "tema": "Ingresos",
+   "columna_origen": "Planilla ECHING12",
+   "fuente_id": "ine_ech_ingresos_series",
+   "nota": "Serie histórica de la Encuesta Continua de Hogares (INE). Desde 2025 el INE usa el ingreso disponible ajustado (YDA); la serie desde 2016 se recalculó con él. Los totales anuales son el promedio de los cuatro trimestres, como los publica el INE."
+  },
+  "ing_pc_medio_sagu_svl": {
+   "codigo": "ing_pc_medio_sagu_svl",
+   "nombre": "Ingreso medio per cápita de los hogares (sin aguinaldo, sin valor locativo, a precios corrientes)",
+   "unidad": "pesos corrientes por mes",
+   "tema": "Ingresos",
+   "columna_origen": "Planilla ECHING14",
+   "fuente_id": "ine_ech_ingresos_series",
+   "nota": "Serie histórica de la Encuesta Continua de Hogares (INE). Desde 2025 el INE usa el ingreso disponible ajustado (YDA); la serie desde 2016 se recalculó con él. Los totales anuales son el promedio de los cuatro trimestres, como los publica el INE."
+  },
+  "ing_pc_medio_sagu_svl_ene2005": {
+   "codigo": "ing_pc_medio_sagu_svl_ene2005",
+   "nombre": "Ingreso medio per cápita de los hogares (sin aguinaldo, sin valor locativo, a precios de enero de 2005)",
+   "unidad": "pesos de enero de 2005 por mes",
+   "tema": "Ingresos",
+   "columna_origen": "Planilla ECHINGRESOS3",
+   "fuente_id": "ine_ech_ingresos_series",
+   "nota": "Serie histórica de la Encuesta Continua de Hogares (INE). Desde 2025 el INE usa el ingreso disponible ajustado (YDA); la serie desde 2016 se recalculó con él. Los totales anuales son el promedio de los cuatro trimestres, como los publica el INE."
+  }
+ },
+ "capturas": {
+  "ine_ech_ingresos_series:0baf19fc62a0": {
+   "id": "ine_ech_ingresos_series:0baf19fc62a0",
+   "fuente_id": "ine_ech_ingresos_series",
+   "archivo": "ech_ingresos/ECHING12.xlsx",
+   "sha256": "0baf19fc62a0ef1220dc679a61f783fdd17f59ee98dbad14895dae37c31e1360",
+   "fecha_proceso": "2026-11-21T19:13:24+00:00",
+   "url": "https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHING12.xlsx",
+   "descargado": "2026-11-21",
+   "vigente": true
+  },
+  "ine_ech_ingresos_series:30a02d757ee9": {
+   "id": "ine_ech_ingresos_series:30a02d757ee9",
+   "fuente_id": "ine_ech_ingresos_series",
+   "archivo": "ech_ingresos/ECHING10.xlsx",
+   "sha256": "30a02d757ee9db01248607bdb362388208226af7eb74c0564589cd2c6f26fc6c",
+   "fecha_proceso": "2026-11-21T19:13:24+00:00",
+   "url": "https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHING10.xlsx",
+   "descargado": "2026-11-21",
+   "vigente": true
+  },
+  "ine_ech_ingresos_series:40ac0f2bc9f2": {
+   "id": "ine_ech_ingresos_series:40ac0f2bc9f2",
+   "fuente_id": "ine_ech_ingresos_series",
+   "archivo": "ech_ingresos/ECHING14.xlsx",
+   "sha256": "40ac0f2bc9f20e3556a39cbabffab4f007c80451cc5a9d346f6bae946cd70fb1",
+   "fecha_proceso": "2026-11-21T19:13:24+00:00",
+   "url": "https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHING14.xlsx",
+   "descargado": "2026-11-21",
+   "vigente": true
+  },
+  "ine_ech_ingresos_series:46a6c57fd47a": {
+   "id": "ine_ech_ingresos_series:46a6c57fd47a",
+   "fuente_id": "ine_ech_ingresos_series",
+   "archivo": "ech_ingresos/ECHINGRESOS2.xlsx",
+   "sha256": "46a6c57fd47a21250deb654cc12b3ecb1b70f5bc47268a46b460e35c41258d8b",
+   "fecha_proceso": "2026-11-21T19:13:24+00:00",
+   "url": "https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHINGRESOS2.xlsx",
+   "descargado": "2026-11-21",
+   "vigente": true
+  },
+  "ine_ech_ingresos_series:74fd828b882e": {
+   "id": "ine_ech_ingresos_series:74fd828b882e",
+   "fuente_id": "ine_ech_ingresos_series",
+   "archivo": "ech_ingresos/ECHING09.xlsx",
+   "sha256": "74fd828b882e5b2206264b7101cbb800800e80e4b3cb9d3320ae4bafee605bde",
+   "fecha_proceso": "2026-11-21T19:13:24+00:00",
+   "url": "https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHING09.xlsx",
+   "descargado": "2026-11-21",
+   "vigente": true
+  },
+  "ine_ech_ingresos_series:778c6bca110a": {
+   "id": "ine_ech_ingresos_series:778c6bca110a",
+   "fuente_id": "ine_ech_ingresos_series",
+   "archivo": "ech_ingresos/ECHING08.xlsx",
+   "sha256": "778c6bca110af3f885a7260eb5366241c4b75d72795846b93eca3baef77606d4",
+   "fecha_proceso": "2026-11-21T19:13:24+00:00",
+   "url": "https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHING08.xlsx",
+   "descargado": "2026-11-21",
+   "vigente": true
+  },
+  "ine_ech_ingresos_series:785716c2db19": {
+   "id": "ine_ech_ingresos_series:785716c2db19",
+   "fuente_id": "ine_ech_ingresos_series",
+   "archivo": "ech_ingresos/ECHING11.xlsx",
+   "sha256": "785716c2db196c474e27fe8a03de671bf920306ac9f4b3a6d4d05fbecc0f8bcb",
+   "fecha_proceso": "2026-11-21T19:13:24+00:00",
+   "url": "https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHING11.xlsx",
+   "descargado": "2026-11-21",
+   "vigente": true
+  },
+  "ine_ech_ingresos_series:aaf016e8cfbe": {
+   "id": "ine_ech_ingresos_series:aaf016e8cfbe",
+   "fuente_id": "ine_ech_ingresos_series",
+   "archivo": "ech_ingresos/ECHINGRESOS3.xlsx",
+   "sha256": "aaf016e8cfbef54e8e291013090980ae13d1d38b4c5b3523c24024a380e3bd1b",
+   "fecha_proceso": "2026-11-21T19:13:24+00:00",
+   "url": "https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHINGRESOS3.xlsx",
+   "descargado": "2026-11-21",
+   "vigente": true
+  },
+  "ine_ech_ingresos_series:bf4c0044551b": {
+   "id": "ine_ech_ingresos_series:bf4c0044551b",
+   "fuente_id": "ine_ech_ingresos_series",
+   "archivo": "ech_ingresos/ECHING07.xlsx",
+   "sha256": "bf4c0044551b3a27b78ecd6deddeab807029b4a650b13ed5a479294d8ba9c42a",
+   "fecha_proceso": "2026-11-21T19:13:24+00:00",
+   "url": "https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHING07.xlsx",
+   "descargado": "2026-11-21",
+   "vigente": true
+  },
+  "ine_ech_ingresos_series:ea48558a3805": {
+   "id": "ine_ech_ingresos_series:ea48558a3805",
+   "fuente_id": "ine_ech_ingresos_series",
+   "archivo": "ech_ingresos/ECHING13.xlsx",
+   "sha256": "ea48558a3805705c297adc208c27b7a4e68aa60ed4abe2689e702b823fa34daf",
+   "fecha_proceso": "2026-11-21T19:13:24+00:00",
+   "url": "https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHING13.xlsx",
+   "descargado": "2026-11-21",
+   "vigente": true
+  }
+ },
+ "fuentes": {
+  "ine_ech_ingresos_series": {
+   "nombre": "Series históricas de ingresos de las personas y los hogares (ECH)",
+   "organismo": "Instituto Nacional de Estadística (INE)",
+   "licencia": "No publicada por el INE. Se cita la fuente según cada cuadro.",
+   "pagina": "https://www.gub.uy/instituto-nacional-estadistica/datos-y-estadisticas/estadisticas/series-historicas-ech-ingresos-personas-hogares",
+   "url_descarga": "https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/SERIES%20Y%20OTROS/ECH/Series%20hist%C3%B3ricas/Ingresos%20de%20las%20personas%20y%20los%20hogares/ECHING10.xlsx"
+  }
+ }
+}
