@@ -156,4 +156,11 @@ def test_las_fichas_del_interior_llevan_su_region_con_los_temas(salida):
 
 def test_sin_datos_en_el_interior_la_region_no_trae_temas(web):
     """Con la fuente de ingresos «en preparación» la app no tiene sus valores: ningún enlace a una ficha vacía."""
+    import yaml
+
+    from comun.registro import RAIZ
+
+    estado = yaml.safe_load((RAIZ / "fuentes" / "ine_ech_ingresos_series.yml").read_text(encoding="utf-8"))["estado"]
+    if estado == "activa":
+        pytest.skip("la fuente de ingresos está activa: la región trae sus temas")
     assert ficha(web, "departamento", "07")["region"]["temas"] == []

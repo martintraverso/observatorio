@@ -200,7 +200,7 @@
 					{arriba.temas.join(' e ')}: se publica por {NOMBRE_NIVEL[arriba.padre.nivel].toLowerCase()} →
 					<a href="{hrefFicha(arriba.padre)}#{s.id}">ver {arriba.padre.nombre}</a>
 				</p>
-			{:else}
+			{:else if !enRegion}
 				<p class="info vacio">{SIN_FUENTES}</p>
 			{/if}
 		{/if}
