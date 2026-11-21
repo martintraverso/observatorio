@@ -129,3 +129,28 @@ test('AC-S1: "paysandu" encuentra "Paysandú" (datos completos)', async ({ page 
 	await campo(page).fill('paysandu');
 	await expect(lista(page).getByRole('option').first()).toContainText('Paysandú', { timeout: 15_000 });
 });
+
+test('AC-I3: las regiones no tienen mapa, pero se buscan por nombre y tienen ficha', async ({ page }) => {
+	await campo(page).fill('interior');
+	await expect(lista(page).getByRole('option').first()).toContainText('Interior del país');
+	await expect(lista(page).getByRole('option').first()).toContainText('Región · Uruguay');
+	await lista(page).getByRole('option').first().click();
+	await expect(page).toHaveURL(/territorio\/region\/interior$/);
+	await expect(page.getByRole('heading', { level: 1 })).toHaveText('Interior del país');
+	await expect(page.getByRole('navigation', { name: 'Ubicación' })).toHaveText(/^Uruguay\s*Interior del país$/);
+	await expect(page.locator('header .chips')).not.toContainText('Código INE');
+	// sin geometría: ni mapa de ubicación ni «Ver en el mapa»
+	await expect(page.locator('.ubicacion')).toHaveCount(0);
+	await expect(page.getByRole('link', { name: 'Ver en el mapa', exact: true })).toHaveCount(0);
+	// todos los departamentos del build salvo Montevideo pertenecen al Interior (solo relación)
+	const deptos = indice.filter((t) => t.nivel === 'departamento' && t.codigo !== '01').length;
+	await expect(page.getByRole('tab', { name: `Departamento (${deptos})` })).toBeVisible();
+	await expect(page.getByText('Pertenece al país:')).toContainText('Uruguay');
+	expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+
+	// un departamento del Interior dice a qué región pertenece; Montevideo no
+	await page.goto('territorio/departamento/07');
+	await expect(page.getByText('Pertenece a la región:')).toContainText('Interior del país');
+	await page.goto('territorio/departamento/01');
+	await expect(page.getByText('Pertenece a la región:')).toHaveCount(0);
+});

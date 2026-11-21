@@ -149,7 +149,8 @@
 			.then((f) => {
 				if (estado.territorio !== t) return;
 				ficha = f;
-				if (enfocarAlCargar) mapa?.enfocar(f.bbox);
+				// las regiones (F3.2) no tienen geometría: no hay dónde encuadrar
+				if (enfocarAlCargar && f.bbox) mapa?.enfocar(f.bbox);
 				enfocarAlCargar = false;
 			})
 			.catch(() => {

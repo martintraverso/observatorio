@@ -19,7 +19,9 @@ describe('datos', () => {
 		expect(partesId('INE-2023/seccion/0701')).toEqual({ nivel: 'seccion', codigo: '0701' });
 		expect(esNivel('segmento')).toBe(true);
 		expect(esNivel('zona')).toBe(false);
-		expect(NIVELES).toHaveLength(9);
+		expect(NIVELES).toHaveLength(10);
+		expect(NIVELES.slice(0, 2)).toEqual(['pais', 'region']); // F3.2: las regiones, después del país
+		expect(esNivel('region')).toBe(true);
 		expect(esNivel('pais') && esNivel('municipio_mvd')).toBe(true);
 		expect(partesId('INE-2023/municipio_mvd/CH')).toEqual({ nivel: 'municipio_mvd', codigo: 'CH' });
 	});

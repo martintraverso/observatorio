@@ -2,6 +2,7 @@
 # El pipeline los usa por defecto en sus controles (--esperado) y los tests en modo
 # OBS_DATOS=completo. Fuente de los números: docs/SYSTEM.md §3 y §4.
 # pais y municipio_mvd no son capas del INE: los arma el pipeline uniendo geometrías (F2.3).
+# region (sin geometría): las tres regiones de la ECH de ingresos (F3.2).
 territorios_por_nivel:
   departamento: 19
   seccion: 236
@@ -12,6 +13,7 @@ territorios_por_nivel:
   area_especial: 1
   pais: 1
   municipio_mvd: 8
+  region: 3
 # Departamentos que tienen secciones en la entrada (en el paquete completo, todos).
 departamentos_con_secciones: 19
 # Suma de pob_total de la capa de departamentos (valor publicado por el INE).

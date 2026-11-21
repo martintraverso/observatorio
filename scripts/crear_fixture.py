@@ -100,6 +100,8 @@ def calcular_esperado(capas: dict[str, gpd.GeoDataFrame]) -> dict:
             # Niveles derivados por el pipeline (F2.3): país y municipios de Montevideo.
             "pais": int((~lc).any()),
             "municipio_mvd": int(capas["ccz_mvd_23_pg"].NOMMUNICIPIO.nunique()),
+            # Regiones de la ECH de ingresos, sin geometría (F3.2): las tres si hay departamentos.
+            "region": 3 * int((~lc).any()),
         },
         "departamentos_con_secciones": int(sc.DEPTO.nunique()),
         "pob_total_departamentos": int(d[~lc].POB_TOT_23.sum()),

@@ -45,9 +45,11 @@
 		<button type="button" class="cerrar" onclick={oncerrar} aria-label="Cerrar el panel de {ficha.nombre}">✕</button>
 	</header>
 
-	<div class="ubicacion">
-		<MiniMapa nombre={ficha.nombre} depto={ficha.depto} nivel={ficha.nivel} bbox={ficha.bbox} />
-	</div>
+	{#if ficha.bbox}
+		<div class="ubicacion">
+			<MiniMapa nombre={ficha.nombre} depto={ficha.depto} nivel={ficha.nivel} bbox={ficha.bbox} />
+		</div>
+	{/if}
 
 	{#if principal}
 		<div class="principal">
