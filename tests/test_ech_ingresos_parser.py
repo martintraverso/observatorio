@@ -18,6 +18,7 @@ import yaml
 from ech_ingresos import INDICADORES, ErrorSerie, parsear_serie
 
 from comun.periodos import anio, trimestre
+from comun.xlsx import leer_primera_hoja
 
 FIX = Path(__file__).resolve().parent / "fixtures" / "ech_ingresos"
 REGISTRO = Path(__file__).resolve().parents[1] / "fuentes" / "ine_ech_ingresos_series.yml"
@@ -147,3 +148,81 @@ def test_dorados_ech_ing09_y_primer_trimestre(ing07):
     assert (round(valor(df, PAIS, "2016")), round(valor(df, MVD, "2016"))) == (49809, 59404)
     assert ing07.periodo_inicio.min() == dt.date(2016, 1, 1)
     assert round(valor(ing07, PAIS, "2016-T1")) == 59534
+
+
+# ------------------------------------------------------------------ F3.4d (#140): cada formato inesperado falla
+
+def _cambiar_hoja(xlsx: bytes, viejo: bytes, nuevo: bytes) -> bytes:
+    """Copia del xlsx con un cambio en el XML de la hoja."""
+    entrada, salida = zipfile.ZipFile(io.BytesIO(xlsx)), io.BytesIO()
+    with zipfile.ZipFile(salida, "w", zipfile.ZIP_DEFLATED) as z:
+        for info in entrada.infolist():
+            datos = entrada.read(info.filename)
+            if info.filename == "xl/worksheets/sheet1.xml":
+                assert viejo in datos, viejo
+                datos = datos.replace(viejo, nuevo, 1)
+            z.writestr(info, datos)
+    return salida.getvalue()
+
+
+@pytest.mark.parametrize("viejo,nuevo,error", [
+    ("Total 2016", "Promedio 2016", "fila .* desconocida"),                 # fila desconocida
+    ("Total 2017", "Total 2016", "aparece dos veces|año"),                  # período repetido (o de otro bloque)
+    ("Abril - Junio/16", "Abril - Junio/16 (7)", r"llamada \(7\)"),         # llamada sin nota al pie
+    ("Interior", "Otras áreas", "(?i)columna"),                             # «Total» sin «Interior»
+    ("Enero - Marzo/17", "Enero - Marzo/16", "aparece dos veces|año"),      # año del trimestre ≠ bloque
+])
+def test_textos_inesperados_fallan(viejo, nuevo, error):
+    with pytest.raises(ErrorSerie, match=error):
+        parsear_serie(_cambiar_texto(leer("ECHING07"), viejo, nuevo), "ECHING07")
+
+
+def test_trimestre_con_el_anio_de_otro_bloque_falla():
+    """«Julio - Setiembre/61» dentro del bloque 2016 no se carga como 2061."""
+    with pytest.raises(ErrorSerie, match="año"):
+        parsear_serie(_cambiar_texto(leer("ECHING07"), "Julio - Setiembre/16", "Julio - Setiembre/61"), "ECHING07")
+
+
+def test_columna_faltante_falla():
+    """Sin la columna Montevideo (la celda del encabezado vacía), falta un territorio."""
+    xlsx = _cambiar_texto(leer("ECHING07"), "Montevideo", "")
+    with pytest.raises(ErrorSerie, match="(?i)falta|columna"):
+        parsear_serie(xlsx, "ECHING07")
+
+
+def test_numeros_en_el_pie_fallan():
+    """Una fila con números después de «Fuente:» no se toma como nota al pie."""
+    c = leer_primera_hoja(leer("ECHING07"))
+    fila_fuente = next(r for r, x in c.items() if str(x.get(1, "")).startswith("Fuente:"))
+    xlsx = _cambiar_hoja(leer("ECHING07"), f'<row r="{fila_fuente + 1}"'.encode(),
+                         f'<row r="{fila_fuente + 1}"><c r="B{fila_fuente + 1}"><v>123</v></c></row><row r="999"'.encode())
+    with pytest.raises(ErrorSerie, match="pie"):
+        parsear_serie(xlsx, "ECHING07")
+
+
+def test_llamada_2_de_las_planillas_per_capita():
+    """En las per cápita «(1)» es del título y «(2)» marca las cifras actualizadas: la numeración se respeta."""
+    xlsx = _cambiar_texto(leer("ECHING07"), "(1): Cifras actualizadas a noviembre 2026.", "(2): Cifras actualizadas a noviembre 2026.")
+    for t in ("Enero - Marzo/26 (1)", "Abril - Junio/26 (1)"):
+        xlsx = _cambiar_texto(xlsx, t, t.replace("(1)", "(2)"))
+    df = parsear_serie(xlsx, "ECHING07")
+    assert df.attrs["llamadas"]["2026-T1"] == ["Cifras actualizadas a noviembre 2026."]
+
+
+def test_lector_busca_la_primera_hoja_en_el_libro():
+    """La primera hoja es la que dice workbook.xml, aunque su archivo no se llame sheet1.xml."""
+    entrada, salida = zipfile.ZipFile(io.BytesIO(leer("ECHING07"))), io.BytesIO()
+    with zipfile.ZipFile(salida, "w", zipfile.ZIP_DEFLATED) as z:
+        for info in entrada.infolist():
+            datos = entrada.read(info.filename)
+            nombre = info.filename.replace("sheet1.xml", "hoja_ingresos.xml")
+            if info.filename in ("xl/_rels/workbook.xml.rels", "[Content_Types].xml"):
+                datos = datos.replace(b"sheet1.xml", b"hoja_ingresos.xml")
+            z.writestr(nombre, datos)
+    assert len(parsear_serie(salida.getvalue(), "ECHING07")) == 53 * 5
+
+
+def test_celda_sin_referencia_falla():
+    xlsx = _cambiar_hoja(leer("ECHING07"), b'<c r="B11"', b'<c')
+    with pytest.raises(ErrorSerie, match="referencia"):
+        parsear_serie(xlsx, "ECHING07")
