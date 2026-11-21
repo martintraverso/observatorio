@@ -48,7 +48,7 @@ Además, `npm run test:lighthouse -- <url>` corre Lighthouse móvil 3 veces sobr
 
 - `e2e/visual/ayudas.ts`: `detectarDesbordes(page)` (AC-V5, y opciones de un segmentado en más de una línea), `revisarSegmentado(page, contenedor)` (AC-V1) y `sinTextoInterno(page)` (AC-V19). `ayudas.visual.ts` prueba que detectan cada problema sobre HTML armado a mano.
 - `calidad.visual.ts`: los controles sobre cada ruta. Los problemas que el `main` todavía tiene están marcados con `pendiente(condición, historia)` (`test.fail`): el test se pone rojo cuando el problema se corrige, y la historia que lo corrige saca la marca.
-- `capturas.visual.ts`: capturas de AC-V31, en `fixme` hasta M10.10 (#88), que toma las baselines.
+- `capturas.visual.ts`: capturas de referencia de AC-V31 (Mapa, fichas, Fuentes y Datos en las cuatro vistas, solo Chromium y solo con el fixture: con los datos completos se saltean). Las referencias (`capturas.visual.ts-snapshots/*-linux.png`) son las del runner de CI, porque la letra se dibuja distinto en otras máquinas. Para actualizarlas, en un PR con la etiqueta `visual`: dejar que el CI falle, bajar el artefacto `playwright` (`gh run download <id> -n playwright`) y copiar cada `…-actual.png` como `capturas.visual.ts-snapshots/<nombre>-<proyecto>-linux.png`. Adjuntar capturas antes/después en el PR.
 
 Playwright necesita Chromium (`npx playwright install chromium`). En Debian sin `sudo`, si faltan `libnspr4`/`libnss3`:
 
