@@ -58,7 +58,8 @@ def controles(obs: pd.DataFrame) -> tuple[Controles, list[str]]:
 
     w = obs.pivot_table(index=["territorio_id", "periodo"], columns="indicador", values="valor", aggfunc="first")
     _orden(c, w, "AC-I13 Per cápita menor que hogar",
-           [(f"ing_hogar_medio_{v}", f"ing_pc_medio_{v}", True) for v in VARIANTES])
+           [*[(f"ing_hogar_medio_{v}", f"ing_pc_medio_{v}", True) for v in VARIANTES],
+            ("ing_hogar_medio_sagu_svl_ene2005", "ing_pc_medio_sagu_svl_ene2005", True)])
     _orden(c, w, "AC-I13 Con aguinaldo ≥ sin aguinaldo",
            [(f"ing_{m}_medio_cagu_{vl}", f"ing_{m}_medio_sagu_{vl}", False) for m in ("hogar", "pc") for vl in ("cvl", "svl")])
     _orden(c, w, "AC-I13 Con valor locativo ≥ sin valor locativo",
@@ -94,6 +95,13 @@ def controles(obs: pd.DataFrame) -> tuple[Controles, list[str]]:
             problemas.append(f"{ind} {ter}: años fuera de {PRIMER_ANIO}–{completo}")
     c.chk(f"AC-I16 Cada año desde {PRIMER_ANIO} con 4 trimestres y su total; el año en curso sin total",
           not problemas, f"{len(problemas)} casos: {problemas[:3]}" if problemas else "")
+
+    # Advertencia: una serie que termina antes que las demás (p. ej. su planilla dio error en la última captura y
+    # quedó la versión anterior). AC-I16 la acepta, porque el año en curso es el de cada serie.
+    fin = q.groupby(["indicador", "territorio_id"]).periodo.max()
+    if len(fin):
+        atrasadas = fin[fin < fin.max()]
+        advertencias += [f"{i} {ter}: la serie termina en {p}; las demás, en {fin.max()}" for (i, ter), p in atrasadas.items()]
 
     # AC-I15 (advertencia)
     prom = q.groupby(["indicador", "territorio_id", "anio"]).valor.agg(["mean", "size"])

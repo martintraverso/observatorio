@@ -50,6 +50,39 @@ def test_ac_i13_con_valor_locativo_no_menor_que_sin(obs):
     assert "AC-I13 Con valor locativo ≥ sin valor locativo" in [f["control"] for f in c.fallas]
 
 
+def _df(filas):
+    return pd.DataFrame(filas, columns=["indicador", "territorio_id", "periodo", "tipo_periodo", "valor"])
+
+
+def test_ac_i13_con_aguinaldo_no_menor_que_sin():
+    c, _ = controles(_df([["ing_hogar_medio_cagu_svl", PAIS, "2016-T1", "trimestre", 100.0],
+                          ["ing_hogar_medio_sagu_svl", PAIS, "2016-T1", "trimestre", 120.0]]))
+    assert "AC-I13 Con aguinaldo ≥ sin aguinaldo" in [f["control"] for f in c.fallas]
+
+
+def test_ac_i13_per_capita_menor_que_hogar_tambien_a_precios_de_2005():
+    c, _ = controles(_df([["ing_hogar_medio_sagu_svl_ene2005", PAIS, "2016-T1", "trimestre", 100.0],
+                          ["ing_pc_medio_sagu_svl_ene2005", PAIS, "2016-T1", "trimestre", 120.0]]))
+    assert "AC-I13 Per cápita menor que hogar" in [f["control"] for f in c.fallas]
+
+
+def test_ac_i14_los_empates_no_son_falla(obs):
+    mvd = obs[(obs.indicador == "ing_hogar_medio_cagu_cvl") & (obs.territorio_id == MVD) & (obs.periodo == "2019-T1")].valor.iloc[0]
+    c, _ = controles(cambiar(obs, "ing_hogar_medio_cagu_cvl", PAIS, "2019-T1", mvd))
+    assert not [f for f in c.fallas if f["control"].startswith("AC-I14")]
+
+
+def test_ac_i16_el_anio_en_curso_empieza_en_t1(obs):
+    sin_t1 = obs[~((obs.indicador == "ing_hogar_medio_cagu_cvl") & (obs.territorio_id == PAIS) & (obs.periodo == "2026-T1"))]
+    assert any(n.startswith("AC-I16") for n in fallas(sin_t1)[0])
+
+
+def test_una_serie_que_termina_antes_es_advertencia(obs):
+    atrasada = obs[~((obs.indicador == "ing_hogar_medio_cagu_cvl") & (obs.territorio_id == PAIS) & (obs.periodo == "2026-T3"))]
+    c, advertencias = controles(atrasada)
+    assert c.fallas == [] and any("termina en 2026-T2" in a for a in advertencias)
+
+
 def test_ac_i13_per_capita_menor_que_hogar():
     k = ["indicador", "territorio_id", "periodo", "tipo_periodo"]
     df = pd.DataFrame([["ing_hogar_medio_sagu_svl", PAIS, "2016-T1", "trimestre", 100.0],

@@ -163,7 +163,9 @@ def test_un_control_con_falla_no_publica_nada(entorno):
     capturar([p("ECHING07")], crudo, sitio({p("ECHING07").url: revisada(fix("ECHING07"), b"<v>999999</v>")}), hoy="2026-12-15")
     with pytest.raises(ech_ingresos_cargar.ErrorCarga, match="AC-I14"):
         ech_ingresos_cargar.cargar(crudo, salida, ech_ingresos_cargar.fuentes_registro())
-    assert len(pd.read_parquet(salida / "observaciones.parquet")) == len(antes)
+    despues = pd.read_parquet(salida / "observaciones.parquet")
+    pd.testing.assert_frame_equal(despues.reset_index(drop=True), antes.reset_index(drop=True))
+    assert 999999.0 not in set(despues.valor)
 
 
 def test_sin_capturas_falla(tmp_path, entorno):
