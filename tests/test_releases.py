@@ -97,6 +97,27 @@ def test_correr_procesa_publica_y_despues_dice_sin_cambios(crudo, tmp_path):
     assert r4["fuentes"][FUENTE]["resultado"] == "sin cambios" and r4["web"] and not r4["publicar"]
 
 
+def test_una_fuente_no_activa_con_error_no_frena_la_publicacion_de_las_activas(crudo, tmp_path):
+    """Decisión del mantenedor en #147 (opción B): si falla una fuente que no está activa (p. ej. ingresos «en
+    preparación», con una revisión del INE que no pasa los controles), las activas se publican igual. La falla queda
+    en el resumen y en stderr; los valores publicados de esa fuente no cambian."""
+    fuentes = tmp_path / "fuentes_dos"
+    fuentes.mkdir()
+    shutil.copy(RAIZ / "fuentes" / f"{FUENTE}.yml", fuentes)
+    shutil.copy(RAIZ / "fuentes" / "ine_ech_ingresos_series.yml", fuentes)
+    (crudo / "ech_ingresos").mkdir()
+    (crudo / "ech_ingresos" / "capturas.json").write_text('{"capturas": []}', encoding="utf-8")  # la carga falla
+    r = correr("pipeline/correr.py", "--crudo", crudo, "--salida", tmp_path / "salida", "--argumentos", ARG_FIXTURE,
+               "--fuentes", fuentes, "--sin-pmtiles")
+    assert r.returncode == 0, r.stderr
+    res = json.loads(r.stdout.strip().splitlines()[-1])
+    assert res["fuentes"]["ine_ech_ingresos_series"]["resultado"] == "error"
+    assert res["errores"] == [] and res["errores_no_activas"] == ["ine_ech_ingresos_series"]
+    assert res["web"] and res["publicar"]
+    assert "ADVERTENCIA: ine_ech_ingresos_series (no activa" in r.stderr  # se informa
+    assert "::warning title=Fuente no activa con error::ine_ech_ingresos_series" in r.stdout  # y se anota en Actions
+
+
 def test_correr_falla_si_falta_el_original(tmp_path):
     (tmp_path / "crudo").mkdir()
     r = correr("pipeline/correr.py", "--crudo", tmp_path / "crudo", "--salida", tmp_path / "salida")
