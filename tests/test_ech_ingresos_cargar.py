@@ -153,7 +153,7 @@ def test_el_reporte_tiene_controles_y_ultimos_valores(entorno):
     assert "### Controles (AC-I12…AC-I17)" in reporte and "| FALLA |" not in reporte.split("<!-- ech_ingresos -->")[1]
     for ac in ("AC-I12", "AC-I13", "AC-I14", "AC-I16", "AC-I17"):
         assert ac in reporte
-    assert "Advertencias (AC-I15" in reporte
+    assert "Advertencias (no frenan la carga" in reporte and "AC-I15" in reporte
 
 
 def test_un_control_con_falla_no_publica_nada(entorno):

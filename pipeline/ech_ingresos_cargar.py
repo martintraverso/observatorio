@@ -181,8 +181,9 @@ def seccion_reporte(registro: list[dict], ultima: dict, obs: pd.DataFrame, cambi
     lineas += ["", f"Cambios: {texto}. Valores nuevos: {cambios['nuevos']}. Valores que ya no vienen: {cambios['quitados']}."]
     if revision is not None:
         lineas += ["", "### Controles (AC-I12…AC-I17)", "", *revision.tabla_md()]
-        lineas += ["", f"Advertencias (AC-I15, total del año a más de ±5 % del promedio de sus trimestres): "
-                   f"{len(advertencias or [])}.", *[f"- {a}" for a in (advertencias or [])]]
+        lineas += ["", f"Advertencias (no frenan la carga: total del año a más de ±5 % del promedio de sus trimestres, "
+                   f"AC-I15, o una serie que termina antes que las demás): {len(advertencias or [])}.",
+                   *[f"- {a}" for a in (advertencias or [])]]
     ultimos = ultimos_valores(obs)
     if ultimos:
         lineas += ["", *ultimos]
