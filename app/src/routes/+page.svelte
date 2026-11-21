@@ -385,9 +385,9 @@
 
 		<div class="avisos">
 			{#if aviso}
-				<div class="info">
-					<!-- solo el aviso se anuncia (región viva); la comparación no se relee entera al cambiar de período -->
-					<p role="status">{aviso.mensaje}</p>
+				<!-- con la comparación regional, solo el aviso es región viva: la figura no se relee entera al cambiar de período -->
+				<div class="info" role={aviso.regional ? undefined : 'status'}>
+					<p role={aviso.regional ? 'status' : undefined}>{aviso.mensaje}</p>
 					{#if aviso.regional && indicador}
 						<!-- AC-I20: en lugar del coroplético, la comparación entre regiones -->
 						<ComparacionRegional {indicador} periodo={estado.periodo} />
