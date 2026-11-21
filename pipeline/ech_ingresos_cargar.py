@@ -24,6 +24,7 @@ from pathlib import Path
 import pandas as pd
 from ech_ingresos import INDICADORES, parsear_serie
 from ech_ingresos_captura import FUENTE_ID, leer_completo, verificar
+from ech_ingresos_controles import controles, ultimos_valores
 
 from comun.capturas import Historial, ahora, nueva_captura
 from comun.registro import RAIZ, cargar_fuentes
@@ -127,6 +128,10 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False) -> di
     fuera = sorted(set(nivel) - set(fuentes[FUENTE_ID]["niveles_publicados"]))
     if fuera:
         raise ErrorCarga(f"Observaciones en niveles que la fuente no publica: {fuera}")  # AC-P5
+    revision, advertencias = controles(obs)  # AC-I12…I17 (F3.5): una falla no publica nada
+    if revision.fallas:
+        raise ErrorCarga("Controles de calidad con falla: " + "; ".join(
+            f"{f['control']} ({f['detalle']})" for f in revision.fallas))
 
     hoy = ahora()
     capturas = [nueva_captura(FUENTE_ID, c["archivo"], c["sha256"], hoy if c["id"] in parseadas
@@ -141,14 +146,15 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False) -> di
             "capturas": len(registro), "vigentes": len(vigentes), "parseadas": len(parseadas),
             "observaciones": len(obs), "errores_captura": len(contenido.get("ultima_corrida", {}).get("errores", [])),
             "cambios": cambios, "_registro": registro, "_ultima": contenido.get("ultima_corrida") or {}, "_obs": obs,
-            "_capturas": capturas, "_parseadas": parseadas}
+            "_capturas": capturas, "_parseadas": parseadas, "_controles": revision, "_advertencias": advertencias}
 
 
 def _num(v: float, decimales: int = 0) -> str:
     return f"{v:,.{decimales}f}".replace(",", "_").replace(".", ",").replace("_", ".")
 
 
-def seccion_reporte(registro: list[dict], ultima: dict, obs: pd.DataFrame, cambios: dict) -> list[str]:
+def seccion_reporte(registro: list[dict], ultima: dict, obs: pd.DataFrame, cambios: dict, revision=None,
+                    advertencias: list[str] | None = None) -> list[str]:
     lineas = ["## Ingresos (ECH)", "", "| Planilla | Indicador | Capturada | sha256 | Períodos |", "|---|---|---|---|---|"]
     for c in (c for c in registro if c["vigente"]):
         ind = INDICADORES[c["codigo"]]["indicador"]
@@ -173,6 +179,13 @@ def seccion_reporte(registro: list[dict], ultima: dict, obs: pd.DataFrame, cambi
         texto += (f"; el cambio más grande: `{m['indicador']}`, {m['territorio_id']}, {m['periodo']}: "
                   f"{_num(m['antes'], d)} → {_num(m['ahora'], d)} ({'+' if dif >= 0 else '−'}{_num(abs(dif), d)})")
     lineas += ["", f"Cambios: {texto}. Valores nuevos: {cambios['nuevos']}. Valores que ya no vienen: {cambios['quitados']}."]
+    if revision is not None:
+        lineas += ["", "### Controles (AC-I12…AC-I17)", "", *revision.tabla_md()]
+        lineas += ["", f"Advertencias (AC-I15, total del año a más de ±5 % del promedio de sus trimestres): "
+                   f"{len(advertencias or [])}.", *[f"- {a}" for a in (advertencias or [])]]
+    ultimos = ultimos_valores(obs)
+    if ultimos:
+        lineas += ["", *ultimos]
     return lineas
 
 
@@ -211,10 +224,12 @@ def main(argv=None) -> int:
     registro, ultima, obs = r.pop("_registro"), r.pop("_ultima"), r.pop("_obs")
     capturas = {c["id"]: c for c in r.pop("_capturas")}
     parseadas = r.pop("_parseadas")
+    revision, advertencias = r.pop("_controles"), r.pop("_advertencias")
     for i in parseadas or [[c for c in capturas.values() if c["vigente"]][-1]["id"]]:
         historial.agregar({**capturas[i], "fecha_proceso": ahora()}, r["resultado"],
                           "" if parseadas else "ninguna captura nueva")
-    escribir_reporte(args.salida, seccion_reporte(registro, ultima, obs, r["cambios"]))
+    r["advertencias"] = len(advertencias)
+    escribir_reporte(args.salida, seccion_reporte(registro, ultima, obs, r["cambios"], revision, advertencias))
     print(json.dumps(r, ensure_ascii=False, default=str))
     return 0
 
