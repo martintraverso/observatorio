@@ -8,6 +8,9 @@ la versión vigente, como `ech_captura.py` (F2.5b):
 - Si el archivo no cambió (mismo sha256 que la captura vigente de ese código), no se vuelve a guardar.
 - Si cambió, es una captura nueva y la anterior queda con `vigente = false`. Un original guardado nunca se pisa
   ni se borra: si el nombre ya existe, el nuevo se guarda como `<código>.<sha12>.xlsx`.
+- Si el INE vuelve a una versión ya capturada de esa planilla (A → B → A), vuelve a ser vigente esa captura (su
+  original ya está guardado y verificado). Si el contenido es el de una captura de otra planilla, es un error de
+  esta planilla y las demás se capturan igual.
 - Si una planilla da error (HTTP 404, contenido que no es xlsx), queda en `ultima_corrida.errores` del registro
   y las demás se capturan igual (AC-I5). El reporte lo arma la carga (F3.4b).
 - Si un original guardado ya no coincide con su sha256, la captura falla: los originales son inmutables.
@@ -51,10 +54,12 @@ class Planilla(NamedTuple):
 class ResumenCaptura:
     nuevas: int = 0
     sin_cambios: int = 0
+    revertidas: int = 0  # vuelve a ser vigente una versión ya capturada
     errores: list[dict] = field(default_factory=list)  # {codigo, url, error}
 
     def como_dict(self) -> dict:
-        return {"nuevas": self.nuevas, "sin_cambios": self.sin_cambios, "errores": self.errores}
+        return {"nuevas": self.nuevas, "sin_cambios": self.sin_cambios, "revertidas": self.revertidas,
+                "errores": self.errores}
 
 
 def planillas(fuente: dict) -> list[Planilla]:
@@ -110,6 +115,7 @@ def capturar(lista: list[Planilla], crudo: Path, bajar: Callable[[str], bytes], 
     if fuera:
         raise ErrorCaptura(f"Solo se admiten URLs oficiales del INE: {fuera}")
     registro, resumen = leer_registro(crudo), ResumenCaptura()
+    anterior = _leer(crudo).get("ultima_corrida")  # se conserva hasta que termine esta corrida
     for c in registro:
         verificar(crudo, c)
 
@@ -130,10 +136,18 @@ def capturar(lista: list[Planilla], crudo: Path, bajar: Callable[[str], bytes], 
             if vigente and vigente["sha256"] == huella:
                 resumen.sin_cambios += 1
                 continue
-            if any(c["sha256"] == huella for c in registro):
-                otra = next(c for c in registro if c["sha256"] == huella)
-                raise ErrorCaptura(f"{pl.codigo}: el contenido es el de una captura anterior ({otra['codigo']}, "
-                                   f"{otra['descargado']}); revisar a mano antes de cambiar la vigente")
+            ya = next((c for c in registro if c["sha256"] == huella), None)
+            if ya is not None and ya["codigo"] == pl.codigo:  # el INE volvió a una versión anterior (A → B → A)
+                verificar(crudo, ya)
+                for c in del_codigo:
+                    c["vigente"] = c is ya
+                resumen.revertidas += 1
+                escribir_registro(crudo, registro, anterior)
+                continue
+            if ya is not None:
+                resumen.errores.append({"codigo": pl.codigo, "url": pl.url, "error": (
+                    f"el contenido es el de la planilla {ya['codigo']} (captura {ya['id']}); no se captura")})
+                continue
             destino = Path(CARPETA) / f"{pl.codigo}.xlsx"
             if (crudo / destino).exists():  # nunca se pisa un original
                 destino = destino.with_name(f"{pl.codigo}.{huella[:12]}.xlsx")
@@ -147,7 +161,7 @@ def capturar(lista: list[Planilla], crudo: Path, bajar: Callable[[str], bytes], 
                              "url": pl.url, "archivo": destino.as_posix(), "sha256": huella, "descargado": hoy,
                              "vigente": True})
             resumen.nuevas += 1
-            escribir_registro(crudo, registro, None)  # así una corrida cortada no pierde lo ya guardado
+            escribir_registro(crudo, registro, anterior)  # así una corrida cortada no pierde lo ya guardado
     finally:
         escribir_registro(crudo, registro, {"fecha": hoy, "errores": resumen.errores})
     return resumen

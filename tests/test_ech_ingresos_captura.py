@@ -40,7 +40,7 @@ def fix(codigo):
 
 
 def otra_version(xlsx: bytes) -> bytes:
-    """El mismo xlsx con un byte distinto (una revisión del INE): otro sha256, sigue siendo xlsx."""
+    """El mismo xlsx con un texto cambiado (una revisión del INE): otro sha256, sigue siendo xlsx."""
     entrada, salida = zipfile.ZipFile(io.BytesIO(xlsx)), io.BytesIO()
     with zipfile.ZipFile(salida, "w", zipfile.ZIP_DEFLATED) as z:
         for info in entrada.infolist():
@@ -101,6 +101,28 @@ def test_un_archivo_que_cambia_es_una_captura_nueva_y_la_anterior_deja_de_ser_vi
     assert (tmp_path / vieja["archivo"]).read_bytes() == v1
     assert (tmp_path / nueva["archivo"]).read_bytes() == v2
     assert nueva["archivo"] == f"{CARPETA}/ECHING07.{sha(v2)[:12]}.xlsx"
+
+
+def test_si_el_ine_vuelve_a_una_version_anterior_esa_vuelve_a_ser_vigente(tmp_path):
+    """A → B → A: no se guarda nada nuevo, vuelve a ser vigente la captura de A, y la corrida sigue con las demás."""
+    a, b = fix("ECHING07"), otra_version(fix("ECHING07"))
+    capturar([p("ECHING07")], tmp_path, sitio({p("ECHING07").url: a}), hoy=HOY)
+    capturar([p("ECHING07")], tmp_path, sitio({p("ECHING07").url: b}), hoy="2026-12-15")
+    r = capturar([p("ECHING07"), p("ECHING09")], tmp_path,
+                 sitio({p("ECHING07").url: a, p("ECHING09").url: fix("ECHING09")}), hoy="2027-01-10")
+    assert (r.nuevas, r.revertidas, r.errores) == (1, 1, [])
+    reg = leer_registro(tmp_path)
+    del07 = [c for c in reg if c["codigo"] == "ECHING07"]
+    assert len(del07) == 2 and [c["vigente"] for c in del07] == [True, False] and del07[0]["sha256"] == sha(a)
+    assert [c["codigo"] for c in reg if c["vigente"]] == ["ECHING07", "ECHING09"]
+
+
+def test_el_contenido_de_otra_planilla_es_un_error_de_esa_planilla(tmp_path):
+    datos = {p("ECHING07").url: fix("ECHING07"), p("ECHING08").url: fix("ECHING07"), p("ECHING09").url: fix("ECHING09")}
+    r = capturar([p("ECHING07"), p("ECHING08"), p("ECHING09")], tmp_path, sitio(datos), hoy=HOY)
+    assert r.nuevas == 2 and [e["codigo"] for e in r.errores] == ["ECHING08"]
+    assert "ECHING07" in r.errores[0]["error"]
+    assert [c["codigo"] for c in leer_registro(tmp_path)] == ["ECHING07", "ECHING09"]
 
 
 # AC-I5 (parte de captura)
