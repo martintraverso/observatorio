@@ -40,7 +40,7 @@ def fix(codigo):
     return (FIX / f"{codigo}.xlsx").read_bytes()
 
 
-def revisada(xlsx: bytes) -> bytes:
+def revisada(xlsx: bytes, nuevo: bytes = b"<v>60000</v>") -> bytes:
     """Una revisión del INE: el mismo xlsx con el país de Enero - Marzo/16 cambiado (59534,0027… -> 60000)."""
     entrada, salida = zipfile.ZipFile(io.BytesIO(xlsx)), io.BytesIO()
     with zipfile.ZipFile(salida, "w", zipfile.ZIP_DEFLATED) as z:
@@ -49,7 +49,7 @@ def revisada(xlsx: bytes) -> bytes:
             if info.filename == "xl/worksheets/sheet1.xml":
                 viejo = b"<v>59534.00275705033</v>"
                 assert viejo in datos
-                datos = datos.replace(viejo, b"<v>60000</v>", 1)
+                datos = datos.replace(viejo, nuevo, 1)
             z.writestr(info, datos)
     return salida.getvalue()
 
@@ -143,6 +143,29 @@ def test_el_reporte_lista_las_planillas_con_error(entorno):
     # volver a correr no duplica la sección
     correr(crudo, salida)
     assert (salida / "reporte_validacion.md").read_text(encoding="utf-8").count("## Ingresos (ECH)") == 1
+
+
+def test_el_reporte_tiene_controles_y_ultimos_valores(entorno):
+    """F3.5 (#129): la sección de ingresos lista los controles AC-I12…I17 y los últimos valores por territorio."""
+    crudo, salida = entorno
+    correr(crudo, salida)
+    reporte = (salida / "reporte_validacion.md").read_text(encoding="utf-8")
+    assert "### Controles (AC-I12…AC-I17)" in reporte and "| FALLA |" not in reporte.split("<!-- ech_ingresos -->")[1]
+    for ac in ("AC-I12", "AC-I13", "AC-I14", "AC-I16", "AC-I17"):
+        assert ac in reporte
+    assert "Advertencias (no frenan la carga" in reporte and "AC-I15" in reporte
+
+
+def test_un_control_con_falla_no_publica_nada(entorno):
+    crudo, salida = entorno
+    antes = pd.read_parquet(salida / "observaciones.parquet")
+    # una revisión con el país fuera del rango entre Montevideo y el Interior (AC-I14)
+    capturar([p("ECHING07")], crudo, sitio({p("ECHING07").url: revisada(fix("ECHING07"), b"<v>999999</v>")}), hoy="2026-12-15")
+    with pytest.raises(ech_ingresos_cargar.ErrorCarga, match="AC-I14"):
+        ech_ingresos_cargar.cargar(crudo, salida, ech_ingresos_cargar.fuentes_registro())
+    despues = pd.read_parquet(salida / "observaciones.parquet")
+    pd.testing.assert_frame_equal(despues.reset_index(drop=True), antes.reset_index(drop=True))
+    assert 999999.0 not in set(despues.valor)
 
 
 def test_sin_capturas_falla(tmp_path, entorno):
