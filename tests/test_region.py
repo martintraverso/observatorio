@@ -164,3 +164,32 @@ def test_sin_datos_en_el_interior_la_region_no_trae_temas(web):
     if estado == "activa":
         pytest.skip("la fuente de ingresos está activa: la región trae sus temas")
     assert ficha(web, "departamento", "07")["region"]["temas"] == []
+
+
+# F3.7d (#151, AC-I25): el CSV de observaciones trae los ingresos con su período y su base de precios
+
+def test_csv_de_observaciones_con_ingresos(salida):
+    """Con los datos reales si ya están (datos completos); si no (fixture), con un valor de ejemplo en el Interior."""
+    import pandas as pd
+    from web import csv_observaciones
+
+    t = gpd.read_parquet(salida / "territorios.parquet")
+    obs = pd.read_parquet(salida / "observaciones.parquet")
+    cap = pd.read_parquet(salida / "capturas.parquet")
+    ind = pd.read_parquet(salida / "indicadores.parquet")
+    codigo = "ing_hogar_medio_sagu_svl"
+    ya = (obs.indicador == codigo) & (obs.territorio_id == INTERIOR) & (obs.periodo == "2026-T3")
+    if not ya.any():
+        ejemplo = obs.head(1).assign(indicador=codigo, territorio_id=INTERIOR, periodo="2026-T3",
+                                     periodo_inicio=pd.Timestamp("2026-07-01").date(),
+                                     periodo_fin=pd.Timestamp("2026-09-30").date(), tipo_periodo="trimestre", valor=83651.0)
+        obs = pd.concat([obs, ejemplo], ignore_index=True)
+    if codigo not in set(ind.codigo):
+        ind = pd.concat([ind, ind.head(1).assign(codigo=codigo, unidad="pesos corrientes por mes", tema="Ingresos")],
+                        ignore_index=True)
+    csv = csv_observaciones(t, obs, ind, cap, pd.read_parquet(salida / "fuentes.parquet"))
+    fila = csv[(csv.indicador == codigo) & (csv.territorio_id == INTERIOR) & (csv.periodo == "2026-T3")]
+    assert len(fila) == 1
+    fila = fila.iloc[0]
+    assert (fila.nivel, fila.tipo_periodo, fila.periodo_inicio, fila.periodo_fin) == ("region", "trimestre", "2026-07-01", "2026-09-30")
+    assert fila.unidad == "pesos corrientes por mes"
