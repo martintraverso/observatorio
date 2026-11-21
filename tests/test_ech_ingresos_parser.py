@@ -167,10 +167,9 @@ def _cambiar_hoja(xlsx: bytes, viejo: bytes, nuevo: bytes) -> bytes:
 
 @pytest.mark.parametrize("viejo,nuevo,error", [
     ("Total 2016", "Promedio 2016", "fila .* desconocida"),                 # fila desconocida
-    ("Total 2017", "Total 2016", "aparece dos veces|año"),                  # período repetido (o de otro bloque)
+    ("Abril - Junio/16", "Enero - Marzo/16", "aparece dos veces"),          # período repetido en su bloque
     ("Abril - Junio/16", "Abril - Junio/16 (7)", r"llamada \(7\)"),         # llamada sin nota al pie
     ("Interior", "Otras áreas", "(?i)columna"),                             # «Total» sin «Interior»
-    ("Enero - Marzo/17", "Enero - Marzo/16", "aparece dos veces|año"),      # año del trimestre ≠ bloque
 ])
 def test_textos_inesperados_fallan(viejo, nuevo, error):
     with pytest.raises(ErrorSerie, match=error):
@@ -181,6 +180,17 @@ def test_trimestre_con_el_anio_de_otro_bloque_falla():
     """«Julio - Setiembre/61» dentro del bloque 2016 no se carga como 2061."""
     with pytest.raises(ErrorSerie, match="año"):
         parsear_serie(_cambiar_texto(leer("ECHING07"), "Julio - Setiembre/16", "Julio - Setiembre/61"), "ECHING07")
+
+
+def test_fila_de_datos_sin_fila_de_anio_antes_falla():
+    """Sin la fila con el año antes del primer trimestre, no hay contra qué cruzar el año: falla."""
+    c = leer_primera_hoja(leer("ECHING07"))
+    fila_anio = next(r for r, x in c.items() if x.get(1) == 2016.0)
+    hoja = zipfile.ZipFile(io.BytesIO(leer("ECHING07"))).read("xl/worksheets/sheet1.xml")
+    fila = re.search(rf'<row r="{fila_anio}"[^>]*>.*?</row>'.encode(), hoja, re.S).group(0)
+    xlsx = _cambiar_hoja(leer("ECHING07"), fila, b"")  # sin la fila «2016»
+    with pytest.raises(ErrorSerie, match="año"):
+        parsear_serie(xlsx, "ECHING07")
 
 
 def test_columna_faltante_falla():

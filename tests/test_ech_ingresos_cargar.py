@@ -117,6 +117,7 @@ def test_una_revision_reemplaza_los_valores_y_se_resume(entorno):
     assert set(o[o.indicador == "ing_hogar_medio_cagu_cvl"].captura_id) == {del07.id.iloc[-1]}
     reporte = (salida / "reporte_validacion.md").read_text(encoding="utf-8")
     assert "1 valor cambió" in reporte and "2016-T1" in reporte and "+466" in reporte
+    assert "Valores que ya no vienen: 0." in reporte
 
 
 def test_resumen_de_cambios():

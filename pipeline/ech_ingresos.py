@@ -152,7 +152,9 @@ def parsear_serie(xlsx: bytes, codigo: str) -> pd.DataFrame:
             periodo = anio(int(m.group(1)))
         else:
             raise ErrorSerie(f"{codigo}: fila {r} desconocida: {rotulo!r} {valores}")
-        if bloque is not None and periodo.inicio.year != bloque:  # «Julio - Setiembre/61» en el bloque 2016
+        if bloque is None:
+            raise ErrorSerie(f"{codigo}: fila {r} ({rotulo!r}) antes de cualquier fila con el año: no se puede cruzar el año")
+        if periodo.inicio.year != bloque:  # «Julio - Setiembre/61» en el bloque 2016
             raise ErrorSerie(f"{codigo}: fila {r} ({rotulo!r}): el año no coincide con el del bloque ({bloque})")
         if periodo.etiqueta in vistos:
             raise ErrorSerie(f"{codigo}: el período {periodo.etiqueta} aparece dos veces")
