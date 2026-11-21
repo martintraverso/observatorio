@@ -2,8 +2,10 @@
 
 Un release no tiene carpetas. Por eso cada original se sube como `<carpeta>-<sha12><extensión>` (`.html` en
 ech_mt, `.xlsx` en ech_ingresos: la del archivo de la captura), y el registro de
-capturas como `<carpeta>-capturas-<NNNN>-<sha12>.json`, donde NNNN es la cantidad de capturas. El registro solo
-crece, así que el de NNNN mayor es el último. Nada se reemplaza: cada versión del registro es un asset nuevo.
+capturas como `<carpeta>-capturas-<NNNN>-<sha12>.json`, donde NNNN es la versión del registro: crece siempre
+(el máximo entre la versión anterior + 1 y la cantidad de capturas, así en ech_mt, cuyo registro solo crece, sigue
+siendo la cantidad de capturas). El de NNNN mayor es el último. Nada se reemplaza: cada versión es un asset nuevo.
+Un registro que solo cambió en `ultima_corrida` (ech_ingresos la reescribe en cada captura) no se vuelve a subir.
 
   subir: sube los originales y el registro que todavía no están en "crudos".
   bajar: arma <crudo>/<carpeta>/ desde "crudos" con el último registro y verifica el sha256 de cada original.
@@ -50,9 +52,17 @@ def sufijo(captura: dict) -> str:
     return Path(captura["archivo"]).suffix or ".html"
 
 
-def asset_registro(carpeta: str, datos: bytes) -> str:
+def asset_registro(carpeta: str, datos: bytes, anterior: str | None = None) -> str:
+    """Nombre del registro: versión = max(versión anterior + 1, cantidad de capturas)."""
     n = len(json.loads(datos)["capturas"])
+    if anterior is not None:
+        n = max(n, int(anterior.rsplit("-", 2)[1]) + 1)
     return f"{carpeta}-capturas-{n:04d}-{sha256(datos)[:12]}.json"
+
+
+def contenido(datos: bytes) -> dict:
+    """El registro sin `ultima_corrida`: lo que cambia cuando cambian las capturas o cuál es la vigente."""
+    return {k: v for k, v in json.loads(datos).items() if k != "ultima_corrida"}
 
 
 def ultimo_registro(nombres: list[str], carpeta: str) -> str | None:
@@ -84,7 +94,10 @@ def subir(crudo: Path, carpeta: str) -> list[str]:
             shutil.copy(original, Path(tmp) / nombre)
             gh("release", "upload", RELEASE, str(Path(tmp) / nombre))  # sin --clobber: nunca reemplaza
             subidos.append(nombre)
-        nombre = asset_registro(carpeta, datos)
+        anterior = ultimo_registro(sorted(ya), carpeta)
+        if anterior is not None and contenido(bajar_asset(anterior, Path(tmp))) == contenido(datos):
+            return subidos  # el registro de crudos ya tiene estas capturas y vigentes
+        nombre = asset_registro(carpeta, datos, anterior)
         if nombre not in ya:
             (Path(tmp) / nombre).write_bytes(datos)
             gh("release", "upload", RELEASE, str(Path(tmp) / nombre))

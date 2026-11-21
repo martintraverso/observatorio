@@ -12,7 +12,7 @@ Product language: **Spanish (Uruguay)**. All UI copy is in Spanish. Code identif
 - **Static-first.** Data pipeline runs in GitHub Actions; outputs are files (Parquet, GeoJSON/PMTiles, JSON); the app is a static site that reads those files.
 - **Free hosting** (Cloudflare Pages or GitHub Pages).
 - **Traceability over convenience.** Every value shown must point to its source file, download date and checksum.
-- The INE website is unreliable for downloads. Original files are kept as assets of a GitHub release named `crudos` and the pipeline reads them from there first. Sources with many originals (`carpeta_original`, e.g. the ECH reports) store each file as `<carpeta>-<sha12>.html` plus a versioned capture registry, and are rebuilt only from `crudos` (`scripts/crudos_carpeta.py`, upload with `scripts/subir_crudos.sh`).
+- The INE website is unreliable for downloads. Original files are kept as assets of a GitHub release named `crudos` and the pipeline reads them from there first. Sources with many originals (`carpeta_original`, e.g. the ECH reports) store each file as `<carpeta>-<sha12><ext>` (`.html` for the ECH reports, `.xlsx` for the income series) plus a versioned capture registry, and are rebuilt only from `crudos` (`scripts/crudos_carpeta.py`, upload with `scripts/subir_crudos.sh`).
 ## 3. Territorial model
  
 Source: INE, *Unidades geoestadísticas Censo 2023* (zip of GeoPackages, EPSG:4326, scale 1:50,000). License: "El uso es libre, citando como fuente al INE."

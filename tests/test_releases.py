@@ -6,12 +6,14 @@ AC-A2 y AC-A3 se verifican a mano en GitHub; acá se prueba la lógica que los s
 
 from __future__ import annotations
 
+import io
 import json
 import os
 import shutil
 import stat
 import subprocess
 import sys
+import zipfile
 from pathlib import Path
 
 import pandas as pd
@@ -302,6 +304,39 @@ def test_crudos_de_ingresos_suben_y_bajan_como_xlsx(gh, tmp_path):
     for x in leer_registro(limpio):
         verificar(limpio, x)
         assert (limpio / x["archivo"]).read_bytes() == (c / x["archivo"]).read_bytes()
+
+
+def test_recapturar_sin_cambios_y_revertir_no_rompe_el_release(gh, tmp_path):
+    """Revisión de #143: ech_ingresos reescribe `ultima_corrida` en cada captura y una vuelta atrás (A → B → A)
+    cambia `vigente` sin sumar capturas. Subir otra vez no puede dejar dos registros con el mismo número."""
+    from ech_ingresos_captura import Planilla, capturar, leer_registro
+
+    w = "https://www5.ine.gub.uy/documents/ingresos/"
+    a = (FIXTURES / "ech_ingresos" / "ECHING07.xlsx").read_bytes()
+    entrada, salida = zipfile.ZipFile(io.BytesIO(a)), io.BytesIO()  # B: una revisión, otro texto en la planilla
+    with zipfile.ZipFile(salida, "w") as z:
+        for i in entrada.infolist():
+            d = entrada.read(i.filename)
+            z.writestr(i, d.replace(b"noviembre 2026", b"diciembre 2026") if i.filename.endswith("sharedStrings.xml") else d)
+    b = salida.getvalue()
+    pl, c = [Planilla("ECHING07", f"{w}ECHING07.xlsx")], tmp_path / "crudo"
+
+    def ciclo(contenido, hoy):
+        capturar(pl, c, {pl[0].url: contenido}.__getitem__, hoy=hoy)
+        assert correr("scripts/crudos_carpeta.py", "subir", "--crudo", c, "--carpeta", "ech_ingresos").returncode == 0
+
+    ciclo(a, "2026-11-21")
+    ciclo(a, "2026-12-21")  # sin cambios: no se sube otro registro
+    registros = [p.name for p in (gh / "crudos").iterdir() if p.name.startswith("ech_ingresos-capturas-")]
+    assert len(registros) == 1
+    ciclo(b, "2027-01-10")  # revisión: 2 capturas
+    ciclo(a, "2027-02-10")  # vuelta atrás: siguen siendo 2 capturas, cambia la vigente
+    registros = sorted(p.name for p in (gh / "crudos").iterdir() if p.name.startswith("ech_ingresos-capturas-"))
+    assert [n.split("-")[2] for n in registros] == ["0001", "0002", "0003"]
+    limpio = tmp_path / "runner"
+    r = correr("scripts/crudos_carpeta.py", "bajar", "--crudo", limpio, "--carpeta", "ech_ingresos")
+    assert r.returncode == 0, r.stderr
+    assert [x["vigente"] for x in leer_registro(limpio)] == [True, False]  # el último registro: A vigente
 
 
 def test_conseguir_originales_baja_tambien_las_carpetas(gh, tmp_path):
