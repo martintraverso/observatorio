@@ -106,6 +106,8 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False) -> di
     fecha_prev = {} if cap_prev is None else dict(zip(cap_prev.id, cap_prev.fecha_proceso))
 
     vigentes = [c for c in registro if c["vigente"]]
+    if not vigentes:
+        raise ErrorCarga("No hay capturas vigentes")
     partes, parseadas, llamadas = [], [], {}
     for c in vigentes:
         if c["id"] in ya:
@@ -140,8 +142,8 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False) -> di
             "_capturas": capturas, "_parseadas": parseadas}
 
 
-def _num(v: float) -> str:
-    return f"{v:,.0f}".replace(",", ".")
+def _num(v: float, decimales: int = 0) -> str:
+    return f"{v:,.{decimales}f}".replace(",", "_").replace(".", ",").replace("_", ".")
 
 
 def seccion_reporte(registro: list[dict], ultima: dict, obs: pd.DataFrame, cambios: dict) -> list[str]:
@@ -153,7 +155,7 @@ def seccion_reporte(registro: list[dict], ultima: dict, obs: pd.DataFrame, cambi
         lineas.append(f"| {c['codigo']} | `{ind}` | {c['descargado']} | `{c['sha256'][:12]}` | {len(per)} ({rango}) |")
     errores = ultima.get("errores", [])
     lineas += ["", f"Última captura: {ultima.get('fecha', '—')}. "
-               + ("Planillas con error (no se cargaron; las demás sí):" if errores else "Ninguna planilla con error.")]
+               + ("Planillas con error (no se actualizaron; si ya tenían una captura, siguen sus valores anteriores):" if errores else "Ninguna planilla con error.")]
     lineas += [f"- **{e['codigo']}**: {e['error']} ({e['url']})" for e in errores]
     lineas += ["", "Las medianas y el ingreso de los ocupados no se capturan: sus enlaces del INE dan 404 "
                "(`enlaces_rotos` en el registro de la fuente)."]
@@ -162,8 +164,9 @@ def seccion_reporte(registro: list[dict], ultima: dict, obs: pd.DataFrame, cambi
     if cambios["mayor"]:
         m = cambios["mayor"]
         dif = m["ahora"] - m["antes"]
+        d = 0 if abs(dif) >= 1 else 4  # una revisión de decimales no se ve redondeada a pesos
         texto += (f"; el cambio más grande: `{m['indicador']}`, {m['territorio_id']}, {m['periodo']}: "
-                  f"{_num(m['antes'])} → {_num(m['ahora'])} ({'+' if dif >= 0 else '−'}{_num(abs(dif))})")
+                  f"{_num(m['antes'], d)} → {_num(m['ahora'], d)} ({'+' if dif >= 0 else '−'}{_num(abs(dif), d)})")
     lineas += ["", f"Cambios: {texto}. Valores nuevos: {cambios['nuevos']}."]
     return lineas
 
