@@ -402,7 +402,7 @@ def test_el_workflow_de_datos_captura_y_sube_los_ingresos():
 
 
 def test_ciclo_semanal_de_ingresos_captura_una_revision_y_la_deja_en_crudos(gh, tmp_path):
-    """Lo que hace el workflow, en dos semanas: bajar de crudos, capturar del INE, subir lo nuevo."""
+    """Lo que hace el workflow, cuatro semanas: bajar de crudos, capturar del INE, subir lo nuevo."""
     from ech_ingresos_captura import Planilla, capturar, leer_registro
 
     w = "https://www5.ine.gub.uy/documents/ingresos/"

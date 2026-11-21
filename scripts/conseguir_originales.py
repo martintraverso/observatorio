@@ -1,8 +1,9 @@
 """Baja a datos/crudo/ el original de cada fuente que procesa el pipeline (activas y `cargar: true`).
 
 Las fuentes con `carpeta_original` (varios originales y un registro de capturas) se arman solo desde el
-release "crudos" (scripts/crudos_carpeta.py); sus originales se capturan aparte (pipeline/ech_captura.py) y se
-suben con scripts/subir_crudos.sh.
+release "crudos" (scripts/crudos_carpeta.py). Los de la ECH de trabajo se capturan aparte (pipeline/ech_captura.py)
+y se suben con scripts/subir_crudos.sh; los de ingresos los captura y sube el workflow de datos en cada corrida
+(F3.6, #130).
 
 
 Primero del release "crudos" del repo (la descarga del INE falla a veces). Si no está ahí,
