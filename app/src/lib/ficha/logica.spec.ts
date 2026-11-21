@@ -5,6 +5,9 @@ import {
 	consultaMapa,
 	datosEnPadre,
 	datosEnRegion,
+	indicadorIngreso,
+	INGRESO_POR_DEFECTO,
+	serieIngreso,
 	decimalesComunes,
 	densidad,
 	fuentesDeFicha,
@@ -180,6 +183,22 @@ describe('fuentesDeFicha (AC-V18)', () => {
 
 	it('sin capturas, sin entradas', () => {
 		expect(fuentesDeFicha({ capturas: {}, fuentes: {} })).toEqual([]);
+	});
+});
+
+describe('series de ingresos (AC-I21)', () => {
+	it('por defecto, la variante titular del INE', () => {
+		expect(indicadorIngreso(INGRESO_POR_DEFECTO)).toBe('ing_hogar_medio_sagu_svl');
+	});
+	it('cada combinación da su indicador; a precios de enero de 2005 solo sin aguinaldo ni valor locativo', () => {
+		expect(indicadorIngreso({ ...INGRESO_POR_DEFECTO, medida: 'pc', aguinaldo: true, valorLocativo: true })).toBe('ing_pc_medio_cagu_cvl');
+		expect(indicadorIngreso({ ...INGRESO_POR_DEFECTO, base: 'ene2005', aguinaldo: true })).toBe('ing_hogar_medio_sagu_svl_ene2005');
+	});
+	it('trimestres o totales anuales', () => {
+		const o = (periodo: string, tipo: 'trimestre' | 'anio') => ({ ...obs('ing_hogar_medio_sagu_svl', 1), periodo, tipo_periodo: tipo });
+		const series = new Map([['ing_hogar_medio_sagu_svl', [o('2025-T4', 'trimestre'), o('2025', 'anio')]]]) as never;
+		expect(serieIngreso(series, INGRESO_POR_DEFECTO).map((x) => x.periodo)).toEqual(['2025-T4']);
+		expect(serieIngreso(series, { ...INGRESO_POR_DEFECTO, frecuencia: 'anio' }).map((x) => x.periodo)).toEqual(['2025']);
 	});
 });
 

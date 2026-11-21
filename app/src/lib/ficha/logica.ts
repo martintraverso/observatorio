@@ -217,3 +217,32 @@ export function densidad(personas: number | null, km2: number | null): number | 
 	if (personas === null || km2 === null || !(km2 > 0)) return null;
 	return personas / km2;
 }
+
+/** F3.7b (AC-I21): las opciones de la serie de ingresos y el indicador que les corresponde. */
+export interface OpcionesIngreso {
+	medida: 'hogar' | 'pc';
+	aguinaldo: boolean;
+	valorLocativo: boolean;
+	base: 'corrientes' | 'ene2005';
+	frecuencia: 'trimestre' | 'anio';
+}
+
+/** Por defecto, la variante titular del INE: hogares, sin aguinaldo, sin valor locativo, corrientes (F3.1, #134). */
+export const INGRESO_POR_DEFECTO: OpcionesIngreso = {
+	medida: 'hogar',
+	aguinaldo: false,
+	valorLocativo: false,
+	base: 'corrientes',
+	frecuencia: 'trimestre'
+};
+
+/** Código del indicador. A precios de enero de 2005 el INE publica solo sin aguinaldo y sin valor locativo. */
+export function indicadorIngreso(o: OpcionesIngreso): string {
+	if (o.base === 'ene2005') return `ing_${o.medida}_medio_sagu_svl_ene2005`;
+	return `ing_${o.medida}_medio_${o.aguinaldo ? 'cagu' : 'sagu'}_${o.valorLocativo ? 'cvl' : 'svl'}`;
+}
+
+/** Las observaciones del indicador elegido en la frecuencia elegida (trimestres o totales anuales). */
+export function serieIngreso(series: Map<string, Observacion[]>, o: OpcionesIngreso): Observacion[] {
+	return (series.get(indicadorIngreso(o)) ?? []).filter((x) => x.tipo_periodo === o.frecuencia);
+}

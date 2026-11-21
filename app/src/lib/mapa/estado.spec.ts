@@ -103,6 +103,8 @@ describe('F2.8b: Trabajo en el mapa', () => {
 	it('AC-L24: etiqueta del trimestre móvil', () => {
 		expect(etiquetaPeriodo('2026-07/2026-09')).toBe('Trimestre móvil jul–set 2026');
 		expect(etiquetaPeriodo('2025-12/2026-02')).toBe('Trimestre móvil dic 2025–feb 2026');
+		expect(etiquetaPeriodo('2026-T3')).toBe('jul–set 2026'); // F3.7b: trimestre calendario
+		expect(etiquetaPeriodo('2016-T1')).toBe('ene–mar 2016');
 		expect(etiquetaPeriodo('2023')).toBe('2023');
 	});
 

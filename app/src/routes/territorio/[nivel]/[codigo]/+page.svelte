@@ -5,6 +5,7 @@
 	import TablaDesplazable from '#lib/TablaDesplazable.svelte';
 	import MiniMapa from '#lib/mapa/MiniMapa.svelte';
 	import LocalizadorCerca from '#lib/mapa/LocalizadorCerca.svelte';
+	import SerieIngresos from '#lib/ficha/SerieIngresos.svelte';
 	import { descargarCsv } from '#lib/csv.ts';
 	import { hrefFicha, NOMBRE_NIVEL, NIVELES, partesId, type Nivel, type Observacion, type Relacion } from '#lib/datos.ts';
 	import { fecha, numero, publicado } from '#lib/formato.ts';
@@ -188,7 +189,10 @@
 
 {#each SECCIONES_FICHA as s (s.id)}
 	{@const lista = observacionesDeSeccion(f, s.temas)}
-	{@const { puntuales, series } = separarSeries(lista)}
+	{@const { puntuales, series: todas } = separarSeries(lista)}
+	<!-- F3.7b: los ingresos tienen su propio selector (variante, base de precios, frecuencia) -->
+	{@const ingresos = new Map([...todas].filter(([c]) => c.startsWith('ing_')))}
+	{@const series = new Map([...todas].filter(([c]) => !c.startsWith('ing_')))}
 	{@const enRegion = datosEnRegion(f, s.temas)}
 	<section id={s.id} class="tarjeta seccion" aria-labelledby="titulo-{s.id}">
 		<h2 id="titulo-{s.id}">{s.titulo}</h2>
@@ -213,6 +217,9 @@
 		{/if}
 		{#if series.size}
 			<SerieFicha ficha={f} {series} pais={data.pais} fuenteDe={fuenteDe} titulo={s.titulo} />
+		{/if}
+		{#if ingresos.size}
+			<SerieIngresos ficha={f} series={ingresos} pais={data.pais} fuenteDe={fuenteDe} titulo="Ingresos" />
 		{/if}
 		{#if puntuales.length}
 			<TablaDesplazable etiqueta="{s.titulo} en {f.nombre}" clase="tabla-apilada">

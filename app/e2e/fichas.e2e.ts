@@ -342,3 +342,44 @@ test('AC-I22: con ingresos en el Interior, un departamento que no es Montevideo 
 	await expect(aviso.getByRole('link')).toHaveAttribute('href', /territorio\/region\/interior#trabajo$/);
 	await expect(page.locator('#trabajo')).not.toContainText('Todavía no hay fuentes cargadas');
 });
+
+test('AC-I21 y AC-I24: la serie de ingresos con su variante, base de precios, frecuencia y notas', async ({ page }) => {
+	// La ficha del Interior con los ingresos reales de 2024–2026 (la fuente está «en preparación» y no llega a la
+	// app): se intercepta el JSON y se navega desde el país para que la app lo pida.
+	const conIngresos = JSON.parse(readFileSync('e2e/fixtures/ficha-region-interior-ingresos.json', 'utf-8'));
+	await page.route('**/datos-web/fichas/region/interior.json', (route) => route.fulfill({ json: conIngresos }));
+	await page.goto('territorio/pais/UY');
+	await page.getByRole('tab', { name: /^Región/ }).click();
+	await page.getByRole('link', { name: 'Interior del país', exact: true }).first().click();
+	await expect(page).toHaveURL(/territorio\/region\/interior$/);
+
+	const ingresos = page.locator('#trabajo .ingresos');
+	// por defecto, la variante titular del INE: hogares, sin aguinaldo ni valor locativo, precios corrientes, trimestres
+	await expect(ingresos.getByRole('radio', { name: 'De los hogares' })).toBeChecked();
+	await expect(ingresos.getByRole('checkbox', { name: 'Aguinaldo' })).not.toBeChecked();
+	await expect(ingresos.locator('.nombre-serie')).toHaveText(
+		'Ingreso medio de los hogares (sin aguinaldo, sin valor locativo, a precios corrientes)'
+	);
+	await expect(ingresos.locator('.ultimo')).toContainText('jul–set 2026');
+	await expect(ingresos.locator('.ultimo')).toContainText('83.651');
+	// AC-I24: base de precios y período, fuente, revisión y YDA
+	const notas = ingresos.locator('.notas-ingresos');
+	await expect(notas).toContainText('pesos corrientes por mes · jul–set 2026');
+	await expect(notas).toContainText('Fuente: INE, Encuesta Continua de Hogares');
+	await expect(notas).toContainText('sujetas a revisión');
+	await expect(notas).toContainText('ingreso disponible ajustado (YDA)');
+
+	// per cápita, con aguinaldo: otra serie
+	await ingresos.getByRole('radio', { name: 'Per cápita' }).check();
+	await ingresos.getByRole('checkbox', { name: 'Aguinaldo' }).check();
+	await expect(ingresos.locator('.nombre-serie')).toContainText('per cápita de los hogares (con aguinaldo, sin valor locativo');
+	// a precios de enero de 2005: aguinaldo y valor locativo quedan fijos (el INE publica solo esa variante)
+	await ingresos.getByRole('radio', { name: 'De enero de 2005' }).check();
+	await expect(ingresos.getByRole('checkbox', { name: 'Aguinaldo' })).toBeDisabled();
+	await expect(notas).toContainText('pesos de enero de 2005 por mes');
+	// totales anuales
+	await ingresos.getByRole('radio', { name: 'Totales anuales' }).check();
+	await expect(ingresos.locator('.ultimo')).toContainText('2025');
+	await expect(notas).toContainText('promedio de sus cuatro trimestres');
+	expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+});
