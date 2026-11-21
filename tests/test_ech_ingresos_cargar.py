@@ -117,6 +117,7 @@ def test_una_revision_reemplaza_los_valores_y_se_resume(entorno):
     assert set(o[o.indicador == "ing_hogar_medio_cagu_cvl"].captura_id) == {del07.id.iloc[-1]}
     reporte = (salida / "reporte_validacion.md").read_text(encoding="utf-8")
     assert "1 valor cambió" in reporte and "2016-T1" in reporte and "+466" in reporte
+    assert "Valores que ya no vienen: 0." in reporte
 
 
 def test_resumen_de_cambios():
@@ -125,7 +126,8 @@ def test_resumen_de_cambios():
     ahora = pd.DataFrame([["a", "t", "2016-T1", 100.0], ["a", "t", "2016-T2", 150.0], ["a", "t", "2016-T3", 5.0]],
                          columns=[*k, "valor"])
     r = ech_ingresos_cargar.resumen_cambios(antes, ahora)
-    assert (r["cambiaron"], r["nuevos"]) == (1, 1)
+    assert (r["cambiaron"], r["nuevos"], r["quitados"]) == (1, 1, 0)
+    assert ech_ingresos_cargar.resumen_cambios(ahora, antes.iloc[:1])["quitados"] == 2
     assert r["mayor"] == {"indicador": "a", "territorio_id": "t", "periodo": "2016-T2", "antes": 200.0, "ahora": 150.0}
 
 

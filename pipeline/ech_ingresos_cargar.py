@@ -23,7 +23,7 @@ from pathlib import Path
 
 import pandas as pd
 from ech_ingresos import INDICADORES, parsear_serie
-from ech_ingresos_captura import FUENTE_ID, _leer, verificar
+from ech_ingresos_captura import FUENTE_ID, leer_completo, verificar
 
 from comun.capturas import Historial, ahora, nueva_captura
 from comun.registro import RAIZ, cargar_fuentes
@@ -63,16 +63,18 @@ def anteriores(salida: Path) -> tuple[pd.DataFrame | None, pd.DataFrame | None]:
 
 
 def resumen_cambios(antes: pd.DataFrame | None, ahora_: pd.DataFrame) -> dict:
-    """Cuántos valores cambiaron respecto de lo publicado, cuántos son nuevos y el cambio más grande (AC-I6)."""
+    """Cuántos valores cambiaron respecto de lo publicado, cuántos son nuevos, cuántos ya no vienen (quitados) y el
+    cambio más grande (AC-I6)."""
     if antes is None or antes.empty:
-        return {"cambiaron": 0, "nuevos": len(ahora_), "mayor": None}
+        return {"cambiaron": 0, "nuevos": len(ahora_), "quitados": 0, "mayor": None}
+    quitados = len(antes[[*CLAVE]].merge(ahora_[[*CLAVE]], on=CLAVE, how="left", indicator=True).query("_merge == 'left_only'"))
     m = ahora_[[*CLAVE, "valor"]].merge(antes[[*CLAVE, "valor"]], on=CLAVE, how="left", suffixes=("", "_antes"))
     distintos = m[m.valor_antes.notna() & (m.valor != m.valor_antes)]
     mayor = None
     if not distintos.empty:
         f = distintos.loc[(distintos.valor - distintos.valor_antes).abs().idxmax()]
         mayor = {**{k: f[k] for k in CLAVE}, "antes": float(f.valor_antes), "ahora": float(f.valor)}
-    return {"cambiaron": len(distintos), "nuevos": int(m.valor_antes.isna().sum()), "mayor": mayor}
+    return {"cambiaron": len(distintos), "nuevos": int(m.valor_antes.isna().sum()), "quitados": quitados, "mayor": mayor}
 
 
 def publicar(salida: Path, fuentes: dict, obs, capturas) -> None:
@@ -95,7 +97,7 @@ def publicar(salida: Path, fuentes: dict, obs, capturas) -> None:
 
 def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False) -> dict:
     crudo, salida = Path(crudo), Path(salida)
-    contenido = _leer(crudo)
+    contenido = leer_completo(crudo)
     registro = contenido["capturas"]
     if not registro:
         raise ErrorCarga(f"No hay capturas en {crudo / 'ech_ingresos' / 'capturas.json'}")
@@ -157,6 +159,9 @@ def seccion_reporte(registro: list[dict], ultima: dict, obs: pd.DataFrame, cambi
     lineas += ["", f"Última captura: {ultima.get('fecha', '—')}. "
                + ("Planillas con error (no se actualizaron; si ya tenían una captura, siguen sus valores anteriores):" if errores else "Ninguna planilla con error.")]
     lineas += [f"- **{e['codigo']}**: {e['error']} ({e['url']})" for e in errores]
+    if ultima.get("revertidas"):
+        lineas += ["", "Volvieron a una versión ya capturada (el INE retiró una revisión): "
+                   + ", ".join(ultima["revertidas"]) + "."]
     lineas += ["", "Las medianas y el ingreso de los ocupados no se capturan: sus enlaces del INE dan 404 "
                "(`enlaces_rotos` en el registro de la fuente)."]
     n = cambios["cambiaron"]
@@ -167,7 +172,7 @@ def seccion_reporte(registro: list[dict], ultima: dict, obs: pd.DataFrame, cambi
         d = 0 if abs(dif) >= 1 else 4  # una revisión de decimales no se ve redondeada a pesos
         texto += (f"; el cambio más grande: `{m['indicador']}`, {m['territorio_id']}, {m['periodo']}: "
                   f"{_num(m['antes'], d)} → {_num(m['ahora'], d)} ({'+' if dif >= 0 else '−'}{_num(abs(dif), d)})")
-    lineas += ["", f"Cambios: {texto}. Valores nuevos: {cambios['nuevos']}."]
+    lineas += ["", f"Cambios: {texto}. Valores nuevos: {cambios['nuevos']}. Valores que ya no vienen: {cambios['quitados']}."]
     return lineas
 
 
@@ -197,7 +202,7 @@ def main(argv=None) -> int:
     try:
         r = cargar(args.entrada.parent, args.salida, fuentes, args.forzar)
     except Exception as e:
-        registro = _leer(args.entrada.parent)["capturas"]
+        registro = leer_completo(args.entrada.parent)["capturas"]
         if registro:
             c = registro[-1]
             historial.agregar(nueva_captura(FUENTE_ID, c["archivo"], c["sha256"], ahora()), "error",

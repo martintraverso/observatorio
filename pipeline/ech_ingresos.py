@@ -21,6 +21,8 @@ from __future__ import annotations
 
 import re
 import unicodedata
+import xml.etree.ElementTree as ET
+import zipfile
 
 import pandas as pd
 from territorios_2023 import tid
@@ -115,7 +117,7 @@ def parsear_serie(xlsx: bytes, codigo: str) -> pd.DataFrame:
     ind = INDICADORES[codigo]
     try:
         filas = leer_primera_hoja(xlsx)
-    except (ValueError, KeyError, OSError) as e:
+    except (ValueError, KeyError, OSError, ET.ParseError, zipfile.BadZipFile) as e:
         raise ErrorSerie(f"{codigo}: no se puede leer la planilla: {e}") from e
 
     fila_enc, columnas = _encabezado(filas)
@@ -126,7 +128,7 @@ def parsear_serie(xlsx: bytes, codigo: str) -> pd.DataFrame:
         raise ErrorSerie(f"{codigo}: el título no corresponde a {ind['indicador']} (falta {faltan}): {titulo!r}")
 
     datos, pie, vistos = [], [], set()
-    en_pie = False
+    en_pie, bloque = False, None  # bloque: el año de la última fila con el año
     for r in sorted(f for f in filas if f > fila_enc + 1):
         celdas = filas[r]
         rotulo = celdas.get(1)
@@ -134,9 +136,12 @@ def parsear_serie(xlsx: bytes, codigo: str) -> pd.DataFrame:
         if isinstance(rotulo, str) and plegar(rotulo).startswith("fuente:"):
             en_pie = True
         if en_pie:
+            if any(isinstance(v, float) for v in celdas.values()):
+                raise ErrorSerie(f"{codigo}: fila {r} del pie (después de «Fuente:») con números: {celdas}")
             pie += [str(v).strip() for _, v in sorted(celdas.items()) if str(v).strip()]
             continue
         if isinstance(rotulo, float) and not valores:  # fila con el año, separa los bloques
+            bloque = int(rotulo)
             continue
         if rotulo is None and not valores:
             continue
@@ -147,6 +152,10 @@ def parsear_serie(xlsx: bytes, codigo: str) -> pd.DataFrame:
             periodo = anio(int(m.group(1)))
         else:
             raise ErrorSerie(f"{codigo}: fila {r} desconocida: {rotulo!r} {valores}")
+        if bloque is None:
+            raise ErrorSerie(f"{codigo}: fila {r} ({rotulo!r}) antes de cualquier fila con el año: no se puede cruzar el año")
+        if periodo.inicio.year != bloque:  # «Julio - Setiembre/61» en el bloque 2016
+            raise ErrorSerie(f"{codigo}: fila {r} ({rotulo!r}): el año no coincide con el del bloque ({bloque})")
         if periodo.etiqueta in vistos:
             raise ErrorSerie(f"{codigo}: el período {periodo.etiqueta} aparece dos veces")
         vistos.add(periodo.etiqueta)
