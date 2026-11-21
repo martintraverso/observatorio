@@ -12,7 +12,7 @@ Product language: **Spanish (Uruguay)**. All UI copy is in Spanish. Code identif
 - **Static-first.** Data pipeline runs in GitHub Actions; outputs are files (Parquet, GeoJSON/PMTiles, JSON); the app is a static site that reads those files.
 - **Free hosting** (Cloudflare Pages or GitHub Pages).
 - **Traceability over convenience.** Every value shown must point to its source file, download date and checksum.
-- The INE website is unreliable for downloads. Original files are kept as assets of a GitHub release named `crudos` and the pipeline reads them from there first. Sources with many originals (`carpeta_original`, e.g. the ECH reports) store each file as `<carpeta>-<sha12>.html` plus a versioned capture registry, and are rebuilt only from `crudos` (`scripts/crudos_carpeta.py`, upload with `scripts/subir_crudos.sh`).
+- The INE website is unreliable for downloads. Original files are kept as assets of a GitHub release named `crudos` and the pipeline reads them from there first. Sources with many originals (`carpeta_original`, e.g. the ECH reports) store each file as `<carpeta>-<sha12><ext>` (`.html` for the ECH reports, `.xlsx` for the income series) plus a versioned capture registry, and are rebuilt only from `crudos` (`scripts/crudos_carpeta.py`, upload with `scripts/subir_crudos.sh`).
 ## 3. Territorial model
  
 Source: INE, *Unidades geoestadísticas Censo 2023* (zip of GeoPackages, EPSG:4326, scale 1:50,000). License: "El uso es libre, citando como fuente al INE."
@@ -28,11 +28,13 @@ Source: INE, *Unidades geoestadísticas Censo 2023* (zip of GeoPackages, EPSG:43
 | `municipio_mvd` | 8 | letter: A, B, C, CH, D, E, F, G | departamento 01 (derived in F2.3: union of its CCZ) |
 | `pais` | 1 | `UY` | — (derived in F2.3: geometry = union of the 19 departments; for national totals) |
 | `area_especial` | 1 | `02-limite-contestado` | departamento 02 |
+| `region` | 3 | `interior`, `interior-5000`, `interior-menores` | pais (no geometry; F3.2) |
  
 - Territory id: `INE-2023/<nivel>/<codigo>` (e.g. `INE-2023/segmento/1605601`).
 - Hierarchy depto → sección → segmento is derivable from the code prefix.
 - Segment → locality comes from the INE attribute `CODLOC` (stored in `correspondencias`).
 - **Census zones (zona censal, 10-char code) are NOT in the INE package.** The segment is the finest unit available. Anything in the design that says "zona" must be implemented as "segmento" until zones are obtained.
+- **Level `region`** (decided by the maintainer on 2026-11-19, F3.2): 3 territories without geometry — `INE-2023/region/interior` ("Interior del país"), `INE-2023/region/interior-5000` ("Interior: localidades de 5.000 o más habitantes"), `INE-2023/region/interior-menores` ("Interior: localidades pequeñas y zonas rurales"); parent `pais/UY`. They are the areas in which INE publishes ECH income series. `geometry` and `area_km2` are NULL; they are never drawn on the map and are skipped by geometry checks and exports, but appear in search, fichas and downloads. Relations in `correspondencias` (relation only, nothing is summed): `interior-5000` and `interior-menores` → `interior`; the 18 departments other than 01 → `interior`; `interior` → `pais`. Montevideo is `departamento/01`; total país is `pais/UY`. Their codes are the observatory's, not INE codes.
 - Geometries are versioned (`version_geo`). 2011 geometries will coexist with 2023 ones; INE publishes a 2011–2023 correspondence table.
 ## 4. Core data rules (non-negotiable)
  
@@ -60,6 +62,10 @@ VIEW v_observaciones  -- observaciones joined with territorio, indicador and cap
  
 **Level added in F2.3:** `municipio_mvd` (8 Montevideo municipalities). INE does not publish its geometry in the 2023 package, but `ccz_mvd_23_pg` has the attribute `NOMMUNICIPIO`; the geometry is derived by dissolving CCZ by municipality and recorded in `correspondencias` (ccz → municipio, `metodo = "disolución de CCZ por NOMMUNICIPIO"`). Each departamento is recorded as `pertenece_a` the `pais` territory (a relation only: no values are summed). Derived levels get `area_km2` measured on their geometry.
  
+**Level added in F3.2:** `region` (3 territories, see §3), the only level whose `geometry` and `area_km2` are NULL. The web build skips it in GeoJSON, PMTiles and per-level downloads; in `territorios_index.json` and fichas it has `bbox = null`, and the app shows its ficha without a map.
+
+**Income rules (F3):** values stored exactly as published (full precision); the price base is part of the indicator (current pesos and pesos of January 2005 are different indicators; the observatory never deflates or converts); quarterly rows are `tipo_periodo = trimestre`, yearly totals `anio`; a changed file is a new capture whose values replace earlier ones for the same period (`vigente`), with a change summary in the report.
+
 Planned additions: `eventos(id, dataset_id, fecha, geometry, territorio_id, atributos_json, captura_id)` for point data.
 
 `resultado` in `capturas_historial`: `nuevo`, `reprocesado` (same original, `--forzar`), `sin cambios` (same sha256 as the last processed capture: not reprocessed) or `error`. Shared pipeline code lives in `pipeline/comun/` (M1). Each source writes its own `observaciones`, `capturas` and `indicadores` to `datos/salida/fuentes/<fuente_id>/`; `comun.salida.combinar` builds the shared tables and the DuckDB file from them and fails if they do not fit (unknown territory, indicator or capture; the same indicator, territory and period twice; indicators or captures repeated across sources; a source folder not in the registry). If a source has no folder (in Actions only the shared tables are downloaded), it is rebuilt from the shared tables (F2.5c).
@@ -138,6 +144,10 @@ Active: INE unidades geoestadísticas 2023.
  
 **Labor market (F2, next):** INE report *"Mercado de trabajo por área geográfica de residencia"*, monthly since February 2022. Official estimates for the 19 departments, the 8 Montevideo municipalities and, in recent reports, total país, as 3-month moving averages. Tables: activity, employment and unemployment rates (%); active, employed and unemployed (thousands); non-registration in social security (%). Published only as an HTML page (no spreadsheet): the pipeline must save each page and parse its tables. INE publishes no confidence intervals and warns: smaller departments are less precise; figures are by place of residence; seasonality (e.g. Maldonado); avoid single-period rankings. Example HTML: `https://www5.ine.gub.uy/documents/Demograf%C3%ADayEESS/HTML/ECH/Mercado%20de%20trabajo%20por%20%C3%A1rea%20geogr%C3%A1fica/2026/Mercado_trabajo_IN_SOC_MTR_2026_M_09-_v1_0.html` (July–September 2026). Country/Montevideo/Interior long series exist as xlsx (`series-historicas-actividad-empleo-desempleo`), without departments. ECH microdata are used only for indicators INE does not publish, labelled "calculado por el observatorio". **Only official INE sites are valid sources.**
  
+**Income (F3, `fuentes/ine_ech_ingresos_series.yml`):** INE *Series históricas ECH Ingresos de las personas y los hogares* (xlsx, quarterly since 2016) for total país, Montevideo and the Interior (total, localities of 5,000 or more, small localities and rural areas): mean household and per-capita income, with and without aguinaldo and valor locativo, at current prices and at January 2005 prices. Since 2025 INE uses the *ingreso disponible ajustado* (YDA); the 2016– series were recomputed with it (F3.1). Plan: `docs/PLAN_ingresos.md`; criteria: `docs/ACCEPTANCE_CRITERIA_ingresos.md`.
+
+**No department income:** INE publishes no current official income or poverty figure by department (its 2025 poverty report has tables only by region; the department map is an image). MIDES publishes department series to 2023, but its income series looks mislabelled (values not consistent with current pesos) and its poverty series uses INE's 2006 method. Department income, if ever added, must be computed from ECH microdata and labelled "calculado por el observatorio" (F3.9, needs approval).
+
 Next: Censo 2023 microdata (segment level), Marco Censal 2023 (may contain zones), Encuesta Continua de Hogares (department level only; panel design since July 2021), INE price/wage series (country level), INE 2011–2023 correspondence table. To research: Catálogo Nacional de Datos Abiertos (CKAN API), IDE, Ministerio del Interior.
  
 ## 10. Glossary

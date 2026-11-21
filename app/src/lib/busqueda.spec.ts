@@ -16,10 +16,21 @@ const INDICE: EntradaIndice[] = [
 	t('localidad', '16521', 'Puntas de Valdez', '16', 'INE-2023/departamento/16'),
 	t('barrio_mvd', '5', 'Pocitos', '01', 'INE-2023/departamento/01'),
 	t('ccz_mvd', '05', 'CCZ 5 (Municipio CH)', '01', 'INE-2023/departamento/01'),
-	t('area_especial', '02-limite-contestado', 'Límite contestado (Artigas)', '02', null)
+	t('area_especial', '02-limite-contestado', 'Límite contestado (Artigas)', '02', null),
+	t('pais', 'UY', 'Uruguay', '', null),
+	{ ...t('region', 'interior', 'Interior del país', '', 'INE-2023/pais/UY'), bbox: null },
+	{ ...t('region', 'interior-5000', 'Interior: localidades de 5.000 o más habitantes', '', 'INE-2023/pais/UY'), bbox: null }
 ];
 const b = crearBuscador(INDICE);
 const ids = (q: string) => b.buscar(q).map((r) => r.t.id);
+
+describe('AC-I3: las regiones (sin geometría) se encuentran por nombre', () => {
+	it('"interior" encuentra el Interior del país primero, con su nivel y el país', () => {
+		const r = b.buscar('interior');
+		expect(r.map((x) => x.t.id).slice(0, 2)).toEqual(['INE-2023/region/interior', 'INE-2023/region/interior-5000']);
+		expect(r[0].contexto).toBe('Región · Uruguay');
+	});
+});
 
 describe('plegar', () => {
 	it('quita tildes, mayúsculas y espacios de más', () => {

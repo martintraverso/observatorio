@@ -12,7 +12,7 @@ import geopandas as gpd
 import pytest
 import shapely
 from pmtiles.reader import MmapSource, Reader, all_tiles
-from web import GEOJSON, GRUPOS_COBERTURA, PMTILES_MINZOOM, agujeros, plegar
+from web import GEOJSON, GRUPOS_COBERTURA, PMTILES_MINZOOM, SIN_GEOMETRIA, agujeros, plegar
 
 from comun.huella import sha256_archivo
 
@@ -28,7 +28,8 @@ def territorios(salida):
 
 @pytest.fixture(scope="session")
 def conteo(territorios):
-    return territorios.nivel.value_counts().to_dict()
+    """Territorios por nivel, de los niveles con geometría (region no tiene: F3.2, AC-I3)."""
+    return territorios[~territorios.nivel.isin(SIN_GEOMETRIA)].nivel.value_counts().to_dict()
 
 
 # ------------------------------------------------------------------ AC-W1
@@ -135,6 +136,9 @@ def test_indice_lista_cada_territorio(indice, territorios):
     assert all(set(t) == campos for t in indice)
     por_id = territorios.set_index("id")
     for t in indice:
+        if t["nivel"] in SIN_GEOMETRIA:
+            assert t["bbox"] is None, t["id"]
+            continue
         x0, y0, x1, y1 = t["bbox"]
         b = por_id.loc[t["id"]].geometry.bounds
         assert x0 <= b[0] and y0 <= b[1] and x1 >= b[2] and y1 >= b[3], t["id"]  # la caja contiene al territorio
@@ -289,7 +293,7 @@ def test_descargas_completas_con_tamano_y_sha256(salida, web, territorios, con):
     assert d["licencia"] and d["cita"] and re.fullmatch(r"\d{4}-\d\d-\d\dT.*", d["generado"])
     nombres = {a["nombre"] for a in d["archivos"]}
     assert {"observaciones.parquet", "observaciones.csv", "territorios.parquet", "observatorio.duckdb"} <= nombres
-    for nivel in territorios.nivel.unique():
+    for nivel in set(territorios.nivel) - SIN_GEOMETRIA:
         assert {f"territorios_{nivel}.parquet", f"territorios_{nivel}.geojson"} <= nombres, nivel
     for a in d["archivos"]:
         p = salida / "descargas" / a["nombre"]
@@ -313,8 +317,8 @@ def test_csv_de_observaciones(salida, con):
     assert flores[["periodo_inicio", "periodo_fin", "tipo_periodo"]].values.tolist() == [["2023-01-01", "2023-01-01", "censo"]]
 
 
-def test_territorios_por_nivel_completos(salida, territorios):
-    for nivel, n in territorios.nivel.value_counts().items():
+def test_territorios_por_nivel_completos(salida, conteo):
+    for nivel, n in conteo.items():
         completo = gpd.read_parquet(salida / "descargas" / f"territorios_{nivel}.parquet")
         assert len(completo) == n and completo.geometry.is_valid.all(), nivel
         simple = gpd.read_file(salida / "descargas" / f"territorios_{nivel}.geojson")

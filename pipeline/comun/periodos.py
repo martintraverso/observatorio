@@ -45,3 +45,15 @@ def trimestre_movil(anio_fin: int, mes_fin: int) -> Periodo:
     inicio = dt.date(anio_ini, mes_ini, 1)
     return Periodo(f"{anio_ini}-{mes_ini:02d}/{anio_fin}-{mes_fin:02d}", inicio, _ultimo_dia(anio_fin, mes_fin),
                    "trimestre_movil")
+
+
+def trimestre(anio_: int, n: int) -> Periodo:
+    """Trimestre calendario n (1–4) de un año: (2016, 1) -> 2016-01-01 … 2016-03-31, etiqueta «2016-T1»."""
+    if not 1 <= n <= 4:
+        raise ValueError(f"Trimestre inválido: {n}")
+    return Periodo(f"{anio_}-T{n}", dt.date(anio_, 3 * n - 2, 1), _ultimo_dia(anio_, 3 * n), "trimestre")
+
+
+def anio(anio_: int) -> Periodo:
+    """Año calendario: 2016-01-01 … 2016-12-31, etiqueta «2016»."""
+    return Periodo(str(anio_), dt.date(anio_, 1, 1), dt.date(anio_, 12, 31), "anio")

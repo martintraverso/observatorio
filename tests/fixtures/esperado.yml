@@ -12,6 +12,7 @@ territorios_por_nivel:
   area_especial: 1
   pais: 1
   municipio_mvd: 8
+  region: 3
 departamentos_con_secciones: 1
 pob_total_departamentos: 1523620
 pob_total_secciones: 25738

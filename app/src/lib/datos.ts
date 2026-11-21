@@ -20,7 +20,8 @@ export type Nivel =
 	| 'barrio_mvd'
 	| 'municipio_mvd'
 	| 'ccz_mvd'
-	| 'area_especial';
+	| 'area_especial'
+	| 'region';
 
 export interface EntradaIndice {
 	id: string;
@@ -30,7 +31,8 @@ export interface EntradaIndice {
 	nombre_busqueda: string;
 	depto: string;
 	padre_id: string | null;
-	bbox: [number, number, number, number];
+	/** null en los niveles sin geometría (region, F3.2) */
+	bbox: [number, number, number, number] | null;
 }
 
 export interface Observacion {
@@ -109,7 +111,8 @@ export interface Ficha {
 	version_geo: string;
 	area_km2: number | null;
 	codigo_iso: string | null;
-	bbox: [number, number, number, number];
+	/** null en los niveles sin geometría (region, F3.2) */
+	bbox: [number, number, number, number] | null;
 	padres: Resumen[];
 	contenidos: Partial<Record<Nivel, Resumen[]>>;
 	relaciones: Relacion[];
@@ -148,6 +151,8 @@ export interface Manifest {
 
 export const NOMBRE_NIVEL: Record<Nivel, string> = {
 	pais: 'País',
+	// F3.2 (#126): regiones de la ECH de ingresos (Interior y sus partes), sin geometría
+	region: 'Región',
 	departamento: 'Departamento',
 	seccion: 'Sección censal',
 	segmento: 'Segmento censal',
