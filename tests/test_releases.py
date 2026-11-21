@@ -114,7 +114,8 @@ def test_una_fuente_no_activa_con_error_no_frena_la_publicacion_de_las_activas(c
     assert res["fuentes"]["ine_ech_ingresos_series"]["resultado"] == "error"
     assert res["errores"] == [] and res["errores_no_activas"] == ["ine_ech_ingresos_series"]
     assert res["web"] and res["publicar"]
-    assert "ine_ech_ingresos_series" in r.stderr  # se informa
+    assert "ADVERTENCIA: ine_ech_ingresos_series (no activa" in r.stderr  # se informa
+    assert "::warning title=Fuente no activa con error::ine_ech_ingresos_series" in r.stdout  # y se anota en Actions
 
 
 def test_correr_falla_si_falta_el_original(tmp_path):

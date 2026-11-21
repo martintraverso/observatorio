@@ -12,8 +12,7 @@ Uso:
 
 Sale con código != 0 si falla una fuente activa o web.py; la falla de una fuente que no está activa (p. ej. «en
 preparación») se informa en el resumen (`errores_no_activas`) y no frena la publicación (decisión del mantenedor, #147).
-El resumen (stdout y --resumen) dice qué pasó
-con cada fuente y si hay algo nuevo para publicar.
+El resumen (stdout y --resumen) dice qué pasó con cada fuente y si hay algo nuevo para publicar.
 """
 
 from __future__ import annotations
@@ -105,14 +104,19 @@ def main(argv=None):
         "errores_no_activas": errores_no_activas,
     }
     texto = json.dumps(resumen, ensure_ascii=False)
+    # anotación en la corrida de GitHub Actions (antes del resumen, que es la última línea): el workflow queda
+    # verde, pero la falla de una fuente no activa se ve
+    for e in errores_no_activas:
+        print(f"::warning title=Fuente no activa con error::{e} — {resultados[e].get('detalle', 'ver stderr')}")
     print(texto)
     if args.resumen:
         args.resumen.write_text(texto, encoding="utf-8")
     for e in errores:
         print(f"FALLA: {e} — {resultados.get(e, {}).get('detalle', 'ver stderr')}", file=sys.stderr)
     for e in errores_no_activas:
-        print(f"ADVERTENCIA: {e} (no activa, no frena la publicación) — {resultados[e].get('detalle', 'ver stderr')}",
-              file=sys.stderr)
+        detalle = resultados[e].get("detalle", "ver stderr")
+        print(f"ADVERTENCIA: {e} (no activa, no frena la publicación) — {detalle}", file=sys.stderr)
+
     return 1 if errores else 0
 
 
