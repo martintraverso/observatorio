@@ -110,7 +110,7 @@ def test_si_el_ine_vuelve_a_una_version_anterior_esa_vuelve_a_ser_vigente(tmp_pa
     capturar([p("ECHING07")], tmp_path, sitio({p("ECHING07").url: b}), hoy="2026-12-15")
     r = capturar([p("ECHING07"), p("ECHING09")], tmp_path,
                  sitio({p("ECHING07").url: a, p("ECHING09").url: fix("ECHING09")}), hoy="2027-01-10")
-    assert (r.nuevas, r.revertidas, r.errores) == (1, 1, [])
+    assert (r.nuevas, r.revertidas, r.errores) == (1, ["ECHING07"], [])
     reg = leer_registro(tmp_path)
     del07 = [c for c in reg if c["codigo"] == "ECHING07"]
     assert len(del07) == 2 and [c["vigente"] for c in del07] == [True, False] and del07[0]["sha256"] == sha(a)
@@ -135,7 +135,7 @@ def test_un_archivo_con_error_queda_registrado_y_no_frena_los_demas(tmp_path):
     assert "404" in errores["ECHING08"] and "xlsx" in errores["ECHING09"]
     reg = json.loads((tmp_path / CARPETA / "capturas.json").read_text(encoding="utf-8"))
     assert [c["codigo"] for c in reg["capturas"]] == ["ECHING07"]
-    assert reg["ultima_corrida"] == {"fecha": HOY, "errores": r.errores}
+    assert reg["ultima_corrida"] == {"fecha": HOY, "errores": r.errores, "revertidas": []}
     assert not (tmp_path / CARPETA / "ECHING09.xlsx").exists()
 
 

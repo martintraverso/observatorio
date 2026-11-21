@@ -54,7 +54,7 @@ class Planilla(NamedTuple):
 class ResumenCaptura:
     nuevas: int = 0
     sin_cambios: int = 0
-    revertidas: int = 0  # vuelve a ser vigente una versión ya capturada
+    revertidas: list[str] = field(default_factory=list)  # códigos que volvieron a una versión ya capturada
     errores: list[dict] = field(default_factory=list)  # {codigo, url, error}
 
     def como_dict(self) -> dict:
@@ -71,14 +71,15 @@ def sha256(datos: bytes) -> str:
     return hashlib.sha256(datos).hexdigest()
 
 
-def _leer(crudo: Path) -> dict:
+def leer_completo(crudo: Path) -> dict:
+    """El registro completo: capturas y, si hubo, `ultima_corrida` (fecha, errores, revertidas)."""
     path = Path(crudo) / CARPETA / REGISTRO
     return json.loads(path.read_text(encoding="utf-8")) if path.exists() else {"capturas": []}
 
 
 def leer_registro(crudo: Path) -> list[dict]:
     """Las capturas, en orden de captura."""
-    return _leer(crudo)["capturas"]
+    return leer_completo(crudo)["capturas"]
 
 
 def escribir_registro(crudo: Path, capturas: list[dict], ultima_corrida: dict | None) -> None:
@@ -115,7 +116,7 @@ def capturar(lista: list[Planilla], crudo: Path, bajar: Callable[[str], bytes], 
     if fuera:
         raise ErrorCaptura(f"Solo se admiten URLs oficiales del INE: {fuera}")
     registro, resumen = leer_registro(crudo), ResumenCaptura()
-    anterior = _leer(crudo).get("ultima_corrida")  # se conserva hasta que termine esta corrida
+    anterior = leer_completo(crudo).get("ultima_corrida")  # se conserva hasta que termine esta corrida
     for c in registro:
         verificar(crudo, c)
 
@@ -141,7 +142,7 @@ def capturar(lista: list[Planilla], crudo: Path, bajar: Callable[[str], bytes], 
                 verificar(crudo, ya)
                 for c in del_codigo:
                     c["vigente"] = c is ya
-                resumen.revertidas += 1
+                resumen.revertidas.append(pl.codigo)
                 escribir_registro(crudo, registro, anterior)
                 continue
             if ya is not None:
@@ -163,7 +164,7 @@ def capturar(lista: list[Planilla], crudo: Path, bajar: Callable[[str], bytes], 
             resumen.nuevas += 1
             escribir_registro(crudo, registro, anterior)  # así una corrida cortada no pierde lo ya guardado
     finally:
-        escribir_registro(crudo, registro, {"fecha": hoy, "errores": resumen.errores})
+        escribir_registro(crudo, registro, {"fecha": hoy, "errores": resumen.errores, "revertidas": resumen.revertidas})
     return resumen
 
 
