@@ -52,7 +52,15 @@ export function nivelMasDetallado(ind: IndicadorMapa): NivelMapa | null {
  * AC-M2 / AC-V9: si el indicador no se publica en el nivel elegido, un aviso que nombra ese nivel y lista
  * los niveles del mapa donde sí está. Nunca se pinta un valor inventado ni se sustituye en silencio.
  */
-export function avisoNivel(ind: IndicadorMapa, nivel: NivelMapa): { mensaje: string; disponibles: NivelMapa[] } | null {
+export function avisoNivel(
+	ind: IndicadorMapa,
+	nivel: NivelMapa
+): { mensaje: string; disponibles: NivelMapa[]; regional?: boolean } | null {
+	// AC-I20 (F3.7c): lo que se publica por región (los ingresos de la ECH) no va en el coroplético: no hay datos por
+	// departamento salvo Montevideo. Se avisa y se muestra la comparación entre regiones.
+	if (ind.niveles.includes('region')) {
+		return { mensaje: `Los ${ind.tema.toLowerCase()} se publican por región: País · Montevideo · Interior.`, disponibles: [], regional: true };
+	}
 	if (ind.niveles.includes(nivel)) return null;
 	// AC-V9: los niveles del mapa donde sí está, del más fino al más grueso (cada uno será un botón).
 	const disponibles = NIVELES_MAPA.filter((n) => ind.niveles.includes(n)).reverse();
@@ -193,4 +201,23 @@ export function urlDesdeEstado(e: EstadoMapa): string {
 	const p = new URLSearchParams({ indicador: e.indicador, nivel: e.nivel, periodo: e.periodo });
 	if (e.territorio) p.set('territorio', e.territorio);
 	return `?${p.toString()}`;
+}
+
+/** AC-I20: los territorios de la comparación regional, en orden, con su nombre corto. */
+export const COMPARACION_REGIONAL = [
+	{ nivel: 'pais', codigo: 'UY', nombre: 'Total país' },
+	{ nivel: 'departamento', codigo: '01', nombre: 'Montevideo' },
+	{ nivel: 'region', codigo: 'interior', nombre: 'Interior' },
+	{ nivel: 'region', codigo: 'interior-5000', nombre: 'Interior: localidades de 5.000 o más' },
+	{ nivel: 'region', codigo: 'interior-menores', nombre: 'Interior: localidades pequeñas y rurales' }
+] as const;
+
+type ValoresPorNivel = Partial<Record<string, { indicadores: Record<string, Record<string, Record<string, number | null>>> } | null>>;
+
+/** AC-I20: valor de cada territorio de la comparación para el indicador y el período (null si no está publicado). */
+export function filasComparacion(valores: ValoresPorNivel, indicador: string, periodo: string) {
+	return COMPARACION_REGIONAL.map((t) => ({
+		...t,
+		valor: valores[t.nivel]?.indicadores[indicador]?.[periodo]?.[t.codigo] ?? null
+	}));
 }

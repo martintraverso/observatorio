@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
 	avisoNivel,
+	filasComparacion,
 	clase,
 	clasesCuantiles,
 	estadoDesdeUrl,
@@ -149,5 +150,28 @@ describe('F2.8b: Trabajo en el mapa', () => {
 		expect(e[1]).toMatch(/^\d+,\d a \d+,\d$/);
 		expect(e.slice(1, -1).every((x) => /^\d+,\d a \d+,\d$/.test(x))).toBe(true);
 		expect(e.at(-1)).toMatch(/^Más de \d+,\d$/);
+	});
+});
+
+describe('AC-I20: lo que se publica por región', () => {
+	const ingreso = { codigo: 'ing_x', nombre: 'Ingreso', unidad: 'pesos', tema: 'Ingresos', niveles: ['departamento', 'pais', 'region'], periodos: ['2026-T3'] } as never;
+	it('avisa y no usa el coroplético, aunque Montevideo esté en el nivel departamento', () => {
+		const a = avisoNivel(ingreso, 'departamento');
+		expect(a?.regional).toBe(true);
+		expect(a?.mensaje).toBe('Los ingresos se publican por región: País · Montevideo · Interior.');
+	});
+	it('arma las cinco filas en orden, con null si falta un valor', () => {
+		const v = {
+			pais: { indicadores: { ing_x: { '2026-T3': { UY: 98653 } } } },
+			departamento: { indicadores: { ing_x: { '2026-T3': { '01': 120938 } } } },
+			region: { indicadores: { ing_x: { '2026-T3': { interior: 83651, 'interior-5000': 85181 } } } }
+		};
+		expect(filasComparacion(v, 'ing_x', '2026-T3').map((f) => [f.nombre, f.valor])).toEqual([
+			['Total país', 98653],
+			['Montevideo', 120938],
+			['Interior', 83651],
+			['Interior: localidades de 5.000 o más', 85181],
+			['Interior: localidades pequeñas y rurales', null]
+		]);
 	});
 });
