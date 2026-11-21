@@ -339,6 +339,20 @@ def test_recapturar_sin_cambios_y_revertir_no_rompe_el_release(gh, tmp_path):
     assert [x["vigente"] for x in leer_registro(limpio)] == [True, False]  # el último registro: A vigente
 
 
+def test_subir_desde_un_registro_desactualizado_falla_y_no_toca_el_release(gh, tmp_path):
+    """Revisión de #143: subir desde una copia local con menos capturas que crudos no puede hacerla retroceder."""
+    viejo = crudo_ech(tmp_path / "viejo", ("2024_09",))
+    nuevo = crudo_ech(tmp_path / "nuevo", ("2024_09", "2026_09"))
+    assert correr("scripts/crudos_carpeta.py", "subir", "--crudo", viejo, "--carpeta", "ech_mt").returncode == 0
+    assert correr("scripts/crudos_carpeta.py", "subir", "--crudo", nuevo, "--carpeta", "ech_mt").returncode == 0
+    antes = sorted(p.name for p in (gh / "crudos").iterdir())
+    r = correr("scripts/crudos_carpeta.py", "subir", "--crudo", viejo, "--carpeta", "ech_mt")
+    assert r.returncode != 0 and "desactualizado" in r.stderr
+    assert sorted(p.name for p in (gh / "crudos").iterdir()) == antes
+    r = correr("scripts/crudos_carpeta.py", "bajar", "--crudo", tmp_path / "runner", "--carpeta", "ech_mt")
+    assert r.returncode == 0 and json.loads(r.stdout)["capturas"] == 2
+
+
 def test_conseguir_originales_baja_tambien_las_carpetas(gh, tmp_path):
     c = crudo_ech(tmp_path)
     assert correr("scripts/crudos_carpeta.py", "subir", "--crudo", c, "--carpeta", "ech_mt").returncode == 0

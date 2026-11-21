@@ -95,8 +95,16 @@ def subir(crudo: Path, carpeta: str) -> list[str]:
             gh("release", "upload", RELEASE, str(Path(tmp) / nombre))  # sin --clobber: nunca reemplaza
             subidos.append(nombre)
         anterior = ultimo_registro(sorted(ya), carpeta)
-        if anterior is not None and contenido(bajar_asset(anterior, Path(tmp))) == contenido(datos):
-            return subidos  # el registro de crudos ya tiene estas capturas y vigentes
+        if anterior is not None:
+            previo = bajar_asset(anterior, Path(tmp))
+            if contenido(previo) == contenido(datos):
+                return subidos  # el registro de crudos ya tiene estas capturas y vigentes
+            # Las capturas solo crecen: un registro local sin alguna de las de crudos está desactualizado y subirlo
+            # haría retroceder el release (revisión de #143).
+            faltan = {c["id"] for c in json.loads(previo)["capturas"]} - {c["id"] for c in capturas}
+            if faltan:
+                raise ErrorCrudos(f"El registro local de {carpeta} no tiene {len(faltan)} capturas que ya están en "
+                                  f"{anterior}: está desactualizado. Correr primero `bajar` y volver a capturar.")
         nombre = asset_registro(carpeta, datos, anterior)
         if nombre not in ya:
             (Path(tmp) / nombre).write_bytes(datos)
