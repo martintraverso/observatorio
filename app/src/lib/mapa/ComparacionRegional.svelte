@@ -18,6 +18,8 @@
 		}
 	});
 	let filas = $derived(filasComparacion(valores, indicador.codigo, periodo));
+	// hasta que llegan los tres archivos no se muestra «sin dato» (sería falso un instante)
+	let cargado = $derived(['pais', 'departamento', 'region'].every((n) => n in valores));
 	let maximo = $derived(Math.max(1, ...filas.map((f) => f.valor ?? 0)));
 </script>
 
@@ -26,6 +28,9 @@
 		<strong>{indicador.nombre}</strong>
 		<span class="suave">{indicador.unidad} · {etiquetaPeriodo(periodo)}</span>
 	</figcaption>
+	{#if !cargado}
+		<p class="suave">Cargando…</p>
+	{:else}
 	<ul>
 		{#each filas as f (f.nivel + f.codigo)}
 			<li class:interior={f.nivel === 'region' && f.codigo !== 'interior'}>
@@ -37,6 +42,7 @@
 			</li>
 		{/each}
 	</ul>
+	{/if}
 	<p class="suave fuente">Fuente: INE, Encuesta Continua de Hogares. Cifras sujetas a revisión.</p>
 </figure>
 

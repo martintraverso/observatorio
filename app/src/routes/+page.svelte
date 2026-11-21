@@ -385,8 +385,9 @@
 
 		<div class="avisos">
 			{#if aviso}
-				<div class="info" role="status">
-					<p>{aviso.mensaje}</p>
+				<div class="info">
+					<!-- solo el aviso se anuncia (región viva); la comparación no se relee entera al cambiar de período -->
+					<p role="status">{aviso.mensaje}</p>
 					{#if aviso.regional && indicador}
 						<!-- AC-I20: en lugar del coroplético, la comparación entre regiones -->
 						<ComparacionRegional {indicador} periodo={estado.periodo} />
@@ -417,7 +418,7 @@
 			{/if}
 		</div>
 
-		{#if !hayPanel}
+		{#if !hayPanel && !aviso?.regional}
 			<p class="solo-escritorio pista-mapa">Tocá un territorio en el mapa para ver sus datos.</p>
 		{/if}
 
