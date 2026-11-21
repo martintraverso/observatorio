@@ -1,6 +1,7 @@
 """Originales de las fuentes con varios archivos (p. ej. datos/crudo/ech_mt/) en el release "crudos".
 
-Un release no tiene carpetas. Por eso cada original se sube como `<carpeta>-<sha12>.html`, y el registro de
+Un release no tiene carpetas. Por eso cada original se sube como `<carpeta>-<sha12><extensión>` (`.html` en
+ech_mt, `.xlsx` en ech_ingresos: la del archivo de la captura), y el registro de
 capturas como `<carpeta>-capturas-<NNNN>-<sha12>.json`, donde NNNN es la cantidad de capturas. El registro solo
 crece, así que el de NNNN mayor es el último. Nada se reemplaza: cada versión del registro es un asset nuevo.
 
@@ -40,8 +41,13 @@ def sha256(datos: bytes) -> str:
     return hashlib.sha256(datos).hexdigest()
 
 
-def asset_original(carpeta: str, sha: str) -> str:
-    return f"{carpeta}-{sha[:12]}.html"
+def asset_original(carpeta: str, sha: str, sufijo: str = ".html") -> str:
+    return f"{carpeta}-{sha[:12]}{sufijo}"
+
+
+def sufijo(captura: dict) -> str:
+    """Extensión del original de la captura (`.html`, `.xlsx`)."""
+    return Path(captura["archivo"]).suffix or ".html"
 
 
 def asset_registro(carpeta: str, datos: bytes) -> str:
@@ -69,7 +75,7 @@ def subir(crudo: Path, carpeta: str) -> list[str]:
     subidos = []
     with tempfile.TemporaryDirectory() as tmp:
         for c in capturas:
-            nombre = asset_original(carpeta, c["sha256"])
+            nombre = asset_original(carpeta, c["sha256"], sufijo(c))
             if nombre in ya:
                 continue
             original = crudo / c["archivo"]
@@ -109,9 +115,10 @@ def bajar(crudo: Path, carpeta: str) -> int:
         destino = crudo / c["archivo"]
         if destino.exists() and sha256(destino.read_bytes()) == c["sha256"]:
             continue
-        contenido = bajar_asset(asset_original(carpeta, c["sha256"]), destino)
+        nombre = asset_original(carpeta, c["sha256"], sufijo(c))
+        contenido = bajar_asset(nombre, destino)
         if sha256(contenido) != c["sha256"]:
-            raise ErrorCrudos(f"{asset_original(carpeta, c['sha256'])} no coincide con el sha256 de la captura {c['id']}")
+            raise ErrorCrudos(f"{nombre} no coincide con el sha256 de la captura {c['id']}")
         destino.parent.mkdir(parents=True, exist_ok=True)
         destino.write_bytes(contenido)
     d.mkdir(parents=True, exist_ok=True)

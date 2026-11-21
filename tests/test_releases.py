@@ -273,15 +273,49 @@ def test_bajar_crudos_reconstruye_la_carpeta_con_el_ultimo_registro(gh, tmp_path
     assert r.returncode != 0 and "sha256" in r.stderr
 
 
+def crudo_ingresos(tmp_path) -> Path:
+    """datos/crudo con ech_ingresos/ capturado desde los fixtures de F3.1 (sin red)."""
+    sys.path.insert(0, str(RAIZ / "pipeline"))
+    from ech_ingresos_captura import Planilla, capturar
+
+    w = "https://www5.ine.gub.uy/documents/ingresos/"
+    sitio = {f"{w}{c}.xlsx": (FIXTURES / "ech_ingresos" / f"{c}.xlsx").read_bytes() for c in ("ECHING07", "ECHING09")}
+    c = tmp_path / "crudo_ingresos"
+    capturar([Planilla(k, f"{w}{k}.xlsx") for k in ("ECHING07", "ECHING09")], c, sitio.__getitem__, hoy="2026-11-21")
+    return c
+
+
+def test_crudos_de_ingresos_suben_y_bajan_como_xlsx(gh, tmp_path):
+    """F3.4c (#139, AC-I4): los originales de ingresos van al release crudos con su extensión, sin cambios."""
+    c = crudo_ingresos(tmp_path)
+    r = correr("scripts/crudos_carpeta.py", "subir", "--crudo", c, "--carpeta", "ech_ingresos")
+    assert r.returncode == 0, r.stderr
+    from ech_ingresos_captura import leer_registro, verificar
+
+    reg = leer_registro(c)
+    subidos = sorted(p.name for p in (gh / "crudos").iterdir())
+    assert [n for n in subidos if n.endswith(".xlsx")] == sorted(f"ech_ingresos-{x['sha256'][:12]}.xlsx" for x in reg)
+    assert any(n.startswith("ech_ingresos-capturas-0002-") for n in subidos)
+    limpio = tmp_path / "runner"
+    r = correr("scripts/crudos_carpeta.py", "bajar", "--crudo", limpio, "--carpeta", "ech_ingresos")
+    assert r.returncode == 0, r.stderr
+    for x in leer_registro(limpio):
+        verificar(limpio, x)
+        assert (limpio / x["archivo"]).read_bytes() == (c / x["archivo"]).read_bytes()
+
+
 def test_conseguir_originales_baja_tambien_las_carpetas(gh, tmp_path):
     c = crudo_ech(tmp_path)
     assert correr("scripts/crudos_carpeta.py", "subir", "--crudo", c, "--carpeta", "ech_mt").returncode == 0
+    ci = crudo_ingresos(tmp_path)
+    assert correr("scripts/crudos_carpeta.py", "subir", "--crudo", ci, "--carpeta", "ech_ingresos").returncode == 0
     shutil.copy(FIXTURES / "ine_2023_mini.zip", gh / "crudos" / ORIGINAL)
     destino = tmp_path / "crudo"
     r = correr("scripts/conseguir_originales.py", "--crudo", destino, "--sin-subir")
     assert r.returncode == 0, r.stderr
     assert (destino / ORIGINAL).exists() and (destino / "ech_mt" / "capturas.json").exists()
     assert f"| {ECH} | `ech_mt/` (2 informes) | release crudos |" in r.stdout
+    assert (destino / "ech_ingresos" / "capturas.json").exists() and (destino / "ech_ingresos" / "ECHING07.xlsx").exists()
 
 
 def test_las_fuentes_a_procesar_son_las_activas_y_las_que_se_cargan_con_la_geografia_primero():
@@ -289,7 +323,8 @@ def test_las_fuentes_a_procesar_son_las_activas_y_las_que_se_cargan_con_la_geogr
 
     fuentes = cargar_fuentes(RAIZ / "fuentes")
     assert fuentes[ECH]["estado"] == "activa" and fuentes[ECH]["carpeta_original"] == "ech_mt"
-    assert [f["id"] for f in a_procesar(fuentes)] == [FUENTE, ECH]  # el Censo (territorios) antes que la ECH
+    # el Censo (territorios) antes que las demás; los ingresos se cargan aunque estén «en preparación» (F3.4c)
+    assert [f["id"] for f in a_procesar(fuentes)] == [FUENTE, "ine_ech_ingresos_series", ECH]
 
 
 def test_una_fuente_con_carpeta_sin_originales_se_omite_y_una_activa_de_un_archivo_falla(crudo, tmp_path):
