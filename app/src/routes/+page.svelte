@@ -7,6 +7,7 @@
 	import Mapa from '#lib/mapa/Mapa.svelte';
 	import Leyenda from '#lib/mapa/Leyenda.svelte';
 	import PanelTerritorio from '#lib/mapa/PanelTerritorio.svelte';
+	import ComparacionRegional from '#lib/mapa/ComparacionRegional.svelte';
 	import {
 		avisoNivel,
 		clasesCuantiles,
@@ -229,6 +230,7 @@
 
 	function hastaDonde(i: (typeof data.indicadores)[number]): string {
 		const n = nivelMasDetallado(i);
+		if (i.niveles.includes('region')) return 'por región'; // AC-I20: los ingresos (no van en el coroplético)
 		return n ? `hasta ${minuscula(ETIQUETA_NIVEL_MAPA[n])}` : 'sin datos en el mapa';
 	}
 </script>
@@ -385,6 +387,10 @@
 			{#if aviso}
 				<div class="info" role="status">
 					<p>{aviso.mensaje}</p>
+					{#if aviso.regional && indicador}
+						<!-- AC-I20: en lugar del coroplético, la comparación entre regiones -->
+						<ComparacionRegional {indicador} periodo={estado.periodo} />
+					{/if}
 					{#if aviso.disponibles.length}
 						<div class="disponibles">
 							{#each aviso.disponibles as alt, i (alt)}
