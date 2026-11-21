@@ -10,7 +10,9 @@ Uso:
   python pipeline/correr.py [--crudo datos/crudo] [--salida datos/salida] [--forzar]
       [--resumen resumen.json] [--argumentos FUENTE_ID="--opcion valor"]... [--web] [--sin-pmtiles]
 
-Sale con código != 0 si algún paso falla. El resumen (stdout y --resumen) dice qué pasó
+Sale con código != 0 si falla una fuente activa o web.py; la falla de una fuente que no está activa (p. ej. «en
+preparación») se informa en el resumen (`errores_no_activas`) y no frena la publicación (decisión del mantenedor, #147).
+El resumen (stdout y --resumen) dice qué pasó
 con cada fuente y si hay algo nuevo para publicar.
 """
 
@@ -77,7 +79,13 @@ def main(argv=None):
     fuentes = a_procesar(cargar_fuentes(args.fuentes))
     resultados = {f["id"]: correr_fuente(f, args.crudo, args.salida, args.forzar, extra.get(f["id"], []))
                   for f in fuentes}
-    errores = [k for k, r in resultados.items() if r.get("resultado") == "error"]
+    con_error = [k for k, r in resultados.items() if r.get("resultado") == "error"]
+    # Decisión del mantenedor (#147, opción B): la falla de una fuente que no está activa (p. ej. «en preparación»,
+    # que se carga pero la app no muestra) no frena la publicación de las activas. Queda en el resumen y en stderr,
+    # y sus valores publicados no cambian (su script falla antes de escribir las tablas compartidas).
+    activas = {f["id"] for f in fuentes if f.get("estado") == "activa"}
+    errores = [k for k in con_error if k in activas]
+    errores_no_activas = [k for k in con_error if k not in activas]
 
     web = False
     if not errores and hay_que_armar_web(resultados, args.web):
@@ -94,6 +102,7 @@ def main(argv=None):
         # Hay algo nuevo para publicar si alguna fuente se procesó y todo salió bien.
         "publicar": not errores and any(r.get("resultado") in PROCESADO for r in resultados.values()),
         "errores": errores,
+        "errores_no_activas": errores_no_activas,
     }
     texto = json.dumps(resumen, ensure_ascii=False)
     print(texto)
@@ -101,6 +110,9 @@ def main(argv=None):
         args.resumen.write_text(texto, encoding="utf-8")
     for e in errores:
         print(f"FALLA: {e} — {resultados.get(e, {}).get('detalle', 'ver stderr')}", file=sys.stderr)
+    for e in errores_no_activas:
+        print(f"ADVERTENCIA: {e} (no activa, no frena la publicación) — {resultados[e].get('detalle', 'ver stderr')}",
+              file=sys.stderr)
     return 1 if errores else 0
 
 
