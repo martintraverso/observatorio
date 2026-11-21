@@ -159,7 +159,10 @@ def test_reprocesar_el_censo_no_pierde_la_ech(entorno):
 
     combinar(salida, cargar_fuentes(RAIZ / "fuentes"))
     assert len(pd.read_parquet(salida / "observaciones.parquet")) == n
-    assert sorted(p.name for p in (salida / "fuentes").iterdir()) == sorted([CENSO, ECH])
+    # cada fuente que tiene capturas en las tablas compartidas (con los datos completos, también los ingresos)
+    con_capturas = set(pd.read_parquet(salida / "capturas.parquet").fuente_id)
+    assert {CENSO, ECH} <= con_capturas
+    assert sorted(p.name for p in (salida / "fuentes").iterdir()) == sorted(con_capturas)
 
 
 def test_las_tablas_tienen_que_encajar(entorno):

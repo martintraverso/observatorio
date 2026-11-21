@@ -70,10 +70,14 @@ def test_cantidad_de_departamentos_del_interior(con, modo):
 
 
 def test_ningun_valor_se_calcula_desde_las_relaciones(con):
-    """AC-I2: las relaciones no generan valores. Las regiones no tienen observaciones de ninguna fuente que
-    no las publique (hoy, ninguna: los ingresos llegan en F3.4)."""
+    """AC-I2: las relaciones no generan valores. Las regiones solo tienen observaciones de fuentes que publican
+    ese nivel (los ingresos de la ECH, F3.4); ninguna otra fuente, ni nada derivado, tiene valores en region."""
+    fuentes = {f for (f,) in con.execute("""select distinct c.fuente_id from observaciones o
+                                             join territorios t on t.id = o.territorio_id
+                                             join capturas c on c.id = o.captura_id where t.nivel = 'region'""").fetchall()}
+    assert fuentes <= {"ine_ech_ingresos_series"}
     assert uno(con, """select count(*) from observaciones o join territorios t on t.id = o.territorio_id
-                       where t.nivel = 'region'""") == 0
+                       where t.nivel = 'region' and o.es_estimado""") == 0
 
 
 # AC-I3

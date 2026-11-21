@@ -82,11 +82,12 @@ def obs_ingresos(salida):
 def test_se_carga_junto_al_censo_con_su_captura(entorno):
     crudo, salida = entorno
     antes = pd.read_parquet(salida / "observaciones.parquet")
+    antes = antes[~antes.captura_id.str.startswith(f"{FUENTE_ID}:")]  # con los datos completos ya hay ingresos
     correr(crudo, salida)
     o = obs_ingresos(salida)
     assert set(o.indicador) == {"ing_hogar_medio_cagu_cvl", "ing_hogar_medio_cagu_svl"}
     assert len(o) == 2 * 53 * 5
-    assert len(pd.read_parquet(salida / "observaciones.parquet")) == len(antes) + len(o)  # el Censo no cambia
+    assert len(pd.read_parquet(salida / "observaciones.parquet")) == len(antes) + len(o)  # las demás no cambian
     cap = pd.read_parquet(salida / "capturas.parquet").set_index("id")
     assert set(cap.loc[o.captura_id.unique()].url) == {p("ECHING07").url, p("ECHING09").url}
     ind = pd.read_parquet(salida / "indicadores.parquet").set_index("codigo")
