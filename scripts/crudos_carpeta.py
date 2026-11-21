@@ -1,8 +1,11 @@
 """Originales de las fuentes con varios archivos (p. ej. datos/crudo/ech_mt/) en el release "crudos".
 
-Un release no tiene carpetas. Por eso cada original se sube como `<carpeta>-<sha12>.html`, y el registro de
-capturas como `<carpeta>-capturas-<NNNN>-<sha12>.json`, donde NNNN es la cantidad de capturas. El registro solo
-crece, así que el de NNNN mayor es el último. Nada se reemplaza: cada versión del registro es un asset nuevo.
+Un release no tiene carpetas. Por eso cada original se sube como `<carpeta>-<sha12><extensión>` (`.html` en
+ech_mt, `.xlsx` en ech_ingresos: la del archivo de la captura), y el registro de
+capturas como `<carpeta>-capturas-<NNNN>-<sha12>.json`, donde NNNN es la versión del registro: crece siempre
+(el máximo entre la versión anterior + 1 y la cantidad de capturas, así en ech_mt, cuyo registro solo crece, sigue
+siendo la cantidad de capturas). El de NNNN mayor es el último. Nada se reemplaza: cada versión es un asset nuevo.
+Un registro que solo cambió en `ultima_corrida` (ech_ingresos la reescribe en cada captura) no se vuelve a subir.
 
   subir: sube los originales y el registro que todavía no están en "crudos".
   bajar: arma <crudo>/<carpeta>/ desde "crudos" con el último registro y verifica el sha256 de cada original.
@@ -40,13 +43,26 @@ def sha256(datos: bytes) -> str:
     return hashlib.sha256(datos).hexdigest()
 
 
-def asset_original(carpeta: str, sha: str) -> str:
-    return f"{carpeta}-{sha[:12]}.html"
+def asset_original(carpeta: str, sha: str, sufijo: str = ".html") -> str:
+    return f"{carpeta}-{sha[:12]}{sufijo}"
 
 
-def asset_registro(carpeta: str, datos: bytes) -> str:
+def sufijo(captura: dict) -> str:
+    """Extensión del original de la captura (`.html`, `.xlsx`)."""
+    return Path(captura["archivo"]).suffix or ".html"
+
+
+def asset_registro(carpeta: str, datos: bytes, anterior: str | None = None) -> str:
+    """Nombre del registro: versión = max(versión anterior + 1, cantidad de capturas)."""
     n = len(json.loads(datos)["capturas"])
+    if anterior is not None:
+        n = max(n, int(anterior.rsplit("-", 2)[1]) + 1)
     return f"{carpeta}-capturas-{n:04d}-{sha256(datos)[:12]}.json"
+
+
+def contenido(datos: bytes) -> dict:
+    """El registro sin `ultima_corrida`: lo que cambia cuando cambian las capturas o cuál es la vigente."""
+    return {k: v for k, v in json.loads(datos).items() if k != "ultima_corrida"}
 
 
 def ultimo_registro(nombres: list[str], carpeta: str) -> str | None:
@@ -69,7 +85,7 @@ def subir(crudo: Path, carpeta: str) -> list[str]:
     subidos = []
     with tempfile.TemporaryDirectory() as tmp:
         for c in capturas:
-            nombre = asset_original(carpeta, c["sha256"])
+            nombre = asset_original(carpeta, c["sha256"], sufijo(c))
             if nombre in ya:
                 continue
             original = crudo / c["archivo"]
@@ -78,7 +94,18 @@ def subir(crudo: Path, carpeta: str) -> list[str]:
             shutil.copy(original, Path(tmp) / nombre)
             gh("release", "upload", RELEASE, str(Path(tmp) / nombre))  # sin --clobber: nunca reemplaza
             subidos.append(nombre)
-        nombre = asset_registro(carpeta, datos)
+        anterior = ultimo_registro(sorted(ya), carpeta)
+        if anterior is not None:
+            previo = bajar_asset(anterior, Path(tmp))
+            if contenido(previo) == contenido(datos):
+                return subidos  # el registro de crudos ya tiene estas capturas y vigentes
+            # Las capturas solo crecen: un registro local sin alguna de las de crudos está desactualizado y subirlo
+            # haría retroceder el release (revisión de #143).
+            faltan = {c["id"] for c in json.loads(previo)["capturas"]} - {c["id"] for c in capturas}
+            if faltan:
+                raise ErrorCrudos(f"El registro local de {carpeta} no tiene {len(faltan)} capturas que ya están en "
+                                  f"{anterior}: está desactualizado. Correr primero `bajar` y volver a capturar.")
+        nombre = asset_registro(carpeta, datos, anterior)
         if nombre not in ya:
             (Path(tmp) / nombre).write_bytes(datos)
             gh("release", "upload", RELEASE, str(Path(tmp) / nombre))
@@ -109,9 +136,10 @@ def bajar(crudo: Path, carpeta: str) -> int:
         destino = crudo / c["archivo"]
         if destino.exists() and sha256(destino.read_bytes()) == c["sha256"]:
             continue
-        contenido = bajar_asset(asset_original(carpeta, c["sha256"]), destino)
+        nombre = asset_original(carpeta, c["sha256"], sufijo(c))
+        contenido = bajar_asset(nombre, destino)
         if sha256(contenido) != c["sha256"]:
-            raise ErrorCrudos(f"{asset_original(carpeta, c['sha256'])} no coincide con el sha256 de la captura {c['id']}")
+            raise ErrorCrudos(f"{nombre} no coincide con el sha256 de la captura {c['id']}")
         destino.parent.mkdir(parents=True, exist_ok=True)
         destino.write_bytes(contenido)
     d.mkdir(parents=True, exist_ok=True)
