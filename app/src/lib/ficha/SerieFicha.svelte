@@ -52,7 +52,9 @@
 	let M = $derived({ izq: Math.max(44, 12 + 7.5 * Math.max(...marcas.map((m) => numero(m, decimalesEje).length))), der: 12, arr: 12, aba: 28 });
 	/** "2021-12/2022-02" -> "dic 21–feb 22" (etiqueta corta del eje x). */
 	const corta = (per: string) =>
-		etiquetaPeriodo(per)
+		/^\d{4}$/.test(per)
+			? per // un año (p. ej. los totales anuales de ingresos) va completo
+			: etiquetaPeriodo(per)
 			.replace('Trimestre móvil ', '')
 			.replace(/(\d{2})(\d{2})/g, '$2');
 	let etiquetasX = $derived(indicesEtiquetas(p.periodos.length, 5).map((i) => p.periodos[i]));

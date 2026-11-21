@@ -24,7 +24,7 @@
 	let o = $state<OpcionesIngreso>({ ...INGRESO_POR_DEFECTO });
 	let codigo = $derived(indicadorIngreso(o));
 	let elegida = $derived(new Map([[codigo, serieIngreso(series, o)]]));
-	let ultimo = $derived(elegida.get(codigo)?.at(-1));
+	let ultimo = $derived(elegida.get(codigo)?.filter((x) => x.valor !== null).at(-1));
 	let unidad = $derived(ficha.indicadores[codigo]?.unidad ?? '');
 	const id = $derived(`ingresos-${ficha.nivel}-${ficha.codigo}`);
 </script>
@@ -42,10 +42,28 @@
 			<label><input type="radio" name="{id}-precios" value="corrientes" bind:group={o.base} /> Corrientes</label>
 			<label><input type="radio" name="{id}-precios" value="ene2005" bind:group={o.base} /> De enero de 2005</label>
 		</div>
-		<div class="grupo">
-			<span class="rotulo">Incluye</span>
-			<label><input type="checkbox" bind:checked={o.aguinaldo} disabled={o.base === 'ene2005'} /> Aguinaldo</label>
-			<label><input type="checkbox" bind:checked={o.valorLocativo} disabled={o.base === 'ene2005'} /> Valor locativo</label>
+		<!-- a precios de enero de 2005 las casillas se ven sin marcar (es la única serie publicada); la preferencia
+		     se conserva para cuando se vuelve a precios corrientes -->
+		<div class="grupo" role="group" aria-labelledby="{id}-incluye">
+			<span id="{id}-incluye" class="rotulo">Incluye</span>
+			<label
+				><input
+					type="checkbox"
+					checked={o.base === 'ene2005' ? false : o.aguinaldo}
+					onchange={(e) => (o.aguinaldo = e.currentTarget.checked)}
+					disabled={o.base === 'ene2005'}
+					aria-describedby={o.base === 'ene2005' ? `${id}-nota` : undefined}
+				/> Aguinaldo</label
+			>
+			<label
+				><input
+					type="checkbox"
+					checked={o.base === 'ene2005' ? false : o.valorLocativo}
+					onchange={(e) => (o.valorLocativo = e.currentTarget.checked)}
+					disabled={o.base === 'ene2005'}
+					aria-describedby={o.base === 'ene2005' ? `${id}-nota` : undefined}
+				/> Valor locativo</label
+			>
 		</div>
 		<div class="grupo" role="radiogroup" aria-labelledby="{id}-frecuencia">
 			<span id="{id}-frecuencia" class="rotulo">Ver</span>
@@ -53,7 +71,7 @@
 			<label><input type="radio" name="{id}-frecuencia" value="anio" bind:group={o.frecuencia} /> Totales anuales</label>
 		</div>
 		{#if o.base === 'ene2005'}
-			<p class="suave nota-opciones">A precios de enero de 2005 el INE publica solo la serie sin aguinaldo y sin valor locativo.</p>
+			<p id="{id}-nota" class="suave nota-opciones">A precios de enero de 2005 el INE publica solo la serie sin aguinaldo y sin valor locativo.</p>
 		{/if}
 	</fieldset>
 

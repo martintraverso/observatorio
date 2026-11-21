@@ -373,10 +373,18 @@ test('AC-I21 y AC-I24: la serie de ingresos con su variante, base de precios, fr
 	await ingresos.getByRole('radio', { name: 'Per cápita' }).check();
 	await ingresos.getByRole('checkbox', { name: 'Aguinaldo' }).check();
 	await expect(ingresos.locator('.nombre-serie')).toContainText('per cápita de los hogares (con aguinaldo, sin valor locativo');
+	await expect(ingresos.locator('.ultimo')).toContainText('30.889'); // ECHING13, Interior, jul–set 2026 (sin aguinaldo: 28.878)
 	// a precios de enero de 2005: aguinaldo y valor locativo quedan fijos (el INE publica solo esa variante)
 	await ingresos.getByRole('radio', { name: 'De enero de 2005' }).check();
 	await expect(ingresos.getByRole('checkbox', { name: 'Aguinaldo' })).toBeDisabled();
+	// lo que se ve coincide con la serie: sin aguinaldo ni valor locativo
+	await expect(ingresos.getByRole('checkbox', { name: 'Aguinaldo' })).not.toBeChecked();
+	await expect(ingresos.getByRole('checkbox', { name: 'Valor locativo' })).not.toBeChecked();
+	await expect(ingresos.locator('.nombre-serie')).toContainText('(sin aguinaldo, sin valor locativo, a precios de enero de 2005)');
 	await expect(notas).toContainText('pesos de enero de 2005 por mes');
+	// al volver a precios corrientes vuelve la preferencia (con aguinaldo)
+	await ingresos.getByRole('radio', { name: 'Corrientes' }).check();
+	await expect(ingresos.getByRole('checkbox', { name: 'Aguinaldo' })).toBeChecked();
 	// totales anuales
 	await ingresos.getByRole('radio', { name: 'Totales anuales' }).check();
 	await expect(ingresos.locator('.ultimo')).toContainText('2025');
