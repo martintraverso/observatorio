@@ -311,3 +311,83 @@ test('AC-V27: cada KPI dice de dónde sale y la ficha de departamento trae la de
 	await expect(page.locator('.kpis')).not.toContainText('Densidad');
 	await expect(page.locator('.notas-kpi')).toContainText('Superficie');
 });
+
+test('AC-I23 y AC-I22: la ficha de región explica qué es; sin ingresos publicados, no hay enlace a una ficha vacía', async ({ page }) => {
+	await page.goto('territorio/region/interior-5000');
+	const desc = page.locator('.descripcion-region');
+	await expect(desc).toContainText('Las localidades de 5.000 o más habitantes de todos los departamentos salvo Montevideo.');
+	await expect(desc.getByRole('link', { name: 'Uruguay' })).toHaveAttribute('href', /territorio\/pais\/UY$/);
+	await expect(desc.getByRole('link', { name: 'Montevideo' })).toHaveAttribute('href', /territorio\/departamento\/01$/);
+	await expect(page.locator('.ubicacion')).toHaveCount(0);
+	expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+	// los ingresos de la app vienen solo de fuentes activas: mientras estén «en preparación», Flores no enlaza al Interior
+	await page.goto('territorio/departamento/07');
+	await expect(page.locator('.en-region')).toHaveCount(0);
+});
+
+test('AC-I22: con ingresos en el Interior, un departamento que no es Montevideo enlaza a la región', async ({ page }) => {
+	// Simula la fuente activa: la ficha de Flores llega con la región y el tema Ingresos. Se navega desde la ficha
+	// del Interior para que la app pida el JSON (la carga directa viene prerenderizada).
+	await page.route('**/datos-web/fichas/departamento/07.json', async (route) => {
+		const r = await route.fetch();
+		const f = await r.json();
+		await route.fulfill({ response: r, json: { ...f, region: { ...f.region, temas: ['Ingresos'] } } });
+	});
+	await page.goto('territorio/region/interior');
+	await page.getByRole('tab', { name: /^Departamento/ }).click();
+	await page.getByRole('link', { name: 'Flores', exact: true }).first().click();
+	await expect(page).toHaveURL(/territorio\/departamento\/07$/);
+	const aviso = page.locator('#trabajo .en-region');
+	await expect(aviso).toHaveText('Ingresos: se publican para el Interior del país → ver Interior del país');
+	await expect(aviso.getByRole('link')).toHaveAttribute('href', /territorio\/region\/interior#trabajo$/);
+	await expect(page.locator('#trabajo')).not.toContainText('Todavía no hay fuentes cargadas');
+});
+
+test('AC-I21 y AC-I24: la serie de ingresos con su variante, base de precios, frecuencia y notas', async ({ page }) => {
+	// La ficha del Interior con los ingresos reales de 2024–2026 (la fuente está «en preparación» y no llega a la
+	// app): se intercepta el JSON y se navega desde el país para que la app lo pida.
+	const conIngresos = JSON.parse(readFileSync('e2e/fixtures/ficha-region-interior-ingresos.json', 'utf-8'));
+	await page.route('**/datos-web/fichas/region/interior.json', (route) => route.fulfill({ json: conIngresos }));
+	await page.goto('territorio/pais/UY');
+	await page.getByRole('tab', { name: /^Región/ }).click();
+	await page.getByRole('link', { name: 'Interior del país', exact: true }).first().click();
+	await expect(page).toHaveURL(/territorio\/region\/interior$/);
+
+	const ingresos = page.locator('#trabajo .ingresos');
+	// por defecto, la variante titular del INE: hogares, sin aguinaldo ni valor locativo, precios corrientes, trimestres
+	await expect(ingresos.getByRole('radio', { name: 'De los hogares' })).toBeChecked();
+	await expect(ingresos.getByRole('checkbox', { name: 'Aguinaldo' })).not.toBeChecked();
+	await expect(ingresos.locator('.nombre-serie')).toHaveText(
+		'Ingreso medio de los hogares (sin aguinaldo, sin valor locativo, a precios corrientes)'
+	);
+	await expect(ingresos.locator('.ultimo')).toContainText('jul–set 2026');
+	await expect(ingresos.locator('.ultimo')).toContainText('83.651');
+	// AC-I24: base de precios y período, fuente, revisión y YDA
+	const notas = ingresos.locator('.notas-ingresos');
+	await expect(notas).toContainText('pesos corrientes por mes · jul–set 2026');
+	await expect(notas).toContainText('Fuente: INE, Encuesta Continua de Hogares');
+	await expect(notas).toContainText('sujetas a revisión');
+	await expect(notas).toContainText('ingreso disponible ajustado (YDA)');
+
+	// per cápita, con aguinaldo: otra serie
+	await ingresos.getByRole('radio', { name: 'Per cápita' }).check();
+	await ingresos.getByRole('checkbox', { name: 'Aguinaldo' }).check();
+	await expect(ingresos.locator('.nombre-serie')).toContainText('per cápita de los hogares (con aguinaldo, sin valor locativo');
+	await expect(ingresos.locator('.ultimo')).toContainText('30.889'); // ECHING13, Interior, jul–set 2026 (sin aguinaldo: 28.878)
+	// a precios de enero de 2005: aguinaldo y valor locativo quedan fijos (el INE publica solo esa variante)
+	await ingresos.getByRole('radio', { name: 'De enero de 2005' }).check();
+	await expect(ingresos.getByRole('checkbox', { name: 'Aguinaldo' })).toBeDisabled();
+	// lo que se ve coincide con la serie: sin aguinaldo ni valor locativo
+	await expect(ingresos.getByRole('checkbox', { name: 'Aguinaldo' })).not.toBeChecked();
+	await expect(ingresos.getByRole('checkbox', { name: 'Valor locativo' })).not.toBeChecked();
+	await expect(ingresos.locator('.nombre-serie')).toContainText('(sin aguinaldo, sin valor locativo, a precios de enero de 2005)');
+	await expect(notas).toContainText('pesos de enero de 2005 por mes');
+	// al volver a precios corrientes vuelve la preferencia (con aguinaldo)
+	await ingresos.getByRole('radio', { name: 'Corrientes' }).check();
+	await expect(ingresos.getByRole('checkbox', { name: 'Aguinaldo' })).toBeChecked();
+	// totales anuales
+	await ingresos.getByRole('radio', { name: 'Totales anuales' }).check();
+	await expect(ingresos.locator('.ultimo')).toContainText('2025');
+	await expect(notas).toContainText('promedio de sus cuatro trimestres');
+	expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+});

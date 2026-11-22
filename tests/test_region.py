@@ -124,3 +124,72 @@ def test_subregiones(web, codigo):
     f = ficha(web, "region", codigo)
     assert f["bbox"] is None and [p["id"] for p in f["padres"]] == [PAIS]
     assert {r["destino_id"] for r in f["relaciones"]} == {INTERIOR}
+
+
+# F3.7a (#148, AC-I22): las fichas fuera de Montevideo saben qué temas tiene el Interior
+
+def _fichas_con_ingresos_en_el_interior(salida):
+    """construir_fichas con un valor de ingresos de ejemplo en el Interior (la fuente real está «en preparación»)."""
+    import pandas as pd
+    from web import construir_fichas
+
+    t = gpd.read_parquet(salida / "territorios.parquet")
+    obs = pd.read_parquet(salida / "observaciones.parquet")
+    ind = pd.read_parquet(salida / "indicadores.parquet")
+    cap = pd.read_parquet(salida / "capturas.parquet")
+    ejemplo = obs.head(1).assign(indicador="ing_prueba", territorio_id=INTERIOR, periodo="2026-T3", valor=1.0)
+    ind = pd.concat([ind, ind.head(1).assign(codigo="ing_prueba", tema="Ingresos")], ignore_index=True)
+    return construir_fichas(t, pd.concat([obs, ejemplo], ignore_index=True), ind, cap,
+                            pd.read_parquet(salida / "fuentes.parquet"), pd.read_parquet(salida / "correspondencias.parquet"))
+
+
+def test_las_fichas_del_interior_llevan_su_region_con_los_temas(salida):
+    fichas = _fichas_con_ingresos_en_el_interior(salida)
+    flores = fichas["INE-2023/departamento/07"]
+    assert flores["region"] == {"id": INTERIOR, "nivel": "region", "codigo": "interior", "nombre": "Interior del país",
+                                "temas": ["Ingresos"]}
+    seg = next(f for i, f in fichas.items() if i.startswith("INE-2023/segmento/07"))
+    assert seg["region"]["id"] == INTERIOR
+    # Montevideo, sus unidades, el país y las regiones no llevan región
+    assert all("region" not in fichas[i] for i in fichas if fichas[i]["depto"] in ("01", ""))
+
+
+def test_sin_datos_en_el_interior_la_region_no_trae_temas(web):
+    """Con la fuente de ingresos «en preparación» la app no tiene sus valores: ningún enlace a una ficha vacía."""
+    import yaml
+
+    from comun.registro import RAIZ
+
+    estado = yaml.safe_load((RAIZ / "fuentes" / "ine_ech_ingresos_series.yml").read_text(encoding="utf-8"))["estado"]
+    if estado == "activa":
+        pytest.skip("la fuente de ingresos está activa: la región trae sus temas")
+    assert ficha(web, "departamento", "07")["region"]["temas"] == []
+
+
+# F3.7d (#151, AC-I25): el CSV de observaciones trae los ingresos con su período y su base de precios
+
+def test_csv_de_observaciones_con_ingresos(salida):
+    """Con los datos reales si ya están (datos completos); si no (fixture), con un valor de ejemplo en el Interior."""
+    import pandas as pd
+    from web import csv_observaciones
+
+    t = gpd.read_parquet(salida / "territorios.parquet")
+    obs = pd.read_parquet(salida / "observaciones.parquet")
+    cap = pd.read_parquet(salida / "capturas.parquet")
+    ind = pd.read_parquet(salida / "indicadores.parquet")
+    codigo = "ing_hogar_medio_sagu_svl"
+    ya = (obs.indicador == codigo) & (obs.territorio_id == INTERIOR) & (obs.periodo == "2026-T3")
+    if not ya.any():
+        ejemplo = obs.head(1).assign(indicador=codigo, territorio_id=INTERIOR, periodo="2026-T3",
+                                     periodo_inicio=pd.Timestamp("2026-07-01").date(),
+                                     periodo_fin=pd.Timestamp("2026-09-30").date(), tipo_periodo="trimestre", valor=83651.0)
+        obs = pd.concat([obs, ejemplo], ignore_index=True)
+    if codigo not in set(ind.codigo):
+        ind = pd.concat([ind, ind.head(1).assign(codigo=codigo, unidad="pesos corrientes por mes", tema="Ingresos")],
+                        ignore_index=True)
+    csv = csv_observaciones(t, obs, ind, cap, pd.read_parquet(salida / "fuentes.parquet"))
+    fila = csv[(csv.indicador == codigo) & (csv.territorio_id == INTERIOR) & (csv.periodo == "2026-T3")]
+    assert len(fila) == 1
+    fila = fila.iloc[0]
+    assert (fila.nivel, fila.tipo_periodo, fila.periodo_inicio, fila.periodo_fin) == ("region", "trimestre", "2026-07-01", "2026-09-30")
+    assert fila.unidad == "pesos corrientes por mes"

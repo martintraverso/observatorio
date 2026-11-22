@@ -39,3 +39,18 @@ describe('AC-F5 y AC-L27: CSV de la ficha', () => {
 		expect(nombreArchivoCsv(FICHA)).toBe('observatorio_departamento_16.csv');
 	});
 });
+
+describe('AC-I25: los ingresos en el CSV de la ficha', () => {
+	it('cada fila trae tipo y fechas del período y la base de precios en la unidad', async () => {
+		const { readFileSync } = await import('node:fs');
+		const f = JSON.parse(readFileSync('e2e/fixtures/ficha-region-interior-ingresos.json', 'utf-8')) as Ficha;
+		const [cabecera, ...filas] = csvDeFicha(f).trim().split('\r\n').map((l) => l.split(','));
+		const col = (n: string) => cabecera.indexOf(n);
+		const t3 = filas.find((r) => r[col('indicador')] === 'ing_hogar_medio_sagu_svl' && r[col('periodo')] === '2026-T3')!;
+		expect([t3[col('tipo_periodo')], t3[col('periodo_inicio')], t3[col('periodo_fin')]]).toEqual(['trimestre', '2026-07-01', '2026-09-30']);
+		expect(t3[col('unidad')]).toBe('pesos corrientes por mes');
+		const anual = filas.find((r) => r[col('indicador')] === 'ing_hogar_medio_sagu_svl_ene2005' && r[col('tipo_periodo')] === 'anio')!;
+		expect(anual[col('unidad')]).toBe('pesos de enero de 2005 por mes');
+		expect([anual[col('periodo_inicio')].slice(5), anual[col('periodo_fin')].slice(5)]).toEqual(['01-01', '12-31']);
+	});
+});

@@ -471,3 +471,24 @@ test('AC-V13: en celular el mapa empieza en la primera pantalla; los controles s
 	await expect(page.locator('#controles-mapa')).toBeHidden();
 	await expect(barra).toBeFocused();
 });
+
+// AC-I20 (F3.7c): solo con datos publicados por región (la vista previa con ingresos o la fuente activa); en el CI
+// del fixture no hay, y la prueba se saltea.
+test('AC-I20: lo que se publica por región muestra el aviso y la comparación, no el coroplético', async ({ page }) => {
+	const indicadores = JSON.parse(readFileSync('build/datos-web/indicadores.json', 'utf-8')) as { codigo: string; niveles: string[] }[];
+	const regional = indicadores.find((i) => i.codigo === 'ing_hogar_medio_sagu_svl' && i.niveles.includes('region'));
+	test.skip(!regional, 'no hay indicadores publicados por región en estos datos');
+	await page.goto('?indicador=ing_hogar_medio_sagu_svl&nivel=departamento&periodo=2026-T3');
+	await expect(page.getByText('Los ingresos se publican por región: País · Montevideo · Interior.')).toBeVisible();
+	const filas = page.locator('.comparacion li');
+	await expect(filas).toHaveCount(5);
+	await expect(filas.nth(0)).toContainText('Total país');
+	await expect(filas.nth(0)).toContainText('98.653');
+	await expect(filas.nth(1)).toContainText('120.938');
+	await expect(filas.nth(2)).toContainText('83.651');
+	await expect(page.locator('.comparacion figcaption')).toContainText('jul–set 2026');
+	await expect(page.locator('section.leyenda')).toHaveCount(0); // sin coroplético
+	// en escritorio cada indicador dice dónde se publica (en celular se elige con un desplegable)
+	if ((page.viewportSize()?.width ?? 0) > 900) await expect(page.getByText('INE · por región').first()).toBeVisible();
+	expect((await new AxeBuilder({ page }).include('.avisos').analyze()).violations).toEqual([]);
+});

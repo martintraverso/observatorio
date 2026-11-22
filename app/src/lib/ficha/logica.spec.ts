@@ -4,6 +4,10 @@ import {
 	cita,
 	consultaMapa,
 	datosEnPadre,
+	datosEnRegion,
+	indicadorIngreso,
+	INGRESO_POR_DEFECTO,
+	serieIngreso,
 	decimalesComunes,
 	densidad,
 	fuentesDeFicha,
@@ -179,6 +183,47 @@ describe('fuentesDeFicha (AC-V18)', () => {
 
 	it('sin capturas, sin entradas', () => {
 		expect(fuentesDeFicha({ capturas: {}, fuentes: {} })).toEqual([]);
+	});
+});
+
+describe('series de ingresos (AC-I21)', () => {
+	it('por defecto, la variante titular del INE', () => {
+		expect(indicadorIngreso(INGRESO_POR_DEFECTO)).toBe('ing_hogar_medio_sagu_svl');
+	});
+	it('cada combinación da su indicador; a precios de enero de 2005 solo sin aguinaldo ni valor locativo', () => {
+		expect(indicadorIngreso({ ...INGRESO_POR_DEFECTO, medida: 'pc', aguinaldo: true, valorLocativo: true })).toBe('ing_pc_medio_cagu_cvl');
+		expect(indicadorIngreso({ ...INGRESO_POR_DEFECTO, base: 'ene2005', aguinaldo: true })).toBe('ing_hogar_medio_sagu_svl_ene2005');
+	});
+	it('trimestres o totales anuales', () => {
+		const o = (periodo: string, tipo: 'trimestre' | 'anio') => ({ ...obs('ing_hogar_medio_sagu_svl', 1), periodo, tipo_periodo: tipo });
+		const series = new Map([['ing_hogar_medio_sagu_svl', [o('2025-T4', 'trimestre'), o('2025', 'anio')]]]) as never;
+		expect(serieIngreso(series, INGRESO_POR_DEFECTO).map((x) => x.periodo)).toEqual(['2025-T4']);
+		expect(serieIngreso(series, { ...INGRESO_POR_DEFECTO, frecuencia: 'anio' }).map((x) => x.periodo)).toEqual(['2025']);
+	});
+});
+
+describe('datosEnRegion (AC-I22)', () => {
+	const indicadores = {
+		tasa_actividad: { codigo: 'tasa_actividad', nombre: 'Tasa de actividad', tema: 'Trabajo', unidad: '%' }
+	} as never;
+	const region = { id: 'INE-2023/region/interior', nivel: 'region' as const, codigo: 'interior', nombre: 'Interior del país', temas: ['Ingresos'] };
+	const depto = { padres: [], indicadores, region, observaciones: [{ ...obs('tasa_actividad', 60) }] };
+
+	it('un departamento del Interior con trabajo propio: los ingresos están en la región', () => {
+		const r = datosEnRegion(depto as never, ['Trabajo', 'Ingresos']);
+		expect(r?.region.nombre).toBe('Interior del país');
+		expect(r?.temas).toEqual(['Ingresos']);
+	});
+
+	it('sin región, o sin datos del tema en la región, nada', () => {
+		expect(datosEnRegion({ ...depto, region: undefined } as never, ['Ingresos'])).toBeNull();
+		expect(datosEnRegion({ ...depto, region: { ...region, temas: [] } } as never, ['Ingresos'])).toBeNull();
+	});
+
+	it('si un nivel que la contiene ya tiene el tema, no se repite', () => {
+		const padres = [{ id: 'INE-2023/departamento/01', nivel: 'departamento', codigo: '01', nombre: 'Montevideo', valores: { ing_x: { '2026-T3': 1 } } }];
+		const ind = { ...(indicadores as object), ing_x: { codigo: 'ing_x', nombre: 'Ingreso', tema: 'Ingresos', unidad: 'pesos' } };
+		expect(datosEnRegion({ ...depto, padres, indicadores: ind } as never, ['Ingresos'])).toBeNull();
 	});
 });
 

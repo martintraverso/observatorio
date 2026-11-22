@@ -370,6 +370,15 @@ def construir_fichas(territorios, obs, indicadores, capturas, fuentes, correspon
                      **({"resumen_advertencias": resumenes[r["id"]]} if r["id"] in resumenes else {})}
            for r in registros(fuentes)}
 
+    # F3.7a (#148, AC-I22): fuera de Montevideo, la región del Interior y los temas con datos en ella (solo los temas:
+    # los valores están en la ficha de la región). Sirve para «Ingresos: se publican para el Interior del país».
+    interior = "INE-2023/region/interior"
+    region = None
+    if interior in t.index:
+        temas = sorted({ind[o["indicador"]]["tema"] for o in obs_por_t.get(interior, []) if o["indicador"] in ind})
+        region = {"id": interior, "nivel": "region", "codigo": t.at[interior, "codigo"], "nombre": t.at[interior, "nombre"],
+                  "temas": temas}
+
     fichas = {}
     for i, fila in t.iterrows():
         observaciones = obs_por_t.get(i, [])
@@ -392,6 +401,8 @@ def construir_fichas(territorios, obs, indicadores, capturas, fuentes, correspon
             "capturas": {k: cap[k] for k in sorted(caps)},
             "fuentes": {f: fue[f] for f in sorted({cap[k]["fuente_id"] for k in caps})},
         }
+        if region and fila.depto not in ("01", "") and fila.nivel not in ("pais", "region"):
+            fichas[i]["region"] = region
     return fichas
 
 

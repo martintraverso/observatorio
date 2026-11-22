@@ -5,6 +5,7 @@
 	import TablaDesplazable from '#lib/TablaDesplazable.svelte';
 	import MiniMapa from '#lib/mapa/MiniMapa.svelte';
 	import LocalizadorCerca from '#lib/mapa/LocalizadorCerca.svelte';
+	import SerieIngresos from '#lib/ficha/SerieIngresos.svelte';
 	import { descargarCsv } from '#lib/csv.ts';
 	import { hrefFicha, NOMBRE_NIVEL, NIVELES, partesId, type Nivel, type Observacion, type Relacion } from '#lib/datos.ts';
 	import { fecha, numero, publicado } from '#lib/formato.ts';
@@ -13,6 +14,8 @@
 		cita,
 		consultaMapa,
 		datosEnPadre,
+		datosEnRegion,
+		DESCRIPCION_REGION,
 		densidad,
 		fuentesDeFicha,
 		notaNoAditiva,
@@ -106,6 +109,14 @@
 			{#if f.nivel !== 'region'}<span class="chip">Código INE {f.codigo}</span>{/if}
 			{#if f.codigo_iso}<span class="chip">ISO {f.codigo_iso}</span>{/if}
 		</p>
+		{#if f.nivel === 'region'}
+			<!-- AC-I23: qué es la región y a dónde mirar el resto del país -->
+			<p class="relacion descripcion-region">
+				{DESCRIPCION_REGION[f.codigo] ?? ''} El INE publica para esta región las series de ingresos de la Encuesta Continua de Hogares.
+				Ver también <a href={hrefFicha({ nivel: 'pais', codigo: 'UY' })}>Uruguay</a> y
+				<a href={hrefFicha({ nivel: 'departamento', codigo: '01' })}>Montevideo</a>.
+			</p>
+		{/if}
 		{#each f.relaciones as r (r.destino_id)}
 			<p class="relacion">
 				{PERTENECE[r.nivel] ?? 'Pertenece a:'}
@@ -178,7 +189,11 @@
 
 {#each SECCIONES_FICHA as s (s.id)}
 	{@const lista = observacionesDeSeccion(f, s.temas)}
-	{@const { puntuales, series } = separarSeries(lista)}
+	{@const { puntuales, series: todas } = separarSeries(lista)}
+	<!-- F3.7b: los ingresos tienen su propio selector (variante, base de precios, frecuencia) -->
+	{@const ingresos = new Map([...todas].filter(([c]) => c.startsWith('ing_')))}
+	{@const series = new Map([...todas].filter(([c]) => !c.startsWith('ing_')))}
+	{@const enRegion = datosEnRegion(f, s.temas)}
 	<section id={s.id} class="tarjeta seccion" aria-labelledby="titulo-{s.id}">
 		<h2 id="titulo-{s.id}">{s.titulo}</h2>
 		{#if lista.length === 0}
@@ -189,12 +204,22 @@
 					{arriba.temas.join(' e ')}: se publica por {NOMBRE_NIVEL[arriba.padre.nivel].toLowerCase()} →
 					<a href="{hrefFicha(arriba.padre)}#{s.id}">ver {arriba.padre.nombre}</a>
 				</p>
-			{:else}
+			{:else if !enRegion}
 				<p class="info vacio">{SIN_FUENTES}</p>
 			{/if}
 		{/if}
+		{#if enRegion}
+			<!-- AC-I22: el tema se publica para la región del Interior, que no contiene a la ficha por geometría -->
+			<p class="info vacio en-region">
+				{enRegion.temas.join(' e ')}: se publican para el {enRegion.region.nombre} →
+				<a href="{hrefFicha(enRegion.region)}#{s.id}">ver {enRegion.region.nombre}</a>
+			</p>
+		{/if}
 		{#if series.size}
 			<SerieFicha ficha={f} {series} pais={data.pais} fuenteDe={fuenteDe} titulo={s.titulo} />
+		{/if}
+		{#if ingresos.size}
+			<SerieIngresos ficha={f} series={ingresos} pais={data.pais} fuenteDe={fuenteDe} titulo="Ingresos" />
 		{/if}
 		{#if puntuales.length}
 			<TablaDesplazable etiqueta="{s.titulo} en {f.nombre}" clase="tabla-apilada">

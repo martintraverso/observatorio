@@ -36,7 +36,6 @@
 	// Geometría del gráfico (viewBox; el SVG escala al ancho disponible).
 	const W = 640;
 	const H = 240;
-	const M = { izq: 44, der: 12, arr: 12, aba: 28 };
 	let x = $derived.by(() => {
 		const n = Math.max(1, p.periodos.length - 1);
 		const pos = new Map(p.periodos.map((per, i) => [per, M.izq + (i * (W - M.izq - M.der)) / n]));
@@ -49,9 +48,13 @@
 	});
 	let rango = $derived({ min: marcas[0], max: marcas.at(-1)! });
 	let decimalesEje = $derived(decimalesComunes(marcas));
+	// El margen izquierdo crece con el largo de las marcas del eje y (p. ej. «120.000» en los ingresos).
+	let M = $derived({ izq: Math.max(44, 12 + 7.5 * Math.max(...marcas.map((m) => numero(m, decimalesEje).length))), der: 12, arr: 12, aba: 28 });
 	/** "2021-12/2022-02" -> "dic 21–feb 22" (etiqueta corta del eje x). */
 	const corta = (per: string) =>
-		etiquetaPeriodo(per)
+		/^\d{4}$/.test(per)
+			? per // un año (p. ej. los totales anuales de ingresos) va completo
+			: etiquetaPeriodo(per)
 			.replace('Trimestre móvil ', '')
 			.replace(/(\d{2})(\d{2})/g, '$2');
 	let etiquetasX = $derived(indicesEtiquetas(p.periodos.length, 5).map((i) => p.periodos[i]));
@@ -79,12 +82,16 @@
 </script>
 
 <div class="serie">
-	<div class="campo">
-		<label for={idSelector}>Indicador</label>
-		<select id={idSelector} value={indicador} onchange={(e) => (elegido = e.currentTarget.value)}>
-			{#each codigos as c (c)}<option value={c}>{ficha.indicadores[c]?.nombre ?? c}</option>{/each}
-		</select>
-	</div>
+	{#if codigos.length > 1}
+		<div class="campo">
+			<label for={idSelector}>Indicador</label>
+			<select id={idSelector} value={indicador} onchange={(e) => (elegido = e.currentTarget.value)}>
+				{#each codigos as c (c)}<option value={c}>{ficha.indicadores[c]?.nombre ?? c}</option>{/each}
+			</select>
+		</div>
+	{:else if info}
+		<p class="nombre-serie">{info.nombre}</p>
+	{/if}
 
 	<figure>
 		<svg viewBox="0 0 {W} {H}" role="img" aria-label={resumen} data-puntos={p.territorio.length} data-puntos-pais={p.pais.length}>
@@ -266,6 +273,11 @@
 		min-height: var(--toque-min);
 		display: flex;
 		align-items: center;
+	}
+
+	.nombre-serie {
+		margin: 0;
+		font-weight: 600;
 	}
 
 	.campo {
