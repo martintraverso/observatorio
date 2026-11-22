@@ -121,7 +121,7 @@ def test_valores_de_referencia_ac_i11():
 def test_registro_ac_i18(registro):
     assert validar_fuente(registro, "ine_ech_ingresos_series.yml") == []
     assert "ine_ech_ingresos_series" in cargar_fuentes(RAIZ / "fuentes")
-    assert registro["estado"] == "en preparación"
+    assert registro["estado"] in ("en preparación", "activa")  # activa desde el 2026-11-21
     assert registro["pagina"].startswith(DOMINIOS_OFICIALES)
     for a in registro["archivos"]:
         assert {"codigo", "titulo", "url", "indicador"} <= set(a), a
