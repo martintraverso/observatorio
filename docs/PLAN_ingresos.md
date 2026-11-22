@@ -53,5 +53,21 @@ Map notice + regional comparison (AC-I20); series in país, Montevideo and regio
 ### F3.8 — Optional: more tables
 Mean income of recipients by income source (ECHINGRESOS_4, _6–_9) and of the employed (total país); medians when INE fixes the link. Only if the maintainer asks.
 
-### F3.9 — Later, needs a decision: income by department
-No official current department figures exist. Options to bring to the maintainer: compute from ECH annual microdata with survey weights and margins of error, labelled "calculado por el observatorio"; or use MIDES' series only if MIDES confirms its unit and method. Do not implement without approval.
+### F3.9 — Income by department, computed from ECH microdata (PROPOSAL, pending approval)
+**Decided by the maintainer on 2026-11-21:** compute department income from the ECH **annual** microdata, with survey weights and margins of error, labelled "calculado por el observatorio". Criteria AC-I26…AC-I33 and the data rule in `docs/SYSTEM.md` §4 (rule 7) are a proposal until the maintainer approves them.
+
+Findings of the spike (2026-11-21, INE microdata catalogue, edition 2025, `https://www4.ine.gub.uy/anda/index.php/catalog/779`):
+- **Design supports it.** The annual sample has the 19 departments as estimation domains ("Cobertura geográfica: Anualmente … 4. Departamentos").
+- **Variables.** Annual base (implantation file) with `dpto`, annual weight `W_ANO`, household income `YDA` / `YDA_SVL` (the concept INE uses since 2025), `HT13` (valor locativo), household and person ids (`ID`, `nper`). The headline variant (sin aguinaldo, sin valor locativo) has to be reproduced from these; to confirm against INE's own figures (AC-I28).
+- **No design variables in the public base.** No stratum or primary sampling unit (UPM) appear in the DDI metadata, so design-based variances (Taylor linearisation) cannot be computed exactly. Margins of error have to be approximated (open question 2).
+- **Terms of use.** The microdata "no serán redistribuidos … sin el consentimiento escrito del INE", are for aggregated information only, and "una copia electrónica de todos los informes y publicaciones … serán enviados al productor". They cannot go to the public release `crudos` (open question 1).
+- **Access.** Downloading requires logging in to the catalogue (open question 3).
+- **Years.** Annual editions 2016–2025 exist; the income concept changed in 2025 (YDA) and the 2016– series were recomputed by INE only in its published tables, not necessarily in older microdata (to check; AC-I30).
+
+Decisions of the maintainer (2026-11-21):
+1. **Storage:** the microdata are not kept in the repository or in releases; each run downloads them and keeps only URL, sha256 and download date.
+2. **Margin of error:** an **approximation**, stated as such: simple-random-sample variance with the annual weights, inflated by a design effect that is written down with its source (e.g. derived from INE's published coefficients of variation). If INE later provides the design variables or replicate weights, the method is replaced.
+3. **Download:** manual capture by the maintainer once a year (the catalogue requires a login).
+4. **Copy to INE:** the maintainer sends it once the department figures are published.
+
+Stories once approved: F3.9a spike with one year (reproduce INE's published Montevideo/Interior figures from microdata, AC-I28); F3.9b computation and storage (AC-I26, I27, I29–I31); F3.9c app (AC-I32, I33).

@@ -44,6 +44,7 @@ Source: INE, *Unidades geoestadísticas Censo 2023* (zip of GeoPackages, EPSG:43
 4. If an indicator does not exist at the level the user selected, the app **says so** and offers the nearest level that has it. It never fabricates or silently substitutes.
 5. Raw files are immutable. If the checksum did not change, the source is not reprocessed.
 6. The "LIMITE CONTESTADO" polygon has no observations of its own (INE repeats Artigas' counts on it).
+7. **(PROPOSAL, F3.9 — pending the maintainer's approval)** Values the source does not publish may be **computed by the observatory from the source's microdata** only when the maintainer approves the indicator, and only with: `es_calculado = true`, a stated method, a margin of error and the sample size, indicators distinct from the published ones, a check that reproduces a published figure, and the label "calculado por el observatorio" wherever they are shown. Microdata whose terms forbid redistribution are never stored in public places.
 ## 5. Data model (implemented in phase 0)
  
 ```
