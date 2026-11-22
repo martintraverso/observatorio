@@ -122,11 +122,13 @@ test('AC-L25: la ficha de un departamento muestra la serie desde 2022 frente al 
 });
 
 test('AC-L25: municipios con serie y comparación; la ficha del país, sin línea de comparación', async ({ page }) => {
+	// la primera serie de «Trabajo e ingresos» es la de trabajo (después pueden venir los ingresos, F3.7b)
+	const trabajo = (p: Page) => p.locator('#trabajo .serie').first().getByRole('img');
 	await page.goto('territorio/municipio_mvd/CH');
-	await expect(page.locator('#trabajo').getByRole('img')).toHaveAttribute('data-puntos', String(nPeriodos('municipio_mvd', 'CH', 'tasa_actividad')));
-	await expect(page.locator('#trabajo').getByRole('img')).toHaveAttribute('data-puntos-pais', /^[1-9]\d*$/);
+	await expect(trabajo(page)).toHaveAttribute('data-puntos', String(nPeriodos('municipio_mvd', 'CH', 'tasa_actividad')));
+	await expect(trabajo(page)).toHaveAttribute('data-puntos-pais', /^[1-9]\d*$/);
 	await page.goto('territorio/pais/UY');
-	await expect(page.locator('#trabajo').getByRole('img')).toHaveAttribute('data-puntos-pais', '0');
+	await expect(trabajo(page)).toHaveAttribute('data-puntos-pais', '0');
 	await expect(page.locator('#trabajo')).not.toContainText('Total del país (INE');
 });
 

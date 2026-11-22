@@ -80,3 +80,9 @@ describe('nivelesDetallados (AC-V28)', () => {
 		expect(nivelesDetallados(fu(['departamento', 'municipio_mvd', 'ccz_mvd']))).toBe('Departamento · CCZ (solo Montevideo)');
 	});
 });
+
+describe('nivelesDetallados con regiones (F3)', () => {
+	it('los ingresos: por región y, del nivel departamento, solo Montevideo', () => {
+		expect(nivelesDetallados({ niveles_publicados: ['pais', 'region', 'departamento'] } as never)).toBe('Región · Departamento (solo Montevideo)');
+	});
+});

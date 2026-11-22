@@ -100,6 +100,8 @@ const SOLO_MONTEVIDEO = ['municipio_mvd', 'ccz_mvd', 'barrio_mvd'];
  */
 export function nivelesDetallados(f: Pick<Fuente, 'niveles_publicados'>): string {
 	const niveles = f.niveles_publicados as string[];
+	// F3 (ingresos de la ECH): se publica por región; del nivel departamento, solo Montevideo
+	if (niveles.includes('region')) return ['Región', ...(niveles.includes('departamento') ? ['Departamento (solo Montevideo)'] : [])].join(' · ');
 	const finura = (n: string) => FINURA[n] ?? 0;
 	const nacionales = niveles.filter((n) => !SOLO_MONTEVIDEO.includes(n));
 	const nacional = nacionales.reduce<string | null>((a, n) => (a === null || finura(n) > finura(a) ? n : a), null);

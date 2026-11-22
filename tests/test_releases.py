@@ -104,7 +104,9 @@ def test_una_fuente_no_activa_con_error_no_frena_la_publicacion_de_las_activas(c
     fuentes = tmp_path / "fuentes_dos"
     fuentes.mkdir()
     shutil.copy(RAIZ / "fuentes" / f"{FUENTE}.yml", fuentes)
-    shutil.copy(RAIZ / "fuentes" / "ine_ech_ingresos_series.yml", fuentes)
+    ingresos = yaml.safe_load((RAIZ / "fuentes" / "ine_ech_ingresos_series.yml").read_text(encoding="utf-8"))
+    ingresos.update(estado="en preparación", cargar=True)  # el caso de la decisión: una fuente que no está activa
+    (fuentes / "ine_ech_ingresos_series.yml").write_text(yaml.safe_dump(ingresos, allow_unicode=True), encoding="utf-8")
     (crudo / "ech_ingresos").mkdir()
     (crudo / "ech_ingresos" / "capturas.json").write_text('{"capturas": []}', encoding="utf-8")  # la carga falla
     r = correr("pipeline/correr.py", "--crudo", crudo, "--salida", tmp_path / "salida", "--argumentos", ARG_FIXTURE,
@@ -393,7 +395,7 @@ def test_las_fuentes_a_procesar_son_las_activas_y_las_que_se_cargan_con_la_geogr
 
     fuentes = cargar_fuentes(RAIZ / "fuentes")
     assert fuentes[ECH]["estado"] == "activa" and fuentes[ECH]["carpeta_original"] == "ech_mt"
-    # el Censo (territorios) antes que las demás; los ingresos se cargan aunque estén «en preparación» (F3.4c)
+    # el Censo (territorios) antes que las demás
     assert [f["id"] for f in a_procesar(fuentes)] == [FUENTE, "ine_ech_ingresos_series", ECH]
 
 

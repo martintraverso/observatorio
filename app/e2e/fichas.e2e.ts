@@ -320,9 +320,10 @@ test('AC-I23 y AC-I22: la ficha de región explica qué es; sin ingresos publica
 	await expect(desc.getByRole('link', { name: 'Montevideo' })).toHaveAttribute('href', /territorio\/departamento\/01$/);
 	await expect(page.locator('.ubicacion')).toHaveCount(0);
 	expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
-	// los ingresos de la app vienen solo de fuentes activas: mientras estén «en preparación», Flores no enlaza al Interior
+	// AC-I22: Flores enlaza al Interior solo si el Interior tiene ingresos en estos datos (con el fixture, no)
+	const flores = JSON.parse(readFileSync('build/datos-web/fichas/departamento/07.json', 'utf-8'));
 	await page.goto('territorio/departamento/07');
-	await expect(page.locator('.en-region')).toHaveCount(0);
+	await expect(page.locator('.en-region')).toHaveCount(flores.region?.temas.includes('Ingresos') ? 1 : 0);
 });
 
 test('AC-I22: con ingresos en el Interior, un departamento que no es Montevideo enlaza a la región', async ({ page }) => {

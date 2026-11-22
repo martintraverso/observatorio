@@ -20,10 +20,10 @@ licencia: "No publicada por el INE. Se cita la fuente según cada cuadro."
 cita: "Fuente: Instituto Nacional de Estadística (INE). (pie de cada planilla)"
 contacto: "Depto. de Difusión y Comunicación del INE: difusion@ine.gub.uy, (598) 2902 7303 int. 7723 y 7725 (pie de los informes trimestrales)."
 frecuencia: trimestral desde 2016 (cada planilla se actualiza con un trimestre más; los totales anuales, al cerrar el año)
-# en preparación: se carga (cargar: true, F3.4c #139) pero la app no la muestra hasta que el mantenedor la active.
+# activa desde el 2026-11-21 (decisión del mantenedor, después de F3.5 y F3.7). Antes, «en preparación» con cargar: true.
 # Los originales están en el release crudos (scripts/crudos_carpeta.py --carpeta ech_ingresos); sin ellos,
 # scripts/conseguir_originales.py falla en el workflow.
-estado: en preparación     # activa | en preparación | a relevar
+estado: activa     # activa | en preparación | a relevar
 cargar: true
 carpeta_original: ech_ingresos
 script: pipeline/ech_ingresos_cargar.py

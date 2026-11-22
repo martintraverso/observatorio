@@ -156,7 +156,8 @@ test('AC-V4: a 1440×900 la leyenda se ve entera sin hacer scroll', async ({ pag
 
 test('AC-V17: la fuente y el período de la leyenda no repiten un año', async ({ page }) => {
 	// Cada indicador por departamento, entrando por URL y esperando su propia leyenda.
-	for (const i of indicadores.filter((x) => x.niveles.includes('departamento')) as unknown as { codigo: string; nombre: string }[]) {
+	// los que se publican por región (ingresos) no tienen leyenda: se muestran como comparación (AC-I20)
+	for (const i of indicadores.filter((x) => x.niveles.includes('departamento') && !x.niveles.includes('region')) as unknown as { codigo: string; nombre: string }[]) {
 		await page.goto(`?indicador=${i.codigo}&nivel=departamento`);
 		const leyenda = page.getByRole('region', { name: 'Leyenda' }).locator('visible=true');
 		await expect(leyenda.getByRole('heading')).toContainText(i.nombre);
