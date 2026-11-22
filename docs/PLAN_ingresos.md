@@ -64,10 +64,10 @@ Findings of the spike (2026-11-21, INE microdata catalogue, edition 2025, `https
 - **Access.** Downloading requires logging in to the catalogue (open question 3).
 - **Years.** Annual editions 2016–2025 exist; the income concept changed in 2025 (YDA) and the 2016– series were recomputed by INE only in its published tables, not necessarily in older microdata (to check; AC-I30).
 
-Open questions for the maintainer:
-1. **Storage of the microdata.** (a) Keep them out of the repo and releases: download for each run and store only URL, sha256 and date (recommended); (b) a private store; (c) ask INE for written consent to redistribute.
-2. **Margin of error without strata/UPM.** (a) Ask INE for the design variables or replicate weights (recommended, in parallel); (b) meanwhile, a simple-random-sample variance inflated by a stated design effect (e.g. from INE's published coefficients of variation), labelled as approximate; (c) publish without margins until (a).
-3. **Download with login.** (a) Manual capture by the maintainer each year (once a year, recommended); (b) credentials as an Actions secret.
-4. **Copy to INE.** Who sends INE the electronic copy the terms require, and when (e.g. a note once the department figures are published).
+Decisions of the maintainer (2026-11-21):
+1. **Storage:** the microdata are not kept in the repository or in releases; each run downloads them and keeps only URL, sha256 and download date.
+2. **Margin of error:** an **approximation**, stated as such: simple-random-sample variance with the annual weights, inflated by a design effect that is written down with its source (e.g. derived from INE's published coefficients of variation). If INE later provides the design variables or replicate weights, the method is replaced.
+3. **Download:** manual capture by the maintainer once a year (the catalogue requires a login).
+4. **Copy to INE:** the maintainer sends it once the department figures are published.
 
 Stories once approved: F3.9a spike with one year (reproduce INE's published Montevideo/Interior figures from microdata, AC-I28); F3.9b computation and storage (AC-I26, I27, I29–I31); F3.9c app (AC-I32, I33).
