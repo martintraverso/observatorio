@@ -33,6 +33,16 @@ Source: INE, *Series históricas ECH Ingresos de las Personas y los Hogares* (xl
 - **AC-I18** [manual] `fuentes/ine_ech_ingresos_series.yml` documents: page, every file with code, title, URL and indicator mapping; periodicity; price bases; the regions; footnotes; the 2025 change to *ingreso disponible ajustado* (YDA) and whether the 2016– series are comparable across it (determined in F3.1 from INE material, not assumed); license and citation as published by INE. Maintainer decisions go in `notas_internas` (never rendered, AC-V19).
 - **AC-I19** [auto] The weekly data workflow captures new versions of the income files automatically.
 
+**Department income computed from microdata (F3.9 — PROPOSAL, pending the maintainer's approval)**
+- **AC-I26** [auto] Department values are computed only from INE's annual ECH microdata (official catalogue), with the annual weight, for the 19 departments; they are stored as their own indicators (e.g. `ing_hogar_medio_sagu_svl_calc`), never mixed with INE's published indicators.
+- **AC-I27** [auto] Every computed value is flagged `es_calculado = true`, names its method, and carries its margin of error (95 %, approximate: simple-random-sample variance with the annual weights times a stated design effect, decision of 2026-11-21) and the unweighted number of households behind it.
+- **AC-I28** [auto] Check against INE: with the same microdata and method, the computed total país and Montevideo for that year are within ±1 % of INE's published annual values (ECHING10/14); otherwise the year is not loaded.
+- **AC-I29** [auto] A department value whose coefficient of variation exceeds a stated threshold (e.g. 15 %) is not published, or is shown only with a "baja precisión" warning (threshold decided by the maintainer).
+- **AC-I30** [auto] Only years whose microdata use the same income concept as the published series (YDA) are computed; earlier years are not mixed in.
+- **AC-I31** [auto] The microdata are never stored in the repository or in public releases (INE terms); each capture keeps URL, sha256 and download date. They are captured by hand once a year (the catalogue requires a login).
+- **AC-I32** [manual] Map and fichas show department income with the label "calculado por el observatorio a partir de los microdatos de la ECH (INE)", the margin of error, and a link to the method; INE's published regional figures stay the reference for País, Montevideo and the Interior.
+- **AC-I33** [auto] CSV rows of computed values include `es_calculado`, the method and the margin of error.
+
 **App (applies once the region level exists)**
 - **AC-I20** [manual] Topic "Ingresos" on the map: since there is no department data, the map shows the AC-M2/AC-V9 notice ("Los ingresos se publican por región: País · Montevideo · Interior") and, instead of a choropleth, a small comparison chart of País, Montevideo and the Interior regions for the selected indicator and period.
 - **AC-I21** [manual] País, Montevideo and region fichas show the quarterly series since 2016 (line chart; yearly totals as a separate toggle), a selector for the variant (aguinaldo / valor locativo) and the price base (corrientes / enero 2005). The default variant is the one INE uses for its headline (decided in F3.1).
