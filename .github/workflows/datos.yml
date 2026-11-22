@@ -59,6 +59,20 @@ jobs:
       - name: Conseguir originales
         run: python scripts/conseguir_originales.py --crudo datos/crudo
 
+      # F3.6 (#130, AC-I19): las planillas de ingresos del INE se capturan en cada corrida. Una planilla que da
+      # error queda en el registro y no frena nada; una que cambió es una captura nueva, que «Procesar» carga.
+      # Si el INE no responde, la corrida sigue con lo que ya está en crudos (el registro se escribe después de cada
+      # planilla y «Procesar» verifica los sha256).
+      - name: Capturar ingresos (INE)
+        timeout-minutes: 15
+        continue-on-error: true
+        run: python pipeline/ech_ingresos_captura.py --crudo datos/crudo | tee -a "$GITHUB_STEP_SUMMARY"
+
+      # Lo nuevo va a «crudos» antes de procesar: los originales quedan guardados aunque después algo falle.
+      # Sin capturas nuevas no sube nada (el registro solo cambió en ultima_corrida).
+      - name: Subir originales nuevos de ingresos a crudos
+        run: python scripts/crudos_carpeta.py subir --crudo datos/crudo --carpeta ech_ingresos
+
       - name: Procesar
         run: |
           python pipeline/correr.py --crudo datos/crudo --salida datos/salida \

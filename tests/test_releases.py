@@ -408,3 +408,46 @@ def test_una_fuente_con_carpeta_sin_originales_se_omite_y_una_activa_de_un_archi
     (crudo / ORIGINAL).unlink()  # una fuente activa sin original sí es un error
     r = correr("pipeline/correr.py", "--crudo", crudo, "--salida", tmp_path / "salida2", "--sin-pmtiles")
     assert r.returncode != 0 and json.loads(r.stdout.strip().splitlines()[-1])["fuentes"][FUENTE]["resultado"] == "error"
+
+
+# F3.6 (#130, AC-I19): la corrida semanal captura las planillas de ingresos y sube lo nuevo a crudos
+
+def test_el_workflow_de_datos_captura_y_sube_los_ingresos():
+    pasos = yaml.safe_load((RAIZ / ".github" / "workflows" / "datos.yml").read_text(encoding="utf-8"))["jobs"]["datos"]["steps"]
+    nombres = [p.get("name", "") for p in pasos]
+    i = {n: nombres.index(n) for n in ("Conseguir originales", "Capturar ingresos (INE)",
+                                       "Subir originales nuevos de ingresos a crudos", "Procesar")}
+    assert i["Conseguir originales"] < i["Capturar ingresos (INE)"] < i["Subir originales nuevos de ingresos a crudos"] < i["Procesar"]
+    assert "pipeline/ech_ingresos_captura.py --crudo datos/crudo" in pasos[i["Capturar ingresos (INE)"]]["run"]
+    assert "crudos_carpeta.py subir --crudo datos/crudo --carpeta ech_ingresos" in pasos[i["Subir originales nuevos de ingresos a crudos"]]["run"]
+
+
+def test_ciclo_semanal_de_ingresos_captura_una_revision_y_la_deja_en_crudos(gh, tmp_path):
+    """Lo que hace el workflow, cuatro semanas: bajar de crudos, capturar del INE, subir lo nuevo."""
+    from ech_ingresos_captura import Planilla, capturar, leer_registro
+
+    w = "https://www5.ine.gub.uy/documents/ingresos/"
+    a = (FIXTURES / "ech_ingresos" / "ECHING07.xlsx").read_bytes()
+    entrada, salida = zipfile.ZipFile(io.BytesIO(a)), io.BytesIO()
+    with zipfile.ZipFile(salida, "w") as z:  # la revisión de la segunda semana
+        for i in entrada.infolist():
+            d = entrada.read(i.filename)
+            z.writestr(i, d.replace(b"noviembre 2026", b"diciembre 2026") if i.filename.endswith("sharedStrings.xml") else d)
+    b = salida.getvalue()
+    pl = [Planilla("ECHING07", f"{w}ECHING07.xlsx")]
+
+    def semana(runner, contenido, hoy):
+        if any((gh / "crudos").glob("ech_ingresos-capturas-*.json")):
+            assert correr("scripts/crudos_carpeta.py", "bajar", "--crudo", runner, "--carpeta", "ech_ingresos").returncode == 0
+        capturar(pl, runner, {pl[0].url: contenido}.__getitem__, hoy=hoy)
+        r = correr("scripts/crudos_carpeta.py", "subir", "--crudo", runner, "--carpeta", "ech_ingresos")
+        assert r.returncode == 0, r.stderr
+        return json.loads(r.stdout)["subidos"]
+
+    assert semana(tmp_path / "s1", a, "2026-11-23") == 2      # el original y el registro
+    assert semana(tmp_path / "s2", a, "2026-11-30") == 0      # sin cambios: nada
+    assert semana(tmp_path / "s3", b, "2026-12-07") == 2      # la revisión y el registro nuevo
+    limpio = tmp_path / "s4"
+    assert correr("scripts/crudos_carpeta.py", "bajar", "--crudo", limpio, "--carpeta", "ech_ingresos").returncode == 0
+    reg = leer_registro(limpio)
+    assert [c["vigente"] for c in reg] == [False, True] and reg[-1]["descargado"] == "2026-12-07"
