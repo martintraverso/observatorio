@@ -22,7 +22,8 @@ contacto: "Depto. de Difusión y Comunicación del INE: difusion@ine.gub.uy, (59
 frecuencia: trimestral desde 2016 (cada planilla se actualiza con un trimestre más; los totales anuales, al cerrar el año)
 # activa desde el 2026-11-21 (decisión del mantenedor, después de F3.5 y F3.7). Antes, «en preparación» con cargar: true.
 # Los originales están en el release crudos (scripts/crudos_carpeta.py --carpeta ech_ingresos); sin ellos,
-# scripts/conseguir_originales.py falla en el workflow.
+# scripts/conseguir_originales.py falla en el workflow. El workflow de datos captura las planillas del INE en cada
+# corrida y sube lo nuevo a crudos (F3.6, #130).
 estado: activa     # activa | en preparación | a relevar
 cargar: true
 carpeta_original: ech_ingresos
