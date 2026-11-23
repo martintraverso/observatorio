@@ -14,7 +14,8 @@ rótulos de fila: el inventario la marca para revisar.
 
 Ids de indicador: `edu_<código>_<ruta>` (p. ej. `edu_ii_2_2_1_forma_de_administracion_publica_total`). Una columna
 cuyo significado cambia entre años sin cambiar su ruta (II-2.2.1: en 2024 el sexo «total» es solo pública) recibe
-un sufijo propio en ese año (`_solo_publica`), para que nunca se mezclen (AC-E13).
+un sufijo propio en ese año (`_solo_publica`), para que nunca se mezclen (AC-E13), y `omitir`: repite la columna de
+pública, que ya se carga.
 
 Uso: python scripts/inventario_mec.py [--dir datos/crudo/mec_anuario]
 """
@@ -263,7 +264,7 @@ def id_indicador(codigo: str, ruta: str, sufijo: str = "") -> str:
     return f"edu_{slug(codigo)}_{slug(ruta)}{sufijo}"
 
 
-def mapear(codigo: str, columnas: list[str], rutas: list[str], solo_pub: set[str]) -> list[dict]:
+def mapear(codigo: str, columnas: list[str], rutas: list[str], solo_pub: dict[str, str]) -> list[dict]:
     """Una entrada por columna numérica: {col, ruta, id}. El id es único dentro del cuadro y año: dos columnas con
     la misma ruta (II-4.2.4: «SEXO/Varón» total, pública y privada, porque «PÚBLICA» no está combinada sobre ellas)
     o que solo difieren en mayúsculas (II-2.1.4: «TOTAL» y «Total») reciben `__2`, `__3`… en orden de columna.
@@ -279,16 +280,19 @@ def mapear(codigo: str, columnas: list[str], rutas: list[str], solo_pub: set[str
         e = {"col": col, "ruta": r, "id": i if vistos[i] == 1 else f"{i}__{vistos[i]}"}
         if cuenta[slug(r)] > 1:
             e["repetida"] = True
+        if r in solo_pub:  # repite una columna de pública: ya está cargado, no se vuelve a cargar (mantenedor, #177)
+            e["omitir"] = f"repite «{solo_pub[r]}»"
         m.append(e)
     return m
 
 
-def solo_publica(c: dict) -> set[str]:
-    """Rutas de «total» por sexo que ese año son solo pública (la privada sin sexo): II-2.2.1 en 2024."""
+def solo_publica(c: dict) -> dict[str, str]:
+    """Rutas de «total» por sexo que ese año son solo pública (la privada sin sexo), con la ruta de pública que
+    repiten: II-2.2.1 en 2024."""
     sin_sexo_privada = any("privada" in plegar(p) and "sexo" in plegar(p) for p in c.get("pie", []))
     if not sin_sexo_privada:
-        return set()
-    return {a for a, b in c.get("iguales", []) if "/TOTAL/" in a.upper() and "PÚBLICA" in b.upper()}
+        return {}
+    return {a: b for a, b in c.get("iguales", []) if "/TOTAL/" in a.upper() and "PÚBLICA" in b.upper()}
 
 
 def main(argv=None) -> int:
@@ -350,7 +354,7 @@ def escribir_inventario(ex: dict, archivos: dict) -> None:
             prev = (a, r)
     L += ["", "## Mismo encabezado, otro significado", "",
           "Columnas con distinta ruta e idénticos valores en todas las filas, junto a una nota de que la privada no informa",
-          "sexo: el «total» por sexo es solo pública ese año (AC-E13). Reciben un indicador propio (`…_solo_publica`).", ""]
+          "sexo: el «total» por sexo es solo pública ese año (AC-E13). Llevan `omitir`: repiten pública, que ya se carga.", ""]
     for a in ANIOS:
         for cod, c in ex[a]["cuadros"].items():
             for ruta in sorted(solo_publica(c)):
@@ -452,7 +456,9 @@ def escribir_registro(ex: dict, archivos: dict) -> None:
         "notas_internas": ["Inventario y mapeo generados por scripts/inventario_mec.py (F4.1, #164); revisar los tipos automáticos.",
                            "Sin `cargar: true` hasta F4.4 (#167): con cargar y sin script el registro no valida (como en F3.1 y F2.1).",
                            "D4: `datos_de_otro_anio` se carga con el año real que dice el pie; si el anuario de ese año ya lo publica, gana el suyo.",
-                           "D5: las columnas `repetida` y los totales mal etiquetados por `completar_grupos` se mapean a mano en F4.3."],
+                           "D5: las columnas `repetida` y los totales mal etiquetados por `completar_grupos` se mapean a mano en F4.3.",
+                           "D6: los conceptos siguen la vista de cuadros del último anuario (2024); los años anteriores se mapean a esos conceptos donde significan lo mismo.",
+                           "RESTO DEL PAÍS = TOTAL − MONTEVIDEO (confirmado por el mantenedor); el control AC-E18 sigue."],
         "anuarios": {a: {k: archivos[a][k] for k in ("pagina", "url", "http", "sha256", "bytes", "publicado", "actualizado", "revisado")} for a in ANIOS},
         "serie_nacional": {"hoja": "MATRÍCULA DEL SISTEMA 2002-<año>", "tipo": "B", "ola": 1, "unidad": "estudiantes",
                            "nota": "Se lee del anuario más reciente (F4.3, parsear_serie_matricula); el mapeo va en F4.3."},

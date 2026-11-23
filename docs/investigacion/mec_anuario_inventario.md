@@ -187,7 +187,7 @@ signifique lo mismo: ver la sección siguiente.
 ## Mismo encabezado, otro significado
 
 Columnas con distinta ruta e idénticos valores en todas las filas, junto a una nota de que la privada no informa
-sexo: el «total» por sexo es solo pública ese año (AC-E13). Reciben un indicador propio (`…_solo_publica`).
+sexo: el «total» por sexo es solo pública ese año (AC-E13). Llevan `omitir`: repiten pública, que ya se carga.
 
 - **II-2.2.1 2024:** `FORMA DE ADMINISTRACIÓN/TOTAL/MUJER` = pública (pie: «Nota: Los datos correspondientes a Privada carecen de información por sexo»)
 - **II-2.2.1 2024:** `FORMA DE ADMINISTRACIÓN/TOTAL/VARÓN` = pública (pie: «Nota: Los datos correspondientes a Privada carecen de información por sexo»)

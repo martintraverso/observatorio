@@ -27,6 +27,8 @@ notas_internas:
 - 'Sin `cargar: true` hasta F4.4 (#167): con cargar y sin script el registro no valida (como en F3.1 y F2.1).'
 - 'D4: `datos_de_otro_anio` se carga con el año real que dice el pie; si el anuario de ese año ya lo publica, gana el suyo.'
 - 'D5: las columnas `repetida` y los totales mal etiquetados por `completar_grupos` se mapean a mano en F4.3.'
+- 'D6: los conceptos siguen la vista de cuadros del último anuario (2024); los años anteriores se mapean a esos conceptos donde significan lo mismo.'
+- RESTO DEL PAÍS = TOTAL − MONTEVIDEO (confirmado por el mantenedor); el control AC-E18 sigue.
 anuarios:
   2020:
     pagina: https://www.gub.uy/ministerio-educacion-cultura/datos-y-estadisticas/datos/anuario-estadistico-educacion-2020
@@ -3825,9 +3827,11 @@ cuadros:
       - col: C
         ruta: FORMA DE ADMINISTRACIÓN/TOTAL/VARÓN
         id: edu_ii_2_2_1_forma_de_administracion_total_varon_solo_publica
+        omitir: repite «FORMA DE ADMINISTRACIÓN/PÚBLICA/SEXO/V»
       - col: D
         ruta: FORMA DE ADMINISTRACIÓN/TOTAL/MUJER
         id: edu_ii_2_2_1_forma_de_administracion_total_mujer_solo_publica
+        omitir: repite «FORMA DE ADMINISTRACIÓN/PÚBLICA/SEXO/M»
       - col: E
         ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/TOTAL
         id: edu_ii_2_2_1_forma_de_administracion_publica_total

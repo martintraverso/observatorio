@@ -98,3 +98,10 @@ def test_ii_2_2_13_el_total_vacio_es_de_no_promovidos():
     m = ruta_id("II-2.2.13", 2024)
     assert "RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL" in m
     assert not any(r.startswith("RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL") and r != "RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL" for r in m)
+
+
+def test_ii_2_2_1_2024_el_total_por_sexo_solo_publica_no_se_carga():
+    m = {e["ruta"]: e for e in REG["cuadros"]["II-2.2.1"]["mapeo"][2024]}
+    assert "PÚBLICA" in m["FORMA DE ADMINISTRACIÓN/TOTAL/MUJER"]["omitir"]
+    assert "omitir" not in m["FORMA DE ADMINISTRACIÓN/PÚBLICA/SEXO/M"]
+    assert not any("omitir" in e for e in REG["cuadros"]["II-2.2.1"]["mapeo"][2023])

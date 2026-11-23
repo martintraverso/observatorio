@@ -116,9 +116,12 @@ Load every table of the MEC anuario 2020–2024 into the database and the app, p
   Rates are computed only where numerator and denominator come from the same table, year and scope.
 - **D3 — Default map indicator: approved.** Promotion rate in public primary, latest year.
 - **D4 — Data from another year: load it with its real year** (decided 2026-11-23, PR #177). Some tables, or parts of them, say in their footer that the data are from an earlier year. For example, private DGEIP in the 2021 anuario is from 2020, and II-1.3.2 in the 2024 anuario is from 2022; F4.1 lists 49 table-years. Those values are stored with the period of the year the footer states, and the capture of the anuario that publishes them. The footer note goes with the value.
-  - If the anuario of that year already publishes the same indicator for the same territory, that anuario's value is kept. The repeated value is compared with it, and any difference is a warning in the report.
+  - If the value is already loaded (the anuario of that year publishes the same indicator for the same territory), it is not loaded again. That anuario's value stays, and a difference is a warning in the report.
   - The year in the title still has to equal the file's year (AC-E10). The footer only changes the period of the columns it names.
 - **D5 — Header paths that the layout cannot resolve are mapped by hand in F4.3** (decided 2026-11-23). Some cells are merged over fewer columns than the group they label, so the path read from the layout is wrong for a few totals (II-2.1.4 C, II-1.2.3 C, II-1.2.4, II-4.2.14, II-1.2.5). Other columns share a path (`repetida` in the registry, e.g. the three «SEXO/Varón» of II-4.2.4). F4.3 maps these columns by hand and checks each one with sums on the fixtures.
+- **D6 — Concepts follow the latest anuario** (decided 2026-11-23). A table's type and layout may change between years, and that is expected. Indicators keep the concepts of the latest anuario's tables (2024 today); earlier years are mapped to those concepts wherever the meaning is the same. Where it is not, AC-E13 applies.
+- **D7 — Repeated columns are not loaded twice** (decided 2026-11-23). In II-2.2.1 of 2024, the sex totals repeat the public columns, so they are marked `omitir` and not loaded.
+- **"RESTO DEL PAÍS" = TOTAL − MONTEVIDEO** (confirmed by the maintainer, 2026-11-23). The AC-E18 check stays as a control.
 ## Stories
  
 ### F4.1 — Explore and save fixtures (spike, time-boxed)
