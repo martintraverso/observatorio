@@ -1,7 +1,7 @@
 """F4.1 (#164): inventario de los anuarios del MEC 2020–2024 y registro de la fuente.
 
-Herramienta de exploración (no corre en el pipeline ni en CI): necesita `openpyxl`, que no es dependencia del
-proyecto (`pip install openpyxl`). Pide cada anuario a su URL (siempre; lo guarda en `<dir>/<año>.xlsx`) y escribe:
+Herramienta de exploración (no corre en el pipeline ni en CI). Lee los xlsx con `pipeline/comun/xlsx.py` y la estructura de
+cada cuadro con `pipeline/mec_anuario.py` (la del parser). Pide cada anuario a su URL (siempre; lo guarda en `<dir>/<año>.xlsx`) y escribe:
 
 - `docs/investigacion/mec_anuario_inventario.md`: archivos, cuadros × años con tipo (A/B/C) y ola, cambios de
   significado entre años y anomalías;
@@ -28,12 +28,15 @@ import hashlib
 import html
 import re
 import sys
-import unicodedata
 import urllib.request
 from pathlib import Path
 
 import yaml
-from openpyxl.utils import get_column_letter
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "pipeline"))
+import mec_anuario as mec  # noqa: E402
+
+from comun.xlsx import nombres_de_hojas  # noqa: E402
 
 RAIZ = Path(__file__).resolve().parents[1]
 PAGINA = "https://www.gub.uy/ministerio-educacion-cultura/datos-y-estadisticas/datos"
@@ -48,22 +51,7 @@ INSTITUCION = re.compile(r"universidad|instituto|facultad|centro|utu|ifd|cerp|se
 CODIGO_HOJA = re.compile(r"^\s*II-\d+\.\d+\.\d+\s*$")
 
 
-def numero(v):
-    """Valor numérico de una celda; los números guardados como texto («7466», II-2.3.2) también cuentan."""
-    if isinstance(v, (int, float)) and not isinstance(v, bool):
-        return v
-    if isinstance(v, str) and re.fullmatch(r"\s*\d+(\.\d+)?\s*", v):
-        return float(v) if "." in v else int(v)
-    return None
-
-
-def plegar(t) -> str:
-    t = "".join(c for c in unicodedata.normalize("NFKD", str(t)) if not unicodedata.combining(c))
-    return " ".join(t.lower().split())
-
-
-def slug(t) -> str:
-    return re.sub(r"[^a-z0-9]+", "_", plegar(t)).strip("_")
+numero, plegar, slug = mec.numero, mec.plegar, mec.slug
 
 
 def ola(codigo: str) -> int:
@@ -115,147 +103,58 @@ def archivo_del_anio(anio: int) -> dict:
     return {"pagina": pag, "url": urls[0], "publicado": pub.group(1) if pub else None, "actualizado": act.group(1) if act else None}
 
 
-def cuadro(ws, ws_f) -> dict | None:
-    celdas = {(c.row, c.column): c.value for row in ws.iter_rows() for c in row if c.value not in (None, "")}
-    cod = fila_cod = None
-    for (r, c), v in sorted(celdas.items()):
-        if isinstance(v, str) and (m := re.search(r"Cuadro\s*(?:N[ºo°]\s*)?(II-\s*[\d.]+)", v)):
-            cod, fila_cod = re.sub(r"\s+", "", m.group(1)).strip("."), r
-            break
-    hoja = ws.title.strip()
-    if not cod:  # sin «Cuadro …» en la hoja (II-8.4.1, II-8.4.3): el código es el nombre de la hoja
-        cod, fila_cod = hoja, min(r for r, _ in celdas)
-    elif cod != hoja:
-        print(f"aviso: la hoja {hoja!r} dice {cod}; se usa el nombre de la hoja", file=sys.stderr)
-        cod = hoja
-    textos = [v for (r, c), v in sorted(celdas.items()) if r > fila_cod and isinstance(v, str)
-              and not v.lstrip().startswith(("Nota", "Fuente"))]
-    # título: el que dice el año («…, 2024)»); si ninguno lo dice (II-2.3.2), el primer texto largo
-    titulo = next((v for v in textos if re.search(r"\(.*\d{4}\)", v)), None) or next((v for v in textos if len(v) > 40), "")
-    fila_tit = next((r for (r, c), v in sorted(celdas.items()) if v == titulo), fila_cod)
-    anios_tit = re.findall(r"(\d{4})\)", titulo)
-    encabezado_sup = " ".join(str(v) for (r, c), v in sorted(celdas.items()) if r < fila_cod and isinstance(v, str))
-    filas = sorted({r for r, _ in celdas})
-    desde = next((r for r in filas if r > fila_tit and isinstance(celdas.get((r, 1)), str)
-                  and any(numero(celdas.get((r, c))) is not None for c in range(2, 60))), None)
-    base = {"codigo": cod, "hoja": ws.title, "titulo": " ".join(titulo.split()), "unidad": unidad(titulo) if unidad(titulo) != "?" else unidad(encabezado_sup),
-            "anio_titulo": int(anios_tit[-1]) if anios_tit else None}
-    if desde is None:
-        notas = [" ".join(str(v).split()) for (r, c), v in sorted(celdas.items()) if isinstance(v, str) and re.match(r"\s*Nota", v)]
-        return {**base, "tipo": None, "sin_datos": True, "pie": notas}
-    hdr = {}
-    for rng in ws.merged_cells.ranges:
-        v = celdas.get((rng.min_row, rng.min_col))
-        if v is not None:
-            for r in range(max(rng.min_row, fila_tit + 1), min(rng.max_row, desde - 1) + 1):
-                for c in range(rng.min_col, rng.max_col + 1):
-                    hdr[(r, c)] = v
-    for (r, c), v in celdas.items():
-        if fila_tit < r < desde:
-            hdr.setdefault((r, c), v)
-    num_cols = [c for (r, c), v in celdas.items() if r >= desde and numero(v) is not None]
-    max_col = max(num_cols) if num_cols else 1
-    heredadas = completar_grupos(ws, hdr, fila_tit + 1, desde - 1, max_col)
-    rutas = {}
-    for c in range(2, max_col + 1):
-        partes = []
-        for r in range(fila_tit + 1, desde):
-            v = hdr.get((r, c))
-            n = numero(v)
-            if v is None or (n is not None and n > 30) or (isinstance(v, str) and es_titulo(v, titulo)):
-                continue  # conteos que se cuelan (II-3.2.8: 146, 190) y el título (II-2.2.16) no son rutas;
-                # números chicos sí lo son: edades y grados (II-1.2.2: AÑOS/3, 4, 5, 6)
-            if not partes or partes[-1] != " ".join(str(v).split()):
-                partes.append(" ".join(str(v).split()))
-        rutas[c] = "/".join(partes) or f"columna {c}"
-    rotulos, pie, valores, no_num, formulas, como_texto = [], [], {}, 0, 0, 0
-    for r in [x for x in filas if x >= desde]:
-        a = celdas.get((r, 1))
-        if isinstance(a, str) and re.match(r"\s*(Fuente|Nota|Notas|\(\d|\*)", a):
-            pie.append(" ".join(a.split()))
-            continue
-        if a is None and not any((r, c) in celdas for c in range(2, max_col + 1)):
-            continue
-        rot = " ".join(str(a).split()) if a is not None else ""
-        rotulos.append(rot)
-        for c in range(2, max_col + 1):
+def cuadro(xlsx: bytes, hoja: str) -> dict | None:
+    """Lo que el inventario y el registro necesitan de un cuadro. La estructura (código, título, rutas de encabezado,
+    filas y pie) sale de `pipeline/mec_anuario.py`, la misma que usa el parser: las rutas del registro y las que
+    lee la carga coinciden por construcción."""
+    celdas, combinadas = mec.celdas_de(xlsx, hoja)
+    e = mec.estructura(celdas, combinadas, hoja)
+    if e is None:
+        return None
+    base = {"codigo": e.codigo, "hoja": hoja, "titulo": e.titulo,
+            "unidad": unidad(e.titulo) if unidad(e.titulo) != "?" else unidad(e.encabezado_sup), "anio_titulo": e.anio_titulo}
+    if e.sin_datos:
+        return {**base, "tipo": None, "sin_datos": True, "pie": e.pie}
+    rotulos = [x for _, x in e.filas]
+    valores, no_num, como_texto = {}, 0, 0
+    for r, _ in e.filas:
+        for c in e.rutas:
             v = celdas.get((r, c))
             n = numero(v)
             valores.setdefault(c, []).append(n)
             no_num += n is None
             como_texto += n is not None and isinstance(v, str)
-            fv = ws_f.cell(r, c).value
-            formulas += isinstance(fv, str) and fv.startswith("=")
     pl = [plegar(x) for x in rotulos]
     deptos = sum(1 for x in pl if x in DEPTOS)
     tipo = ("A" if ("total" in pl or "total del pais" in pl) and "montevideo" in pl and deptos >= 15
             else "C" if any(INSTITUCION.search(x) for x in pl) else "B")
     # columnas con otra ruta pero los mismos valores en todas las filas: posible cambio de significado
     iguales = []
-    cols = [c for c in rutas if any(v is not None for v in valores.get(c, []))]
+    cols = [c for c in e.rutas if any(v is not None for v in valores.get(c, []))]
     for i, c1 in enumerate(cols):
         for c2 in cols[i + 1:]:
-            if valores[c1] == valores[c2] and "SEXO" not in rutas[c1].upper().split("/")[:1]:
-                iguales.append((rutas[c1], rutas[c2]))
-    return {**base, "tipo": tipo, "rutas": [rutas[c] for c in sorted(rutas)],
-            "columnas": [get_column_letter(c) for c in sorted(rutas)], "filas": len(rotulos),
-            "rotulos": rotulos, "resto": "resto del pais" in pl, "pie": pie, "no_numericas": no_num,
-            "formulas": formulas, "como_texto": como_texto, "iguales": iguales, "heredadas": heredadas,
+            if valores[c1] == valores[c2] and "SEXO" not in e.rutas[c1].upper().split("/")[:1]:
+                iguales.append((e.rutas[c1], e.rutas[c2]))
+    return {**base, "tipo": tipo, "rutas": [e.rutas[c] for c in sorted(e.rutas)],
+            "columnas": [mec.letra(c) for c in sorted(e.rutas)], "filas": len(rotulos),
+            "rotulos": rotulos, "resto": "resto del pais" in pl, "pie": e.pie, "no_numericas": no_num,
+            "como_texto": como_texto, "iguales": iguales, "heredadas": e.heredadas,
             "total_como": next((r for r in rotulos if plegar(r) in ("total", "total del pais")), None)}
 
 
-def es_titulo(v: str, titulo: str) -> bool:
-    t = " ".join(v.split())
-    return t == " ".join(titulo.split()) or bool(re.search(r"\(Todo el pa[ií]s", t)) or len(t) > 120
-
-
-def completar_grupos(ws, hdr: dict, desde: int, hasta: int, max_col: int) -> list[str]:
-    """Celdas vacías de encabezado bajo un grupo combinado más angosto que sus columnas. Dos casos, según el rótulo
-    propio de la columna (el primero que tiene más abajo):
-    - un total («TOTAL») abre el grupo de su **derecha**: en II-2.2.13, E8 «TOTAL» es el total de NO PROMOVIDOS
-      (F7:G7); en II-4.2.2, H10 «TOTAL» es el de BACHILLERATO FIGARI (I8:J8);
-    - otro rótulo cierra el grupo de su **izquierda**: en II-1.1.1 de 2020, «PÚBLICA» está en C7:F7 pero G8
-      («Jardines de Tiempo Completo») también es pública (D+E+F+G = «Total Público»).
-    Solo grupos de más de una columna que no sean ellos mismos un total, sin encadenar, y con el mismo padre en la
-    fila de arriba. Devuelve las celdas completadas, para listarlas en el inventario (revisar)."""
-    por_fin = {(m.min_row, m.max_col): m for m in ws.merged_cells.ranges if m.max_col > m.min_col}
-    por_inicio = {(m.min_row, m.min_col): m for m in ws.merged_cells.ranges if m.max_col > m.min_col}
-    originales = dict(hdr)
-    hechas = []
-    for r in range(desde, hasta + 1):
-        for c in range(2, max_col + 1):
-            if originales.get((r, c)) is not None:
-                continue
-            propio = next((originales[(x, c)] for x in range(r + 1, hasta + 1) if originales.get((x, c)) is not None), None)
-            if propio is None:
-                continue
-            vecino = c + 1 if plegar(propio).startswith("total") else c - 1
-            m = (por_inicio if vecino > c else por_fin).get((r, vecino))
-            if m is None or plegar(originales.get((r, m.min_col), "total")).startswith("total"):
-                continue
-            if r > desde and originales.get((r - 1, c)) != originales.get((r - 1, vecino)):
-                continue
-            hdr[(r, c)] = originales[(r, m.min_col)]
-            lado = "derecha" if vecino > c else "izquierda"
-            hechas.append(f"{ws.cell(r, c).coordinate} ← «{' '.join(str(hdr[(r, c)]).split())}» ({lado})")
-    return hechas
-
-
 def extraer(d: Path) -> dict:
-    import openpyxl  # herramienta de exploración: ver el docstring
-
     res = {}
     for a in ANIOS:
-        wb = openpyxl.load_workbook(d / f"{a}.xlsx", data_only=True)
-        wbf = openpyxl.load_workbook(d / f"{a}.xlsx", data_only=False)
+        xlsx = (d / f"{a}.xlsx").read_bytes()
+        hojas = nombres_de_hojas(xlsx)
         cuadros = []
-        for ws in wb.worksheets:
-            if not CODIGO_HOJA.match(ws.title):
+        for h in hojas:
+            if not CODIGO_HOJA.match(h):
                 continue  # presentación, separadores de nivel (índices), CONTROL, Hoja1
-            x = cuadro(ws, wbf[ws.title])
+            x = cuadro(xlsx, h)
             if x:
                 cuadros.append(x)
-        res[a] = {"hojas": [w.title for w in wb.worksheets], "cuadros": {c["codigo"]: c for c in cuadros}}
+        res[a] = {"hojas": hojas, "cuadros": {c["codigo"]: c for c in cuadros}}
         print(a, len(cuadros), "cuadros", file=sys.stderr)
     return res
 
