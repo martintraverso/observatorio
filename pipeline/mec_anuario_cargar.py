@@ -80,7 +80,7 @@ def derivados(obs: pd.DataFrame) -> tuple[pd.DataFrame, dict[str, str]]:
     def agregar(nuevo, num, valor_den, formula, ref):
         if valor_den:
             filas.append({**ref, "indicador": nuevo, "valor": float(num) / float(valor_den) * 100})
-            formulas[nuevo] = (formula, ref["codigo_cuadro"])
+            formulas[nuevo] = (formula, ref.get("codigo_cuadro") or "")
 
     for ref in base.to_dict("records"):
         m = re.fullmatch(r"(.*)_no_promovidos?(.*)", ref["indicador"])
@@ -101,8 +101,10 @@ def derivados(obs: pd.DataFrame) -> tuple[pd.DataFrame, dict[str, str]]:
     return d, formulas
 
 
-def indicadores(obs: pd.DataFrame, fuente: dict, pies: dict, formulas: dict, serie: pd.DataFrame) -> pd.DataFrame:
-    """El catálogo: nombre, unidad y columna de origen de cada indicador cargado; la nota es el pie del cuadro."""
+def indicadores(obs: pd.DataFrame, fuente: dict, pies: dict, formulas: dict, serie: pd.DataFrame,
+                notas_prev: dict | None = None) -> pd.DataFrame:
+    """El catálogo: nombre, unidad y columna de origen de cada indicador cargado; la nota es el pie del cuadro (del
+    año más reciente parseado; si en esta corrida no se parseó, la que ya estaba publicada)."""
     origen = {}
     for cod, e in fuente["cuadros"].items():
         for anio, m in sorted((e.get("mapeo") or {}).items()):
@@ -133,7 +135,8 @@ def indicadores(obs: pd.DataFrame, fuente: dict, pies: dict, formulas: dict, ser
         if categoria:
             nombre += f" — {categoria.replace('_', ' ')}"
         filas.append({"codigo": ind, "nombre": nombre, "unidad": e.get("unidad", "estudiantes"),
-                      "columna_origen": f"Cuadro {cod} · {concepto}", "nota": " ".join(pies.get(cod, [])),
+                      "columna_origen": f"Cuadro {cod} · {concepto}",
+                      "nota": " ".join(pies[cod]) if cod in pies else (notas_prev or {}).get(ind, ""),
                       "es_derivado": False, "formula": ""})
     df = pd.DataFrame(filas)
     df["tema"], df["fuente_id"] = TEMA, FUENTE_ID
@@ -201,9 +204,20 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False) -> di
         return {"resultado": "sin cambios", "capturas": len(registro), "vigentes": len(vigentes), "parseadas": 0,
                 "_registro": registro, "_ultima": contenido.get("ultima_corrida") or {}}
 
+    # AC-E6 / AC-P8: una captura ya cargada (mismo sha256) no se vuelve a parsear; sus valores se toman de lo
+    # publicado. La serie y las tasas se recalculan sobre el conjunto.
+    ya = set() if forzar or obs_prev is None else set(obs_prev.captura_id)
+    cuadro_de = {x["id"]: cod for cod, e in fuente["cuadros"].items() for m in (e.get("mapeo") or {}).values()
+                 for x in m or []}
     partes, pies, avisos, parseadas = [], {}, [], []
     for c in vigentes:
         anio = int(c["codigo"])
+        if c["id"] in ya:
+            previas = obs_prev[(obs_prev.captura_id == c["id"]) & ~obs_prev.indicador.str.contains(DERIVADO)
+                               & ~obs_prev.indicador.str.startswith("edu_serie_")]
+            partes.append(previas.drop(columns=["es_estimado"], errors="ignore").assign(
+                codigo_cuadro=previas.indicador.str.split("__").str[0].map(cuadro_de), celda=""))
+            continue
         datos, p, a = leer_anuario((crudo / c["archivo"]).read_bytes(), anio, fuente)
         partes.append(datos.assign(captura_id=c["id"]))
         pies.update(p)  # el pie del año más reciente queda como nota del indicador
@@ -221,7 +235,11 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False) -> di
     fuera = sorted(set(nivel) - set(fuente["niveles_publicados"]))
     if fuera:
         raise ErrorCarga(f"Observaciones en niveles que la fuente no publica: {fuera}")  # AC-P5
-    ind = indicadores(obs, fuente, pies, formulas, serie)
+    notas_prev = {}
+    if (salida / "indicadores.parquet").exists():
+        i_prev = pd.read_parquet(salida / "indicadores.parquet")
+        notas_prev = dict(zip(i_prev[i_prev.fuente_id == FUENTE_ID].codigo, i_prev[i_prev.fuente_id == FUENTE_ID].nota))
+    ind = indicadores(obs, fuente, pies, formulas, serie, notas_prev)
     hoy = ahora()
     fecha_prev = {} if cap_prev is None else dict(zip(cap_prev.id, cap_prev.fecha_proceso))
     capturas = [nueva_captura(FUENTE_ID, c["archivo"], c["sha256"], hoy if c["id"] in parseadas else fecha_prev.get(c["id"], hoy),
@@ -231,7 +249,7 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False) -> di
     return {"resultado": "reprocesado" if forzar else "nuevo", "capturas": len(registro), "vigentes": len(vigentes),
             "parseadas": len(parseadas), "observaciones": len(obs), "derivadas": len(deriv), "cambios": cambios,
             "_registro": registro, "_ultima": contenido.get("ultima_corrida") or {}, "_obs": obs, "_avisos": avisos,
-            "_solapes": solapes(obs), "_capturas": capturas}
+            "_solapes": solapes(obs), "_capturas": capturas, "_parseadas": parseadas}
 
 
 # ---------------------------------------------------------------- reporte
@@ -240,7 +258,7 @@ def seccion_reporte(r: dict) -> list[str]:
     lineas = ["## Educación (MEC, Anuario Estadístico de Educación)", "",
               "| Año | Capturado | sha256 | Valores |", "|---|---|---|---:|"]
     obs = r.get("_obs")
-    for c in (c for c in r["_registro"] if c["vigente"]):
+    for c in sorted((c for c in r["_registro"] if c["vigente"]), key=lambda c: int(c["codigo"])):
         n = int((obs.captura_id == c["id"]).sum()) if obs is not None else "—"
         lineas.append(f"| {c['codigo']} | {c['descargado']} | `{c['sha256'][:12]}` | {n} |")
     errores = r["_ultima"].get("errores", [])
@@ -295,7 +313,7 @@ def main(argv=None) -> int:
             historial.agregar(nueva_captura(FUENTE_ID, c["archivo"], c["sha256"], ahora()), "error", f"{type(e).__name__}: {e}")
         raise
     for c in r.get("_capturas", []):
-        if c["vigente"]:
+        if c["id"] in r.get("_parseadas", []):
             historial.agregar({**c, "fecha_proceso": ahora()}, r["resultado"], "")
     escribir_reporte(args.salida, seccion_reporte(r))
     print(json.dumps({k: v for k, v in r.items() if not k.startswith("_")}, ensure_ascii=False, default=str))

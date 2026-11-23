@@ -81,8 +81,9 @@ DEPARTAMENTOS = {plegar(n): tid("departamento", c) for c, n in NOMBRES_DEPTO.ite
 
 def territorio_de_fila(rotulo: str) -> str | None:
     """Rótulo de fila de un cuadro tipo A → territorio (AC-E8); None si no es un territorio conocido. Una llamada
-    de nota al final («Colonia*», «Salto (1)», II-3.1.1 2020) no es parte del nombre."""
-    p = re.sub(r"\s*(\*+|\(\d+\)|\d+)$", "", plegar(rotulo))
+    de nota al final («Colonia*», «Salto (1)», II-3.1.1 2020) no es parte del nombre; un número suelto sí
+    (así «Total 2023» no pasa por el país)."""
+    p = re.sub(r"\s*(\*+|\(\d+\))$", "", plegar(rotulo))
     if p in FILAS_PAIS:
         return PAIS
     if p == "resto del pais":

@@ -160,3 +160,31 @@ def test_resto_del_pais_va_a_la_region_interior(entorno):
     correr(crudo, salida)
     o, _, _ = tablas(salida)
     assert valor(o, "edu_ii_2_2_1_total", "INE-2023/region/interior") == 182762
+
+
+def test_ac_e16_sin_uno_de_los_dos_no_hay_tasa():
+    obs = pd.DataFrame([
+        {"indicador": "edu_ii_2_2_13_x_promovidos_total", "territorio_id": PAIS, "periodo": "2024", "valor": 90,
+         "codigo_cuadro": "II-2.2.13"},
+        {"indicador": "edu_ii_2_2_13_x_no_promovidos_total", "territorio_id": PAIS, "periodo": "2024", "valor": 10,
+         "codigo_cuadro": "II-2.2.13"},
+        {"indicador": "edu_ii_2_2_13_x_no_promovidos_rural", "territorio_id": PAIS, "periodo": "2024", "valor": 3,
+         "codigo_cuadro": "II-2.2.13"},  # sin «promovidos rural»: no hay tasa
+    ])
+    d, formulas = mec_anuario_cargar.derivados(obs)
+    assert d.set_index("indicador").valor.to_dict() == {"edu_ii_2_2_13_x_tasa_promocion_total": 90.0}
+
+
+def test_ac_e6_una_revision_solo_parsea_el_anio_que_cambio(entorno, monkeypatch):
+    crudo, salida = entorno
+    correr(crudo, salida)
+    revisado = con_valor(fix(2024), "II-2.2.1", "B12", 7300)
+    capturar_anuarios(crudo, FUENTE, sitio({URL[2023]: fix(2023), URL[2024]: revisado}), hoy="2026-11-30")
+    leidos = []
+    original = mec_anuario_cargar.leer_anuario
+    monkeypatch.setattr(mec_anuario_cargar, "leer_anuario", lambda x, a, f: leidos.append(a) or original(x, a, f))
+    r = mec_anuario_cargar.cargar(crudo, salida, mec_anuario_cargar.cargar_fuentes(RAIZ / "fuentes"))
+    assert leidos == [2024] and r["parseadas"] == 1
+    o, _, i = tablas(salida)
+    assert valor(o, "edu_ii_2_2_1_total", periodo="2023") == 287805  # 2023 sigue, tomado de lo publicado
+    assert i.set_index("codigo").loc["edu_ii_2_2_13_rendimiento_escolar_promovidos_total"].nota  # nota conservada
