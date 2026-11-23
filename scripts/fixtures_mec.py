@@ -22,7 +22,7 @@ SERIE = "MATRÍCULA DEL SISTEMA"
 EXTRA = {
     "II-7.2.8": "tipo C: por institución universitaria; la hoja dice «Cuadro II-7.2.8» sin «Nº»",
     "II-8.1.7": "tipo C: por institución; código escrito «II- 8.1.7»",
-    "II-5.1.1": "tipo B/C de terciaria no universitaria",
+    "II-5.1.1": "terciaria no universitaria: matrícula y docentes en el mismo cuadro",
     "II-2.3.2": "números guardados como texto; el título de 2024 no dice el año",
     "II-1.3.2": "en 2024 el pie dice que los datos son de 2022",
 }

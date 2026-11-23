@@ -1,7 +1,7 @@
 """F4.1 (#164): inventario de los anuarios del MEC 2020–2024 y registro de la fuente.
 
 Herramienta de exploración (no corre en el pipeline ni en CI): necesita `openpyxl`, que no es dependencia del
-proyecto (`pip install openpyxl`). Lee cada anuario ya bajado (`<dir>/<año>.xlsx`, ver `--bajar`) y escribe:
+proyecto (`pip install openpyxl`). Pide cada anuario a su URL (siempre; lo guarda en `<dir>/<año>.xlsx`) y escribe:
 
 - `docs/investigacion/mec_anuario_inventario.md`: archivos, cuadros × años con tipo (A/B/C) y ola, cambios de
   significado entre años y anomalías;
@@ -16,7 +16,7 @@ Ids de indicador: `edu_<código>_<ruta>` (p. ej. `edu_ii_2_2_1_forma_de_administ
 cuyo significado cambia entre años sin cambiar su ruta (II-2.2.1: en 2024 el sexo «total» es solo pública) recibe
 un sufijo propio en ese año (`_solo_publica`), para que nunca se mezclen (AC-E13).
 
-Uso: python scripts/inventario_mec.py [--dir datos/crudo/mec_anuario] [--bajar]
+Uso: python scripts/inventario_mec.py [--dir datos/crudo/mec_anuario]
 """
 
 from __future__ import annotations
@@ -86,11 +86,18 @@ def unidad(texto: str) -> str:
     return "?"
 
 
-def bajar(url: str) -> bytes:
+def pedir(url: str) -> tuple[int, bytes]:
+    """Estado HTTP y contenido; solo del sitio oficial del MEC, también después de redirecciones."""
     if not url.startswith(OFICIAL):
         raise SystemExit(f"URL fuera del sitio oficial del MEC: {url}")
     with urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": AGENTE}), timeout=180) as r:
-        return r.read()
+        if not r.geturl().startswith(OFICIAL):
+            raise SystemExit(f"{url} redirige fuera del sitio oficial: {r.geturl()}")
+        return r.status, r.read()
+
+
+def bajar(url: str) -> bytes:
+    return pedir(url)[1]
 
 
 def archivo_del_anio(anio: int) -> dict:
@@ -98,8 +105,8 @@ def archivo_del_anio(anio: int) -> dict:
     pag = PAGINA_ANIO.format(anio=anio)
     t = bajar(pag).decode("utf-8")
     urls = sorted(set(re.findall(r'https://www\.gub\.uy/ministerio-educacion-cultura/sites/[^"]+\.xlsx', t)))
-    if not urls:
-        raise SystemExit(f"{anio}: la página no enlaza un xlsx")
+    if len(urls) != 1:
+        raise SystemExit(f"{anio}: la página enlaza {len(urls)} xlsx; se espera uno")
     texto = " ".join(html.unescape(re.sub(r"<[^>]+>", " ", re.sub(r"<(script|style)\b.*?</\1>", "", t, flags=re.S))).split())
     pub = re.search(r"Datos (\d{2}/\d{2}/\d{4})", texto)
     act = re.search(r"Actualiz\w* (\d{1,2}(?:/| de )\w+(?:/| )\d{4})", texto)
@@ -129,7 +136,7 @@ def cuadro(ws, ws_f) -> dict | None:
     filas = sorted({r for r, _ in celdas})
     desde = next((r for r in filas if r > fila_tit and isinstance(celdas.get((r, 1)), str)
                   and any(numero(celdas.get((r, c))) is not None for c in range(2, 60))), None)
-    base = {"codigo": cod, "hoja": ws.title, "titulo": " ".join(titulo.split()), "unidad": unidad(encabezado_sup + " " + titulo),
+    base = {"codigo": cod, "hoja": ws.title, "titulo": " ".join(titulo.split()), "unidad": unidad(titulo) if unidad(titulo) != "?" else unidad(encabezado_sup),
             "anio_titulo": int(anios_tit[-1]) if anios_tit else None}
     if desde is None:
         notas = [" ".join(str(v).split()) for (r, c), v in sorted(celdas.items()) if isinstance(v, str) and re.match(r"\s*Nota", v)]
@@ -146,12 +153,15 @@ def cuadro(ws, ws_f) -> dict | None:
             hdr.setdefault((r, c), v)
     num_cols = [c for (r, c), v in celdas.items() if r >= desde and numero(v) is not None]
     max_col = max(num_cols) if num_cols else 1
+    heredadas = completar_grupos(ws, hdr, fila_tit + 1, desde - 1, max_col)
     rutas = {}
     for c in range(2, max_col + 1):
         partes = []
         for r in range(fila_tit + 1, desde):
             v = hdr.get((r, c))
-            if v is not None and (not partes or partes[-1] != " ".join(str(v).split())):
+            if not isinstance(v, str) or numero(v) is not None or es_titulo(v, titulo):
+                continue  # números (II-3.2.8) y el título repetido como encabezado (II-2.2.16) no son rutas
+            if not partes or partes[-1] != " ".join(str(v).split()):
                 partes.append(" ".join(str(v).split()))
         rutas[c] = "/".join(partes) or f"columna {c}"
     rotulos, pie, valores, no_num, formulas, como_texto = [], [], {}, 0, 0, 0
@@ -185,8 +195,45 @@ def cuadro(ws, ws_f) -> dict | None:
                 iguales.append((rutas[c1], rutas[c2]))
     return {**base, "tipo": tipo, "rutas": [rutas[c] for c in sorted(rutas)], "filas": len(rotulos),
             "rotulos": rotulos, "resto": "resto del pais" in pl, "pie": pie, "no_numericas": no_num,
-            "formulas": formulas, "como_texto": como_texto, "iguales": iguales,
+            "formulas": formulas, "como_texto": como_texto, "iguales": iguales, "heredadas": heredadas,
             "total_como": next((r for r in rotulos if plegar(r) in ("total", "total del pais")), None)}
+
+
+def es_titulo(v: str, titulo: str) -> bool:
+    t = " ".join(v.split())
+    return t == " ".join(titulo.split()) or bool(re.search(r"\(Todo el pa[ií]s", t)) or len(t) > 120
+
+
+def completar_grupos(ws, hdr: dict, desde: int, hasta: int, max_col: int) -> list[str]:
+    """Celdas vacías de encabezado bajo un grupo combinado más angosto que sus columnas. Dos casos, según el rótulo
+    propio de la columna (el primero que tiene más abajo):
+    - un total («TOTAL») abre el grupo de su **derecha**: en II-2.2.13, E8 «TOTAL» es el total de NO PROMOVIDOS
+      (F7:G7); en II-4.2.2, H10 «TOTAL» es el de BACHILLERATO FIGARI (I8:J8);
+    - otro rótulo cierra el grupo de su **izquierda**: en II-1.1.1 de 2020, «PÚBLICA» está en C7:F7 pero G8
+      («Jardines de Tiempo Completo») también es pública (D+E+F+G = «Total Público»).
+    Solo grupos de más de una columna que no sean ellos mismos un total, sin encadenar, y con el mismo padre en la
+    fila de arriba. Devuelve las celdas completadas, para listarlas en el inventario (revisar)."""
+    por_fin = {(m.min_row, m.max_col): m for m in ws.merged_cells.ranges if m.max_col > m.min_col}
+    por_inicio = {(m.min_row, m.min_col): m for m in ws.merged_cells.ranges if m.max_col > m.min_col}
+    originales = dict(hdr)
+    hechas = []
+    for r in range(desde, hasta + 1):
+        for c in range(2, max_col + 1):
+            if originales.get((r, c)) is not None:
+                continue
+            propio = next((originales[(x, c)] for x in range(r + 1, hasta + 1) if originales.get((x, c)) is not None), None)
+            if propio is None:
+                continue
+            vecino = c + 1 if plegar(propio).startswith("total") else c - 1
+            m = (por_inicio if vecino > c else por_fin).get((r, vecino))
+            if m is None or plegar(originales.get((r, m.min_col), "total")).startswith("total"):
+                continue
+            if r > desde and originales.get((r - 1, c)) != originales.get((r - 1, vecino)):
+                continue
+            hdr[(r, c)] = originales[(r, m.min_col)]
+            lado = "derecha" if vecino > c else "izquierda"
+            hechas.append(f"{ws.cell(r, c).coordinate} ← «{' '.join(str(hdr[(r, c)]).split())}» ({lado})")
+    return hechas
 
 
 def extraer(d: Path) -> dict:
@@ -212,6 +259,18 @@ def id_indicador(codigo: str, ruta: str, sufijo: str = "") -> str:
     return f"edu_{slug(codigo)}_{slug(ruta)}{sufijo}"
 
 
+def mapear(codigo: str, rutas: list[str], solo_pub: set[str]) -> dict[str, str]:
+    """Ruta → id, único dentro del cuadro y año: dos rutas que solo difieren en mayúsculas («TOTAL» y «Total» en
+    II-2.1.4) son columnas distintas; la segunda (en orden de columna) lleva `_2`, la tercera `_3`…"""
+    vistos: dict[str, int] = {}
+    m = {}
+    for r in rutas:
+        i = id_indicador(codigo, r, "_solo_publica" if r in solo_pub else "")
+        vistos[i] = vistos.get(i, 0) + 1
+        m[r] = i if vistos[i] == 1 else f"{i}_{vistos[i]}"
+    return m
+
+
 def solo_publica(c: dict) -> set[str]:
     """Rutas de «total» por sexo que ese año son solo pública (la privada sin sexo): II-2.2.1 en 2024."""
     sin_sexo_privada = any("privada" in plegar(p) and "sexo" in plegar(p) for p in c.get("pie", []))
@@ -223,7 +282,6 @@ def solo_publica(c: dict) -> set[str]:
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--dir", type=Path, default=RAIZ / "datos" / "crudo" / "mec_anuario")
-    ap.add_argument("--bajar", action="store_true", help="bajar los anuarios desde las páginas del MEC")
     args = ap.parse_args(argv)
     args.dir.mkdir(parents=True, exist_ok=True)
     hoy = dt.date.today().isoformat()
@@ -231,10 +289,11 @@ def main(argv=None) -> int:
     for a in ANIOS:
         info = archivo_del_anio(a)
         destino = args.dir / f"{a}.xlsx"
-        if args.bajar or not destino.exists():
-            destino.write_bytes(bajar(info["url"]))
-        datos = destino.read_bytes()
-        archivos[a] = {**info, "sha256": hashlib.sha256(datos).hexdigest(), "bytes": len(datos), "revisado": hoy}
+        http, datos = pedir(info["url"])  # siempre: el sha256 es el de lo que sirve hoy la URL
+        if destino.exists() and destino.read_bytes() != datos:
+            print(f"aviso: {destino} difiere de lo publicado; se reemplaza", file=sys.stderr)
+        destino.write_bytes(datos)
+        archivos[a] = {**info, "http": http, "sha256": hashlib.sha256(datos).hexdigest(), "bytes": len(datos), "revisado": hoy}
     ex = extraer(args.dir)
     escribir_inventario(ex, archivos)
     escribir_registro(ex, archivos)
@@ -251,13 +310,14 @@ def escribir_inventario(ex: dict, archivos: dict) -> None:
         f = archivos[a]
         L.append(f"| [{a}]({f['url']}) | {f['publicado']} | {f['actualizado'] or '—'} | {f['bytes']:,} | `{f['sha256'][:16]}…` | "
                  f"{len(ex[a]['hojas'])} | {len(ex[a]['cuadros'])} |")
-    L += ["", "## Cuadros × años", "", "Tipo y ola por cuadro; «·» = no está ese año; «∅» = sin datos numéricos ese año.", "",
+    L += ["", "## Cuadros × años", "", "Ola por cuadro y tipo por año; «·» = no está ese año; «∅» = sin datos numéricos ese año. La columna Tipo junta los años.", "",
           "| Código | Título (último año) | Tipo | Ola | Unidad | " + " | ".join(map(str, ANIOS)) + " |",
           "|---|---|---|---|---|" + "---|" * len(ANIOS)]
     for cod in codigos:
         ult = next(ex[a]["cuadros"][cod] for a in reversed(ANIOS) if cod in ex[a]["cuadros"])
         tipos = {ex[a]["cuadros"][cod]["tipo"] for a in ANIOS if cod in ex[a]["cuadros"] and ex[a]["cuadros"][cod]["tipo"]}
-        celdas = ["∅" if cod in ex[a]["cuadros"] and ex[a]["cuadros"][cod].get("sin_datos") else ("✓" if cod in ex[a]["cuadros"] else "·") for a in ANIOS]
+        celdas = ["∅" if cod in ex[a]["cuadros"] and ex[a]["cuadros"][cod].get("sin_datos")
+                  else (ex[a]["cuadros"][cod]["tipo"] if cod in ex[a]["cuadros"] else "·") for a in ANIOS]
         titulo = re.sub(r"\s*\(Todo el país.*", "", ult["titulo"])[:90]
         L.append(f"| {cod} | {titulo} | {'/'.join(sorted(tipos)) or '—'} | {ola(cod)} | {ult['unidad']} | " + " | ".join(celdas) + " |")
     L += ["", "## Cambios de encabezado entre años (ola 1)", "",
@@ -271,10 +331,10 @@ def escribir_inventario(ex: dict, archivos: dict) -> None:
             c = ex[a]["cuadros"].get(cod)
             if not c or c.get("sin_datos"):
                 continue
-            r = set(c["rutas"])
-            if prev is not None and r != prev[1]:
+            r = {plegar(x): x for x in c["rutas"]}  # sin tildes ni mayúsculas: VARON = VARÓN
+            if prev is not None and set(r) != set(prev[1]):
                 L.append(f"- **{cod}**, {prev[0]} → {a}: " + "; ".join(
-                    [f"+ `{x}`" for x in sorted(r - prev[1])] + [f"− `{x}`" for x in sorted(prev[1] - r)]))
+                    [f"+ `{r[x]}`" for x in sorted(set(r) - set(prev[1]))] + [f"− `{prev[1][x]}`" for x in sorted(set(prev[1]) - set(r))]))
             prev = (a, r)
     L += ["", "## Mismo encabezado, otro significado", "",
           "Columnas con distinta ruta e idénticos valores en todas las filas, junto a una nota de que la privada no informa",
@@ -302,6 +362,30 @@ def escribir_inventario(ex: dict, archivos: dict) -> None:
                 L.append(f"- **{cod} {a}:** sin datos numéricos" + (f" ({'; '.join(c['pie'])[:140]})" if c.get("pie") else ""))
             if c.get("unidad") == "?":
                 L.append(f"- **{cod} {a}:** unidad no reconocida en el título")
+    L += ["", "## Encabezados completados (revisar)", "",
+          "Celdas vacías de encabezado que heredaron el grupo combinado de su izquierda (ver `completar_grupos`).", ""]
+    for a in ANIOS:
+        for cod, c in ex[a]["cuadros"].items():
+            if c.get("heredadas"):
+                L.append(f"- **{cod} {a}:** " + "; ".join(c["heredadas"]))
+    L += ["", "## Hojas por año", ""]
+    for a in ANIOS:
+        otras = [h.strip() for h in ex[a]["hojas"] if not CODIGO_HOJA.match(h)]
+        L.append(f"- **{a}** ({len(ex[a]['hojas'])} hojas): {len(ex[a]['cuadros'])} cuadros y " + ", ".join(f"«{h}»" for h in otras))
+    L += ["", "## Detalle por cuadro y año", "",
+          "Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie completo (Fuente/Nota).", ""]
+    for cod in codigos:
+        L += [f"<details><summary><b>{cod}</b></summary>", ""]
+        for a in ANIOS:
+            c = ex[a]["cuadros"].get(cod)
+            if not c:
+                continue
+            L.append(f"**{a}** · hoja «{c['hoja'].strip()}» · tipo {c.get('tipo') or '—'} · {c.get('filas', 0)} filas · {c['titulo']}")
+            L.append("")
+            L += [f"- `{r}`" for r in c.get("rutas", [])]
+            L += [f"- *{x}*" for x in c.get("pie", [])]
+            L.append("")
+        L += ["</details>", ""]
     (RAIZ / "docs" / "investigacion").mkdir(parents=True, exist_ok=True)
     (RAIZ / "docs" / "investigacion" / "mec_anuario_inventario.md").write_text("\n".join(L) + "\n", encoding="utf-8")
 
@@ -312,8 +396,8 @@ def escribir_registro(ex: dict, archivos: dict) -> None:
     for cod in codigos:
         presentes = [a for a in ANIOS if cod in ex[a]["cuadros"]]
         ult = ex[presentes[-1]]["cuadros"][cod]
-        tipos = sorted({ex[a]["cuadros"][cod]["tipo"] for a in presentes if ex[a]["cuadros"][cod]["tipo"]})
-        e = {"titulo": re.sub(r"\s*\(Todo el país.*", "", ult["titulo"]), "tipo": "/".join(tipos) or None,
+        tipos = {a: ex[a]["cuadros"][cod]["tipo"] for a in presentes}  # AC-E2: tipo por año (None = sin datos)
+        e = {"titulo": re.sub(r"\s*\(Todo el país.*", "", ult["titulo"]), "tipos": tipos,
              "ola": ola(cod), "unidad": ult["unidad"], "anios": presentes}
         if ola(cod) == 1:
             e["mapeo"] = {}
@@ -322,11 +406,15 @@ def escribir_registro(ex: dict, archivos: dict) -> None:
                 notas_otro = [n for n in c.get("pie", []) if any(int(x) != a for x in re.findall(r"año (\d{4})", n))]
                 if notas_otro:  # parte o todo el cuadro con datos de otro año: decide el mantenedor (pregunta en #164)
                     e.setdefault("datos_de_otro_anio", {})[a] = notas_otro
-                if c.get("sin_datos") or (c.get("anio_titulo") and c["anio_titulo"] != a):
-                    e["mapeo"][a] = None  # sin datos, o datos de otro año: no se carga (ver el inventario)
+                motivo = ("sin datos numéricos" if c.get("sin_datos") else
+                          f"el título dice {c['anio_titulo']} (AC-E10: debe ser el año del archivo)"
+                          if c.get("anio_titulo") and c["anio_titulo"] != a else None)
+                if motivo:  # AC-E2: lo que no se carga figura con su motivo
+                    e["mapeo"][a] = None
+                    e.setdefault("sin_cargar", {})[a] = motivo
                     continue
                 sp = solo_publica(c)
-                e["mapeo"][a] = {r: id_indicador(cod, r, "_solo_publica" if r in sp else "") for r in c["rutas"]}
+                e["mapeo"][a] = mapear(cod, c["rutas"], sp)
         cuadros[cod] = e
     reg = {
         "id": "mec_anuario_educacion",
@@ -350,7 +438,9 @@ def escribir_registro(ex: dict, archivos: dict) -> None:
                   "Los cuadros de matrícula y egresos son de estudiantes; los de rendimiento cuentan resultados de fin de año, no la matrícula inicial."],
         "notas_internas": ["Inventario y mapeo generados por scripts/inventario_mec.py (F4.1, #164); revisar los tipos automáticos.",
                            "Sin `cargar: true` hasta F4.4 (#167): con cargar y sin script el registro no valida (como en F3.1 y F2.1)."],
-        "anuarios": {a: {k: archivos[a][k] for k in ("pagina", "url", "sha256", "bytes", "publicado", "actualizado", "revisado")} for a in ANIOS},
+        "anuarios": {a: {k: archivos[a][k] for k in ("pagina", "url", "http", "sha256", "bytes", "publicado", "actualizado", "revisado")} for a in ANIOS},
+        "serie_nacional": {"hoja": "MATRÍCULA DEL SISTEMA 2002-<año>", "tipo": "B", "ola": 1, "unidad": "estudiantes",
+                           "nota": "Se lee del anuario más reciente (F4.3, parsear_serie_matricula); el mapeo va en F4.3."},
         "cuadros": cuadros,
     }
     encabezado = ("# Registro de fuente (AC-P9, AC-E1, AC-E2). Generado por scripts/inventario_mec.py (F4.1, #164);\n"
