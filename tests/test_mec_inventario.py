@@ -197,3 +197,37 @@ def test_d4_lo_que_ya_publica_su_anuario_no_se_vuelve_a_cargar():
     m = {x["ruta"]: x for x in REG["cuadros"]["II-2.2.1"]["mapeo"][2021]}
     privada = [x for r, x in m.items() if "PRIVADA" in r.upper()]
     assert privada and all("ya cargado desde el anuario 2020" in x["omitir"] for x in privada)
+
+
+# ---------------------------------------------------------------- F4.3b-2 (#183): conceptos según 2024 (D6)
+
+def test_d6_cada_id_de_2020_a_2023_esta_en_2024_o_tiene_motivo():
+    sin = []
+    for cod, e in REG["cuadros"].items():
+        if e["ola"] != 1 or not e["mapeo"].get(2024):
+            continue
+        ids24 = {x["id"] for x in e["mapeo"][2024]}
+        for anio in (2020, 2021, 2022, 2023):
+            for x in e["mapeo"].get(anio) or []:
+                if not x.get("omitir") and x["id"] not in ids24 and not x.get("motivo_d6"):
+                    sin.append((cod, anio, x["col"]))
+    assert sin == []
+
+
+def test_d6_un_curso_solo_publico_en_2024_usa_el_id_de_2024():
+    m22 = {x["ruta"]: x for x in REG["cuadros"]["II-4.2.2"]["mapeo"][2022]}
+    m24 = {x["ruta"]: x for x in REG["cuadros"]["II-4.2.2"]["mapeo"][2024]}
+    assert m22["BACHILLERATO PROFESIONAL/Sexo/M"]["id"] == m24["PÚBLICA/BACHILLERATO PROFESIONAL/Sexo/M"]["id"]
+    assert "PÚBLICA" in m22["BACHILLERATO PROFESIONAL/Sexo/M"]["equivale_2024"]
+
+
+def test_d6_lo_que_2024_agrupa_conserva_su_id_y_no_se_suma():
+    ids24 = {x["id"] for x in REG["cuadros"]["II-1.2.2"]["mapeo"][2024]}
+    comun = [x for x in REG["cuadros"]["II-1.2.2"]["mapeo"][2022] if "JARDÍN COMÚN" in x["ruta"]]
+    assert comun and all(x["id"] not in ids24 and "JARDÍN DE INFANTES" in x["motivo_d6"] for x in comun)
+
+
+def test_d6_ac_e13_el_sexo_de_ii_2_2_1_2023_no_usa_un_id_de_2024():
+    m23 = {x["ruta"]: x for x in REG["cuadros"]["II-2.2.1"]["mapeo"][2023]}
+    x = m23["FORMA DE ADMINISTRACIÓN/TOTAL/VARÓN"]
+    assert "equivale_2024" not in x and x["motivo_d6"]

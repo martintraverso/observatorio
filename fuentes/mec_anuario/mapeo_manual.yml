@@ -101,3 +101,20 @@ conceptos:
       concepto: FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato
       total: TOTAL
       suma: ["FORMA DE ADMINISTRACIÓN/", "Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato"]
+
+# reagrupaciones (D6): categorías de 2020–2023 que el anuario 2024 agrupa en otra. Decisión del mantenedor
+# (2026-11-23): cada una conserva su indicador, tal como se publicó, con esta nota; nunca se suman.
+reagrupaciones:
+  II-1.2.1: &jardines
+    jardin comun: "2024 la agrupa con «Jardín de Ciclo Inicial» en «JARDÍN DE INFANTES»"
+    jardin de ciclo inicial: "2024 la agrupa con «Jardín común» en «JARDÍN DE INFANTES»"
+    jardin de jornada comun y completa: "2024 publica por separado «JARDÍN DE INFANTES» y «JARDÍN DE JORNADA COMPLETA»"
+    comun: &escuelas "2024 reclasifica las escuelas en «URBANA COMÚN», «RURAL», «TIEMPO COMPLETO» y «TIEMPO EXTENDIDO»"
+    con maestro a cargo: *escuelas
+    de practica: *escuelas
+    habilitada de practica: *escuelas
+    internado rural: *escuelas
+    t.extendido-de practica: *escuelas
+    unidocente: *escuelas
+    de tiempo completo: *escuelas
+  II-1.2.2: *jardines

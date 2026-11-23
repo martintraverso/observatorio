@@ -566,6 +566,197 @@ etiquetados con su comprobación con sumas (D5), y columnas con datos de otro a�
 - **II-4.2.14 2024:**
   - G `FORMA DE ADMINISTRACIÓN/TOTAL/NO PROMOVIDO/SEXO/Mujer` → `TOTAL/NO PROMOVIDO/SEXO/Mujer` (E = F + G)
 
+## Conceptos según el anuario 2024 (D6, F4.3b-2)
+
+Columnas de 2020–2023 de la ola 1 cuyo id no existe en 2024: las que significan lo mismo pasan a usar el id
+de 2024 (`equivale_2024`); las demás conservan su id con un `motivo_d6`. Lo que 2024 agrupa no se suma.
+
+- **II-1.1.1:** 1 equivalencias, 0 con motivo
+  - 2021 H `FORMA DE ADMINISTRACIÓN/Jardines de Ciclo Inicial` → `edu_ii_1_1_1_forma_de_administracion_publica_jardines_de_ciclo_inicial` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+- **II-1.1.2:** 0 equivalencias, 1 con motivo
+  - 1 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
+- **II-1.2.1:** 0 equivalencias, 86 con motivo
+  - 64 × 2024 reclasifica las escuelas en «URBANA COMÚN», «RURAL», «TIEMPO COMPLETO» y «TIEMPO EXTENDIDO» (no se suma: decisión del mantenedor)
+  - 8 × 2024 publica por separado «JARDÍN DE INFANTES» y «JARDÍN DE JORNADA COMPLETA» (no se suma: decisión del mantenedor)
+  - 8 × 2024 la agrupa con «Jardín de Ciclo Inicial» en «JARDÍN DE INFANTES» (no se suma: decisión del mantenedor)
+  - 6 × 2024 la agrupa con «Jardín común» en «JARDÍN DE INFANTES» (no se suma: decisión del mantenedor)
+- **II-1.2.2:** 0 equivalencias, 176 con motivo
+  - 132 × 2024 reclasifica las escuelas en «URBANA COMÚN», «RURAL», «TIEMPO COMPLETO» y «TIEMPO EXTENDIDO» (no se suma: decisión del mantenedor)
+  - 16 × 2024 publica por separado «JARDÍN DE INFANTES» y «JARDÍN DE JORNADA COMPLETA» (no se suma: decisión del mantenedor)
+  - 16 × 2024 la agrupa con «Jardín de Ciclo Inicial» en «JARDÍN DE INFANTES» (no se suma: decisión del mantenedor)
+  - 12 × 2024 la agrupa con «Jardín común» en «JARDÍN DE INFANTES» (no se suma: decisión del mantenedor)
+- **II-1.2.4:** 0 equivalencias, 4 con motivo
+  - 4 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
+- **II-1.2.5:** 0 equivalencias, 2 con motivo
+  - 2 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
+- **II-1.2.7:** 0 equivalencias, 1 con motivo
+  - 1 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
+- **II-2.1.2:** 0 equivalencias, 20 con motivo
+  - 16 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
+  - 4 × 2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente
+- **II-2.2.1:** 0 equivalencias, 8 con motivo
+  - 8 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
+- **II-2.2.17:** 0 equivalencias, 3 con motivo
+  - 3 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
+- **II-3.1.1:** 11 equivalencias, 7 con motivo
+  - 2020 C `MODALIDAD/TOTAL LICEOS PÚBLICOS` → `edu_ii_3_1_1_dges_total_liceos_publicos` (misma columna dentro de otro grupo del encabezado)
+  - 2020 K `MODALIDAD/DGEIP/FORMA DE ADMINISTRACIÓN/Escuelas con Ciclo Básico Rural` → `edu_ii_3_1_1_modalidad_dgeip_escuelas_con_ciclo_basico_rural` (misma columna dentro de otro grupo del encabezado)
+  - 2020 L `MODALIDAD/FORMA DE ADMINISTRACIÓN/TOTAL ESCUELAS DE CBT Y TÈCNICA` → `edu_ii_3_1_1_modalidad_dgetp_total_escuelas_de_cbt_y_tecnica` (misma columna dentro de otro grupo del encabezado)
+  - 2021 C `MODALIDAD/TOTAL LICEOS PÚBLICOS` → `edu_ii_3_1_1_dges_total_liceos_publicos` (misma columna dentro de otro grupo del encabezado)
+  - 2021 K `MODALIDAD/DGEIP/FORMA DE ADMINISTRACIÓN/Escuelas con Ciclo Básico Rural` → `edu_ii_3_1_1_modalidad_dgeip_escuelas_con_ciclo_basico_rural` (misma columna dentro de otro grupo del encabezado)
+  - 2021 L `MODALIDAD/FORMA DE ADMINISTRACIÓN/TOTAL ESCUELAS DE CBT Y TÈCNICA` → `edu_ii_3_1_1_modalidad_dgetp_total_escuelas_de_cbt_y_tecnica` (misma columna dentro de otro grupo del encabezado)
+  - 2022 C `MODALIDAD/TOTAL LICEOS PÚBLICOS` → `edu_ii_3_1_1_dges_total_liceos_publicos` (misma columna dentro de otro grupo del encabezado)
+  - 2022 K `MODALIDAD/DGEIP/FORMA DE ADMINISTRACIÓN/Escuelas con Ciclo Básico Rural` → `edu_ii_3_1_1_modalidad_dgeip_escuelas_con_ciclo_basico_rural` (misma columna dentro de otro grupo del encabezado)
+  - 2022 L `MODALIDAD/FORMA DE ADMINISTRACIÓN/TOTAL ESCUELAS DE CBT Y TÈCNICA` → `edu_ii_3_1_1_modalidad_dgetp_total_escuelas_de_cbt_y_tecnica` (misma columna dentro de otro grupo del encabezado)
+  - 2023 N `MODALIDAD/TOTAL ESCUELAS DE CBT Y TÈCNICA` → `edu_ii_3_1_1_modalidad_dgetp_total_escuelas_de_cbt_y_tecnica` (misma columna dentro de otro grupo del encabezado)
+  - 2023 Q `MODALIDAD/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica/Reparticiones` → `edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica_reparticiones` (misma columna dentro de otro grupo del encabezado)
+  - 7 × 2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente
+- **II-3.1.2:** 0 equivalencias, 3 con motivo
+  - 3 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
+- **II-3.2.2:** 12 equivalencias, 36 con motivo
+  - 2020 C `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/TOTAL` → `edu_ii_3_2_2_publica_articulacion_educacion_media_basica_total` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2020 D `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/V` → `edu_ii_3_2_2_publica_articulacion_educacion_media_basica_sexo_v` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2020 E `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/M` → `edu_ii_3_2_2_publica_articulacion_educacion_media_basica_sexo_m` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2021 C `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/TOTAL` → `edu_ii_3_2_2_publica_articulacion_educacion_media_basica_total` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2021 D `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/V` → `edu_ii_3_2_2_publica_articulacion_educacion_media_basica_sexo_v` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2021 E `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/M` → `edu_ii_3_2_2_publica_articulacion_educacion_media_basica_sexo_m` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 C `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/TOTAL` → `edu_ii_3_2_2_publica_articulacion_educacion_media_basica_total` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 D `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/V` → `edu_ii_3_2_2_publica_articulacion_educacion_media_basica_sexo_v` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 E `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/M` → `edu_ii_3_2_2_publica_articulacion_educacion_media_basica_sexo_m` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 O `FORMACIÓN PROFESIONAL BÁSICA/TOTAL` → `edu_ii_3_2_2_publica_formacion_profesional_basica_total` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 P `FORMACIÓN PROFESIONAL BÁSICA/Sexo/V` → `edu_ii_3_2_2_publica_formacion_profesional_basica_sexo_v` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 Q `FORMACIÓN PROFESIONAL BÁSICA/Sexo/M` → `edu_ii_3_2_2_publica_formacion_profesional_basica_sexo_m` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 36 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
+- **II-3.2.7:** 6 equivalencias, 36 con motivo
+  - 2021 E `TIPO DE CURSO/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Total` → `edu_ii_3_2_7_publica_articulacion_educacion_media_basica_total` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2021 F `TIPO DE CURSO/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/mujer` → `edu_ii_3_2_7_publica_articulacion_educacion_media_basica_sexo_m` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2021 G `TIPO DE CURSO/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/Varón` → `edu_ii_3_2_7_publica_articulacion_educacion_media_basica_sexo_v` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 E `TIPO DE CURSO/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Total` → `edu_ii_3_2_7_publica_articulacion_educacion_media_basica_total` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 F `TIPO DE CURSO/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/mujer` → `edu_ii_3_2_7_publica_articulacion_educacion_media_basica_sexo_m` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 G `TIPO DE CURSO/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/Varón` → `edu_ii_3_2_7_publica_articulacion_educacion_media_basica_sexo_v` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 27 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
+  - 5 × 2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente
+  - 4 × concepto distinto: hasta este año sin separar pública y privada; 2024 las separa (AC-E13)
+- **II-3.2.8:** 0 equivalencias, 17 con motivo
+  - 15 × 2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente
+  - 2 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
+- **II-3.2.10:** 0 equivalencias, 34 con motivo
+  - 18 × 2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente
+  - 16 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
+- **II-3.2.11:** 0 equivalencias, 54 con motivo
+  - 54 × 2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente
+- **II-4.1.1:** 12 equivalencias, 3 con motivo
+  - 2020 B `MODALIDAD/TOTAL GENERAL` → `edu_ii_4_1_1_total_general` (misma columna dentro de otro grupo del encabezado)
+  - 2020 C `MODALIDAD/DGES/TOTAL LICEOS PÚBLICOS` → `edu_ii_4_1_1_dges_total_liceos_publicos` (misma columna dentro de otro grupo del encabezado)
+  - 2020 K `MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/TOTAL ESCUELAS DE CBT Y TÉCNICA` → `edu_ii_4_1_1_modalidad_dgetp_total_escuelas_de_cbt_y_tecnica` (misma columna dentro de otro grupo del encabezado)
+  - 2020 M `MODALIDAD/DGETP/Escuelas de CBT y Técnica./Reparticiones` → `edu_ii_4_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica_reparticiones` (misma columna dentro de otro grupo del encabezado)
+  - 2021 B `MODALIDAD/TOTAL GENERAL` → `edu_ii_4_1_1_total_general` (misma columna dentro de otro grupo del encabezado)
+  - 2021 C `MODALIDAD/DGES/TOTAL LICEOS PÚBLICOS` → `edu_ii_4_1_1_dges_total_liceos_publicos` (misma columna dentro de otro grupo del encabezado)
+  - 2021 K `MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/TOTAL ESCUELAS DE CBT Y TÉCNICA` → `edu_ii_4_1_1_modalidad_dgetp_total_escuelas_de_cbt_y_tecnica` (misma columna dentro de otro grupo del encabezado)
+  - 2021 M `MODALIDAD/DGETP/Escuelas de CBT y Técnica./Reparticiones` → `edu_ii_4_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica_reparticiones` (misma columna dentro de otro grupo del encabezado)
+  - 2022 B `MODALIDAD/TOTAL GENERAL` → `edu_ii_4_1_1_total_general` (misma columna dentro de otro grupo del encabezado)
+  - 2022 C `MODALIDAD/DGES/TOTAL LICEOS PÚBLICOS` → `edu_ii_4_1_1_dges_total_liceos_publicos` (misma columna dentro de otro grupo del encabezado)
+  - 2022 K `MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/TOTAL ESCUELAS DE CBT Y TÉCNICA` → `edu_ii_4_1_1_modalidad_dgetp_total_escuelas_de_cbt_y_tecnica` (misma columna dentro de otro grupo del encabezado)
+  - 2022 M `MODALIDAD/DGETP/Escuelas de CBT y Técnica./Reparticiones` → `edu_ii_4_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica_reparticiones` (misma columna dentro de otro grupo del encabezado)
+  - 3 × 2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente
+- **II-4.2.2:** 36 equivalencias, 33 con motivo
+  - 2020 E `BACHILLERATO FIGARI/TOTAL` → `edu_ii_4_2_2_publica_bachillerato_figari_total` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2020 F `BACHILLERATO FIGARI/Sexo/M` → `edu_ii_4_2_2_publica_bachillerato_figari_sexo_m` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2020 G `BACHILLERATO FIGARI/Sexo/V` → `edu_ii_4_2_2_publica_bachillerato_figari_sexo_v` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2020 H `BACHILLERATO PROFESIONAL/TOTAL` → `edu_ii_4_2_2_publica_bachillerato_profesional_total` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2020 I `BACHILLERATO PROFESIONAL/Sexo/M` → `edu_ii_4_2_2_publica_bachillerato_profesional_sexo_m` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2020 J `BACHILLERATO PROFESIONAL/Sexo/V` → `edu_ii_4_2_2_publica_bachillerato_profesional_sexo_v` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2020 Q `EDUCACIÓN MEDIA PROFESIONAL/TOTAL` → `edu_ii_4_2_2_publica_educacion_media_profesional_total` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2020 R `EDUCACIÓN MEDIA PROFESIONAL/Sexo/M` → `edu_ii_4_2_2_publica_educacion_media_profesional_sexo_m` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2020 S `EDUCACIÓN MEDIA PROFESIONAL/Sexo/V` → `edu_ii_4_2_2_publica_educacion_media_profesional_sexo_v` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2020 W `EDUCACIÓN MEDIA TECNOLÓGICA FINEST/TOTAL` → `edu_ii_4_2_2_publica_educacion_media_tecnologica_finest_total` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2020 X `EDUCACIÓN MEDIA TECNOLÓGICA FINEST/Sexo/M` → `edu_ii_4_2_2_publica_educacion_media_tecnologica_finest_sexo_m` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2020 Y `EDUCACIÓN MEDIA TECNOLÓGICA FINEST/Sexo/V` → `edu_ii_4_2_2_publica_educacion_media_tecnologica_finest_sexo_v` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2021 E `BACHILLERATO FIGARI/TOTAL` → `edu_ii_4_2_2_publica_bachillerato_figari_total` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2021 F `BACHILLERATO FIGARI/Sexo/M` → `edu_ii_4_2_2_publica_bachillerato_figari_sexo_m` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2021 G `BACHILLERATO FIGARI/Sexo/V` → `edu_ii_4_2_2_publica_bachillerato_figari_sexo_v` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2021 H `BACHILLERATO PROFESIONAL/TOTAL` → `edu_ii_4_2_2_publica_bachillerato_profesional_total` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2021 I `BACHILLERATO PROFESIONAL/Sexo/M` → `edu_ii_4_2_2_publica_bachillerato_profesional_sexo_m` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2021 J `BACHILLERATO PROFESIONAL/Sexo/V` → `edu_ii_4_2_2_publica_bachillerato_profesional_sexo_v` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2021 Q `EDUCACIÓN MEDIA PROFESIONAL/TOTAL` → `edu_ii_4_2_2_publica_educacion_media_profesional_total` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2021 R `EDUCACIÓN MEDIA PROFESIONAL/Sexo/M` → `edu_ii_4_2_2_publica_educacion_media_profesional_sexo_m` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2021 S `EDUCACIÓN MEDIA PROFESIONAL/Sexo/V` → `edu_ii_4_2_2_publica_educacion_media_profesional_sexo_v` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2021 W `EDUCACIÓN MEDIA TECNOLÓGICA FINEST/TOTAL` → `edu_ii_4_2_2_publica_educacion_media_tecnologica_finest_total` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2021 X `EDUCACIÓN MEDIA TECNOLÓGICA FINEST/Sexo/M` → `edu_ii_4_2_2_publica_educacion_media_tecnologica_finest_sexo_m` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2021 Y `EDUCACIÓN MEDIA TECNOLÓGICA FINEST/Sexo/V` → `edu_ii_4_2_2_publica_educacion_media_tecnologica_finest_sexo_v` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 E `BACHILLERATO FIGARI/TOTAL` → `edu_ii_4_2_2_publica_bachillerato_figari_total` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 F `BACHILLERATO FIGARI/Sexo/M` → `edu_ii_4_2_2_publica_bachillerato_figari_sexo_m` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 G `BACHILLERATO FIGARI/Sexo/V` → `edu_ii_4_2_2_publica_bachillerato_figari_sexo_v` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 H `BACHILLERATO PROFESIONAL/TOTAL` → `edu_ii_4_2_2_publica_bachillerato_profesional_total` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 I `BACHILLERATO PROFESIONAL/Sexo/M` → `edu_ii_4_2_2_publica_bachillerato_profesional_sexo_m` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 J `BACHILLERATO PROFESIONAL/Sexo/V` → `edu_ii_4_2_2_publica_bachillerato_profesional_sexo_v` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 Q `EDUCACIÓN MEDIA PROFESIONAL/TOTAL` → `edu_ii_4_2_2_publica_educacion_media_profesional_total` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 R `EDUCACIÓN MEDIA PROFESIONAL/Sexo/M` → `edu_ii_4_2_2_publica_educacion_media_profesional_sexo_m` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 S `EDUCACIÓN MEDIA PROFESIONAL/Sexo/V` → `edu_ii_4_2_2_publica_educacion_media_profesional_sexo_v` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 W `EDUCACIÓN MEDIA TECNOLÓGICA FINEST/TOTAL` → `edu_ii_4_2_2_publica_educacion_media_tecnologica_finest_total` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 X `EDUCACIÓN MEDIA TECNOLÓGICA FINEST/Sexo/M` → `edu_ii_4_2_2_publica_educacion_media_tecnologica_finest_sexo_m` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 Y `EDUCACIÓN MEDIA TECNOLÓGICA FINEST/Sexo/V` → `edu_ii_4_2_2_publica_educacion_media_tecnologica_finest_sexo_v` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 24 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
+  - 9 × concepto distinto: hasta este año sin separar pública y privada; 2024 las separa (AC-E13)
+- **II-4.2.3:** 24 equivalencias, 35 con motivo
+  - 2021 E `TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO FIGARI/Total` → `edu_ii_4_2_3_publica_bachillerato_figari_total` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2021 F `TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO FIGARI/Sexo/Mujer` → `edu_ii_4_2_3_publica_bachillerato_figari_sexo_m` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2021 G `TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO FIGARI/Sexo/Varón` → `edu_ii_4_2_3_publica_bachillerato_figari_sexo_v` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2021 H `TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO PROFESIONAL/Total` → `edu_ii_4_2_3_publica_bachillerato_profesional_total` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2021 I `TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO PROFESIONAL/Sexo/Mujer` → `edu_ii_4_2_3_publica_bachillerato_profesional_sexo_m` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2021 J `TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO PROFESIONAL/Sexo/Varón` → `edu_ii_4_2_3_publica_bachillerato_profesional_sexo_v` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2021 Q `TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA PROFESIONAL/Total` → `edu_ii_4_2_3_publica_educacion_media_profesional_total` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2021 R `TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA PROFESIONAL/Sexo/Mujer` → `edu_ii_4_2_3_publica_educacion_media_profesional_sexo_m` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2021 S `TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA PROFESIONAL/Sexo/Varón` → `edu_ii_4_2_3_publica_educacion_media_profesional_sexo_v` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2021 W `TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA TECNOLÓGICA FINEST/Total` → `edu_ii_4_2_3_publica_educacion_media_tecnologica_finest_total` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2021 X `TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA TECNOLÓGICA FINEST/Sexo/Mujer` → `edu_ii_4_2_3_publica_educacion_media_tecnologica_finest_sexo_m` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2021 Y `TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA TECNOLÓGICA FINEST/Sexo/Varón` → `edu_ii_4_2_3_publica_educacion_media_tecnologica_finest_sexo_v` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 E `TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO FIGARI/Total` → `edu_ii_4_2_3_publica_bachillerato_figari_total` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 F `TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO FIGARI/Sexo/Mujer` → `edu_ii_4_2_3_publica_bachillerato_figari_sexo_m` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 G `TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO FIGARI/Sexo/Varón` → `edu_ii_4_2_3_publica_bachillerato_figari_sexo_v` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 H `TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO PROFESIONAL/Total` → `edu_ii_4_2_3_publica_bachillerato_profesional_total` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 I `TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO PROFESIONAL/Sexo/Mujer` → `edu_ii_4_2_3_publica_bachillerato_profesional_sexo_m` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 J `TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO PROFESIONAL/Sexo/Varón` → `edu_ii_4_2_3_publica_bachillerato_profesional_sexo_v` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 Q `TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA PROFESIONAL/Total` → `edu_ii_4_2_3_publica_educacion_media_profesional_total` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 R `TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA PROFESIONAL/Sexo/Mujer` → `edu_ii_4_2_3_publica_educacion_media_profesional_sexo_m` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 S `TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA PROFESIONAL/Sexo/Varón` → `edu_ii_4_2_3_publica_educacion_media_profesional_sexo_v` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 W `TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA TECNOLÓGICA FINEST/Total` → `edu_ii_4_2_3_publica_educacion_media_tecnologica_finest_total` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 X `TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA TECNOLÓGICA FINEST/Sexo/Mujer` → `edu_ii_4_2_3_publica_educacion_media_tecnologica_finest_sexo_m` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 2022 Y `TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA TECNOLÓGICA FINEST/Sexo/Varón` → `edu_ii_4_2_3_publica_educacion_media_tecnologica_finest_sexo_v` (en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto)
+  - 25 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
+  - 10 × concepto distinto: hasta este año sin separar pública y privada; 2024 las separa (AC-E13)
+- **II-4.2.4:** 0 equivalencias, 25 con motivo
+  - 21 × 2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente
+  - 4 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
+- **II-4.2.7:** 0 equivalencias, 5 con motivo
+  - 5 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
+- **II-4.2.9:** 0 equivalencias, 1 con motivo
+  - 1 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
+- **II-4.2.11:** 18 equivalencias, 0 con motivo
+  - 2020 B `GRADO/CUARTO/SEXO/Mujeres` → `edu_ii_4_2_11_grado_cuarto_sexo_mujer` (misma columna, otro rótulo (tildes, plurales o llamadas de nota))
+  - 2020 C `GRADO/CUARTO/SEXO/Varones` → `edu_ii_4_2_11_grado_cuarto_sexo_varon` (misma columna, otro rótulo (tildes, plurales o llamadas de nota))
+  - 2020 D `GRADO/QUINTO/SEXO/Mujeres` → `edu_ii_4_2_11_grado_quinto_sexo_mujer` (misma columna, otro rótulo (tildes, plurales o llamadas de nota))
+  - 2020 E `GRADO/QUINTO/SEXO/Varones` → `edu_ii_4_2_11_grado_quinto_sexo_varon` (misma columna, otro rótulo (tildes, plurales o llamadas de nota))
+  - 2020 F `GRADO/SEXTO/SEXO/Mujeres` → `edu_ii_4_2_11_grado_sexto_sexo_mujer` (misma columna, otro rótulo (tildes, plurales o llamadas de nota))
+  - 2020 G `GRADO/SEXTO/SEXO/Varones` → `edu_ii_4_2_11_grado_sexto_sexo_varon` (misma columna, otro rótulo (tildes, plurales o llamadas de nota))
+  - 2021 B `GRADO/CUARTO/SEXO/Mujeres` → `edu_ii_4_2_11_grado_cuarto_sexo_mujer` (misma columna, otro rótulo (tildes, plurales o llamadas de nota))
+  - 2021 C `GRADO/CUARTO/SEXO/Varones` → `edu_ii_4_2_11_grado_cuarto_sexo_varon` (misma columna, otro rótulo (tildes, plurales o llamadas de nota))
+  - 2021 D `GRADO/QUINTO/SEXO/Mujeres` → `edu_ii_4_2_11_grado_quinto_sexo_mujer` (misma columna, otro rótulo (tildes, plurales o llamadas de nota))
+  - 2021 E `GRADO/QUINTO/SEXO/Varones` → `edu_ii_4_2_11_grado_quinto_sexo_varon` (misma columna, otro rótulo (tildes, plurales o llamadas de nota))
+  - 2021 F `GRADO/SEXTO/SEXO/Mujeres` → `edu_ii_4_2_11_grado_sexto_sexo_mujer` (misma columna, otro rótulo (tildes, plurales o llamadas de nota))
+  - 2021 G `GRADO/SEXTO/SEXO/Varones` → `edu_ii_4_2_11_grado_sexto_sexo_varon` (misma columna, otro rótulo (tildes, plurales o llamadas de nota))
+  - 2022 B `GRADO/CUARTO/SEXO/Mujeres` → `edu_ii_4_2_11_grado_cuarto_sexo_mujer` (misma columna, otro rótulo (tildes, plurales o llamadas de nota))
+  - 2022 C `GRADO/CUARTO/SEXO/Varones` → `edu_ii_4_2_11_grado_cuarto_sexo_varon` (misma columna, otro rótulo (tildes, plurales o llamadas de nota))
+  - 2022 D `GRADO/QUINTO/SEXO/Mujeres` → `edu_ii_4_2_11_grado_quinto_sexo_mujer` (misma columna, otro rótulo (tildes, plurales o llamadas de nota))
+  - 2022 E `GRADO/QUINTO/SEXO/Varones` → `edu_ii_4_2_11_grado_quinto_sexo_varon` (misma columna, otro rótulo (tildes, plurales o llamadas de nota))
+  - 2022 F `GRADO/SEXTO/SEXO/Mujeres` → `edu_ii_4_2_11_grado_sexto_sexo_mujer` (misma columna, otro rótulo (tildes, plurales o llamadas de nota))
+  - 2022 G `GRADO/SEXTO/SEXO/Varones` → `edu_ii_4_2_11_grado_sexto_sexo_varon` (misma columna, otro rótulo (tildes, plurales o llamadas de nota))
+- **II-4.2.13:** 0 equivalencias, 42 con motivo
+  - 30 × 2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente
+  - 12 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
+- **II-4.2.14:** 0 equivalencias, 24 con motivo
+  - 24 × 2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente
+
 ## Encabezados completados (revisar)
 
 Celdas vacías de encabezado que heredaron un grupo combinado vecino, de la derecha si su rótulo es un total o

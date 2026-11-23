@@ -23,6 +23,7 @@ Uso: python scripts/inventario_mec.py [--dir datos/crudo/mec_anuario]
 from __future__ import annotations
 
 import argparse
+import collections
 import datetime as dt
 import hashlib
 import html
@@ -322,6 +323,69 @@ def anio_real(ex: dict, cod: str, a: int, regla: dict) -> tuple[dict[int, dict],
     return cambios, notas
 
 
+SEXO = {"varon": "v", "varones": "v", "v": "v", "hombres": "v", "mujer": "m", "mujeres": "m", "m": "m"}
+ENVOLTURA = {"publica", "forma de administracion", "tipo de curso", "educacion media basica tecnologica",
+             "educacion media superior tecnologica", "modalidad", "rendimiento", "dges", "dgetp"}
+
+
+def _norm(ruta: str) -> list[str]:
+    """Segmentos comparables entre años: sin tildes ni mayúsculas, sin llamadas de nota, «SEXO» fuera y
+    varón/varones/V → v, mujer/mujeres/M → m."""
+    segs = [re.sub(r"\*+|\s*\d$|\.$", "", plegar(x)).strip() for x in ruta.split("/")]
+    return [SEXO.get(x, x) for x in segs if x not in ("sexo", "por sexo")]
+
+
+def conceptos_2024(cuadros: dict, manual: dict) -> None:
+    """D6: cada columna de 2020–2023 de la ola 1 cuyo id no existe en 2024 pasa a usar el id de 2024 si significa lo
+    mismo (`equivale_2024`), o queda con su id y un `motivo_d6`. Lo que 2024 agrupa en otra categoría no se suma
+    (decisión del mantenedor): conserva su id con la nota de `reagrupaciones`."""
+    for cod, e in cuadros.items():
+        m24 = [x for x in (e.get("mapeo") or {}).get(2024) or [] if not x.get("omitir")]
+        if e["ola"] != 1 or not m24:
+            continue
+        ids24 = {x["id"] for x in e["mapeo"][2024]}
+        s24 = [(_norm(x.get("concepto", x["ruta"])), x["id"]) for x in m24]
+        reag = manual.get("reagrupaciones", {}).get(cod, {})
+        for a in (2020, 2021, 2022, 2023):
+            m = e["mapeo"].get(a) or []
+            propuestas = {}
+            for k, x in enumerate(m):
+                if x["id"] in ids24 or x.get("omitir"):
+                    continue
+                s = _norm(x.get("concepto", x["ruta"]))
+                s_sin = [y for y in s if y not in ENVOLTURA]
+                igual = [i for t, i in s24 if t == s]
+                cand = [(t, i) for t, i in s24 if [y for y in t if y not in ENVOLTURA] == s_sin]
+                privada_2024 = any("privada" in t and [y for y in t if y not in ENVOLTURA and y != "privada"] == s_sin for t, _ in s24)
+                if igual:
+                    propuestas[k] = (igual[0], "misma columna, otro rótulo (tildes, plurales o llamadas de nota)")
+                elif len(cand) == 1 and not ("publica" in cand[0][0] and "publica" not in s and privada_2024):
+                    t = cand[0][0]
+                    porque = ("en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto" if "publica" in t and "publica" not in s
+                              else "misma columna dentro de otro grupo del encabezado")
+                    propuestas[k] = (cand[0][1], porque)
+                else:
+                    nota = next((v for clave, v in reag.items() if clave in s), None)
+                    if nota:
+                        x["motivo_d6"] = nota + " (no se suma: decisión del mantenedor)"
+                    elif "publica" not in s and "privada" not in s and privada_2024:
+                        x["motivo_d6"] = "concepto distinto: hasta este año sin separar pública y privada; 2024 las separa (AC-E13)"
+                    elif any(len(t) > len(s) and [y for y in t if y not in ENVOLTURA][:len(s_sin) - 1] == s_sin[:-1] for t, _ in s24):
+                        x["motivo_d6"] = "2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente"
+                    else:
+                        x["motivo_d6"] = "categoría o columna que 2024 no publica (discontinuada o reclasificada)"
+            # dos columnas del mismo año no pueden ir al mismo id de 2024: esas conservan el suyo
+            destinos = collections.Counter(i for i, _ in propuestas.values())
+            for k, (i, porque) in propuestas.items():
+                if destinos[i] > 1:
+                    m[k]["motivo_d6"] = f"varias columnas de este año equivalen a «{i}»: conserva su id"
+                    continue
+                m[k].update({"id": i, "equivale_2024": porque})
+            ids = [x["id"] for x in m]
+            if len(set(ids)) != len(ids):
+                raise SystemExit(f"{cod} {a}: ids repetidos después de D6")
+
+
 def solo_publica(c: dict) -> dict[str, str]:
     """Rutas de «total» por sexo que ese año son solo pública (la privada sin sexo), con la ruta de pública que
     repiten: II-2.2.1 en 2024."""
@@ -432,6 +496,25 @@ def escribir_inventario(ex: dict, archivos: dict, cuadros: dict) -> None:
                        else f"omitir: {x['omitir']}" if "omitir" in x else f"({x['comprobado']})")
                 L.append(f"  - {x['col']} `{x['ruta']}` {que}")
             L += [f"  - ⚠ {n}" for n in notas]
+    L += ["", "## Conceptos según el anuario 2024 (D6, F4.3b-2)", "",
+          "Columnas de 2020–2023 de la ola 1 cuyo id no existe en 2024: las que significan lo mismo pasan a usar el id",
+          "de 2024 (`equivale_2024`); las demás conservan su id con un `motivo_d6`. Lo que 2024 agrupa no se suma.", ""]
+    for cod in codigos:
+        e = cuadros.get(cod, {})
+        if e.get("ola") != 1:
+            continue
+        eq, mot = [], collections.Counter()
+        for a, m in sorted((e.get("mapeo") or {}).items()):
+            for x in m or []:
+                if "equivale_2024" in x:
+                    eq.append(f"{a} {x['col']} `{x.get('concepto', x['ruta'])}` → `{x['id']}` ({x['equivale_2024']})")
+                elif "motivo_d6" in x:
+                    mot[x["motivo_d6"]] += 1
+        if not eq and not mot:
+            continue
+        L.append(f"- **{cod}:** {len(eq)} equivalencias, {sum(mot.values())} con motivo")
+        L += [f"  - {x}" for x in eq]
+        L += [f"  - {n} × {k}" for k, n in mot.most_common()]
     L += ["", "## Encabezados completados (revisar)", "",
           "Celdas vacías de encabezado que heredaron un grupo combinado vecino, de la derecha si su rótulo es un total o",
           "de la izquierda si no (ver `completar_grupos`). Heurística: hay casos mal resueltos (PR #177), revisar.", ""]
@@ -547,6 +630,7 @@ def escribir_registro(ex: dict, archivos: dict) -> None:
                     raise SystemExit(f"{cod} {a}: ids repetidos después del mapeo a mano")
                 e["mapeo"][a] = m
         cuadros[cod] = e
+    conceptos_2024(cuadros, manual)
     reg = {
         "id": "mec_anuario_educacion",
         "nombre": "Anuario Estadístico de Educación (MEC)",
