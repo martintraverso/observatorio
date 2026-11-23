@@ -338,42 +338,79 @@ def _norm(ruta: str) -> list[str]:
 def conceptos_2024(cuadros: dict, manual: dict) -> None:
     """D6: cada columna de 2020–2023 de la ola 1 cuyo id no existe en 2024 pasa a usar el id de 2024 si significa lo
     mismo (`equivale_2024`), o queda con su id y un `motivo_d6`. Lo que 2024 agrupa en otra categoría no se suma
-    (decisión del mantenedor): conserva su id con la nota de `reagrupaciones`."""
+    (decisión del mantenedor): conserva su id con la nota de `reagrupaciones`.
+
+    Una unión nunca cambia la cobertura por forma de administración (AC-E13): un curso sin administración se une a
+    «PÚBLICA/…» de 2024 solo si ni 2023 ni 2024 tienen parte privada de ese curso; un total de un año sin columnas
+    privadas no se une al de un año que sí las tiene; y una columna «PÚBLICA/…» no se une a una sin administración."""
     for cod, e in cuadros.items():
-        m24 = [x for x in (e.get("mapeo") or {}).get(2024) or [] if not x.get("omitir")]
+        mapeo = e.get("mapeo") or {}
+        m24 = [x for x in mapeo.get(2024) or [] if not x.get("omitir")]
         if e["ola"] != 1 or not m24:
             continue
-        ids24 = {x["id"] for x in e["mapeo"][2024]}
+        ids24 = {x["id"] for x in mapeo[2024]}
         s24 = [(_norm(x.get("concepto", x["ruta"])), x["id"]) for x in m24]
+        omitidas24 = [_norm(x.get("concepto", x["ruta"])) for x in mapeo[2024] if x.get("omitir")]
+        recientes = [_norm(x.get("concepto", x["ruta"])) for a in (2023, 2024) for x in mapeo.get(a) or []]
+        con_privada_reciente = any("privada" in t or "total privados" in t for t in recientes)
         reag = manual.get("reagrupaciones", {}).get(cod, {})
+
+        def sin_env(t):
+            return [y for y in t if y not in ENVOLTURA]
+
         for a in (2020, 2021, 2022, 2023):
-            m = e["mapeo"].get(a) or []
+            m = mapeo.get(a) or []
+            sin_privada = not any("privada" in _norm(x.get("concepto", x["ruta"])) or
+                                  "total privados" in _norm(x.get("concepto", x["ruta"])) for x in m)
             propuestas = {}
             for k, x in enumerate(m):
                 if x["id"] in ids24 or x.get("omitir"):
                     continue
                 s = _norm(x.get("concepto", x["ruta"]))
-                s_sin = [y for y in s if y not in ENVOLTURA]
+                s_sin = sin_env(s)
+                es_total = any(y.startswith("total") for y in s)
+                privada_reciente = any("privada" in t and [y for y in sin_env(t) if y != "privada"] == s_sin for t in recientes)
+                # un total general (o de un curso con parte privada desde 2023) de un año sin columnas privadas
+                cobertura = (sin_privada and con_privada_reciente and es_total and a < 2023
+                             and (len(s_sin) <= 1 or privada_reciente)
+                             and not any("public" in y for y in s))  # «TOTAL LICEOS PÚBLICOS» no cambia de cobertura
                 igual = [i for t, i in s24 if t == s]
-                cand = [(t, i) for t, i in s24 if [y for y in t if y not in ENVOLTURA] == s_sin]
-                privada_2024 = any("privada" in t and [y for y in t if y not in ENVOLTURA and y != "privada"] == s_sin for t, _ in s24)
-                if igual:
+                cand = [(t, i) for t, i in s24 if sin_env(t) == s_sin]
+                if len(cand) > 1:  # desempate: el que conserva más segmentos de la ruta (p. ej. «dgetp»)
+                    mejor = max(len(set(t) & set(s)) for t, _ in cand)
+                    cand = [(t, i) for t, i in cand if len(set(t) & set(s)) == mejor]
+                motivo = None
+                if s in omitidas24:
+                    motivo = "concepto distinto (AC-E13): en 2024 esta columna cambia de significado y no se carga (D7)"
+                elif cobertura and (igual or cand):
+                    motivo = "concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí"
+                elif igual:
                     propuestas[k] = (igual[0], "misma columna, otro rótulo (tildes, plurales o llamadas de nota)")
-                elif len(cand) == 1 and not ("publica" in cand[0][0] and "publica" not in s and privada_2024):
+                    continue
+                elif len(cand) == 1:
                     t = cand[0][0]
-                    porque = ("en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto" if "publica" in t and "publica" not in s
-                              else "misma columna dentro de otro grupo del encabezado")
-                    propuestas[k] = (cand[0][1], porque)
-                else:
+                    if "publica" in t and "publica" not in s and privada_reciente:
+                        motivo = "concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa"
+                    elif "publica" in s and "publica" not in t:
+                        motivo = "concepto distinto (AC-E13): este año es solo pública y 2024 cubre todas las administraciones"
+                    else:
+                        porque = ("en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto"
+                                  if "publica" in t and "publica" not in s else "misma columna dentro de otro grupo del encabezado")
+                        propuestas[k] = (cand[0][1], porque)
+                        continue
+                elif len(cand) > 1:
+                    motivo = "ambigua: varias columnas de 2024 coinciden; conserva su id"
+                if motivo is None:
                     nota = next((v for clave, v in reag.items() if clave in s), None)
                     if nota:
-                        x["motivo_d6"] = nota + " (no se suma: decisión del mantenedor)"
-                    elif "publica" not in s and "privada" not in s and privada_2024:
-                        x["motivo_d6"] = "concepto distinto: hasta este año sin separar pública y privada; 2024 las separa (AC-E13)"
-                    elif any(len(t) > len(s) and [y for y in t if y not in ENVOLTURA][:len(s_sin) - 1] == s_sin[:-1] for t, _ in s24):
-                        x["motivo_d6"] = "2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente"
+                        motivo = nota + " (no se suma: decisión del mantenedor)"
+                    elif "publica" not in s and "privada" not in s and privada_reciente:
+                        motivo = "concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa"
+                    elif any(len(sin_env(t)) > len(s_sin) and sin_env(t)[:len(s_sin)] == s_sin for t, _ in s24):
+                        motivo = "2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente"
                     else:
-                        x["motivo_d6"] = "categoría o columna que 2024 no publica (discontinuada o reclasificada)"
+                        motivo = "categoría o columna que 2024 no publica (discontinuada o reclasificada)"
+                x["motivo_d6"] = motivo
             # dos columnas del mismo año no pueden ir al mismo id de 2024: esas conservan el suyo
             destinos = collections.Counter(i for i, _ in propuestas.values())
             for k, (i, porque) in propuestas.items():

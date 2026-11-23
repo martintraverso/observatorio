@@ -230,4 +230,30 @@ def test_d6_lo_que_2024_agrupa_conserva_su_id_y_no_se_suma():
 def test_d6_ac_e13_el_sexo_de_ii_2_2_1_2023_no_usa_un_id_de_2024():
     m23 = {x["ruta"]: x for x in REG["cuadros"]["II-2.2.1"]["mapeo"][2023]}
     x = m23["FORMA DE ADMINISTRACIÓN/TOTAL/VARÓN"]
-    assert "equivale_2024" not in x and x["motivo_d6"]
+    assert "equivale_2024" not in x and "AC-E13" in x["motivo_d6"]
+
+
+def motivo(cod, anio, ruta):
+    x = next(x for x in REG["cuadros"][cod]["mapeo"][anio] if x["ruta"] == ruta)
+    return x.get("equivale_2024"), x.get("motivo_d6", "")
+
+
+def test_d6_un_curso_con_parte_privada_en_2023_no_se_une_a_la_publica_de_2024():
+    """II-4.2.2: la EMP de 2022 no separa administración y en 2023 tiene parte privada (Don Bosco)."""
+    eq, mot = motivo("II-4.2.2", 2022, "EDUCACIÓN MEDIA PROFESIONAL/TOTAL")
+    assert eq is None and "AC-E13" in mot
+
+
+def test_d6_un_total_sin_privados_no_se_une_al_que_los_incluye():
+    """II-3.1.1: hasta 2022 «TOTAL ESCUELAS DE CBT Y TÉCNICA» es solo pública; desde 2023 suma privados."""
+    ruta = next(x["ruta"] for x in REG["cuadros"]["II-3.1.1"]["mapeo"][2022] if "TOTAL ESCUELAS" in x["ruta"])
+    eq, mot = motivo("II-3.1.1", 2022, ruta)
+    assert eq is None and "no incluye privados" in mot
+
+
+def test_d6_desempata_por_la_ruta_mas_parecida():
+    """II-3.1.1 2023: «TOTAL PÚBLICOS» de la DGETP va al de la DGETP de 2024, no al total público general."""
+    m23 = REG["cuadros"]["II-3.1.1"]["mapeo"][2023]
+    m24 = {x["ruta"]: x["id"] for x in REG["cuadros"]["II-3.1.1"]["mapeo"][2024]}
+    o = next(x for x in m23 if x["col"] == "O")
+    assert o["id"] == m24["MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/TOTAL PÚBLICOS"]

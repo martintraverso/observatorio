@@ -143,7 +143,7 @@ cuadros:
       - col: H
         ruta: FORMA DE ADMINISTRACIÓN/Jardines de Ciclo Inicial
         id: edu_ii_1_1_1_forma_de_administracion_publica_jardines_de_ciclo_inicial
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: I
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/Jardines de Infantes
         id: edu_ii_1_1_1_forma_de_administracion_privada_jardines_de_infantes
@@ -3643,7 +3643,7 @@ cuadros:
       - col: N
         ruta: ÁREA DEMOGRÁFICA/URBANA/JICI
         id: edu_ii_2_1_2_area_demografica_urbana_jici
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: O
         ruta: ÁREA DEMOGRÁFICA/RURAL/Total Rural
         id: edu_ii_2_1_2_area_demografica_rural_total_rural
@@ -3703,7 +3703,7 @@ cuadros:
       - col: N
         ruta: ÁREA DEMOGRÁFICA/URBANA/JICI
         id: edu_ii_2_1_2_area_demografica_urbana_jici
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: O
         ruta: ÁREA DEMOGRÁFICA/RURAL/Total Rural
         id: edu_ii_2_1_2_area_demografica_rural_total_rural
@@ -3763,7 +3763,7 @@ cuadros:
       - col: N
         ruta: ÁREA DEMOGRÁFICA/URBANA/JICI
         id: edu_ii_2_1_2_area_demografica_urbana_jici
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: O
         ruta: ÁREA DEMOGRÁFICA/RURAL/Total Rural
         id: edu_ii_2_1_2_area_demografica_rural_total_rural
@@ -3823,7 +3823,7 @@ cuadros:
       - col: N
         ruta: ÁREA DEMOGRÁFICA/URBANA/JICI
         id: edu_ii_2_1_2_area_demografica_urbana_jici
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: O
         ruta: ÁREA DEMOGRÁFICA/RURAL/Total Rural
         id: edu_ii_2_1_2_area_demografica_rural_total_rural
@@ -4081,11 +4081,11 @@ cuadros:
       - col: C
         ruta: FORMA DE ADMINISTRACIÓN/TOTAL/VARÓN
         id: edu_ii_2_2_1_forma_de_administracion_total_varon
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+        motivo_d6: 'concepto distinto (AC-E13): en 2024 esta columna cambia de significado y no se carga (D7)'
       - col: D
         ruta: FORMA DE ADMINISTRACIÓN/TOTAL/MUJER
         id: edu_ii_2_2_1_forma_de_administracion_total_mujer
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+        motivo_d6: 'concepto distinto (AC-E13): en 2024 esta columna cambia de significado y no se carga (D7)'
       - col: E
         ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/TOTAL
         id: edu_ii_2_2_1_forma_de_administracion_publica_total
@@ -4111,11 +4111,11 @@ cuadros:
       - col: C
         ruta: FORMA DE ADMINISTRACIÓN/TOTAL/VARÓN
         id: edu_ii_2_2_1_forma_de_administracion_total_varon
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+        motivo_d6: 'concepto distinto (AC-E13): en 2024 esta columna cambia de significado y no se carga (D7)'
       - col: D
         ruta: FORMA DE ADMINISTRACIÓN/TOTAL/MUJER
         id: edu_ii_2_2_1_forma_de_administracion_total_mujer
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+        motivo_d6: 'concepto distinto (AC-E13): en 2024 esta columna cambia de significado y no se carga (D7)'
       - col: E
         ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/TOTAL
         id: edu_ii_2_2_1_forma_de_administracion_publica_total
@@ -4144,11 +4144,11 @@ cuadros:
       - col: C
         ruta: FORMA DE ADMINISTRACIÓN/TOTAL/VARÓN
         id: edu_ii_2_2_1_forma_de_administracion_total_varon
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+        motivo_d6: 'concepto distinto (AC-E13): en 2024 esta columna cambia de significado y no se carga (D7)'
       - col: D
         ruta: FORMA DE ADMINISTRACIÓN/TOTAL/MUJER
         id: edu_ii_2_2_1_forma_de_administracion_total_mujer
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+        motivo_d6: 'concepto distinto (AC-E13): en 2024 esta columna cambia de significado y no se carga (D7)'
       - col: E
         ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/TOTAL
         id: edu_ii_2_2_1_forma_de_administracion_publica_total
@@ -4174,11 +4174,11 @@ cuadros:
       - col: C
         ruta: FORMA DE ADMINISTRACIÓN/TOTAL/VARÓN
         id: edu_ii_2_2_1_forma_de_administracion_total_varon
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+        motivo_d6: 'concepto distinto (AC-E13): en 2024 esta columna cambia de significado y no se carga (D7)'
       - col: D
         ruta: FORMA DE ADMINISTRACIÓN/TOTAL/MUJER
         id: edu_ii_2_2_1_forma_de_administracion_total_mujer
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+        motivo_d6: 'concepto distinto (AC-E13): en 2024 esta columna cambia de significado y no se carga (D7)'
       - col: E
         ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/TOTAL
         id: edu_ii_2_2_1_forma_de_administracion_publica_total
@@ -5376,8 +5376,8 @@ cuadros:
         equivale_2024: misma columna dentro de otro grupo del encabezado
       - col: L
         ruta: MODALIDAD/FORMA DE ADMINISTRACIÓN/TOTAL ESCUELAS DE CBT Y TÈCNICA
-        id: edu_ii_3_1_1_modalidad_dgetp_total_escuelas_de_cbt_y_tecnica
-        equivale_2024: misma columna dentro de otro grupo del encabezado
+        id: edu_ii_3_1_1_modalidad_forma_de_administracion_total_escuelas_de_cbt_y_tecnica
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: M
         ruta: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica
         id: edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica
@@ -5420,8 +5420,8 @@ cuadros:
         equivale_2024: misma columna dentro de otro grupo del encabezado
       - col: L
         ruta: MODALIDAD/FORMA DE ADMINISTRACIÓN/TOTAL ESCUELAS DE CBT Y TÈCNICA
-        id: edu_ii_3_1_1_modalidad_dgetp_total_escuelas_de_cbt_y_tecnica
-        equivale_2024: misma columna dentro de otro grupo del encabezado
+        id: edu_ii_3_1_1_modalidad_forma_de_administracion_total_escuelas_de_cbt_y_tecnica
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: M
         ruta: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica
         id: edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica
@@ -5464,8 +5464,8 @@ cuadros:
         equivale_2024: misma columna dentro de otro grupo del encabezado
       - col: L
         ruta: MODALIDAD/FORMA DE ADMINISTRACIÓN/TOTAL ESCUELAS DE CBT Y TÈCNICA
-        id: edu_ii_3_1_1_modalidad_dgetp_total_escuelas_de_cbt_y_tecnica
-        equivale_2024: misma columna dentro de otro grupo del encabezado
+        id: edu_ii_3_1_1_modalidad_forma_de_administracion_total_escuelas_de_cbt_y_tecnica
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: M
         ruta: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica
         id: edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica
@@ -5516,8 +5516,8 @@ cuadros:
         equivale_2024: misma columna dentro de otro grupo del encabezado
       - col: O
         ruta: MODALIDAD/FORMA DE ADMINISTRACIÓN/TOTAL PÚBLICOS
-        id: edu_ii_3_1_1_modalidad_forma_de_administracion_total_publicos
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        id: edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_total_publicos
+        equivale_2024: misma columna dentro de otro grupo del encabezado
       - col: P
         ruta: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica
         id: edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica
@@ -5528,8 +5528,8 @@ cuadros:
         equivale_2024: misma columna dentro de otro grupo del encabezado
       - col: R
         ruta: MODALIDAD/FORMA DE ADMINISTRACIÓN/TOTAL PRIVADOS
-        id: edu_ii_3_1_1_modalidad_forma_de_administracion_total_privados
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        id: edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_total_privados
+        equivale_2024: misma columna dentro de otro grupo del encabezado
       - col: S
         ruta: MODALIDAD/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica
         id: edu_ii_3_1_1_modalidad_forma_de_administracion_escuelas_de_cbt_y_tecnica
@@ -5809,15 +5809,15 @@ cuadros:
         id: edu_ii_3_2_2_publica_articulacion_educacion_media_basica_total
         concepto: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/TOTAL
         comprobado: C = D + E
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: D
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/V
         id: edu_ii_3_2_2_publica_articulacion_educacion_media_basica_sexo_v
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: E
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/M
         id: edu_ii_3_2_2_publica_articulacion_educacion_media_basica_sexo_m
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: F
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL
         id: edu_ii_3_2_2_educacion_media_basica_tecnologica_c_b_t_agrario_total
@@ -5885,15 +5885,15 @@ cuadros:
         id: edu_ii_3_2_2_publica_articulacion_educacion_media_basica_total
         concepto: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/TOTAL
         comprobado: C = D + E
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: D
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/V
         id: edu_ii_3_2_2_publica_articulacion_educacion_media_basica_sexo_v
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: E
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/M
         id: edu_ii_3_2_2_publica_articulacion_educacion_media_basica_sexo_m
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: F
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL
         id: edu_ii_3_2_2_educacion_media_basica_tecnologica_c_b_t_agrario_total
@@ -5961,15 +5961,15 @@ cuadros:
         id: edu_ii_3_2_2_publica_articulacion_educacion_media_basica_total
         concepto: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/TOTAL
         comprobado: C = D + E
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: D
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/V
         id: edu_ii_3_2_2_publica_articulacion_educacion_media_basica_sexo_v
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: E
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/M
         id: edu_ii_3_2_2_publica_articulacion_educacion_media_basica_sexo_m
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: F
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL
         id: edu_ii_3_2_2_educacion_media_basica_tecnologica_c_b_t_agrario_total
@@ -6017,15 +6017,15 @@ cuadros:
         id: edu_ii_3_2_2_publica_formacion_profesional_basica_total
         concepto: FORMACIÓN PROFESIONAL BÁSICA/TOTAL
         comprobado: O = P + Q
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: P
         ruta: FORMACIÓN PROFESIONAL BÁSICA/Sexo/V
         id: edu_ii_3_2_2_publica_formacion_profesional_basica_sexo_v
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: Q
         ruta: FORMACIÓN PROFESIONAL BÁSICA/Sexo/M
         id: edu_ii_3_2_2_publica_formacion_profesional_basica_sexo_m
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       2023:
       - col: B
         ruta: TOTAL
@@ -6746,19 +6746,19 @@ cuadros:
       - col: D
         ruta: TIPO DE CURSO/C.B.T. AGRARIO
         id: edu_ii_3_2_7_tipo_de_curso_c_b_t_agrario
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: E
         ruta: TIPO DE CURSO/CICLO BÁSICO TECNOLÓGICO
         id: edu_ii_3_2_7_tipo_de_curso_ciclo_basico_tecnologico
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: F
         ruta: 'TIPO DE CURSO/FORMACIÓN PROFESIONAL BÁSICA Plan: 2007'
         id: edu_ii_3_2_7_tipo_de_curso_formacion_profesional_basica_plan_2007
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: G
         ruta: TIPO DE CURSO/PROGRAMA CENTROS EDUC. COMUNITARIOS
         id: edu_ii_3_2_7_tipo_de_curso_programa_centros_educ_comunitarios
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       2021:
       - col: B
         ruta: TOTAL
@@ -6766,23 +6766,23 @@ cuadros:
       - col: C
         ruta: Sexo/mujer
         id: edu_ii_3_2_7_sexo_mujer
-        motivo_d6: 'concepto distinto: hasta este año sin separar pública y privada; 2024 las separa (AC-E13)'
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: D
         ruta: Sexo/Varón
         id: edu_ii_3_2_7_sexo_varon
-        motivo_d6: 'concepto distinto: hasta este año sin separar pública y privada; 2024 las separa (AC-E13)'
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: E
         ruta: TIPO DE CURSO/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Total
         id: edu_ii_3_2_7_publica_articulacion_educacion_media_basica_total
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: F
         ruta: TIPO DE CURSO/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/mujer
         id: edu_ii_3_2_7_publica_articulacion_educacion_media_basica_sexo_m
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: G
         ruta: TIPO DE CURSO/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/Varón
         id: edu_ii_3_2_7_publica_articulacion_educacion_media_basica_sexo_v
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: H
         ruta: TIPO DE CURSO/C.B.T. AGRARIO/Total
         id: edu_ii_3_2_7_tipo_de_curso_c_b_t_agrario_total
@@ -6838,23 +6838,23 @@ cuadros:
       - col: C
         ruta: Sexo/mujer
         id: edu_ii_3_2_7_sexo_mujer
-        motivo_d6: 'concepto distinto: hasta este año sin separar pública y privada; 2024 las separa (AC-E13)'
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: D
         ruta: Sexo/Varón
         id: edu_ii_3_2_7_sexo_varon
-        motivo_d6: 'concepto distinto: hasta este año sin separar pública y privada; 2024 las separa (AC-E13)'
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: E
         ruta: TIPO DE CURSO/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Total
         id: edu_ii_3_2_7_publica_articulacion_educacion_media_basica_total
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: F
         ruta: TIPO DE CURSO/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/mujer
         id: edu_ii_3_2_7_publica_articulacion_educacion_media_basica_sexo_m
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: G
         ruta: TIPO DE CURSO/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/Varón
         id: edu_ii_3_2_7_publica_articulacion_educacion_media_basica_sexo_v
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: H
         ruta: TIPO DE CURSO/C.B.T. AGRARIO/Total
         id: edu_ii_3_2_7_tipo_de_curso_c_b_t_agrario_total
@@ -7085,19 +7085,19 @@ cuadros:
       - col: D
         ruta: TIPO DE CURSO/C.B.T. AGRARIO
         id: edu_ii_3_2_8_tipo_de_curso_c_b_t_agrario
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: E
         ruta: TIPO DE CURSO/CICLO BÁSICO TECNOLÓGICO
         id: edu_ii_3_2_8_tipo_de_curso_ciclo_basico_tecnologico
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: F
         ruta: 'TIPO DE CURSO/FORMACION PROFESIONAL BASICA Plan: 2007'
         id: edu_ii_3_2_8_tipo_de_curso_formacion_profesional_basica_plan_2007
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: G
         ruta: TIPO DE CURSO/PROGRAMA CENTROS EDUC. COMUNITARIOS
         id: edu_ii_3_2_8_tipo_de_curso_programa_centros_educ_comunitarios
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       2021:
       - col: B
         ruta: TOTAL
@@ -7109,19 +7109,19 @@ cuadros:
       - col: D
         ruta: TIPO DE CURSO/C.B.T. AGRARIO
         id: edu_ii_3_2_8_tipo_de_curso_c_b_t_agrario
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: E
         ruta: TIPO DE CURSO/CICLO BÁSICO TECNOLÓGICO
         id: edu_ii_3_2_8_tipo_de_curso_ciclo_basico_tecnologico
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: F
         ruta: 'TIPO DE CURSO/FORMACION PROFESIONAL BASICA Plan: 2007'
         id: edu_ii_3_2_8_tipo_de_curso_formacion_profesional_basica_plan_2007
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: G
         ruta: TIPO DE CURSO/PROGRAMA CENTROS EDUC. COMUNITARIOS
         id: edu_ii_3_2_8_tipo_de_curso_programa_centros_educ_comunitarios
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       2022:
       - col: B
         ruta: TOTAL
@@ -7133,15 +7133,15 @@ cuadros:
       - col: D
         ruta: TIPO DE CURSO/C.B.T. AGRARIO
         id: edu_ii_3_2_8_tipo_de_curso_c_b_t_agrario
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: E
         ruta: TIPO DE CURSO/CICLO BÁSICO TECNOLÓGICO
         id: edu_ii_3_2_8_tipo_de_curso_ciclo_basico_tecnologico
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: F
         ruta: 'TIPO DE CURSO/FORMACIÓN PROFESIONAL BÁSICA Plan: 2007'
         id: edu_ii_3_2_8_tipo_de_curso_formacion_profesional_basica_plan_2007
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: G
         ruta: TIPO DE CURSO/FORMACIÓN PROFESIONAL BÁSICA
         id: edu_ii_3_2_8_tipo_de_curso_formacion_profesional_basica
@@ -7823,11 +7823,11 @@ cuadros:
       - col: B
         ruta: RENDIMIENTO/Promovido
         id: edu_ii_3_2_11_rendimiento_promovido
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: C
         ruta: RENDIMIENTO/No promovido
         id: edu_ii_3_2_11_rendimiento_no_promovido
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: D
         ruta: PÚBLICA/RENDIMIENTO/Promovido
         id: edu_ii_3_2_11_publica_rendimiento_promovido
@@ -7896,11 +7896,11 @@ cuadros:
       - col: B
         ruta: RENDIMIENTO/Promovido
         id: edu_ii_3_2_11_rendimiento_promovido
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: C
         ruta: RENDIMIENTO/No promovido
         id: edu_ii_3_2_11_rendimiento_no_promovido
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: D
         ruta: PÚBLICA/RENDIMIENTO/Promovido
         id: edu_ii_3_2_11_publica_rendimiento_promovido
@@ -7969,11 +7969,11 @@ cuadros:
       - col: B
         ruta: RENDIMIENTO/Promovido
         id: edu_ii_3_2_11_rendimiento_promovido
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: C
         ruta: RENDIMIENTO/No promovido
         id: edu_ii_3_2_11_rendimiento_no_promovido
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: D
         ruta: PÚBLICA/RENDIMIENTO/Promovido
         id: edu_ii_3_2_11_publica_rendimiento_promovido
@@ -8273,8 +8273,8 @@ cuadros:
       2020:
       - col: B
         ruta: MODALIDAD/TOTAL GENERAL
-        id: edu_ii_4_1_1_total_general
-        equivale_2024: misma columna dentro de otro grupo del encabezado
+        id: edu_ii_4_1_1_modalidad_total_general
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: C
         ruta: MODALIDAD/DGES/TOTAL LICEOS PÚBLICOS
         id: edu_ii_4_1_1_dges_total_liceos_publicos
@@ -8302,8 +8302,8 @@ cuadros:
         id: edu_ii_4_1_1_modalidad_dges_forma_de_administracion_liceos_privados_c_basico_y_bachillerato
       - col: K
         ruta: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/TOTAL ESCUELAS DE CBT Y TÉCNICA
-        id: edu_ii_4_1_1_modalidad_dgetp_total_escuelas_de_cbt_y_tecnica
-        equivale_2024: misma columna dentro de otro grupo del encabezado
+        id: edu_ii_4_1_1_modalidad_dgetp_forma_de_administracion_total_escuelas_de_cbt_y_tecnica
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: L
         ruta: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica.
         id: edu_ii_4_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica
@@ -8315,8 +8315,8 @@ cuadros:
       2021:
       - col: B
         ruta: MODALIDAD/TOTAL GENERAL
-        id: edu_ii_4_1_1_total_general
-        equivale_2024: misma columna dentro de otro grupo del encabezado
+        id: edu_ii_4_1_1_modalidad_total_general
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: C
         ruta: MODALIDAD/DGES/TOTAL LICEOS PÚBLICOS
         id: edu_ii_4_1_1_dges_total_liceos_publicos
@@ -8344,8 +8344,8 @@ cuadros:
         id: edu_ii_4_1_1_modalidad_dges_forma_de_administracion_liceos_privados_c_basico_y_bachillerato
       - col: K
         ruta: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/TOTAL ESCUELAS DE CBT Y TÉCNICA
-        id: edu_ii_4_1_1_modalidad_dgetp_total_escuelas_de_cbt_y_tecnica
-        equivale_2024: misma columna dentro de otro grupo del encabezado
+        id: edu_ii_4_1_1_modalidad_dgetp_forma_de_administracion_total_escuelas_de_cbt_y_tecnica
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: L
         ruta: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica.
         id: edu_ii_4_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica
@@ -8357,8 +8357,8 @@ cuadros:
       2022:
       - col: B
         ruta: MODALIDAD/TOTAL GENERAL
-        id: edu_ii_4_1_1_total_general
-        equivale_2024: misma columna dentro de otro grupo del encabezado
+        id: edu_ii_4_1_1_modalidad_total_general
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: C
         ruta: MODALIDAD/DGES/TOTAL LICEOS PÚBLICOS
         id: edu_ii_4_1_1_dges_total_liceos_publicos
@@ -8386,8 +8386,8 @@ cuadros:
         id: edu_ii_4_1_1_modalidad_dges_forma_de_administracion_liceos_privados_c_basico_y_bachillerato
       - col: K
         ruta: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/TOTAL ESCUELAS DE CBT Y TÉCNICA
-        id: edu_ii_4_1_1_modalidad_dgetp_total_escuelas_de_cbt_y_tecnica
-        equivale_2024: misma columna dentro de otro grupo del encabezado
+        id: edu_ii_4_1_1_modalidad_dgetp_forma_de_administracion_total_escuelas_de_cbt_y_tecnica
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: L
         ruta: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica.
         id: edu_ii_4_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica
@@ -8624,27 +8624,27 @@ cuadros:
         id: edu_ii_4_2_2_publica_bachillerato_figari_total
         concepto: BACHILLERATO FIGARI/TOTAL
         comprobado: E = F + G
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: F
         ruta: BACHILLERATO FIGARI/Sexo/M
         id: edu_ii_4_2_2_publica_bachillerato_figari_sexo_m
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: G
         ruta: BACHILLERATO FIGARI/Sexo/V
         id: edu_ii_4_2_2_publica_bachillerato_figari_sexo_v
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: H
         ruta: BACHILLERATO PROFESIONAL/TOTAL
         id: edu_ii_4_2_2_publica_bachillerato_profesional_total
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: I
         ruta: BACHILLERATO PROFESIONAL/Sexo/M
         id: edu_ii_4_2_2_publica_bachillerato_profesional_sexo_m
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: J
         ruta: BACHILLERATO PROFESIONAL/Sexo/V
         id: edu_ii_4_2_2_publica_bachillerato_profesional_sexo_v
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: K
         ruta: CURSO TÉCNICO/TOTAL
         id: edu_ii_4_2_2_curso_tecnico_total
@@ -8671,40 +8671,40 @@ cuadros:
         motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: Q
         ruta: EDUCACIÓN MEDIA PROFESIONAL/TOTAL
-        id: edu_ii_4_2_2_publica_educacion_media_profesional_total
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        id: edu_ii_4_2_2_educacion_media_profesional_total
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: R
         ruta: EDUCACIÓN MEDIA PROFESIONAL/Sexo/M
-        id: edu_ii_4_2_2_publica_educacion_media_profesional_sexo_m
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        id: edu_ii_4_2_2_educacion_media_profesional_sexo_m
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: S
         ruta: EDUCACIÓN MEDIA PROFESIONAL/Sexo/V
-        id: edu_ii_4_2_2_publica_educacion_media_profesional_sexo_v
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        id: edu_ii_4_2_2_educacion_media_profesional_sexo_v
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: T
         ruta: EDUCACIÓN MEDIA TECNOLÓGICA/TOTAL
         id: edu_ii_4_2_2_educacion_media_tecnologica_total
-        motivo_d6: 'concepto distinto: hasta este año sin separar pública y privada; 2024 las separa (AC-E13)'
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: U
         ruta: EDUCACIÓN MEDIA TECNOLÓGICA/Sexo/M
         id: edu_ii_4_2_2_educacion_media_tecnologica_sexo_m
-        motivo_d6: 'concepto distinto: hasta este año sin separar pública y privada; 2024 las separa (AC-E13)'
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: V
         ruta: EDUCACIÓN MEDIA TECNOLÓGICA/Sexo/V
         id: edu_ii_4_2_2_educacion_media_tecnologica_sexo_v
-        motivo_d6: 'concepto distinto: hasta este año sin separar pública y privada; 2024 las separa (AC-E13)'
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: W
         ruta: EDUCACIÓN MEDIA TECNOLÓGICA FINEST/TOTAL
         id: edu_ii_4_2_2_publica_educacion_media_tecnologica_finest_total
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: X
         ruta: EDUCACIÓN MEDIA TECNOLÓGICA FINEST/Sexo/M
         id: edu_ii_4_2_2_publica_educacion_media_tecnologica_finest_sexo_m
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: Y
         ruta: EDUCACIÓN MEDIA TECNOLÓGICA FINEST/Sexo/V
         id: edu_ii_4_2_2_publica_educacion_media_tecnologica_finest_sexo_v
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       2021:
       - col: B
         ruta: TOTAL
@@ -8722,27 +8722,27 @@ cuadros:
         id: edu_ii_4_2_2_publica_bachillerato_figari_total
         concepto: BACHILLERATO FIGARI/TOTAL
         comprobado: E = F + G
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: F
         ruta: BACHILLERATO FIGARI/Sexo/M
         id: edu_ii_4_2_2_publica_bachillerato_figari_sexo_m
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: G
         ruta: BACHILLERATO FIGARI/Sexo/V
         id: edu_ii_4_2_2_publica_bachillerato_figari_sexo_v
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: H
         ruta: BACHILLERATO PROFESIONAL/TOTAL
         id: edu_ii_4_2_2_publica_bachillerato_profesional_total
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: I
         ruta: BACHILLERATO PROFESIONAL/Sexo/M
         id: edu_ii_4_2_2_publica_bachillerato_profesional_sexo_m
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: J
         ruta: BACHILLERATO PROFESIONAL/Sexo/V
         id: edu_ii_4_2_2_publica_bachillerato_profesional_sexo_v
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: K
         ruta: CURSO TÉCNICO/TOTAL
         id: edu_ii_4_2_2_curso_tecnico_total
@@ -8769,40 +8769,40 @@ cuadros:
         motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: Q
         ruta: EDUCACIÓN MEDIA PROFESIONAL/TOTAL
-        id: edu_ii_4_2_2_publica_educacion_media_profesional_total
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        id: edu_ii_4_2_2_educacion_media_profesional_total
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: R
         ruta: EDUCACIÓN MEDIA PROFESIONAL/Sexo/M
-        id: edu_ii_4_2_2_publica_educacion_media_profesional_sexo_m
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        id: edu_ii_4_2_2_educacion_media_profesional_sexo_m
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: S
         ruta: EDUCACIÓN MEDIA PROFESIONAL/Sexo/V
-        id: edu_ii_4_2_2_publica_educacion_media_profesional_sexo_v
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        id: edu_ii_4_2_2_educacion_media_profesional_sexo_v
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: T
         ruta: EDUCACIÓN MEDIA TECNOLÓGICA/TOTAL
         id: edu_ii_4_2_2_educacion_media_tecnologica_total
-        motivo_d6: 'concepto distinto: hasta este año sin separar pública y privada; 2024 las separa (AC-E13)'
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: U
         ruta: EDUCACIÓN MEDIA TECNOLÓGICA/Sexo/M
         id: edu_ii_4_2_2_educacion_media_tecnologica_sexo_m
-        motivo_d6: 'concepto distinto: hasta este año sin separar pública y privada; 2024 las separa (AC-E13)'
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: V
         ruta: EDUCACIÓN MEDIA TECNOLÓGICA/Sexo/V
         id: edu_ii_4_2_2_educacion_media_tecnologica_sexo_v
-        motivo_d6: 'concepto distinto: hasta este año sin separar pública y privada; 2024 las separa (AC-E13)'
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: W
         ruta: EDUCACIÓN MEDIA TECNOLÓGICA FINEST/TOTAL
         id: edu_ii_4_2_2_publica_educacion_media_tecnologica_finest_total
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: X
         ruta: EDUCACIÓN MEDIA TECNOLÓGICA FINEST/Sexo/M
         id: edu_ii_4_2_2_publica_educacion_media_tecnologica_finest_sexo_m
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: Y
         ruta: EDUCACIÓN MEDIA TECNOLÓGICA FINEST/Sexo/V
         id: edu_ii_4_2_2_publica_educacion_media_tecnologica_finest_sexo_v
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       2022:
       - col: B
         ruta: TOTAL
@@ -8820,27 +8820,27 @@ cuadros:
         id: edu_ii_4_2_2_publica_bachillerato_figari_total
         concepto: BACHILLERATO FIGARI/TOTAL
         comprobado: E = F + G
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: F
         ruta: BACHILLERATO FIGARI/Sexo/M
         id: edu_ii_4_2_2_publica_bachillerato_figari_sexo_m
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: G
         ruta: BACHILLERATO FIGARI/Sexo/V
         id: edu_ii_4_2_2_publica_bachillerato_figari_sexo_v
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: H
         ruta: BACHILLERATO PROFESIONAL/TOTAL
         id: edu_ii_4_2_2_publica_bachillerato_profesional_total
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: I
         ruta: BACHILLERATO PROFESIONAL/Sexo/M
         id: edu_ii_4_2_2_publica_bachillerato_profesional_sexo_m
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: J
         ruta: BACHILLERATO PROFESIONAL/Sexo/V
         id: edu_ii_4_2_2_publica_bachillerato_profesional_sexo_v
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: K
         ruta: CURSO TÉCNICO/TOTAL
         id: edu_ii_4_2_2_curso_tecnico_total
@@ -8867,40 +8867,40 @@ cuadros:
         motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: Q
         ruta: EDUCACIÓN MEDIA PROFESIONAL/TOTAL
-        id: edu_ii_4_2_2_publica_educacion_media_profesional_total
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        id: edu_ii_4_2_2_educacion_media_profesional_total
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: R
         ruta: EDUCACIÓN MEDIA PROFESIONAL/Sexo/M
-        id: edu_ii_4_2_2_publica_educacion_media_profesional_sexo_m
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        id: edu_ii_4_2_2_educacion_media_profesional_sexo_m
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: S
         ruta: EDUCACIÓN MEDIA PROFESIONAL/Sexo/V
-        id: edu_ii_4_2_2_publica_educacion_media_profesional_sexo_v
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        id: edu_ii_4_2_2_educacion_media_profesional_sexo_v
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: T
         ruta: EDUCACIÓN MEDIA TECNOLÓGICA/TOTAL
         id: edu_ii_4_2_2_educacion_media_tecnologica_total
-        motivo_d6: 'concepto distinto: hasta este año sin separar pública y privada; 2024 las separa (AC-E13)'
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: U
         ruta: EDUCACIÓN MEDIA TECNOLÓGICA/Sexo/M
         id: edu_ii_4_2_2_educacion_media_tecnologica_sexo_m
-        motivo_d6: 'concepto distinto: hasta este año sin separar pública y privada; 2024 las separa (AC-E13)'
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: V
         ruta: EDUCACIÓN MEDIA TECNOLÓGICA/Sexo/V
         id: edu_ii_4_2_2_educacion_media_tecnologica_sexo_v
-        motivo_d6: 'concepto distinto: hasta este año sin separar pública y privada; 2024 las separa (AC-E13)'
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: W
         ruta: EDUCACIÓN MEDIA TECNOLÓGICA FINEST/TOTAL
         id: edu_ii_4_2_2_publica_educacion_media_tecnologica_finest_total
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: X
         ruta: EDUCACIÓN MEDIA TECNOLÓGICA FINEST/Sexo/M
         id: edu_ii_4_2_2_publica_educacion_media_tecnologica_finest_sexo_m
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: Y
         ruta: EDUCACIÓN MEDIA TECNOLÓGICA FINEST/Sexo/V
         id: edu_ii_4_2_2_publica_educacion_media_tecnologica_finest_sexo_v
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       2023:
       - col: B
         ruta: TOTAL
@@ -9176,11 +9176,11 @@ cuadros:
       - col: C
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO FIGARI
         id: edu_ii_4_2_3_tipo_de_curso_educacion_media_superior_tecnologica_bachillerato_figari
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
       - col: D
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO PROFESIONAL
         id: edu_ii_4_2_3_tipo_de_curso_educacion_media_superior_tecnologica_bachillerato_profesional
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
       - col: E
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/CURSO TÉCNICO
         id: edu_ii_4_2_3_tipo_de_curso_educacion_media_superior_tecnologica_curso_tecnico
@@ -9192,15 +9192,15 @@ cuadros:
       - col: G
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA PROFESIONAL
         id: edu_ii_4_2_3_tipo_de_curso_educacion_media_superior_tecnologica_educacion_media_profesional
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
       - col: H
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA TECNOLÓGICA
         id: edu_ii_4_2_3_tipo_de_curso_educacion_media_superior_tecnologica_educacion_media_tecnologica
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
       - col: I
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA TECNOLÓGICA FINEST
         id: edu_ii_4_2_3_tipo_de_curso_educacion_media_superior_tecnologica_educacion_media_tecnologica_finest
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
       2021:
       - col: B
         ruta: TOTAL
@@ -9208,35 +9208,35 @@ cuadros:
       - col: C
         ruta: Sexo/Mujer
         id: edu_ii_4_2_3_sexo_mujer
-        motivo_d6: 'concepto distinto: hasta este año sin separar pública y privada; 2024 las separa (AC-E13)'
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: D
         ruta: Sexo/Varón
         id: edu_ii_4_2_3_sexo_varon
-        motivo_d6: 'concepto distinto: hasta este año sin separar pública y privada; 2024 las separa (AC-E13)'
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: E
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO FIGARI/Total
         id: edu_ii_4_2_3_publica_bachillerato_figari_total
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: F
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO FIGARI/Sexo/Mujer
         id: edu_ii_4_2_3_publica_bachillerato_figari_sexo_m
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: G
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO FIGARI/Sexo/Varón
         id: edu_ii_4_2_3_publica_bachillerato_figari_sexo_v
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: H
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO PROFESIONAL/Total
         id: edu_ii_4_2_3_publica_bachillerato_profesional_total
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: I
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO PROFESIONAL/Sexo/Mujer
         id: edu_ii_4_2_3_publica_bachillerato_profesional_sexo_m
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: J
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO PROFESIONAL/Sexo/Varón
         id: edu_ii_4_2_3_publica_bachillerato_profesional_sexo_v
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: K
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/CURSO TÉCNICO/Total
         id: edu_ii_4_2_3_tipo_de_curso_educacion_media_superior_tecnologica_curso_tecnico_total
@@ -9263,40 +9263,40 @@ cuadros:
         motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: Q
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA PROFESIONAL/Total
-        id: edu_ii_4_2_3_publica_educacion_media_profesional_total
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        id: edu_ii_4_2_3_tipo_de_curso_educacion_media_superior_tecnologica_educacion_media_profesional_total
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: R
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA PROFESIONAL/Sexo/Mujer
-        id: edu_ii_4_2_3_publica_educacion_media_profesional_sexo_m
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        id: edu_ii_4_2_3_tipo_de_curso_educacion_media_superior_tecnologica_educacion_media_profesional_sexo_mujer
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: S
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA PROFESIONAL/Sexo/Varón
-        id: edu_ii_4_2_3_publica_educacion_media_profesional_sexo_v
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        id: edu_ii_4_2_3_tipo_de_curso_educacion_media_superior_tecnologica_educacion_media_profesional_sexo_varon
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: T
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA TECNOLÓGICA/Total
         id: edu_ii_4_2_3_tipo_de_curso_educacion_media_superior_tecnologica_educacion_media_tecnologica_total
-        motivo_d6: 'concepto distinto: hasta este año sin separar pública y privada; 2024 las separa (AC-E13)'
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: U
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA TECNOLÓGICA/Sexo/Mujer
         id: edu_ii_4_2_3_tipo_de_curso_educacion_media_superior_tecnologica_educacion_media_tecnologica_sexo_mujer
-        motivo_d6: 'concepto distinto: hasta este año sin separar pública y privada; 2024 las separa (AC-E13)'
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: V
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA TECNOLÓGICA/Sexo/Varón
         id: edu_ii_4_2_3_tipo_de_curso_educacion_media_superior_tecnologica_educacion_media_tecnologica_sexo_varon
-        motivo_d6: 'concepto distinto: hasta este año sin separar pública y privada; 2024 las separa (AC-E13)'
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: W
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA TECNOLÓGICA FINEST/Total
         id: edu_ii_4_2_3_publica_educacion_media_tecnologica_finest_total
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: X
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA TECNOLÓGICA FINEST/Sexo/Mujer
         id: edu_ii_4_2_3_publica_educacion_media_tecnologica_finest_sexo_m
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: Y
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA TECNOLÓGICA FINEST/Sexo/Varón
         id: edu_ii_4_2_3_publica_educacion_media_tecnologica_finest_sexo_v
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       2022:
       - col: B
         ruta: TOTAL
@@ -9304,35 +9304,35 @@ cuadros:
       - col: C
         ruta: Sexo/Mujer
         id: edu_ii_4_2_3_sexo_mujer
-        motivo_d6: 'concepto distinto: hasta este año sin separar pública y privada; 2024 las separa (AC-E13)'
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: D
         ruta: Sexo/Varón
         id: edu_ii_4_2_3_sexo_varon
-        motivo_d6: 'concepto distinto: hasta este año sin separar pública y privada; 2024 las separa (AC-E13)'
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: E
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO FIGARI/Total
         id: edu_ii_4_2_3_publica_bachillerato_figari_total
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: F
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO FIGARI/Sexo/Mujer
         id: edu_ii_4_2_3_publica_bachillerato_figari_sexo_m
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: G
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO FIGARI/Sexo/Varón
         id: edu_ii_4_2_3_publica_bachillerato_figari_sexo_v
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: H
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO PROFESIONAL/Total
         id: edu_ii_4_2_3_publica_bachillerato_profesional_total
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: I
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO PROFESIONAL/Sexo/Mujer
         id: edu_ii_4_2_3_publica_bachillerato_profesional_sexo_m
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: J
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO PROFESIONAL/Sexo/Varón
         id: edu_ii_4_2_3_publica_bachillerato_profesional_sexo_v
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: K
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/CURSO TÉCNICO/Total
         id: edu_ii_4_2_3_tipo_de_curso_educacion_media_superior_tecnologica_curso_tecnico_total
@@ -9359,40 +9359,40 @@ cuadros:
         motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: Q
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA PROFESIONAL/Total
-        id: edu_ii_4_2_3_publica_educacion_media_profesional_total
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        id: edu_ii_4_2_3_tipo_de_curso_educacion_media_superior_tecnologica_educacion_media_profesional_total
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: R
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA PROFESIONAL/Sexo/Mujer
-        id: edu_ii_4_2_3_publica_educacion_media_profesional_sexo_m
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        id: edu_ii_4_2_3_tipo_de_curso_educacion_media_superior_tecnologica_educacion_media_profesional_sexo_mujer
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: S
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA PROFESIONAL/Sexo/Varón
-        id: edu_ii_4_2_3_publica_educacion_media_profesional_sexo_v
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        id: edu_ii_4_2_3_tipo_de_curso_educacion_media_superior_tecnologica_educacion_media_profesional_sexo_varon
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: T
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA TECNOLÓGICA/Total
         id: edu_ii_4_2_3_tipo_de_curso_educacion_media_superior_tecnologica_educacion_media_tecnologica_total
-        motivo_d6: 'concepto distinto: hasta este año sin separar pública y privada; 2024 las separa (AC-E13)'
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: U
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA TECNOLÓGICA/Sexo/Mujer
         id: edu_ii_4_2_3_tipo_de_curso_educacion_media_superior_tecnologica_educacion_media_tecnologica_sexo_mujer
-        motivo_d6: 'concepto distinto: hasta este año sin separar pública y privada; 2024 las separa (AC-E13)'
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: V
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA TECNOLÓGICA/Sexo/Varón
         id: edu_ii_4_2_3_tipo_de_curso_educacion_media_superior_tecnologica_educacion_media_tecnologica_sexo_varon
-        motivo_d6: 'concepto distinto: hasta este año sin separar pública y privada; 2024 las separa (AC-E13)'
+        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
       - col: W
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA TECNOLÓGICA FINEST/Total
         id: edu_ii_4_2_3_publica_educacion_media_tecnologica_finest_total
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: X
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA TECNOLÓGICA FINEST/Sexo/Mujer
         id: edu_ii_4_2_3_publica_educacion_media_tecnologica_finest_sexo_m
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       - col: Y
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA TECNOLÓGICA FINEST/Sexo/Varón
         id: edu_ii_4_2_3_publica_educacion_media_tecnologica_finest_sexo_v
-        equivale_2024: 'en 2024 va bajo «PÚBLICA» y no tiene parte privada: mismo concepto'
+        equivale_2024: 'en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto'
       2023:
       - col: B
         ruta: TOTAL
@@ -9676,11 +9676,11 @@ cuadros:
       - col: E
         ruta: EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/CURSO TÉCNICO
         id: edu_ii_4_2_4_educacion_media_superior_tecnologica_curso_tecnico
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: F
         ruta: EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/E. M. P. ESPECIALIZACIÓN
         id: edu_ii_4_2_4_educacion_media_superior_tecnologica_e_m_p_especializacion
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: G
         ruta: EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA PROFESIONAL
         id: edu_ii_4_2_4_educacion_media_superior_tecnologica_educacion_media_profesional
@@ -9708,11 +9708,11 @@ cuadros:
       - col: E
         ruta: EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/CURSO TÉCNICO
         id: edu_ii_4_2_4_educacion_media_superior_tecnologica_curso_tecnico
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: F
         ruta: EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/E. M. P. ESPECIALIZACIÓN
         id: edu_ii_4_2_4_educacion_media_superior_tecnologica_e_m_p_especializacion
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: G
         ruta: EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA PROFESIONAL
         id: edu_ii_4_2_4_educacion_media_superior_tecnologica_educacion_media_profesional
@@ -9740,11 +9740,11 @@ cuadros:
       - col: E
         ruta: EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/CURSO TÉCNICO
         id: edu_ii_4_2_4_educacion_media_superior_tecnologica_curso_tecnico
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: F
         ruta: EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/E. M. P. ESPECIALIZACIÓN
         id: edu_ii_4_2_4_educacion_media_superior_tecnologica_e_m_p_especializacion
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: G
         ruta: EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA PROFESIONAL
         id: edu_ii_4_2_4_educacion_media_superior_tecnologica_educacion_media_profesional
