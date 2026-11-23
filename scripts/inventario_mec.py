@@ -417,7 +417,7 @@ def escribir_registro(ex: dict, archivos: dict) -> None:
             for a in presentes:
                 c = ex[a]["cuadros"][cod]
                 notas_otro = [n for n in c.get("pie", []) if any(int(x) != a for x in re.findall(r"año (\d{4})", n))]
-                if notas_otro:  # parte o todo el cuadro con datos de otro año: decide el mantenedor (pregunta en #164)
+                if notas_otro:  # parte o todo el cuadro con datos de otro año: se cargan con el año real (D4)
                     e.setdefault("datos_de_otro_anio", {})[a] = notas_otro
                 motivo = ("sin datos numéricos" if c.get("sin_datos") else
                           f"el título dice {c['anio_titulo']} (AC-E10: debe ser el año del archivo)"
@@ -450,7 +450,9 @@ def escribir_registro(ex: dict, archivos: dict) -> None:
         "notas": ["Solo sitios oficiales del MEC (gub.uy). El Anuario Estadístico Nacional del INE (cap. 3.1) se usa solo como control.",
                   "Los cuadros de matrícula y egresos son de estudiantes; los de rendimiento cuentan resultados de fin de año, no la matrícula inicial."],
         "notas_internas": ["Inventario y mapeo generados por scripts/inventario_mec.py (F4.1, #164); revisar los tipos automáticos.",
-                           "Sin `cargar: true` hasta F4.4 (#167): con cargar y sin script el registro no valida (como en F3.1 y F2.1)."],
+                           "Sin `cargar: true` hasta F4.4 (#167): con cargar y sin script el registro no valida (como en F3.1 y F2.1).",
+                           "D4: `datos_de_otro_anio` se carga con el año real que dice el pie; si el anuario de ese año ya lo publica, gana el suyo.",
+                           "D5: las columnas `repetida` y los totales mal etiquetados por `completar_grupos` se mapean a mano en F4.3."],
         "anuarios": {a: {k: archivos[a][k] for k in ("pagina", "url", "http", "sha256", "bytes", "publicado", "actualizado", "revisado")} for a in ANIOS},
         "serie_nacional": {"hoja": "MATRÍCULA DEL SISTEMA 2002-<año>", "tipo": "B", "ola": 1, "unidad": "estudiantes",
                            "nota": "Se lee del anuario más reciente (F4.3, parsear_serie_matricula); el mapeo va en F4.3."},

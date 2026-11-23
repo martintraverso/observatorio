@@ -115,6 +115,10 @@ Load every table of the MEC anuario 2020–2024 into the database and the app, p
   - Rates are never mixed with the INE percentages (3.1.8), which are used only as a control.
   Rates are computed only where numerator and denominator come from the same table, year and scope.
 - **D3 — Default map indicator: approved.** Promotion rate in public primary, latest year.
+- **D4 — Data from another year: load it with its real year** (decided 2026-11-23, PR #177). Some tables, or parts of them, say in their footer that the data are from an earlier year. For example, private DGEIP in the 2021 anuario is from 2020, and II-1.3.2 in the 2024 anuario is from 2022; F4.1 lists 49 table-years. Those values are stored with the period of the year the footer states, and the capture of the anuario that publishes them. The footer note goes with the value.
+  - If the anuario of that year already publishes the same indicator for the same territory, that anuario's value is kept. The repeated value is compared with it, and any difference is a warning in the report.
+  - The year in the title still has to equal the file's year (AC-E10). The footer only changes the period of the columns it names.
+- **D5 — Header paths that the layout cannot resolve are mapped by hand in F4.3** (decided 2026-11-23). Some cells are merged over fewer columns than the group they label, so the path read from the layout is wrong for a few totals (II-2.1.4 C, II-1.2.3 C, II-1.2.4, II-4.2.14, II-1.2.5). Other columns share a path (`repetida` in the registry, e.g. the three «SEXO/Varón» of II-4.2.4). F4.3 maps these columns by hand and checks each one with sums on the fixtures.
 ## Stories
  
 ### F4.1 — Explore and save fixtures (spike, time-boxed)
