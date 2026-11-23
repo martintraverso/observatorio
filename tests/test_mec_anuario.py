@@ -70,7 +70,8 @@ def test_cada_cuadro_de_la_ola_1_se_lee_con_su_mapeo(anio):
         if e["ola"] != 1 or anio not in e["anios"] or e["mapeo"].get(anio) is None:
             continue
         c = cuadro(cod, anio)
-        assert len(c.datos) or any("total en 0" in a for a in c.avisos), cod  # II-2.2.18 2023: todo «s/d»
+        todo_omitido = all(m.get("omitir") for m in e["mapeo"][anio])  # II-2.3.2 2024: datos de 2022, ya cargados (D4)
+        assert len(c.datos) or todo_omitido or any("total en 0" in a for a in c.avisos), cod  # II-2.2.18 2023: todo «s/d»
         assert c.datos.valor.map(lambda v: isinstance(v, int)).all(), cod
         leidos += 1
     assert leidos >= 50
@@ -201,7 +202,9 @@ def test_ac_e11_un_texto_que_no_es_numero_ni_falta_de_dato_hace_fallar():
 
 
 def test_ac_e11_numeros_guardados_como_texto_se_leen_como_enteros():
-    c = cuadro("II-2.3.2")  # II-2.3.2 guarda «7466» como texto
+    mapeo = [{k: v for k, v in m.items() if k != "omitir"} for m in REG["cuadros"]["II-2.3.2"]["mapeo"][2024]]
+    c = cuadro("II-2.3.2", mapeo=mapeo)  # II-2.3.2 guarda «7466» como texto (en el registro va omitido: es de 2022)
+    assert len(c.datos) > 0
     assert c.datos.valor.map(lambda v: isinstance(v, int)).all()
     assert c.avisos and "título no dice el año" in c.avisos[0]
 

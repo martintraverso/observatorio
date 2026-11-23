@@ -60,10 +60,11 @@ def test_ii_2_1_4_total_y_total_comun_son_indicadores_distintos():
     assert m[0]["id"] == "edu_ii_2_1_4_total" and len({e["id"] for e in m}) == len(m)
 
 
-def test_ii_4_2_4_las_tres_columnas_varon_no_se_pierden():
+def test_ii_4_2_4_las_tres_columnas_varon_son_total_publica_y_privada():
     m = REG["cuadros"]["II-4.2.4"]["mapeo"][2024]
-    varon = [e for e in m if e["ruta"].endswith("SEXO/Varón")]
-    assert len(varon) >= 3 and all(e.get("repetida") for e in varon)
+    varon = [e for e in m if e["ruta"] == "SEXO/Varón"]
+    assert [e["concepto"] for e in varon] == ["TOTAL/SEXO/Varón", "PÚBLICA/SEXO/Varón", "PRIVADA/SEXO/Varón"]
+    assert len({e["id"] for e in varon}) == 3 and all(not e.get("repetida") for e in varon)
 
 
 def test_ii_1_2_2_las_edades_son_parte_de_la_ruta():
@@ -105,3 +106,94 @@ def test_ii_2_2_1_2024_el_total_por_sexo_solo_publica_no_se_carga():
     assert "PÚBLICA" in m["FORMA DE ADMINISTRACIÓN/TOTAL/MUJER"]["omitir"]
     assert "omitir" not in m["FORMA DE ADMINISTRACIÓN/PÚBLICA/SEXO/M"]
     assert not any("omitir" in e for e in REG["cuadros"]["II-2.2.1"]["mapeo"][2023])
+
+
+# ---------------------------------------------------------------- F4.3b-1 (#182): mapeo a mano (D4, D5)
+
+def mec_plegar(t):
+    import mec_anuario
+
+    return mec_anuario.plegar(t)
+
+
+def test_d4_ii_1_1_2_2021_cpip_se_compara_con_su_par_de_2020_y_queda_en_2021():
+    c = next(x for x in REG["cuadros"]["II-1.1.2"]["mapeo"][2021] if "CPIP" in x["ruta"])
+    assert "anio" not in c and not c.get("omitir")
+    assert "difiere del anuario 2020" in " ".join(REG["cuadros"]["II-1.1.2"]["anio_real_notas"][2021])
+
+
+def entradas_ola_1():
+    for cod, e in REG["cuadros"].items():
+        if e["ola"] != 1:
+            continue
+        for anio, m in e["mapeo"].items():
+            for x in m or []:
+                yield cod, anio, x
+
+
+def test_d5_ninguna_columna_de_la_ola_1_queda_repetida():
+    assert [(c, a, x["col"]) for c, a, x in entradas_ola_1() if x.get("repetida")] == []
+    assert not any(e.get("mapeo_manual_fallas") for e in REG["cuadros"].values())
+
+
+def test_d5_cada_mapeo_a_mano_tiene_su_comprobacion():
+    hechos = [(c, a, x) for c, a, x in entradas_ola_1() if "concepto" in x]
+    assert len(hechos) >= 60
+    assert all(x["comprobado"] for _, _, x in hechos)
+
+
+def test_d5_las_sumas_cierran_en_los_fixtures():
+    """Cada «X = A + B …» del registro se vuelve a calcular sobre los fixtures 2024 y 2023, fila por fila, con el
+    lector del pipeline."""
+    import mec_anuario as mec
+
+    probadas = 0
+    for anio in (2024, 2023):
+        xlsx = (FIXTURES / f"{anio}.xlsx").read_bytes()
+        hojas = {h.strip(): h for h in mec.nombres_de_hojas(xlsx)}
+        for cod, a, x in entradas_ola_1():
+            prueba = x.get("comprobado", "")
+            m = re.fullmatch(r"([A-Z]+) = ([A-Z]+(?: \+ [A-Z]+)*)", prueba)
+            if a != anio or not m or cod not in hojas:
+                continue
+            celdas, combinadas = mec.celdas_de(xlsx, hojas[cod])
+            e = mec.estructura(celdas, combinadas, cod)
+            total, partes = mec._col(m.group(1)), [mec._col(p) for p in m.group(2).split(" + ")]
+            for fila, _ in e.filas:
+                t = mec.numero(celdas.get((fila, total)))
+                if t is not None:
+                    assert t == sum(mec.numero(celdas.get((fila, p))) or 0 for p in partes), (cod, anio, prueba, fila)
+            probadas += 1
+    assert probadas >= 20
+
+
+def test_d4_columnas_de_otro_anio():
+    reglas = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario" / "mapeo_manual.yml").read_text(encoding="utf-8"))["anio_real"]
+    for cod, por_anio in reglas.items():
+        for anio, regla in por_anio.items():
+            m = REG["cuadros"][cod]["mapeo"][anio]
+            if m is None:  # el cuadro-año no se carga (II-2.1.4 2021: el título dice 2020)
+                assert REG["cuadros"][cod]["sin_cargar"][anio]
+                continue
+            notas = (REG["cuadros"][cod].get("anio_real_notas") or {}).get(anio, [])
+            filtro = regla["columnas"]
+            alcanzadas = [x for x in m if filtro == "todas" or filtro in mec_plegar(x["ruta"])]
+            assert alcanzadas, (cod, anio)
+            for x in alcanzadas:  # cada columna que declara el pie: año real, omitida o anotada con el motivo
+                assert x.get("anio") == regla["anio"] or "D4" in (x.get("omitir") or "") or any(n.startswith(f"{x['col']} «") for n in notas), (cod, anio, x["col"])
+
+
+def test_d4_ningun_valor_queda_dos_veces_en_el_mismo_anio():
+    vistos = {}
+    for cod, a, x in entradas_ola_1():
+        if x.get("omitir"):
+            continue
+        clave = (x["id"], x.get("anio", a))
+        assert clave not in vistos, (clave, vistos.get(clave), (cod, a))
+        vistos[clave] = (cod, a)
+
+
+def test_d4_lo_que_ya_publica_su_anuario_no_se_vuelve_a_cargar():
+    m = {x["ruta"]: x for x in REG["cuadros"]["II-2.2.1"]["mapeo"][2021]}
+    privada = [x for r, x in m.items() if "PRIVADA" in r.upper()]
+    assert privada and all("ya cargado desde el anuario 2020" in x["omitir"] for x in privada)
