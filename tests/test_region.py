@@ -13,6 +13,8 @@ import pytest
 from territorios_2023 import SIN_GEOMETRIA as SIN_GEOMETRIA_PIPELINE
 from web import SIN_GEOMETRIA
 
+from comun.registro import RAIZ, cargar_fuentes
+
 REGIONES = {
     "INE-2023/region/interior": "Interior del país",
     "INE-2023/region/interior-5000": "Interior: localidades de 5.000 o más habitantes",
@@ -71,11 +73,14 @@ def test_cantidad_de_departamentos_del_interior(con, modo):
 
 def test_ningun_valor_se_calcula_desde_las_relaciones(con):
     """AC-I2: las relaciones no generan valores. Las regiones solo tienen observaciones de fuentes que publican
-    ese nivel (los ingresos de la ECH, F3.4); ninguna otra fuente, ni nada derivado, tiene valores en region."""
+    ese nivel: los ingresos de la ECH (F3.4) y el anuario del MEC, que publica «RESTO DEL PAÍS» (F4.4). Ninguna
+    otra fuente, ni nada estimado, tiene valores en region."""
     fuentes = {f for (f,) in con.execute("""select distinct c.fuente_id from observaciones o
                                              join territorios t on t.id = o.territorio_id
                                              join capturas c on c.id = o.captura_id where t.nivel = 'region'""").fetchall()}
-    assert fuentes <= {"ine_ech_ingresos_series"}
+    publican_region = {f for f, d in cargar_fuentes(RAIZ / "fuentes").items() if "region" in d["niveles_publicados"]}
+    assert publican_region == {"ine_ech_ingresos_series", "mec_anuario_educacion"}
+    assert fuentes <= publican_region
     assert uno(con, """select count(*) from observaciones o join territorios t on t.id = o.territorio_id
                        where t.nivel = 'region' and o.es_estimado""") == 0
 
@@ -146,8 +151,12 @@ def _fichas_con_ingresos_en_el_interior(salida):
 def test_las_fichas_del_interior_llevan_su_region_con_los_temas(salida):
     fichas = _fichas_con_ingresos_en_el_interior(salida)
     flores = fichas["INE-2023/departamento/07"]
-    assert flores["region"] == {"id": INTERIOR, "nivel": "region", "codigo": "interior", "nombre": "Interior del país",
-                                "temas": ["Ingresos"]}
+    # sin filtrar por estado: trae los temas de toda fuente con valores en el Interior (ingresos, y educación
+    # cuando el anuario del MEC está cargado); la web publicada filtra las que no están activas
+    region = dict(flores["region"])
+    temas = region.pop("temas")
+    assert region == {"id": INTERIOR, "nivel": "region", "codigo": "interior", "nombre": "Interior del país"}
+    assert "Ingresos" in temas and set(temas) <= {"Ingresos", "Educación"}
     seg = next(f for i, f in fichas.items() if i.startswith("INE-2023/segmento/07"))
     assert seg["region"]["id"] == INTERIOR
     # Montevideo, sus unidades, el país y las regiones no llevan región
