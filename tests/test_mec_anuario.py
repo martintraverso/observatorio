@@ -232,11 +232,17 @@ def test_ac_e13_el_sexo_de_2023_y_2024_no_comparten_indicador():
 
 # ---------------------------------------------------------------- tipo B
 
-def test_tipo_b_al_pais_con_la_categoria_en_el_indicador():
+def test_tipo_b_con_la_categoria_en_el_indicador_y_los_totales_que_nombran_territorio():
+    """II-3.2.1: «TOTAL DEL PAÍS», «TOTAL MONTEVIDEO» y «TOTAL RESTO DEL PAÍS» agrupan las mismas categorías; cada
+    grupo va a su territorio (mantenedor, #180) con los mismos indicadores."""
     d = cuadro("II-3.2.1").datos
-    assert set(d.territorio_id) == {mec.PAIS}
-    assert any(i.endswith("__total_montevideo_diurna") for i in d.indicador)
+    assert set(d.territorio_id) == {mec.PAIS, mec.tid("departamento", "01"), mec.INTERIOR}
+    por_t = d.groupby("territorio_id").indicador.agg(set)
+    assert por_t[mec.PAIS] == por_t[mec.tid("departamento", "01")] == por_t[mec.INTERIOR]
+    assert any(i.endswith("__diurna") for i in d.indicador) and any(i.endswith("__total") for i in d.indicador)
     assert not d.duplicated(["indicador", "territorio_id", "periodo"]).any()
+    total = d[d.indicador.str.endswith("__total")].set_index("territorio_id").groupby(level=0).valor.first()
+    assert total[mec.PAIS] == total[mec.tid("departamento", "01")] + total[mec.INTERIOR]  # 129.652 = 47.781 + 81.871
 
 
 # ---------------------------------------------------------------- filas sin datos (revisión del PR #181)

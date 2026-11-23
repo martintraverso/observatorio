@@ -240,7 +240,8 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
     """Valores del cuadro `codigo` del anuario `anio`, con el mapeo por columna del registro.
 
     Tipo A: cada fila es un territorio (AC-E8). Tipo B y C: cada fila es una categoría que pasa a ser parte del
-    indicador (`<id>__<categoría>`) y el valor va a `pais/UY` (D1). Una entrada del mapeo con `anio` (D4: el pie
+    indicador (`<id>__<categoría>`) y el valor va a `pais/UY` (D1), salvo bajo una fila «TOTAL MONTEVIDEO» o «TOTAL
+    RESTO DEL PAÍS», que las lleva a ese territorio (la fila del total es la categoría `total`). Una entrada del mapeo con `anio` (D4: el pie
     declara que esa columna es de otro año) se guarda con ese período."""
     celdas, combinadas = celdas_de(xlsx, hoja_del_cuadro(xlsx, codigo))
     e = estructura(celdas, combinadas, codigo)
@@ -266,7 +267,7 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
         raise ErrorAnuario(f"{codigo} {anio}: columnas mapeadas que el archivo no tiene: {[letra(c) for c in faltan]} (AC-E9)")
     filas, sin_dato, pie, ignoradas = [], 0, list(e.pie), 0
     cols_mapeadas = [_col(m["col"]) for m in mapeo]
-    grupo = ""
+    grupo, territorio_grupo = "", PAIS
     for r, rotulo in e.filas:
         vacia = all(celdas.get((r, c)) is None for c in cols_mapeadas)
         territorio = territorio_de_fila(rotulo) if tipo == "A" else None
@@ -279,15 +280,20 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
                 ignoradas += 1
             continue
         # una fila con algo en las columnas mapeadas (aunque sea «s/d») es una fila de datos: se valida entera
-        if tipo != "A" and plegar(rotulo).startswith("total ") and plegar(rotulo) not in FILAS_PAIS:
-            grupo = rotulo  # B/C: «TOTAL MONTEVIDEO», «TOTAL RESTO DEL PAÍS» agrupan las filas que siguen
+        es_total = tipo != "A" and (plegar(rotulo) in FILAS_PAIS or plegar(rotulo).startswith("total "))
+        if es_total:
+            # B/C: una fila «TOTAL …» abre un grupo. Si nombra un territorio, las filas del grupo van a ese territorio
+            # (mantenedor, #180): «TOTAL DEL PAÍS» → país, «TOTAL MONTEVIDEO» → departamento/01, «TOTAL RESTO DEL
+            # PAÍS» → region/interior (= TOTAL − MONTEVIDEO). Si no, el grupo pasa a ser parte de la categoría.
+            nombrado = PAIS if plegar(rotulo) in FILAS_PAIS else territorio_de_fila(rotulo.split(None, 1)[1])
+            grupo, territorio_grupo = ("", nombrado) if nombrado else (rotulo, PAIS)
         if tipo == "A":
             if territorio is None:
                 raise ErrorAnuario(f"{codigo} {anio}: fila desconocida «{rotulo}» (AC-E8)")
             sufijo = ""
         else:
-            categoria = rotulo if not grupo or rotulo == grupo else f"{grupo}/{rotulo}"
-            territorio, sufijo = PAIS, f"__{slug(categoria) or 'sin_rotulo'}"
+            categoria = "total" if es_total and not grupo else (rotulo if not grupo or rotulo == grupo else f"{grupo}/{rotulo}")
+            territorio, sufijo = territorio_grupo, f"__{slug(categoria) or 'sin_rotulo'}"
         for m in mapeo:
             if m.get("omitir"):
                 continue  # repite otra columna que ya se carga (D7)
