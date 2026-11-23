@@ -6,7 +6,8 @@ Escribe lo de la fuente en `<salida>/fuentes/mec_anuario_educacion/` y arma las 
 `comun.salida.combinar`, como la carga de ingresos (F3.4b):
 
 - Cada año es una captura (AC-E4). Una captura ya cargada (mismo sha256) no se vuelve a parsear (AC-P8); una
-  nueva reemplaza los valores de su año y el reporte dice cuántos cambiaron y el cambio más grande (AC-E6).
+  nueva reemplaza los valores de su año y el reporte dice cuántos cambiaron y el cambio más grande (AC-E6). Un
+  cambio en el mapeo del registro no recarga lo ya cargado: hace falta --forzar (como en ingresos).
 - Un año con error de descarga queda en el reporte y los demás se cargan igual (AC-E5).
 - La serie nacional 2002–<año> sale del anuario más reciente; donde se superpone con un cuadro anual se guardan los
   dos y una diferencia es advertencia (AC-E7).
@@ -209,6 +210,9 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False) -> di
     ya = set() if forzar or obs_prev is None else set(obs_prev.captura_id)
     cuadro_de = {x["id"]: cod for cod, e in fuente["cuadros"].items() for m in (e.get("mapeo") or {}).values()
                  for x in m or []}
+    anios_vigentes = [int(c["codigo"]) for c in vigentes]
+    ultimo_de = {cod: max((a for a in anios_vigentes if (e.get("mapeo") or {}).get(a)), default=None)
+                 for cod, e in fuente["cuadros"].items()}
     partes, pies, avisos, parseadas = [], {}, [], []
     for c in vigentes:
         anio = int(c["codigo"])
@@ -220,7 +224,9 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False) -> di
             continue
         datos, p, a = leer_anuario((crudo / c["archivo"]).read_bytes(), anio, fuente)
         partes.append(datos.assign(captura_id=c["id"]))
-        pies.update(p)  # el pie del año más reciente queda como nota del indicador
+        # la nota de un indicador es el pie del cuadro en el anuario más reciente que lo trae: un año viejo
+        # parseado (una revisión de 2022) no la cambia
+        pies.update({cod: pie for cod, pie in p.items() if anio == ultimo_de.get(cod)})
         avisos += a
         parseadas.append(c["id"])
     ultimo = vigentes[-1]

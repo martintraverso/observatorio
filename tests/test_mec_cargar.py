@@ -188,3 +188,19 @@ def test_ac_e6_una_revision_solo_parsea_el_anio_que_cambio(entorno, monkeypatch)
     o, _, i = tablas(salida)
     assert valor(o, "edu_ii_2_2_1_total", periodo="2023") == 287805  # 2023 sigue, tomado de lo publicado
     assert i.set_index("codigo").loc["edu_ii_2_2_13_rendimiento_escolar_promovidos_total"].nota  # nota conservada
+
+
+def test_ac_e6_una_revision_de_un_anio_viejo_deja_el_catalogo_como_una_carga_completa(entorno, tmp_path):
+    crudo, salida = entorno
+    correr(crudo, salida)
+    revisado = con_valor(fix(2023), "II-2.2.1", "B12", 7000)
+    capturar_anuarios(crudo, FUENTE, sitio({URL[2023]: revisado, URL[2024]: fix(2024)}), hoy="2026-11-30")
+    copia = tmp_path / "forzada"
+    shutil.copytree(salida, copia)
+    correr(crudo, salida)  # solo parsea 2023
+    correr(crudo, copia, "--forzar")  # parsea todo
+    _, _, incremental = tablas(salida)
+    _, _, completa = tablas(copia)
+    cols = ["codigo", "nombre", "unidad", "nota", "es_derivado", "formula"]
+    pd.testing.assert_frame_equal(incremental[cols].sort_values("codigo").reset_index(drop=True),
+                                  completa[cols].sort_values("codigo").reset_index(drop=True))
