@@ -32,6 +32,7 @@ import urllib.request
 from pathlib import Path
 
 import yaml
+from openpyxl.utils import get_column_letter
 
 RAIZ = Path(__file__).resolve().parents[1]
 PAGINA = "https://www.gub.uy/ministerio-educacion-cultura/datos-y-estadisticas/datos"
@@ -159,8 +160,10 @@ def cuadro(ws, ws_f) -> dict | None:
         partes = []
         for r in range(fila_tit + 1, desde):
             v = hdr.get((r, c))
-            if not isinstance(v, str) or numero(v) is not None or es_titulo(v, titulo):
-                continue  # números (II-3.2.8) y el título repetido como encabezado (II-2.2.16) no son rutas
+            n = numero(v)
+            if v is None or (n is not None and n > 30) or (isinstance(v, str) and es_titulo(v, titulo)):
+                continue  # conteos que se cuelan (II-3.2.8: 146, 190) y el título (II-2.2.16) no son rutas;
+                # números chicos sí lo son: edades y grados (II-1.2.2: AÑOS/3, 4, 5, 6)
             if not partes or partes[-1] != " ".join(str(v).split()):
                 partes.append(" ".join(str(v).split()))
         rutas[c] = "/".join(partes) or f"columna {c}"
@@ -193,7 +196,8 @@ def cuadro(ws, ws_f) -> dict | None:
         for c2 in cols[i + 1:]:
             if valores[c1] == valores[c2] and "SEXO" not in rutas[c1].upper().split("/")[:1]:
                 iguales.append((rutas[c1], rutas[c2]))
-    return {**base, "tipo": tipo, "rutas": [rutas[c] for c in sorted(rutas)], "filas": len(rotulos),
+    return {**base, "tipo": tipo, "rutas": [rutas[c] for c in sorted(rutas)],
+            "columnas": [get_column_letter(c) for c in sorted(rutas)], "filas": len(rotulos),
             "rotulos": rotulos, "resto": "resto del pais" in pl, "pie": pie, "no_numericas": no_num,
             "formulas": formulas, "como_texto": como_texto, "iguales": iguales, "heredadas": heredadas,
             "total_como": next((r for r in rotulos if plegar(r) in ("total", "total del pais")), None)}
@@ -259,15 +263,23 @@ def id_indicador(codigo: str, ruta: str, sufijo: str = "") -> str:
     return f"edu_{slug(codigo)}_{slug(ruta)}{sufijo}"
 
 
-def mapear(codigo: str, rutas: list[str], solo_pub: set[str]) -> dict[str, str]:
-    """Ruta → id, único dentro del cuadro y año: dos rutas que solo difieren en mayúsculas («TOTAL» y «Total» en
-    II-2.1.4) son columnas distintas; la segunda (en orden de columna) lleva `_2`, la tercera `_3`…"""
+def mapear(codigo: str, columnas: list[str], rutas: list[str], solo_pub: set[str]) -> list[dict]:
+    """Una entrada por columna numérica: {col, ruta, id}. El id es único dentro del cuadro y año: dos columnas con
+    la misma ruta (II-4.2.4: «SEXO/Varón» total, pública y privada, porque «PÚBLICA» no está combinada sobre ellas)
+    o que solo difieren en mayúsculas (II-2.1.4: «TOTAL» y «Total») reciben `__2`, `__3`… en orden de columna.
+    `repetida: true` las marca: su ruta no alcanza para saber qué son y hay que mapearlas a mano (F4.3)."""
     vistos: dict[str, int] = {}
-    m = {}
+    cuenta = {}
     for r in rutas:
+        cuenta[slug(r)] = cuenta.get(slug(r), 0) + 1
+    m = []
+    for col, r in zip(columnas, rutas):
         i = id_indicador(codigo, r, "_solo_publica" if r in solo_pub else "")
         vistos[i] = vistos.get(i, 0) + 1
-        m[r] = i if vistos[i] == 1 else f"{i}_{vistos[i]}"
+        e = {"col": col, "ruta": r, "id": i if vistos[i] == 1 else f"{i}__{vistos[i]}"}
+        if cuenta[slug(r)] > 1:
+            e["repetida"] = True
+        m.append(e)
     return m
 
 
@@ -363,7 +375,8 @@ def escribir_inventario(ex: dict, archivos: dict) -> None:
             if c.get("unidad") == "?":
                 L.append(f"- **{cod} {a}:** unidad no reconocida en el título")
     L += ["", "## Encabezados completados (revisar)", "",
-          "Celdas vacías de encabezado que heredaron el grupo combinado de su izquierda (ver `completar_grupos`).", ""]
+          "Celdas vacías de encabezado que heredaron un grupo combinado vecino, de la derecha si su rótulo es un total o",
+          "de la izquierda si no (ver `completar_grupos`). Heurística: hay casos mal resueltos (PR #177), revisar.", ""]
     for a in ANIOS:
         for cod, c in ex[a]["cuadros"].items():
             if c.get("heredadas"):
@@ -414,7 +427,7 @@ def escribir_registro(ex: dict, archivos: dict) -> None:
                     e.setdefault("sin_cargar", {})[a] = motivo
                     continue
                 sp = solo_publica(c)
-                e["mapeo"][a] = mapear(cod, c["rutas"], sp)
+                e["mapeo"][a] = mapear(cod, c["columnas"], c["rutas"], sp)
         cuadros[cod] = e
     reg = {
         "id": "mec_anuario_educacion",

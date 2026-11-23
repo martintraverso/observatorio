@@ -47,24 +47,40 @@ def test_ac_e2_cada_cuadro_tiene_tipo_ola_y_mapeo_en_la_ola_1():
                 if m is None:  # lo que no se carga figura con motivo
                     assert e["sin_cargar"][a], (cod, a)
                 else:  # cada columna, su propio indicador
-                    assert len(set(m.values())) == len(m), (cod, a)
+                    assert len({e["col"] for e in m}) == len(m), (cod, a)
+                    assert len({e["id"] for e in m}) == len(m), (cod, a)
+
+
+def ruta_id(cod, anio):
+    return {e["ruta"]: e["id"] for e in REG["cuadros"][cod]["mapeo"][anio] if not e.get("repetida")}
 
 
 def test_ii_2_1_4_total_y_total_comun_son_indicadores_distintos():
     m = REG["cuadros"]["II-2.1.4"]["mapeo"][2024]
-    assert len(set(m.values())) == len(m) and "edu_ii_2_1_4_total" in m.values()
+    assert m[0]["id"] == "edu_ii_2_1_4_total" and len({e["id"] for e in m}) == len(m)
+
+
+def test_ii_4_2_4_las_tres_columnas_varon_no_se_pierden():
+    m = REG["cuadros"]["II-4.2.4"]["mapeo"][2024]
+    varon = [e for e in m if e["ruta"].endswith("SEXO/Varón")]
+    assert len(varon) >= 3 and all(e.get("repetida") for e in varon)
+
+
+def test_ii_1_2_2_las_edades_son_parte_de_la_ruta():
+    rutas = [e["ruta"] for e in REG["cuadros"]["II-1.2.2"]["mapeo"][2024]]
+    assert any(r.endswith("/AÑOS/3") for r in rutas) and any(r.endswith("/AÑOS/6") for r in rutas)
 
 
 def test_ii_1_1_1_2020_jardines_quedan_bajo_publica_como_en_2024():
-    m20, m24 = (set(REG["cuadros"]["II-1.1.1"]["mapeo"][a]) for a in (2020, 2024))
+    m20, m24 = (set(ruta_id("II-1.1.1", a)) for a in (2020, 2024))
     assert "FORMA DE ADMINISTRACIÓN/PÚBLICA/Jardines de Tiempo Completo" in m20 & m24
 
 
 def test_ii_2_2_1_el_sexo_de_2024_es_otro_indicador_que_el_de_2023():
-    m = REG["cuadros"]["II-2.2.1"]["mapeo"]
+    m23, m24 = ruta_id("II-2.2.1", 2023), ruta_id("II-2.2.1", 2024)
     ruta = "FORMA DE ADMINISTRACIÓN/TOTAL/MUJER"
-    assert m[2023][ruta] != m[2024][ruta]
-    assert m[2023]["TOTAL"] == m[2024]["TOTAL"]
+    assert m23[ruta] != m24[ruta]
+    assert m23["TOTAL"] == m24["TOTAL"]
 
 
 def test_fixtures_tienen_la_ola_1_la_serie_y_cuadros_b_y_c():
@@ -79,6 +95,6 @@ def test_fixtures_tienen_la_ola_1_la_serie_y_cuadros_b_y_c():
 
 
 def test_ii_2_2_13_el_total_vacio_es_de_no_promovidos():
-    m = REG["cuadros"]["II-2.2.13"]["mapeo"][2024]
+    m = ruta_id("II-2.2.13", 2024)
     assert "RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL" in m
     assert not any(r.startswith("RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL") and r != "RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL" for r in m)
