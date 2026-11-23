@@ -14,7 +14,7 @@ Escribe lo de la fuente en `<salida>/fuentes/mec_anuario_educacion/` y arma las 
 - Tasas derivadas (D2, AC-E16), con numerador y denominador del mismo cuadro, año, territorio y alcance:
   tasa de promoción = promovidos / (promovidos + no promovidos) × 100 en cada cuadro de rendimiento, y % de
   matrícula privada = privada / total × 100 en II-2.2.1. Cada una es un indicador propio con `es_derivado` y su
-  `formula`. El % de asistencia insuficiente no se calcula: II-2.2.18 no trae la matrícula (pregunta en el PR).
+  `formula`. El % de asistencia insuficiente no se calcula: II-2.2.18 no trae la matrícula (mantenedor, 2026-11-23).
 
 Uso: python pipeline/mec_anuario_cargar.py datos/crudo/mec_anuario [--salida datos/salida] [--fuentes fuentes/] [--forzar]
 """
