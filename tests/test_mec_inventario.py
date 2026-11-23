@@ -110,6 +110,18 @@ def test_ii_2_2_1_2024_el_total_por_sexo_solo_publica_no_se_carga():
 
 # ---------------------------------------------------------------- F4.3b-1 (#182): mapeo a mano (D4, D5)
 
+def mec_plegar(t):
+    import mec_anuario
+
+    return mec_anuario.plegar(t)
+
+
+def test_d4_ii_1_1_2_2021_cpip_se_compara_con_su_par_de_2020_y_queda_en_2021():
+    c = next(x for x in REG["cuadros"]["II-1.1.2"]["mapeo"][2021] if "CPIP" in x["ruta"])
+    assert "anio" not in c and not c.get("omitir")
+    assert "difiere del anuario 2020" in " ".join(REG["cuadros"]["II-1.1.2"]["anio_real_notas"][2021])
+
+
 def entradas_ola_1():
     for cod, e in REG["cuadros"].items():
         if e["ola"] != 1:
@@ -163,9 +175,12 @@ def test_d4_columnas_de_otro_anio():
             if m is None:  # el cuadro-año no se carga (II-2.1.4 2021: el título dice 2020)
                 assert REG["cuadros"][cod]["sin_cargar"][anio]
                 continue
-            marcadas = [x for x in m if x.get("anio") == regla["anio"] or "D4" in (x.get("omitir") or "")]
-            notas = (REG["cuadros"][cod].get("anio_real_notas") or {}).get(anio, [])
-            assert marcadas or notas, (cod, anio)  # o se cambia el año, o se omite, o queda anotado por qué no
+            notas = " ".join((REG["cuadros"][cod].get("anio_real_notas") or {}).get(anio, []))
+            filtro = regla["columnas"]
+            alcanzadas = [x for x in m if filtro == "todas" or filtro in mec_plegar(x["ruta"])]
+            assert alcanzadas, (cod, anio)
+            for x in alcanzadas:  # cada columna que declara el pie: año real, omitida o anotada con el motivo
+                assert x.get("anio") == regla["anio"] or "D4" in (x.get("omitir") or "") or x["col"] in notas, (cod, anio, x["col"])
 
 
 def test_d4_ningun_valor_queda_dos_veces_en_el_mismo_anio():

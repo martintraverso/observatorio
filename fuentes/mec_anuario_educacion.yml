@@ -273,7 +273,6 @@ cuadros:
       - col: C
         ruta: Centros de Primera Infancia Privados (CPIP) (Supervisados por INAU)
         id: edu_ii_1_1_2_centros_de_primera_infancia_privados_cpip_supervisados_por_inau
-        anio: 2020
       - col: D
         ruta: PROYECTOS CAIF, CAPI, NUESTROS NIÑOS (Supervisados por INAU)
         id: edu_ii_1_1_2_proyectos_caif_capi_nuestros_ninos_supervisados_por_inau
@@ -312,7 +311,8 @@ cuadros:
       - 'Nota: Los establecimientos CPIP corresponden a los Centros Privados supervisados por el MEC del año 2020.'
     anio_real_notas:
       2021:
-      - 'C «Centros de Primera Infancia Privados (CPIP) (Supervisados por INAU)»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020'
+      - 'C «Centros de Primera Infancia Privados (CPIP) (Supervisados por INAU)»: el pie dice 2020 pero difiere del anuario 2020 en 8 filas ([''TOTAL'', ''MONTEVIDEO'',
+        ''RESTO DEL PAÍS'']); se carga como 2021'
   II-1.2.1:
     titulo: ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL POR FORMA DE ADMINISTRACIÓN, MODALIDAD Y SEXO SEGÚN DEPARTAMENTO
     tipos:

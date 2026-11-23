@@ -211,7 +211,7 @@ def _comun(a: str, b: str) -> int:
     return n
 
 
-def resolver_repetidas(c: dict, estrategia: str) -> tuple[dict[int, tuple[str, str]], list[str]]:
+def resolver_repetidas(c: dict, estrategia: str, fila_con_error: str | None = None) -> tuple[dict[int, tuple[str, str]], list[str]]:
     """D5: para cada columna con ruta repetida, el concepto que suma (índice → (concepto, comprobación)). Solo se
     acepta lo que cierra con sumas en todas las filas; lo que no, vuelve en la lista de fallas."""
     rutas, valores = c["rutas"], c["valores"]
@@ -235,7 +235,8 @@ def resolver_repetidas(c: dict, estrategia: str) -> tuple[dict[int, tuple[str, s
                     continue
                 suma = _suma(valores, cols)
                 distintas = [f for f, (x, y) in enumerate(zip(valores[i], suma)) if x is not None and x != y]
-                if len(distintas) <= 1 and any(x is not None for x in valores[i]):
+                tolerada = [f for f in distintas if fila_con_error and plegar(c["rotulos"][f]) == plegar(fila_con_error)]
+                if len(distintas) == len(tolerada) and any(x is not None for x in valores[i]):
                     prueba = f"{c['columnas'][i]} = suma de {len(cols)} columnas ({c['columnas'][cols[0]]}…{c['columnas'][cols[-1]]})"
                     if distintas:  # II-3.2.2 2021 y 2022: Treinta y Tres no cierra en el archivo; se guarda lo publicado
                         f = distintas[0]
@@ -301,7 +302,7 @@ def anio_real(ex: dict, cod: str, a: int, regla: dict) -> tuple[dict[int, dict],
     for i, r in enumerate(c["rutas"]):
         if filtro != "todas" and filtro not in plegar(r):
             continue
-        k = rutas_otro.get(clave(r))
+        k = rutas_otro.get(clave(regla.get("par", r)))
         if k is None:
             cambios[i] = {"anio": real}
             notas.append(f"{c['columnas'][i]} «{r}»: el anuario {real} no tiene esta columna para comparar; se carga como {real}")
@@ -487,7 +488,8 @@ def escribir_registro(ex: dict, archivos: dict) -> None:
                 sp = solo_publica(c)
                 m = mapear(cod, c["columnas"], c["rutas"], sp)
                 if cod in manual.get("repetidas", {}):
-                    hechas, fallas = resolver_repetidas(c, manual["repetidas"][cod])
+                    hechas, fallas = resolver_repetidas(c, manual["repetidas"][cod],
+                                                        manual.get("total_con_error", {}).get(cod, {}).get(a))
                     for i, (concepto, prueba) in hechas.items():
                         m[i].pop("repetida", None)
                         if concepto is None:
@@ -508,7 +510,12 @@ def escribir_registro(ex: dict, archivos: dict) -> None:
                         if x.get("repetida") and sum(slug(y["ruta"]) == slug(x["ruta"]) for y in otras) == 1:
                             x.pop("repetida")
                             x["comprobado"] = "ruta única después del renombre de " + ", ".join(ren["columnas"])
-                    e.get("mapeo_manual_fallas", {}).pop(a, None)
+                    renombradas = set(ren["columnas"]) | {x["col"] for x in otras if "comprobado" in x}
+                    quedan = [f for f in e.get("mapeo_manual_fallas", {}).get(a, []) if f.split(" ", 1)[0] not in renombradas]
+                    if quedan:
+                        e["mapeo_manual_fallas"][a] = quedan
+                    else:
+                        e.get("mapeo_manual_fallas", {}).pop(a, None)
                 for ruta, regla_c in manual.get("conceptos", {}).get(cod, {}).items():
                     if ruta not in c["rutas"]:
                         continue

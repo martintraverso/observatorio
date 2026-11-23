@@ -10,7 +10,9 @@ anio_real:
     2021: {anio: 2020, columnas: privad}
     2022: {anio: 2020, columnas: privad}  # la nota de 2022 repite la de 2021: los valores lo deciden
   II-1.1.2:
-    2021: {anio: 2020, columnas: cpip}  # 2020 decía «Supervisados por MEC» (264) y 2021 «por INAU» (254): sin par para comparar
+    # el pie de 2021 dice que los CPIP (INAU) antes se llamaban «Centros Privados supervisados por el MEC»: el par
+    # de 2020 es esa columna, con otro rótulo. Sus valores difieren (254 contra 264): se carga como 2021.
+    2021: {anio: 2020, columnas: cpip, par: "Centro de Primera Infancia (Supervisados por MEC)"}
   II-1.2.1:
     2021: {anio: 2020, columnas: privad}
   II-1.2.3:
@@ -33,6 +35,13 @@ anio_real:
     2023: {anio: 2022, columnas: todas}
     2024: {anio: 2022, columnas: todas}
   # II-2.2.18 2023 no es de otro año: no hay datos (todo «s/d»), lo resuelve el parser.
+
+# total_con_error (D5): filas en las que el total general publicado no cierra con sus partes por un error de la
+# fuente. Se guarda lo publicado y queda anotado; ninguna otra fila ni cuadro tiene tolerancia.
+total_con_error:
+  II-3.2.2:
+    2021: Treinta y Tres  # 315 publicado contra 580 sumado
+    2022: Treinta y Tres  # 320 publicado contra 477 sumado
 
 # repetidas (D5): columnas con la misma ruta que otra. Estrategia por cuadro, comprobada con sumas en
 # todas las filas de cada año:

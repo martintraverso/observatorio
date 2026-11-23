@@ -303,8 +303,7 @@ etiquetados con su comprobación con sumas (D5), y columnas con datos de otro a�
 - **II-1.1.1 2022:**
   - ⚠ I «FORMA DE ADMINISTRACIÓN/PRIVADA/Jardines de Infantes»: el pie dice 2020 pero difiere del anuario 2020 en 6 filas (['TOTAL', 'MONTEVIDEO', 'RESTO DEL PAÍS']); se carga como 2022
 - **II-1.1.2 2021:**
-  - C `Centros de Primera Infancia Privados (CPIP) (Supervisados por INAU)` año real 2020
-  - ⚠ C «Centros de Primera Infancia Privados (CPIP) (Supervisados por INAU)»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
+  - ⚠ C «Centros de Primera Infancia Privados (CPIP) (Supervisados por INAU)»: el pie dice 2020 pero difiere del anuario 2020 en 8 filas (['TOTAL', 'MONTEVIDEO', 'RESTO DEL PAÍS']); se carga como 2021
 - **II-1.2.1 2021:**
   - AM `FORMA DE ADMINISTRACIÓN/PRIVADA/Total Privada` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
   - AN `FORMA DE ADMINISTRACIÓN/PRIVADA/Jardines de Infantes/SEXO/V` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
