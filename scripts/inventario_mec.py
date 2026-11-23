@@ -364,7 +364,7 @@ def conceptos_2024(cuadros: dict, manual: dict) -> None:
                                   "total privados" in _norm(x.get("concepto", x["ruta"])) for x in m)
             propuestas = {}
             for k, x in enumerate(m):
-                if x["id"] in ids24 or x.get("omitir"):
+                if x.get("omitir"):
                     continue
                 s = _norm(x.get("concepto", x["ruta"]))
                 s_sin = sin_env(s)
@@ -372,8 +372,14 @@ def conceptos_2024(cuadros: dict, manual: dict) -> None:
                 privada_reciente = any("privada" in t and [y for y in sin_env(t) if y != "privada"] == s_sin for t in recientes)
                 # un total general (o de un curso con parte privada desde 2023) de un año sin columnas privadas
                 cobertura = (sin_privada and con_privada_reciente and es_total and a < 2023
-                             and (len(s_sin) <= 1 or privada_reciente)
-                             and not any("public" in y for y in s))  # «TOTAL LICEOS PÚBLICOS» no cambia de cobertura
+                             and (len([y for y in s_sin if y not in ("v", "m")]) <= 1 or privada_reciente)
+                             # «TOTAL LICEOS PÚBLICOS» o «… PRIVADOS» dicen su cobertura: no cambia
+                             and not any("public" in y or "privad" in y for y in s))
+                if x["id"] in ids24:
+                    if cobertura:  # mismo id que 2024 pero otra cobertura: id propio, como `_solo_publica` (AC-E13)
+                        x["id"] = x["id"] + "_sin_privados"
+                        x["motivo_d6"] = "concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí"
+                    continue
                 igual = [i for t, i in s24 if t == s]
                 cand = [(t, i) for t, i in s24 if sin_env(t) == s_sin]
                 if len(cand) > 1:  # desempate: el que conserva más segmentos de la ruta (p. ej. «dgetp»)
@@ -389,7 +395,7 @@ def conceptos_2024(cuadros: dict, manual: dict) -> None:
                     continue
                 elif len(cand) == 1:
                     t = cand[0][0]
-                    if "publica" in t and "publica" not in s and privada_reciente:
+                    if "publica" in t and "publica" not in s and privada_reciente and sin_privada:
                         motivo = "concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa"
                     elif "publica" in s and "publica" not in t:
                         motivo = "concepto distinto (AC-E13): este año es solo pública y 2024 cubre todas las administraciones"
@@ -404,7 +410,7 @@ def conceptos_2024(cuadros: dict, manual: dict) -> None:
                     nota = next((v for clave, v in reag.items() if clave in s), None)
                     if nota:
                         motivo = nota + " (no se suma: decisión del mantenedor)"
-                    elif "publica" not in s and "privada" not in s and privada_reciente:
+                    elif "publica" not in s and "privada" not in s and privada_reciente and sin_privada:
                         motivo = "concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa"
                     elif any(len(sin_env(t)) > len(s_sin) and sin_env(t)[:len(s_sin)] == s_sin for t, _ in s24):
                         motivo = "2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente"

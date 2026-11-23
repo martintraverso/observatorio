@@ -597,7 +597,7 @@ de 2024 (`equivale_2024`); las demás conservan su id con un `motivo_d6`. Lo que
   - 8 × concepto distinto (AC-E13): en 2024 esta columna cambia de significado y no se carga (D7)
 - **II-2.2.17:** 0 equivalencias, 3 con motivo
   - 3 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
-- **II-3.1.1:** 10 equivalencias, 8 con motivo
+- **II-3.1.1:** 10 equivalencias, 11 con motivo
   - 2020 C `MODALIDAD/TOTAL LICEOS PÚBLICOS` → `edu_ii_3_1_1_dges_total_liceos_publicos` (misma columna dentro de otro grupo del encabezado)
   - 2020 K `MODALIDAD/DGEIP/FORMA DE ADMINISTRACIÓN/Escuelas con Ciclo Básico Rural` → `edu_ii_3_1_1_modalidad_dgeip_escuelas_con_ciclo_basico_rural` (misma columna dentro de otro grupo del encabezado)
   - 2021 C `MODALIDAD/TOTAL LICEOS PÚBLICOS` → `edu_ii_3_1_1_dges_total_liceos_publicos` (misma columna dentro de otro grupo del encabezado)
@@ -608,11 +608,11 @@ de 2024 (`equivale_2024`); las demás conservan su id con un `motivo_d6`. Lo que
   - 2023 O `MODALIDAD/FORMA DE ADMINISTRACIÓN/TOTAL PÚBLICOS` → `edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_total_publicos` (misma columna dentro de otro grupo del encabezado)
   - 2023 Q `MODALIDAD/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica/Reparticiones` → `edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica_reparticiones` (misma columna dentro de otro grupo del encabezado)
   - 2023 R `MODALIDAD/FORMA DE ADMINISTRACIÓN/TOTAL PRIVADOS` → `edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_total_privados` (misma columna dentro de otro grupo del encabezado)
+  - 6 × concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí
   - 5 × 2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente
-  - 3 × concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí
 - **II-3.1.2:** 0 equivalencias, 3 con motivo
   - 3 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
-- **II-3.2.2:** 12 equivalencias, 36 con motivo
+- **II-3.2.2:** 12 equivalencias, 39 con motivo
   - 2020 C `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/TOTAL` → `edu_ii_3_2_2_publica_articulacion_educacion_media_basica_total` (en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto)
   - 2020 D `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/V` → `edu_ii_3_2_2_publica_articulacion_educacion_media_basica_sexo_v` (en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto)
   - 2020 E `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/M` → `edu_ii_3_2_2_publica_articulacion_educacion_media_basica_sexo_m` (en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto)
@@ -626,7 +626,8 @@ de 2024 (`equivale_2024`); las demás conservan su id con un `motivo_d6`. Lo que
   - 2022 P `FORMACIÓN PROFESIONAL BÁSICA/Sexo/V` → `edu_ii_3_2_2_publica_formacion_profesional_basica_sexo_v` (en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto)
   - 2022 Q `FORMACIÓN PROFESIONAL BÁSICA/Sexo/M` → `edu_ii_3_2_2_publica_formacion_profesional_basica_sexo_m` (en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto)
   - 36 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
-- **II-3.2.7:** 6 equivalencias, 36 con motivo
+  - 3 × concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí
+- **II-3.2.7:** 6 equivalencias, 39 con motivo
   - 2021 E `TIPO DE CURSO/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Total` → `edu_ii_3_2_7_publica_articulacion_educacion_media_basica_total` (en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto)
   - 2021 F `TIPO DE CURSO/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/mujer` → `edu_ii_3_2_7_publica_articulacion_educacion_media_basica_sexo_m` (en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto)
   - 2021 G `TIPO DE CURSO/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/Varón` → `edu_ii_3_2_7_publica_articulacion_educacion_media_basica_sexo_v` (en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto)
@@ -635,16 +636,17 @@ de 2024 (`equivale_2024`); las demás conservan su id con un `motivo_d6`. Lo que
   - 2022 G `TIPO DE CURSO/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/Varón` → `edu_ii_3_2_7_publica_articulacion_educacion_media_basica_sexo_v` (en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto)
   - 31 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
   - 4 × concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa
+  - 3 × concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí
   - 1 × 2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente
-- **II-3.2.8:** 0 equivalencias, 17 con motivo
+- **II-3.2.8:** 0 equivalencias, 20 con motivo
   - 13 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
   - 4 × 2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente
+  - 3 × concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí
 - **II-3.2.10:** 0 equivalencias, 34 con motivo
   - 18 × 2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente
   - 16 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
 - **II-3.2.11:** 0 equivalencias, 54 con motivo
-  - 48 × 2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente
-  - 6 × concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa
+  - 54 × 2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente
 - **II-4.1.1:** 6 equivalencias, 9 con motivo
   - 2020 C `MODALIDAD/DGES/TOTAL LICEOS PÚBLICOS` → `edu_ii_4_1_1_dges_total_liceos_publicos` (misma columna dentro de otro grupo del encabezado)
   - 2020 M `MODALIDAD/DGETP/Escuelas de CBT y Técnica./Reparticiones` → `edu_ii_4_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica_reparticiones` (misma columna dentro de otro grupo del encabezado)
@@ -654,7 +656,7 @@ de 2024 (`equivale_2024`); las demás conservan su id con un `motivo_d6`. Lo que
   - 2022 M `MODALIDAD/DGETP/Escuelas de CBT y Técnica./Reparticiones` → `edu_ii_4_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica_reparticiones` (misma columna dentro de otro grupo del encabezado)
   - 6 × concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí
   - 3 × 2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente
-- **II-4.2.2:** 27 equivalencias, 42 con motivo
+- **II-4.2.2:** 27 equivalencias, 51 con motivo
   - 2020 E `BACHILLERATO FIGARI/TOTAL` → `edu_ii_4_2_2_publica_bachillerato_figari_total` (en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto)
   - 2020 F `BACHILLERATO FIGARI/Sexo/M` → `edu_ii_4_2_2_publica_bachillerato_figari_sexo_m` (en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto)
   - 2020 G `BACHILLERATO FIGARI/Sexo/V` → `edu_ii_4_2_2_publica_bachillerato_figari_sexo_v` (en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto)
@@ -683,9 +685,9 @@ de 2024 (`equivale_2024`); las demás conservan su id con un `motivo_d6`. Lo que
   - 2022 X `EDUCACIÓN MEDIA TECNOLÓGICA FINEST/Sexo/M` → `edu_ii_4_2_2_publica_educacion_media_tecnologica_finest_sexo_m` (en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto)
   - 2022 Y `EDUCACIÓN MEDIA TECNOLÓGICA FINEST/Sexo/V` → `edu_ii_4_2_2_publica_educacion_media_tecnologica_finest_sexo_v` (en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto)
   - 24 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
+  - 15 × concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí
   - 12 × concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa
-  - 6 × concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí
-- **II-4.2.3:** 18 equivalencias, 41 con motivo
+- **II-4.2.3:** 18 equivalencias, 44 con motivo
   - 2021 E `TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO FIGARI/Total` → `edu_ii_4_2_3_publica_bachillerato_figari_total` (en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto)
   - 2021 F `TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO FIGARI/Sexo/Mujer` → `edu_ii_4_2_3_publica_bachillerato_figari_sexo_m` (en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto)
   - 2021 G `TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO FIGARI/Sexo/Varón` → `edu_ii_4_2_3_publica_bachillerato_figari_sexo_v` (en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto)
@@ -706,11 +708,12 @@ de 2024 (`equivale_2024`); las demás conservan su id con un `motivo_d6`. Lo que
   - 2022 Y `TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/EDUCACIÓN MEDIA TECNOLÓGICA FINEST/Sexo/Varón` → `edu_ii_4_2_3_publica_educacion_media_tecnologica_finest_sexo_v` (en 2024 va bajo «PÚBLICA» y ni 2023 ni 2024 tienen parte privada: mismo concepto)
   - 20 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
   - 12 × concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa
+  - 7 × concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí
   - 5 × 2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente
-  - 4 × concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí
-- **II-4.2.4:** 0 equivalencias, 25 con motivo
+- **II-4.2.4:** 0 equivalencias, 28 con motivo
   - 15 × 2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente
   - 10 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
+  - 3 × concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí
 - **II-4.2.7:** 0 equivalencias, 5 con motivo
   - 5 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
 - **II-4.2.9:** 0 equivalencias, 1 con motivo

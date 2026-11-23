@@ -257,3 +257,12 @@ def test_d6_desempata_por_la_ruta_mas_parecida():
     m24 = {x["ruta"]: x["id"] for x in REG["cuadros"]["II-3.1.1"]["mapeo"][2024]}
     o = next(x for x in m23 if x["col"] == "O")
     assert o["id"] == m24["MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/TOTAL PÚBLICOS"]
+
+
+def test_d6_un_id_que_ya_era_igual_a_2024_tambien_se_separa_si_cambia_la_cobertura():
+    """II-3.1.1: el TOTAL GENERAL de 2020–2022 no incluye privados de la DGETP; el de 2024 sí (AC-E13)."""
+    i24 = next(x["id"] for x in REG["cuadros"]["II-3.1.1"]["mapeo"][2024] if x["ruta"] == "TOTAL GENERAL")
+    i22 = next(x for x in REG["cuadros"]["II-3.1.1"]["mapeo"][2022] if x["ruta"] == "TOTAL GENERAL")
+    assert i22["id"] == i24 + "_sin_privados" and "AC-E13" in i22["motivo_d6"]
+    # «TOTAL LICEOS PRIVADOS» dice su cobertura: no se separa
+    assert not any(x["id"].endswith("_sin_privados") for x in REG["cuadros"]["II-3.1.1"]["mapeo"][2022] if "PRIVADOS" in x["ruta"])

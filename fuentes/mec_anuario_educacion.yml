@@ -5344,7 +5344,8 @@ cuadros:
       2020:
       - col: B
         ruta: TOTAL GENERAL
-        id: edu_ii_3_1_1_total_general
+        id: edu_ii_3_1_1_total_general_sin_privados
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: C
         ruta: MODALIDAD/TOTAL LICEOS PÚBLICOS
         id: edu_ii_3_1_1_dges_total_liceos_publicos
@@ -5388,7 +5389,8 @@ cuadros:
       2021:
       - col: B
         ruta: TOTAL GENERAL
-        id: edu_ii_3_1_1_total_general
+        id: edu_ii_3_1_1_total_general_sin_privados
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: C
         ruta: MODALIDAD/TOTAL LICEOS PÚBLICOS
         id: edu_ii_3_1_1_dges_total_liceos_publicos
@@ -5432,7 +5434,8 @@ cuadros:
       2022:
       - col: B
         ruta: TOTAL GENERAL
-        id: edu_ii_3_1_1_total_general
+        id: edu_ii_3_1_1_total_general_sin_privados
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: C
         ruta: MODALIDAD/TOTAL LICEOS PÚBLICOS
         id: edu_ii_3_1_1_dges_total_liceos_publicos
@@ -5801,9 +5804,10 @@ cuadros:
       2020:
       - col: B
         ruta: TOTAL
-        id: edu_ii_3_2_2_total
+        id: edu_ii_3_2_2_total_sin_privados
         concepto: TOTAL
         comprobado: B = suma de 10 columnas (D…Q)
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: C
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL
         id: edu_ii_3_2_2_publica_articulacion_educacion_media_basica_total
@@ -5877,9 +5881,10 @@ cuadros:
       2021:
       - col: B
         ruta: TOTAL
-        id: edu_ii_3_2_2_total
+        id: edu_ii_3_2_2_total_sin_privados
         concepto: TOTAL
         comprobado: 'B = suma de 10 columnas (D…Q); salvo Treinta y Tres: 315 publicado contra 580 sumado (error de la fuente)'
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: C
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL
         id: edu_ii_3_2_2_publica_articulacion_educacion_media_basica_total
@@ -5953,9 +5958,10 @@ cuadros:
       2022:
       - col: B
         ruta: TOTAL
-        id: edu_ii_3_2_2_total
+        id: edu_ii_3_2_2_total_sin_privados
         concepto: TOTAL
         comprobado: 'B = suma de 10 columnas (D…Q); salvo Treinta y Tres: 320 publicado contra 477 sumado (error de la fuente)'
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: C
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL
         id: edu_ii_3_2_2_publica_articulacion_educacion_media_basica_total
@@ -6738,7 +6744,8 @@ cuadros:
       2020:
       - col: B
         ruta: TOTAL
-        id: edu_ii_3_2_7_total
+        id: edu_ii_3_2_7_total_sin_privados
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: C
         ruta: TIPO DE CURSO/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA
         id: edu_ii_3_2_7_tipo_de_curso_articulacion_educacion_media_basica
@@ -6762,7 +6769,8 @@ cuadros:
       2021:
       - col: B
         ruta: TOTAL
-        id: edu_ii_3_2_7_total
+        id: edu_ii_3_2_7_total_sin_privados
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: C
         ruta: Sexo/mujer
         id: edu_ii_3_2_7_sexo_mujer
@@ -6834,7 +6842,8 @@ cuadros:
       2022:
       - col: B
         ruta: TOTAL
-        id: edu_ii_3_2_7_total
+        id: edu_ii_3_2_7_total_sin_privados
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: C
         ruta: Sexo/mujer
         id: edu_ii_3_2_7_sexo_mujer
@@ -7077,7 +7086,8 @@ cuadros:
       2020:
       - col: B
         ruta: TOTAL
-        id: edu_ii_3_2_8_total
+        id: edu_ii_3_2_8_total_sin_privados
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: C
         ruta: TIPO DE CURSO/ARTICULACION EDUCACIÓN MEDIA BÁSICA
         id: edu_ii_3_2_8_tipo_de_curso_articulacion_educacion_media_basica
@@ -7101,7 +7111,8 @@ cuadros:
       2021:
       - col: B
         ruta: TOTAL
-        id: edu_ii_3_2_8_total
+        id: edu_ii_3_2_8_total_sin_privados
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: C
         ruta: TIPO DE CURSO/ARTICULACION EDUCACIÓN MEDIA BÁSICA
         id: edu_ii_3_2_8_tipo_de_curso_articulacion_educacion_media_basica
@@ -7125,7 +7136,8 @@ cuadros:
       2022:
       - col: B
         ruta: TOTAL
-        id: edu_ii_3_2_8_total
+        id: edu_ii_3_2_8_total_sin_privados
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: C
         ruta: TIPO DE CURSO/ARTICULACION EDUCACIÓN MEDIA BÁSICA
         id: edu_ii_3_2_8_tipo_de_curso_articulacion_educacion_media_basica
@@ -7823,11 +7835,11 @@ cuadros:
       - col: B
         ruta: RENDIMIENTO/Promovido
         id: edu_ii_3_2_11_rendimiento_promovido
-        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
+        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
       - col: C
         ruta: RENDIMIENTO/No promovido
         id: edu_ii_3_2_11_rendimiento_no_promovido
-        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
+        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
       - col: D
         ruta: PÚBLICA/RENDIMIENTO/Promovido
         id: edu_ii_3_2_11_publica_rendimiento_promovido
@@ -7896,11 +7908,11 @@ cuadros:
       - col: B
         ruta: RENDIMIENTO/Promovido
         id: edu_ii_3_2_11_rendimiento_promovido
-        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
+        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
       - col: C
         ruta: RENDIMIENTO/No promovido
         id: edu_ii_3_2_11_rendimiento_no_promovido
-        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
+        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
       - col: D
         ruta: PÚBLICA/RENDIMIENTO/Promovido
         id: edu_ii_3_2_11_publica_rendimiento_promovido
@@ -7969,11 +7981,11 @@ cuadros:
       - col: B
         ruta: RENDIMIENTO/Promovido
         id: edu_ii_3_2_11_rendimiento_promovido
-        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
+        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
       - col: C
         ruta: RENDIMIENTO/No promovido
         id: edu_ii_3_2_11_rendimiento_no_promovido
-        motivo_d6: 'concepto distinto (AC-E13): hasta este año sin separar pública y privada; desde 2023 las separa'
+        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
       - col: D
         ruta: PÚBLICA/RENDIMIENTO/Promovido
         id: edu_ii_3_2_11_publica_rendimiento_promovido
@@ -8610,15 +8622,18 @@ cuadros:
       2020:
       - col: B
         ruta: TOTAL
-        id: edu_ii_4_2_2_total
+        id: edu_ii_4_2_2_total_sin_privados
         concepto: TOTAL
         comprobado: B = suma de 2 columnas (C…D)
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: C
         ruta: TOTAL/MUJER
-        id: edu_ii_4_2_2_total_mujer
+        id: edu_ii_4_2_2_total_mujer_sin_privados
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: D
         ruta: TOTAL/VARON
-        id: edu_ii_4_2_2_total_varon
+        id: edu_ii_4_2_2_total_varon_sin_privados
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: E
         ruta: TOTAL
         id: edu_ii_4_2_2_publica_bachillerato_figari_total
@@ -8708,15 +8723,18 @@ cuadros:
       2021:
       - col: B
         ruta: TOTAL
-        id: edu_ii_4_2_2_total
+        id: edu_ii_4_2_2_total_sin_privados
         concepto: TOTAL
         comprobado: B = suma de 2 columnas (C…D)
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: C
         ruta: TOTAL/MUJER
-        id: edu_ii_4_2_2_total_mujer
+        id: edu_ii_4_2_2_total_mujer_sin_privados
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: D
         ruta: TOTAL/VARÓN
-        id: edu_ii_4_2_2_total_varon
+        id: edu_ii_4_2_2_total_varon_sin_privados
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: E
         ruta: TOTAL
         id: edu_ii_4_2_2_publica_bachillerato_figari_total
@@ -8806,15 +8824,18 @@ cuadros:
       2022:
       - col: B
         ruta: TOTAL
-        id: edu_ii_4_2_2_total
+        id: edu_ii_4_2_2_total_sin_privados
         concepto: TOTAL
         comprobado: B = suma de 2 columnas (C…D)
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: C
         ruta: TOTAL/MUJER
-        id: edu_ii_4_2_2_total_mujer
+        id: edu_ii_4_2_2_total_mujer_sin_privados
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: D
         ruta: TOTAL/VARÓN
-        id: edu_ii_4_2_2_total_varon
+        id: edu_ii_4_2_2_total_varon_sin_privados
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: E
         ruta: TOTAL
         id: edu_ii_4_2_2_publica_bachillerato_figari_total
@@ -9172,7 +9193,8 @@ cuadros:
       2020:
       - col: B
         ruta: TOTAL
-        id: edu_ii_4_2_3_total
+        id: edu_ii_4_2_3_total_sin_privados
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: C
         ruta: TIPO DE CURSO/EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO FIGARI
         id: edu_ii_4_2_3_tipo_de_curso_educacion_media_superior_tecnologica_bachillerato_figari
@@ -9204,7 +9226,8 @@ cuadros:
       2021:
       - col: B
         ruta: TOTAL
-        id: edu_ii_4_2_3_total
+        id: edu_ii_4_2_3_total_sin_privados
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: C
         ruta: Sexo/Mujer
         id: edu_ii_4_2_3_sexo_mujer
@@ -9300,7 +9323,8 @@ cuadros:
       2022:
       - col: B
         ruta: TOTAL
-        id: edu_ii_4_2_3_total
+        id: edu_ii_4_2_3_total_sin_privados
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: C
         ruta: Sexo/Mujer
         id: edu_ii_4_2_3_sexo_mujer
@@ -9664,7 +9688,8 @@ cuadros:
       2020:
       - col: B
         ruta: TOTAL
-        id: edu_ii_4_2_4_total
+        id: edu_ii_4_2_4_total_sin_privados
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: C
         ruta: EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO FIGARI
         id: edu_ii_4_2_4_educacion_media_superior_tecnologica_bachillerato_figari
@@ -9696,7 +9721,8 @@ cuadros:
       2021:
       - col: B
         ruta: TOTAL
-        id: edu_ii_4_2_4_total
+        id: edu_ii_4_2_4_total_sin_privados
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: C
         ruta: EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO FIGARI
         id: edu_ii_4_2_4_educacion_media_superior_tecnologica_bachillerato_figari
@@ -9728,7 +9754,8 @@ cuadros:
       2022:
       - col: B
         ruta: TOTAL
-        id: edu_ii_4_2_4_total
+        id: edu_ii_4_2_4_total_sin_privados
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
       - col: C
         ruta: EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA/BACHILLERATO FIGARI
         id: edu_ii_4_2_4_educacion_media_superior_tecnologica_bachillerato_figari
