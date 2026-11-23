@@ -175,12 +175,12 @@ def test_d4_columnas_de_otro_anio():
             if m is None:  # el cuadro-año no se carga (II-2.1.4 2021: el título dice 2020)
                 assert REG["cuadros"][cod]["sin_cargar"][anio]
                 continue
-            notas = " ".join((REG["cuadros"][cod].get("anio_real_notas") or {}).get(anio, []))
+            notas = (REG["cuadros"][cod].get("anio_real_notas") or {}).get(anio, [])
             filtro = regla["columnas"]
             alcanzadas = [x for x in m if filtro == "todas" or filtro in mec_plegar(x["ruta"])]
             assert alcanzadas, (cod, anio)
             for x in alcanzadas:  # cada columna que declara el pie: año real, omitida o anotada con el motivo
-                assert x.get("anio") == regla["anio"] or "D4" in (x.get("omitir") or "") or x["col"] in notas, (cod, anio, x["col"])
+                assert x.get("anio") == regla["anio"] or "D4" in (x.get("omitir") or "") or any(n.startswith(f"{x['col']} «") for n in notas), (cod, anio, x["col"])
 
 
 def test_d4_ningun_valor_queda_dos_veces_en_el_mismo_anio():
