@@ -57,7 +57,7 @@ The general criteria (AC-P*, AC-T*, AC-W*, AC-G*) and the visual criteria in `do
 - **AC-E16** [auto] The pipeline computes derived indicators:
   - promotion rate = promovidos / (promovidos + no promovidos);
   - % private enrolment = privada / total;
-  - % insufficient attendance, from the counts in II-2.2.18.
+  - ~~% insufficient attendance, from the counts in II-2.2.18~~: left out by the maintainer (2026-11-23, PR #186). II-2.2.18 publishes the counts but no enrolment, so there is no denominator in the same table.
   Each derived indicator has `es_derivado = true`, its `formula`, and the unit "%". Numerator and denominator must come from the same table, year, territory and scope; if one of them is missing, no rate is produced. Test: II-2.2.13 2024 pública TOTAL promotion rate = 232.567 / 237.385 = 97,97 %.
 **Data quality checks** (failures stop the run unless marked as a warning)
 - **AC-E17** [auto] In type A tables, MONTEVIDEO plus the 18 departments adds up to TOTAL for every count indicator.

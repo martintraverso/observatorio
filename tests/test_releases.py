@@ -310,6 +310,25 @@ def crudo_ingresos(tmp_path) -> Path:
     return c
 
 
+def crudo_mec(tmp_path) -> Path:
+    """datos/crudo con mec_anuario/ capturado desde los fixtures de F4.1 (sin red; 2020–2022 dan error)."""
+    import yaml
+
+    sys.path.insert(0, str(RAIZ / "pipeline"))
+    from mec_anuario_captura import capturar_anuarios
+
+    fuente = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario_educacion.yml").read_text(encoding="utf-8"))
+    sitio = {fuente["anuarios"][a]["url"]: (FIXTURES / "mec_anuario" / f"{a}.xlsx").read_bytes() for a in (2023, 2024)}
+
+    def bajar(url):
+        if url not in sitio:
+            raise OSError("404")
+        return sitio[url]
+    c = tmp_path / "crudo_mec"
+    capturar_anuarios(c, fuente, bajar, hoy="2026-11-23")
+    return c
+
+
 def test_crudos_de_ingresos_suben_y_bajan_como_xlsx(gh, tmp_path):
     """F3.4c (#139, AC-I4): los originales de ingresos van al release crudos con su extensión, sin cambios."""
     c = crudo_ingresos(tmp_path)
@@ -381,6 +400,8 @@ def test_conseguir_originales_baja_tambien_las_carpetas(gh, tmp_path):
     assert correr("scripts/crudos_carpeta.py", "subir", "--crudo", c, "--carpeta", "ech_mt").returncode == 0
     ci = crudo_ingresos(tmp_path)
     assert correr("scripts/crudos_carpeta.py", "subir", "--crudo", ci, "--carpeta", "ech_ingresos").returncode == 0
+    cm = crudo_mec(tmp_path)  # F4.4: los anuarios del MEC
+    assert correr("scripts/crudos_carpeta.py", "subir", "--crudo", cm, "--carpeta", "mec_anuario").returncode == 0
     shutil.copy(FIXTURES / "ine_2023_mini.zip", gh / "crudos" / ORIGINAL)
     destino = tmp_path / "crudo"
     r = correr("scripts/conseguir_originales.py", "--crudo", destino, "--sin-subir")
@@ -388,6 +409,7 @@ def test_conseguir_originales_baja_tambien_las_carpetas(gh, tmp_path):
     assert (destino / ORIGINAL).exists() and (destino / "ech_mt" / "capturas.json").exists()
     assert f"| {ECH} | `ech_mt/` (2 informes) | release crudos |" in r.stdout
     assert (destino / "ech_ingresos" / "capturas.json").exists() and (destino / "ech_ingresos" / "ECHING07.xlsx").exists()
+    assert (destino / "mec_anuario" / "2024.xlsx").read_bytes() == (FIXTURES / "mec_anuario" / "2024.xlsx").read_bytes()
 
 
 def test_las_fuentes_a_procesar_son_las_activas_y_las_que_se_cargan_con_la_geografia_primero():
@@ -396,7 +418,7 @@ def test_las_fuentes_a_procesar_son_las_activas_y_las_que_se_cargan_con_la_geogr
     fuentes = cargar_fuentes(RAIZ / "fuentes")
     assert fuentes[ECH]["estado"] == "activa" and fuentes[ECH]["carpeta_original"] == "ech_mt"
     # el Censo (territorios) antes que las demás
-    assert [f["id"] for f in a_procesar(fuentes)] == [FUENTE, "ine_ech_ingresos_series", ECH]
+    assert [f["id"] for f in a_procesar(fuentes)] == [FUENTE, "ine_ech_ingresos_series", ECH, "mec_anuario_educacion"]
 
 
 def test_una_fuente_con_carpeta_sin_originales_se_omite_y_una_activa_de_un_archivo_falla(crudo, tmp_path):

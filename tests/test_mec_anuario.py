@@ -293,3 +293,9 @@ def test_tipo_b_el_total_general_no_abre_grupo():
 
 def test_serie_cuenta_lo_que_no_es_dato():
     assert mec.parsear_serie_matricula(XLSX[2024]).attrs["sin_dato"] > 0  # «S/D» y «n/c»
+
+
+def test_ac_e8_rotulos_con_llamada_de_nota():
+    assert mec.territorio_de_fila("Colonia*") == mec.tid("departamento", "05")
+    assert mec.territorio_de_fila("Salto (1)") == mec.tid("departamento", "15")
+    assert mec.territorio_de_fila("Total 2023") is None

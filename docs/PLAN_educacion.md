@@ -33,7 +33,7 @@ Read `docs/SYSTEM.md` (data rules §4) first. Then read `docs/ACCEPTANCE_CRITERI
   - `edu_prim_promovidos_publica` and `edu_prim_no_promovidos_publica`.
 - Units are "estudiantes", "establecimientos", "docentes" or "grupos".
 - A breakdown whose meaning changes between years becomes a **different indicator**, never the same one. Example: in II-2.2.1, sex covers all students in 2023 but only public students in 2024, because private schools stopped reporting sex.
-**Rates are derived** (decision D2): promotion rate, % private enrolment, % insufficient attendance.
+**Rates are derived** (decision D2): promotion rate and % private enrolment. (% insufficient attendance was left out on 2026-11-23: II-2.2.18 has no denominator in the same table.)
  
 **Notes travel with the value.** Each table's "Fuente:" and "Nota:" rows are kept in the capture metadata and shown in the app, for example:
 - "Pública no incluye JICI";
@@ -110,7 +110,7 @@ Load every table of the MEC anuario 2020–2024 into the database and the app, p
   | Media superior | II-4.1.1 (establecimientos); II-4.2.x (matrícula); II-4.2.13–15 (rendimiento) |
   | National series | "MATRÍCULA DEL SISTEMA 2002-2024" → `pais/UY`, every year, by level and administration |
 - **D2 — Derived rates: approved.**
-  - The observatory computes promotion rate = promovidos / (promovidos + no promovidos), % private enrolment and % insufficient attendance from the stored counts.
+  - The observatory computes promotion rate = promovidos / (promovidos + no promovidos) and % private enrolment from the stored counts. % insufficient attendance is left out (maintainer, 2026-11-23): II-2.2.18 has no enrolment to divide by.
   - Each rate is stored as its own indicator with `es_derivado = true`, the formula, and the label "calculado por el observatorio a partir de MEC".
   - Rates are never mixed with the INE percentages (3.1.8), which are used only as a control.
   Rates are computed only where numerator and denominator come from the same table, year and scope.

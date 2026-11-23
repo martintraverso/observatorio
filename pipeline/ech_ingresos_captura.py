@@ -71,22 +71,23 @@ def sha256(datos: bytes) -> str:
     return hashlib.sha256(datos).hexdigest()
 
 
-def leer_completo(crudo: Path) -> dict:
+def leer_completo(crudo: Path, carpeta: str = CARPETA) -> dict:
     """El registro completo: capturas y, si hubo, `ultima_corrida` (fecha, errores, revertidas)."""
-    path = Path(crudo) / CARPETA / REGISTRO
+    path = Path(crudo) / carpeta / REGISTRO
     return json.loads(path.read_text(encoding="utf-8")) if path.exists() else {"capturas": []}
 
 
-def leer_registro(crudo: Path) -> list[dict]:
+def leer_registro(crudo: Path, carpeta: str = CARPETA) -> list[dict]:
     """Las capturas, en orden de captura."""
-    return leer_completo(crudo)["capturas"]
+    return leer_completo(crudo, carpeta)["capturas"]
 
 
-def escribir_registro(crudo: Path, capturas: list[dict], ultima_corrida: dict | None) -> None:
-    path = Path(crudo) / CARPETA / REGISTRO
+def escribir_registro(crudo: Path, capturas: list[dict], ultima_corrida: dict | None, carpeta: str = CARPETA,
+                      fuente_id: str = FUENTE_ID) -> None:
+    path = Path(crudo) / carpeta / REGISTRO
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(".tmp")
-    contenido = {"fuente_id": FUENTE_ID, "capturas": capturas}
+    contenido = {"fuente_id": fuente_id, "capturas": capturas}
     if ultima_corrida is not None:
         contenido["ultima_corrida"] = ultima_corrida
     tmp.write_text(json.dumps(contenido, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -109,14 +110,16 @@ def es_xlsx(datos: bytes) -> bool:
         return False
 
 
-def capturar(lista: list[Planilla], crudo: Path, bajar: Callable[[str], bytes], hoy: str | None = None) -> ResumenCaptura:
-    """Baja cada planilla y actualiza el registro de capturas."""
+def capturar(lista: list[Planilla], crudo: Path, bajar: Callable[[str], bytes], hoy: str | None = None, *,
+             carpeta: str = CARPETA, fuente_id: str = FUENTE_ID, dominios: tuple[str, ...] = DOMINIOS_OFICIALES) -> ResumenCaptura:
+    """Baja cada planilla y actualiza el registro de capturas. `carpeta`, `fuente_id` y `dominios` permiten usarla
+    para otra fuente de planillas (F4.4: los anuarios del MEC, un código por año)."""
     crudo, hoy = Path(crudo), hoy or dt.date.today().isoformat()
-    fuera = [pl.url for pl in lista if not pl.url.startswith(DOMINIOS_OFICIALES)]
+    fuera = [pl.url for pl in lista if not pl.url.startswith(dominios)]
     if fuera:
-        raise ErrorCaptura(f"Solo se admiten URLs oficiales del INE: {fuera}")
-    registro, resumen = leer_registro(crudo), ResumenCaptura()
-    anterior = leer_completo(crudo).get("ultima_corrida")  # se conserva hasta que termine esta corrida
+        raise ErrorCaptura(f"Solo se admiten URLs oficiales ({', '.join(dominios)}): {fuera}")
+    registro, resumen = leer_registro(crudo, carpeta), ResumenCaptura()
+    anterior = leer_completo(crudo, carpeta).get("ultima_corrida")  # se conserva hasta que termine esta corrida
     for c in registro:
         verificar(crudo, c)
 
@@ -143,13 +146,13 @@ def capturar(lista: list[Planilla], crudo: Path, bajar: Callable[[str], bytes], 
                 for c in del_codigo:
                     c["vigente"] = c is ya
                 resumen.revertidas.append(pl.codigo)
-                escribir_registro(crudo, registro, anterior)
+                escribir_registro(crudo, registro, anterior, carpeta, fuente_id)
                 continue
             if ya is not None:
                 resumen.errores.append({"codigo": pl.codigo, "url": pl.url, "error": (
                     f"el contenido es el de la planilla {ya['codigo']} (captura {ya['id']}); no se captura")})
                 continue
-            destino = Path(CARPETA) / f"{pl.codigo}.xlsx"
+            destino = Path(carpeta) / f"{pl.codigo}.xlsx"
             if (crudo / destino).exists():  # nunca se pisa un original
                 destino = destino.with_name(f"{pl.codigo}.{huella[:12]}.xlsx")
             if (crudo / destino).exists():
@@ -158,13 +161,14 @@ def capturar(lista: list[Planilla], crudo: Path, bajar: Callable[[str], bytes], 
             (crudo / destino).write_bytes(datos)
             for c in del_codigo:
                 c["vigente"] = False
-            registro.append({"id": captura_id(FUENTE_ID, huella), "fuente_id": FUENTE_ID, "codigo": pl.codigo,
+            registro.append({"id": captura_id(fuente_id, huella), "fuente_id": fuente_id, "codigo": pl.codigo,
                              "url": pl.url, "archivo": destino.as_posix(), "sha256": huella, "descargado": hoy,
                              "vigente": True})
             resumen.nuevas += 1
-            escribir_registro(crudo, registro, anterior)  # así una corrida cortada no pierde lo ya guardado
+            escribir_registro(crudo, registro, anterior, carpeta, fuente_id)  # una corrida cortada no pierde lo guardado
     finally:
-        escribir_registro(crudo, registro, {"fecha": hoy, "errores": resumen.errores, "revertidas": resumen.revertidas})
+        escribir_registro(crudo, registro, {"fecha": hoy, "errores": resumen.errores, "revertidas": resumen.revertidas},
+                          carpeta, fuente_id)
     return resumen
 
 
