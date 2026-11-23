@@ -307,9 +307,7 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
         # II-2.2.18 de 2023: todos los territorios «s/d» y el TOTAL en 0. El 0 es una fórmula que suma celdas sin
         # dato, no un cero publicado: se cuenta como falta de dato y no se carga.
         por_ind = datos.groupby("indicador").territorio_id.agg(set)
-        falsos = [i for i, t in por_ind.items() if t == {PAIS}
-                  and (datos.loc[(datos.indicador == i), "valor"] == 0).all()
-                  and sum(1 for _, rot in e.filas if territorio_de_fila(rot) not in (None, PAIS)) > 0]
+        falsos = [i for i, t in por_ind.items() if t == {PAIS} and (datos.loc[datos.indicador == i, "valor"] == 0).all()]
         if falsos:
             sin_dato += len(falsos)
             avisos.append(f"{codigo} {anio}: total en 0 sin ningún territorio con dato, no se carga: {falsos[:3]}")
