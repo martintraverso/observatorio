@@ -4,8 +4,9 @@ valores publicados), para las tasas que calcula el observatorio (decisión D2 de
 from __future__ import annotations
 
 import pandas as pd
+import pytest
 
-from comun.salida import COLUMNAS_INDICADOR, completar_indicadores, escribir_fuente
+from comun.salida import COLUMNAS_INDICADOR, ErrorCombinar, completar_indicadores, escribir_fuente
 
 
 def indicador(**extra):
@@ -39,3 +40,13 @@ def test_una_salida_anterior_sin_las_columnas_se_completa(tmp_path):
     d = escribir_fuente(tmp_path, "f", obs, [], pd.DataFrame([indicador()]))
     ind = pd.read_parquet(d / "indicadores.parquet")
     assert ind[["es_derivado", "formula"]].values.tolist() == [[False, ""]]
+
+
+@pytest.mark.parametrize("extra", [
+    {"es_derivado": "false"},  # texto: con astype(bool) sería True
+    {"es_derivado": True},  # derivado sin fórmula
+    {"es_derivado": False, "formula": "a / b"},  # publicado con fórmula
+])
+def test_es_derivado_y_formula_tienen_que_ser_coherentes(extra):
+    with pytest.raises(ErrorCombinar):
+        completar_indicadores(pd.DataFrame([indicador(**extra)]))

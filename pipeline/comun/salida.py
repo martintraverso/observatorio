@@ -60,13 +60,22 @@ def completar_indicadores(indicadores):
     """`es_derivado` (bool) y `formula` (texto) del catálogo (F4.2, AC-E3): un valor publicado tal cual no es
     derivado y no tiene fórmula; una tasa que calcula el observatorio a partir de conteos publicados (decisión D2
     de F4) es derivada y dice su fórmula. Completa las salidas de fuentes escritas antes de F4.2."""
+    import numpy as np
+
     ind = indicadores.copy()
     if "es_derivado" not in ind.columns:
         ind["es_derivado"] = False
     if "formula" not in ind.columns:
         ind["formula"] = ""
-    ind["es_derivado"] = ind["es_derivado"].fillna(False).astype(bool)
+    ind["es_derivado"] = ind["es_derivado"].fillna(False)
+    raros = [v for v in ind["es_derivado"] if not isinstance(v, (bool, np.bool_))]
+    if raros:  # «false» como texto sería True con astype(bool)
+        raise ErrorCombinar(f"es_derivado tiene que ser bool, no {sorted(map(repr, raros))[:3]}")
+    ind["es_derivado"] = ind["es_derivado"].astype(bool)
     ind["formula"] = ind["formula"].fillna("").astype(str)
+    incoherentes = ind.codigo[ind.es_derivado != (ind.formula.str.strip() != "")].tolist()
+    if incoherentes:
+        raise ErrorCombinar(f"un indicador derivado dice su fórmula, y uno publicado no tiene: {incoherentes[:5]}")
     return ind
 
 
