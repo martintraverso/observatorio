@@ -1,0 +1,239 @@
+"""F4.3a (#179): parser del anuario del MEC (AC-E8–E12, E14, E15; AC-E13 con D7)."""
+
+from __future__ import annotations
+
+import io
+import re
+import zipfile
+from pathlib import Path
+
+import mec_anuario as mec
+import pytest
+import yaml
+
+from comun.xlsx import _hojas
+
+RAIZ = Path(__file__).resolve().parents[1]
+REG = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario_educacion.yml").read_text(encoding="utf-8"))
+FIX = RAIZ / "tests" / "fixtures" / "mec_anuario"
+XLSX = {a: (FIX / f"{a}.xlsx").read_bytes() for a in (2024, 2023)}
+
+
+def cuadro(cod, anio=2024, xlsx=None, mapeo=None):
+    e = REG["cuadros"][cod]
+    return mec.parsear_cuadro(xlsx or XLSX[anio], cod, anio, mapeo if mapeo is not None else e["mapeo"][anio],
+                              e["tipos"][anio])
+
+
+def valor(c, indicador, territorio):
+    d = c.datos
+    fila = d[(d.indicador == indicador) & (d.territorio_id == mec.tid(*territorio.split("/")))]
+    assert len(fila) == 1, (indicador, territorio)
+    return fila.valor.iloc[0]
+
+
+def cambiar(xlsx: bytes, archivo_de, cambio) -> bytes:
+    """Copia del xlsx con un archivo interno cambiado (`archivo_de(zip)` dice cuál; `cambio(texto)` lo cambia)."""
+    entrada = zipfile.ZipFile(io.BytesIO(xlsx))
+    destino = archivo_de(entrada)
+    salida = io.BytesIO()
+    with zipfile.ZipFile(salida, "w", zipfile.ZIP_DEFLATED) as z:
+        for i in entrada.infolist():
+            datos = entrada.read(i.filename)
+            if i.filename == destino:
+                datos = cambio(datos.decode("utf-8")).encode("utf-8")
+            z.writestr(i, datos)
+    return salida.getvalue()
+
+
+def hoja_xml(cod):
+    return lambda z: next(ruta for nombre, ruta in _hojas(z).items() if nombre.strip() == cod)
+
+
+def celda_texto(ref, texto):
+    """Reemplaza el valor de la celda `ref` por un texto en línea."""
+    def f(xml):
+        nuevo, n = re.subn(rf'<c r="{ref}"[^>]*?(/>|>.*?</c>)', f'<c r="{ref}" t="inlineStr"><is><t>{texto}</t></is></c>', xml, count=1)
+        assert n == 1, ref
+        return nuevo
+    return f
+
+
+# ---------------------------------------------------------------- todos los cuadros de la ola 1
+
+@pytest.mark.parametrize("anio", [2024, 2023])
+def test_cada_cuadro_de_la_ola_1_se_lee_con_su_mapeo(anio):
+    """Las rutas del archivo coinciden con las del registro columna por columna (AC-E9) y cada fila de un cuadro
+    tipo A es un territorio conocido (AC-E8)."""
+    leidos = 0
+    for cod, e in REG["cuadros"].items():
+        if e["ola"] != 1 or anio not in e["anios"] or e["mapeo"].get(anio) is None:
+            continue
+        c = cuadro(cod, anio)
+        assert len(c.datos), cod
+        assert c.datos.valor.map(lambda v: isinstance(v, int)).all(), cod
+        leidos += 1
+    assert leidos >= 50
+
+
+# ---------------------------------------------------------------- AC-E15: valores de control
+
+def test_ac_e15_ii_2_2_1_2024():
+    c = cuadro("II-2.2.1")
+    pre = "edu_ii_2_2_1_forma_de_administracion_"
+    assert valor(c, "edu_ii_2_2_1_total", "pais/UY") == 284944
+    assert valor(c, pre + "publica_total", "pais/UY") == 237385
+    assert valor(c, pre + "privada_total", "pais/UY") == 47559
+    assert valor(c, pre + "publica_sexo_v", "pais/UY") == 122200
+    assert valor(c, pre + "publica_sexo_m", "pais/UY") == 115185
+    assert valor(c, "edu_ii_2_2_1_total", "departamento/01") == 102182
+    assert valor(c, "edu_ii_2_2_1_total", "region/interior") == 182762
+    assert valor(c, "edu_ii_2_2_1_total", "departamento/02") == 7209  # Artigas
+    assert valor(c, "edu_ii_2_2_1_total", "departamento/03") == 48638  # Canelones
+
+
+def test_ac_e15_ii_2_2_1_2023():
+    c = cuadro("II-2.2.1", 2023)
+    pre = "edu_ii_2_2_1_forma_de_administracion_total_"
+    assert valor(c, "edu_ii_2_2_1_total", "pais/UY") == 287805
+    assert valor(c, pre + "varon", "pais/UY") == 147955
+    assert valor(c, pre + "mujer", "pais/UY") == 139655
+
+
+def test_ac_e15_ii_2_2_13_2024():
+    c = cuadro("II-2.2.13")
+    pre = "edu_ii_2_2_13_rendimiento_escolar_"
+    assert valor(c, pre + "promovidos_total", "pais/UY") == 232567
+    assert valor(c, pre + "no_promovidos_total", "pais/UY") == 4818
+    assert valor(c, pre + "promovidos_total", "departamento/01") == 71109
+    assert valor(c, pre + "no_promovidos_total", "departamento/01") == 2616
+
+
+def test_ac_e15_y_e14_serie_nacional_2024():
+    s = mec.parsear_serie_matricula(XLSX[2024])
+    s24 = s[s.periodo == "2024"].set_index("ruta").valor
+    assert s24["TOTAL SISTEMA"] == 1042564
+    assert s24["Total Educación Primaria/Primaria Común"] == 284944
+    # AC-E14: país, un valor por año, nivel y forma de administración
+    assert set(s.territorio_id) == {mec.PAIS}
+    assert not s.duplicated(["indicador", "periodo"]).any()
+    assert {"2002", "2024"} <= set(s.periodo) and set(s.tipo_periodo) == {"anio"}
+    assert s24["Total Educación Primaria/Primaria Común/Común pública"] == 237385
+    assert "Total Educación Media/Total Educación Media Básica/Total Media Básica General/Pública" in s24.index
+
+
+# ---------------------------------------------------------------- AC-E8: territorios
+
+def test_ac_e8_filas_a_territorios():
+    c = cuadro("II-2.2.1")
+    t = set(c.datos.territorio_id)
+    assert len(t) == 21  # país, Montevideo, Resto del país y 18 departamentos
+    assert {mec.PAIS, mec.INTERIOR, mec.tid("departamento", "01"), mec.tid("departamento", "19")} <= t
+    assert mec.territorio_de_fila("  RÍO   negro ") == mec.tid("departamento", "12")
+    assert mec.territorio_de_fila("TOTAL DEL PAÍS") == mec.PAIS
+
+
+def test_ac_e8_una_fila_desconocida_hace_fallar():
+    x = cambiar(XLSX[2024], hoja_xml("II-2.2.1"), celda_texto("A12", "Artigaz"))
+    with pytest.raises(mec.ErrorAnuario, match="Artigaz"):
+        cuadro("II-2.2.1", xlsx=x)
+
+
+# ---------------------------------------------------------------- AC-E9: encabezados y mapeo
+
+def test_ac_e9_una_columna_que_no_esta_en_el_mapeo_hace_fallar():
+    mapeo = [m for m in REG["cuadros"]["II-2.2.1"]["mapeo"][2024] if m["col"] != "H"]
+    with pytest.raises(mec.ErrorAnuario, match="no está en el mapeo"):
+        cuadro("II-2.2.1", mapeo=mapeo)
+
+
+def test_ac_e9_una_ruta_distinta_hace_fallar():
+    mapeo = [dict(m) for m in REG["cuadros"]["II-2.2.1"]["mapeo"][2024]]
+    mapeo[1]["ruta"] = "OTRA COSA"
+    with pytest.raises(mec.ErrorAnuario, match="OTRA COSA"):
+        cuadro("II-2.2.1", mapeo=mapeo)
+
+
+def test_ac_e9_una_columna_mapeada_que_falta_en_el_archivo_hace_fallar():
+    mapeo = [*REG["cuadros"]["II-2.2.1"]["mapeo"][2024], {"col": "Z", "ruta": "X", "id": "edu_x"}]
+    with pytest.raises(mec.ErrorAnuario, match="no tiene"):
+        cuadro("II-2.2.1", mapeo=mapeo)
+
+
+# ---------------------------------------------------------------- AC-E10: año
+
+def test_ac_e10_periodo_anual_del_titulo():
+    d = cuadro("II-2.2.1").datos
+    assert set(d.periodo) == {"2024"} and set(d.tipo_periodo) == {"anio"}
+    assert str(d.periodo_inicio.iloc[0]) == "2024-01-01" and str(d.periodo_fin.iloc[0]) == "2024-12-31"
+
+
+def test_ac_e10_un_titulo_de_otro_anio_hace_fallar():
+    e = REG["cuadros"]["II-2.2.1"]
+    with pytest.raises(mec.ErrorAnuario, match="AC-E10"):
+        mec.parsear_cuadro(XLSX[2024], "II-2.2.1", 2023, e["mapeo"][2024], "A")
+
+
+def test_d4_una_columna_de_otro_anio_va_con_su_anio_real():
+    mapeo = [dict(m) for m in REG["cuadros"]["II-2.2.1"]["mapeo"][2024]]
+    for m in mapeo:
+        if "privada" in m["id"]:
+            m["anio"] = 2022
+    d = cuadro("II-2.2.1", mapeo=mapeo).datos
+    assert set(d[d.indicador.str.contains("privada")].periodo) == {"2022"}
+    assert set(d[~d.indicador.str.contains("privada")].periodo) == {"2024"}
+
+
+# ---------------------------------------------------------------- AC-E11: valores
+
+def test_ac_e11_lo_que_no_es_dato_no_crea_fila_y_se_cuenta():
+    x = cambiar(XLSX[2024], hoja_xml("II-2.2.1"), celda_texto("B12", "-"))
+    c = cuadro("II-2.2.1", xlsx=x)
+    assert c.sin_dato == cuadro("II-2.2.1").sin_dato + 1
+    d = c.datos
+    assert d[(d.indicador == "edu_ii_2_2_1_total") & (d.territorio_id == mec.tid("departamento", "02"))].empty
+
+
+def test_ac_e11_un_texto_que_no_es_numero_ni_falta_de_dato_hace_fallar():
+    x = cambiar(XLSX[2024], hoja_xml("II-2.2.1"), celda_texto("B12", "siete mil"))
+    with pytest.raises(mec.ErrorAnuario, match="siete mil"):
+        cuadro("II-2.2.1", xlsx=x)
+
+
+def test_ac_e11_numeros_guardados_como_texto_se_leen_como_enteros():
+    c = cuadro("II-2.3.2")  # II-2.3.2 guarda «7466» como texto
+    assert c.datos.valor.map(lambda v: isinstance(v, int)).all()
+    assert c.avisos and "título no dice el año" in c.avisos[0]
+
+
+# ---------------------------------------------------------------- AC-E12: pie
+
+def test_ac_e12_fuente_y_notas_van_al_pie_y_no_a_los_datos():
+    c = cuadro("II-2.2.1")
+    assert c.codigo == "II-2.2.1"
+    assert any(p.startswith("Fuente:") for p in c.pie)
+    assert "Nota: Pública no incluye JICI." in c.pie
+    assert not c.datos.celda.str.match(r"^[A-Z]+3[0-9]$").any()  # filas 30–32: pie
+
+
+def test_ac_e12_notas_que_siguen_sin_rotulo_tambien_van_al_pie():
+    c = cuadro("II-3.1.2")
+    assert any(p.startswith("2- Dentro de la cantidad de establecimientos") for p in c.pie)
+
+
+# ---------------------------------------------------------------- AC-E13 y D7
+
+def test_ac_e13_el_sexo_de_2023_y_2024_no_comparten_indicador():
+    pre = "edu_ii_2_2_1_forma_de_administracion_total_"
+    d23, d24 = cuadro("II-2.2.1", 2023).datos, cuadro("II-2.2.1").datos
+    assert {pre + "varon", pre + "mujer"} <= set(d23.indicador)
+    assert not set(d24.indicador) & {pre + "varon", pre + "mujer"}  # 2024: solo pública, no se carga (D7)
+
+
+# ---------------------------------------------------------------- tipo B
+
+def test_tipo_b_al_pais_con_la_categoria_en_el_indicador():
+    d = cuadro("II-3.2.1").datos
+    assert set(d.territorio_id) == {mec.PAIS}
+    assert any(i.endswith("__total_montevideo_diurna") for i in d.indicador)
+    assert not d.duplicated(["indicador", "territorio_id", "periodo"]).any()
