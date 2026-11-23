@@ -70,7 +70,7 @@ def test_cada_cuadro_de_la_ola_1_se_lee_con_su_mapeo(anio):
         if e["ola"] != 1 or anio not in e["anios"] or e["mapeo"].get(anio) is None:
             continue
         c = cuadro(cod, anio)
-        assert len(c.datos), cod
+        assert len(c.datos) or any("total en 0" in a for a in c.avisos), cod  # II-2.2.18 2023: todo «s/d»
         assert c.datos.valor.map(lambda v: isinstance(v, int)).all(), cod
         leidos += 1
     assert leidos >= 50
@@ -237,3 +237,50 @@ def test_tipo_b_al_pais_con_la_categoria_en_el_indicador():
     assert set(d.territorio_id) == {mec.PAIS}
     assert any(i.endswith("__total_montevideo_diurna") for i in d.indicador)
     assert not d.duplicated(["indicador", "territorio_id", "periodo"]).any()
+
+
+# ---------------------------------------------------------------- filas sin datos (revisión del PR #181)
+
+def test_una_fila_de_territorio_con_todo_s_d_se_cuenta_y_no_se_ignora():
+    c = cuadro("II-2.2.18", 2023)  # Montevideo, Resto del país y los 19 departamentos: todo «s/d»
+    n = len(REG["cuadros"]["II-2.2.18"]["mapeo"][2023])
+    assert c.sin_dato >= 20 * n
+
+
+def test_un_total_en_0_sin_ningun_territorio_con_dato_no_se_carga():
+    c = cuadro("II-2.2.18", 2023)  # el TOTAL suma celdas «s/d»: 0 en todas las columnas
+    assert c.datos.empty
+    assert any("total en 0" in a for a in c.avisos)
+
+
+def todas_las_columnas(xlsx, cod, fila, texto, rotulo=None):
+    cols = [m["col"] for m in REG["cuadros"][cod]["mapeo"][2024]]
+    for col in cols:
+        xlsx = cambiar(xlsx, hoja_xml(cod), celda_texto(f"{col}{fila}", texto))
+    if rotulo:
+        xlsx = cambiar(xlsx, hoja_xml(cod), celda_texto(f"A{fila}", rotulo))
+    return xlsx, len(cols)
+
+
+def test_un_departamento_con_todo_guiones_se_cuenta():
+    x, n = todas_las_columnas(XLSX[2024], "II-2.2.1", 12, "-")  # Artigas
+    c = cuadro("II-2.2.1", xlsx=x)
+    assert c.sin_dato == cuadro("II-2.2.1").sin_dato + n - 2  # menos las 2 columnas con omitir (D7)
+    assert mec.tid("departamento", "02") not in set(c.datos.territorio_id)
+
+
+@pytest.mark.parametrize("texto", ["s/d", "siete mil"])
+def test_una_fila_desconocida_sin_numeros_igual_hace_fallar(texto):
+    x, _ = todas_las_columnas(XLSX[2024], "II-2.2.1", 12, texto, rotulo="Artigaz")
+    with pytest.raises(mec.ErrorAnuario):
+        cuadro("II-2.2.1", xlsx=x)
+
+
+def test_tipo_b_el_total_general_no_abre_grupo():
+    d = cuadro("II-3.2.7").datos
+    categorias = {i.split("__")[-1] for i in d.indicador}
+    assert not any(c.startswith("total_") and "anos" in c for c in categorias), sorted(categorias)[:5]
+
+
+def test_serie_cuenta_lo_que_no_es_dato():
+    assert mec.parsear_serie_matricula(XLSX[2024]).attrs["sin_dato"] > 0  # «S/D» y «n/c»

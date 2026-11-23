@@ -33,7 +33,7 @@ PAIS = tid("pais", "UY")
 INTERIOR = tid("region", "interior")
 FILAS_PAIS = {"total", "total del pais"}  # «TOTAL DEL PAÍS» en 30 cuadros-año (inventario de F4.1)
 SERIE = "MATRÍCULA DEL SISTEMA"
-NO_DATO = re.compile(r"^\s*(-+|…|\.\.\.|\.|s/d|n/c|s/i)?\s*$", re.I)
+NO_DATO = re.compile(r"^\s*(-+|…|\.\.\.|\.|s/d|n/c|s/i)?\s*\**\s*$", re.I)  # «n/c *»: con llamada de nota
 
 
 class ErrorAnuario(ValueError):
@@ -268,18 +268,20 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
     cols_mapeadas = [_col(m["col"]) for m in mapeo]
     grupo = ""
     for r, rotulo in e.filas:
-        if not any(numero(celdas.get((r, c))) is not None for c in cols_mapeadas):
-            # fila sin ningún dato: continuación de una nota («2- Dentro de …», «Los datos refieren …») o restos
-            # fuera del cuadro (II-2.3.1: números sueltos en la columna A). No es un dato ni un territorio.
+        vacia = all(celdas.get((r, c)) is None for c in cols_mapeadas)
+        territorio = territorio_de_fila(rotulo) if tipo == "A" else None
+        if vacia and territorio is None:
+            # fila sin nada en las columnas mapeadas y que no es un territorio: continuación de una nota («2- Dentro
+            # de …», «Los datos refieren …») o restos fuera del cuadro (II-2.3.1: números sueltos en la columna A)
             if len(rotulo) >= 20 and numero(rotulo) is None:
                 pie.append(rotulo)
             else:
                 ignoradas += 1
             continue
-        if tipo != "A" and plegar(rotulo).startswith("total"):
+        # una fila con algo en las columnas mapeadas (aunque sea «s/d») es una fila de datos: se valida entera
+        if tipo != "A" and plegar(rotulo).startswith("total ") and plegar(rotulo) not in FILAS_PAIS:
             grupo = rotulo  # B/C: «TOTAL MONTEVIDEO», «TOTAL RESTO DEL PAÍS» agrupan las filas que siguen
         if tipo == "A":
-            territorio = territorio_de_fila(rotulo)
             if territorio is None:
                 raise ErrorAnuario(f"{codigo} {anio}: fila desconocida «{rotulo}» (AC-E8)")
             sufijo = ""
@@ -301,6 +303,17 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
             filas.append({"indicador": m["id"] + sufijo, "territorio_id": territorio, **per, "valor": v,
                           "codigo_cuadro": codigo, "celda": f"{letra(c)}{r}"})
     datos = pd.DataFrame(filas, columns=COLUMNAS)
+    if tipo == "A" and len(datos):
+        # II-2.2.18 de 2023: todos los territorios «s/d» y el TOTAL en 0. El 0 es una fórmula que suma celdas sin
+        # dato, no un cero publicado: se cuenta como falta de dato y no se carga.
+        por_ind = datos.groupby("indicador").territorio_id.agg(set)
+        falsos = [i for i, t in por_ind.items() if t == {PAIS}
+                  and (datos.loc[(datos.indicador == i), "valor"] == 0).all()
+                  and sum(1 for _, rot in e.filas if territorio_de_fila(rot) not in (None, PAIS)) > 0]
+        if falsos:
+            sin_dato += len(falsos)
+            avisos.append(f"{codigo} {anio}: total en 0 sin ningún territorio con dato, no se carga: {falsos[:3]}")
+            datos = datos[~datos.indicador.isin(falsos)].reset_index(drop=True)
     repetidas = datos.duplicated(["indicador", "territorio_id", "periodo"], keep=False)
     if repetidas.any():
         raise ErrorAnuario(f"{codigo} {anio}: valores repetidos para un mismo indicador y territorio: "
@@ -343,6 +356,7 @@ def parsear_serie_matricula(xlsx: bytes) -> pd.DataFrame:
     ruta: dict[int, str] = {}
     ultima = None
     salida = []
+    sin_dato = 0
     for r in sorted(x for x in filas if x > fila_anios):
         rot = next(((c, v) for c, v in sorted(filas[r].items()) if c <= 3 and isinstance(v, str) and v.strip()), None)
         valores = {c: numero(v) for c, v in filas[r].items() if c in anios}
@@ -356,10 +370,16 @@ def parsear_serie_matricula(xlsx: bytes) -> pd.DataFrame:
             ruta[nivel] = texto
             camino = ultima = "/".join(ruta[k] for k in sorted(ruta))
         for c, v in valores.items():
-            if v is not None:
+            if v is None:
+                bruto = filas[r].get(c)
+                if bruto is not None and not (isinstance(bruto, str) and NO_DATO.match(bruto)):
+                    raise ErrorAnuario(f"Serie nacional: valor no numérico {bruto!r} en {letra(c)}{r}")
+                sin_dato += 1
+            else:
                 salida.append({"indicador": f"edu_serie_{slug(camino)}", "territorio_id": PAIS, **periodo_anio(anios[c]).columnas(),
                                "valor": v, "codigo_cuadro": SERIE, "celda": f"{letra(c)}{r}", "ruta": camino})
     datos = pd.DataFrame(salida)
     if datos.duplicated(["indicador", "periodo"]).any():
         raise ErrorAnuario("La serie nacional repite un indicador y año")
+    datos.attrs["sin_dato"] = sin_dato  # «S/D», «n/c» (AC-E11)
     return datos
