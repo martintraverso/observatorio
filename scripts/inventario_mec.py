@@ -139,6 +139,7 @@ def cuadro(xlsx: bytes, hoja: str) -> dict | None:
             "columnas": [mec.letra(c) for c in sorted(e.rutas)], "filas": len(rotulos),
             "rotulos": rotulos, "resto": "resto del pais" in pl, "pie": e.pie, "no_numericas": no_num,
             "como_texto": como_texto, "iguales": iguales, "heredadas": e.heredadas,
+            "valores": [valores.get(c, []) for c in sorted(e.rutas)],
             "total_como": next((r for r in rotulos if plegar(r) in ("total", "total del pais")), None)}
 
 
@@ -185,6 +186,141 @@ def mapear(codigo: str, columnas: list[str], rutas: list[str], solo_pub: dict[st
     return m
 
 
+MANUAL = RAIZ / "fuentes" / "mec_anuario" / "mapeo_manual.yml"
+
+
+def _suma(valores: list[list], cols: list[int]) -> list:
+    return [sum((v[f] or 0) for v in (valores[c] for c in cols)) for f in range(len(valores[cols[0]]))]
+
+
+def _igual(col: list, suma: list) -> bool:
+    pares = [(a, b) for a, b in zip(col, suma) if a is not None]
+    return bool(pares) and all(a == b for a, b in pares)
+
+
+def _segs(r: str) -> list[str]:
+    return r.split("/")
+
+
+def _comun(a: str, b: str) -> int:
+    n = 0
+    for x, y in zip(_segs(a), _segs(b)):
+        if plegar(x) != plegar(y):
+            break
+        n += 1
+    return n
+
+
+def resolver_repetidas(c: dict, estrategia: str) -> tuple[dict[int, tuple[str, str]], list[str]]:
+    """D5: para cada columna con ruta repetida, el concepto que suma (índice → (concepto, comprobación)). Solo se
+    acepta lo que cierra con sumas en todas las filas; lo que no, vuelve en la lista de fallas."""
+    rutas, valores = c["rutas"], c["valores"]
+    cuenta: dict[str, int] = {}
+    for r in rutas:
+        cuenta[slug(r)] = cuenta.get(slug(r), 0) + 1
+    rep = [i for i, r in enumerate(rutas) if cuenta[slug(r)] > 1]
+    hechas, fallas = {}, []
+    for i in rep:
+        if all(v in (None, 0) for v in valores[i]):
+            hechas[i] = (None, "columna vacía: separador del encabezado, sin datos")  # II-1.2.2
+            continue
+        if i == 0 and plegar(rutas[i]) == "total":
+            # el total general (primera columna): suma de sus subcolumnas «TOTAL/…» o, si no hay, de todas las
+            # columnas que no son totales (II-3.2.2 de 2020: B = suma de los V y M de cada curso)
+            hijas = [j for j in range(1, len(rutas)) if rutas[j].startswith(rutas[i] + "/")]
+            hojas = [j for j in range(1, len(rutas)) if not plegar(_segs(rutas[j])[-1]).startswith("total")
+                     and plegar(rutas[j]) != "total"]
+            for cols in (hijas, hojas):
+                if not cols:
+                    continue
+                suma = _suma(valores, cols)
+                distintas = [f for f, (x, y) in enumerate(zip(valores[i], suma)) if x is not None and x != y]
+                if len(distintas) <= 1 and any(x is not None for x in valores[i]):
+                    prueba = f"{c['columnas'][i]} = suma de {len(cols)} columnas ({c['columnas'][cols[0]]}…{c['columnas'][cols[-1]]})"
+                    if distintas:  # II-3.2.2 2021 y 2022: Treinta y Tres no cierra en el archivo; se guarda lo publicado
+                        f = distintas[0]
+                        prueba += f"; salvo {c['rotulos'][f]}: {valores[i][f]} publicado contra {suma[f]} sumado (error de la fuente)"
+                    hechas[i] = (rutas[i], prueba)
+                    break
+            else:
+                fallas.append(f"{c['columnas'][i]} «{rutas[i]}»: el total general no cierra")
+            continue
+        if estrategia in ("derecha", "izquierda"):
+            paso = 1 if estrategia == "derecha" else -1
+            v = i + paso
+            if not 0 <= v < len(rutas):
+                fallas.append(f"{c['columnas'][i]}: sin vecino a la {estrategia}")
+                continue
+            comun = _comun(rutas[i], rutas[v])
+            # si la ruta de la columna es el comienzo de la del vecino, el grupo es ella misma (II-4.2.2 2020:
+            # «TOTAL» y a su derecha «TOTAL/MUJER», «TOTAL/VARON»)
+            grupo = rutas[i] if comun == len(_segs(rutas[i])) else "/".join(_segs(rutas[v])[:comun + 1])
+            run = []
+            while 0 <= v < len(rutas) and (rutas[v] == grupo or rutas[v].startswith(grupo + "/")) and v not in rep:
+                run.append(v)
+                v += paso
+            if run and _igual(valores[i], _suma(valores, run)):
+                cols = sorted(c["columnas"][j] for j in run)
+                hechas[i] = (grupo if grupo == rutas[i] else f"{grupo}/TOTAL", f"{c['columnas'][i]} = " + " + ".join(cols))
+            else:
+                fallas.append(f"{c['columnas'][i]} «{rutas[i]}»: no es la suma del grupo «{grupo}»")
+        elif estrategia == "padre":
+            padre = next((j for j in range(i - 1, -1, -1) if j not in rep), None)
+            ini = i
+            while ini - 1 in rep:
+                ini -= 1
+            fin = i
+            while fin + 1 in rep:
+                fin += 1
+            grupo = list(range(ini, fin + 1))
+            # II-3.1.1: TOTAL PÚBLICOS = «Escuelas de CBT y Técnica» + «…/Reparticiones» (la columna que sigue)
+            extendido = grupo + [j for j in range(fin + 1, len(rutas)) if j not in rep and rutas[j].startswith(rutas[fin] + "/")]
+            if padre is not None and not _igual(valores[padre], _suma(valores, grupo)) and _igual(valores[padre], _suma(valores, extendido)):
+                grupo = extendido
+            if padre is not None and _igual(valores[padre], _suma(valores, grupo)):
+                resto = "/".join(_segs(rutas[i])[_comun(rutas[padre], rutas[i]):])
+                hechas[i] = (f"{rutas[padre]}/{resto}",
+                             f"{c['columnas'][padre]} = " + " + ".join(c["columnas"][j] for j in grupo))
+            else:
+                fallas.append(f"{c['columnas'][i]} «{rutas[i]}»: las repetidas {[c['columnas'][j] for j in grupo]} no suman su columna padre")
+        else:
+            raise SystemExit(f"Estrategia desconocida: {estrategia}")
+    return hechas, fallas
+
+
+def anio_real(ex: dict, cod: str, a: int, regla: dict) -> tuple[dict[int, dict], list[str]]:
+    """D4: índice de columna → {anio} o {omitir}; y la comparación con el anuario de ese año (para el inventario)."""
+    c, real = ex[a]["cuadros"][cod], int(regla["anio"])
+    otro = ex.get(real, {}).get("cuadros", {}).get(cod)
+    filtro = plegar(regla["columnas"])
+    cambios, notas = {}, []
+    def clave(r):  # sin llamadas de nota: «PRIVADA*» (II-2.2.17 2022) es «PRIVADA» (2020)
+        return plegar(re.sub(r"\*+", "", r))
+
+    rutas_otro = {clave(r): k for k, r in enumerate(otro["rutas"])} if otro and not otro.get("sin_datos") else {}
+    for i, r in enumerate(c["rutas"]):
+        if filtro != "todas" and filtro not in plegar(r):
+            continue
+        k = rutas_otro.get(clave(r))
+        if k is None:
+            cambios[i] = {"anio": real}
+            notas.append(f"{c['columnas'][i]} «{r}»: el anuario {real} no tiene esta columna para comparar; se carga como {real}")
+            continue
+        este = dict(zip(c["rotulos"], c["valores"][i]))
+        aquel = dict(zip(otro["rotulos"], otro["valores"][k]))
+        distintos = [f for f in este if f in aquel and este[f] != aquel[f]]
+        if distintos:
+            # el pie dice que son de otro año pero no coinciden con ese anuario (II-1.1.1 2022: la nota repite la
+            # de 2021): no hay respaldo para cambiarles el año; se cargan en el del archivo y queda anotado
+            notas.append(f"{c['columnas'][i]} «{r}»: el pie dice {real} pero difiere del anuario {real} en "
+                         f"{len(distintos)} filas ({distintos[:3]}); se carga como {a}")
+        else:
+            cambios[i] = {"omitir": f"ya cargado desde el anuario {real}, con los mismos valores (D4)"}
+    if not cambios and not notas:
+        notas.append(f"ninguna columna coincide con «{regla['columnas']}»")
+    return cambios, notas
+
+
 def solo_publica(c: dict) -> dict[str, str]:
     """Rutas de «total» por sexo que ese año son solo pública (la privada sin sexo), con la ruta de pública que
     repiten: II-2.2.1 en 2024."""
@@ -210,12 +346,12 @@ def main(argv=None) -> int:
         destino.write_bytes(datos)
         archivos[a] = {**info, "http": http, "sha256": hashlib.sha256(datos).hexdigest(), "bytes": len(datos), "revisado": hoy}
     ex = extraer(args.dir)
-    escribir_inventario(ex, archivos)
-    escribir_registro(ex, archivos)
+    cuadros = escribir_registro(ex, archivos)
+    escribir_inventario(ex, archivos, cuadros)
     return 0
 
 
-def escribir_inventario(ex: dict, archivos: dict) -> None:
+def escribir_inventario(ex: dict, archivos: dict, cuadros: dict) -> None:
     codigos = sorted({c for a in ex for c in ex[a]["cuadros"]}, key=lambda c: tuple(int(x) for x in c[3:].split(".")))
     L = ["# Inventario de los anuarios del MEC 2020–2024 (F4.1, #164)", "",
          "Generado por `scripts/inventario_mec.py`; no editar a mano. Tipo (D1): A por departamento, B totales del país",
@@ -277,6 +413,24 @@ def escribir_inventario(ex: dict, archivos: dict) -> None:
                 L.append(f"- **{cod} {a}:** sin datos numéricos" + (f" ({'; '.join(c['pie'])[:140]})" if c.get("pie") else ""))
             if c.get("unidad") == "?":
                 L.append(f"- **{cod} {a}:** unidad no reconocida en el título")
+    L += ["", "## Mapeo a mano (F4.3b-1)", "",
+          "Lo que aplica `fuentes/mec_anuario/mapeo_manual.yml` en la ola 1: columnas repetidas y totales mal",
+          "etiquetados con su comprobación con sumas (D5), y columnas con datos de otro año (D4).", ""]
+    for cod in codigos:
+        e = cuadros.get(cod, {})
+        for a, m in sorted((e.get("mapeo") or {}).items()):
+            hechos = [x for x in (m or []) if "comprobado" in x or "anio" in x or (x.get("omitir") and "D4" in x["omitir"])
+                      or (x.get("omitir") or "").startswith("columna vacía")]
+            notas = (e.get("anio_real_notas") or {}).get(a, []) + (e.get("mapeo_manual_fallas") or {}).get(a, [])
+            if not hechos and not notas:
+                continue
+            L.append(f"- **{cod} {a}:**")
+            for x in hechos:
+                que = (f"→ `{x['concepto']}` ({x['comprobado']})" if "concepto" in x
+                       else f"año real {x['anio']}" if "anio" in x
+                       else f"omitir: {x['omitir']}" if "omitir" in x else f"({x['comprobado']})")
+                L.append(f"  - {x['col']} `{x['ruta']}` {que}")
+            L += [f"  - ⚠ {n}" for n in notas]
     L += ["", "## Encabezados completados (revisar)", "",
           "Celdas vacías de encabezado que heredaron un grupo combinado vecino, de la derecha si su rótulo es un total o",
           "de la izquierda si no (ver `completar_grupos`). Heurística: hay casos mal resueltos (PR #177), revisar.", ""]
@@ -307,6 +461,7 @@ def escribir_inventario(ex: dict, archivos: dict) -> None:
 
 
 def escribir_registro(ex: dict, archivos: dict) -> None:
+    manual = yaml.safe_load(MANUAL.read_text(encoding="utf-8")) if MANUAL.exists() else {}
     codigos = sorted({c for a in ex for c in ex[a]["cuadros"]}, key=lambda c: tuple(int(x) for x in c[3:].split(".")))
     cuadros = {}
     for cod in codigos:
@@ -330,7 +485,60 @@ def escribir_registro(ex: dict, archivos: dict) -> None:
                     e.setdefault("sin_cargar", {})[a] = motivo
                     continue
                 sp = solo_publica(c)
-                e["mapeo"][a] = mapear(cod, c["columnas"], c["rutas"], sp)
+                m = mapear(cod, c["columnas"], c["rutas"], sp)
+                if cod in manual.get("repetidas", {}):
+                    hechas, fallas = resolver_repetidas(c, manual["repetidas"][cod])
+                    for i, (concepto, prueba) in hechas.items():
+                        m[i].pop("repetida", None)
+                        if concepto is None:
+                            m[i]["omitir"] = prueba
+                        else:
+                            m[i].update({"id": id_indicador(cod, concepto), "concepto": concepto, "comprobado": prueba})
+                    if fallas:
+                        e.setdefault("mapeo_manual_fallas", {})[a] = fallas
+                if (ren := manual.get("renombres", {}).get(cod, {}).get(a)):
+                    por_col = {x["col"]: k for k, x in enumerate(m)}
+                    for col, concepto in ren["columnas"].items():
+                        m[por_col[col]].pop("repetida", None)
+                        m[por_col[col]].update({"id": id_indicador(cod, concepto), "concepto": concepto,
+                                                "comprobado": "renombre a mano: " + " ".join(ren["motivo"].split())})
+                    # lo que queda repetido después del renombre: si su ruta ya es única, deja de estar repetida
+                    otras = [x for x in m if "concepto" not in x]
+                    for x in otras:
+                        if x.get("repetida") and sum(slug(y["ruta"]) == slug(x["ruta"]) for y in otras) == 1:
+                            x.pop("repetida")
+                            x["comprobado"] = "ruta única después del renombre de " + ", ".join(ren["columnas"])
+                    e.get("mapeo_manual_fallas", {}).pop(a, None)
+                for ruta, regla_c in manual.get("conceptos", {}).get(cod, {}).items():
+                    if ruta not in c["rutas"]:
+                        continue
+                    i = c["rutas"].index(ruta)
+                    t = c["rutas"].index(regla_c["total"]) if regla_c.get("total") else i
+                    cols = [j for j, r in enumerate(c["rutas"]) if j != t and any(
+                        r == x or (x.endswith("/") and r.startswith(x)) or (x.startswith("*/") and r.endswith(x[1:]))
+                        for x in regla_c["suma"])]
+                    explicada = (regla_c.get("diferencia_explicada") or {}).get(a)
+                    if cols and (explicada or _igual(c["valores"][t], _suma(c["valores"], cols))):
+                        prueba = f"{c['columnas'][t]} = " + " + ".join(c["columnas"][j] for j in cols)
+                        if explicada:
+                            suma = _suma(c["valores"], cols)
+                            difs = [f"{c['rotulos'][f]} {x}≠{y}" for f, (x, y) in enumerate(zip(c["valores"][t], suma)) if x is not None and x != y]
+                            prueba += f"; no cierra en {len(difs)} filas ({', '.join(difs[:3])}): {explicada}"
+                        m[i].update({"id": id_indicador(cod, regla_c["concepto"]), "concepto": regla_c["concepto"],
+                                     "comprobado": prueba})
+                    else:
+                        e.setdefault("mapeo_manual_fallas", {}).setdefault(a, []).append(
+                            f"{c['columnas'][i]} «{ruta}»: la suma de «{regla_c['suma']}» no da {c['columnas'][t]}")
+                if (regla := manual.get("anio_real", {}).get(cod, {}).get(a)):
+                    cambios, notas = anio_real(ex, cod, a, regla)
+                    for i, cambio in cambios.items():
+                        m[i].update(cambio)
+                    if notas:
+                        e.setdefault("anio_real_notas", {})[a] = notas
+                ids = [x["id"] for x in m]
+                if len(set(ids)) != len(ids):
+                    raise SystemExit(f"{cod} {a}: ids repetidos después del mapeo a mano")
+                e["mapeo"][a] = m
         cuadros[cod] = e
     reg = {
         "id": "mec_anuario_educacion",
@@ -367,6 +575,7 @@ def escribir_registro(ex: dict, archivos: dict) -> None:
                   "# regenerar en lugar de editar a mano. Inventario: docs/investigacion/mec_anuario_inventario.md\n")
     (RAIZ / "fuentes" / "mec_anuario_educacion.yml").write_text(
         encabezado + yaml.safe_dump(reg, allow_unicode=True, sort_keys=False, width=160), encoding="utf-8")
+    return cuadros
 
 
 if __name__ == "__main__":

@@ -293,6 +293,280 @@ sexo: el «total» por sexo es solo pública ese año (AC-E13). Llevan `omitir`:
 - **II-7.3.1 2024:** el pie dice que los datos son de 2023 («** Último dato disponible de UDE año 2023.»)
 - **II-8.1.7 2024:** el pie dice que los datos son de 2023 («** El último dato disponible para la Universidad de la Empresa es del año 2023.»)
 
+## Mapeo a mano (F4.3b-1)
+
+Lo que aplica `fuentes/mec_anuario/mapeo_manual.yml` en la ola 1: columnas repetidas y totales mal
+etiquetados con su comprobación con sumas (D5), y columnas con datos de otro año (D4).
+
+- **II-1.1.1 2021:**
+  - I `FORMA DE ADMINISTRACIÓN/PRIVADA/Jardines de Infantes` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+- **II-1.1.1 2022:**
+  - ⚠ I «FORMA DE ADMINISTRACIÓN/PRIVADA/Jardines de Infantes»: el pie dice 2020 pero difiere del anuario 2020 en 6 filas (['TOTAL', 'MONTEVIDEO', 'RESTO DEL PAÍS']); se carga como 2022
+- **II-1.1.2 2021:**
+  - C `Centros de Primera Infancia Privados (CPIP) (Supervisados por INAU)` año real 2020
+  - ⚠ C «Centros de Primera Infancia Privados (CPIP) (Supervisados por INAU)»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
+- **II-1.2.1 2021:**
+  - AM `FORMA DE ADMINISTRACIÓN/PRIVADA/Total Privada` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - AN `FORMA DE ADMINISTRACIÓN/PRIVADA/Jardines de Infantes/SEXO/V` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - AO `FORMA DE ADMINISTRACIÓN/PRIVADA/Jardines de Infantes/SEXO/M` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - AP `FORMA DE ADMINISTRACIÓN/PRIVADA/Inicial en Colegios/SEXO/V` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - AQ `FORMA DE ADMINISTRACIÓN/PRIVADA/Inicial en Colegios/SEXO/M` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+- **II-1.2.2 2020:**
+  - G `PÚBLICA/EDUCACIÓN DE INICIAL` omitir: columna vacía: separador del encabezado, sin datos
+  - L `PÚBLICA/EDUCACIÓN DE INICIAL` omitir: columna vacía: separador del encabezado, sin datos
+  - Q `PÚBLICA/EDUCACIÓN DE INICIAL` omitir: columna vacía: separador del encabezado, sin datos
+  - AA `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - AF `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - AK `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - AP `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - AU `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - AZ `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - BE `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - BJ `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - BO `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+- **II-1.2.2 2021:**
+  - G `PÚBLICA/EDUCACIÓN DE INICIAL` omitir: columna vacía: separador del encabezado, sin datos
+  - L `PÚBLICA/EDUCACIÓN DE INICIAL` omitir: columna vacía: separador del encabezado, sin datos
+  - M `PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN COMÚN/AÑOS/<= 2` (ruta única después del renombre de R, S, T, U)
+  - N `PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN COMÚN/AÑOS/3` (ruta única después del renombre de R, S, T, U)
+  - O `PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN COMÚN/AÑOS/4` (ruta única después del renombre de R, S, T, U)
+  - P `PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN COMÚN/AÑOS/5` (ruta única después del renombre de R, S, T, U)
+  - Q `PÚBLICA/EDUCACIÓN DE INICIAL` omitir: columna vacía: separador del encabezado, sin datos
+  - R `PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN COMÚN/AÑOS/<= 2` → `PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN DE CICLO INICIAL/AÑOS/<= 2` (renombre a mano: el archivo repite «JARDÍN COMÚN» en R–U; esas columnas solo tienen datos en Montevideo y valores como los de «JARDÍN DE CICLO INICIAL» de 2022 (2021: 6/69/114/132; 2022: 0/58/108/111). M–P coinciden con el jardín común de 2020 y 2022.)
+  - S `PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN COMÚN/AÑOS/3` → `PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN DE CICLO INICIAL/AÑOS/3` (renombre a mano: el archivo repite «JARDÍN COMÚN» en R–U; esas columnas solo tienen datos en Montevideo y valores como los de «JARDÍN DE CICLO INICIAL» de 2022 (2021: 6/69/114/132; 2022: 0/58/108/111). M–P coinciden con el jardín común de 2020 y 2022.)
+  - T `PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN COMÚN/AÑOS/4` → `PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN DE CICLO INICIAL/AÑOS/4` (renombre a mano: el archivo repite «JARDÍN COMÚN» en R–U; esas columnas solo tienen datos en Montevideo y valores como los de «JARDÍN DE CICLO INICIAL» de 2022 (2021: 6/69/114/132; 2022: 0/58/108/111). M–P coinciden con el jardín común de 2020 y 2022.)
+  - U `PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN COMÚN/AÑOS/5` → `PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN DE CICLO INICIAL/AÑOS/5` (renombre a mano: el archivo repite «JARDÍN COMÚN» en R–U; esas columnas solo tienen datos en Montevideo y valores como los de «JARDÍN DE CICLO INICIAL» de 2022 (2021: 6/69/114/132; 2022: 0/58/108/111). M–P coinciden con el jardín común de 2020 y 2022.)
+  - V `PÚBLICA/EDUCACIÓN DE INICIAL` omitir: columna vacía: separador del encabezado, sin datos
+  - AF `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - AK `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - AP `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - AU `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - AZ `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - BE `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - BJ `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - BO `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - BT `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+- **II-1.2.2 2022:**
+  - G `PÚBLICA/EDUCACIÓN DE INICIAL` omitir: columna vacía: separador del encabezado, sin datos
+  - L `PÚBLICA/EDUCACIÓN DE INICIAL` omitir: columna vacía: separador del encabezado, sin datos
+  - Q `PÚBLICA/EDUCACIÓN DE INICIAL` omitir: columna vacía: separador del encabezado, sin datos
+  - V `PÚBLICA/EDUCACIÓN DE INICIAL` omitir: columna vacía: separador del encabezado, sin datos
+  - AF `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - AK `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - AP `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - AU `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - AZ `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - BE `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - BJ `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - BO `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - BT `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+- **II-1.2.2 2023:**
+  - G `PÚBLICA/EDUCACIÓN DE INICIAL` omitir: columna vacía: separador del encabezado, sin datos
+  - L `PÚBLICA/EDUCACIÓN DE INICIAL` omitir: columna vacía: separador del encabezado, sin datos
+  - Q `PÚBLICA/EDUCACIÓN DE INICIAL` omitir: columna vacía: separador del encabezado, sin datos
+  - V `PÚBLICA/EDUCACIÓN DE INICIAL` omitir: columna vacía: separador del encabezado, sin datos
+  - AF `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - AK `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - AP `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - AU `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - AZ `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - BE `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - BJ `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - BO `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - BT `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+- **II-1.2.2 2024:**
+  - I `PÚBLICA/EDUCACIÓN DE INICIAL` omitir: columna vacía: separador del encabezado, sin datos
+  - P `PÚBLICA/EDUCACIÓN DE INICIAL` omitir: columna vacía: separador del encabezado, sin datos
+  - W `PÚBLICA/EDUCACIÓN DE INICIAL` omitir: columna vacía: separador del encabezado, sin datos
+  - AK `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - AR `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - AY `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - BF `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+  - BM `PÚBLICA/INICIAL EN ESCUELAS` omitir: columna vacía: separador del encabezado, sin datos
+- **II-1.2.3 2020:**
+  - C `MODALIDAD/Total` → `MODALIDAD/JARDINES PRIVADOS/TOTAL` (C = D + E + F + G + H)
+- **II-1.2.3 2021:**
+  - B `TOTAL` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - C `MODALIDAD/Total` → `MODALIDAD/JARDINES PRIVADOS/TOTAL` (C = D + E + F + G + H)
+  - D `MODALIDAD/JARDINES PRIVADOS/NIVEL/Nursery` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - E `MODALIDAD/JARDINES PRIVADOS/NIVEL/2 años` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - F `MODALIDAD/JARDINES PRIVADOS/NIVEL/3 años` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - G `MODALIDAD/JARDINES PRIVADOS/NIVEL/4 años` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - H `MODALIDAD/JARDINES PRIVADOS/NIVEL/5 años` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - I `MODALIDAD/INICIAL EN COLEGIOS/Total` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - J `MODALIDAD/INICIAL EN COLEGIOS/NIVEL/Nursery` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - K `MODALIDAD/INICIAL EN COLEGIOS/NIVEL/2 años` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - L `MODALIDAD/INICIAL EN COLEGIOS/NIVEL/3 años` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - M `MODALIDAD/INICIAL EN COLEGIOS/NIVEL/4 años` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - N `MODALIDAD/INICIAL EN COLEGIOS/NIVEL/5 años` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+- **II-1.2.3 2022:**
+  - C `MODALIDAD/Total` → `MODALIDAD/JARDINES PRIVADOS/TOTAL` (C = D + E + F + G + H)
+- **II-1.2.3 2023:**
+  - C `MODALIDAD/Total` → `MODALIDAD/JARDINES PRIVADOS/TOTAL` (C = D + E + F + G + H + I; no cierra en 3 filas (TOTAL 1584≠1560, MONTEVIDEO 1072≠1057, RESTO DEL PAÍS 512≠503): 24 estudiantes de jardines privados sin información por edad (pie): 15 en Montevideo y 9 en el resto)
+- **II-1.2.3 2024:**
+  - C `MODALIDAD/Total` → `MODALIDAD/JARDINES PRIVADOS/TOTAL` (C = D + E + F + G + H + I)
+- **II-1.2.4 2020:**
+  - D `FORMA DE ADMINISTRACIÓN/TOTAL/SEXO/MUJER` → `TOTAL/SEXO/MUJER` (D = F + H)
+- **II-1.2.4 2021:**
+  - D `FORMA DE ADMINISTRACIÓN/TOTAL/SEXO/MUJER` → `TOTAL/SEXO/MUJER` (D = F + H)
+- **II-1.2.4 2022:**
+  - D `FORMA DE ADMINISTRACIÓN/TOTAL/SEXO/MUJER` → `TOTAL/SEXO/MUJER` (D = F + H)
+- **II-1.2.4 2023:**
+  - D `FORMA DE ADMINISTRACIÓN/TOTAL/SEXO/MUJER` → `TOTAL/SEXO/MUJER` (D = F + H)
+- **II-1.2.4 2024:**
+  - D `FORMA DE ADMINISTRACIÓN/TOTAL/SEXO/MUJER` → `TOTAL/SEXO/MUJER` (D = F + H)
+- **II-1.2.5 2021:**
+  - Q `Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato` → `FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato` (B = E + F + G + H + I + J + K + L + M + N + O + P + Q)
+- **II-1.2.5 2022:**
+  - Q `Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato` → `FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato` (B = E + F + G + H + I + J + K + L + M + N + O + P + Q)
+- **II-1.2.5 2023:**
+  - R `Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato` → `FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato` (B = E + F + G + H + I + J + K + L + M + N + O + P + Q + R)
+- **II-1.2.5 2024:**
+  - R `Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato` → `FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato` (B = E + F + G + H + I + J + K + L + M + N + O + P + Q + R)
+- **II-2.1.1 2021:**
+  - E `FORMA DE ADMINISTRACIÓN/TIPO DE EDUCACIÓN/PRIVADA/Común` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - F `FORMA DE ADMINISTRACIÓN/TIPO DE EDUCACIÓN/PRIVADA/Especial` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+- **II-2.1.4 2020:**
+  - C `TIPO DE EDUCACIÓN/Total` → `TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/TOTAL` (C = D + E)
+- **II-2.1.4 2022:**
+  - C `TIPO DE EDUCACIÓN/Total` → `TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/TOTAL` (C = D + E)
+- **II-2.1.4 2023:**
+  - C `TIPO DE EDUCACIÓN/Total` → `TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/TOTAL` (C = D + E)
+- **II-2.1.4 2024:**
+  - C `TIPO DE EDUCACIÓN/Total` → `TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/TOTAL` (C = D + E)
+- **II-2.2.1 2021:**
+  - H `FORMA DE ADMINISTRACIÓN/PRIVADA/TOTAL` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - I `FORMA DE ADMINISTRACIÓN/PRIVADA/SEXO/V` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - J `FORMA DE ADMINISTRACIÓN/PRIVADA/SEXO/M` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+- **II-2.2.15 2021:**
+  - B `RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - C `RENDIMIENTO ESCOLAR/PROMOVIDOS/SEXO/V` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - D `RENDIMIENTO ESCOLAR/PROMOVIDOS/SEXO/M` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - E `RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - F `RENDIMIENTO ESCOLAR/NO PROMOVIDOS/SEXO/V` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - G `RENDIMIENTO ESCOLAR/NO PROMOVIDOS/SEXO/M` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+- **II-2.2.15 2022:**
+  - B `RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - C `RENDIMIENTO ESCOLAR/PROMOVIDOS/SEXO/V` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - D `RENDIMIENTO ESCOLAR/PROMOVIDOS/SEXO/M` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - E `RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - F `RENDIMIENTO ESCOLAR/NO PROMOVIDOS/SEXO/V` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - G `RENDIMIENTO ESCOLAR/NO PROMOVIDOS/SEXO/M` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+- **II-2.2.15 2023:**
+  - B `RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - C `RENDIMIENTO ESCOLAR/PROMOVIDOS/SEXO/V` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - D `RENDIMIENTO ESCOLAR/PROMOVIDOS/SEXO/M` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - E `RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - F `RENDIMIENTO ESCOLAR/NO PROMOVIDOS/SEXO/V` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - G `RENDIMIENTO ESCOLAR/NO PROMOVIDOS/SEXO/M` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+- **II-2.2.17 2021:**
+  - G `PRIVADA/Total` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - H `PRIVADA/SEXO/Varón` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - I `PRIVADA/SEXO/Mujer` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+- **II-2.2.17 2022:**
+  - G `PRIVADA*/Total` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - H `PRIVADA*/SEXO/Varón` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - I `PRIVADA*/SEXO/Mujer` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+- **II-2.2.17 2023:**
+  - G `PRIVADA*/Total` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - H `PRIVADA*/SEXO/Varón` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - I `PRIVADA*/SEXO/Mujer` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+- **II-2.3.2 2023:**
+  - B `DEPARTAMENTO` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - C `TOTAL` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - D `MAESTROS` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - E `PROFESORES` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - F `ESTABLECIMIENTOS/HABILITADOS/Total` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - G `ESTABLECIMIENTOS/HABILITADOS/Maestros` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - H `ESTABLECIMIENTOS/HABILITADOS/Profesores` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - I `ESTABLECIMIENTOS/AUTORIZADOS/Total` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - J `ESTABLECIMIENTOS/AUTORIZADOS/Maestros` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - K `ESTABLECIMIENTOS/AUTORIZADOS/Profesores` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+- **II-2.3.2 2024:**
+  - B `DEPARTAMENTO` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - C `TOTAL` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - D `MAESTROS` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - E `PROFESORES` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - F `ESTABLECIMIENTOS/HABILITADOS/Total` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - G `ESTABLECIMIENTOS/HABILITADOS/Maestros` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - H `ESTABLECIMIENTOS/HABILITADOS/Profesores` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - I `ESTABLECIMIENTOS/AUTORIZADOS/Total` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - J `ESTABLECIMIENTOS/AUTORIZADOS/Maestros` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - K `ESTABLECIMIENTOS/AUTORIZADOS/Profesores` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+- **II-3.1.1 2024:**
+  - P `MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica` → `MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/TOTAL PÚBLICOS/Escuelas de CBT y Técnica` (O = P + Q)
+  - S `MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica` → `MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/TOTAL PRIVADOS/Escuelas de CBT y Técnica` (R = S)
+- **II-3.2.2 2020:**
+  - B `TOTAL` → `TOTAL` (B = suma de 10 columnas (D…Q))
+  - C `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL` → `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/TOTAL` (C = D + E)
+  - F `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL` → `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/C.B.T. AGRARIO/TOTAL` (F = G + H)
+  - I `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL` → `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/CICLO BÁSICO TECNOLÓGICO/TOTAL` (I = J + K)
+  - L `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL` → `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/FORMACIÓN PROFESIONAL BÁSICA Plan: 2007/TOTAL` (L = M + N)
+  - O `TOTAL` → `PROGRAMA CENTROS EDUC. COMUNITARIOS/TOTAL` (O = P + Q)
+- **II-3.2.2 2021:**
+  - B `TOTAL` → `TOTAL` (B = suma de 10 columnas (D…Q); salvo Treinta y Tres: 315 publicado contra 580 sumado (error de la fuente))
+  - C `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL` → `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/TOTAL` (C = D + E)
+  - F `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL` → `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/C.B.T. AGRARIO/TOTAL` (F = G + H)
+  - I `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL` → `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/CICLO BÁSICO TECNOLÓGICO/TOTAL` (I = J + K)
+  - L `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL` → `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/FORMACIÓN PROFESIONAL BÁSICA Plan: 2007/TOTAL` (L = M + N)
+  - O `TOTAL` → `PROGRAMA CENTROS EDUC. COMUNITARIOS/TOTAL` (O = P + Q)
+- **II-3.2.2 2022:**
+  - B `TOTAL` → `TOTAL` (B = suma de 10 columnas (D…Q); salvo Treinta y Tres: 320 publicado contra 477 sumado (error de la fuente))
+  - C `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL` → `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/TOTAL` (C = D + E)
+  - F `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL` → `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/C.B.T. AGRARIO/TOTAL` (F = G + H)
+  - I `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL` → `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/CICLO BÁSICO TECNOLÓGICO/TOTAL` (I = J + K)
+  - L `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL` → `EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/FORMACIÓN PROFESIONAL BÁSICA Plan: 2007/TOTAL` (L = M + N)
+  - O `TOTAL` → `FORMACIÓN PROFESIONAL BÁSICA/TOTAL` (O = P + Q)
+- **II-3.2.2 2023:**
+  - H `PÚBLICA/TOTAL` → `PÚBLICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/TOTAL` (H = I + J)
+  - K `PÚBLICA/TOTAL` → `PÚBLICA/EDUCACION BASICA INTEGRADA/TOTAL` (K = L + M)
+  - N `PÚBLICA/TOTAL` → `PÚBLICA/FORMACIÓN PROFESIONAL BÁSICA/TOTAL` (N = O + P)
+  - Q `PÚBLICA/TOTAL` → `PÚBLICA/FORMACIÓN PROFESIONAL BÁSICA Plan: 2007/TOTAL` (Q = R + S)
+- **II-3.2.2 2024:**
+  - H `PÚBLICA/TOTAL` → `PÚBLICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/TOTAL` (H = I + J)
+  - K `PÚBLICA/TOTAL` → `PÚBLICA/EDUCACION BASICA INTEGRADA/TOTAL` (K = L + M)
+  - N `PÚBLICA/TOTAL` → `PÚBLICA/FORMACIÓN PROFESIONAL BÁSICA/TOTAL` (N = O + P)
+- **II-3.2.7 2023:**
+  - H `PÚBLICA/TOTAL` → `PÚBLICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/TOTAL` (H = I + J)
+  - K `PÚBLICA/TOTAL` → `PÚBLICA/EDUCACION BASICA INTEGRADA/TOTAL` (K = L + M)
+  - N `PÚBLICA/TOTAL` → `PÚBLICA/FORMACIÓN PROFESIONAL BÁSICA/TOTAL` (N = O + P)
+  - Q `PÚBLICA/TOTAL` → `PÚBLICA/FORMACIÓN PROFESIONAL BÁSICA Plan: 2007/TOTAL` (Q = R + S)
+- **II-3.2.7 2024:**
+  - H `PÚBLICA/TOTAL` → `PÚBLICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/TOTAL` (H = I + J)
+  - K `PÚBLICA/TOTAL` → `PÚBLICA/EDUCACION BASICA INTEGRADA/TOTAL` (K = L + M)
+  - N `PÚBLICA/TOTAL` → `PÚBLICA/FORMACIÓN PROFESIONAL BÁSICA/TOTAL` (N = O + P)
+- **II-4.1.1 2023:**
+  - O `MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica` → `MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/TOTAL PÚBLICOS/Escuelas de CBT y Técnica` (N = O + P)
+  - R `MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica` → `MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/TOTAL PRIVADOS/Escuelas de CBT y Técnica` (Q = R)
+- **II-4.1.1 2024:**
+  - O `MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica` → `MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/TOTAL PÚBLICOS/Escuelas de CBT y Técnica` (N = O + P)
+  - R `MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica` → `MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/TOTAL PRIVADOS/Escuelas de CBT y Técnica` (Q = R)
+- **II-4.2.2 2020:**
+  - B `TOTAL` → `TOTAL` (B = suma de 2 columnas (C…D))
+  - E `TOTAL` → `BACHILLERATO FIGARI/TOTAL` (E = F + G)
+- **II-4.2.2 2021:**
+  - B `TOTAL` → `TOTAL` (B = suma de 2 columnas (C…D))
+  - E `TOTAL` → `BACHILLERATO FIGARI/TOTAL` (E = F + G)
+- **II-4.2.2 2022:**
+  - B `TOTAL` → `TOTAL` (B = suma de 2 columnas (C…D))
+  - E `TOTAL` → `BACHILLERATO FIGARI/TOTAL` (E = F + G)
+- **II-4.2.4 2023:**
+  - C `SEXO/Varón` → `TOTAL/SEXO/Varón` (B = C + D)
+  - D `SEXO/Mujer` → `TOTAL/SEXO/Mujer` (B = C + D)
+  - F `SEXO/Varón` → `PÚBLICA/SEXO/Varón` (E = F + G)
+  - G `SEXO/Mujer` → `PÚBLICA/SEXO/Mujer` (E = F + G)
+  - W `SEXO/Varón` → `PRIVADA/SEXO/Varón` (V = W + X)
+  - X `SEXO/Mujer` → `PRIVADA/SEXO/Mujer` (V = W + X)
+- **II-4.2.4 2024:**
+  - C `SEXO/Varón` → `TOTAL/SEXO/Varón` (B = C + D)
+  - D `SEXO/Mujer` → `TOTAL/SEXO/Mujer` (B = C + D)
+  - F `SEXO/Varón` → `PÚBLICA/SEXO/Varón` (E = F + G)
+  - G `SEXO/Mujer` → `PÚBLICA/SEXO/Mujer` (E = F + G)
+  - W `SEXO/Varón` → `PRIVADA/SEXO/Varón` (V = W + X)
+  - X `SEXO/Mujer` → `PRIVADA/SEXO/Mujer` (V = W + X)
+- **II-4.2.14 2024:**
+  - G `FORMA DE ADMINISTRACIÓN/TOTAL/NO PROMOVIDO/SEXO/Mujer` → `TOTAL/NO PROMOVIDO/SEXO/Mujer` (E = F + G)
+
 ## Encabezados completados (revisar)
 
 Celdas vacías de encabezado que heredaron un grupo combinado vecino, de la derecha si su rótulo es un total o

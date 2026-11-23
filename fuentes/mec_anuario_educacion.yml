@@ -146,6 +146,7 @@ cuadros:
       - col: I
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/Jardines de Infantes
         id: edu_ii_1_1_1_forma_de_administracion_privada_jardines_de_infantes
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       2022:
       - col: B
         ruta: TOTAL
@@ -234,6 +235,10 @@ cuadros:
       2022:
       - 'Nota: Los datos correspondientes a Privada del DGEIP corresponden al año 2020, dado que al momento de cierre de la publicación no estaba el dato correspondiente
         a 2021'
+    anio_real_notas:
+      2022:
+      - 'I «FORMA DE ADMINISTRACIÓN/PRIVADA/Jardines de Infantes»: el pie dice 2020 pero difiere del anuario 2020 en 6 filas ([''TOTAL'', ''MONTEVIDEO'', ''RESTO
+        DEL PAÍS'']); se carga como 2022'
   II-1.1.2:
     titulo: CANTIDAD DE ESTABLECIMIENTOS DE PRIMERA INFANCIA E INICIAL POR FORMA DE ADMINISTRACIÓN SEGÚN DEPARTAMENTO
     tipos:
@@ -268,6 +273,7 @@ cuadros:
       - col: C
         ruta: Centros de Primera Infancia Privados (CPIP) (Supervisados por INAU)
         id: edu_ii_1_1_2_centros_de_primera_infancia_privados_cpip_supervisados_por_inau
+        anio: 2020
       - col: D
         ruta: PROYECTOS CAIF, CAPI, NUESTROS NIÑOS (Supervisados por INAU)
         id: edu_ii_1_1_2_proyectos_caif_capi_nuestros_ninos_supervisados_por_inau
@@ -304,6 +310,9 @@ cuadros:
     datos_de_otro_anio:
       2021:
       - 'Nota: Los establecimientos CPIP corresponden a los Centros Privados supervisados por el MEC del año 2020.'
+    anio_real_notas:
+      2021:
+      - 'C «Centros de Primera Infancia Privados (CPIP) (Supervisados por INAU)»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020'
   II-1.2.1:
     titulo: ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL POR FORMA DE ADMINISTRACIÓN, MODALIDAD Y SEXO SEGÚN DEPARTAMENTO
     tipos:
@@ -557,18 +566,23 @@ cuadros:
       - col: AM
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/Total Privada
         id: edu_ii_1_2_1_forma_de_administracion_privada_total_privada
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: AN
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/Jardines de Infantes/SEXO/V
         id: edu_ii_1_2_1_forma_de_administracion_privada_jardines_de_infantes_sexo_v
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: AO
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/Jardines de Infantes/SEXO/M
         id: edu_ii_1_2_1_forma_de_administracion_privada_jardines_de_infantes_sexo_m
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: AP
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/Inicial en Colegios/SEXO/V
         id: edu_ii_1_2_1_forma_de_administracion_privada_inicial_en_colegios_sexo_v
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: AQ
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/Inicial en Colegios/SEXO/M
         id: edu_ii_1_2_1_forma_de_administracion_privada_inicial_en_colegios_sexo_m
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       2022:
       - col: B
         ruta: FORMA DE ADMINISTRACIÓN/TOTAL
@@ -954,7 +968,7 @@ cuadros:
       - col: G
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL
         id: edu_ii_1_2_2_publica_educacion_de_inicial
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: H
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN APRENDER/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_educacion_de_inicial_jardin_aprender_anos_2
@@ -970,7 +984,7 @@ cuadros:
       - col: L
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL
         id: edu_ii_1_2_2_publica_educacion_de_inicial__2
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: M
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN COMÚN/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_educacion_de_inicial_jardin_comun_anos_2
@@ -986,7 +1000,7 @@ cuadros:
       - col: Q
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL
         id: edu_ii_1_2_2_publica_educacion_de_inicial__3
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: R
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN DE JORNADA COMPLETA/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_educacion_de_inicial_jardin_de_jornada_completa_anos_2
@@ -1017,7 +1031,7 @@ cuadros:
       - col: AA
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: AB
         ruta: PÚBLICA/INICIAL EN ESCUELAS/APRENDER H. DE PRÁCTICA/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_aprender_h_de_practica_anos_2
@@ -1033,7 +1047,7 @@ cuadros:
       - col: AF
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__2
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: AG
         ruta: PÚBLICA/INICIAL EN ESCUELAS/COMÚN/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_comun_anos_2
@@ -1049,7 +1063,7 @@ cuadros:
       - col: AK
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__3
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: AL
         ruta: PÚBLICA/INICIAL EN ESCUELAS/CON MAESTRO A CARGO/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_con_maestro_a_cargo_anos_2
@@ -1065,7 +1079,7 @@ cuadros:
       - col: AP
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__4
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: AQ
         ruta: PÚBLICA/INICIAL EN ESCUELAS/DE PRÁCTICA/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_de_practica_anos_2
@@ -1081,7 +1095,7 @@ cuadros:
       - col: AU
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__5
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: AV
         ruta: PÚBLICA/INICIAL EN ESCUELAS/DE TIEMPO COMPLETO/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_de_tiempo_completo_anos_2
@@ -1097,7 +1111,7 @@ cuadros:
       - col: AZ
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__6
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: BA
         ruta: PÚBLICA/INICIAL EN ESCUELAS/HABILITADA DE PRÁCTICA/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_habilitada_de_practica_anos_2
@@ -1113,7 +1127,7 @@ cuadros:
       - col: BE
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__7
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: BF
         ruta: PÚBLICA/INICIAL EN ESCUELAS/INTERNADO RURAL/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_internado_rural_anos_2
@@ -1129,7 +1143,7 @@ cuadros:
       - col: BJ
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__8
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: BK
         ruta: PÚBLICA/INICIAL EN ESCUELAS/T.EXTENDIDO-DE PRÁCTICA/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_t_extendido_de_practica_anos_2
@@ -1145,7 +1159,7 @@ cuadros:
       - col: BO
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__9
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: BP
         ruta: PÚBLICA/INICIAL EN ESCUELAS/TIEMPO EXTENDIDO/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_tiempo_extendido_anos_2
@@ -1192,7 +1206,7 @@ cuadros:
       - col: G
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL
         id: edu_ii_1_2_2_publica_educacion_de_inicial
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: H
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN APRENDER/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_educacion_de_inicial_jardin_aprender_anos_2
@@ -1208,47 +1222,55 @@ cuadros:
       - col: L
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL
         id: edu_ii_1_2_2_publica_educacion_de_inicial__2
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: M
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN COMÚN/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_educacion_de_inicial_jardin_comun_anos_2
-        repetida: true
+        comprobado: ruta única después del renombre de R, S, T, U
       - col: N
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN COMÚN/AÑOS/3
         id: edu_ii_1_2_2_publica_educacion_de_inicial_jardin_comun_anos_3
-        repetida: true
+        comprobado: ruta única después del renombre de R, S, T, U
       - col: O
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN COMÚN/AÑOS/4
         id: edu_ii_1_2_2_publica_educacion_de_inicial_jardin_comun_anos_4
-        repetida: true
+        comprobado: ruta única después del renombre de R, S, T, U
       - col: P
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN COMÚN/AÑOS/5
         id: edu_ii_1_2_2_publica_educacion_de_inicial_jardin_comun_anos_5
-        repetida: true
+        comprobado: ruta única después del renombre de R, S, T, U
       - col: Q
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL
         id: edu_ii_1_2_2_publica_educacion_de_inicial__3
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: R
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN COMÚN/AÑOS/<= 2
-        id: edu_ii_1_2_2_publica_educacion_de_inicial_jardin_comun_anos_2__2
-        repetida: true
+        id: edu_ii_1_2_2_publica_educacion_de_inicial_jardin_de_ciclo_inicial_anos_2
+        concepto: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN DE CICLO INICIAL/AÑOS/<= 2
+        comprobado: 'renombre a mano: el archivo repite «JARDÍN COMÚN» en R–U; esas columnas solo tienen datos en Montevideo y valores como los de «JARDÍN DE CICLO
+          INICIAL» de 2022 (2021: 6/69/114/132; 2022: 0/58/108/111). M–P coinciden con el jardín común de 2020 y 2022.'
       - col: S
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN COMÚN/AÑOS/3
-        id: edu_ii_1_2_2_publica_educacion_de_inicial_jardin_comun_anos_3__2
-        repetida: true
+        id: edu_ii_1_2_2_publica_educacion_de_inicial_jardin_de_ciclo_inicial_anos_3
+        concepto: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN DE CICLO INICIAL/AÑOS/3
+        comprobado: 'renombre a mano: el archivo repite «JARDÍN COMÚN» en R–U; esas columnas solo tienen datos en Montevideo y valores como los de «JARDÍN DE CICLO
+          INICIAL» de 2022 (2021: 6/69/114/132; 2022: 0/58/108/111). M–P coinciden con el jardín común de 2020 y 2022.'
       - col: T
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN COMÚN/AÑOS/4
-        id: edu_ii_1_2_2_publica_educacion_de_inicial_jardin_comun_anos_4__2
-        repetida: true
+        id: edu_ii_1_2_2_publica_educacion_de_inicial_jardin_de_ciclo_inicial_anos_4
+        concepto: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN DE CICLO INICIAL/AÑOS/4
+        comprobado: 'renombre a mano: el archivo repite «JARDÍN COMÚN» en R–U; esas columnas solo tienen datos en Montevideo y valores como los de «JARDÍN DE CICLO
+          INICIAL» de 2022 (2021: 6/69/114/132; 2022: 0/58/108/111). M–P coinciden con el jardín común de 2020 y 2022.'
       - col: U
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN COMÚN/AÑOS/5
-        id: edu_ii_1_2_2_publica_educacion_de_inicial_jardin_comun_anos_5__2
-        repetida: true
+        id: edu_ii_1_2_2_publica_educacion_de_inicial_jardin_de_ciclo_inicial_anos_5
+        concepto: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN DE CICLO INICIAL/AÑOS/5
+        comprobado: 'renombre a mano: el archivo repite «JARDÍN COMÚN» en R–U; esas columnas solo tienen datos en Montevideo y valores como los de «JARDÍN DE CICLO
+          INICIAL» de 2022 (2021: 6/69/114/132; 2022: 0/58/108/111). M–P coinciden con el jardín común de 2020 y 2022.'
       - col: V
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL
         id: edu_ii_1_2_2_publica_educacion_de_inicial__4
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: W
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN DE JORNADA COMPLETA/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_educacion_de_inicial_jardin_de_jornada_completa_anos_2
@@ -1279,7 +1301,7 @@ cuadros:
       - col: AF
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: AG
         ruta: PÚBLICA/INICIAL EN ESCUELAS/APRENDER H. DE PRÁCTICA/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_aprender_h_de_practica_anos_2
@@ -1295,7 +1317,7 @@ cuadros:
       - col: AK
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__2
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: AL
         ruta: PÚBLICA/INICIAL EN ESCUELAS/COMÚN/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_comun_anos_2
@@ -1311,7 +1333,7 @@ cuadros:
       - col: AP
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__3
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: AQ
         ruta: PÚBLICA/INICIAL EN ESCUELAS/CON MAESTRO A CARGO/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_con_maestro_a_cargo_anos_2
@@ -1327,7 +1349,7 @@ cuadros:
       - col: AU
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__4
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: AV
         ruta: PÚBLICA/INICIAL EN ESCUELAS/DE PRÁCTICA/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_de_practica_anos_2
@@ -1343,7 +1365,7 @@ cuadros:
       - col: AZ
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__5
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: BA
         ruta: PÚBLICA/INICIAL EN ESCUELAS/DE TIEMPO COMPLETO/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_de_tiempo_completo_anos_2
@@ -1359,7 +1381,7 @@ cuadros:
       - col: BE
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__6
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: BF
         ruta: PÚBLICA/INICIAL EN ESCUELAS/HABILITADA DE PRÁCTICA/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_habilitada_de_practica_anos_2
@@ -1375,7 +1397,7 @@ cuadros:
       - col: BJ
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__7
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: BK
         ruta: PÚBLICA/INICIAL EN ESCUELAS/INTERNADO RURAL/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_internado_rural_anos_2
@@ -1391,7 +1413,7 @@ cuadros:
       - col: BO
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__8
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: BP
         ruta: PÚBLICA/INICIAL EN ESCUELAS/T.EXTENDIDO-DE PRÁCTICA/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_t_extendido_de_practica_anos_2
@@ -1407,7 +1429,7 @@ cuadros:
       - col: BT
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__9
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: BU
         ruta: PÚBLICA/INICIAL EN ESCUELAS/TIEMPO EXTENDIDO/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_tiempo_extendido_anos_2
@@ -1454,7 +1476,7 @@ cuadros:
       - col: G
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL
         id: edu_ii_1_2_2_publica_educacion_de_inicial
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: H
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN APRENDER/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_educacion_de_inicial_jardin_aprender_anos_2
@@ -1470,7 +1492,7 @@ cuadros:
       - col: L
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL
         id: edu_ii_1_2_2_publica_educacion_de_inicial__2
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: M
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN COMÚN/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_educacion_de_inicial_jardin_comun_anos_2
@@ -1486,7 +1508,7 @@ cuadros:
       - col: Q
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL
         id: edu_ii_1_2_2_publica_educacion_de_inicial__3
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: R
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN DE JORNADA COMPLETA/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_educacion_de_inicial_jardin_de_jornada_completa_anos_2
@@ -1502,7 +1524,7 @@ cuadros:
       - col: V
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL
         id: edu_ii_1_2_2_publica_educacion_de_inicial__4
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: W
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN DE CICLO INICIAL/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_educacion_de_inicial_jardin_de_ciclo_inicial_anos_2
@@ -1533,7 +1555,7 @@ cuadros:
       - col: AF
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: AG
         ruta: PÚBLICA/INICIAL EN ESCUELAS/APRENDER H. DE PRÁCTICA/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_aprender_h_de_practica_anos_2
@@ -1549,7 +1571,7 @@ cuadros:
       - col: AK
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__2
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: AL
         ruta: PÚBLICA/INICIAL EN ESCUELAS/COMÚN/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_comun_anos_2
@@ -1565,7 +1587,7 @@ cuadros:
       - col: AP
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__3
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: AQ
         ruta: PÚBLICA/INICIAL EN ESCUELAS/CON MAESTRO A CARGO/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_con_maestro_a_cargo_anos_2
@@ -1581,7 +1603,7 @@ cuadros:
       - col: AU
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__4
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: AV
         ruta: PÚBLICA/INICIAL EN ESCUELAS/DE PRÁCTICA/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_de_practica_anos_2
@@ -1597,7 +1619,7 @@ cuadros:
       - col: AZ
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__5
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: BA
         ruta: PÚBLICA/INICIAL EN ESCUELAS/DE TIEMPO COMPLETO/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_de_tiempo_completo_anos_2
@@ -1613,7 +1635,7 @@ cuadros:
       - col: BE
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__6
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: BF
         ruta: PÚBLICA/INICIAL EN ESCUELAS/HABILITADA DE PRÁCTICA/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_habilitada_de_practica_anos_2
@@ -1629,7 +1651,7 @@ cuadros:
       - col: BJ
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__7
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: BK
         ruta: PÚBLICA/INICIAL EN ESCUELAS/INTERNADO RURAL/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_internado_rural_anos_2
@@ -1645,7 +1667,7 @@ cuadros:
       - col: BO
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__8
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: BP
         ruta: PÚBLICA/INICIAL EN ESCUELAS/T.EXTENDIDO-DE PRÁCTICA/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_t_extendido_de_practica_anos_2
@@ -1661,7 +1683,7 @@ cuadros:
       - col: BT
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__9
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: BU
         ruta: PÚBLICA/INICIAL EN ESCUELAS/TIEMPO EXTENDIDO/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_tiempo_extendido_anos_2
@@ -1708,7 +1730,7 @@ cuadros:
       - col: G
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL
         id: edu_ii_1_2_2_publica_educacion_de_inicial
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: H
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN APRENDER/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_educacion_de_inicial_jardin_aprender_anos_2
@@ -1724,7 +1746,7 @@ cuadros:
       - col: L
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL
         id: edu_ii_1_2_2_publica_educacion_de_inicial__2
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: M
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN COMÚN/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_educacion_de_inicial_jardin_comun_anos_2
@@ -1740,7 +1762,7 @@ cuadros:
       - col: Q
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL
         id: edu_ii_1_2_2_publica_educacion_de_inicial__3
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: R
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN DE JORNADA COMPLETA/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_educacion_de_inicial_jardin_de_jornada_completa_anos_2
@@ -1756,7 +1778,7 @@ cuadros:
       - col: V
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL
         id: edu_ii_1_2_2_publica_educacion_de_inicial__4
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: W
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN DE CICLO INICIAL/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_educacion_de_inicial_jardin_de_ciclo_inicial_anos_2
@@ -1787,7 +1809,7 @@ cuadros:
       - col: AF
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: AG
         ruta: PÚBLICA/INICIAL EN ESCUELAS/APRENDER H. DE PRÁCTICA/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_aprender_h_de_practica_anos_2
@@ -1803,7 +1825,7 @@ cuadros:
       - col: AK
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__2
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: AL
         ruta: PÚBLICA/INICIAL EN ESCUELAS/COMÚN/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_comun_anos_2
@@ -1819,7 +1841,7 @@ cuadros:
       - col: AP
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__3
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: AQ
         ruta: PÚBLICA/INICIAL EN ESCUELAS/CON MAESTRO A CARGO/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_con_maestro_a_cargo_anos_2
@@ -1835,7 +1857,7 @@ cuadros:
       - col: AU
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__4
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: AV
         ruta: PÚBLICA/INICIAL EN ESCUELAS/DE PRÁCTICA/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_de_practica_anos_2
@@ -1851,7 +1873,7 @@ cuadros:
       - col: AZ
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__5
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: BA
         ruta: PÚBLICA/INICIAL EN ESCUELAS/DE TIEMPO COMPLETO/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_de_tiempo_completo_anos_2
@@ -1867,7 +1889,7 @@ cuadros:
       - col: BE
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__6
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: BF
         ruta: PÚBLICA/INICIAL EN ESCUELAS/HABILITADA DE PRÁCTICA/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_habilitada_de_practica_anos_2
@@ -1883,7 +1905,7 @@ cuadros:
       - col: BJ
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__7
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: BK
         ruta: PÚBLICA/INICIAL EN ESCUELAS/INTERNADO RURAL/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_internado_rural_anos_2
@@ -1899,7 +1921,7 @@ cuadros:
       - col: BO
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__8
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: BP
         ruta: PÚBLICA/INICIAL EN ESCUELAS/T.EXTENDIDO-DE PRÁCTICA/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_t_extendido_de_practica_anos_2
@@ -1915,7 +1937,7 @@ cuadros:
       - col: BT
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__9
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: BU
         ruta: PÚBLICA/INICIAL EN ESCUELAS/TIEMPO EXTENDIDO/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_tiempo_extendido_anos_2
@@ -1968,7 +1990,7 @@ cuadros:
       - col: I
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL
         id: edu_ii_1_2_2_publica_educacion_de_inicial
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: J
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN DE INFANTES/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_educacion_de_inicial_jardin_de_infantes_anos_2
@@ -1990,7 +2012,7 @@ cuadros:
       - col: P
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL
         id: edu_ii_1_2_2_publica_educacion_de_inicial__2
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: Q
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN DE JORNADA COMPLETA/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_educacion_de_inicial_jardin_de_jornada_completa_anos_2
@@ -2012,7 +2034,7 @@ cuadros:
       - col: W
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL
         id: edu_ii_1_2_2_publica_educacion_de_inicial__3
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: X
         ruta: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN DE TIEMPO EXTENDIDO/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_educacion_de_inicial_jardin_de_tiempo_extendido_anos_2
@@ -2055,7 +2077,7 @@ cuadros:
       - col: AK
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: AL
         ruta: PÚBLICA/INICIAL EN ESCUELAS/APRENDER H. DE PRÁCTICA/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_aprender_h_de_practica_anos_2
@@ -2077,7 +2099,7 @@ cuadros:
       - col: AR
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__2
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: AS
         ruta: PÚBLICA/INICIAL EN ESCUELAS/RURAL/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_rural_anos_2
@@ -2099,7 +2121,7 @@ cuadros:
       - col: AY
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__3
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: AZ
         ruta: PÚBLICA/INICIAL EN ESCUELAS/TIEMPO COMPLETO/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_tiempo_completo_anos_2
@@ -2121,7 +2143,7 @@ cuadros:
       - col: BF
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__4
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: BG
         ruta: PÚBLICA/INICIAL EN ESCUELAS/TIEMPO EXTENDIDO/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_tiempo_extendido_anos_2
@@ -2143,7 +2165,7 @@ cuadros:
       - col: BM
         ruta: PÚBLICA/INICIAL EN ESCUELAS
         id: edu_ii_1_2_2_publica_inicial_en_escuelas__5
-        repetida: true
+        omitir: 'columna vacía: separador del encabezado, sin datos'
       - col: BN
         ruta: PÚBLICA/INICIAL EN ESCUELAS/URBANA COMÚN/AÑOS/<= 2
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_urbana_comun_anos_2
@@ -2162,6 +2184,7 @@ cuadros:
       - col: BS
         ruta: PÚBLICA/INICIAL EN ESCUELAS/URBANA COMÚN/AÑOS/sin dato
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_urbana_comun_anos_sin_dato
+    mapeo_manual_fallas: {}
   II-1.2.3:
     titulo: ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PRIVADA POR MODALIDAD Y NIVEL SEGÚN DEPARTAMENTO
     tipos:
@@ -2185,7 +2208,9 @@ cuadros:
         id: edu_ii_1_2_3_total
       - col: C
         ruta: MODALIDAD/Total
-        id: edu_ii_1_2_3_modalidad_total
+        id: edu_ii_1_2_3_modalidad_jardines_privados_total
+        concepto: MODALIDAD/JARDINES PRIVADOS/TOTAL
+        comprobado: C = D + E + F + G + H
       - col: D
         ruta: MODALIDAD/JARDINES PRIVADOS/NIVEL/Nursery
         id: edu_ii_1_2_3_modalidad_jardines_privados_nivel_nursery
@@ -2223,49 +2248,66 @@ cuadros:
       - col: B
         ruta: TOTAL
         id: edu_ii_1_2_3_total
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: C
         ruta: MODALIDAD/Total
-        id: edu_ii_1_2_3_modalidad_total
+        id: edu_ii_1_2_3_modalidad_jardines_privados_total
+        concepto: MODALIDAD/JARDINES PRIVADOS/TOTAL
+        comprobado: C = D + E + F + G + H
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: D
         ruta: MODALIDAD/JARDINES PRIVADOS/NIVEL/Nursery
         id: edu_ii_1_2_3_modalidad_jardines_privados_nivel_nursery
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: E
         ruta: MODALIDAD/JARDINES PRIVADOS/NIVEL/2 años
         id: edu_ii_1_2_3_modalidad_jardines_privados_nivel_2_anos
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: F
         ruta: MODALIDAD/JARDINES PRIVADOS/NIVEL/3 años
         id: edu_ii_1_2_3_modalidad_jardines_privados_nivel_3_anos
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: G
         ruta: MODALIDAD/JARDINES PRIVADOS/NIVEL/4 años
         id: edu_ii_1_2_3_modalidad_jardines_privados_nivel_4_anos
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: H
         ruta: MODALIDAD/JARDINES PRIVADOS/NIVEL/5 años
         id: edu_ii_1_2_3_modalidad_jardines_privados_nivel_5_anos
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: I
         ruta: MODALIDAD/INICIAL EN COLEGIOS/Total
         id: edu_ii_1_2_3_modalidad_inicial_en_colegios_total
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: J
         ruta: MODALIDAD/INICIAL EN COLEGIOS/NIVEL/Nursery
         id: edu_ii_1_2_3_modalidad_inicial_en_colegios_nivel_nursery
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: K
         ruta: MODALIDAD/INICIAL EN COLEGIOS/NIVEL/2 años
         id: edu_ii_1_2_3_modalidad_inicial_en_colegios_nivel_2_anos
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: L
         ruta: MODALIDAD/INICIAL EN COLEGIOS/NIVEL/3 años
         id: edu_ii_1_2_3_modalidad_inicial_en_colegios_nivel_3_anos
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: M
         ruta: MODALIDAD/INICIAL EN COLEGIOS/NIVEL/4 años
         id: edu_ii_1_2_3_modalidad_inicial_en_colegios_nivel_4_anos
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: N
         ruta: MODALIDAD/INICIAL EN COLEGIOS/NIVEL/5 años
         id: edu_ii_1_2_3_modalidad_inicial_en_colegios_nivel_5_anos
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       2022:
       - col: B
         ruta: TOTAL
         id: edu_ii_1_2_3_total
       - col: C
         ruta: MODALIDAD/Total
-        id: edu_ii_1_2_3_modalidad_total
+        id: edu_ii_1_2_3_modalidad_jardines_privados_total
+        concepto: MODALIDAD/JARDINES PRIVADOS/TOTAL
+        comprobado: C = D + E + F + G + H
       - col: D
         ruta: MODALIDAD/JARDINES PRIVADOS/NIVEL/Nursery
         id: edu_ii_1_2_3_modalidad_jardines_privados_nivel_nursery
@@ -2305,7 +2347,10 @@ cuadros:
         id: edu_ii_1_2_3_total
       - col: C
         ruta: MODALIDAD/Total
-        id: edu_ii_1_2_3_modalidad_total
+        id: edu_ii_1_2_3_modalidad_jardines_privados_total
+        concepto: MODALIDAD/JARDINES PRIVADOS/TOTAL
+        comprobado: 'C = D + E + F + G + H + I; no cierra en 3 filas (TOTAL 1584≠1560, MONTEVIDEO 1072≠1057, RESTO DEL PAÍS 512≠503): 24 estudiantes de jardines privados
+          sin información por edad (pie): 15 en Montevideo y 9 en el resto'
       - col: D
         ruta: MODALIDAD/JARDINES PRIVADOS/NIVEL/Nursery
         id: edu_ii_1_2_3_modalidad_jardines_privados_nivel_nursery
@@ -2351,7 +2396,9 @@ cuadros:
         id: edu_ii_1_2_3_total
       - col: C
         ruta: MODALIDAD/Total
-        id: edu_ii_1_2_3_modalidad_total
+        id: edu_ii_1_2_3_modalidad_jardines_privados_total
+        concepto: MODALIDAD/JARDINES PRIVADOS/TOTAL
+        comprobado: C = D + E + F + G + H + I
       - col: D
         ruta: MODALIDAD/JARDINES PRIVADOS/NIVEL/Nursery
         id: edu_ii_1_2_3_modalidad_jardines_privados_nivel_nursery
@@ -2421,7 +2468,9 @@ cuadros:
         id: edu_ii_1_2_4_total_sexo_varon
       - col: D
         ruta: FORMA DE ADMINISTRACIÓN/TOTAL/SEXO/MUJER
-        id: edu_ii_1_2_4_forma_de_administracion_total_sexo_mujer
+        id: edu_ii_1_2_4_total_sexo_mujer
+        concepto: TOTAL/SEXO/MUJER
+        comprobado: D = F + H
       - col: E
         ruta: FORMA DE ADMINISTRACIÓN/CAIF,CAPI Y NUESTROS NIÑOS/SEXO/V
         id: edu_ii_1_2_4_forma_de_administracion_caif_capi_y_nuestros_ninos_sexo_v
@@ -2443,7 +2492,9 @@ cuadros:
         id: edu_ii_1_2_4_total_sexo_varon
       - col: D
         ruta: FORMA DE ADMINISTRACIÓN/TOTAL/SEXO/MUJER
-        id: edu_ii_1_2_4_forma_de_administracion_total_sexo_mujer
+        id: edu_ii_1_2_4_total_sexo_mujer
+        concepto: TOTAL/SEXO/MUJER
+        comprobado: D = F + H
       - col: E
         ruta: FORMA DE ADMINISTRACIÓN/CAIF, CAPI, NUESTROS NIÑOS/SEXO/V
         id: edu_ii_1_2_4_forma_de_administracion_caif_capi_nuestros_ninos_sexo_v
@@ -2468,7 +2519,9 @@ cuadros:
         id: edu_ii_1_2_4_total_sexo_varon
       - col: D
         ruta: FORMA DE ADMINISTRACIÓN/TOTAL/SEXO/MUJER
-        id: edu_ii_1_2_4_forma_de_administracion_total_sexo_mujer
+        id: edu_ii_1_2_4_total_sexo_mujer
+        concepto: TOTAL/SEXO/MUJER
+        comprobado: D = F + H
       - col: E
         ruta: FORMA DE ADMINISTRACIÓN/CAIF, CAPI, NUESTROS NIÑOS/SEXO/V
         id: edu_ii_1_2_4_forma_de_administracion_caif_capi_nuestros_ninos_sexo_v
@@ -2493,7 +2546,9 @@ cuadros:
         id: edu_ii_1_2_4_total_sexo_varon
       - col: D
         ruta: FORMA DE ADMINISTRACIÓN/TOTAL/SEXO/MUJER
-        id: edu_ii_1_2_4_forma_de_administracion_total_sexo_mujer
+        id: edu_ii_1_2_4_total_sexo_mujer
+        concepto: TOTAL/SEXO/MUJER
+        comprobado: D = F + H
       - col: E
         ruta: FORMA DE ADMINISTRACIÓN/CAIF, CAPI, NUESTROS NIÑOS/SEXO/V
         id: edu_ii_1_2_4_forma_de_administracion_caif_capi_nuestros_ninos_sexo_v
@@ -2518,7 +2573,9 @@ cuadros:
         id: edu_ii_1_2_4_total_sexo_varon
       - col: D
         ruta: FORMA DE ADMINISTRACIÓN/TOTAL/SEXO/MUJER
-        id: edu_ii_1_2_4_forma_de_administracion_total_sexo_mujer
+        id: edu_ii_1_2_4_total_sexo_mujer
+        concepto: TOTAL/SEXO/MUJER
+        comprobado: D = F + H
       - col: E
         ruta: FORMA DE ADMINISTRACIÓN/CAIF, CAPI, NUESTROS NIÑOS/SEXO/V
         id: edu_ii_1_2_4_forma_de_administracion_caif_capi_nuestros_ninos_sexo_v
@@ -2645,7 +2702,9 @@ cuadros:
         id: edu_ii_1_2_5_forma_de_administracion_centros_de_primera_infancia_privados_cpip_sexo_m
       - col: Q
         ruta: Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato
-        id: edu_ii_1_2_5_centros_de_primera_infancia_privados_cpip_sexo_sin_dato
+        id: edu_ii_1_2_5_forma_de_administracion_centros_de_primera_infancia_privados_cpip_sexo_sin_dato
+        concepto: FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato
+        comprobado: B = E + F + G + H + I + J + K + L + M + N + O + P + Q
       2022:
       - col: B
         ruta: TOTAL
@@ -2694,7 +2753,9 @@ cuadros:
         id: edu_ii_1_2_5_forma_de_administracion_centros_de_primera_infancia_privados_cpip_sexo_m
       - col: Q
         ruta: Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato
-        id: edu_ii_1_2_5_centros_de_primera_infancia_privados_cpip_sexo_sin_dato
+        id: edu_ii_1_2_5_forma_de_administracion_centros_de_primera_infancia_privados_cpip_sexo_sin_dato
+        concepto: FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato
+        comprobado: B = E + F + G + H + I + J + K + L + M + N + O + P + Q
       2023:
       - col: B
         ruta: TOTAL
@@ -2746,7 +2807,9 @@ cuadros:
         id: edu_ii_1_2_5_forma_de_administracion_centros_de_primera_infancia_privados_cpip_sexo_m
       - col: R
         ruta: Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato
-        id: edu_ii_1_2_5_centros_de_primera_infancia_privados_cpip_sexo_sin_dato
+        id: edu_ii_1_2_5_forma_de_administracion_centros_de_primera_infancia_privados_cpip_sexo_sin_dato
+        concepto: FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato
+        comprobado: B = E + F + G + H + I + J + K + L + M + N + O + P + Q + R
       2024:
       - col: B
         ruta: TOTAL
@@ -2798,7 +2861,9 @@ cuadros:
         id: edu_ii_1_2_5_forma_de_administracion_centros_de_primera_infancia_privados_cpip_sexo_m
       - col: R
         ruta: Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato
-        id: edu_ii_1_2_5_centros_de_primera_infancia_privados_cpip_sexo_sin_dato
+        id: edu_ii_1_2_5_forma_de_administracion_centros_de_primera_infancia_privados_cpip_sexo_sin_dato
+        concepto: FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato
+        comprobado: B = E + F + G + H + I + J + K + L + M + N + O + P + Q + R
   II-1.2.6:
     titulo: ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PÚBLICA DE LA DGEIP POR ÁREA DEMOGRÁFICA SEGÚN DEPARTAMENTO
     tipos:
@@ -3189,9 +3254,11 @@ cuadros:
       - col: E
         ruta: FORMA DE ADMINISTRACIÓN/TIPO DE EDUCACIÓN/PRIVADA/Común
         id: edu_ii_2_1_1_forma_de_administracion_tipo_de_educacion_privada_comun
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: F
         ruta: FORMA DE ADMINISTRACIÓN/TIPO DE EDUCACIÓN/PRIVADA/Especial
         id: edu_ii_2_1_1_forma_de_administracion_tipo_de_educacion_privada_especial
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       2022:
       - col: B
         ruta: FORMA DE ADMINISTRACIÓN/TOTAL
@@ -3626,7 +3693,9 @@ cuadros:
         id: edu_ii_2_1_4_total
       - col: C
         ruta: TIPO DE EDUCACIÓN/Total
-        id: edu_ii_2_1_4_tipo_de_educacion_total
+        id: edu_ii_2_1_4_tipo_de_educacion_educacion_comun_total
+        concepto: TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/TOTAL
+        comprobado: C = D + E
       - col: D
         ruta: TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Habilitados
         id: edu_ii_2_1_4_tipo_de_educacion_educacion_comun_habilitados
@@ -3643,7 +3712,9 @@ cuadros:
         id: edu_ii_2_1_4_total
       - col: C
         ruta: TIPO DE EDUCACIÓN/Total
-        id: edu_ii_2_1_4_tipo_de_educacion_total
+        id: edu_ii_2_1_4_tipo_de_educacion_educacion_comun_total
+        concepto: TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/TOTAL
+        comprobado: C = D + E
       - col: D
         ruta: TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Habilitados
         id: edu_ii_2_1_4_tipo_de_educacion_educacion_comun_habilitados
@@ -3659,7 +3730,9 @@ cuadros:
         id: edu_ii_2_1_4_total
       - col: C
         ruta: TIPO DE EDUCACIÓN/Total
-        id: edu_ii_2_1_4_tipo_de_educacion_total
+        id: edu_ii_2_1_4_tipo_de_educacion_educacion_comun_total
+        concepto: TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/TOTAL
+        comprobado: C = D + E
       - col: D
         ruta: TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Habilitados
         id: edu_ii_2_1_4_tipo_de_educacion_educacion_comun_habilitados
@@ -3675,7 +3748,9 @@ cuadros:
         id: edu_ii_2_1_4_total
       - col: C
         ruta: TIPO DE EDUCACIÓN/Total
-        id: edu_ii_2_1_4_tipo_de_educacion_total
+        id: edu_ii_2_1_4_tipo_de_educacion_educacion_comun_total
+        concepto: TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/TOTAL
+        comprobado: C = D + E
       - col: D
         ruta: TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Habilitados
         id: edu_ii_2_1_4_tipo_de_educacion_educacion_comun_habilitados
@@ -3758,12 +3833,15 @@ cuadros:
       - col: H
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/TOTAL
         id: edu_ii_2_2_1_forma_de_administracion_privada_total
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: I
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/SEXO/V
         id: edu_ii_2_2_1_forma_de_administracion_privada_sexo_v
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: J
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/SEXO/M
         id: edu_ii_2_2_1_forma_de_administracion_privada_sexo_m
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       2022:
       - col: B
         ruta: TOTAL
@@ -4294,59 +4372,77 @@ cuadros:
       - col: B
         ruta: RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL
         id: edu_ii_2_2_15_rendimiento_escolar_promovidos_total
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: C
         ruta: RENDIMIENTO ESCOLAR/PROMOVIDOS/SEXO/V
         id: edu_ii_2_2_15_rendimiento_escolar_promovidos_sexo_v
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: D
         ruta: RENDIMIENTO ESCOLAR/PROMOVIDOS/SEXO/M
         id: edu_ii_2_2_15_rendimiento_escolar_promovidos_sexo_m
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: E
         ruta: RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL
         id: edu_ii_2_2_15_rendimiento_escolar_no_promovidos_total
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: F
         ruta: RENDIMIENTO ESCOLAR/NO PROMOVIDOS/SEXO/V
         id: edu_ii_2_2_15_rendimiento_escolar_no_promovidos_sexo_v
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: G
         ruta: RENDIMIENTO ESCOLAR/NO PROMOVIDOS/SEXO/M
         id: edu_ii_2_2_15_rendimiento_escolar_no_promovidos_sexo_m
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       2022:
       - col: B
         ruta: RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL
         id: edu_ii_2_2_15_rendimiento_escolar_promovidos_total
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: C
         ruta: RENDIMIENTO ESCOLAR/PROMOVIDOS/SEXO/V
         id: edu_ii_2_2_15_rendimiento_escolar_promovidos_sexo_v
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: D
         ruta: RENDIMIENTO ESCOLAR/PROMOVIDOS/SEXO/M
         id: edu_ii_2_2_15_rendimiento_escolar_promovidos_sexo_m
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: E
         ruta: RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL
         id: edu_ii_2_2_15_rendimiento_escolar_no_promovidos_total
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: F
         ruta: RENDIMIENTO ESCOLAR/NO PROMOVIDOS/SEXO/V
         id: edu_ii_2_2_15_rendimiento_escolar_no_promovidos_sexo_v
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: G
         ruta: RENDIMIENTO ESCOLAR/NO PROMOVIDOS/SEXO/M
         id: edu_ii_2_2_15_rendimiento_escolar_no_promovidos_sexo_m
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       2023:
       - col: B
         ruta: RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL
         id: edu_ii_2_2_15_rendimiento_escolar_promovidos_total
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: C
         ruta: RENDIMIENTO ESCOLAR/PROMOVIDOS/SEXO/V
         id: edu_ii_2_2_15_rendimiento_escolar_promovidos_sexo_v
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: D
         ruta: RENDIMIENTO ESCOLAR/PROMOVIDOS/SEXO/M
         id: edu_ii_2_2_15_rendimiento_escolar_promovidos_sexo_m
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: E
         ruta: RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL
         id: edu_ii_2_2_15_rendimiento_escolar_no_promovidos_total
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: F
         ruta: RENDIMIENTO ESCOLAR/NO PROMOVIDOS/SEXO/V
         id: edu_ii_2_2_15_rendimiento_escolar_no_promovidos_sexo_v
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: G
         ruta: RENDIMIENTO ESCOLAR/NO PROMOVIDOS/SEXO/M
         id: edu_ii_2_2_15_rendimiento_escolar_no_promovidos_sexo_m
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       2024: null
     datos_de_otro_anio:
       2021:
@@ -4486,12 +4582,15 @@ cuadros:
       - col: G
         ruta: PRIVADA/Total
         id: edu_ii_2_2_17_privada_total
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: H
         ruta: PRIVADA/SEXO/Varón
         id: edu_ii_2_2_17_privada_sexo_varon
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: I
         ruta: PRIVADA/SEXO/Mujer
         id: edu_ii_2_2_17_privada_sexo_mujer
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       2022:
       - col: B
         ruta: TOTAL
@@ -4511,12 +4610,15 @@ cuadros:
       - col: G
         ruta: PRIVADA*/Total
         id: edu_ii_2_2_17_privada_total
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: H
         ruta: PRIVADA*/SEXO/Varón
         id: edu_ii_2_2_17_privada_sexo_varon
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: I
         ruta: PRIVADA*/SEXO/Mujer
         id: edu_ii_2_2_17_privada_sexo_mujer
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       2023:
       - col: B
         ruta: TOTAL
@@ -4536,12 +4638,15 @@ cuadros:
       - col: G
         ruta: PRIVADA*/Total
         id: edu_ii_2_2_17_privada_total
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: H
         ruta: PRIVADA*/SEXO/Varón
         id: edu_ii_2_2_17_privada_sexo_varon
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: I
         ruta: PRIVADA*/SEXO/Mujer
         id: edu_ii_2_2_17_privada_sexo_mujer
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       2024:
       - col: B
         ruta: TOTAL
@@ -4834,64 +4939,84 @@ cuadros:
       - col: B
         ruta: DEPARTAMENTO
         id: edu_ii_2_3_2_departamento
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
       - col: C
         ruta: TOTAL
         id: edu_ii_2_3_2_total
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
       - col: D
         ruta: MAESTROS
         id: edu_ii_2_3_2_maestros
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
       - col: E
         ruta: PROFESORES
         id: edu_ii_2_3_2_profesores
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
       - col: F
         ruta: ESTABLECIMIENTOS/HABILITADOS/Total
         id: edu_ii_2_3_2_establecimientos_habilitados_total
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
       - col: G
         ruta: ESTABLECIMIENTOS/HABILITADOS/Maestros
         id: edu_ii_2_3_2_establecimientos_habilitados_maestros
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
       - col: H
         ruta: ESTABLECIMIENTOS/HABILITADOS/Profesores
         id: edu_ii_2_3_2_establecimientos_habilitados_profesores
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
       - col: I
         ruta: ESTABLECIMIENTOS/AUTORIZADOS/Total
         id: edu_ii_2_3_2_establecimientos_autorizados_total
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
       - col: J
         ruta: ESTABLECIMIENTOS/AUTORIZADOS/Maestros
         id: edu_ii_2_3_2_establecimientos_autorizados_maestros
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
       - col: K
         ruta: ESTABLECIMIENTOS/AUTORIZADOS/Profesores
         id: edu_ii_2_3_2_establecimientos_autorizados_profesores
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
       2024:
       - col: B
         ruta: DEPARTAMENTO
         id: edu_ii_2_3_2_departamento
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
       - col: C
         ruta: TOTAL
         id: edu_ii_2_3_2_total
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
       - col: D
         ruta: MAESTROS
         id: edu_ii_2_3_2_maestros
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
       - col: E
         ruta: PROFESORES
         id: edu_ii_2_3_2_profesores
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
       - col: F
         ruta: ESTABLECIMIENTOS/HABILITADOS/Total
         id: edu_ii_2_3_2_establecimientos_habilitados_total
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
       - col: G
         ruta: ESTABLECIMIENTOS/HABILITADOS/Maestros
         id: edu_ii_2_3_2_establecimientos_habilitados_maestros
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
       - col: H
         ruta: ESTABLECIMIENTOS/HABILITADOS/Profesores
         id: edu_ii_2_3_2_establecimientos_habilitados_profesores
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
       - col: I
         ruta: ESTABLECIMIENTOS/AUTORIZADOS/Total
         id: edu_ii_2_3_2_establecimientos_autorizados_total
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
       - col: J
         ruta: ESTABLECIMIENTOS/AUTORIZADOS/Maestros
         id: edu_ii_2_3_2_establecimientos_autorizados_maestros
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
       - col: K
         ruta: ESTABLECIMIENTOS/AUTORIZADOS/Profesores
         id: edu_ii_2_3_2_establecimientos_autorizados_profesores
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
     datos_de_otro_anio:
       2023:
       - 'Nota: Los datos corresponden al año 2022, dado que al momento de cierre de la publicación no estaba el dato correspondiente al año 2023'
@@ -5134,8 +5259,9 @@ cuadros:
         id: edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_total_publicos
       - col: P
         ruta: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica
-        id: edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica
-        repetida: true
+        id: edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_total_publicos_escuelas_de_cbt_y_tecnica
+        concepto: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/TOTAL PÚBLICOS/Escuelas de CBT y Técnica
+        comprobado: O = P + Q
       - col: Q
         ruta: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica/Reparticiones
         id: edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica_reparticiones
@@ -5144,8 +5270,9 @@ cuadros:
         id: edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_total_privados
       - col: S
         ruta: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica
-        id: edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica__2
-        repetida: true
+        id: edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_total_privados_escuelas_de_cbt_y_tecnica
+        concepto: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/TOTAL PRIVADOS/Escuelas de CBT y Técnica
+        comprobado: R = S
   II-3.1.2:
     titulo: ESTABLECIMIENTOS FÍSICOS DE EDUCACIÓN MEDIA POR FORMA DE ADMINISTRACIÓN SEGÚN DEPARTAMENTO
     tipos:
@@ -5352,11 +5479,13 @@ cuadros:
       - col: B
         ruta: TOTAL
         id: edu_ii_3_2_2_total
-        repetida: true
+        concepto: TOTAL
+        comprobado: B = suma de 10 columnas (D…Q)
       - col: C
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL
-        id: edu_ii_3_2_2_educacion_media_basica_tecnologica_total
-        repetida: true
+        id: edu_ii_3_2_2_educacion_media_basica_tecnologica_articulacion_educacion_media_basica_total
+        concepto: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/TOTAL
+        comprobado: C = D + E
       - col: D
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/V
         id: edu_ii_3_2_2_educacion_media_basica_tecnologica_articulacion_educacion_media_basica_sexo_v
@@ -5365,8 +5494,9 @@ cuadros:
         id: edu_ii_3_2_2_educacion_media_basica_tecnologica_articulacion_educacion_media_basica_sexo_m
       - col: F
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL
-        id: edu_ii_3_2_2_educacion_media_basica_tecnologica_total__2
-        repetida: true
+        id: edu_ii_3_2_2_educacion_media_basica_tecnologica_c_b_t_agrario_total
+        concepto: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/C.B.T. AGRARIO/TOTAL
+        comprobado: F = G + H
       - col: G
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/C.B.T. AGRARIO/Sexo/V
         id: edu_ii_3_2_2_educacion_media_basica_tecnologica_c_b_t_agrario_sexo_v
@@ -5375,8 +5505,9 @@ cuadros:
         id: edu_ii_3_2_2_educacion_media_basica_tecnologica_c_b_t_agrario_sexo_m
       - col: I
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL
-        id: edu_ii_3_2_2_educacion_media_basica_tecnologica_total__3
-        repetida: true
+        id: edu_ii_3_2_2_educacion_media_basica_tecnologica_ciclo_basico_tecnologico_total
+        concepto: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/CICLO BÁSICO TECNOLÓGICO/TOTAL
+        comprobado: I = J + K
       - col: J
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/CICLO BÁSICO TECNOLÓGICO/Sexo/V
         id: edu_ii_3_2_2_educacion_media_basica_tecnologica_ciclo_basico_tecnologico_sexo_v
@@ -5385,8 +5516,9 @@ cuadros:
         id: edu_ii_3_2_2_educacion_media_basica_tecnologica_ciclo_basico_tecnologico_sexo_m
       - col: L
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL
-        id: edu_ii_3_2_2_educacion_media_basica_tecnologica_total__4
-        repetida: true
+        id: edu_ii_3_2_2_educacion_media_basica_tecnologica_formacion_profesional_basica_plan_2007_total
+        concepto: 'EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/FORMACIÓN PROFESIONAL BÁSICA Plan: 2007/TOTAL'
+        comprobado: L = M + N
       - col: M
         ruta: 'EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/FORMACIÓN PROFESIONAL BÁSICA Plan: 2007/Sexo/V'
         id: edu_ii_3_2_2_educacion_media_basica_tecnologica_formacion_profesional_basica_plan_2007_sexo_v
@@ -5395,8 +5527,9 @@ cuadros:
         id: edu_ii_3_2_2_educacion_media_basica_tecnologica_formacion_profesional_basica_plan_2007_sexo_m
       - col: O
         ruta: TOTAL
-        id: edu_ii_3_2_2_total__2
-        repetida: true
+        id: edu_ii_3_2_2_programa_centros_educ_comunitarios_total
+        concepto: PROGRAMA CENTROS EDUC. COMUNITARIOS/TOTAL
+        comprobado: O = P + Q
       - col: P
         ruta: PROGRAMA CENTROS EDUC. COMUNITARIOS/Sexo/V
         id: edu_ii_3_2_2_programa_centros_educ_comunitarios_sexo_v
@@ -5407,11 +5540,13 @@ cuadros:
       - col: B
         ruta: TOTAL
         id: edu_ii_3_2_2_total
-        repetida: true
+        concepto: TOTAL
+        comprobado: 'B = suma de 10 columnas (D…Q); salvo Treinta y Tres: 315 publicado contra 580 sumado (error de la fuente)'
       - col: C
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL
-        id: edu_ii_3_2_2_educacion_media_basica_tecnologica_total
-        repetida: true
+        id: edu_ii_3_2_2_educacion_media_basica_tecnologica_articulacion_educacion_media_basica_total
+        concepto: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/TOTAL
+        comprobado: C = D + E
       - col: D
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/V
         id: edu_ii_3_2_2_educacion_media_basica_tecnologica_articulacion_educacion_media_basica_sexo_v
@@ -5420,8 +5555,9 @@ cuadros:
         id: edu_ii_3_2_2_educacion_media_basica_tecnologica_articulacion_educacion_media_basica_sexo_m
       - col: F
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL
-        id: edu_ii_3_2_2_educacion_media_basica_tecnologica_total__2
-        repetida: true
+        id: edu_ii_3_2_2_educacion_media_basica_tecnologica_c_b_t_agrario_total
+        concepto: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/C.B.T. AGRARIO/TOTAL
+        comprobado: F = G + H
       - col: G
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/C.B.T. AGRARIO/Sexo/V
         id: edu_ii_3_2_2_educacion_media_basica_tecnologica_c_b_t_agrario_sexo_v
@@ -5430,8 +5566,9 @@ cuadros:
         id: edu_ii_3_2_2_educacion_media_basica_tecnologica_c_b_t_agrario_sexo_m
       - col: I
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL
-        id: edu_ii_3_2_2_educacion_media_basica_tecnologica_total__3
-        repetida: true
+        id: edu_ii_3_2_2_educacion_media_basica_tecnologica_ciclo_basico_tecnologico_total
+        concepto: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/CICLO BÁSICO TECNOLÓGICO/TOTAL
+        comprobado: I = J + K
       - col: J
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/CICLO BÁSICO TECNOLÓGICO/Sexo/V
         id: edu_ii_3_2_2_educacion_media_basica_tecnologica_ciclo_basico_tecnologico_sexo_v
@@ -5440,8 +5577,9 @@ cuadros:
         id: edu_ii_3_2_2_educacion_media_basica_tecnologica_ciclo_basico_tecnologico_sexo_m
       - col: L
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL
-        id: edu_ii_3_2_2_educacion_media_basica_tecnologica_total__4
-        repetida: true
+        id: edu_ii_3_2_2_educacion_media_basica_tecnologica_formacion_profesional_basica_plan_2007_total
+        concepto: 'EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/FORMACIÓN PROFESIONAL BÁSICA Plan: 2007/TOTAL'
+        comprobado: L = M + N
       - col: M
         ruta: 'EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/FORMACIÓN PROFESIONAL BÁSICA Plan: 2007/Sexo/V'
         id: edu_ii_3_2_2_educacion_media_basica_tecnologica_formacion_profesional_basica_plan_2007_sexo_v
@@ -5450,8 +5588,9 @@ cuadros:
         id: edu_ii_3_2_2_educacion_media_basica_tecnologica_formacion_profesional_basica_plan_2007_sexo_m
       - col: O
         ruta: TOTAL
-        id: edu_ii_3_2_2_total__2
-        repetida: true
+        id: edu_ii_3_2_2_programa_centros_educ_comunitarios_total
+        concepto: PROGRAMA CENTROS EDUC. COMUNITARIOS/TOTAL
+        comprobado: O = P + Q
       - col: P
         ruta: PROGRAMA CENTROS EDUC. COMUNITARIOS/Sexo/V
         id: edu_ii_3_2_2_programa_centros_educ_comunitarios_sexo_v
@@ -5462,11 +5601,13 @@ cuadros:
       - col: B
         ruta: TOTAL
         id: edu_ii_3_2_2_total
-        repetida: true
+        concepto: TOTAL
+        comprobado: 'B = suma de 10 columnas (D…Q); salvo Treinta y Tres: 320 publicado contra 477 sumado (error de la fuente)'
       - col: C
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL
-        id: edu_ii_3_2_2_educacion_media_basica_tecnologica_total
-        repetida: true
+        id: edu_ii_3_2_2_educacion_media_basica_tecnologica_articulacion_educacion_media_basica_total
+        concepto: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/TOTAL
+        comprobado: C = D + E
       - col: D
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/V
         id: edu_ii_3_2_2_educacion_media_basica_tecnologica_articulacion_educacion_media_basica_sexo_v
@@ -5475,8 +5616,9 @@ cuadros:
         id: edu_ii_3_2_2_educacion_media_basica_tecnologica_articulacion_educacion_media_basica_sexo_m
       - col: F
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL
-        id: edu_ii_3_2_2_educacion_media_basica_tecnologica_total__2
-        repetida: true
+        id: edu_ii_3_2_2_educacion_media_basica_tecnologica_c_b_t_agrario_total
+        concepto: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/C.B.T. AGRARIO/TOTAL
+        comprobado: F = G + H
       - col: G
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/C.B.T. AGRARIO/Sexo/V
         id: edu_ii_3_2_2_educacion_media_basica_tecnologica_c_b_t_agrario_sexo_v
@@ -5485,8 +5627,9 @@ cuadros:
         id: edu_ii_3_2_2_educacion_media_basica_tecnologica_c_b_t_agrario_sexo_m
       - col: I
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL
-        id: edu_ii_3_2_2_educacion_media_basica_tecnologica_total__3
-        repetida: true
+        id: edu_ii_3_2_2_educacion_media_basica_tecnologica_ciclo_basico_tecnologico_total
+        concepto: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/CICLO BÁSICO TECNOLÓGICO/TOTAL
+        comprobado: I = J + K
       - col: J
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/CICLO BÁSICO TECNOLÓGICO/Sexo/V
         id: edu_ii_3_2_2_educacion_media_basica_tecnologica_ciclo_basico_tecnologico_sexo_v
@@ -5495,8 +5638,9 @@ cuadros:
         id: edu_ii_3_2_2_educacion_media_basica_tecnologica_ciclo_basico_tecnologico_sexo_m
       - col: L
         ruta: EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/TOTAL
-        id: edu_ii_3_2_2_educacion_media_basica_tecnologica_total__4
-        repetida: true
+        id: edu_ii_3_2_2_educacion_media_basica_tecnologica_formacion_profesional_basica_plan_2007_total
+        concepto: 'EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/FORMACIÓN PROFESIONAL BÁSICA Plan: 2007/TOTAL'
+        comprobado: L = M + N
       - col: M
         ruta: 'EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA/FORMACIÓN PROFESIONAL BÁSICA Plan: 2007/Sexo/V'
         id: edu_ii_3_2_2_educacion_media_basica_tecnologica_formacion_profesional_basica_plan_2007_sexo_v
@@ -5505,8 +5649,9 @@ cuadros:
         id: edu_ii_3_2_2_educacion_media_basica_tecnologica_formacion_profesional_basica_plan_2007_sexo_m
       - col: O
         ruta: TOTAL
-        id: edu_ii_3_2_2_total__2
-        repetida: true
+        id: edu_ii_3_2_2_formacion_profesional_basica_total
+        concepto: FORMACIÓN PROFESIONAL BÁSICA/TOTAL
+        comprobado: O = P + Q
       - col: P
         ruta: FORMACIÓN PROFESIONAL BÁSICA/Sexo/V
         id: edu_ii_3_2_2_formacion_profesional_basica_sexo_v
@@ -5534,8 +5679,9 @@ cuadros:
         id: edu_ii_3_2_2_publica_sexo_m
       - col: H
         ruta: PÚBLICA/TOTAL
-        id: edu_ii_3_2_2_publica_total
-        repetida: true
+        id: edu_ii_3_2_2_publica_articulacion_educacion_media_basica_total
+        concepto: PÚBLICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/TOTAL
+        comprobado: H = I + J
       - col: I
         ruta: PÚBLICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/V
         id: edu_ii_3_2_2_publica_articulacion_educacion_media_basica_sexo_v
@@ -5544,8 +5690,9 @@ cuadros:
         id: edu_ii_3_2_2_publica_articulacion_educacion_media_basica_sexo_m
       - col: K
         ruta: PÚBLICA/TOTAL
-        id: edu_ii_3_2_2_publica_total__2
-        repetida: true
+        id: edu_ii_3_2_2_publica_educacion_basica_integrada_total
+        concepto: PÚBLICA/EDUCACION BASICA INTEGRADA/TOTAL
+        comprobado: K = L + M
       - col: L
         ruta: PÚBLICA/EDUCACION BASICA INTEGRADA/Sexo/V
         id: edu_ii_3_2_2_publica_educacion_basica_integrada_sexo_v
@@ -5554,8 +5701,9 @@ cuadros:
         id: edu_ii_3_2_2_publica_educacion_basica_integrada_sexo_m
       - col: N
         ruta: PÚBLICA/TOTAL
-        id: edu_ii_3_2_2_publica_total__3
-        repetida: true
+        id: edu_ii_3_2_2_publica_formacion_profesional_basica_total
+        concepto: PÚBLICA/FORMACIÓN PROFESIONAL BÁSICA/TOTAL
+        comprobado: N = O + P
       - col: O
         ruta: PÚBLICA/FORMACIÓN PROFESIONAL BÁSICA/Sexo/V
         id: edu_ii_3_2_2_publica_formacion_profesional_basica_sexo_v
@@ -5564,8 +5712,9 @@ cuadros:
         id: edu_ii_3_2_2_publica_formacion_profesional_basica_sexo_m
       - col: Q
         ruta: PÚBLICA/TOTAL
-        id: edu_ii_3_2_2_publica_total__4
-        repetida: true
+        id: edu_ii_3_2_2_publica_formacion_profesional_basica_plan_2007_total
+        concepto: 'PÚBLICA/FORMACIÓN PROFESIONAL BÁSICA Plan: 2007/TOTAL'
+        comprobado: Q = R + S
       - col: R
         ruta: 'PÚBLICA/FORMACIÓN PROFESIONAL BÁSICA Plan: 2007/Sexo/V'
         id: edu_ii_3_2_2_publica_formacion_profesional_basica_plan_2007_sexo_v
@@ -5611,8 +5760,9 @@ cuadros:
         id: edu_ii_3_2_2_publica_sexo_m
       - col: H
         ruta: PÚBLICA/TOTAL
-        id: edu_ii_3_2_2_publica_total
-        repetida: true
+        id: edu_ii_3_2_2_publica_articulacion_educacion_media_basica_total
+        concepto: PÚBLICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/TOTAL
+        comprobado: H = I + J
       - col: I
         ruta: PÚBLICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/V
         id: edu_ii_3_2_2_publica_articulacion_educacion_media_basica_sexo_v
@@ -5621,8 +5771,9 @@ cuadros:
         id: edu_ii_3_2_2_publica_articulacion_educacion_media_basica_sexo_m
       - col: K
         ruta: PÚBLICA/TOTAL
-        id: edu_ii_3_2_2_publica_total__2
-        repetida: true
+        id: edu_ii_3_2_2_publica_educacion_basica_integrada_total
+        concepto: PÚBLICA/EDUCACION BASICA INTEGRADA/TOTAL
+        comprobado: K = L + M
       - col: L
         ruta: PÚBLICA/EDUCACION BASICA INTEGRADA/Sexo/V
         id: edu_ii_3_2_2_publica_educacion_basica_integrada_sexo_v
@@ -5631,8 +5782,9 @@ cuadros:
         id: edu_ii_3_2_2_publica_educacion_basica_integrada_sexo_m
       - col: N
         ruta: PÚBLICA/TOTAL
-        id: edu_ii_3_2_2_publica_total__3
-        repetida: true
+        id: edu_ii_3_2_2_publica_formacion_profesional_basica_total
+        concepto: PÚBLICA/FORMACIÓN PROFESIONAL BÁSICA/TOTAL
+        comprobado: N = O + P
       - col: O
         ruta: PÚBLICA/FORMACIÓN PROFESIONAL BÁSICA/Sexo/V
         id: edu_ii_3_2_2_publica_formacion_profesional_basica_sexo_v
@@ -6362,8 +6514,9 @@ cuadros:
         id: edu_ii_3_2_7_publica_sexo_m
       - col: H
         ruta: PÚBLICA/TOTAL
-        id: edu_ii_3_2_7_publica_total
-        repetida: true
+        id: edu_ii_3_2_7_publica_articulacion_educacion_media_basica_total
+        concepto: PÚBLICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/TOTAL
+        comprobado: H = I + J
       - col: I
         ruta: PÚBLICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/V
         id: edu_ii_3_2_7_publica_articulacion_educacion_media_basica_sexo_v
@@ -6372,8 +6525,9 @@ cuadros:
         id: edu_ii_3_2_7_publica_articulacion_educacion_media_basica_sexo_m
       - col: K
         ruta: PÚBLICA/TOTAL
-        id: edu_ii_3_2_7_publica_total__2
-        repetida: true
+        id: edu_ii_3_2_7_publica_educacion_basica_integrada_total
+        concepto: PÚBLICA/EDUCACION BASICA INTEGRADA/TOTAL
+        comprobado: K = L + M
       - col: L
         ruta: PÚBLICA/EDUCACION BASICA INTEGRADA/Sexo/V
         id: edu_ii_3_2_7_publica_educacion_basica_integrada_sexo_v
@@ -6382,8 +6536,9 @@ cuadros:
         id: edu_ii_3_2_7_publica_educacion_basica_integrada_sexo_m
       - col: N
         ruta: PÚBLICA/TOTAL
-        id: edu_ii_3_2_7_publica_total__3
-        repetida: true
+        id: edu_ii_3_2_7_publica_formacion_profesional_basica_total
+        concepto: PÚBLICA/FORMACIÓN PROFESIONAL BÁSICA/TOTAL
+        comprobado: N = O + P
       - col: O
         ruta: PÚBLICA/FORMACIÓN PROFESIONAL BÁSICA/Sexo/V
         id: edu_ii_3_2_7_publica_formacion_profesional_basica_sexo_v
@@ -6392,8 +6547,9 @@ cuadros:
         id: edu_ii_3_2_7_publica_formacion_profesional_basica_sexo_m
       - col: Q
         ruta: PÚBLICA/TOTAL
-        id: edu_ii_3_2_7_publica_total__4
-        repetida: true
+        id: edu_ii_3_2_7_publica_formacion_profesional_basica_plan_2007_total
+        concepto: 'PÚBLICA/FORMACIÓN PROFESIONAL BÁSICA Plan: 2007/TOTAL'
+        comprobado: Q = R + S
       - col: R
         ruta: 'PÚBLICA/FORMACIÓN PROFESIONAL BÁSICA Plan: 2007/Sexo/V'
         id: edu_ii_3_2_7_publica_formacion_profesional_basica_plan_2007_sexo_v
@@ -6439,8 +6595,9 @@ cuadros:
         id: edu_ii_3_2_7_publica_sexo_m
       - col: H
         ruta: PÚBLICA/TOTAL
-        id: edu_ii_3_2_7_publica_total
-        repetida: true
+        id: edu_ii_3_2_7_publica_articulacion_educacion_media_basica_total
+        concepto: PÚBLICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/TOTAL
+        comprobado: H = I + J
       - col: I
         ruta: PÚBLICA/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/Sexo/V
         id: edu_ii_3_2_7_publica_articulacion_educacion_media_basica_sexo_v
@@ -6449,8 +6606,9 @@ cuadros:
         id: edu_ii_3_2_7_publica_articulacion_educacion_media_basica_sexo_m
       - col: K
         ruta: PÚBLICA/TOTAL
-        id: edu_ii_3_2_7_publica_total__2
-        repetida: true
+        id: edu_ii_3_2_7_publica_educacion_basica_integrada_total
+        concepto: PÚBLICA/EDUCACION BASICA INTEGRADA/TOTAL
+        comprobado: K = L + M
       - col: L
         ruta: PÚBLICA/EDUCACION BASICA INTEGRADA/Sexo/V
         id: edu_ii_3_2_7_publica_educacion_basica_integrada_sexo_v
@@ -6459,8 +6617,9 @@ cuadros:
         id: edu_ii_3_2_7_publica_educacion_basica_integrada_sexo_m
       - col: N
         ruta: PÚBLICA/TOTAL
-        id: edu_ii_3_2_7_publica_total__3
-        repetida: true
+        id: edu_ii_3_2_7_publica_formacion_profesional_basica_total
+        concepto: PÚBLICA/FORMACIÓN PROFESIONAL BÁSICA/TOTAL
+        comprobado: N = O + P
       - col: O
         ruta: PÚBLICA/FORMACIÓN PROFESIONAL BÁSICA/Sexo/V
         id: edu_ii_3_2_7_publica_formacion_profesional_basica_sexo_v
@@ -7746,8 +7905,9 @@ cuadros:
         id: edu_ii_4_1_1_modalidad_dgetp_forma_de_administracion_total_publicos
       - col: O
         ruta: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica
-        id: edu_ii_4_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica
-        repetida: true
+        id: edu_ii_4_1_1_modalidad_dgetp_forma_de_administracion_total_publicos_escuelas_de_cbt_y_tecnica
+        concepto: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/TOTAL PÚBLICOS/Escuelas de CBT y Técnica
+        comprobado: N = O + P
       - col: P
         ruta: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica/Reparticiones
         id: edu_ii_4_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica_reparticiones
@@ -7756,8 +7916,9 @@ cuadros:
         id: edu_ii_4_1_1_modalidad_dgetp_forma_de_administracion_total_privados
       - col: R
         ruta: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica
-        id: edu_ii_4_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica__2
-        repetida: true
+        id: edu_ii_4_1_1_modalidad_dgetp_forma_de_administracion_total_privados_escuelas_de_cbt_y_tecnica
+        concepto: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/TOTAL PRIVADOS/Escuelas de CBT y Técnica
+        comprobado: Q = R
       2024:
       - col: B
         ruta: TOTAL GENERAL
@@ -7800,8 +7961,9 @@ cuadros:
         id: edu_ii_4_1_1_modalidad_dgetp_forma_de_administracion_total_publicos
       - col: O
         ruta: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica
-        id: edu_ii_4_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica
-        repetida: true
+        id: edu_ii_4_1_1_modalidad_dgetp_forma_de_administracion_total_publicos_escuelas_de_cbt_y_tecnica
+        concepto: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/TOTAL PÚBLICOS/Escuelas de CBT y Técnica
+        comprobado: N = O + P
       - col: P
         ruta: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica/Reparticiones
         id: edu_ii_4_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica_reparticiones
@@ -7810,8 +7972,9 @@ cuadros:
         id: edu_ii_4_1_1_modalidad_dgetp_forma_de_administracion_total_privados
       - col: R
         ruta: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica
-        id: edu_ii_4_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica__2
-        repetida: true
+        id: edu_ii_4_1_1_modalidad_dgetp_forma_de_administracion_total_privados_escuelas_de_cbt_y_tecnica
+        concepto: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/TOTAL PRIVADOS/Escuelas de CBT y Técnica
+        comprobado: Q = R
   II-4.2.1:
     titulo: ESTUDIANTES MATRICULADOS DE LA DGES EN EDUCACIÓN MEDIA SUPERIOR GENERAL POR GRADO SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN
     tipos:
@@ -7915,7 +8078,8 @@ cuadros:
       - col: B
         ruta: TOTAL
         id: edu_ii_4_2_2_total
-        repetida: true
+        concepto: TOTAL
+        comprobado: B = suma de 2 columnas (C…D)
       - col: C
         ruta: TOTAL/MUJER
         id: edu_ii_4_2_2_total_mujer
@@ -7924,8 +8088,9 @@ cuadros:
         id: edu_ii_4_2_2_total_varon
       - col: E
         ruta: TOTAL
-        id: edu_ii_4_2_2_total__2
-        repetida: true
+        id: edu_ii_4_2_2_bachillerato_figari_total
+        concepto: BACHILLERATO FIGARI/TOTAL
+        comprobado: E = F + G
       - col: F
         ruta: BACHILLERATO FIGARI/Sexo/M
         id: edu_ii_4_2_2_bachillerato_figari_sexo_m
@@ -7990,7 +8155,8 @@ cuadros:
       - col: B
         ruta: TOTAL
         id: edu_ii_4_2_2_total
-        repetida: true
+        concepto: TOTAL
+        comprobado: B = suma de 2 columnas (C…D)
       - col: C
         ruta: TOTAL/MUJER
         id: edu_ii_4_2_2_total_mujer
@@ -7999,8 +8165,9 @@ cuadros:
         id: edu_ii_4_2_2_total_varon
       - col: E
         ruta: TOTAL
-        id: edu_ii_4_2_2_total__2
-        repetida: true
+        id: edu_ii_4_2_2_bachillerato_figari_total
+        concepto: BACHILLERATO FIGARI/TOTAL
+        comprobado: E = F + G
       - col: F
         ruta: BACHILLERATO FIGARI/Sexo/M
         id: edu_ii_4_2_2_bachillerato_figari_sexo_m
@@ -8065,7 +8232,8 @@ cuadros:
       - col: B
         ruta: TOTAL
         id: edu_ii_4_2_2_total
-        repetida: true
+        concepto: TOTAL
+        comprobado: B = suma de 2 columnas (C…D)
       - col: C
         ruta: TOTAL/MUJER
         id: edu_ii_4_2_2_total_mujer
@@ -8074,8 +8242,9 @@ cuadros:
         id: edu_ii_4_2_2_total_varon
       - col: E
         ruta: TOTAL
-        id: edu_ii_4_2_2_total__2
-        repetida: true
+        id: edu_ii_4_2_2_bachillerato_figari_total
+        concepto: BACHILLERATO FIGARI/TOTAL
+        comprobado: E = F + G
       - col: F
         ruta: BACHILLERATO FIGARI/Sexo/M
         id: edu_ii_4_2_2_bachillerato_figari_sexo_m
@@ -8912,23 +9081,27 @@ cuadros:
         id: edu_ii_4_2_4_total
       - col: C
         ruta: SEXO/Varón
-        id: edu_ii_4_2_4_sexo_varon
-        repetida: true
+        id: edu_ii_4_2_4_total_sexo_varon
+        concepto: TOTAL/SEXO/Varón
+        comprobado: B = C + D
       - col: D
         ruta: SEXO/Mujer
-        id: edu_ii_4_2_4_sexo_mujer
-        repetida: true
+        id: edu_ii_4_2_4_total_sexo_mujer
+        concepto: TOTAL/SEXO/Mujer
+        comprobado: B = C + D
       - col: E
         ruta: PÚBLICA
         id: edu_ii_4_2_4_publica
       - col: F
         ruta: SEXO/Varón
-        id: edu_ii_4_2_4_sexo_varon__2
-        repetida: true
+        id: edu_ii_4_2_4_publica_sexo_varon
+        concepto: PÚBLICA/SEXO/Varón
+        comprobado: E = F + G
       - col: G
         ruta: SEXO/Mujer
-        id: edu_ii_4_2_4_sexo_mujer__2
-        repetida: true
+        id: edu_ii_4_2_4_publica_sexo_mujer
+        concepto: PÚBLICA/SEXO/Mujer
+        comprobado: E = F + G
       - col: H
         ruta: PÚBLICA/TIPO DE CURSO/BACHILLERATO FIGARI/Sexo/V
         id: edu_ii_4_2_4_publica_tipo_de_curso_bachillerato_figari_sexo_v
@@ -8976,12 +9149,14 @@ cuadros:
         id: edu_ii_4_2_4_privada
       - col: W
         ruta: SEXO/Varón
-        id: edu_ii_4_2_4_sexo_varon__3
-        repetida: true
+        id: edu_ii_4_2_4_privada_sexo_varon
+        concepto: PRIVADA/SEXO/Varón
+        comprobado: V = W + X
       - col: X
         ruta: SEXO/Mujer
-        id: edu_ii_4_2_4_sexo_mujer__3
-        repetida: true
+        id: edu_ii_4_2_4_privada_sexo_mujer
+        concepto: PRIVADA/SEXO/Mujer
+        comprobado: V = W + X
       - col: Y
         ruta: PRIVADA/TIPO DE CURSO/E.M.P. DON BOSCO/Sexo/V
         id: edu_ii_4_2_4_privada_tipo_de_curso_e_m_p_don_bosco_sexo_v
@@ -9006,23 +9181,27 @@ cuadros:
         id: edu_ii_4_2_4_total
       - col: C
         ruta: SEXO/Varón
-        id: edu_ii_4_2_4_sexo_varon
-        repetida: true
+        id: edu_ii_4_2_4_total_sexo_varon
+        concepto: TOTAL/SEXO/Varón
+        comprobado: B = C + D
       - col: D
         ruta: SEXO/Mujer
-        id: edu_ii_4_2_4_sexo_mujer
-        repetida: true
+        id: edu_ii_4_2_4_total_sexo_mujer
+        concepto: TOTAL/SEXO/Mujer
+        comprobado: B = C + D
       - col: E
         ruta: PÚBLICA
         id: edu_ii_4_2_4_publica
       - col: F
         ruta: SEXO/Varón
-        id: edu_ii_4_2_4_sexo_varon__2
-        repetida: true
+        id: edu_ii_4_2_4_publica_sexo_varon
+        concepto: PÚBLICA/SEXO/Varón
+        comprobado: E = F + G
       - col: G
         ruta: SEXO/Mujer
-        id: edu_ii_4_2_4_sexo_mujer__2
-        repetida: true
+        id: edu_ii_4_2_4_publica_sexo_mujer
+        concepto: PÚBLICA/SEXO/Mujer
+        comprobado: E = F + G
       - col: H
         ruta: PÚBLICA/TIPO DE CURSO/BACHILLERATO FIGARI/Sexo/V
         id: edu_ii_4_2_4_publica_tipo_de_curso_bachillerato_figari_sexo_v
@@ -9070,12 +9249,14 @@ cuadros:
         id: edu_ii_4_2_4_privada
       - col: W
         ruta: SEXO/Varón
-        id: edu_ii_4_2_4_sexo_varon__3
-        repetida: true
+        id: edu_ii_4_2_4_privada_sexo_varon
+        concepto: PRIVADA/SEXO/Varón
+        comprobado: V = W + X
       - col: X
         ruta: SEXO/Mujer
-        id: edu_ii_4_2_4_sexo_mujer__3
-        repetida: true
+        id: edu_ii_4_2_4_privada_sexo_mujer
+        concepto: PRIVADA/SEXO/Mujer
+        comprobado: V = W + X
       - col: Y
         ruta: PRIVADA/TIPO DE CURSO/BACHILLERATO TECNICO PROFESIONAL/Sexo/V
         id: edu_ii_4_2_4_privada_tipo_de_curso_bachillerato_tecnico_profesional_sexo_v
@@ -10801,7 +10982,9 @@ cuadros:
         id: edu_ii_4_2_14_total_no_promovido_sexo_varon
       - col: G
         ruta: FORMA DE ADMINISTRACIÓN/TOTAL/NO PROMOVIDO/SEXO/Mujer
-        id: edu_ii_4_2_14_forma_de_administracion_total_no_promovido_sexo_mujer
+        id: edu_ii_4_2_14_total_no_promovido_sexo_mujer
+        concepto: TOTAL/NO PROMOVIDO/SEXO/Mujer
+        comprobado: E = F + G
       - col: H
         ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/PROMOVIDO/TOTAL
         id: edu_ii_4_2_14_forma_de_administracion_publica_promovido_total

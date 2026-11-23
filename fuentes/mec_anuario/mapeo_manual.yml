@@ -1,0 +1,94 @@
+# Mapeo a mano del anuario del MEC (F4.3b-1, #182). Lo aplica scripts/inventario_mec.py al regenerar
+# fuentes/mec_anuario_educacion.yml. Subcarpeta a propósito: comun.registro solo lee fuentes/*.yml.
+#
+# anio_real (D4): columnas que el pie declara de otro año. `columnas` filtra por la ruta de encabezado
+# (texto sin tildes ni mayúsculas que tiene que aparecer en la ruta) o `todas`. Si el anuario de ese año
+# ya publica la misma ruta, la columna lleva `omitir` (lo ya cargado no se vuelve a cargar, mantenedor
+# 2026-11-23) y el inventario compara los valores; si no, lleva `anio`.
+anio_real:
+  II-1.1.1:
+    2021: {anio: 2020, columnas: privad}
+    2022: {anio: 2020, columnas: privad}  # la nota de 2022 repite la de 2021: los valores lo deciden
+  II-1.1.2:
+    2021: {anio: 2020, columnas: cpip}  # 2020 decía «Supervisados por MEC» (264) y 2021 «por INAU» (254): sin par para comparar
+  II-1.2.1:
+    2021: {anio: 2020, columnas: privad}
+  II-1.2.3:
+    2021: {anio: 2020, columnas: todas}  # cuadro de inicial privada: todo es privada
+  II-2.1.1:
+    2021: {anio: 2020, columnas: privad}
+  II-2.1.4:
+    2021: {anio: 2020, columnas: todas}  # establecimientos privados; además el título dice 2020
+  II-2.2.1:
+    2021: {anio: 2020, columnas: privad}
+  II-2.2.15:
+    2021: {anio: 2020, columnas: todas}  # rendimiento de primaria privada: todo es privada
+    2022: {anio: 2020, columnas: todas}
+    2023: {anio: 2020, columnas: todas}
+  II-2.2.17:
+    2021: {anio: 2020, columnas: privad}
+    2022: {anio: 2020, columnas: privad}
+    2023: {anio: 2020, columnas: privad}
+  II-2.3.2:
+    2023: {anio: 2022, columnas: todas}
+    2024: {anio: 2022, columnas: todas}
+  # II-2.2.18 2023 no es de otro año: no hay datos (todo «s/d»), lo resuelve el parser.
+
+# repetidas (D5): columnas con la misma ruta que otra. Estrategia por cuadro, comprobada con sumas en
+# todas las filas de cada año:
+#   derecha: la columna es el total del grupo que empieza a su derecha  -> <grupo>/TOTAL
+#   izquierda: la columna es el total del grupo que termina a su izquierda -> <grupo>/TOTAL
+#   padre: las columnas repetidas seguidas desglosan la columna no repetida de su izquierda -> <padre>/<rótulo>
+repetidas:
+  II-1.2.2: izquierda
+  II-3.1.1: padre
+  II-3.2.2: derecha
+  II-3.2.7: derecha
+  II-4.1.1: padre
+  II-4.2.2: derecha
+  II-4.2.4: padre
+
+# renombres (D5): columnas cuyo encabezado en el archivo está mal; el concepto se decide comparando con los
+# años vecinos. Clave: columna del archivo de ese año.
+renombres:
+  II-1.2.2:
+    2021:
+      motivo: >-
+        el archivo repite «JARDÍN COMÚN» en R–U; esas columnas solo tienen datos en Montevideo y valores como los
+        de «JARDÍN DE CICLO INICIAL» de 2022 (2021: 6/69/114/132; 2022: 0/58/108/111). M–P coinciden con el
+        jardín común de 2020 y 2022.
+      columnas:
+        R: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN DE CICLO INICIAL/AÑOS/<= 2
+        S: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN DE CICLO INICIAL/AÑOS/3
+        T: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN DE CICLO INICIAL/AÑOS/4
+        U: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN DE CICLO INICIAL/AÑOS/5
+
+# conceptos (D5): rutas que la regla de encabezados (`completar_grupos`) deja mal, en todos los años en que
+# aparecen. `suma`: rutas (o prefijos terminados en «/», o finales que empiezan con «*/») cuyas columnas tienen
+# que sumar `total` (otra ruta del cuadro) o, si no hay `total`, la columna misma. Se comprueba en cada año y
+# fila; `diferencia_explicada` acepta las filas que no cierran por lo que dice el pie, y lo anota.
+conceptos:
+  II-2.1.4:
+    "TIPO DE EDUCACIÓN/Total":
+      concepto: TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/TOTAL  # 2024: 372 = 354 habilitados + 18 autorizados
+      suma: ["TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/"]
+  II-1.2.3:
+    "MODALIDAD/Total":
+      concepto: MODALIDAD/JARDINES PRIVADOS/TOTAL  # 2024: 2.011 = suma de los niveles de jardines privados
+      suma: ["MODALIDAD/JARDINES PRIVADOS/"]
+      diferencia_explicada:  # filas que no cierran por algo que dice el pie
+        2023: "24 estudiantes de jardines privados sin información por edad (pie): 15 en Montevideo y 9 en el resto"
+  II-1.2.4:
+    "FORMA DE ADMINISTRACIÓN/TOTAL/SEXO/MUJER":
+      concepto: TOTAL/SEXO/MUJER  # hermana de C «TOTAL/SEXO/VARÓN»; 2024: 33.791 = 30.834 + 2.957
+      suma: ["*/SEXO/M"]  # las mujeres de cada forma de administración
+  II-4.2.14:
+    "FORMA DE ADMINISTRACIÓN/TOTAL/NO PROMOVIDO/SEXO/Mujer":
+      concepto: TOTAL/NO PROMOVIDO/SEXO/Mujer  # hermana de F «TOTAL/NO PROMOVIDO/SEXO/Varón»
+      total: TOTAL/NO PROMOVIDO/TOTAL
+      suma: ["TOTAL/NO PROMOVIDO/SEXO/", "FORMA DE ADMINISTRACIÓN/TOTAL/NO PROMOVIDO/SEXO/Mujer"]
+  II-1.2.5:
+    "Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato":
+      concepto: FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato
+      total: TOTAL
+      suma: ["FORMA DE ADMINISTRACIÓN/", "Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato"]
