@@ -41,7 +41,7 @@ def escribir_duckdb(salida: Path, tablas: list[str], geometria: dict[str, str] |
 
 COLUMNAS_OBSERVACION = ["indicador", "territorio_id", "periodo", "periodo_inicio", "periodo_fin", "tipo_periodo",
                         "valor", "es_estimado", "captura_id"]
-COLUMNAS_INDICADOR = ["codigo", "nombre", "unidad", "tema", "columna_origen", "fuente_id", "nota"]
+COLUMNAS_INDICADOR = ["codigo", "nombre", "unidad", "tema", "columna_origen", "fuente_id", "nota", "es_derivado", "formula"]
 VISTA_OBSERVACIONES = """
     SELECT o.*, t.nivel, t.codigo, t.nombre AS territorio, t.depto,
            i.nombre AS indicador_nombre, i.unidad, c.fuente_id, c.fecha_proceso
@@ -54,6 +54,20 @@ VISTA_OBSERVACIONES = """
 
 class ErrorCombinar(ValueError):
     pass
+
+
+def completar_indicadores(indicadores):
+    """`es_derivado` (bool) y `formula` (texto) del catálogo (F4.2, AC-E3): un valor publicado tal cual no es
+    derivado y no tiene fórmula; una tasa que calcula el observatorio a partir de conteos publicados (decisión D2
+    de F4) es derivada y dice su fórmula. Completa las salidas de fuentes escritas antes de F4.2."""
+    ind = indicadores.copy()
+    if "es_derivado" not in ind.columns:
+        ind["es_derivado"] = False
+    if "formula" not in ind.columns:
+        ind["formula"] = ""
+    ind["es_derivado"] = ind["es_derivado"].fillna(False).astype(bool)
+    ind["formula"] = ind["formula"].fillna("").astype(str)
+    return ind
 
 
 def carpeta_fuente(salida: Path, fuente_id: str) -> Path:
@@ -71,7 +85,7 @@ def escribir_fuente(salida: Path, fuente_id: str, observaciones, capturas, indic
         raise ErrorCombinar(f"{fuente_id}: a las observaciones les faltan columnas {faltan}")
     observaciones[COLUMNAS_OBSERVACION].to_parquet(d / "observaciones.parquet", index=False)
     tabla_capturas(capturas).to_parquet(d / "capturas.parquet", index=False)
-    indicadores[COLUMNAS_INDICADOR].to_parquet(d / "indicadores.parquet", index=False)
+    completar_indicadores(indicadores)[COLUMNAS_INDICADOR].to_parquet(d / "indicadores.parquet", index=False)
     return d
 
 
@@ -112,6 +126,7 @@ def combinar(salida: Path, fuentes: dict[str, dict]) -> dict:
         raise ErrorCombinar(f"Salidas de fuentes que no están en el registro: {desconocidas}")
     tablas = {t: pd.concat([pd.read_parquet(p / f"{t}.parquet") for p in carpetas], ignore_index=True)
               for t in ("observaciones", "capturas", "indicadores")}
+    tablas["indicadores"] = completar_indicadores(tablas["indicadores"])
     obs, cap, ind = tablas["observaciones"], tablas["capturas"], tablas["indicadores"]
     territorios = pd.read_parquet(salida / "territorios.parquet", columns=["id"])
 
