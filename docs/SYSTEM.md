@@ -50,7 +50,7 @@ Source: INE, *Unidades geoestadísticas Censo 2023* (zip of GeoPackages, EPSG:43
 ```
 territorios(id, nivel, codigo, nombre, depto, padre_id, version_geo, area_km2, codigo_iso, geometry)
 observaciones(indicador, territorio_id, periodo, periodo_inicio, periodo_fin, tipo_periodo, valor, es_estimado, captura_id)
-indicadores(codigo, nombre, unidad, columna_origen, fuente_id, nota)
+indicadores(codigo, nombre, unidad, tema, columna_origen, fuente_id, nota, es_derivado, formula)  -- es_derivado: computed by the observatory from published values (F4.2); formula: how, empty for published values
 capturas(id, fuente_id, archivo, sha256, fecha_proceso, url, descargado, vigente)  -- descargado: download date, if recorded; vigente: latest version (F2.5b)
 capturas_historial(id, fuente_id, archivo, sha256, fecha_proceso, resultado, detalle)  -- append-only, one row per run
 fuentes(id, nombre, organismo, pagina, url_descarga, formato, licencia, frecuencia, estado, contacto,
@@ -66,6 +66,15 @@ VIEW v_observaciones  -- observaciones joined with territorio, indicador and cap
 **Level added in F3.2:** `region` (3 territories, see §3), the only level whose `geometry` and `area_km2` are NULL. The web build skips it in GeoJSON, PMTiles and per-level downloads; in `territorios_index.json` and fichas it has `bbox = null`, and the app shows its ficha without a map.
 
 **Income rules (F3):** values stored exactly as published (full precision); the price base is part of the indicator (current pesos and pesos of January 2005 are different indicators; the observatory never deflates or converts); quarterly rows are `tipo_periodo = trimestre`, yearly totals `anio`; a changed file is a new capture whose values replace earlier ones for the same period (`vigente`), with a change summary in the report.
+
+**Education rules (F4, MEC *Anuario Estadístico de Educación*; plan `docs/PLAN_educacion.md`, criteria `docs/ACCEPTANCE_CRITERIA_educacion.md`):**
+- *Territories.* Row "TOTAL" → `pais/UY`; "MONTEVIDEO" → `departamento/01`; each of the 18 department names → `departamento/<código INE>`, matched by name without accents or case (an unknown name in a by-department table fails the run); "RESTO DEL PAÍS" → `region/interior` (the F3.2 level). Nothing below departamento is published and nothing is estimated downward. "RESTO DEL PAÍS" rows are loaded only if `region/interior` exists and the row equals TOTAL − MONTEVIDEO; otherwise they are skipped and reported.
+- *Period.* Each file covers one school year (March–December): `tipo_periodo = anio`, `periodo_inicio` YYYY-01-01, `periodo_fin` YYYY-12-31, label `YYYY`. The year comes from the table title and must equal the file's year.
+- *One year per file.* Each table holds a single year; series are built by loading one anuario per year. Each anuario is its own capture: a revised table in a later edition does not overwrite an earlier year unless that year is republished in a new version of the same file.
+- *Counts as published.* One indicator per measure and breakdown (e.g. `edu_…_publica`, `edu_…_publica_mujer`), in units "estudiantes", "establecimientos", "docentes" or "grupos". **A breakdown whose meaning changes between years is a different indicator**, never the same one (II-2.2.1: the sex totals cover all administrations in 2023 but only public schools in 2024).
+- *Table types (decision D1).* A: rows by department → `pais/UY`, `departamento/*`, `region/interior`. B: national totals by category → `pais/UY`, the category is part of the indicator. C: rows by institution or campus → a department only where the row names it, otherwise `pais/UY`. An institution is never a territory.
+- *Derived rates (decision D2).* Promotion rate, % private enrolment and % insufficient attendance are computed by the observatory from the stored counts, only when numerator and denominator come from the same table, year and scope. Each is its own indicator with `es_derivado = true`, its `formula`, and the label "calculado por el observatorio a partir de MEC". They are never mixed with INE percentages.
+- *Notes travel with the value.* Each table's "Fuente:" and "Nota:" rows are kept in the capture metadata, linked to the table code, and shown in the app (e.g. "Pública no incluye JICI"; rendimiento counts end-of-year results, not initial enrolment; Montevideo has no rural public primary).
 
 Planned additions: `eventos(id, dataset_id, fecha, geometry, territorio_id, atributos_json, captura_id)` for point data.
 
@@ -148,6 +157,8 @@ Active: INE unidades geoestadísticas 2023.
 **Income (F3, `fuentes/ine_ech_ingresos_series.yml`):** INE *Series históricas ECH Ingresos de las personas y los hogares* (xlsx, quarterly since 2016) for total país, Montevideo and the Interior (total, localities of 5,000 or more, small localities and rural areas): mean household and per-capita income, with and without aguinaldo and valor locativo, at current prices and at January 2005 prices. Since 2025 INE uses the *ingreso disponible ajustado* (YDA); the 2016– series were recomputed with it (F3.1). Plan: `docs/PLAN_ingresos.md`; criteria: `docs/ACCEPTANCE_CRITERIA_ingresos.md`.
 
 **No department income:** INE publishes no current official income or poverty figure by department (its 2025 poverty report has tables only by region; the department map is an image). MIDES publishes department series to 2023, but its income series looks mislabelled (values not consistent with current pesos) and its poverty series uses INE's 2006 method. Department income, if ever added, must be computed from ECH microdata and labelled "calculado por el observatorio" (F3.9, needs approval).
+
+**Education (F4, registry `fuentes/mec_anuario_educacion.yml` from F4.1, en preparación):** MEC *Anuario Estadístico de Educación* (División de Investigación y Estadística, Dirección Nacional de Educación), one xlsx per school year, 2020–2024 (2015–2019 only as .rar, F4.9), plus the national enrolment series 2002–2024 in each file. About 110 tables per year coded `II-<nivel>.<tema>.<n>`, about 60 of them by department; inventory in `docs/investigacion/mec_anuario_inventario.md` (from F4.1, pending). Only official gub.uy URLs, always read from each year's dataset page (folder and file names change). The INE *Anuario Estadístico Nacional* cap. 3.1 reproduces some of these tables: it is used **only as a control** of the load, never as a second source of the same figure.
 
 Next: Censo 2023 microdata (segment level), Marco Censal 2023 (may contain zones), Encuesta Continua de Hogares (department level only; panel design since July 2021), INE price/wage series (country level), INE 2011–2023 correspondence table. To research: Catálogo Nacional de Datos Abiertos (CKAN API), IDE, Ministerio del Interior.
  
