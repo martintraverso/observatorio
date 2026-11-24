@@ -232,6 +232,7 @@ class Cuadro:
     pie: list[str]
     sin_dato: int  # celdas mapeadas que no son datos («-», «…», «s/d», vacías): AC-E11
     avisos: list[str]
+    sin_dato_claves: list = field(default_factory=list)  # (indicador, territorio, período) publicados sin dato
 
 
 COLUMNAS = ["indicador", "territorio_id", "periodo", "periodo_inicio", "periodo_fin", "tipo_periodo", "valor",
@@ -267,7 +268,7 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
     columnas = {_col(m["col"]) for m in mapeo}
     if faltan := sorted(columnas - set(e.rutas)):
         raise ErrorAnuario(f"{codigo} {anio}: columnas mapeadas que el archivo no tiene: {[letra(c) for c in faltan]} (AC-E9)")
-    filas, sin_dato, pie, ignoradas = [], 0, list(e.pie), 0
+    filas, sin_dato, pie, ignoradas, claves_sd = [], 0, list(e.pie), 0, []
     cols_mapeadas = [_col(m["col"]) for m in mapeo]
     grupo, territorio_grupo = "", PAIS
     for r, rotulo in e.filas:
@@ -306,6 +307,7 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
                 if bruto is not None and not (isinstance(bruto, str) and NO_DATO.match(bruto)):
                     raise ErrorAnuario(f"{codigo} {anio}: valor no numérico {bruto!r} en {letra(c)}{r}")
                 sin_dato += 1
+                claves_sd.append((m["id"] + sufijo, territorio, str(m.get("anio", anio))))
                 continue
             per = periodo_anio(int(m.get("anio", anio))).columnas()
             filas.append({"indicador": m["id"] + sufijo, "territorio_id": territorio, **per, "valor": v,
@@ -318,6 +320,7 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
         falsos = [i for i, t in por_ind.items() if t == {PAIS} and (datos.loc[datos.indicador == i, "valor"] == 0).all()]
         if falsos:
             sin_dato += len(falsos)
+            claves_sd += [(i, PAIS, str(anio)) for i in falsos]
             avisos.append(f"{codigo} {anio}: total en 0 sin ningún territorio con dato, no se carga: {falsos[:3]}")
             datos = datos[~datos.indicador.isin(falsos)].reset_index(drop=True)
     repetidas = datos.duplicated(["indicador", "territorio_id", "periodo"], keep=False)
@@ -326,7 +329,7 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
                            f"{datos.loc[repetidas, 'celda'].tolist()[:6]}")
     if ignoradas:
         avisos.append(f"{codigo} {anio}: {ignoradas} filas sin datos ignoradas")
-    return Cuadro(codigo, anio, e.titulo, datos, pie, sin_dato, avisos)
+    return Cuadro(codigo, anio, e.titulo, datos, pie, sin_dato, avisos, claves_sd)
 
 
 def _col(letras: str) -> int:

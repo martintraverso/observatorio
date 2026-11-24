@@ -59,6 +59,25 @@ def con_valor(xlsx: bytes, cuadro: str, celda: str, valor: int) -> bytes:
     return salida.getvalue()
 
 
+def ajustar(xlsx: bytes, cuadro: str, cambios: list[tuple[str, str, int]]) -> bytes:
+    """Una revisión coherente del MEC: suma `delta` a la celda (fila con ese rótulo, columna) de cada cambio."""
+    import mec_anuario as mec
+
+    celdas, combinadas = mec.celdas_de(xlsx, mec.hoja_del_cuadro(xlsx, cuadro))
+    filas = {rot: r for r, rot in mec.estructura(celdas, combinadas, cuadro).filas}
+    for rotulo, col, delta in cambios:
+        r = filas[rotulo]
+        xlsx = con_valor(xlsx, cuadro, f"{col}{r}", int(celdas[(r, mec._col(col))]) + delta)
+    return xlsx
+
+
+def promovidos_revisados(anio: int, delta: int = 10) -> bytes:
+    """II-2.2.13: Artigas gana y Canelones pierde `delta` promovidos urbanos (total y urbana): los totales del país
+    y las sumas por área siguen cerrando."""
+    return ajustar(fix(anio), "II-2.2.13", [("Artigas", "B", delta), ("Artigas", "C", delta),
+                                            ("Canelones", "B", -delta), ("Canelones", "C", -delta)])
+
+
 @pytest.fixture
 def entorno(salida, tmp_path):
     copia = tmp_path / "salida"
@@ -119,27 +138,35 @@ def test_ac_e6_sin_cambios_no_recarga_y_una_revision_reemplaza_su_anio(entorno):
     crudo, salida = entorno
     correr(crudo, salida)
     assert mec_anuario_cargar.cargar(crudo, salida, mec_anuario_cargar.cargar_fuentes(RAIZ / "fuentes"))["resultado"] == "sin cambios"
-    revisado = con_valor(fix(2024), "II-2.2.1", "B12", 7300)  # Artigas 7.209 → 7.300
+    revisado = promovidos_revisados(2024)  # Artigas +10 promovidos, Canelones −10
     capturar_anuarios(crudo, FUENTE, sitio({URL[2023]: fix(2023), URL[2024]: revisado}), hoy="2026-11-30")
+    antes = valor(tablas(salida)[0], "edu_ii_2_2_13_rendimiento_escolar_promovidos_total", "INE-2023/departamento/02")
     correr(crudo, salida)
     o, c, _ = tablas(salida)
-    assert valor(o, "edu_ii_2_2_1_total", "INE-2023/departamento/02") == 7300
+    assert valor(o, "edu_ii_2_2_13_rendimiento_escolar_promovidos_total", "INE-2023/departamento/02") == antes + 10
     assert len(c) == 3 and c.vigente.sum() == 2  # la captura anterior de 2024 queda, no vigente
     reporte = (salida / "reporte_validacion.md").read_text(encoding="utf-8")
-    assert re.search(r"Cambios: \d+ valores cambiaron", reporte) and "7.209 → 7.300" in reporte
+    assert re.search(r"Cambios: \d+ valores cambiaron", reporte) and "el cambio más grande" in reporte
 
 
 def test_ac_e7_la_serie_sale_del_ultimo_anuario_y_una_diferencia_es_advertencia(entorno):
     crudo, salida = entorno
-    revisado = con_valor(fix(2024), "II-2.2.1", "B9", 284000)  # el cuadro ya no coincide con la serie (284.944)
+    import mec_anuario as mec
+
+    xlsx = fix(2024)
+    hoja = next(h for h in mec.nombres_de_hojas(xlsx) if h.startswith(mec.SERIE))
+    filas, _ = mec.leer_hoja(xlsx, hoja)
+    r = next(r for r, cols in filas.items() if any(isinstance(v, str) and v.strip() == "Primaria Común" for v in cols.values()))
+    c = next(c for c, v in filas[max(k for k in filas if k < r and any(v == 2024.0 for v in filas[k].values()))].items() if v == 2024.0)
+    revisado = con_valor(xlsx, hoja.strip(), f"{mec.letra(c)}{r}", 284000)  # la serie ya no coincide con el cuadro
     capturar_anuarios(crudo, FUENTE, sitio({URL[2023]: fix(2023), URL[2024]: revisado}), hoy="2026-11-30")
     correr(crudo, salida)
     o, _, _ = tablas(salida)
     serie = "edu_serie_total_educacion_primaria_primaria_comun"
-    assert valor(o, serie) == 284944 and valor(o, "edu_ii_2_2_1_total") == 284000  # se guardan los dos
+    assert valor(o, serie) == 284000 and valor(o, "edu_ii_2_2_1_total") == 284944  # se guardan los dos
     assert valor(o, serie, periodo="2002") > 0 and valor(o, "edu_serie_total_sistema") == 1042564
     reporte = (salida / "reporte_validacion.md").read_text(encoding="utf-8")
-    assert "2024: la serie nacional dice 284.944 y edu_ii_2_2_1_total dice 284.000" in reporte
+    assert "2024: la serie nacional dice 284.000 y edu_ii_2_2_1_total dice 284.944" in reporte
 
 
 def test_ac_e16_tasas_derivadas(entorno):
@@ -178,11 +205,11 @@ def test_ac_e16_sin_uno_de_los_dos_no_hay_tasa():
 def test_ac_e6_una_revision_solo_parsea_el_anio_que_cambio(entorno, monkeypatch):
     crudo, salida = entorno
     correr(crudo, salida)
-    revisado = con_valor(fix(2024), "II-2.2.1", "B12", 7300)
+    revisado = promovidos_revisados(2024)
     capturar_anuarios(crudo, FUENTE, sitio({URL[2023]: fix(2023), URL[2024]: revisado}), hoy="2026-11-30")
     leidos = []
     original = mec_anuario_cargar.leer_anuario
-    monkeypatch.setattr(mec_anuario_cargar, "leer_anuario", lambda x, a, f: leidos.append(a) or original(x, a, f))
+    monkeypatch.setattr(mec_anuario_cargar, "leer_anuario", lambda x, a, *r: leidos.append(a) or original(x, a, *r))
     r = mec_anuario_cargar.cargar(crudo, salida, mec_anuario_cargar.cargar_fuentes(RAIZ / "fuentes"))
     assert leidos == [2024] and r["parseadas"] == 1
     o, _, i = tablas(salida)
@@ -193,7 +220,7 @@ def test_ac_e6_una_revision_solo_parsea_el_anio_que_cambio(entorno, monkeypatch)
 def test_ac_e6_una_revision_de_un_anio_viejo_deja_el_catalogo_como_una_carga_completa(entorno, tmp_path):
     crudo, salida = entorno
     correr(crudo, salida)
-    revisado = con_valor(fix(2023), "II-2.2.1", "B12", 7000)
+    revisado = promovidos_revisados(2023)
     capturar_anuarios(crudo, FUENTE, sitio({URL[2023]: revisado, URL[2024]: fix(2024)}), hoy="2026-11-30")
     copia = tmp_path / "forzada"
     shutil.copytree(salida, copia)
@@ -204,3 +231,122 @@ def test_ac_e6_una_revision_de_un_anio_viejo_deja_el_catalogo_como_una_carga_com
     cols = ["codigo", "nombre", "unidad", "nota", "es_derivado", "formula"]
     pd.testing.assert_frame_equal(incremental[cols].sort_values("codigo").reset_index(drop=True),
                                   completa[cols].sort_values("codigo").reset_index(drop=True))
+
+
+# ---------------------------------------------------------------- F4.5a (#188): controles (AC-E17…E22, E24)
+
+def test_ac_e24_la_seccion_tiene_controles_cuadros_y_ultimos_valores(entorno):
+    crudo, salida = entorno
+    correr(crudo, salida)
+    reporte = (salida / "reporte_validacion.md").read_text(encoding="utf-8")
+    for texto in ("### Controles (AC-E17…AC-E22)", "| AC-E17 Montevideo + 18 departamentos = TOTAL | OK |",
+                  "| AC-E19 Desgloses", "| AC-E20 ", "| AC-E21 ", "AC-E22", "### Cuadros (AC-E24)",
+                  "Mapeados y cargados (ola 1):", "### Últimos valores", "| Matrícula de primaria común (II-2.2.1) | 2024 | 284.944 | 102.182 |"):
+        assert texto in reporte, texto
+    # una excepción de la fuente va como advertencia, con su motivo
+    assert "II-4.2.13 2023" in reporte and "no es la suma de los departamentos" in reporte
+
+
+def test_ac_e17_un_departamento_que_no_cierra_frena_la_carga(entorno):
+    crudo, salida = entorno
+    correr(crudo, salida)
+    antes = (salida / "observaciones.parquet").read_bytes()
+    roto = con_valor(fix(2024), "II-2.2.1", "B12", 7300)  # Artigas sube y el TOTAL no
+    capturar_anuarios(crudo, FUENTE, sitio({URL[2023]: fix(2023), URL[2024]: roto}), hoy="2026-11-30")
+    with pytest.raises(mec_anuario_cargar.ErrorCarga, match="AC-E17"):
+        mec_anuario_cargar.cargar(crudo, salida, mec_anuario_cargar.cargar_fuentes(RAIZ / "fuentes"))
+    assert (salida / "observaciones.parquet").read_bytes() == antes  # no se publicó nada
+
+
+def test_ac_e18_un_resto_del_pais_que_no_cierra_saltea_solo_esa_fila(entorno):
+    crudo, salida = entorno
+    roto = ajustar(fix(2024), "II-2.2.18", [("RESTO DEL PAÍS", "B", -82)])  # 4.182 → 4.100 ≠ 6.981 − 2.799
+    capturar_anuarios(crudo, FUENTE, sitio({URL[2023]: fix(2023), URL[2024]: roto}), hoy="2026-11-30")
+    correr(crudo, salida)
+    o, _, _ = tablas(salida)
+    interior, ind = "INE-2023/region/interior", "edu_ii_2_2_18_asistencia_insuficiente_solo_1_er_ano"
+    assert o[(o.indicador == ind) & (o.territorio_id == interior) & (o.periodo == "2024")].empty
+    assert valor(o, "edu_ii_2_2_18_asistencia_insuficiente_1_o_a_6_o_anos", interior) == 24194  # las demás columnas siguen
+    reporte = (salida / "reporte_validacion.md").read_text(encoding="utf-8")
+    assert "Resto del país 4100 ≠ 6981 − 2799; no se carga la fila del Interior" in reporte
+
+
+def test_ac_e20_un_conteo_negativo_frena_la_carga(entorno):
+    import mec_anuario_controles as mc
+
+    crudo, salida = entorno
+    correr(crudo, salida)
+    o, _, i = tablas(salida)
+    o = o.copy()
+    o.loc[o.index[0], "valor"] = -1
+    r = mc.controles(o, FUENTE, {}, set(i[i.es_derivado].codigo))
+    assert [f["control"] for f in r.controles.fallas][0].startswith("AC-E20")
+
+
+
+def test_ac_e19_un_desglose_que_no_cierra_frena_la_carga(entorno):
+    crudo, salida = entorno
+    roto = ajustar(fix(2024), "II-2.2.1", [("Artigas", "F", 10), ("Canelones", "F", -10)])  # pública varones
+    capturar_anuarios(crudo, FUENTE, sitio({URL[2023]: fix(2023), URL[2024]: roto}), hoy="2026-11-30")
+    with pytest.raises(mec_anuario_cargar.ErrorCarga, match="AC-E19.*departamento/02"):
+        mec_anuario_cargar.cargar(crudo, salida, mec_anuario_cargar.cargar_fuentes(RAIZ / "fuentes"))
+
+
+def test_ac_e18_un_resto_del_pais_con_desglose_que_no_cierra_no_frena(entorno):
+    """La fila del Interior saltada por AC-E18 tampoco la mira AC-E19 (pública = varones + mujeres)."""
+    crudo, salida = entorno
+    roto = ajustar(fix(2024), "II-2.2.1", [("RESTO DEL PAÍS", "E", -50)])
+    capturar_anuarios(crudo, FUENTE, sitio({URL[2023]: fix(2023), URL[2024]: roto}), hoy="2026-11-30")
+    correr(crudo, salida)
+    o, _, _ = tablas(salida)
+    ind = "edu_ii_2_2_1_forma_de_administracion_publica_total"
+    assert o[(o.indicador == ind) & (o.territorio_id == "INE-2023/region/interior") & (o.periodo == "2024")].empty
+    assert valor(o, "edu_ii_2_2_1_total", "INE-2023/region/interior") == 182762
+
+
+def test_ac_e18_sin_el_territorio_interior_se_saltean_las_filas_de_region(entorno):
+    import geopandas as gpd
+
+    crudo, salida = entorno
+    t = gpd.read_parquet(salida / "territorios.parquet")
+    t[t.id != "INE-2023/region/interior"].to_parquet(salida / "territorios.parquet")
+    for p in ("correspondencias",):
+        c = pd.read_parquet(salida / f"{p}.parquet")
+        c[(c.origen_id != "INE-2023/region/interior") & (c.destino_id != "INE-2023/region/interior")].to_parquet(salida / f"{p}.parquet")
+    o = pd.read_parquet(salida / "observaciones.parquet")
+    o[o.territorio_id != "INE-2023/region/interior"].to_parquet(salida / "observaciones.parquet")
+    for d in (salida / "fuentes").glob("*"):  # las fuentes que publican región (ingresos) quedan sin ella
+        if (d / "observaciones.parquet").exists():
+            od = pd.read_parquet(d / "observaciones.parquet")
+            od[od.territorio_id != "INE-2023/region/interior"].to_parquet(d / "observaciones.parquet")
+    correr(crudo, salida)
+    o, _, _ = tablas(salida)
+    assert not (o.territorio_id == "INE-2023/region/interior").any() and len(o)
+    assert "no existe: se saltean" in (salida / "reporte_validacion.md").read_text(encoding="utf-8")
+
+
+def test_ac_e21_un_territorio_sin_valor_ni_sin_dato_frena():
+    import mec_anuario as mec
+    import mec_anuario_controles as mc
+    e = FUENTE["cuadros"]["II-2.2.1"]
+    c = mec.parsear_cuadro(fix(2024), "II-2.2.1", 2024, e["mapeo"][2024], "A")
+    sin_colonia = c.datos[~((c.datos.indicador == "edu_ii_2_2_1_total") & (c.datos.territorio_id == "INE-2023/departamento/05"))]
+    fuente = {"cuadros": {"II-2.2.1": e}}
+    ok = mc.controles(c.datos, fuente, {}, set(), set(c.sin_dato_claves), {"2024"})
+    assert not ok.controles.fallas
+    r = mc.controles(sin_colonia, fuente, {}, set(), set(c.sin_dato_claves), {"2024"})
+    assert [f["control"] for f in r.controles.fallas if f["control"].startswith("AC-E21")]
+    # publicado sin dato («s/d»): no es una falla
+    r = mc.controles(sin_colonia, fuente, {}, set(), set(c.sin_dato_claves) | {("edu_ii_2_2_1_total", "INE-2023/departamento/05", "2024")}, {"2024"})
+    assert not [f for f in r.controles.fallas if f["control"].startswith("AC-E21")]
+
+
+def test_ac_e22_y_e24_en_una_corrida_sin_cambios(entorno):
+    crudo, salida = entorno
+    correr(crudo, salida)
+    correr(crudo, salida)  # sin cambios: el reporte igual trae controles, cuadros y últimos valores
+    reporte = (salida / "reporte_validacion.md").read_text(encoding="utf-8")
+    assert "Sin capturas nuevas" in reporte and "### Controles (AC-E17…AC-E22)" in reporte and "### Últimos valores" in reporte
+    assert re.search(r"AC-E22, advertencia\): \d+ \(en \d+ indicadores\)", reporte)
+    assert re.search(r"^- `edu_[^`]+`, [^,]+, 2023 → 2024: ", reporte, re.M)
+    assert "Faltantes: 0." in reporte

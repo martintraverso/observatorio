@@ -58,7 +58,7 @@ Ola por cuadro y tipo por año; «·» = no está ese año; «∅» = sin datos 
 | II-2.3.1 | PERSONAL DOCENTE DE EDUCACIÓN PRIMARIA PÚBLICA POR TIPO DE EDUCACIÓN SEGÚN DEPARTAMENTO | A | 1 | docentes | A | A | A | A | A |
 | II-2.3.2 | PERSONAL DOCENTE DE EDUCACIÓN PRIMARIA PRIVADA POR TIPO DE ESTABLECIMIENTO Y TIPO DE DESEM | A | 1 | docentes | A | A | A | A | A |
 | II-3.1.1 | ESTABLECIMIENTOS DE EDUCACIÓN MEDIA BÁSICA POR MODALIDAD Y FORMA DE ADMINISTRACIÓN SEGÚN D | A | 1 | establecimientos | A | A | A | A | A |
-| II-3.1.2 | ESTABLECIMIENTOS FÍSICOS DE EDUCACIÓN MEDIA POR FORMA DE ADMINISTRACIÓN SEGÚN DEPARTAMENTO | A/B | 1 | establecimientos | B | B | A | A | A |
+| II-3.1.2 | ESTABLECIMIENTOS FÍSICOS DE EDUCACIÓN MEDIA POR FORMA DE ADMINISTRACIÓN SEGÚN DEPARTAMENTO | A | 1 | establecimientos | A | A | A | A | A |
 | II-3.2.1 | ESTUDIANTES MATRICULADOS EN EDUCACION MEDIA BÁSICA GENERAL POR GRADO SEGÚN GRANDES ÁREAS Y | B | 1 | estudiantes | B | B | B | B | B |
 | II-3.2.2 | ESTUDIANTES MATRICULADOS EN LA DGETP EN EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA POR FORMA DE AD | A | 1 | estudiantes | A | A | A | A | A |
 | II-3.2.3 | ESTUDIANTES MATRICULADOS EN SÉPTIMO, OCTAVO Y NOVENO GRADO DE CICLO BÁSICO RURAL POR SEXO  | A | 1 | estudiantes | A | A | A | A | A |
@@ -4644,7 +4644,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-3.1.2</b></summary>
 
-**2020** · hoja «II-3.1.2» · tipo B · 22 filas · ESTABLECIMIENTOS FÍSICOS DE EDUCACIÓN MEDIA POR FORMA DE ADMINISTRACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2020)
+**2020** · hoja «II-3.1.2» · tipo A · 22 filas · ESTABLECIMIENTOS FÍSICOS DE EDUCACIÓN MEDIA POR FORMA DE ADMINISTRACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2020)
 
 - `MODALIDAD/TOTAL GENERAL`
 - `MODALIDAD/DGES/LICEOS PÚBLICOS`
@@ -4654,7 +4654,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - *Fuente:DGES - DGETP- DGEIP*
 - *Nota: 1- A diferencia del cuadro anterior II-3.1.1, el presente consolida la cantidad de establecimientos físicos con independencia del nivel educativo al cual son dirigidos los programas de estudios impartidos. En el caso de la DGETP debe considerarse que además de Educación Media se dictan programas dirigidos a Educación Terciaria No Universitaria y Educación de Jóvenes y Adultos.*
 
-**2021** · hoja «II-3.1.2» · tipo B · 22 filas · ESTABLECIMIENTOS FÍSICOS DE EDUCACIÓN MEDIA POR FORMA DE ADMINISTRACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2021)
+**2021** · hoja «II-3.1.2» · tipo A · 22 filas · ESTABLECIMIENTOS FÍSICOS DE EDUCACIÓN MEDIA POR FORMA DE ADMINISTRACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2021)
 
 - `MODALIDAD/TOTAL GENERAL`
 - `MODALIDAD/DGES/LICEOS PÚBLICOS`

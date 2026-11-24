@@ -118,3 +118,72 @@ reagrupaciones:
     unidocente: *escuelas
     de tiempo completo: *escuelas
   II-1.2.2: *jardines
+
+# desgloses_extra (F4.5a, AC-E19): partes de un total que el encabezado no dice (rutas del archivo o conceptos).
+desgloses_extra:
+  II-1.2.4:  # el TOTAL es varones + mujeres + los «sin dato» de CPIP (columna dentro de CPIP)
+    - total: TOTAL
+      partes: ["TOTAL/SEXO/VARÓN", "TOTAL/SEXO/MUJER", "FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato"]
+
+# particiones (F4.5a, AC-E19): cuadros B con filas jerárquicas; cada regla es [total, [partes]] (categorías del id).
+particiones:
+  II-3.2.1:
+    - [total, [media_basica_publica, media_basica_privada]]
+    - [media_basica_publica, [diurna, nocturna]]
+  II-4.2.1:
+    - [total, [media_superior_publica, media_superior_privada]]
+    - [media_superior_publica, [diurna, cuarto_turno]]
+
+# huecos (F4.5a, AC-E21): territorios que faltan en un cuadro A sin que el anuario los publique sin dato.
+# Hoy ninguno: todo lo que falta está publicado como «s/d» o «-».
+huecos: {}
+
+# controles_excepciones (F4.5a): lo publicado no cierra y se guarda tal cual. Cada excepción está acotada a sus
+# indicadores (y territorios, si los dice) y su motivo dice lo que muestra el archivo; el control la reporta como
+# advertencia. Una falla en otro indicador o territorio del mismo cuadro y año frena la carga.
+controles_excepciones:
+  AC-E17:  # Montevideo + 18 departamentos = TOTAL (el país)
+    II-1.1.1:
+      2020:
+        motivo: "el país publicado tiene 2 establecimientos públicos menos que la suma de los departamentos (total 251 contra 253)"
+        indicadores: [edu_ii_1_1_1_total, edu_ii_1_1_1_forma_de_administracion_publica_total_publico, edu_ii_1_1_1_forma_de_administracion_publica_aprender]
+    II-1.2.3:
+      2023:
+        motivo: "el país publicado no es la suma de los departamentos (total 18.045 contra 17.972)"
+        indicadores: [edu_ii_1_2_3_total, edu_ii_1_2_3_modalidad_jardines_privados_total, edu_ii_1_2_3_modalidad_inicial_en_colegios_total]
+    II-1.2.4:
+      2024:
+        motivo: "el total de mujeres publicado para el país (33.791) está 2.117 por debajo de la suma de los departamentos (35.908)"
+        indicadores: [edu_ii_1_2_4_total_sexo_mujer]
+    II-3.2.2:
+      2021:
+        motivo: "la fila de Treinta y Tres no cierra en el archivo: el país (36.214) no es la suma de los departamentos (35.949)"
+        indicadores: [edu_ii_3_2_2_total_sin_privados]
+      2022:
+        motivo: "la fila de Treinta y Tres no cierra en el archivo: el país (33.210) no es la suma de los departamentos (33.053)"
+        indicadores: [edu_ii_3_2_2_total_sin_privados]
+    II-4.2.13:
+      2023:
+        motivo: "el país publicado no es la suma de los departamentos (promovidos 37.131 contra 34.226; no promovidos 12.366 contra 10.992)"
+        indicadores: [edu_ii_4_2_13_rendimiento_promovido, edu_ii_4_2_13_rendimiento_no_promovido]
+  AC-E19:  # desgloses
+    II-1.2.1:
+      2023:
+        motivo: "el total no es varones + mujeres en el archivo (país 95.709 contra 95.597)"
+        indicadores: [edu_ii_1_2_1_forma_de_administracion_total]
+        territorios: [pais/UY, region/interior, departamento/01, departamento/03, departamento/05, departamento/10, departamento/11, departamento/13, departamento/16, departamento/18]
+    II-1.2.4:
+      2024:
+        motivo: "el TOTAL publicado para el país (71.218) no es varones + mujeres + sin dato (69.101); en los departamentos sí cierra"
+        indicadores: [edu_ii_1_2_4_total]
+        territorios: [pais/UY]
+    II-1.2.5:
+      2020:
+        motivo: "el total por sexo publicado no es la suma por edad (mujeres 97.051 contra 97.084; varones 92.669 contra 92.692)"
+        indicadores: [edu_ii_1_2_5_sexo_m, edu_ii_1_2_5_sexo_v, edu_ii_1_2_5_forma_de_administracion_privados_mec_sexo_m, edu_ii_1_2_5_forma_de_administracion_privados_mec_sexo_v]
+        territorios: [pais/UY]
+    II-2.2.1:
+      2023:
+        motivo: "varones + mujeres no da el total en el archivo (país: total 287.805 contra 287.610; privada 45.558 contra 45.363)"
+        indicadores: [edu_ii_2_2_1_total, edu_ii_2_2_1_forma_de_administracion_privada_total]
+        territorios: [pais/UY, region/interior, departamento/01, departamento/03, departamento/05, departamento/06, departamento/10, departamento/13]

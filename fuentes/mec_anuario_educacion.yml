@@ -5602,8 +5602,8 @@ cuadros:
   II-3.1.2:
     titulo: ESTABLECIMIENTOS FÍSICOS DE EDUCACIÓN MEDIA POR FORMA DE ADMINISTRACIÓN SEGÚN DEPARTAMENTO
     tipos:
-      2020: B
-      2021: B
+      2020: A
+      2021: A
       2022: A
       2023: A
       2024: A
