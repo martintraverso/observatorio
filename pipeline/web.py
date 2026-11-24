@@ -292,8 +292,15 @@ def con_cuadro(indicadores: pd.DataFrame) -> pd.DataFrame:
     return indicadores.assign(cuadro=indicadores.columna_origen.fillna("").str.extract(r"^Cuadro (II-[\d.]+)")[0].fillna(""))
 
 
+# M11.4 (AC-N6, mantenedor en #204): un nivel va al mapa de un indicador si tiene valor en al menos tantos territorios.
+# Así lo que se publica para un solo territorio de un nivel (los ingresos de la ECH: Montevideo en «departamento») no
+# arma un coroplético de un solo color; se muestra como comparación regional (AC-I20).
+MIN_TERRITORIOS_MAPA = 2
+
+
 def disponibilidad(indicadores: pd.DataFrame, territorios: gpd.GeoDataFrame, obs: pd.DataFrame) -> list[dict]:
-    """indicadores.json: cada indicador con los niveles y períodos en que hay datos (AC-M2)."""
+    """indicadores.json: cada indicador con los niveles y períodos en que hay datos (AC-M2, AC-N2) y `niveles_mapa`:
+    los niveles con valor en al menos MIN_TERRITORIOS_MAPA territorios (AC-N6). Los dos salen de las observaciones."""
     nivel = obs.territorio_id.map(territorios.set_index("id").nivel)
     # En el orden de los temas de la app (el primero es el que muestra el mapa al abrir), no en el de las fuentes.
     orden = {t: i for i, t in enumerate(ORDEN_TEMAS)}
@@ -302,6 +309,9 @@ def disponibilidad(indicadores: pd.DataFrame, territorios: gpd.GeoDataFrame, obs
     for f in filas:
         de_este = obs.indicador == f["codigo"]
         f["niveles"] = sorted(nivel[de_este].unique().tolist())
+        con_valor = de_este & obs.valor.notna()
+        por_nivel = obs.territorio_id[con_valor].groupby(nivel[con_valor]).nunique()
+        f["niveles_mapa"] = sorted(por_nivel[por_nivel >= MIN_TERRITORIOS_MAPA].index.tolist())
         f["periodos"] = sorted(obs.periodo[de_este].unique().tolist())
     return filas
 

@@ -9,15 +9,17 @@
 	import PanelTerritorio from '#lib/mapa/PanelTerritorio.svelte';
 	import ComparacionRegional from '#lib/mapa/ComparacionRegional.svelte';
 	import {
-		avisoNivel,
+		avisoSinMapa,
 		clasesCuantiles,
 		encuadreNivel,
 		estadoDesdeUrl,
 		etiquetaPeriodo,
+		formaSelectorNivel,
 		fuenteCorta,
 		indicadoresDelTema,
 		minuscula,
-		nivelesConDatos,
+		nivelAlCambiar,
+		nivelesOfrecidos,
 		nivelMasDetallado,
 		opcionNivel,
 		territorioAlCambiarNivel,
@@ -52,7 +54,8 @@
 
 	let indicador = $derived(data.indicadores.find((i) => i.codigo === estado.indicador) ?? data.indicadores[0]);
 	let delTema = $derived(indicadoresDelTema(data.indicadores, tema));
-	let aviso = $derived(indicador ? avisoNivel(indicador, estado.nivel, data.catalogo) : null);
+	// AC-N9: el mapa nunca avisa «no se publica por…»; solo queda el aviso del indicador sin niveles en el mapa (AC-N6).
+	let aviso = $derived(indicador ? avisoSinMapa(indicador, data.catalogo) : null);
 	let valores = $derived<Record<string, number | null>>(
 		!aviso && valoresNivel?.nivel === estado.nivel ? (valoresNivel.indicadores[estado.indicador]?.[estado.periodo] ?? {}) : {}
 	);
@@ -62,7 +65,11 @@
 		const f = data.fuentes.find((x) => x.id === indicador?.fuente_id);
 		return f ? fuenteCorta(f) : '';
 	});
-	let niveles = $derived(nivelesConDatos(data.indicadores, data.catalogo));
+	// AC-N4: los niveles del indicador elegido (con datos y dibujables); AC-N6: lista, texto fijo u oculto.
+	let niveles = $derived(nivelesOfrecidos(indicador, data.catalogo));
+	let formaNivel = $derived(formaSelectorNivel(niveles));
+	// AC-N11: lo que se anuncia (región viva cortés) cuando el nivel cambia solo al cambiar de indicador (AC-N7).
+	let anuncioNivel = $state('');
 	// Total del país publicado por la fuente (valores/pais.json), para la nota del panel (F2.8b).
 	let valoresPais = $state<ValoresNivel | null>(null);
 	let totalPais = $derived(totalDelPais(valoresPais, estado.indicador, estado.periodo));
@@ -70,7 +77,11 @@
 	// AC-V13: en celular y tableta los controles van en una hoja que se abre desde una barra compacta.
 	let opcionesAbiertas = $state(false);
 	let resumenOpciones = $derived(
-		[indicador?.nombre ?? tema, opcionNivel(data.catalogo, estado.nivel).etiqueta, indicador ? etiquetaPeriodo(estado.periodo) : null]
+		[
+			indicador?.nombre ?? tema,
+			formaNivel === 'oculto' ? null : opcionNivel(data.catalogo, estado.nivel).etiqueta,
+			indicador ? etiquetaPeriodo(estado.periodo) : null
+		]
 			.filter(Boolean)
 			.join(' · ')
 	);
@@ -122,7 +133,7 @@
 				if (estado.nivel === nivel) valoresNivel = v;
 			})
 			.catch(() => {
-				// Nivel sin valores publicados (p. ej. llegado por URL): el aviso de AC-M2 lo explica.
+				// Nivel sin archivo de valores (no debería pasar: solo se ofrecen niveles con datos, AC-N4).
 				if (estado.nivel === nivel) valoresNivel = null;
 			});
 	});
@@ -174,6 +185,13 @@
 		if (!ind) return;
 		estado.indicador = codigo;
 		if (!ind.periodos.includes(estado.periodo)) estado.periodo = ind.periodos.at(-1) ?? '';
+		// AC-N7: si el nivel actual no se ofrece para este indicador, al más cercano que lo contiene (o al más grueso),
+		// con el encuadre y la regla de selección de siempre (AC-V7, AC-V8), sin aviso; se anuncia (AC-N11).
+		const nuevo = nivelAlCambiar(estado.nivel, nivelesOfrecidos(ind, data.catalogo), data.catalogo);
+		if (nuevo && nuevo !== estado.nivel) {
+			elegirNivel(nuevo);
+			anuncioNivel = `Nivel: ${opcionNivel(data.catalogo, nuevo).etiqueta}`;
+		}
 	}
 
 	/** La ficha cargada, solo si es la del territorio elegido (mientras carga otra, la anterior no vale). */
@@ -234,9 +252,10 @@
 
 	function hastaDonde(i: (typeof data.indicadores)[number]): string {
 		const n = nivelMasDetallado(i, data.catalogo);
-		if (i.niveles.includes('region')) return 'por región'; // AC-I20: los ingresos (no van en el coroplético)
 		const o = n ? opcionNivel(data.catalogo, n) : null;
-		return o ? `hasta ${minuscula(o.etiqueta)}${o.ayuda ? ` (${minuscula(o.ayuda)})` : ''}` : 'sin datos en el mapa';
+		if (o) return `hasta ${minuscula(o.etiqueta)}${o.ayuda ? ` (${minuscula(o.ayuda)})` : ''}`;
+		// AC-I20: sin niveles en el mapa y publicado por región (los ingresos): va como comparación
+		return i.niveles.includes('region') ? 'por región' : 'sin datos en el mapa';
 	}
 </script>
 
@@ -349,20 +368,31 @@
 			{/if}
 		</fieldset>
 
-		<fieldset>
-			<legend>Nivel territorial</legend>
-			<!-- Lista vertical: entra cualquier cantidad de niveles sin cortar ninguno (AC-V1). -->
-			<div class="lista-niveles">
-				{#each niveles as n (n)}
-					{@const opcion = opcionNivel(data.catalogo, n)}
-					<label class="nivel" class:activo={estado.nivel === n}>
-						<input type="radio" name="nivel" value={n} checked={estado.nivel === n} onchange={() => elegirNivel(n)} />
-						<span class="nombre">{opcion.etiqueta}</span>
-						{#if opcion.ayuda}<span class="ayuda">{opcion.ayuda}</span>{/if}
-					</label>
-				{/each}
-			</div>
-		</fieldset>
+		{#if formaNivel === 'lista'}
+			<fieldset>
+				<legend>Nivel territorial</legend>
+				<!-- Lista vertical: entra cualquier cantidad de niveles sin cortar ninguno (AC-V1, AC-N10). -->
+				<div class="lista-niveles">
+					{#each niveles as n (n)}
+						{@const opcion = opcionNivel(data.catalogo, n)}
+						<label class="nivel" class:activo={estado.nivel === n}>
+							<input type="radio" name="nivel" value={n} checked={estado.nivel === n} onchange={() => elegirNivel(n)} />
+							<span class="nombre">{opcion.etiqueta}</span>
+							{#if opcion.ayuda}<span class="ayuda">{opcion.ayuda}</span>{/if}
+						</label>
+					{/each}
+				</div>
+			</fieldset>
+		{:else if formaNivel === 'texto'}
+			<!-- AC-N6: con un solo nivel, texto fijo en lugar de un control de una sola opción -->
+			{@const opcion = opcionNivel(data.catalogo, niveles[0])}
+			<p class="nivel-unico">
+				<span class="etiqueta-campo">Nivel:</span>
+				{opcion.etiqueta}{#if opcion.ayuda}<span class="ayuda"> · {opcion.ayuda}</span>{/if}
+			</p>
+		{/if}
+		<!-- AC-N11: el cambio automático de nivel (AC-N7) se anuncia sin mover el foco -->
+		<p class="visualmente-oculto" aria-live="polite">{anuncioNivel}</p>
 
 		{#if indicador}
 			<div class="campo">
@@ -397,14 +427,6 @@
 					{#if aviso.regional && indicador}
 						<!-- AC-I20: en lugar del coroplético, la comparación entre regiones -->
 						<ComparacionRegional {indicador} periodo={estado.periodo} />
-					{/if}
-					{#if aviso.disponibles.length}
-						<div class="disponibles">
-							{#each aviso.disponibles as alt, i (alt)}
-								{#if i > 0}<span aria-hidden="true">·</span>{/if}
-								<button type="button" onclick={() => elegirNivel(alt)}>{minuscula(opcionNivel(data.catalogo, alt).etiqueta)}</button>
-							{/each}
-						</div>
 					{/if}
 				</div>
 			{:else if faltaZoom}
@@ -682,25 +704,12 @@
 		min-width: 220px;
 	}
 
-	.disponibles {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: var(--espacio-2);
+	.nivel-unico {
+		margin: 0;
 	}
 
-	.avisos button {
-		margin-top: var(--espacio-2);
-		min-height: var(--toque-min);
-		padding: 0 var(--espacio-3);
-		/* borde con contraste ≥ 3:1 sobre el aviso (WCAG 1.4.11) */
-		border: 1px solid var(--foco);
-		border-radius: var(--radio-s);
-		background: var(--tarjeta);
-		color: var(--info-texto);
-		font: inherit;
+	.nivel-unico .etiqueta-campo {
 		font-weight: 600;
-		cursor: pointer;
 	}
 
 
