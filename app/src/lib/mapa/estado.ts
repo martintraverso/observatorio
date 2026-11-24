@@ -97,7 +97,7 @@ export function avisoNivel(
 	if (ind.niveles.includes('region')) {
 		return { mensaje: `Los ${ind.tema.toLowerCase()} se publican por región: País · Montevideo · Interior.`, disponibles: [], regional: true };
 	}
-	if ((ind.niveles as string[]).includes(nivel)) return null;
+	if (ind.niveles.includes(nivel)) return null;
 	// AC-V9: los niveles del mapa donde sí está, del más fino al más grueso (cada uno será un botón).
 	const disponibles = nivelesOfrecidos(ind, catalogo).reverse();
 	const donde = minuscula(opcionNivel(catalogo, nivel).etiqueta);
@@ -241,8 +241,25 @@ export function estadoDesdeUrl(params: URLSearchParams, indicadores: IndicadorMa
 		nivelAlCambiar(base, nivelesOfrecidos(ind, catalogo), catalogo) ?? (dibujables.includes(base) ? base : (dibujables[0] ?? 'departamento'));
 	const periodo = ind?.periodos.includes(params.get('periodo') ?? '') ? params.get('periodo')! : (ind?.periodos.at(-1) ?? '');
 	const t = params.get('territorio');
-	const territorio = t && /^[a-z_]+\/[0-9A-Za-z-]+$/.test(t) ? t : null;
+	const valido = t && /^[a-z_]+\/[0-9A-Za-z-]+$/.test(t) ? t : null;
+	// AC-N8 + AC-V8: si el nivel se corrigió, el territorio sigue la regla de selección (nunca uno de otro nivel).
+	const territorio = valido && nivel !== pedido ? territorioAlCambiarNivel(valido, nivel, catalogo) : valido;
 	return { indicador: ind?.codigo ?? '', nivel, periodo, territorio };
+}
+
+/**
+ * AC-V8 sin la ficha (al abrir desde la URL): el territorio se conserva si es del nivel; si el nivel nuevo lo contiene
+ * (`dentro_de`) y el padre se sabe por el código, pasa al padre: sección y segmento → su departamento (los dos primeros
+ * dígitos del código INE), lo de Montevideo → departamento 01. Si no, la selección se vacía.
+ */
+export function territorioAlCambiarNivel(territorio: string, nivel: NivelMapa, catalogo: NivelCatalogo[]): string | null {
+	const [desde, codigo] = territorio.split('/');
+	if (desde === nivel) return territorio;
+	const origen = catalogo.find((n) => n.id === desde);
+	if (nivel !== 'departamento' || !origen?.dentro_de.includes('departamento')) return null;
+	if (origen.ambito === 'montevideo') return 'departamento/01';
+	if (desde === 'seccion' || desde === 'segmento') return `departamento/${codigo.slice(0, 2)}`;
+	return null;
 }
 
 export function urlDesdeEstado(e: EstadoMapa): string {
