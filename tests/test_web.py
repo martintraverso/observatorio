@@ -268,6 +268,7 @@ def test_valores_por_nivel_son_los_guardados(web, con):
 
 def test_indicadores_dicen_donde_hay_datos(web, con):
     ind = json.loads((web / "indicadores.json").read_text(encoding="utf-8"))
+    assert all("cuadro" in i and "es_derivado" in i for i in ind)  # F4.7a: main() pasa por con_cuadro
     for i in ind:
         niveles = {r[0] for r in con.execute("""
             select distinct t.nivel from observaciones o join territorios t on t.id = o.territorio_id

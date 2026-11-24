@@ -436,7 +436,7 @@ def csv_observaciones(territorios, obs, indicadores, capturas, fuentes) -> pd.Da
     f = fuentes.assign(fuente=fuentes.organismo + " · " + fuentes.nombre)[["id", "fuente"]].rename(columns={"id": "fuente_id"})
     o = o.merge(c, on="captura_id", how="left").merge(f, on="fuente_id", how="left")
     o["es_estimado"] = o.es_estimado.map({True: "true", False: "false"})
-    o["es_derivado"] = o.es_derivado.fillna(False).astype(bool).map({True: "true", False: "false"})
+    o["es_derivado"] = o.es_derivado.map(lambda v: "true" if v is True or v == True else "false")  # noqa: E712
     o["cuadro"] = o.cuadro.fillna("")
     o["periodo_inicio"] = o.periodo_inicio.map(fecha_iso)
     o["periodo_fin"] = o.periodo_fin.map(fecha_iso)
@@ -459,7 +459,7 @@ def escribir_descargas(s: Path, territorios, obs, indicadores, capturas, fuentes
     csv_observaciones(territorios, obs, indicadores, capturas, fuentes).to_csv(d / "observaciones.csv", index=False)
     registrar(d / "observaciones.csv", "Observaciones",
               "Los valores que muestra la app (fuentes activas) en CSV, con nombre del territorio, unidad, fuente, "
-              "archivo de origen y sha256.")
+              "archivo de origen, sha256, cuadro del anuario (educación) y si el valor lo calculó el observatorio.")
 
     simples = simplificar(territorios, [*GRUPOS_COBERTURA, ["segmento"]],
                           {**GEOJSON, "segmento": TOLERANCIA_SEGMENTO_DESCARGA})

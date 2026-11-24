@@ -38,15 +38,19 @@ def test_la_ficha_del_departamento_trae_la_educacion_con_su_cuadro(web):
 
 
 def test_ac_e28_por_debajo_de_departamento_la_educacion_se_ve_como_dato_del_departamento(web):
-    """Patrón AC-V24: la ficha de un segmento no tiene valores de educación propios, pero sabe (por su departamento)
-    que el tema existe, para decir «Educación: datos por departamento» con el enlace a la ficha del departamento."""
+    """Patrón AC-V24 (los datos; el texto «Educación: datos por departamento» lo muestra la app, F4.7b #192): las
+    fichas de sección, segmento, localidad, barrio y CCZ no tienen valores de educación propios, pero saben por su
+    departamento que el tema existe, con el enlace a esa ficha."""
     fichas, _, t = web
-    seg = next(i for i in t[t.nivel == "segmento"].id if i.startswith("INE-2023/segmento/07"))
-    f = fichas[seg]
-    assert not any(o["indicador"].startswith("edu_") for o in f["observaciones"])
-    depto = next(p for p in f["padres"] if p["nivel"] == "departamento")
-    assert depto["id"] == FLORES and any(k.startswith("edu_") for k in depto["valores"])
-    assert any(i["tema"] == "Educación" for k, i in f["indicadores"].items() if k.startswith("edu_"))
+    for nivel in ("seccion", "segmento", "localidad", "barrio_mvd", "ccz_mvd"):
+        ids = list(t[t.nivel == nivel].id)
+        assert ids, nivel
+        for i in ids:
+            f = fichas[i]
+            assert not any(o["indicador"].startswith("edu_") for o in f["observaciones"]), i
+            depto = next(p for p in f["padres"] if p["nivel"] == "departamento")
+            assert any(k.startswith("edu_") for k in depto["valores"]), i
+            assert any(m["tema"] == "Educación" for k, m in f["indicadores"].items() if k.startswith("edu_")), i
 
 
 def test_la_region_del_interior_lista_educacion_entre_sus_temas(web):
