@@ -350,3 +350,25 @@ def test_ac_e22_y_e24_en_una_corrida_sin_cambios(entorno):
     assert re.search(r"AC-E22, advertencia\): \d+ \(en \d+ indicadores\)", reporte)
     assert re.search(r"^- `edu_[^`]+`, [^,]+, 2023 → 2024: ", reporte, re.M)
     assert "Faltantes: 0." in reporte
+
+
+def test_196_ii_3_2_10_2024_no_se_carga_y_el_control_lo_atrapa_si_vuelve():
+    """#196: en el archivo 2024 de II-3.2.10, el TOTAL y «Articulación» son iguales en todas las filas y «EBI» los
+    repite en el Interior. El cuadro-año no se carga (mantenedor); si un anuario vuelve a publicar un total que no es
+    la suma de los tipos de curso, AC-E19 (`desgloses_extra`) frena la carga."""
+    import mec_anuario as mec
+    import mec_anuario_controles as mc
+
+    e = FUENTE["cuadros"]["II-3.2.10"]
+    assert e["mapeo"][2024] is None and "Articulación" in e["sin_cargar"][2024]
+    assert e["mapeo"][2023]  # los demás años siguen
+    manual = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario" / "mapeo_manual.yml").read_text(encoding="utf-8"))
+    # el mapeo de 2024 como sería sin la decisión (una columna por ruta): el control lo frena
+    xlsx = fix(2024)
+    celdas, combinadas = mec.celdas_de(xlsx, mec.hoja_del_cuadro(xlsx, "II-3.2.10"))
+    est = mec.estructura(celdas, combinadas, "II-3.2.10")
+    m24 = [{"col": mec.letra(c), "ruta": r, "id": f"edu_ii_3_2_10_{mec.slug(r)}"} for c, r in sorted(est.rutas.items())]
+    c = mec.parsear_cuadro(xlsx, "II-3.2.10", 2024, m24, "A")
+    fuente = {"cuadros": {"II-3.2.10": {**e, "mapeo": {**e["mapeo"], 2024: m24}}}}
+    r = mc.controles(c.datos, fuente, manual, set(), set(c.sin_dato_claves), {"2024"})
+    assert any(f["control"].startswith("AC-E19") and "II-3.2.10" in f["detalle"] for f in r.controles.fallas)

@@ -121,6 +121,15 @@ reagrupaciones:
 
 # desgloses_extra (F4.5a, AC-E19): partes de un total que el encabezado no dice (rutas del archivo o conceptos).
 desgloses_extra:
+  II-3.2.10:  # #196: el total de cada sexo y resultado = la suma de los tipos de curso (2024 no cierra y no se carga)
+    - total: RENDIMIENTO/Promovido/SEXO/Varón
+      partes: ["TIPO DE CURSO/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/RENDIMIENTO/Promovido/SEXO/Varón", "TIPO DE CURSO/EDUCACION BASICA INTEGRADA/RENDIMIENTO/Promovido/SEXO/Varón", "TIPO DE CURSO/FORMACIÓN PROFESIONAL BÁSICA/RENDIMIENTO/Promovido/SEXO/Varón"]
+    - total: RENDIMIENTO/Promovido/SEXO/Mujer
+      partes: ["TIPO DE CURSO/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/RENDIMIENTO/Promovido/SEXO/Mujer", "TIPO DE CURSO/EDUCACION BASICA INTEGRADA/RENDIMIENTO/Promovido/SEXO/Mujer", "TIPO DE CURSO/FORMACIÓN PROFESIONAL BÁSICA/RENDIMIENTO/Promovido/SEXO/Mujer"]
+    - total: RENDIMIENTO/No Promovido/SEXO/Varón
+      partes: ["TIPO DE CURSO/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/RENDIMIENTO/No promovido/SEXO/Varón", "TIPO DE CURSO/EDUCACION BASICA INTEGRADA/RENDIMIENTO/No promovido/SEXO/Varón", "TIPO DE CURSO/FORMACIÓN PROFESIONAL BÁSICA/RENDIMIENTO/No promovido/SEXO/Varón"]
+    - total: RENDIMIENTO/No Promovido/SEXO/Mujer
+      partes: ["TIPO DE CURSO/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/RENDIMIENTO/No promovido/SEXO/Mujer", "TIPO DE CURSO/EDUCACION BASICA INTEGRADA/RENDIMIENTO/No promovido/SEXO/Mujer", "TIPO DE CURSO/FORMACIÓN PROFESIONAL BÁSICA/RENDIMIENTO/No promovido/SEXO/Mujer"]
   II-1.2.4:  # el TOTAL es varones + mujeres + los «sin dato» de CPIP (columna dentro de CPIP)
     - total: TOTAL
       partes: ["TOTAL/SEXO/VARÓN", "TOTAL/SEXO/MUJER", "FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato"]
@@ -246,3 +255,8 @@ control_ine:
   "3.1.12":  # aprobación en media superior pública (%) = tasa de promoción
     General: {2023: edu_ii_4_2_14_rendimiento_tasa_promocion, 2024: edu_ii_4_2_14_forma_de_administracion_publica_tasa_promocion_total}
     Vocacional: {2023: edu_ii_4_2_13_rendimiento_tasa_promocion, 2024: edu_ii_4_2_13_rendimiento_tasa_promocion_total}
+
+# cuadros_sin_cargar (#196): cuadros-año que el archivo publica mal y no se cargan (decisión del mantenedor).
+cuadros_sin_cargar:
+  II-3.2.10:
+    2024: "en el archivo, el TOTAL y «Articulación» son iguales en las 21 filas y «EBI» los repite en el Interior y los 18 departamentos (Articulación pasa de 2.549 promovidos en 2023 a 18.529); no se carga el cuadro de 2024 (mantenedor, #196)"
