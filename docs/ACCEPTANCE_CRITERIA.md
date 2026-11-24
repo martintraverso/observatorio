@@ -69,7 +69,7 @@ Legend: **[auto]** = must be covered by an automated test · **[manual]** = chec
 - **AC-F2** [manual] A ficha shows breadcrumb, name, level, code, locator map, key figures with source, and links to parent and child territories.
 - **AC-F3** [manual] A segment ficha shows its own counts and, in "Más datos en los niveles que contienen este territorio", the section and department values with links.
 - **AC-F4** [manual] Department fichas explain, where relevant, that the sum of sections does not equal the department total, with the INE reason.
-- **AC-F5** [auto] "Descargar CSV" downloads exactly the values shown on the ficha, with columns `territorio_id, nivel, codigo, nombre, indicador, periodo, periodo_inicio, periodo_fin, tipo_periodo, valor, unidad, es_estimado, fuente, archivo_origen, sha256` (period columns added in F2.2, AC-L27).
+- **AC-F5** [auto] "Descargar CSV" downloads exactly the values shown on the ficha, with columns `territorio_id, nivel, codigo, nombre, indicador, periodo, periodo_inicio, periodo_fin, tipo_periodo, valor, unidad, es_estimado, fuente, archivo_origen, sha256, cuadro, es_derivado` (period columns added in F2.2, AC-L27; `cuadro` and `es_derivado` in F4.7a, AC-E31).
 - **AC-F6** [manual] "Cómo citar" produces a citation including the observatory, the territory, the access date and the original source (INE).
 - **AC-F7** [manual] Topics with no data show an explicit "Todavía no hay fuentes cargadas para este tema" notice.
 ## I. Fuentes

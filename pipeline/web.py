@@ -248,6 +248,12 @@ def valores_por_nivel(territorios: gpd.GeoDataFrame, obs: pd.DataFrame) -> dict[
     return salida
 
 
+def con_cuadro(indicadores: pd.DataFrame) -> pd.DataFrame:
+    """F4.7a (#191, AC-E29/E31): el código del cuadro de origen de cada indicador del anuario del MEC («II-2.2.1»),
+    tomado de su `columna_origen` («Cuadro II-2.2.1 · …»); vacío para los demás."""
+    return indicadores.assign(cuadro=indicadores.columna_origen.fillna("").str.extract(r"^Cuadro (II-[\d.]+)")[0].fillna(""))
+
+
 def disponibilidad(indicadores: pd.DataFrame, territorios: gpd.GeoDataFrame, obs: pd.DataFrame) -> list[dict]:
     """indicadores.json: cada indicador con los niveles y períodos en que hay datos (AC-M2)."""
     nivel = obs.territorio_id.map(territorios.set_index("id").nivel)
@@ -413,19 +419,25 @@ CITA = ("Observatorio Uruguay, a partir de INE, Unidades geoestadísticas Censo 
         "Indicar el archivo y la fecha de descarga.")
 TOLERANCIA_SEGMENTO_DESCARGA = 0.0004
 COLUMNAS_CSV = ["territorio_id", "nivel", "codigo", "nombre", "indicador", "periodo", "periodo_inicio", "periodo_fin",
-                "tipo_periodo", "valor", "unidad", "es_estimado", "fuente", "archivo_origen", "sha256"]
+                "tipo_periodo", "valor", "unidad", "es_estimado", "fuente", "archivo_origen", "sha256",
+                "cuadro", "es_derivado"]  # F4.7a (#191, AC-E31): cuadro de origen (MEC) y si lo calculó el observatorio
 
 
 def csv_observaciones(territorios, obs, indicadores, capturas, fuentes) -> pd.DataFrame:
     """Las mismas columnas que el CSV de cada ficha (AC-F5), para todas las observaciones."""
     t = territorios.set_index("id")[["nivel", "codigo", "nombre"]]
-    o = obs.join(t, on="territorio_id").merge(indicadores[["codigo", "unidad"]].rename(columns={"codigo": "indicador"}),
-                                              on="indicador", how="left")
+    ind = indicadores if "cuadro" in indicadores else con_cuadro(indicadores)
+    if "es_derivado" not in ind:
+        ind = ind.assign(es_derivado=False)
+    o = obs.join(t, on="territorio_id").merge(
+        ind[["codigo", "unidad", "cuadro", "es_derivado"]].rename(columns={"codigo": "indicador"}), on="indicador", how="left")
     c = capturas.rename(columns={"id": "captura_id", "archivo": "archivo_origen"})[
         ["captura_id", "fuente_id", "archivo_origen", "sha256"]]
     f = fuentes.assign(fuente=fuentes.organismo + " · " + fuentes.nombre)[["id", "fuente"]].rename(columns={"id": "fuente_id"})
     o = o.merge(c, on="captura_id", how="left").merge(f, on="fuente_id", how="left")
     o["es_estimado"] = o.es_estimado.map({True: "true", False: "false"})
+    o["es_derivado"] = o.es_derivado.map(lambda v: "true" if v is True or v == True else "false")  # noqa: E712
+    o["cuadro"] = o.cuadro.fillna("")
     o["periodo_inicio"] = o.periodo_inicio.map(fecha_iso)
     o["periodo_fin"] = o.periodo_fin.map(fecha_iso)
     return o[COLUMNAS_CSV].sort_values(["territorio_id", "indicador", "periodo"]).reset_index(drop=True)
@@ -447,7 +459,7 @@ def escribir_descargas(s: Path, territorios, obs, indicadores, capturas, fuentes
     csv_observaciones(territorios, obs, indicadores, capturas, fuentes).to_csv(d / "observaciones.csv", index=False)
     registrar(d / "observaciones.csv", "Observaciones",
               "Los valores que muestra la app (fuentes activas) en CSV, con nombre del territorio, unidad, fuente, "
-              "archivo de origen y sha256.")
+              "archivo de origen, sha256, cuadro del anuario (educación) y si el valor lo calculó el observatorio.")
 
     simples = simplificar(territorios, [*GRUPOS_COBERTURA, ["segmento"]],
                           {**GEOJSON, "segmento": TOLERANCIA_SEGMENTO_DESCARGA})
@@ -509,6 +521,7 @@ def main(argv=None):
     historial = pd.read_parquet(s / ARCHIVO_HISTORIAL) if (s / ARCHIVO_HISTORIAL).exists() else capturas.iloc[0:0]
     obs, indicadores, capturas, historial = solo_activas(  # F2.5d
         obs, indicadores, capturas, fuentes, historial, incluir_en_preparacion=args.incluir_en_preparacion)
+    indicadores = con_cuadro(indicadores)
     if args.incluir_en_preparacion:
         print("Vista previa: incluye fuentes «en preparación». No publicar esta salida.", file=sys.stderr)
 

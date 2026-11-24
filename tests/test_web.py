@@ -268,6 +268,7 @@ def test_valores_por_nivel_son_los_guardados(web, con):
 
 def test_indicadores_dicen_donde_hay_datos(web, con):
     ind = json.loads((web / "indicadores.json").read_text(encoding="utf-8"))
+    assert all("cuadro" in i and "es_derivado" in i for i in ind)  # F4.7a: main() pasa por con_cuadro
     for i in ind:
         niveles = {r[0] for r in con.execute("""
             select distinct t.nivel from observaciones o join territorios t on t.id = o.territorio_id
@@ -307,11 +308,11 @@ def test_csv_de_observaciones(salida, con):
                           dtype={"codigo": str, "periodo": str, "periodo_inicio": str, "periodo_fin": str})
     assert list(csv.columns) == ["territorio_id", "nivel", "codigo", "nombre", "indicador", "periodo", "periodo_inicio",
                                  "periodo_fin", "tipo_periodo", "valor", "unidad", "es_estimado", "fuente",
-                                 "archivo_origen", "sha256"]
+                                 "archivo_origen", "sha256", "cuadro", "es_derivado"]
     assert len(csv) == con.execute("""select count(*) from observaciones o
         join capturas c on c.id = o.captura_id join fuentes f on f.id = c.fuente_id and f.estado = 'activa'""").fetchone()[0]  # lo que muestra la app (fuentes activas)
     # valor puede venir vacío si el INE no lo publica (barrio 'N/a', código 1000000); el resto no.
-    assert csv.drop(columns='valor').notna().all().all()
+    assert csv.drop(columns=['valor', 'cuadro']).notna().all().all()  # cuadro: solo en los valores del MEC
     flores = csv[(csv.territorio_id == "INE-2023/departamento/07") & (csv.indicador == "pob_total")]
     assert flores.valor.tolist() == [26271] and flores.unidad.tolist() == ["personas"]
     assert flores[["periodo_inicio", "periodo_fin", "tipo_periodo"]].values.tolist() == [["2023-01-01", "2023-01-01", "censo"]]
