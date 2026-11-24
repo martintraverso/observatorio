@@ -94,7 +94,8 @@
 	const CAPAS = untrack(() => nivelesDibujables(catalogo));
 	const NIVELES = CAPAS.map((c) => c.id);
 	// Capas del PMTiles donde puede estar un territorio seleccionado (también desde la búsqueda).
-	const NIVELES_SELECCION = ['departamento', 'area_especial', 'municipio_mvd', 'seccion', 'segmento', 'localidad', 'barrio_mvd', 'ccz_mvd'];
+	// M11.3: todos los niveles con capa del catálogo, vayan o no al selector (localidad y CCZ se eligen desde la búsqueda).
+	const NIVELES_SELECCION = untrack(() => catalogo.filter((c) => c.capa).map((c) => c.id));
 	const URUGUAY: [[number, number], [number, number]] = [
 		[-58.5, -35.05],
 		[-53.05, -30.05]

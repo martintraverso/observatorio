@@ -276,10 +276,12 @@ def valores_por_nivel(territorios: gpd.GeoDataFrame, obs: pd.DataFrame) -> dict[
 
 def catalogo_niveles() -> list[dict]:
     """niveles.json (AC-N1): cada nivel con id, etiqueta, ayuda, orden, dibujable, zoom mínimo, ámbito y dentro_de.
-    `dibujable`: el nivel va al mapa (D1) y tiene capa en el PMTiles; país y región nunca (AC-N3)."""
+    `dibujable`: el nivel va al mapa (D1) y tiene capa en el PMTiles; país y región nunca (AC-N3). `capa`: tiene capa en
+    el PMTiles aunque no vaya al selector (localidad, CCZ): el mapa resalta ahí lo elegido en la búsqueda (M11.3)."""
     return [{
         "id": n["id"], "etiqueta": n["etiqueta"], "ayuda": n.get("ayuda"), "orden": i,
         "dibujable": n["en_mapa"] and n["id"] in PMTILES_MINZOOM and n["id"] not in SIN_GEOMETRIA,
+        "capa": n["id"] in PMTILES_MINZOOM and n["id"] not in SIN_GEOMETRIA,
         "minzoom": PMTILES_MINZOOM.get(n["id"]) or None, "ambito": n["ambito"], "dentro_de": n["dentro_de"],
     } for i, n in enumerate(NIVELES_CATALOGO)]
 
