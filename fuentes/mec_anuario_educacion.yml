@@ -7635,198 +7635,111 @@ cuadros:
       - col: B
         ruta: RENDIMIENTO/Promovido
         id: edu_ii_3_2_10_rendimiento_promovido
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: C
         ruta: RENDIMIENTO/No Promovido
         id: edu_ii_3_2_10_rendimiento_no_promovido
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: D
         ruta: ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/RENDIMIENTO/Promovido
         id: edu_ii_3_2_10_articulacion_educacion_media_basica_rendimiento_promovido
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
       - col: E
         ruta: ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/RENDIMIENTO/No promovido
         id: edu_ii_3_2_10_articulacion_educacion_media_basica_rendimiento_no_promovido
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
       - col: F
         ruta: C.B.T. AGRARIO/RENDIMIENTO/Promovido
         id: edu_ii_3_2_10_c_b_t_agrario_rendimiento_promovido
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: G
         ruta: C.B.T. AGRARIO/RENDIMIENTO/No promovido
         id: edu_ii_3_2_10_c_b_t_agrario_rendimiento_no_promovido
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: H
         ruta: CICLO BÁSICO TECNOLÓGICO/RENDIMIENTO/Promovido
         id: edu_ii_3_2_10_ciclo_basico_tecnologico_rendimiento_promovido
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: I
         ruta: CICLO BÁSICO TECNOLÓGICO/RENDIMIENTO/No promovido
         id: edu_ii_3_2_10_ciclo_basico_tecnologico_rendimiento_no_promovido
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: J
         ruta: 'FORMACIÓN PROFESIONAL BÁSICA Plan: 2007/RENDIMIENTO/Promovido'
         id: edu_ii_3_2_10_formacion_profesional_basica_plan_2007_rendimiento_promovido
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: K
         ruta: 'FORMACIÓN PROFESIONAL BÁSICA Plan: 2007/RENDIMIENTO/No promovido'
         id: edu_ii_3_2_10_formacion_profesional_basica_plan_2007_rendimiento_no_promovido
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: L
         ruta: PROGRAMA CENTROS EDUC. COMUNITARIOS/RENDIMIENTO/Promovido
         id: edu_ii_3_2_10_programa_centros_educ_comunitarios_rendimiento_promovido
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: M
         ruta: PROGRAMA CENTROS EDUC. COMUNITARIOS/RENDIMIENTO/No promovido
         id: edu_ii_3_2_10_programa_centros_educ_comunitarios_rendimiento_no_promovido
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       2022:
       - col: B
         ruta: RENDIMIENTO/Promovido
         id: edu_ii_3_2_10_rendimiento_promovido
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: C
         ruta: RENDIMIENTO/No Promovido
         id: edu_ii_3_2_10_rendimiento_no_promovido
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: D
         ruta: ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/RENDIMIENTO/Promovido
         id: edu_ii_3_2_10_articulacion_educacion_media_basica_rendimiento_promovido
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
       - col: E
         ruta: ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/RENDIMIENTO/No promovido
         id: edu_ii_3_2_10_articulacion_educacion_media_basica_rendimiento_no_promovido
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
       - col: F
         ruta: C.B.T. AGRARIO/RENDIMIENTO/Promovido
         id: edu_ii_3_2_10_c_b_t_agrario_rendimiento_promovido
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: G
         ruta: C.B.T. AGRARIO/RENDIMIENTO/No promovido
         id: edu_ii_3_2_10_c_b_t_agrario_rendimiento_no_promovido
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: H
         ruta: CICLO BÁSICO TECNOLÓGICO/RENDIMIENTO/Promovido
         id: edu_ii_3_2_10_ciclo_basico_tecnologico_rendimiento_promovido
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: I
         ruta: CICLO BÁSICO TECNOLÓGICO/RENDIMIENTO/No promovido
         id: edu_ii_3_2_10_ciclo_basico_tecnologico_rendimiento_no_promovido
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: J
         ruta: 'FORMACIÓN PROFESIONAL BÁSICA Plan: 2007/RENDIMIENTO/Promovido'
         id: edu_ii_3_2_10_formacion_profesional_basica_plan_2007_rendimiento_promovido
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: K
         ruta: 'FORMACIÓN PROFESIONAL BÁSICA Plan: 2007/RENDIMIENTO/No promovido'
         id: edu_ii_3_2_10_formacion_profesional_basica_plan_2007_rendimiento_no_promovido
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: L
         ruta: FORMACIÓN PROFESIONAL BÁSICA/RENDIMIENTO/Promovido
         id: edu_ii_3_2_10_formacion_profesional_basica_rendimiento_promovido
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
       - col: M
         ruta: FORMACIÓN PROFESIONAL BÁSICA/RENDIMIENTO/No promovido
         id: edu_ii_3_2_10_formacion_profesional_basica_rendimiento_no_promovido
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
       2023:
       - col: B
         ruta: RENDIMIENTO/Promovido
         id: edu_ii_3_2_10_rendimiento_promovido
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: C
         ruta: RENDIMIENTO/No Promovido
         id: edu_ii_3_2_10_rendimiento_no_promovido
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: D
         ruta: ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/RENDIMIENTO/Promovido
         id: edu_ii_3_2_10_articulacion_educacion_media_basica_rendimiento_promovido
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
       - col: E
         ruta: ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/RENDIMIENTO/No promovido
         id: edu_ii_3_2_10_articulacion_educacion_media_basica_rendimiento_no_promovido
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
       - col: F
         ruta: EDUCACION BASICA INTEGRADA/RENDIMIENTO/Promovido
         id: edu_ii_3_2_10_educacion_basica_integrada_rendimiento_promovido
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
       - col: G
         ruta: EDUCACION BASICA INTEGRADA/RENDIMIENTO/No promovido
         id: edu_ii_3_2_10_educacion_basica_integrada_rendimiento_no_promovido
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
       - col: H
         ruta: FORMACIÓN PROFESIONAL BÁSICA/RENDIMIENTO/Promovido
         id: edu_ii_3_2_10_formacion_profesional_basica_rendimiento_promovido
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
       - col: I
         ruta: FORMACIÓN PROFESIONAL BÁSICA/RENDIMIENTO/No promovido
         id: edu_ii_3_2_10_formacion_profesional_basica_rendimiento_no_promovido
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
       - col: J
         ruta: 'FORMACIÓN PROFESIONAL BÁSICA Plan: 2007/RENDIMIENTO/Promovido'
         id: edu_ii_3_2_10_formacion_profesional_basica_plan_2007_rendimiento_promovido
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: K
         ruta: 'FORMACIÓN PROFESIONAL BÁSICA Plan: 2007/RENDIMIENTO/No promovido'
         id: edu_ii_3_2_10_formacion_profesional_basica_plan_2007_rendimiento_no_promovido
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      2024:
-      - col: B
-        ruta: RENDIMIENTO/Promovido/SEXO/Varón
-        id: edu_ii_3_2_10_rendimiento_promovido_sexo_varon
-        omitir: 'en el archivo, el TOTAL repite los valores de «Articulación» (10.960 / 7.569 promovidos), aunque EBI y FPB vienen aparte; no se carga (mantenedor,
-          #196)'
-      - col: C
-        ruta: RENDIMIENTO/Promovido/SEXO/Mujer
-        id: edu_ii_3_2_10_rendimiento_promovido_sexo_mujer
-        omitir: 'en el archivo, el TOTAL repite los valores de «Articulación» (10.960 / 7.569 promovidos), aunque EBI y FPB vienen aparte; no se carga (mantenedor,
-          #196)'
-      - col: D
-        ruta: RENDIMIENTO/No Promovido/SEXO/Varón
-        id: edu_ii_3_2_10_rendimiento_no_promovido_sexo_varon
-        omitir: 'en el archivo, el TOTAL repite los valores de «Articulación» (10.960 / 7.569 promovidos), aunque EBI y FPB vienen aparte; no se carga (mantenedor,
-          #196)'
-      - col: E
-        ruta: RENDIMIENTO/No Promovido/SEXO/Mujer
-        id: edu_ii_3_2_10_rendimiento_no_promovido_sexo_mujer
-        omitir: 'en el archivo, el TOTAL repite los valores de «Articulación» (10.960 / 7.569 promovidos), aunque EBI y FPB vienen aparte; no se carga (mantenedor,
-          #196)'
-      - col: F
-        ruta: TIPO DE CURSO/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/RENDIMIENTO/Promovido/SEXO/Varón
-        id: edu_ii_3_2_10_tipo_de_curso_articulacion_educacion_media_basica_rendimiento_promovido_sexo_varon
-      - col: G
-        ruta: TIPO DE CURSO/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/RENDIMIENTO/Promovido/SEXO/Mujer
-        id: edu_ii_3_2_10_tipo_de_curso_articulacion_educacion_media_basica_rendimiento_promovido_sexo_mujer
-      - col: H
-        ruta: TIPO DE CURSO/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/RENDIMIENTO/No promovido/SEXO/Varón
-        id: edu_ii_3_2_10_tipo_de_curso_articulacion_educacion_media_basica_rendimiento_no_promovido_sexo_varon
-      - col: I
-        ruta: TIPO DE CURSO/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/RENDIMIENTO/No promovido/SEXO/Mujer
-        id: edu_ii_3_2_10_tipo_de_curso_articulacion_educacion_media_basica_rendimiento_no_promovido_sexo_mujer
-      - col: J
-        ruta: TIPO DE CURSO/EDUCACION BASICA INTEGRADA/RENDIMIENTO/Promovido/SEXO/Varón
-        id: edu_ii_3_2_10_tipo_de_curso_educacion_basica_integrada_rendimiento_promovido_sexo_varon
-      - col: K
-        ruta: TIPO DE CURSO/EDUCACION BASICA INTEGRADA/RENDIMIENTO/Promovido/SEXO/Mujer
-        id: edu_ii_3_2_10_tipo_de_curso_educacion_basica_integrada_rendimiento_promovido_sexo_mujer
-      - col: L
-        ruta: TIPO DE CURSO/EDUCACION BASICA INTEGRADA/RENDIMIENTO/No promovido/SEXO/Varón
-        id: edu_ii_3_2_10_tipo_de_curso_educacion_basica_integrada_rendimiento_no_promovido_sexo_varon
-      - col: M
-        ruta: TIPO DE CURSO/EDUCACION BASICA INTEGRADA/RENDIMIENTO/No promovido/SEXO/Mujer
-        id: edu_ii_3_2_10_tipo_de_curso_educacion_basica_integrada_rendimiento_no_promovido_sexo_mujer
-      - col: N
-        ruta: TIPO DE CURSO/FORMACIÓN PROFESIONAL BÁSICA/RENDIMIENTO/Promovido/SEXO/Varón
-        id: edu_ii_3_2_10_tipo_de_curso_formacion_profesional_basica_rendimiento_promovido_sexo_varon
-      - col: O
-        ruta: TIPO DE CURSO/FORMACIÓN PROFESIONAL BÁSICA/RENDIMIENTO/Promovido/SEXO/Mujer
-        id: edu_ii_3_2_10_tipo_de_curso_formacion_profesional_basica_rendimiento_promovido_sexo_mujer
-      - col: P
-        ruta: TIPO DE CURSO/FORMACIÓN PROFESIONAL BÁSICA/RENDIMIENTO/No promovido/SEXO/Varón
-        id: edu_ii_3_2_10_tipo_de_curso_formacion_profesional_basica_rendimiento_no_promovido_sexo_varon
-      - col: Q
-        ruta: TIPO DE CURSO/FORMACIÓN PROFESIONAL BÁSICA/RENDIMIENTO/No promovido/SEXO/Mujer
-        id: edu_ii_3_2_10_tipo_de_curso_formacion_profesional_basica_rendimiento_no_promovido_sexo_mujer
+      2024: null
+    sin_cargar:
+      2024: 'en el archivo, el TOTAL y «Articulación» son iguales en las 21 filas y «EBI» los repite en el Interior y los 18 departamentos (Articulación pasa de 2.549
+        promovidos en 2023 a 18.529); no se carga el cuadro de 2024 (mantenedor, #196)'
   II-3.2.11:
     titulo: RENDIMIENTO EDUCATIVO EN EDUCACIÓN MEDIA BÁSICA GENERAL POR FORMA DE ADMINISTRACIÓN Y GRADO SEGÚN DEPARTAMENTO
     tipos:

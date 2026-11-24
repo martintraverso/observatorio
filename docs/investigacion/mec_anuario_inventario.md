@@ -642,9 +642,6 @@ de 2024 (`equivale_2024`); las demás conservan su id con un `motivo_d6`. Lo que
   - 13 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
   - 4 × 2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente
   - 3 × concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí
-- **II-3.2.10:** 0 equivalencias, 34 con motivo
-  - 22 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
-  - 12 × 2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente
 - **II-3.2.11:** 0 equivalencias, 54 con motivo
   - 54 × 2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente
 - **II-4.1.1:** 6 equivalencias, 9 con motivo

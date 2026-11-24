@@ -352,24 +352,23 @@ def test_ac_e22_y_e24_en_una_corrida_sin_cambios(entorno):
     assert "Faltantes: 0." in reporte
 
 
-def test_196_el_total_de_ii_3_2_10_2024_no_se_carga_y_el_control_lo_atrapa_si_vuelve():
-    """#196: en el archivo 2024 el TOTAL repite «Articulación». Se omite (mantenedor); si un anuario lo vuelve a
-    publicar así, AC-E19 (total = suma de los tipos de curso, `desgloses_extra`) frena la carga."""
-    import copy
-
+def test_196_ii_3_2_10_2024_no_se_carga_y_el_control_lo_atrapa_si_vuelve():
+    """#196: en el archivo 2024 de II-3.2.10, el TOTAL y «Articulación» son iguales en todas las filas y «EBI» los
+    repite en el Interior. El cuadro-año no se carga (mantenedor); si un anuario vuelve a publicar un total que no es
+    la suma de los tipos de curso, AC-E19 (`desgloses_extra`) frena la carga."""
     import mec_anuario as mec
     import mec_anuario_controles as mc
 
     e = FUENTE["cuadros"]["II-3.2.10"]
-    assert all("Articulación" in x["omitir"] for x in e["mapeo"][2024] if x["col"] in "BCDE")
-    c = mec.parsear_cuadro(fix(2024), "II-3.2.10", 2024, e["mapeo"][2024], e["tipos"][2024])
-    assert not c.datos.indicador.str.startswith("edu_ii_3_2_10_rendimiento_promovido").any()
+    assert e["mapeo"][2024] is None and "Articulación" in e["sin_cargar"][2024]
+    assert e["mapeo"][2023]  # los demás años siguen
     manual = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario" / "mapeo_manual.yml").read_text(encoding="utf-8"))
-    ok = mc.controles(c.datos, {"cuadros": {"II-3.2.10": e}}, manual, set(), set(c.sin_dato_claves), {"2024"})
-    assert not [f for f in ok.controles.fallas if f["control"].startswith("AC-E19")]
-    sin_omitir = copy.deepcopy(e)
-    for x in sin_omitir["mapeo"][2024]:
-        x.pop("omitir", None)
-    c2 = mec.parsear_cuadro(fix(2024), "II-3.2.10", 2024, sin_omitir["mapeo"][2024], e["tipos"][2024])
-    r = mc.controles(c2.datos, {"cuadros": {"II-3.2.10": sin_omitir}}, manual, set(), set(c2.sin_dato_claves), {"2024"})
+    # el mapeo de 2024 como sería sin la decisión (una columna por ruta): el control lo frena
+    xlsx = fix(2024)
+    celdas, combinadas = mec.celdas_de(xlsx, mec.hoja_del_cuadro(xlsx, "II-3.2.10"))
+    est = mec.estructura(celdas, combinadas, "II-3.2.10")
+    m24 = [{"col": mec.letra(c), "ruta": r, "id": f"edu_ii_3_2_10_{mec.slug(r)}"} for c, r in sorted(est.rutas.items())]
+    c = mec.parsear_cuadro(xlsx, "II-3.2.10", 2024, m24, "A")
+    fuente = {"cuadros": {"II-3.2.10": {**e, "mapeo": {**e["mapeo"], 2024: m24}}}}
+    r = mc.controles(c.datos, fuente, manual, set(), set(c.sin_dato_claves), {"2024"})
     assert any(f["control"].startswith("AC-E19") and "II-3.2.10" in f["detalle"] for f in r.controles.fallas)
