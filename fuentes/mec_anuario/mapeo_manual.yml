@@ -187,3 +187,62 @@ controles_excepciones:
         motivo: "varones + mujeres no da el total en el archivo (país: total 287.805 contra 287.610; privada 45.558 contra 45.363)"
         indicadores: [edu_ii_2_2_1_total, edu_ii_2_2_1_forma_de_administracion_privada_total]
         territorios: [pais/UY, region/interior, departamento/01, departamento/03, departamento/05, departamento/06, departamento/10, departamento/13]
+
+# control_ine (F4.5b, AC-E23): columna de cada tabla 3.1.x del Anuario del INE → el indicador del MEC que es la
+# misma medida (un id para todos los años, o {año: id} si el código cambia). Solo para comparar: los valores del
+# INE nunca se cargan. Armado con la carga real (mismo valor del país); revisado a mano.
+control_ine:
+  "3.1.3":  # primaria común
+    Pública/Alumnos: edu_ii_2_2_1_forma_de_administracion_publica_total
+    Privada/Alumnos: edu_ii_2_2_1_forma_de_administracion_privada_total
+    Pública/Establecimientos: edu_ii_2_1_1_forma_de_administracion_tipo_de_educacion_publica_comun
+    Privada/Establecimientos: edu_ii_2_1_1_forma_de_administracion_tipo_de_educacion_privada_comun
+    Pública/Maestros: edu_ii_2_3_1_tipo_de_educacion_comun
+  "3.1.4":  # primaria especial
+    Pública/Establecimientos: edu_ii_2_1_1_forma_de_administracion_tipo_de_educacion_publica_especial
+    Privada/Establecimientos: edu_ii_2_1_1_forma_de_administracion_tipo_de_educacion_privada_especial
+    Pública/Maestros: edu_ii_2_3_1_tipo_de_educacion_especial
+    Pública/Estudiantes: edu_serie_total_educacion_primaria_primaria_especial_especial_publica
+    Privada/Estudiantes: edu_serie_total_educacion_primaria_primaria_especial_especial_privada
+  "3.1.5":  # media básica: establecimientos y estudiantes
+    General/Pública/Establecimientos: edu_ii_3_1_1_dges_total_liceos_publicos
+    General/Privada/Establecimientos: edu_ii_3_1_1_modalidad_dges_forma_de_administracion_total_liceos_privados
+    General/Pública/Estudiantes: edu_ii_3_2_1_grado_total__media_basica_publica
+    General/Privada/Estudiantes: edu_ii_3_2_1_grado_total__media_basica_privada
+    Vocacional/Pública/Establecimientos: edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_total_publicos
+    Vocacional/Privada/Establecimientos: edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_total_privados
+    Vocacional/Pública/Estudiantes: edu_ii_3_2_2_total_publica
+    Vocacional/Privada/Estudiantes: edu_ii_3_2_2_privada_total
+  "3.1.6":  # media básica por sexo
+    General/Pública/Hombres: edu_ii_3_2_9_forma_de_administracion_publica_sexo_varon__total
+    General/Pública/Mujeres: edu_ii_3_2_9_forma_de_administracion_publica_sexo_mujer__total
+    General/Privada/Hombres: edu_ii_3_2_9_forma_de_administracion_privada_sexo_varon__total
+    General/Privada/Mujeres: edu_ii_3_2_9_forma_de_administracion_privada_sexo_mujer__total
+    Vocacional/Pública/Hombres: edu_ii_3_2_2_publica_sexo_v
+    Vocacional/Pública/Mujeres: edu_ii_3_2_2_publica_sexo_m
+    Vocacional/Privada/Hombres: edu_ii_3_2_2_privada_sexo_v
+    Vocacional/Privada/Mujeres: edu_ii_3_2_2_privada_sexo_m
+  "3.1.8":  # aprobación en media básica pública (%) = tasa de promoción; en 2024 el MEC la publica solo por sexo
+    General: {2023: edu_ii_3_2_11_publica_rendimiento_tasa_promocion}
+    Vocacional: {2023: edu_ii_3_2_10_rendimiento_tasa_promocion}
+  "3.1.9":  # media superior: establecimientos y estudiantes
+    General/Pública/Establecimientos: edu_ii_4_1_1_dges_total_liceos_publicos
+    General/Privada/Establecimientos: edu_ii_4_1_1_modalidad_dges_forma_de_administracion_total_liceos_privados
+    General/Pública/Estudiantes: edu_ii_4_2_1_total__media_superior_publica
+    General/Privada/Estudiantes: edu_ii_4_2_1_total__media_superior_privada
+    Vocacional/Pública/Establecimientos: edu_ii_4_1_1_modalidad_dgetp_forma_de_administracion_total_publicos
+    Vocacional/Privada/Establecimientos: edu_ii_4_1_1_modalidad_dgetp_forma_de_administracion_total_privados
+    Vocacional/Pública/Estudiantes: edu_ii_4_2_2_total_publica
+    Vocacional/Privada/Estudiantes: edu_ii_4_2_2_total_privada
+  "3.1.10":  # media superior por sexo
+    General/Pública/Hombres: edu_ii_4_2_12_forma_de_administracion_publica_sexo_varon__total
+    General/Pública/Mujeres: edu_ii_4_2_12_forma_de_administracion_publica_sexo_mujer__total
+    General/Privada/Hombres: edu_ii_4_2_12_forma_de_administracion_privada_sexo_varon__total
+    General/Privada/Mujeres: edu_ii_4_2_12_forma_de_administracion_privada_sexo_mujer__total
+    Vocacional/Pública/Hombres: edu_ii_4_2_2_publica_sexo_varon
+    Vocacional/Pública/Mujeres: edu_ii_4_2_2_publica_sexo_mujer
+    Vocacional/Privada/Hombres: edu_ii_4_2_2_privada_sexo_varon
+    Vocacional/Privada/Mujeres: edu_ii_4_2_2_privada_sexo_mujer
+  "3.1.12":  # aprobación en media superior pública (%) = tasa de promoción
+    General: {2023: edu_ii_4_2_14_rendimiento_tasa_promocion, 2024: edu_ii_4_2_14_forma_de_administracion_publica_tasa_promocion_total}
+    Vocacional: {2023: edu_ii_4_2_13_rendimiento_tasa_promocion, 2024: edu_ii_4_2_13_rendimiento_tasa_promocion_total}

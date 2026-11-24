@@ -6,9 +6,8 @@
 - `leer_tabla(xls)`: una tabla del INE (.xls, con xlrd) en formato largo: año, territorio, columna (ruta del
   encabezado, p. ej. «General/Pública/Mujeres») y valor. Filas por año («2023», «2024») y por territorio («Total
   País» → país, «Montevideo», «Resto País» → Interior, los 18 departamentos).
-- `comparar(ine, obs)`: para cada columna del INE, el indicador del MEC que es la misma medida: el mismo valor del
-  país en todos los años que publica el INE (los porcentajes, redondeados como el INE). Si lo hay, compara cada
-  territorio y año y lista las diferencias; si no, la columna queda como «sin medida igual en el MEC».
+- `comparar(ine, obs, correspondencias)`: cada columna del INE contra el indicador del MEC que dice el registro
+  (`control_ine` en `fuentes/mec_anuario/mapeo_manual.yml`), en 2023 y 2024 y en cada territorio, país incluido.
 
 Las tablas se guardan sin cambios en `<crudo>/mec_anuario/control_ine/` con su `control_ine.json` (URL, sha256,
 fecha), los baja `pipeline/mec_anuario_captura.py --control-ine`.
@@ -48,7 +47,7 @@ def bajar(url: str, timeout: int = 120) -> bytes:
 def tablas_del_capitulo(pagina: str) -> dict[str, str]:
     """{«3.1.6»: url} de los enlaces de la página del capítulo."""
     salida = {}
-    for url in re.findall(r'href="([^"]+/(3\.1\.\d+)ok\.xlsx?)"', pagina):
+    for url in re.findall(r'href="([^"]+/(3\.1\.\d+)ok\.xls)"', pagina):  # las .xlsx (3.1.1, 3.1.13…) no repiten al MEC por departamento
         salida.setdefault(url[1], urllib.parse.quote(html.unescape(url[0]), safe=":/%"))  # tildes y espacios
     return salida
 
@@ -85,7 +84,7 @@ def _territorio(rotulo: str) -> str | None:
 
 
 def leer_tabla(xls: bytes, tabla: str) -> pd.DataFrame:
-    """Formato largo (tabla, anio, territorio_id, columna, valor) de una tabla del INE (.xls o .xlsx)."""
+    """Formato largo (tabla, anio, territorio_id, columna, valor) de una tabla del INE (.xls: xlrd 2 no lee .xlsx)."""
     import xlrd  # solo para este control (decisión del mantenedor, #189)
 
     libro = xlrd.open_workbook(file_contents=xls, formatting_info=True)
@@ -129,38 +128,42 @@ def leer_tabla(xls: bytes, tabla: str) -> pd.DataFrame:
     return pd.DataFrame(salida)
 
 
-def comparar(ine: pd.DataFrame, obs: pd.DataFrame, porcentajes: set[str]) -> dict:
-    """AC-E23: diferencias entre cada columna del INE y el indicador del MEC que es la misma medida."""
-    o = obs[obs.periodo.isin(set(ine.anio))].assign(valor=lambda d: d.valor.astype(float))
-    pais = o[o.territorio_id == mec.PAIS]
-    por_valor = {}
-    for (ind, per), v in pais.set_index(["indicador", "periodo"]).valor.items():
-        por_valor.setdefault((per, round(v, 1) if ind in porcentajes else v), set()).add(ind)
-    val = o.set_index(["indicador", "territorio_id", "periodo"]).valor
-    pares, sin_par, diferencias, comparados = [], [], [], 0
+ANIOS = {"2023", "2024"}  # AC-E23
+TOLERANCIA_PCT = 0.05  # el INE publica algunos porcentajes con un decimal
+
+
+def _id(mapeo, anio: str) -> str | None:
+    return mapeo if isinstance(mapeo, str) else (mapeo or {}).get(int(anio))
+
+
+def comparar(ine: pd.DataFrame, obs: pd.DataFrame, correspondencias: dict, porcentajes: set[str]) -> dict:
+    """AC-E23: cada columna del INE contra el indicador del MEC que el registro dice que es la misma medida
+    (`control_ine` en fuentes/mec_anuario/mapeo_manual.yml), en 2023 y 2024, en cada territorio (también el país).
+    Toda diferencia se lista; una columna sin correspondencia queda listada aparte."""
+    ine = ine[ine.anio.isin(ANIOS)]
+    val = obs.assign(valor=obs.valor.astype(float)).set_index(["indicador", "territorio_id", "periodo"]).valor
+    pares, sin_par, sin_mec, diferencias, comparados = [], [], [], [], 0
     for (tabla, col), g in ine.groupby(["tabla", "columna"]):
-        gp = g[g.territorio_id == mec.PAIS]
-        if gp.empty:
-            continue
-        cand = None
-        for r in gp.itertuples():
-            claves = por_valor.get((r.anio, r.valor), set()) | por_valor.get((r.anio, round(r.valor, 1)), set())
-            cand = claves if cand is None else cand & claves
-        if not cand:
+        mapeo = (correspondencias.get(tabla) or {}).get(col)
+        if mapeo is None:
             sin_par.append(f"{tabla} «{col}»")
             continue
-        ind = sorted(cand, key=lambda i: (i.count("__"), i))[0]  # el más simple si hay varios iguales
-        pares.append(f"{tabla} «{col}» = `{ind}`")
+        pares.append(f"{tabla} «{col}» = " + (f"`{mapeo}`" if isinstance(mapeo, str) else
+                                               ", ".join(f"{a}: `{i}`" for a, i in mapeo.items())))
         for r in g.itertuples():
+            ind = _id(mapeo, r.anio)
+            if ind is None:
+                continue
             k = (ind, r.territorio_id, r.anio)
             if k not in val.index:
+                sin_mec.append(f"{tabla} «{col}» {r.anio} {r.territorio_id.split('/', 1)[1]}")
                 continue
-            mio = val[k]
             comparados += 1
-            igual = round(mio, 1) == round(r.valor, 1) if ind in porcentajes else mio == r.valor
+            mio = val[k]
+            igual = abs(mio - r.valor) <= TOLERANCIA_PCT if ind in porcentajes else mio == r.valor
             if not igual:
                 diferencias.append(f"{tabla} «{col}» {r.anio} {r.territorio_id.split('/', 1)[1]}: INE {r.valor:g}, MEC `{ind}` {mio:g}")
-    return {"pares": pares, "sin_par": sin_par, "diferencias": diferencias, "comparados": comparados}
+    return {"pares": pares, "sin_par": sin_par, "sin_mec": sin_mec, "diferencias": diferencias, "comparados": comparados}
 
 
 def leer_capturadas(crudo: Path) -> tuple[pd.DataFrame | None, dict]:
@@ -173,12 +176,15 @@ def leer_capturadas(crudo: Path) -> tuple[pd.DataFrame | None, dict]:
     manifiesto["no_comparables"] = []
     partes = []
     for t, info in sorted(manifiesto["tablas"].items(), key=lambda kv: int(kv[0].split(".")[-1])):
-        datos = (d / info["archivo"]).read_bytes()
-        if hashlib.sha256(datos).hexdigest() != info["sha256"]:
-            raise ValueError(f"{d / info['archivo']} no coincide con su sha256")
-        try:
+        try:  # el control es una advertencia: una tabla que no se puede leer no corta la carga del MEC
+            datos = (d / info["archivo"]).read_bytes()
+            if hashlib.sha256(datos).hexdigest() != info["sha256"]:
+                raise ValueError("no coincide con su sha256")
             tabla = leer_tabla(datos, t)
-        except ValueError:
+        except Exception as e:  # noqa: BLE001
+            if not (isinstance(e, ValueError) and "filas de año" in str(e)):
+                manifiesto.setdefault("errores", []).append({"tabla": t, "error": f"no se pudo leer: {type(e).__name__}: {e}"})
+                continue
             tabla = pd.DataFrame()
         if tabla.empty or tabla.territorio_id.nunique() < 3:
             manifiesto["no_comparables"].append(t)
@@ -191,14 +197,18 @@ def lineas_reporte(r: dict | None, manifiesto: dict) -> list[str]:
     """AC-E23 (advertencia): la sección del control con el INE."""
     lineas = ["### Control con el Anuario Estadístico Nacional del INE (AC-E23, advertencia)", ""]
     if r is None:
-        return lineas + ["No hay tablas del INE guardadas (`pipeline/mec_anuario_captura.py --control-ine`): el control no corrió."]
+        if not manifiesto:
+            return lineas + ["No hay tablas del INE guardadas (`pipeline/mec_anuario_captura.py --control-ine`): el control no corrió."]
+        r = {"pares": [], "sin_par": [], "sin_mec": [], "diferencias": [], "comparados": 0}  # ninguna se pudo comparar
     lineas += [f"Tablas del INE del {manifiesto.get('fecha', '—')} ({manifiesto.get('pagina', '')}). Los valores del INE "
                "nunca se cargan.",
-               f"Columnas del INE con la misma medida en el MEC: {len(r['pares'])}; valores comparados por territorio y "
-               f"año: {r['comparados']}; diferencias: {len(r['diferencias'])}.",
-               *[f"- {d}" for d in r["diferencias"]]]
+               f"Columnas del INE con su indicador del MEC (`control_ine` del registro): {len(r['pares'])}; valores "
+               f"comparados por territorio y año (2023 y 2024, país incluido): {r['comparados']}; diferencias: "
+               f"{len(r['diferencias'])}.", *[f"- {d}" for d in r["diferencias"]]]
+    if r["sin_mec"]:
+        lineas.append(f"Territorios y años del INE sin valor en el MEC: {len(r['sin_mec'])} ({'; '.join(r['sin_mec'][:5])}…).")
     if r["sin_par"]:
-        lineas.append(f"Sin medida igual en el MEC: {'; '.join(r['sin_par'])}.")
+        lineas.append(f"Columnas del INE sin correspondencia en el registro: {'; '.join(r['sin_par'])}.")
     if manifiesto.get("no_comparables"):
         lineas.append(f"No comparables por territorio: {', '.join(manifiesto['no_comparables'])}.")
     if manifiesto.get("errores"):
