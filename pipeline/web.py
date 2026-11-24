@@ -7,6 +7,7 @@ Lee las salidas del pipeline (datos/salida/*.parquet) y escribe datos/salida/web
   territorios_index.json       índice de búsqueda: id, nivel, codigo, nombre, nombre_busqueda, depto, padre_id, bbox
   fichas/<nivel>/<codigo>.json todo lo que necesita la ficha de cada territorio (AC-W4)
   indicadores.json             catálogo de indicadores, con los niveles y períodos en que hay datos
+  niveles.json                 catálogo de niveles: etiqueta, orden, si va al mapa, zoom mínimo y ámbito (M11)
   valores/<nivel>.json         valores de cada indicador por territorio, para pintar el mapa
   uruguay_mini.geojson         departamentos muy simplificados, para el mini-mapa de ubicación
   fuentes.json                 registro de fuentes
@@ -71,6 +72,22 @@ PMTILES_MINZOOM = {
     "barrio_mvd": 0, "ccz_mvd": 0, "segmento": 9, "pais": 0, "municipio_mvd": 0,
 }
 PMTILES_MAXZOOM = 13  # la app hace overzoom; 14 duplicaba el tamaño (~26 MB)
+
+# M11.1 (AC-N1): catálogo de niveles, de grueso a fino (orden de D2, #200). `en_mapa` es la decisión D1: qué niveles
+# ofrece el selector del mapa (localidad no cubre el país; CCZ casi repite al municipio). La seccional policial
+# (F5) se agrega acá, entre municipio y sección, con su capa en PMTILES_MINZOOM; la app no cambia (AC-N13).
+NIVELES_CATALOGO = [
+    {"id": "pais", "etiqueta": "País", "en_mapa": False, "ambito": "pais"},
+    {"id": "region", "etiqueta": "Región", "en_mapa": False, "ambito": "pais"},
+    {"id": "departamento", "etiqueta": "Departamento", "en_mapa": True, "ambito": "pais"},
+    {"id": "municipio_mvd", "etiqueta": "Municipio", "ayuda": "Solo Montevideo", "en_mapa": True, "ambito": "montevideo"},
+    {"id": "seccion", "etiqueta": "Sección", "en_mapa": True, "ambito": "pais"},
+    {"id": "barrio_mvd", "etiqueta": "Barrio", "ayuda": "Solo Montevideo", "en_mapa": True, "ambito": "montevideo"},
+    {"id": "segmento", "etiqueta": "Segmento", "en_mapa": True, "ambito": "pais"},
+    {"id": "localidad", "etiqueta": "Localidad", "en_mapa": False, "ambito": "pais"},
+    {"id": "ccz_mvd", "etiqueta": "CCZ", "ayuda": "Solo Montevideo", "en_mapa": False, "ambito": "montevideo"},
+    {"id": "area_especial", "etiqueta": "Área especial", "en_mapa": False, "ambito": "pais"},
+]
 
 PROPIEDADES = ["id", "codigo", "nombre", "depto"]
 
@@ -246,6 +263,16 @@ def valores_por_nivel(territorios: gpd.GeoDataFrame, obs: pd.DataFrame) -> dict[
                 datos["estimados"].setdefault(ind, {})[periodo] = est
         salida[nivel] = datos
     return salida
+
+
+def catalogo_niveles() -> list[dict]:
+    """niveles.json (AC-N1): cada nivel con id, etiqueta, ayuda, orden, dibujable, zoom mínimo y ámbito.
+    `dibujable`: el nivel va al mapa (D1) y tiene capa en el PMTiles; país y región nunca (AC-N3)."""
+    return [{
+        "id": n["id"], "etiqueta": n["etiqueta"], "ayuda": n.get("ayuda"), "orden": i,
+        "dibujable": n["en_mapa"] and n["id"] in PMTILES_MINZOOM and n["id"] not in SIN_GEOMETRIA,
+        "minzoom": PMTILES_MINZOOM.get(n["id"]) or None, "ambito": n["ambito"],
+    } for i, n in enumerate(NIVELES_CATALOGO)]
 
 
 def con_cuadro(indicadores: pd.DataFrame) -> pd.DataFrame:
@@ -540,6 +567,7 @@ def main(argv=None):
     for f in fichas.values():
         escribir_json(web / "fichas" / f["nivel"] / f"{f['codigo']}.json", f)
     escribir_json(web / "indicadores.json", disponibilidad(indicadores, territorios, obs))
+    escribir_json(web / "niveles.json", catalogo_niveles())
     for nivel, datos in valores_por_nivel(territorios, obs).items():
         escribir_json(web / "valores" / f"{nivel}.json", datos)
     escribir_mini(territorios, web)
