@@ -8,9 +8,21 @@
 	import { urlDatos } from '../datos.ts';
 	import { ATRIBUCION_MAPA, COLOR_SELECCION } from './colores.ts';
 	import { cargarMapLibre } from './cargar.ts';
-	import { ZOOM_SEGMENTOS } from './estado.ts';
 
-	let { nombre, nivel, id, bbox }: { nombre: string; nivel: string; id: string; bbox: [number, number, number, number] } = $props();
+	let {
+		nombre,
+		nivel,
+		id,
+		bbox,
+		minzoom = 0
+	}: {
+		nombre: string;
+		nivel: string;
+		id: string;
+		bbox: [number, number, number, number];
+		/** Zoom desde el que el nivel está en el PMTiles (catálogo de niveles, M11.2). */
+		minzoom?: number;
+	} = $props();
 
 	let contenedor: HTMLDivElement | undefined = $state();
 	// Las localidades no cubren el territorio (entre pueblos no hay otra localidad): su contexto son las secciones.
@@ -83,9 +95,9 @@
 					attributionControl: false, // la atribución va en el pie, para no tapar un mapa tan chico
 					style: estilo(false)
 				});
-				// Los segmentos están en el PMTiles desde ZOOM_SEGMENTOS. Un segmento rural grande no entra a ese zoom:
+				// Los segmentos están en el PMTiles desde su zoom mínimo. Un segmento rural grande no entra a ese zoom:
 				// se muestra con las secciones como contexto y el rectángulo que ocupa, en vez de un mapa en blanco.
-				if (nivel === 'segmento' && mapa.getZoom() < ZOOM_SEGMENTOS) mapa.setStyle(estilo(true));
+				if (minzoom > 0 && mapa.getZoom() < minzoom) mapa.setStyle(estilo(true));
 				// Para los tests e2e.
 				(window as unknown as { __localizador?: MapaLibre }).__localizador = mapa;
 			} catch {

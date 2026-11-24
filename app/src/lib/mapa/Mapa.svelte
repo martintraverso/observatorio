@@ -1,16 +1,17 @@
 <script lang="ts">
 	// Mapa de MapLibre GL sobre territorios.pmtiles (M6, AC-M1). Sin mapa base: los límites del INE sobre el fondo.
 	import 'maplibre-gl/dist/maplibre-gl.css';
-	import { onMount } from 'svelte';
+	import { onMount, untrack } from 'svelte';
 	import type { Map as MapaLibre, MapLayerMouseEvent } from 'maplibre-gl';
 	import { urlDatos } from '../datos.ts';
 	import { ATRIBUCION_MAPA, COLOR_SIN_DATO, coloresClases } from './colores.ts';
-	import { clase, NIVELES_MAPA, type Clases, type NivelMapa, ZOOM_SEGMENTOS } from './estado.ts';
+	import { clase, nivelesDibujables, type Clases, type NivelCatalogo, type NivelMapa } from './estado.ts';
 	import MiniMapa from './MiniMapa.svelte';
 	import { LOCALE_MAPA } from './idioma.ts';
 	import { cargarMapLibre } from './cargar.ts';
 
 	let {
+		catalogo,
 		nivel,
 		valores,
 		clases,
@@ -20,6 +21,8 @@
 		reservaIzquierda = 0,
 		departamentos = []
 	}: {
+		/** Catálogo de niveles (niveles.json): una capa por nivel dibujable, con su zoom mínimo (AC-N13). */
+		catalogo: NivelCatalogo[];
 		nivel: NivelMapa;
 		/** codigo -> valor del indicador y período elegidos, en el nivel elegido. */
 		valores: Record<string, number | null>;
@@ -87,7 +90,9 @@
 	}
 
 	const FUENTE = 'territorios';
-	const NIVELES = NIVELES_MAPA; // capas que se pintan (incluye municipio_mvd, F2.8b)
+	// Capas que se pintan: los niveles dibujables del catálogo (M11.2); el catálogo no cambia mientras la página vive.
+	const CAPAS = untrack(() => nivelesDibujables(catalogo));
+	const NIVELES = CAPAS.map((c) => c.id);
 	// Capas del PMTiles donde puede estar un territorio seleccionado (también desde la búsqueda).
 	const NIVELES_SELECCION = ['departamento', 'area_especial', 'municipio_mvd', 'seccion', 'segmento', 'localidad', 'barrio_mvd', 'ccz_mvd'];
 	const URUGUAY: [[number, number], [number, number]] = [
@@ -169,13 +174,13 @@
 						},
 						layers: [
 							{ id: 'fondo', type: 'background', paint: { 'background-color': '#f6f7f5' } },
-							...NIVELES.flatMap((n) => [
+							...CAPAS.flatMap(({ id: n, minzoom }) => [
 								{
 									id: `relleno-${n}`,
 									type: 'fill' as const,
 									source: FUENTE,
 									'source-layer': n,
-									...(n === 'segmento' ? { minzoom: ZOOM_SEGMENTOS } : {}),
+									...(minzoom ? { minzoom } : {}),
 									layout: { visibility: 'none' as const },
 									paint: { 'fill-color': COLOR_SIN_DATO, 'fill-opacity': 0.92 }
 								},
@@ -184,7 +189,7 @@
 									type: 'line' as const,
 									source: FUENTE,
 									'source-layer': n,
-									...(n === 'segmento' ? { minzoom: ZOOM_SEGMENTOS } : {}),
+									...(minzoom ? { minzoom } : {}),
 									layout: { visibility: 'none' as const },
 									paint: { 'line-color': '#ffffff', 'line-width': 0.6 }
 								}

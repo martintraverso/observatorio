@@ -1,5 +1,5 @@
 import type { Fuente } from '#lib/datos.ts';
-import type { IndicadorMapa } from '#lib/mapa/estado.ts';
+import type { IndicadorMapa, NivelCatalogo } from '#lib/mapa/estado.ts';
 import { leerDatos } from '#lib/server/datos-build.ts';
 import type { PageServerLoad } from './$types';
 
@@ -12,5 +12,7 @@ export const load: PageServerLoad = () => ({
 		.map(({ codigo, nombre, bbox }) => ({ codigo, nombre, bbox }))
 		.sort((a, b) => a.nombre.localeCompare(b.nombre, 'es')),
 	indicadores: leerDatos<IndicadorMapa[]>('indicadores.json'),
+	// M11.2: catálogo de niveles del pipeline (niveles.json, AC-N1): etiquetas, orden, zoom mínimo y ámbito.
+	catalogo: leerDatos<NivelCatalogo[]>('niveles.json'),
 	fuentes: leerDatos<Fuente[]>('fuentes.json').map((f) => ({ id: f.id, nombre: f.nombre, organismo: f.organismo }))
 });

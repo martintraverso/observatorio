@@ -166,7 +166,7 @@
 			<MiniMapa nombre={f.nombre} depto={f.depto} nivel={f.nivel} bbox={f.bbox} />
 			<!-- AC-V26: las unidades chicas, además, de cerca entre sus vecinos -->
 			{#if f.nivel === 'segmento' || f.nivel === 'seccion' || f.nivel === 'localidad'}
-				{#key f.id}<LocalizadorCerca nombre={f.nombre} nivel={f.nivel} id={f.id} bbox={f.bbox} />{/key}
+				{#key f.id}<LocalizadorCerca nombre={f.nombre} nivel={f.nivel} id={f.id} bbox={f.bbox} minzoom={data.minzoom} />{/key}
 			{/if}
 		</div>
 	{/if}

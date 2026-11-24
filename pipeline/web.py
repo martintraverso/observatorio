@@ -78,17 +78,24 @@ PMTILES_MAXZOOM = 13  # la app hace overzoom; 14 duplicaba el tamaño (~26 MB)
 # (F5) se agrega acá, entre municipio y sección, con su capa en PMTILES_MINZOOM; la app no cambia (AC-N13).
 # D2 ordena solo los niveles del mapa: los que no van (localidad, CCZ, área especial) quedan al final. Si D1 suma uno,
 # hay que moverlo a su lugar de grueso a fino.
+# `dentro_de`: los niveles que contienen enteros a cada territorio de este nivel. Al cambiar de indicador, el mapa va al
+# más cercano de esos que se ofrezca (AC-N7, mantenedor en #202). Solo contenciones exactas: un barrio no se da por
+# dentro de un municipio ni una seccional por dentro de otro nivel que el departamento.
 NIVELES_CATALOGO = [
-    {"id": "pais", "etiqueta": "País", "en_mapa": False, "ambito": "pais"},
-    {"id": "region", "etiqueta": "Región", "en_mapa": False, "ambito": "pais"},
-    {"id": "departamento", "etiqueta": "Departamento", "en_mapa": True, "ambito": "pais"},
-    {"id": "municipio_mvd", "etiqueta": "Municipio", "ayuda": "Solo Montevideo", "en_mapa": True, "ambito": "montevideo"},
-    {"id": "seccion", "etiqueta": "Sección", "en_mapa": True, "ambito": "pais"},
-    {"id": "barrio_mvd", "etiqueta": "Barrio", "ayuda": "Solo Montevideo", "en_mapa": True, "ambito": "montevideo"},
-    {"id": "segmento", "etiqueta": "Segmento", "en_mapa": True, "ambito": "pais"},
-    {"id": "localidad", "etiqueta": "Localidad", "en_mapa": False, "ambito": "pais"},
-    {"id": "ccz_mvd", "etiqueta": "CCZ", "ayuda": "Solo Montevideo", "en_mapa": False, "ambito": "montevideo"},
-    {"id": "area_especial", "etiqueta": "Área especial", "en_mapa": False, "ambito": "pais"},
+    {"id": "pais", "etiqueta": "País", "en_mapa": False, "ambito": "pais", "dentro_de": []},
+    {"id": "region", "etiqueta": "Región", "en_mapa": False, "ambito": "pais", "dentro_de": ["pais"]},
+    {"id": "departamento", "etiqueta": "Departamento", "en_mapa": True, "ambito": "pais", "dentro_de": ["pais"]},
+    {"id": "municipio_mvd", "etiqueta": "Municipio", "ayuda": "Solo Montevideo", "en_mapa": True, "ambito": "montevideo",
+     "dentro_de": ["pais", "departamento"]},
+    {"id": "seccion", "etiqueta": "Sección", "en_mapa": True, "ambito": "pais", "dentro_de": ["pais", "departamento"]},
+    {"id": "barrio_mvd", "etiqueta": "Barrio", "ayuda": "Solo Montevideo", "en_mapa": True, "ambito": "montevideo",
+     "dentro_de": ["pais", "departamento"]},
+    {"id": "segmento", "etiqueta": "Segmento", "en_mapa": True, "ambito": "pais",
+     "dentro_de": ["pais", "departamento", "seccion"]},
+    {"id": "localidad", "etiqueta": "Localidad", "en_mapa": False, "ambito": "pais", "dentro_de": ["pais", "departamento"]},
+    {"id": "ccz_mvd", "etiqueta": "CCZ", "ayuda": "Solo Montevideo", "en_mapa": False, "ambito": "montevideo",
+     "dentro_de": ["pais", "departamento"]},
+    {"id": "area_especial", "etiqueta": "Área especial", "en_mapa": False, "ambito": "pais", "dentro_de": ["pais"]},
 ]
 
 PROPIEDADES = ["id", "codigo", "nombre", "depto"]
@@ -268,12 +275,12 @@ def valores_por_nivel(territorios: gpd.GeoDataFrame, obs: pd.DataFrame) -> dict[
 
 
 def catalogo_niveles() -> list[dict]:
-    """niveles.json (AC-N1): cada nivel con id, etiqueta, ayuda, orden, dibujable, zoom mínimo y ámbito.
+    """niveles.json (AC-N1): cada nivel con id, etiqueta, ayuda, orden, dibujable, zoom mínimo, ámbito y dentro_de.
     `dibujable`: el nivel va al mapa (D1) y tiene capa en el PMTiles; país y región nunca (AC-N3)."""
     return [{
         "id": n["id"], "etiqueta": n["etiqueta"], "ayuda": n.get("ayuda"), "orden": i,
         "dibujable": n["en_mapa"] and n["id"] in PMTILES_MINZOOM and n["id"] not in SIN_GEOMETRIA,
-        "minzoom": PMTILES_MINZOOM.get(n["id"]) or None, "ambito": n["ambito"],
+        "minzoom": PMTILES_MINZOOM.get(n["id"]) or None, "ambito": n["ambito"], "dentro_de": n["dentro_de"],
     } for i, n in enumerate(NIVELES_CATALOGO)]
 
 
