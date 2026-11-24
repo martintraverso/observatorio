@@ -209,7 +209,7 @@ def test_ac_e6_una_revision_solo_parsea_el_anio_que_cambio(entorno, monkeypatch)
     capturar_anuarios(crudo, FUENTE, sitio({URL[2023]: fix(2023), URL[2024]: revisado}), hoy="2026-11-30")
     leidos = []
     original = mec_anuario_cargar.leer_anuario
-    monkeypatch.setattr(mec_anuario_cargar, "leer_anuario", lambda x, a, f: leidos.append(a) or original(x, a, f))
+    monkeypatch.setattr(mec_anuario_cargar, "leer_anuario", lambda x, a, *r: leidos.append(a) or original(x, a, *r))
     r = mec_anuario_cargar.cargar(crudo, salida, mec_anuario_cargar.cargar_fuentes(RAIZ / "fuentes"))
     assert leidos == [2024] and r["parseadas"] == 1
     o, _, i = tablas(salida)
@@ -281,3 +281,72 @@ def test_ac_e20_un_conteo_negativo_frena_la_carga(entorno):
     o.loc[o.index[0], "valor"] = -1
     r = mc.controles(o, FUENTE, {}, set(i[i.es_derivado].codigo))
     assert [f["control"] for f in r.controles.fallas][0].startswith("AC-E20")
+
+
+
+def test_ac_e19_un_desglose_que_no_cierra_frena_la_carga(entorno):
+    crudo, salida = entorno
+    roto = ajustar(fix(2024), "II-2.2.1", [("Artigas", "F", 10), ("Canelones", "F", -10)])  # pública varones
+    capturar_anuarios(crudo, FUENTE, sitio({URL[2023]: fix(2023), URL[2024]: roto}), hoy="2026-11-30")
+    with pytest.raises(mec_anuario_cargar.ErrorCarga, match="AC-E19.*departamento/02"):
+        mec_anuario_cargar.cargar(crudo, salida, mec_anuario_cargar.cargar_fuentes(RAIZ / "fuentes"))
+
+
+def test_ac_e18_un_resto_del_pais_con_desglose_que_no_cierra_no_frena(entorno):
+    """La fila del Interior saltada por AC-E18 tampoco la mira AC-E19 (pública = varones + mujeres)."""
+    crudo, salida = entorno
+    roto = ajustar(fix(2024), "II-2.2.1", [("RESTO DEL PAÍS", "E", -50)])
+    capturar_anuarios(crudo, FUENTE, sitio({URL[2023]: fix(2023), URL[2024]: roto}), hoy="2026-11-30")
+    correr(crudo, salida)
+    o, _, _ = tablas(salida)
+    ind = "edu_ii_2_2_1_forma_de_administracion_publica_total"
+    assert o[(o.indicador == ind) & (o.territorio_id == "INE-2023/region/interior") & (o.periodo == "2024")].empty
+    assert valor(o, "edu_ii_2_2_1_total", "INE-2023/region/interior") == 182762
+
+
+def test_ac_e18_sin_el_territorio_interior_se_saltean_las_filas_de_region(entorno):
+    import geopandas as gpd
+
+    crudo, salida = entorno
+    t = gpd.read_parquet(salida / "territorios.parquet")
+    t[t.id != "INE-2023/region/interior"].to_parquet(salida / "territorios.parquet")
+    for p in ("correspondencias",):
+        c = pd.read_parquet(salida / f"{p}.parquet")
+        c[(c.origen_id != "INE-2023/region/interior") & (c.destino_id != "INE-2023/region/interior")].to_parquet(salida / f"{p}.parquet")
+    o = pd.read_parquet(salida / "observaciones.parquet")
+    o[o.territorio_id != "INE-2023/region/interior"].to_parquet(salida / "observaciones.parquet")
+    for d in (salida / "fuentes").glob("*"):  # las fuentes que publican región (ingresos) quedan sin ella
+        if (d / "observaciones.parquet").exists():
+            od = pd.read_parquet(d / "observaciones.parquet")
+            od[od.territorio_id != "INE-2023/region/interior"].to_parquet(d / "observaciones.parquet")
+    correr(crudo, salida)
+    o, _, _ = tablas(salida)
+    assert not (o.territorio_id == "INE-2023/region/interior").any() and len(o)
+    assert "no existe: se saltean" in (salida / "reporte_validacion.md").read_text(encoding="utf-8")
+
+
+def test_ac_e21_un_territorio_sin_valor_ni_sin_dato_frena():
+    import mec_anuario as mec
+    import mec_anuario_controles as mc
+    e = FUENTE["cuadros"]["II-2.2.1"]
+    c = mec.parsear_cuadro(fix(2024), "II-2.2.1", 2024, e["mapeo"][2024], "A")
+    sin_colonia = c.datos[~((c.datos.indicador == "edu_ii_2_2_1_total") & (c.datos.territorio_id == "INE-2023/departamento/05"))]
+    fuente = {"cuadros": {"II-2.2.1": e}}
+    ok = mc.controles(c.datos, fuente, {}, set(), set(c.sin_dato_claves), {"2024"})
+    assert not ok.controles.fallas
+    r = mc.controles(sin_colonia, fuente, {}, set(), set(c.sin_dato_claves), {"2024"})
+    assert [f["control"] for f in r.controles.fallas if f["control"].startswith("AC-E21")]
+    # publicado sin dato («s/d»): no es una falla
+    r = mc.controles(sin_colonia, fuente, {}, set(), set(c.sin_dato_claves) | {("edu_ii_2_2_1_total", "INE-2023/departamento/05", "2024")}, {"2024"})
+    assert not [f for f in r.controles.fallas if f["control"].startswith("AC-E21")]
+
+
+def test_ac_e22_y_e24_en_una_corrida_sin_cambios(entorno):
+    crudo, salida = entorno
+    correr(crudo, salida)
+    correr(crudo, salida)  # sin cambios: el reporte igual trae controles, cuadros y últimos valores
+    reporte = (salida / "reporte_validacion.md").read_text(encoding="utf-8")
+    assert "Sin capturas nuevas" in reporte and "### Controles (AC-E17…AC-E22)" in reporte and "### Últimos valores" in reporte
+    assert re.search(r"AC-E22, advertencia\): \d+ \(en \d+ indicadores\)", reporte)
+    assert re.search(r"^- `edu_[^`]+`, [^,]+, 2023 → 2024: ", reporte, re.M)
+    assert "Faltantes: 0." in reporte
