@@ -71,7 +71,7 @@ test('AC-F5: el CSV tiene exactamente los valores que muestra la ficha', async (
 		page.getByRole('button', { name: 'Descargar CSV' }).click()
 	]);
 	const [cabecera, ...csv] = readFileSync((await descarga.path())!, 'utf-8').replace(/^﻿/, '').trim().split('\r\n');
-	expect(cabecera).toBe('territorio_id,nivel,codigo,nombre,indicador,periodo,periodo_inicio,periodo_fin,tipo_periodo,valor,unidad,es_estimado,fuente,archivo_origen,sha256');
+	expect(cabecera).toBe('territorio_id,nivel,codigo,nombre,indicador,periodo,periodo_inicio,periodo_fin,tipo_periodo,valor,unidad,es_estimado,fuente,archivo_origen,sha256,cuadro,es_derivado');
 	expect(csv).toHaveLength(mostradas.length);
 	const es = new Intl.NumberFormat('es-UY', { useGrouping: 'always' });
 	for (const linea of csv) {

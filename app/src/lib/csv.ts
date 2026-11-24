@@ -18,7 +18,9 @@ export const COLUMNAS_CSV = [
 	'es_estimado',
 	'fuente',
 	'archivo_origen',
-	'sha256'
+	'sha256',
+	'cuadro', // F4.7a (AC-E31): cuadro de origen del MEC
+	'es_derivado' // calculado por el observatorio
 ] as const;
 
 function celda(v: string | number | boolean | null | undefined): string {
@@ -46,7 +48,9 @@ export function filasCsv(f: Ficha): string[][] {
 			o.es_estimado ? 'true' : 'false',
 			fuente ? `${fuente.organismo} · ${fuente.nombre}` : '',
 			c?.archivo ?? '',
-			c?.sha256 ?? ''
+			c?.sha256 ?? '',
+			f.indicadores[o.indicador]?.cuadro ?? '',
+			f.indicadores[o.indicador]?.es_derivado ? 'true' : 'false'
 		];
 	});
 }

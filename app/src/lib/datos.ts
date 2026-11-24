@@ -76,6 +76,11 @@ export interface Indicador {
 	columna_origen: string;
 	fuente_id: string;
 	nota: string;
+	/** Calculado por el observatorio a partir de valores publicados (F4.2), con su fórmula. */
+	es_derivado?: boolean;
+	formula?: string;
+	/** Código del cuadro del anuario del MEC («II-2.2.1»); vacío en las demás fuentes (F4.7a). */
+	cuadro?: string;
 }
 
 export interface Captura {
