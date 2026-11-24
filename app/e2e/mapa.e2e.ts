@@ -262,13 +262,14 @@ test('M11.3: «Barrio» se encuadra en Montevideo (AC-V7) y se pinta con las cla
 	const indicadores = JSON.parse(readFileSync('build/datos-web/indicadores.json', 'utf-8')) as { codigo: string; niveles: string[] }[];
 	test.skip(!indicadores.find((i) => i.codigo === 'pob_total')?.niveles.includes('barrio_mvd'), 'sin datos por barrio');
 	const mvd = indice.find((t) => t.nivel === 'departamento' && t.codigo === '01')!;
-	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023&territorio=departamento/01');
+	// Desde Flores: si el barrio se encuadrara en el departamento elegido (y no en Montevideo), el test lo atrapa.
+	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023&territorio=departamento/07');
 	await mapaListo(page);
 	const zoomPais = await alPais(page);
 	await abrirOpciones(page);
 	await nivelRadio(page, 'Barrio Solo Montevideo').check();
 	await encuadrado(page, mvd.bbox, zoomPais + 2);
-	// AC-V8: Montevideo no es un barrio y no se sabe cuál elegir: el panel se vacía
+	// AC-V8: Flores no contiene barrios de Montevideo: el panel se vacía
 	await expect(page).not.toHaveURL(/territorio=/);
 	// Cada barrio con valor lleva su clase; los que el INE publica sin valor (p. ej. «N/a») quedan como «Sin dato».
 	const valores = JSON.parse(readFileSync('build/datos-web/valores/barrio_mvd.json', 'utf-8')) as {
