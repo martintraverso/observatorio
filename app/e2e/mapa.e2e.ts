@@ -257,6 +257,45 @@ test('AC-V7: al elegir «Municipio» el mapa se encuadra en Montevideo', async (
 	await encuadrado(page, mvd.bbox, zoomPais + 2);
 });
 
+test('M11.3: «Barrio» se encuadra en Montevideo (AC-V7) y se pinta con las clases de la coropleta', async ({ page }, info) => {
+	test.skip(info.project.name === 'movil', 'el encuadre se prueba en escritorio');
+	const indicadores = JSON.parse(readFileSync('build/datos-web/indicadores.json', 'utf-8')) as { codigo: string; niveles: string[] }[];
+	test.skip(!indicadores.find((i) => i.codigo === 'pob_total')?.niveles.includes('barrio_mvd'), 'sin datos por barrio');
+	const mvd = indice.find((t) => t.nivel === 'departamento' && t.codigo === '01')!;
+	// Desde Flores: si el barrio se encuadrara en el departamento elegido (y no en Montevideo), el test lo atrapa.
+	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023&territorio=departamento/07');
+	await mapaListo(page);
+	const zoomPais = await alPais(page);
+	await abrirOpciones(page);
+	await nivelRadio(page, 'Barrio Solo Montevideo').check();
+	await encuadrado(page, mvd.bbox, zoomPais + 2);
+	// AC-V8: Flores no contiene barrios de Montevideo: el panel se vacía
+	await expect(page).not.toHaveURL(/territorio=/);
+	// Cada barrio con valor lleva su clase; los que el INE publica sin valor (p. ej. «N/a») quedan como «Sin dato».
+	const valores = JSON.parse(readFileSync('build/datos-web/valores/barrio_mvd.json', 'utf-8')) as {
+		indicadores: Record<string, Record<string, Record<string, number | null>>>;
+	};
+	const sinValor = Object.entries(valores.indicadores.pob_total['2023'])
+		.filter(([, v]) => v === null)
+		.map(([c]) => `INE-2023/barrio_mvd/${c}`);
+	await page.waitForFunction(
+		(sinValor) => {
+			type M = {
+				loaded(): boolean;
+				getLayoutProperty(l: string, p: string): string;
+				queryRenderedFeatures(o: { layers: string[] }): { id?: string | number; state: { clase?: number } }[];
+			};
+			const m = (window as unknown as { __mapa?: M }).__mapa;
+			if (!m || !m.loaded() || m.getLayoutProperty('relleno-barrio_mvd', 'visibility') !== 'visible') return false;
+			const f = m.queryRenderedFeatures({ layers: ['relleno-barrio_mvd'] }).filter((x) => !sinValor.includes(String(x.id)));
+			return f.length > 0 && f.every((x) => typeof x.state.clase === 'number');
+		},
+		sinValor,
+		{ timeout: 20_000 }
+	);
+	await expect(page.getByText('no se publica por')).toHaveCount(0);
+});
+
 test('AC-V7: «Segmento» con un departamento elegido se encuadra en él, con los segmentos dibujados', async ({ page }, info) => {
 	test.skip(info.project.name === 'movil', 'el encuadre se prueba en escritorio');
 	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023&territorio=departamento/07');

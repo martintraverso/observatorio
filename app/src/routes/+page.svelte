@@ -11,6 +11,7 @@
 	import {
 		avisoNivel,
 		clasesCuantiles,
+		encuadreNivel,
 		estadoDesdeUrl,
 		etiquetaPeriodo,
 		fuenteCorta,
@@ -19,6 +20,7 @@
 		nivelesConDatos,
 		nivelMasDetallado,
 		opcionNivel,
+		territorioAlCambiarNivel,
 		totalDelPais,
 		TEMAS,
 		urlDesdeEstado,
@@ -183,9 +185,9 @@
 	function deptoElegido(): string | null {
 		const f = fichaVigente();
 		if (f?.depto) return f.depto;
-		const [nivel, codigo] = estado.territorio?.split('/') ?? [];
-		if (nivel === 'departamento' || nivel === 'seccion' || nivel === 'segmento') return codigo.slice(0, 2);
-		return null;
+		// Sin la ficha: el departamento que se sabe por el código o por el ámbito (lo de Montevideo, 01).
+		const t = estado.territorio ? territorioAlCambiarNivel(estado.territorio, 'departamento', data.catalogo) : null;
+		return t ? t.split('/')[1] : null;
 	}
 
 	function enfocarDepto(codigo: string, zoomMinimo = 0) {
@@ -202,26 +204,26 @@
 	function territorioEnNivel(n: NivelMapa): string | null {
 		const t = estado.territorio;
 		if (!t || t.split('/')[0] === n) return t;
+		// El padre de ese nivel según la ficha, para cualquier nivel del catálogo (M11.3).
 		const padre = fichaVigente()?.padres.find((p) => p.nivel === n);
 		if (padre) return `${padre.nivel}/${padre.codigo}`;
-		// Sin la ficha todavía: las secciones y los segmentos empiezan con el código de su departamento.
-		const [nivel, codigo] = t.split('/');
-		if (n === 'departamento' && (nivel === 'seccion' || nivel === 'segmento')) return `departamento/${codigo.slice(0, 2)}`;
-		return null;
+		// Sin la ficha todavía: el departamento por el código INE (sección, segmento) o por el ámbito (Montevideo).
+		return territorioAlCambiarNivel(t, n, data.catalogo);
 	}
 
 	/**
-	 * Al cambiar de nivel el mapa se encuadra donde ese nivel tiene sentido (AC-V7): Montevideo para los
-	 * municipios; el departamento elegido para secciones y segmentos (los segmentos, con el zoom desde el
-	 * que se dibujan); el país para departamentos.
+	 * Al cambiar de nivel el mapa se encuadra donde ese nivel tiene sentido (AC-V7), según el catálogo: Montevideo
+	 * para los niveles solo de Montevideo (municipio, barrio); el país para los que no están dentro de un
+	 * departamento; el departamento elegido para los demás (los segmentos, con el zoom desde el que se dibujan).
 	 */
 	function elegirNivel(n: NivelMapa) {
 		const depto = deptoElegido();
 		estado.nivel = n;
 		estado.territorio = territorioEnNivel(n);
-		// por ámbito del catálogo (M11.2): los niveles solo de Montevideo, en Montevideo
-		if (data.catalogo.find((c) => c.id === n)?.ambito === 'montevideo') enfocarDepto('01');
-		else if (n === 'departamento') mapa?.enfocarPais();
+		// AC-V7 por el catálogo (M11.3): Montevideo, el país o el departamento elegido, sin código por nivel
+		const encuadre = encuadreNivel(data.catalogo, n);
+		if (encuadre === 'montevideo') enfocarDepto('01');
+		else if (encuadre === 'pais') mapa?.enfocarPais();
 		else if (depto) enfocarDepto(depto, zoomMinimo(data.catalogo, n));
 	}
 

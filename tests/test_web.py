@@ -427,7 +427,7 @@ def test_el_resumen_de_las_advertencias_llega_a_la_web(web):
 
 # ------------------------------------------------------------------ M11.1: catálogo de niveles (AC-N1…N3)
 
-CAMPOS_NIVEL = {"id", "etiqueta", "ayuda", "orden", "dibujable", "minzoom", "ambito", "dentro_de"}
+CAMPOS_NIVEL = {"id", "etiqueta", "ayuda", "orden", "dibujable", "capa", "minzoom", "ambito", "dentro_de"}
 
 
 def test_catalogo_de_niveles_en_niveles_json(web, territorios):
@@ -444,6 +444,9 @@ def test_catalogo_de_niveles_en_niveles_json(web, territorios):
     assert {n["id"] for n in cat if n["ambito"] == "montevideo"} == {"municipio_mvd", "barrio_mvd", "ccz_mvd"}
     assert por_id["municipio_mvd"]["ayuda"] == por_id["barrio_mvd"]["ayuda"] == "Solo Montevideo"
     assert not por_id["localidad"]["dibujable"] and not por_id["ccz_mvd"]["dibujable"]  # D1
+    # M11.3: con capa (para resaltar lo elegido) aunque no vayan al selector; región sin geometría, sin capa
+    assert por_id["localidad"]["capa"] and por_id["ccz_mvd"]["capa"] and not por_id["region"]["capa"]
+    assert all(n["capa"] for n in cat if n["dibujable"])
 
 
 def test_cada_nivel_del_mapa_tiene_capa_en_el_pmtiles():

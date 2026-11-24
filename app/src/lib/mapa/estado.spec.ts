@@ -4,6 +4,7 @@ import {
 	filasComparacion,
 	clase,
 	clasesCuantiles,
+	encuadreNivel,
 	estadoDesdeUrl,
 	etiquetaPeriodo,
 	etiquetasLeyenda,
@@ -20,6 +21,7 @@ import {
 	urlDesdeEstado,
 	zoomMinimo,
 	type IndicadorMapa,
+	territorioAlCambiarNivel,
 	type NivelCatalogo
 } from './estado';
 
@@ -38,7 +40,7 @@ const nivel = (
 	dibujable: boolean,
 	dentro_de: string[],
 	extra: Partial<NivelCatalogo> = {}
-): NivelCatalogo => ({ id, etiqueta, ayuda: null, orden, dibujable, minzoom: null, ambito: 'pais', dentro_de, ...extra });
+): NivelCatalogo => ({ id, etiqueta, ayuda: null, orden, dibujable, capa: dibujable, minzoom: null, ambito: 'pais', dentro_de, ...extra });
 const MVD = { ayuda: 'Solo Montevideo', ambito: 'montevideo' } as const;
 const CATALOGO: NivelCatalogo[] = [
 	nivel('pais', 'País', 0, false, []),
@@ -277,5 +279,28 @@ describe('M11.2: niveles según el indicador elegido', () => {
 	it('el zoom mínimo sale del catálogo (segmentos desde 9)', () => {
 		expect(zoomMinimo(CATALOGO, 'segmento')).toBe(9);
 		expect(zoomMinimo(CATALOGO, 'departamento')).toBe(0);
+	});
+});
+
+describe('M11.3: encuadre y selección según el catálogo', () => {
+	it('AC-V7: Montevideo para los niveles solo de Montevideo, el país para el departamento, el departamento para los demás', () => {
+		expect(encuadreNivel(CATALOGO, 'municipio_mvd')).toBe('montevideo');
+		expect(encuadreNivel(CATALOGO, 'barrio_mvd')).toBe('montevideo');
+		expect(encuadreNivel(CATALOGO, 'departamento')).toBe('pais');
+		expect(encuadreNivel(CATALOGO, 'seccion')).toBe('departamento');
+		expect(encuadreNivel(CATALOGO, 'segmento')).toBe('departamento');
+	});
+
+	it('AC-N13: un nivel nuevo se encuadra por su ámbito y su dentro_de, sin código nuevo', () => {
+		const cat = [...CATALOGO, nivel('nacional', 'Nacional', 2.5, true, ['pais']), nivel('zona_mvd', 'Zona', 5.5, true, ['pais', 'departamento'], MVD)];
+		expect(encuadreNivel(cat, 'nacional')).toBe('pais');
+		expect(encuadreNivel(cat, 'zona_mvd')).toBe('montevideo');
+	});
+
+	it('AC-V8 sin la ficha: el departamento por el código o por el ámbito; si no se sabe, se vacía', () => {
+		expect(territorioAlCambiarNivel('barrio_mvd/1000000', 'departamento', CATALOGO)).toBe('departamento/01');
+		expect(territorioAlCambiarNivel('segmento/0710101', 'departamento', CATALOGO)).toBe('departamento/07');
+		expect(territorioAlCambiarNivel('barrio_mvd/1000000', 'municipio_mvd', CATALOGO)).toBeNull(); // un barrio no está dentro de un municipio
+		expect(territorioAlCambiarNivel('departamento/07', 'seccion', CATALOGO)).toBeNull(); // ir a uno más fino vacía
 	});
 });

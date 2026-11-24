@@ -17,6 +17,8 @@ export interface NivelCatalogo {
 	orden: number;
 	/** Va al mapa (D1) y tiene capa en el PMTiles. */
 	dibujable: boolean;
+	/** Tiene capa en el PMTiles, vaya o no al selector (el mapa resalta ahí lo elegido en la búsqueda). */
+	capa: boolean;
 	/** Zoom desde el que la capa está en el PMTiles; null = desde el principio. */
 	minzoom: number | null;
 	/** Dónde tiene sentido encuadrar el nivel (AC-V7). */
@@ -53,6 +55,17 @@ export function nivelAlCambiar(actual: NivelMapa, ofrecidos: NivelMapa[], catalo
 	const contienen = catalogo.find((n) => n.id === actual)?.dentro_de ?? [];
 	const padre = ofrecidos.filter((id) => contienen.includes(id)).sort((a, b) => orden(b) - orden(a))[0];
 	return padre ?? [...ofrecidos].sort((a, b) => orden(a) - orden(b))[0];
+}
+
+/**
+ * AC-V7 (M11.3): dónde se encuadra el mapa al elegir un nivel, según el catálogo y sin código por nivel:
+ * los niveles solo de Montevideo, en Montevideo; los que no están dentro de un departamento (el departamento mismo),
+ * en el país; los demás, en el departamento elegido (con el zoom mínimo del nivel, si tiene).
+ */
+export function encuadreNivel(catalogo: NivelCatalogo[], nivel: string): 'montevideo' | 'pais' | 'departamento' {
+	const n = catalogo.find((c) => c.id === nivel);
+	if (n?.ambito === 'montevideo') return 'montevideo';
+	return n?.dentro_de.includes('departamento') ? 'departamento' : 'pais';
 }
 
 /** Zoom desde el que se dibuja el nivel (0 si no tiene mínimo). Reemplaza la constante de los segmentos. */
