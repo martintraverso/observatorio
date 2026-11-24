@@ -54,10 +54,18 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--crudo", type=Path, default=Path("datos/crudo"))
     ap.add_argument("--fuentes", type=Path, default=RAIZ / "fuentes")
+    ap.add_argument("--control-ine", action="store_true",
+                    help="bajar también las tablas 3.1.x del Anuario del INE para el control cruzado (AC-E23)")
     args = ap.parse_args(argv)
     fuente = cargar_fuentes(args.fuentes)[FUENTE_ID]
     resumen = capturar_anuarios(args.crudo, fuente)
-    print(json.dumps({**resumen.como_dict(), "anuarios": len(fuente["anuarios"])}, ensure_ascii=False))
+    salida = {**resumen.como_dict(), "anuarios": len(fuente["anuarios"])}
+    if args.control_ine:
+        import mec_ine_control
+
+        m = mec_ine_control.capturar(args.crudo)
+        salida["control_ine"] = {"tablas": len(m["tablas"]), "errores": m["errores"]}
+    print(json.dumps(salida, ensure_ascii=False))
     return 0
 
 

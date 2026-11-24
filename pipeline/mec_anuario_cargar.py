@@ -29,6 +29,7 @@ import sys
 from pathlib import Path
 
 import mec_anuario as mec
+import mec_ine_control
 import pandas as pd
 import yaml
 from ech_ingresos_captura import leer_completo, verificar
@@ -217,7 +218,8 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False, fuent
         return {"resultado": "sin cambios", "capturas": len(registro), "vigentes": len(vigentes), "parseadas": 0,
                 "_registro": registro, "_ultima": contenido.get("ultima_corrida") or {}, "_obs": obs_prev,
                 "_revision": controles(obs_prev, fuente, manual, deriv_prev, set(), set(), hay_interior),
-                "_fuente": fuente, "_faltantes": faltantes(fuente, archivos)}
+                "_fuente": fuente, "_faltantes": faltantes(fuente, archivos),
+                "_ine": control_ine(crudo, obs_prev, deriv_prev)}
 
     # AC-E6 / AC-P8: una captura ya cargada (mismo sha256) no se vuelve a parsear; sus valores se toman de lo
     # publicado. La serie y las tasas se recalculan sobre el conjunto.
@@ -285,7 +287,7 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False, fuent
             "parseadas": len(parseadas), "observaciones": len(obs), "derivadas": len(deriv), "cambios": cambios,
             "_registro": registro, "_ultima": contenido.get("ultima_corrida") or {}, "_obs": obs, "_avisos": avisos,
             "_solapes": solapes(obs), "_capturas": capturas, "_parseadas": parseadas, "_revision": revision,
-            "_fuente": fuente, "_faltantes": faltantes(fuente, archivos)}
+            "_fuente": fuente, "_faltantes": faltantes(fuente, archivos), "_ine": control_ine(crudo, obs, set(formulas))}
 
 
 # ---------------------------------------------------------------- reporte
@@ -323,8 +325,14 @@ def _controles_reporte(r: dict) -> list[str]:
     return ["", "### Controles (AC-E17…AC-E22)", "", *revision.controles.tabla_md(), "",
             f"Advertencias (no frenan la carga: excepciones de la fuente con su motivo y filas del Interior "
             f"salteadas): {len(revision.advertencias)}.", *[f"- {a}" for a in revision.advertencias], "",
-            *lineas_saltos(revision.saltos), "", *cuadros_reporte(r["_fuente"], r["_faltantes"]), "",
-            *ultimos_valores(obs)]
+            *lineas_saltos(revision.saltos), "", *mec_ine_control.lineas_reporte(*r["_ine"]), "",
+            *cuadros_reporte(r["_fuente"], r["_faltantes"]), "", *ultimos_valores(obs)]
+
+
+def control_ine(crudo: Path, obs: pd.DataFrame, porcentajes: set[str]) -> tuple[dict | None, dict]:
+    """AC-E23: compara con las tablas del INE si están guardadas; nunca carga sus valores."""
+    ine, manifiesto = mec_ine_control.leer_capturadas(crudo)
+    return (None if ine is None else mec_ine_control.comparar(ine, obs, porcentajes)), manifiesto
 
 
 def _hay_interior(salida: Path) -> bool:
