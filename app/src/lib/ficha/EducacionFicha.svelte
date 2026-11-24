@@ -18,12 +18,15 @@
 						<p class="titulo">{c.titulo}</p>
 						{#if c.principal}
 							<p class="valor">
+								{#if !/(^|· )Total$/.test(c.principal.etiqueta) && c.principal.etiqueta !== 'Tasa de promoción (total)'}
+									<span class="suave">{c.principal.etiqueta}:</span>
+								{/if}
 								<strong>{publicado(c.principal.observacion.valor)} {c.principal.unidad}</strong>
 								<span class="suave">· {c.anio}</span>
 								{#if c.principal.calculado}<span class="calculado">calculado por el observatorio</span>{/if}
 							</p>
 						{:else}
-							<p class="valor suave">Sin un total publicado: ver el detalle ({c.anio}).</p>
+							<p class="valor suave">Ver el detalle ({c.anio}).</p>
 						{/if}
 						<p class="fuente suave">{c.fuente}</p>
 						{#if c.aperturas.length || c.nota}

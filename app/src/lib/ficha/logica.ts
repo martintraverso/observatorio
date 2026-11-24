@@ -287,19 +287,42 @@ function rutaEducacion(ind: { columna_origen: string }): string {
 	return ind.columna_origen.split(' · ').slice(1).join(' · ');
 }
 
+/** Siglas que aparecen en las aperturas del anuario: quedan en mayúsculas. */
+const SIGLAS = new Set(['ANEP', 'CAIF', 'CEIP', 'CES', 'CETP', 'DGEIP', 'DGES', 'DGETP', 'INAU', 'JICI', 'MEC', 'UTU']);
+
 /** «FORMA DE ADMINISTRACIÓN/PÚBLICA/TOTAL» → «Forma de administración · Pública · Total»: legible, sin cambiar palabras. */
 export function rutaLegible(ruta: string): string {
 	return ruta
 		.split('/')
 		.map((t) => t.trim())
-		.map((t) => (t === t.toUpperCase() && /\p{L}{2}/u.test(t) ? t.charAt(0) + t.slice(1).toLowerCase() : t))
+		.map((t) => (t === t.toUpperCase() && /\p{L}{2}/u.test(t) && !SIGLAS.has(t) ? t.charAt(0) + t.slice(1).toLowerCase() : t))
 		.join(' · ');
 }
 
-/** Lo que mide un indicador del anuario dentro de su cuadro: su apertura legible, o el nombre si es calculado. */
-function etiquetaEducacion(ind: { columna_origen: string; nombre: string; es_derivado?: boolean }): string {
-	return ind.es_derivado ? ind.nombre : rutaLegible(rutaEducacion(ind)) || ind.nombre;
+type IndicadorEducacion = { columna_origen: string; nombre: string; es_derivado?: boolean; formula?: string };
+
+/**
+ * Lo que mide un indicador del anuario dentro de su cuadro: su apertura legible. Una tasa de promoción calculada toma
+ * la apertura del indicador «promovidos» de su fórmula (con la ortografía del archivo), sin los tramos de rendimiento,
+ * para que dos tasas del mismo cuadro nunca se llamen igual.
+ */
+function etiquetaEducacion(ind: IndicadorEducacion, indicadores: Record<string, IndicadorEducacion>): string {
+	if (!ind.es_derivado) {
+		// la categoría de un indicador con «__» (p. ej. «— diurna») va en el nombre: sin ella, dos columnas se leerían igual
+		const categoria = ind.nombre.includes(' — ') ? ind.nombre.split(' — ').at(-1) : '';
+		return (rutaLegible(rutaEducacion(ind)) || ind.nombre) + (categoria ? ` — ${categoria}` : '');
+	}
+	const prom = indicadores[(ind.formula ?? '').split(' / ')[0].trim()];
+	if (!prom || !/tasa de promoci/i.test(ind.nombre)) return ind.nombre;
+	const tramos = rutaEducacion(prom)
+		.split('/')
+		.filter((t) => !/^(rendimiento( escolar| educativo)?|promovidos?)$/i.test(t.trim()));
+	const apertura = rutaLegible(tramos.filter((t) => t.trim().toUpperCase() !== 'TOTAL').join('/'));
+	return apertura ? `Tasa de promoción · ${apertura}` : 'Tasa de promoción (total)';
 }
+
+/** El id de la tasa de promoción total de un cuadro: solo «total» o «rendimiento» entre el código y la tasa. */
+const TASA_TOTAL = /^edu_ii_\d+_\d+_\d+_(total_)?(rendimiento(_escolar)?_)?tasa_promocion(_total)?$/;
 
 /**
  * AC-E27 / AC-E29 (decisión del mantenedor en #210: una fila por cuadro, con el detalle plegado): los valores de
@@ -322,12 +345,17 @@ export function cuadrosEducacion(
 		const delAnio = lista.filter((o) => o.periodo === anio);
 		const valores: ValorEducacion[] = delAnio.map((o) => {
 			const ind = f.indicadores[o.indicador];
-			return { observacion: o, etiqueta: etiquetaEducacion(ind), unidad: ind.unidad, calculado: !!ind.es_derivado };
+			return { observacion: o, etiqueta: etiquetaEducacion(ind, f.indicadores), unidad: ind.unidad, calculado: !!ind.es_derivado };
 		});
-		// El resumen: la tasa total calculada (rendimiento), o si no el TOTAL publicado del cuadro.
+		// El resumen, solo si es único: la tasa de promoción total calculada (rendimiento); si no, el total publicado del
+		// cuadro («TOTAL», o el total de su única dimensión, «FORMA DE ADMINISTRACIÓN/TOTAL»). Nunca una suma (§4).
+		const unico = (xs: ValorEducacion[]) => (xs.length === 1 ? xs[0] : null);
+		const rutaDe = (v: ValorEducacion) => rutaEducacion(f.indicadores[v.observacion.indicador]);
+		const publicados = valores.filter((v) => !v.calculado);
 		const principal =
-			valores.find((v) => v.calculado && /_tasa_promocion(_total)?$/.test(v.observacion.indicador)) ??
-			valores.find((v) => !v.calculado && rutaEducacion(f.indicadores[v.observacion.indicador]) === 'TOTAL') ??
+			unico(valores.filter((v) => v.calculado && TASA_TOTAL.test(v.observacion.indicador))) ??
+			unico(publicados.filter((v) => rutaDe(v) === 'TOTAL')) ??
+			unico(publicados.filter((v) => /^[^/]+\/TOTAL$/.test(rutaDe(v)))) ??
 			null;
 		const base = Object.keys(f.indicadores).find((k) => f.indicadores[k].cuadro === cuadro && !f.indicadores[k].es_derivado);
 		const titulo = (base ? f.indicadores[base].nombre.split(': ')[0] : cuadro).replace(/ según departamento$/i, '');

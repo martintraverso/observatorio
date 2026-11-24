@@ -315,7 +315,7 @@ describe('F4.7b1: educación en la ficha (AC-E27, AC-E28, AC-E29)', () => {
 			a_total: ind('a_total', 'II-2.2.1', 'TOTAL'),
 			a_pub: ind('a_pub', 'II-2.2.1', 'FORMA DE ADMINISTRACIÓN/PÚBLICA/TOTAL'),
 			b_prom: ind('b_prom', 'II-2.2.13', 'RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL'),
-			b_tasa_promocion_total: ind('b_tasa_promocion_total', 'II-2.2.13', '', {
+			edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_total: ind('edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_total', 'II-2.2.13', '', {
 				nombre: 'Tasa de promoción (II-2.2.13): total',
 				columna_origen: 'Cuadro II-2.2.13 (calculado)',
 				unidad: '%',
@@ -324,7 +324,7 @@ describe('F4.7b1: educación en la ficha (AC-E27, AC-E28, AC-E29)', () => {
 			c_doc: ind('c_doc', 'II-2.3.1', 'TOTAL', { unidad: 'docentes' }),
 			pob: { codigo: 'pob', nombre: 'Personas', unidad: 'personas', tema: 'Población', columna_origen: '', fuente_id: 'ine', nota: '' }
 		},
-		observaciones: [o('a_total', '2023', 90, 'c23'), o('a_total', '2024', 100), o('a_pub', '2024', 70), o('b_prom', '2024', 80), o('b_tasa_promocion_total', '2024', 95.5), o('c_doc', '2024', 7), o('pob', '2023', 1)]
+		observaciones: [o('a_total', '2023', 90, 'c23'), o('a_total', '2024', 100), o('a_pub', '2024', 70), o('b_prom', '2024', 80), o('edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_total', '2024', 95.5), o('c_doc', '2024', 7), o('pob', '2023', 1)]
 	} as never;
 
 	it('agrupa por nivel educativo, grupo y cuadro, con el total del último año y las aperturas plegadas', () => {
@@ -349,6 +349,41 @@ describe('F4.7b1: educación en la ficha (AC-E27, AC-E28, AC-E29)', () => {
 	it('la apertura se lee sin mayúsculas sostenidas ni barras, sin cambiar sus palabras', () => {
 		expect(rutaLegible('FORMA DE ADMINISTRACIÓN/PRIVADA/SEXO/M')).toBe('Forma de administración · Privada · Sexo · M');
 		expect(rutaLegible('TIPO DE CURSO/Articulación/RENDIMIENTO/Promovido')).toBe('Tipo de curso · Articulación · Rendimiento · Promovido');
+	});
+
+	it('el resumen es solo el total: la tasa total aunque haya tasas de subconjuntos, o el total de una dimensión', () => {
+		const tasa = (codigo: string, prom: string) =>
+			ind(codigo, 'II-4.2.14', '', { nombre: 'Tasa de promoción (II-4.2.14): x', unidad: '%', es_derivado: true, formula: `${prom} / (${prom} + n) × 100` });
+		const g = {
+			capturas: { c24: { archivo: 'mec_anuario/2024.xlsx' } },
+			indicadores: {
+				p_priv: ind('p_priv', 'II-4.2.14', 'FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO/Promovido/SEXO/Mujer'),
+				p_tot: ind('p_tot', 'II-4.2.14', 'TOTAL/RENDIMIENTO/Promovido/TOTAL'),
+				edu_ii_4_2_14_forma_de_administracion_privada_tasa_promocion_total: tasa('edu_ii_4_2_14_forma_de_administracion_privada_tasa_promocion_total', 'p_priv'),
+				edu_ii_4_2_14_total_tasa_promocion_total: tasa('edu_ii_4_2_14_total_tasa_promocion_total', 'p_tot'),
+				centros_pub: ind('centros_pub', 'II-2.1.1', 'FORMA DE ADMINISTRACIÓN/PÚBLICA', { unidad: 'establecimientos' }),
+				centros_tot: ind('centros_tot', 'II-2.1.1', 'FORMA DE ADMINISTRACIÓN/TOTAL', { unidad: 'establecimientos' })
+			},
+			observaciones: [
+				o('edu_ii_4_2_14_forma_de_administracion_privada_tasa_promocion_total', '2024', 100),
+				o('edu_ii_4_2_14_total_tasa_promocion_total', '2024', 86.7),
+				o('centros_pub', '2024', 30),
+				o('centros_tot', '2024', 37)
+			]
+		} as never;
+		const cs = cuadrosEducacion(g).flatMap((n) => n.grupos.flatMap((x) => x.cuadros));
+		const rend = cs.find((c) => c.cuadro === 'II-4.2.14')!;
+		expect(rend.principal?.observacion.valor).toBe(86.7); // no la privada (100 %)
+		expect(rend.principal?.etiqueta).toBe('Tasa de promoción (total)');
+		// cada tasa se nombra con la apertura de su «promovidos», con la ortografía del archivo: no se repiten
+		expect(rend.aperturas.map((a) => a.etiqueta)).toEqual(['Tasa de promoción · Forma de administración · Privada · Sexo · Mujer']);
+		const centros = cs.find((c) => c.cuadro === 'II-2.1.1')!;
+		expect(centros.principal?.observacion.valor).toBe(37); // el total publicado de su única dimensión
+		expect(centros.principal?.etiqueta).toBe('Forma de administración · Total');
+	});
+
+	it('las siglas quedan en mayúsculas', () => {
+		expect(rutaLegible('DGES/TOTAL')).toBe('DGES · Total');
 	});
 
 	it('AC-E28: las fichas más chicas dicen «Educación: datos por departamento»', () => {
