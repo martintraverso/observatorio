@@ -22,6 +22,7 @@ Uso: python pipeline/mec_anuario_cargar.py datos/crudo/mec_anuario [--salida dat
 from __future__ import annotations
 
 import argparse
+import collections
 import json
 import re
 import sys
@@ -29,9 +30,11 @@ from pathlib import Path
 
 import mec_anuario as mec
 import pandas as pd
+import yaml
 from ech_ingresos_captura import leer_completo, verificar
 from ech_ingresos_cargar import _num, resumen_cambios
 from mec_anuario_captura import CARPETA, FUENTE_ID
+from mec_anuario_controles import controles, lineas_saltos
 
 from comun.capturas import Historial, ahora, nueva_captura
 from comun.registro import RAIZ, cargar_fuentes
@@ -186,7 +189,7 @@ def solapes(obs: pd.DataFrame) -> list[str]:
     return avisos
 
 
-def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False) -> dict:
+def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False, fuentes_dir: Path = RAIZ / "fuentes") -> dict:
     crudo, salida = Path(crudo), Path(salida)
     fuente = fuentes[FUENTE_ID]
     contenido = leer_completo(crudo, CARPETA)
@@ -233,6 +236,18 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False) -> di
     serie = mec.parsear_serie_matricula((crudo / ultimo["archivo"]).read_bytes()).assign(captura_id=ultimo["id"])
     obs = pd.concat([*partes, serie.drop(columns=["ruta"])], ignore_index=True)
     deriv, formulas = derivados(obs)
+    # F4.5a: controles antes de publicar; una falla frena la carga
+    manual_path = Path(fuentes_dir) / "mec_anuario" / "mapeo_manual.yml"
+    manual = yaml.safe_load(manual_path.read_text(encoding="utf-8")) if manual_path.exists() else {}
+    revision = controles(pd.concat([obs, deriv], ignore_index=True), fuente, manual, set(formulas))
+    if revision.controles.fallas:
+        raise ErrorCarga("Controles de calidad con falla: " + "; ".join(
+            f"{f['control']} ({f['detalle']})" for f in revision.controles.fallas))
+    if revision.region_salteada:  # AC-E18: sin la fila del Interior donde no es TOTAL − MONTEVIDEO
+        saltear = pd.MultiIndex.from_tuples(sorted(revision.region_salteada))
+        clave = pd.MultiIndex.from_arrays([obs.indicador, obs.periodo])
+        obs = obs[~((obs.territorio_id == mec.INTERIOR) & clave.isin(saltear))].reset_index(drop=True)
+        deriv, formulas = derivados(obs)
     obs = pd.concat([obs, deriv], ignore_index=True)
     if obs.duplicated(CLAVE).any():
         raise ErrorCarga("Valores repetidos para el mismo indicador, territorio y período: "
@@ -255,7 +270,8 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False) -> di
     return {"resultado": "reprocesado" if forzar else "nuevo", "capturas": len(registro), "vigentes": len(vigentes),
             "parseadas": len(parseadas), "observaciones": len(obs), "derivadas": len(deriv), "cambios": cambios,
             "_registro": registro, "_ultima": contenido.get("ultima_corrida") or {}, "_obs": obs, "_avisos": avisos,
-            "_solapes": solapes(obs), "_capturas": capturas, "_parseadas": parseadas}
+            "_solapes": solapes(obs), "_capturas": capturas, "_parseadas": parseadas, "_revision": revision,
+            "_fuente": fuente}
 
 
 # ---------------------------------------------------------------- reporte
@@ -282,8 +298,47 @@ def seccion_reporte(r: dict) -> list[str]:
     lineas += ["", f"Cambios: {texto}. Valores nuevos: {cambios['nuevos']}. Valores que ya no vienen: {cambios['quitados']}.",
                f"Tasas calculadas por el observatorio: {r['derivadas']}.", "",
                f"Serie nacional contra cuadros anuales (AC-E7): {len(r['_solapes'])} diferencias.",
-               *[f"- {a}" for a in r["_solapes"]], "", f"Avisos de lectura: {len(r['_avisos'])}.",
+               *[f"- {a}" for a in r["_solapes"]], "", f"Avisos de lectura (celdas salteadas y otros): {len(r['_avisos'])}.",
                *[f"- {a}" for a in r["_avisos"]]]
+    revision, fuente = r["_revision"], r["_fuente"]
+    lineas += ["", "### Controles (AC-E17…AC-E22)", "", *revision.controles.tabla_md(), "",
+               f"Advertencias (no frenan la carga: excepciones de la fuente con su motivo y filas del Interior "
+               f"salteadas): {len(revision.advertencias)}.", *[f"- {a}" for a in revision.advertencias], "",
+               *lineas_saltos(revision.saltos)]
+    lineas += ["", *cuadros_reporte(fuente), "", *ultimos_valores(obs)]
+    return lineas
+
+
+def cuadros_reporte(fuente: dict) -> list[str]:
+    """AC-E24: cuadros mapeados (se cargan), listados sin carga (ola 2 o con motivo) y faltantes."""
+    cuadros = fuente["cuadros"]
+    mapeados = sorted(c for c, e in cuadros.items() if e.get("ola") == 1 and any((e.get("mapeo") or {}).values()))
+    sin_carga = {c: e for c, e in cuadros.items() if c not in mapeados}
+    motivos = collections.Counter("ola 2 (F4.8)" if e.get("ola") == 2 else "sin mapeo" for e in sin_carga.values())
+    salteados = [f"{c} {a}: {m}" for c, e in cuadros.items() for a, m in (e.get("sin_cargar") or {}).items()]
+    return ["### Cuadros (AC-E24)", "", f"Mapeados y cargados (ola 1): {len(mapeados)}. Listados sin carga: "
+            f"{len(sin_carga)} ({', '.join(f'{n} {k}' for k, n in motivos.items())}). Faltantes en el registro: 0 "
+            "(el registro se arma con todos los cuadros de los cinco anuarios).",
+            *([f"Cuadros-año de la ola 1 sin cargar: {'; '.join(salteados)}."] if salteados else [])]
+
+
+ULTIMOS = [("edu_serie_total_sistema", "Matrícula total del sistema (serie)"),
+           ("edu_ii_2_2_1_total", "Matrícula de primaria común (II-2.2.1)"),
+           ("edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_total", "Tasa de promoción en primaria pública (%)")]
+
+
+def ultimos_valores(obs: pd.DataFrame) -> list[str]:
+    """AC-E24: el último valor de algunos indicadores para el país y Montevideo."""
+    lineas = ["### Últimos valores", "", "| Indicador | Año | País | Montevideo |", "|---|---|---:|---:|"]
+    for ind, nombre in ULTIMOS:
+        f = obs[obs.indicador == ind]
+        if f.empty:
+            continue
+        per = f.periodo.max()
+        v = f[f.periodo == per].set_index("territorio_id").valor
+        fmt = (lambda x: _num(x, 1)) if "tasa" in ind else _num
+        mvd = fmt(v[mec.tid("departamento", "01")]) if mec.tid("departamento", "01") in v else "—"
+        lineas.append(f"| {nombre} | {per} | {fmt(v[mec.PAIS]) if mec.PAIS in v else '—'} | {mvd} |")
     return lineas
 
 
@@ -311,7 +366,7 @@ def main(argv=None) -> int:
     historial = Historial(args.salida)
     fuentes = cargar_fuentes(args.fuentes)
     try:
-        r = cargar(args.entrada.parent, args.salida, fuentes, args.forzar)
+        r = cargar(args.entrada.parent, args.salida, fuentes, args.forzar, args.fuentes)
     except Exception as e:
         registro = leer_completo(args.entrada.parent, CARPETA)["capturas"]
         if registro:

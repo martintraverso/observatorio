@@ -118,3 +118,33 @@ reagrupaciones:
     unidocente: *escuelas
     de tiempo completo: *escuelas
   II-1.2.2: *jardines
+
+# controles_excepciones (F4.5a): cuadros-año en los que lo publicado no cierra. Se guarda tal cual y el control
+# lo reporta como advertencia con este motivo; una falla que no está acá frena la carga.
+controles_excepciones:
+  AC-E17:  # Montevideo + 18 departamentos = TOTAL
+    II-1.1.1: {2020: "el TOTAL publicado tiene 2 establecimientos públicos menos que la suma de los departamentos"}
+    II-1.2.3: {2023: "el TOTAL publicado (18.045) no es la suma de los departamentos (17.972)"}
+    II-1.2.4: {2024: "en el archivo, CPIP mujeres de Montevideo (2.913) no es coherente con el TOTAL (2.957)"}
+    II-3.2.2: {2021: "Treinta y Tres no cierra en el archivo (ver total_con_error)", 2022: "Treinta y Tres no cierra en el archivo (ver total_con_error)"}
+    II-4.2.13: {2023: "el TOTAL publicado (37.131 promovidos) no es la suma de los departamentos (34.226)"}
+  AC-E19:  # desgloses
+    II-1.2.1: {2023: "el total por forma de administración difiere de pública + privada en algunas unidades por departamento"}
+    II-1.2.4: {2021: &sexo124 "en el archivo, el TOTAL no es varones + mujeres (+ sin dato)", 2022: *sexo124, 2023: *sexo124, 2024: *sexo124}
+    II-1.2.5: {2020: "en el archivo, el total por sexo no es la suma por edad (difiere en 33 mujeres y 23 varones)"}
+    II-2.2.1: {2023: "en la privada, varones + mujeres no da el total en algunos departamentos"}
+
+# particiones (F4.5a): cuadros B con filas jerárquicas; cada regla es [total, [partes]] (categorías del id).
+particiones:
+  II-3.2.1:
+    - [total, [media_basica_publica, media_basica_privada]]
+    - [media_basica_publica, [diurna, nocturna]]
+  II-4.2.1:
+    - [total, [media_superior_publica, media_superior_privada]]
+    - [media_superior_publica, [diurna, cuarto_turno]]
+
+# huecos (AC-E21): territorios sin ningún dato publicado en un cuadro tipo A.
+huecos:
+  II-1.2.7:
+    2023: "Cerro Largo y Treinta y Tres: «s/d» en todas las columnas"
+    2024: "Cerro Largo: «s/d» en todas las columnas"

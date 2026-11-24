@@ -126,8 +126,10 @@ def cuadro(xlsx: bytes, hoja: str) -> dict | None:
             no_num += n is None
             como_texto += n is not None and isinstance(v, str)
     pl = [plegar(x) for x in rotulos]
-    deptos = sum(1 for x in pl if x in DEPTOS)
-    tipo = ("A" if ("total" in pl or "total del pais" in pl) and "montevideo" in pl and deptos >= 15
+    # la misma regla de territorios que el parser: «MONTEVIDEO*» (II-3.1.2 2020) también es Montevideo
+    terr = [mec.territorio_de_fila(x) for x in rotulos]
+    deptos = sum(1 for t in terr if t and "/departamento/" in t)
+    tipo = ("A" if mec.PAIS in terr and mec.tid("departamento", "01") in terr and deptos >= 15
             else "C" if any(INSTITUCION.search(x) for x in pl) else "B")
     # columnas con otra ruta pero los mismos valores en todas las filas: posible cambio de significado
     iguales = []
