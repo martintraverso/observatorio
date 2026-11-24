@@ -423,3 +423,65 @@ def test_el_resumen_de_las_advertencias_llega_a_la_web(web):
         refs = json.loads(archivo.read_text(encoding="utf-8"))["fuentes"]
         if ech in refs:
             assert refs[ech]["resumen_advertencias"] == resumen
+
+
+# ------------------------------------------------------------------ M11.1: catálogo de niveles (AC-N1…N3)
+
+CAMPOS_NIVEL = {"id", "etiqueta", "ayuda", "orden", "dibujable", "minzoom", "ambito"}
+
+
+def test_catalogo_de_niveles_en_niveles_json(web, territorios):
+    """AC-N1: niveles.json lista cada nivel con id, etiqueta, ayuda, orden (de grueso a fino), dibujable, zoom mínimo
+    y ámbito. Los dibujables son los de D1 (#200), en el orden de D2."""
+    cat = json.loads((web / "niveles.json").read_text(encoding="utf-8"))
+    assert all(set(n) == CAMPOS_NIVEL for n in cat)
+    assert [n["orden"] for n in cat] == sorted({n["orden"] for n in cat})  # sin repetidos, ya ordenado
+    assert set(territorios.nivel) <= {n["id"] for n in cat}  # ningún nivel de la base queda fuera
+    dib = [n["id"] for n in cat if n["dibujable"]]
+    assert dib == ["departamento", "municipio_mvd", "seccion", "barrio_mvd", "segmento"]
+    por_id = {n["id"]: n for n in cat}
+    assert por_id["segmento"]["minzoom"] == 9 and por_id["departamento"]["minzoom"] is None
+    assert {n["id"] for n in cat if n["ambito"] == "montevideo"} == {"municipio_mvd", "barrio_mvd", "ccz_mvd"}
+    assert por_id["municipio_mvd"]["ayuda"] == por_id["barrio_mvd"]["ayuda"] == "Solo Montevideo"
+    assert not por_id["localidad"]["dibujable"] and not por_id["ccz_mvd"]["dibujable"]  # D1
+
+
+def test_cada_nivel_del_mapa_tiene_capa_en_el_pmtiles():
+    """AC-N1 (`dibujable`): un nivel que D1 pone en el mapa sin capa en el PMTiles hace fallar este test, y el zoom
+    mínimo del catálogo es el de la capa."""
+    from web import NIVELES_CATALOGO, catalogo_niveles
+
+    sin_capa = [n["id"] for n in NIVELES_CATALOGO if n["en_mapa"] and n["id"] not in PMTILES_MINZOOM]
+    assert sin_capa == []
+    # un nivel de D1 sin capa nunca se publica como dibujable
+    import web
+
+    falso = {"id": "nivel_falso", "etiqueta": "Falso", "en_mapa": True, "ambito": "pais"}
+    web.NIVELES_CATALOGO.append(falso)
+    try:
+        assert not next(n for n in catalogo_niveles() if n["id"] == "nivel_falso")["dibujable"]
+    finally:
+        web.NIVELES_CATALOGO.remove(falso)
+
+
+def test_niveles_sin_geometria_nunca_son_dibujables():
+    """AC-N3: país y región (sin geometría para el mapa) están en el catálogo, pero nunca dibujables."""
+    from web import catalogo_niveles
+
+    cat = {n["id"]: n for n in catalogo_niveles()}
+    assert {"pais", "region"} <= set(cat) and SIN_GEOMETRIA <= set(cat)
+    assert not cat["pais"]["dibujable"] and not any(cat[n]["dibujable"] for n in SIN_GEOMETRIA)
+
+
+def test_niveles_de_cada_indicador_salen_de_las_observaciones():
+    """AC-N2: un indicador lista solo los niveles donde tiene al menos un valor; país y región se listan (las fichas
+    los usan) aunque el catálogo no los dibuje."""
+    import pandas as pd
+    from web import disponibilidad
+
+    terr = pd.DataFrame({"id": ["p", "r", "d1", "s1"], "nivel": ["pais", "region", "departamento", "seccion"]})
+    ind = pd.DataFrame({"codigo": ["a", "b"], "tema": ["Población", "Trabajo"], "nombre": ["A", "B"]})
+    obs = pd.DataFrame({"indicador": ["a", "a", "b", "b"], "territorio_id": ["d1", "s1", "p", "r"],
+                        "periodo": ["2023", "2023", "2024", "2024"]})
+    niveles = {f["codigo"]: f["niveles"] for f in disponibilidad(ind, terr, obs)}
+    assert niveles == {"a": ["departamento", "seccion"], "b": ["pais", "region"]}
