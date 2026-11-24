@@ -63,9 +63,13 @@ test('AC-N7 y AC-N11: de Personas por segmento a Trabajo, el nivel pasa a Depart
 	// un segundo cambio automático al mismo nivel también se anuncia: la región viva se vacía y se vuelve a escribir
 	await page.evaluate(() => {
 		const vivo = [...document.querySelectorAll('[aria-live="polite"]')].find((e) => e.textContent?.includes('Nivel:'))!;
-		const w = window as unknown as { __anuncios: string[] };
+		const w = window as unknown as { __anuncios: { texto: string; t: number }[] };
 		w.__anuncios = [];
-		new MutationObserver(() => w.__anuncios.push(vivo.textContent ?? '')).observe(vivo, { childList: true, characterData: true, subtree: true });
+		new MutationObserver(() => w.__anuncios.push({ texto: vivo.textContent ?? '', t: performance.now() })).observe(vivo, {
+			childList: true,
+			characterData: true,
+			subtree: true
+		});
 	});
 	const tema = page.getByRole('group', { name: 'Tema' });
 	await tema.getByText('Población', { exact: true }).click();
@@ -73,7 +77,14 @@ test('AC-N7 y AC-N11: de Personas por segmento a Trabajo, el nivel pasa a Depart
 	await expect(page).toHaveURL(/nivel=seccion/);
 	await tema.getByText('Trabajo', { exact: true }).click();
 	await expect(page).toHaveURL(/nivel=departamento/);
-	await expect.poll(() => page.evaluate(() => (window as unknown as { __anuncios: string[] }).__anuncios)).toContain('Nivel: Departamento');
+	type Anuncio = { texto: string; t: number };
+	const anuncios = () => page.evaluate(() => (window as unknown as { __anuncios: Anuncio[] }).__anuncios);
+	await expect.poll(async () => (await anuncios()).map((a) => a.texto)).toContain('Nivel: Departamento');
+	// la región queda vacía al menos un cuadro (más de 50 ms) antes del texto: el lector lo toma como un cambio
+	const a = await anuncios();
+	const vacio = a.findLast((x) => x.texto === '')!;
+	const lleno = a.find((x) => x.texto === 'Nivel: Departamento' && x.t > vacio.t)!;
+	expect(lleno.t - vacio.t).toBeGreaterThan(50);
 });
 
 test('AC-N8: un enlace a Tasa de desempleo por sección abre en Departamento y reescribe la URL', async ({ page }) => {

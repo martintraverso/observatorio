@@ -194,11 +194,15 @@
 		}
 	}
 
-	/** AC-N11: se vacía antes, para que un segundo cambio al mismo nivel también se anuncie (mismo texto). */
-	async function anunciarNivel(texto: string) {
+	/**
+	 * AC-N11: se vacía y se vuelve a escribir un momento después, para que un segundo cambio al mismo nivel (mismo
+	 * texto) también se anuncie: el navegador tiene que ver la región vacía en un cuadro antes del texto nuevo.
+	 */
+	let esperaAnuncio: ReturnType<typeof setTimeout> | undefined;
+	function anunciarNivel(texto: string) {
 		anuncioNivel = '';
-		await tick();
-		anuncioNivel = texto;
+		clearTimeout(esperaAnuncio);
+		esperaAnuncio = setTimeout(() => (anuncioNivel = texto), 100);
 	}
 
 	/** La ficha cargada, solo si es la del territorio elegido (mientras carga otra, la anterior no vale). */
