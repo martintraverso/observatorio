@@ -246,3 +246,125 @@ export function indicadorIngreso(o: OpcionesIngreso): string {
 export function serieIngreso(series: Map<string, Observacion[]>, o: OpcionesIngreso): Observacion[] {
 	return (series.get(indicadorIngreso(o)) ?? []).filter((x) => x.tipo_periodo === o.frecuencia);
 }
+
+// ---------------------------------------------------------------- educación (F4.7b1, #210)
+
+/** Nivel educativo según el código del cuadro del anuario del MEC: II-<nivel>.<grupo>.<n>. */
+export const NIVELES_EDUCATIVOS: Record<string, string> = {
+	'1': 'Primera infancia e inicial',
+	'2': 'Primaria',
+	'3': 'Media básica',
+	'4': 'Media superior'
+};
+/** Grupo de AC-E27 según el segundo número del código: .1 centros, .2 estudiantes, .3 docentes. */
+export const GRUPOS_EDUCACION: Record<string, string> = { '1': 'Centros', '2': 'Estudiantes', '3': 'Docentes' };
+
+export interface ValorEducacion {
+	observacion: Observacion;
+	/** Qué mide dentro del cuadro: la apertura («FORMA DE ADMINISTRACIÓN/PÚBLICA/TOTAL») o el nombre de la tasa. */
+	etiqueta: string;
+	unidad: string;
+	calculado: boolean;
+}
+
+export interface CuadroEducacion {
+	cuadro: string;
+	titulo: string;
+	/** Año del último valor publicado del cuadro. */
+	anio: string;
+	/** El valor que resume el cuadro (la tasa total calculada, o el TOTAL publicado); null si el cuadro no tiene. */
+	principal: ValorEducacion | null;
+	/** Las demás aperturas del mismo año (van en el bloque plegable). */
+	aperturas: ValorEducacion[];
+	/** Pie del cuadro (notas, AC-E29). */
+	nota: string;
+	/** «Fuente: MEC, Anuario Estadístico de Educación 2024, cuadro II-2.2.1» (AC-E29). */
+	fuente: string;
+}
+
+/** La ruta de la columna de origen de un indicador del anuario («FORMA DE ADMINISTRACIÓN/PÚBLICA/TOTAL»). */
+function rutaEducacion(ind: { columna_origen: string }): string {
+	return ind.columna_origen.split(' · ').slice(1).join(' · ');
+}
+
+/** «FORMA DE ADMINISTRACIÓN/PÚBLICA/TOTAL» → «Forma de administración · Pública · Total»: legible, sin cambiar palabras. */
+export function rutaLegible(ruta: string): string {
+	return ruta
+		.split('/')
+		.map((t) => t.trim())
+		.map((t) => (t === t.toUpperCase() && /\p{L}{2}/u.test(t) ? t.charAt(0) + t.slice(1).toLowerCase() : t))
+		.join(' · ');
+}
+
+/** Lo que mide un indicador del anuario dentro de su cuadro: su apertura legible, o el nombre si es calculado. */
+function etiquetaEducacion(ind: { columna_origen: string; nombre: string; es_derivado?: boolean }): string {
+	return ind.es_derivado ? ind.nombre : rutaLegible(rutaEducacion(ind)) || ind.nombre;
+}
+
+/**
+ * AC-E27 / AC-E29 (decisión del mantenedor en #210: una fila por cuadro, con el detalle plegado): los valores de
+ * educación de la ficha agrupados por nivel educativo, grupo (centros, estudiantes, docentes) y cuadro, con el valor
+ * que resume cada cuadro en su último año, sus aperturas, la nota del cuadro y la fuente con el año del anuario.
+ */
+export function cuadrosEducacion(
+	f: Pick<Ficha, 'observaciones' | 'indicadores' | 'capturas'>
+): { nivel: string; grupos: { grupo: string; cuadros: CuadroEducacion[] }[] }[] {
+	const porCuadro = new Map<string, Observacion[]>();
+	for (const o of f.observaciones) {
+		const c = f.indicadores[o.indicador]?.cuadro;
+		if (c && f.indicadores[o.indicador]?.tema === 'Educación') porCuadro.set(c, [...(porCuadro.get(c) ?? []), o]);
+	}
+	const cuadros: (CuadroEducacion & { nivel: string; grupo: string })[] = [];
+	for (const [cuadro, lista] of porCuadro) {
+		const m = /^II-(\d+)\.(\d+)\./.exec(cuadro);
+		if (!m) continue;
+		const anio = lista.map((o) => o.periodo).sort().at(-1)!;
+		const delAnio = lista.filter((o) => o.periodo === anio);
+		const valores: ValorEducacion[] = delAnio.map((o) => {
+			const ind = f.indicadores[o.indicador];
+			return { observacion: o, etiqueta: etiquetaEducacion(ind), unidad: ind.unidad, calculado: !!ind.es_derivado };
+		});
+		// El resumen: la tasa total calculada (rendimiento), o si no el TOTAL publicado del cuadro.
+		const principal =
+			valores.find((v) => v.calculado && /_tasa_promocion(_total)?$/.test(v.observacion.indicador)) ??
+			valores.find((v) => !v.calculado && rutaEducacion(f.indicadores[v.observacion.indicador]) === 'TOTAL') ??
+			null;
+		const base = Object.keys(f.indicadores).find((k) => f.indicadores[k].cuadro === cuadro && !f.indicadores[k].es_derivado);
+		const titulo = (base ? f.indicadores[base].nombre.split(': ')[0] : cuadro).replace(/ según departamento$/i, '');
+		const archivo = f.capturas[(principal ?? valores[0]).observacion.captura_id]?.archivo ?? '';
+		const anioAnuario = /(\d{4})\.\w+$/.exec(archivo)?.[1] ?? anio;
+		cuadros.push({
+			cuadro,
+			titulo,
+			anio,
+			principal,
+			aperturas: valores.filter((v) => v !== principal).sort((a, b) => a.etiqueta.localeCompare(b.etiqueta, 'es')),
+			nota: (base && f.indicadores[base].nota) || '',
+			fuente: `Fuente: MEC, Anuario Estadístico de Educación ${anioAnuario}, cuadro ${cuadro}`,
+			nivel: NIVELES_EDUCATIVOS[m[1]] ?? `Nivel ${m[1]}`,
+			grupo: GRUPOS_EDUCACION[m[2]] ?? 'Otros'
+		});
+	}
+	const orden = (c: string) => c.split(/[-.]/).slice(1).map(Number);
+	cuadros.sort((a, b) => {
+		const [x, y] = [orden(a.cuadro), orden(b.cuadro)];
+		for (let i = 0; i < Math.max(x.length, y.length); i++) if ((x[i] ?? 0) !== (y[i] ?? 0)) return (x[i] ?? 0) - (y[i] ?? 0);
+		return 0;
+	});
+	const salida: { nivel: string; grupos: { grupo: string; cuadros: CuadroEducacion[] }[] }[] = [];
+	for (const c of cuadros) {
+		let n = salida.find((x) => x.nivel === c.nivel);
+		if (!n) salida.push((n = { nivel: c.nivel, grupos: [] }));
+		let g = n.grupos.find((x) => x.grupo === c.grupo);
+		if (!g) n.grupos.push((g = { grupo: c.grupo, cuadros: [] }));
+		g.cuadros.push(c);
+	}
+	return salida;
+}
+
+/** AC-E28: lo que dice una ficha sin datos propios de un tema que se publica en un nivel que la contiene. */
+export function textoEnPadre(temas: string[], nivelPadre: string): string {
+	// Educación se publica solo por departamento (y país e Interior): el texto lo dice así (AC-E28).
+	if (temas.length === 1 && temas[0] === 'Educación' && nivelPadre === 'departamento') return 'Educación: datos por departamento';
+	return `${temas.join(' e ')}: se publica por ${(NOMBRE_NIVEL[nivelPadre as keyof typeof NOMBRE_NIVEL] ?? nivelPadre).toLowerCase()}`;
+}

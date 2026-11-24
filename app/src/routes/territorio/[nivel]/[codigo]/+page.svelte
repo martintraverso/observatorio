@@ -6,6 +6,7 @@
 	import MiniMapa from '#lib/mapa/MiniMapa.svelte';
 	import LocalizadorCerca from '#lib/mapa/LocalizadorCerca.svelte';
 	import SerieIngresos from '#lib/ficha/SerieIngresos.svelte';
+	import EducacionFicha from '#lib/ficha/EducacionFicha.svelte';
 	import { descargarCsv } from '#lib/csv.ts';
 	import { hrefFicha, NOMBRE_NIVEL, NIVELES, partesId, type Nivel, type Observacion, type Relacion } from '#lib/datos.ts';
 	import { fecha, numero, publicado } from '#lib/formato.ts';
@@ -19,9 +20,11 @@
 		densidad,
 		fuentesDeFicha,
 		notaNoAditiva,
+		cuadrosEducacion,
 		observacionesDeSeccion,
 		partes,
 		SECCIONES_FICHA,
+		textoEnPadre,
 		SIN_FUENTES,
 		valorDe,
 		separarSeries
@@ -192,7 +195,9 @@
 	{@const { puntuales, series: todas } = separarSeries(lista)}
 	<!-- F3.7b: los ingresos tienen su propio selector (variante, base de precios, frecuencia) -->
 	{@const ingresos = new Map([...todas].filter(([c]) => c.startsWith('ing_')))}
-	{@const series = new Map([...todas].filter(([c]) => !c.startsWith('ing_')))}
+	<!-- F4.7b1 (#210): la educación va por cuadro del anuario, no como serie de un selector -->
+	{@const educacion = s.id === 'educacion' ? cuadrosEducacion(f) : []}
+	{@const series = new Map([...todas].filter(([c]) => !c.startsWith('ing_') && !(educacion.length && f.indicadores[c]?.cuadro)))}
 	{@const enRegion = datosEnRegion(f, s.temas)}
 	<section id={s.id} class="tarjeta seccion" aria-labelledby="titulo-{s.id}">
 		<h2 id="titulo-{s.id}">{s.titulo}</h2>
@@ -201,7 +206,7 @@
 			{#if arriba}
 				<!-- AC-V24: el tema no se publica a este nivel, pero sí en uno que lo contiene -->
 				<p class="info vacio en-padre">
-					{arriba.temas.join(' e ')}: se publica por {NOMBRE_NIVEL[arriba.padre.nivel].toLowerCase()} →
+					{textoEnPadre(arriba.temas, arriba.padre.nivel)} →
 					<a href="{hrefFicha(arriba.padre)}#{s.id}">ver {arriba.padre.nombre}</a>
 				</p>
 			{:else if !enRegion}
@@ -217,6 +222,9 @@
 		{/if}
 		{#if series.size}
 			<SerieFicha ficha={f} {series} pais={data.pais} fuenteDe={fuenteDe} titulo={s.titulo} />
+		{/if}
+		{#if educacion.length}
+			<EducacionFicha niveles={educacion} />
 		{/if}
 		{#if ingresos.size}
 			<SerieIngresos ficha={f} series={ingresos} pais={data.pais} fuenteDe={fuenteDe} titulo="Ingresos" />

@@ -3,6 +3,7 @@ import type { Ficha, Observacion } from '../datos';
 import {
 	cita,
 	consultaMapa,
+	cuadrosEducacion,
 	datosEnPadre,
 	datosEnRegion,
 	indicadorIngreso,
@@ -17,8 +18,10 @@ import {
 	observacionesDeSeccion,
 	partes,
 	puntosSerie,
+	rutaLegible,
 	SECCIONES_FICHA,
-	separarSeries
+	separarSeries,
+	textoEnPadre
 } from './logica';
 
 const obs = (indicador: string, valor: number) => ({
@@ -289,5 +292,67 @@ describe('densidad (AC-V27)', () => {
 		expect(densidad(null, 5144)).toBeNull();
 		expect(densidad(26271, null)).toBeNull();
 		expect(densidad(26271, 0)).toBeNull();
+	});
+});
+
+describe('F4.7b1: educación en la ficha (AC-E27, AC-E28, AC-E29)', () => {
+	const ind = (codigo: string, cuadro: string, columna: string, extra: Record<string, unknown> = {}) => ({
+		codigo,
+		nombre: `Estudiantes matriculados en educación primaria común según departamento: ${columna}`,
+		unidad: 'estudiantes',
+		tema: 'Educación',
+		columna_origen: `Cuadro ${cuadro} · ${columna}`,
+		fuente_id: 'mec_anuario_educacion',
+		nota: 'Fuente: DIEE.',
+		cuadro,
+		...extra
+	});
+	const o = (indicador: string, periodo: string, valor: number, captura = 'c24') =>
+		({ indicador, periodo, valor, captura_id: captura, tipo_periodo: 'anio', es_estimado: false }) as never;
+	const f = {
+		capturas: { c24: { archivo: 'mec_anuario/2024.xlsx' }, c23: { archivo: 'mec_anuario/2023.xlsx' } },
+		indicadores: {
+			a_total: ind('a_total', 'II-2.2.1', 'TOTAL'),
+			a_pub: ind('a_pub', 'II-2.2.1', 'FORMA DE ADMINISTRACIÓN/PÚBLICA/TOTAL'),
+			b_prom: ind('b_prom', 'II-2.2.13', 'RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL'),
+			b_tasa_promocion_total: ind('b_tasa_promocion_total', 'II-2.2.13', '', {
+				nombre: 'Tasa de promoción (II-2.2.13): total',
+				columna_origen: 'Cuadro II-2.2.13 (calculado)',
+				unidad: '%',
+				es_derivado: true
+			}),
+			c_doc: ind('c_doc', 'II-2.3.1', 'TOTAL', { unidad: 'docentes' }),
+			pob: { codigo: 'pob', nombre: 'Personas', unidad: 'personas', tema: 'Población', columna_origen: '', fuente_id: 'ine', nota: '' }
+		},
+		observaciones: [o('a_total', '2023', 90, 'c23'), o('a_total', '2024', 100), o('a_pub', '2024', 70), o('b_prom', '2024', 80), o('b_tasa_promocion_total', '2024', 95.5), o('c_doc', '2024', 7), o('pob', '2023', 1)]
+	} as never;
+
+	it('agrupa por nivel educativo, grupo y cuadro, con el total del último año y las aperturas plegadas', () => {
+		const r = cuadrosEducacion(f);
+		expect(r.map((n) => n.nivel)).toEqual(['Primaria']);
+		expect(r[0].grupos.map((g) => g.grupo)).toEqual(['Estudiantes', 'Docentes']);
+		const [matricula, rendimiento] = r[0].grupos[0].cuadros;
+		expect(matricula.cuadro).toBe('II-2.2.1');
+		expect(matricula.titulo).toBe('Estudiantes matriculados en educación primaria común');
+		expect(matricula.anio).toBe('2024');
+		expect(matricula.principal?.observacion.valor).toBe(100);
+		expect(matricula.aperturas.map((a) => a.etiqueta)).toEqual(['Forma de administración · Pública · Total']);
+		expect(matricula.nota).toBe('Fuente: DIEE.');
+		// AC-E29: la fuente con el año del anuario y el cuadro
+		expect(matricula.fuente).toBe('Fuente: MEC, Anuario Estadístico de Educación 2024, cuadro II-2.2.1');
+		// en rendimiento, el resumen es la tasa calculada, marcada como tal
+		expect(rendimiento.principal?.observacion.valor).toBe(95.5);
+		expect(rendimiento.principal?.calculado).toBe(true);
+		expect(rendimiento.principal?.unidad).toBe('%');
+	});
+
+	it('la apertura se lee sin mayúsculas sostenidas ni barras, sin cambiar sus palabras', () => {
+		expect(rutaLegible('FORMA DE ADMINISTRACIÓN/PRIVADA/SEXO/M')).toBe('Forma de administración · Privada · Sexo · M');
+		expect(rutaLegible('TIPO DE CURSO/Articulación/RENDIMIENTO/Promovido')).toBe('Tipo de curso · Articulación · Rendimiento · Promovido');
+	});
+
+	it('AC-E28: las fichas más chicas dicen «Educación: datos por departamento»', () => {
+		expect(textoEnPadre(['Educación'], 'departamento')).toBe('Educación: datos por departamento');
+		expect(textoEnPadre(['Trabajo'], 'departamento')).toBe('Trabajo: se publica por departamento');
 	});
 });
