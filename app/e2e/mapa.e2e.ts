@@ -550,4 +550,7 @@ test('AC-N11: el selector «Nivel territorial» es un grupo de radios que se man
 	await page.keyboard.press('ArrowDown');
 	await expect(radios.nth(1)).toBeChecked();
 	await expect(page).not.toHaveURL(/nivel=departamento/);
+	// Tab sale del grupo (una sola parada) al control siguiente, el período
+	await page.keyboard.press('Tab');
+	await expect(page.locator('#periodo')).toBeFocused();
 });

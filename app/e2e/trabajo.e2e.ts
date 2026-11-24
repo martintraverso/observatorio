@@ -60,6 +60,20 @@ test('AC-N7 y AC-N11: de Personas por segmento a Trabajo, el nivel pasa a Depart
 	await expect(nivel.getByRole('radio', { name: 'Departamento' })).toBeChecked();
 	await expect(page.getByText('no se publica por')).toHaveCount(0);
 	await expect(page.locator('[aria-live="polite"]').filter({ hasText: 'Nivel: Departamento' })).toHaveCount(1);
+	// un segundo cambio automático al mismo nivel también se anuncia: la región viva se vacía y se vuelve a escribir
+	await page.evaluate(() => {
+		const vivo = [...document.querySelectorAll('[aria-live="polite"]')].find((e) => e.textContent?.includes('Nivel:'))!;
+		const w = window as unknown as { __anuncios: string[] };
+		w.__anuncios = [];
+		new MutationObserver(() => w.__anuncios.push(vivo.textContent ?? '')).observe(vivo, { childList: true, characterData: true, subtree: true });
+	});
+	const tema = page.getByRole('group', { name: 'Tema' });
+	await tema.getByText('Población', { exact: true }).click();
+	await page.getByRole('group', { name: 'Nivel territorial' }).getByText('Sección', { exact: true }).click();
+	await expect(page).toHaveURL(/nivel=seccion/);
+	await tema.getByText('Trabajo', { exact: true }).click();
+	await expect(page).toHaveURL(/nivel=departamento/);
+	await expect.poll(() => page.evaluate(() => (window as unknown as { __anuncios: string[] }).__anuncios)).toContain('Nivel: Departamento');
 });
 
 test('AC-N8: un enlace a Tasa de desempleo por sección abre en Departamento y reescribe la URL', async ({ page }) => {

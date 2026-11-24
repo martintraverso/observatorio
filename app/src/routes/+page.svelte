@@ -190,8 +190,15 @@
 		const nuevo = nivelAlCambiar(estado.nivel, nivelesOfrecidos(ind, data.catalogo), data.catalogo);
 		if (nuevo && nuevo !== estado.nivel) {
 			elegirNivel(nuevo);
-			anuncioNivel = `Nivel: ${opcionNivel(data.catalogo, nuevo).etiqueta}`;
+			anunciarNivel(`Nivel: ${opcionNivel(data.catalogo, nuevo).etiqueta}`);
 		}
+	}
+
+	/** AC-N11: se vacía antes, para que un segundo cambio al mismo nivel también se anuncie (mismo texto). */
+	async function anunciarNivel(texto: string) {
+		anuncioNivel = '';
+		await tick();
+		anuncioNivel = texto;
 	}
 
 	/** La ficha cargada, solo si es la del territorio elegido (mientras carga otra, la anterior no vale). */
