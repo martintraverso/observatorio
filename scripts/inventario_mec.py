@@ -664,6 +664,10 @@ def escribir_registro(ex: dict, archivos: dict) -> None:
                     else:
                         e.setdefault("mapeo_manual_fallas", {}).setdefault(a, []).append(
                             f"{c['columnas'][i]} «{ruta}»: la suma de «{regla_c['suma']}» no da {c['columnas'][t]}")
+                if (omitidas := manual.get("columnas_omitidas", {}).get(cod, {}).get(a)):
+                    for x in m:
+                        if x["col"] in omitidas["columnas"]:
+                            x["omitir"] = omitidas["motivo"]
                 if (regla := manual.get("anio_real", {}).get(cod, {}).get(a)):
                     cambios, notas = anio_real(ex, cod, a, regla)
                     for i, cambio in cambios.items():

@@ -41,7 +41,7 @@ anuarios:
     bytes: 1577158
     publicado: 20/12/2021
     actualizado: 29 de setiembre 2022
-    revisado: '2026-11-23'
+    revisado: '2026-11-24'
   2021:
     pagina: https://www.gub.uy/ministerio-educacion-cultura/datos-y-estadisticas/datos/anuario-estadistico-educacion-2021
     url: https://www.gub.uy/ministerio-educacion-cultura/sites/ministerio-educacion-cultura/files/2023-01/Anuario%20Estad%C3%ADstico%20de%20Educaci%C3%B3n%202021.xlsx
@@ -50,7 +50,7 @@ anuarios:
     bytes: 2353845
     publicado: 18/01/2023
     actualizado: null
-    revisado: '2026-11-23'
+    revisado: '2026-11-24'
   2022:
     pagina: https://www.gub.uy/ministerio-educacion-cultura/datos-y-estadisticas/datos/anuario-estadistico-educacion-2022
     url: https://www.gub.uy/ministerio-educacion-cultura/sites/ministerio-educacion-cultura/files/2023-12/Anuario%20Estad%C3%ADstico%20de%20Educaci%C3%B3n%202022_0.xlsx
@@ -59,7 +59,7 @@ anuarios:
     bytes: 2311783
     publicado: 18/12/2023
     actualizado: null
-    revisado: '2026-11-23'
+    revisado: '2026-11-24'
   2023:
     pagina: https://www.gub.uy/ministerio-educacion-cultura/datos-y-estadisticas/datos/anuario-estadistico-educacion-2023
     url: https://www.gub.uy/ministerio-educacion-cultura/sites/ministerio-educacion-cultura/files/2025-04/Anuario%20Estad%C3%ADstico%20de%20Educaci%C3%B3n%202023.xlsx
@@ -68,7 +68,7 @@ anuarios:
     bytes: 2353734
     publicado: 15/11/2024
     actualizado: 02/04/2025
-    revisado: '2026-11-23'
+    revisado: '2026-11-24'
   2024:
     pagina: https://www.gub.uy/ministerio-educacion-cultura/datos-y-estadisticas/datos/anuario-estadistico-educacion-2024
     url: https://www.gub.uy/ministerio-educacion-cultura/sites/ministerio-educacion-cultura/files/2026-02/Anuario%20Estad%C3%ADstico%20de%20Educaci%C3%B3n%202024.xlsx
@@ -77,7 +77,7 @@ anuarios:
     bytes: 1706786
     publicado: 02/01/2026
     actualizado: 13/02/2026
-    revisado: '2026-11-23'
+    revisado: '2026-11-24'
 serie_nacional:
   hoja: MATRÍCULA DEL SISTEMA 2002-<año>
   tipo: B
@@ -7635,11 +7635,11 @@ cuadros:
       - col: B
         ruta: RENDIMIENTO/Promovido
         id: edu_ii_3_2_10_rendimiento_promovido
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: C
         ruta: RENDIMIENTO/No Promovido
         id: edu_ii_3_2_10_rendimiento_no_promovido
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: D
         ruta: ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/RENDIMIENTO/Promovido
         id: edu_ii_3_2_10_articulacion_educacion_media_basica_rendimiento_promovido
@@ -7684,11 +7684,11 @@ cuadros:
       - col: B
         ruta: RENDIMIENTO/Promovido
         id: edu_ii_3_2_10_rendimiento_promovido
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: C
         ruta: RENDIMIENTO/No Promovido
         id: edu_ii_3_2_10_rendimiento_no_promovido
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: D
         ruta: ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/RENDIMIENTO/Promovido
         id: edu_ii_3_2_10_articulacion_educacion_media_basica_rendimiento_promovido
@@ -7733,11 +7733,11 @@ cuadros:
       - col: B
         ruta: RENDIMIENTO/Promovido
         id: edu_ii_3_2_10_rendimiento_promovido
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: C
         ruta: RENDIMIENTO/No Promovido
         id: edu_ii_3_2_10_rendimiento_no_promovido
-        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: D
         ruta: ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/RENDIMIENTO/Promovido
         id: edu_ii_3_2_10_articulacion_educacion_media_basica_rendimiento_promovido
@@ -7774,15 +7774,23 @@ cuadros:
       - col: B
         ruta: RENDIMIENTO/Promovido/SEXO/Varón
         id: edu_ii_3_2_10_rendimiento_promovido_sexo_varon
+        omitir: 'en el archivo, el TOTAL repite los valores de «Articulación» (10.960 / 7.569 promovidos), aunque EBI y FPB vienen aparte; no se carga (mantenedor,
+          #196)'
       - col: C
         ruta: RENDIMIENTO/Promovido/SEXO/Mujer
         id: edu_ii_3_2_10_rendimiento_promovido_sexo_mujer
+        omitir: 'en el archivo, el TOTAL repite los valores de «Articulación» (10.960 / 7.569 promovidos), aunque EBI y FPB vienen aparte; no se carga (mantenedor,
+          #196)'
       - col: D
         ruta: RENDIMIENTO/No Promovido/SEXO/Varón
         id: edu_ii_3_2_10_rendimiento_no_promovido_sexo_varon
+        omitir: 'en el archivo, el TOTAL repite los valores de «Articulación» (10.960 / 7.569 promovidos), aunque EBI y FPB vienen aparte; no se carga (mantenedor,
+          #196)'
       - col: E
         ruta: RENDIMIENTO/No Promovido/SEXO/Mujer
         id: edu_ii_3_2_10_rendimiento_no_promovido_sexo_mujer
+        omitir: 'en el archivo, el TOTAL repite los valores de «Articulación» (10.960 / 7.569 promovidos), aunque EBI y FPB vienen aparte; no se carga (mantenedor,
+          #196)'
       - col: F
         ruta: TIPO DE CURSO/ARTICULACIÓN EDUCACIÓN MEDIA BÁSICA/RENDIMIENTO/Promovido/SEXO/Varón
         id: edu_ii_3_2_10_tipo_de_curso_articulacion_educacion_media_basica_rendimiento_promovido_sexo_varon
