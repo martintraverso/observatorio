@@ -427,7 +427,7 @@ def test_el_resumen_de_las_advertencias_llega_a_la_web(web):
 
 # ------------------------------------------------------------------ M11.1: catálogo de niveles (AC-N1…N3)
 
-CAMPOS_NIVEL = {"id", "etiqueta", "ayuda", "orden", "dibujable", "minzoom", "ambito"}
+CAMPOS_NIVEL = {"id", "etiqueta", "ayuda", "orden", "dibujable", "minzoom", "ambito", "dentro_de"}
 
 
 def test_catalogo_de_niveles_en_niveles_json(web, territorios):
@@ -456,7 +456,7 @@ def test_cada_nivel_del_mapa_tiene_capa_en_el_pmtiles():
     # un nivel de D1 sin capa nunca se publica como dibujable
     import web
 
-    falso = {"id": "nivel_falso", "etiqueta": "Falso", "en_mapa": True, "ambito": "pais"}
+    falso = {"id": "nivel_falso", "etiqueta": "Falso", "en_mapa": True, "ambito": "pais", "dentro_de": []}
     web.NIVELES_CATALOGO.append(falso)
     try:
         assert not next(n for n in catalogo_niveles() if n["id"] == "nivel_falso")["dibujable"]
@@ -485,3 +485,15 @@ def test_niveles_de_cada_indicador_salen_de_las_observaciones():
                         "periodo": ["2023", "2023", "2024", "2024"]})
     niveles = {f["codigo"]: f["niveles"] for f in disponibilidad(ind, terr, obs)}
     assert niveles == {"a": ["departamento", "seccion"], "b": ["pais", "region"]}
+
+
+def test_dentro_de_nombra_niveles_mas_gruesos_del_catalogo():
+    """AC-N7 (#202): `dentro_de` lista solo niveles del catálogo más gruesos que el propio; un barrio no está dentro de
+    un municipio (no se contienen exactamente) y el segmento sí está dentro de su sección."""
+    from web import catalogo_niveles
+
+    cat = {n["id"]: n for n in catalogo_niveles()}
+    for n in cat.values():
+        assert all(p in cat and cat[p]["orden"] < n["orden"] for p in n["dentro_de"]), n["id"]
+    assert "municipio_mvd" not in cat["barrio_mvd"]["dentro_de"]
+    assert {"seccion", "departamento"} <= set(cat["segmento"]["dentro_de"])

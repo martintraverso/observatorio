@@ -1,38 +1,76 @@
-// Lógica del mapa sin DOM (M6): temas, disponibilidad por nivel, clases de la coropleta y estado en la URL.
+// Lógica del mapa sin DOM (M6): temas, niveles según el catálogo (M11), clases de la coropleta y estado en la URL.
 
-import type { Indicador, Nivel } from '../datos.ts';
+import type { Indicador } from '../datos.ts';
 import { numero } from '../formato.ts';
 
 /** Temas de la app, en orden (SYSTEM.md §8). */
 export const TEMAS = ['Población', 'Vivienda', 'Hogares', 'Trabajo', 'Ingresos', 'Educación'] as const;
 export type Tema = (typeof TEMAS)[number];
 
-/** Niveles que se pueden pintar en el mapa, de menos a más detallado. */
-export const NIVELES_MAPA = ['departamento', 'municipio_mvd', 'seccion', 'segmento'] as const satisfies readonly Nivel[];
-export type NivelMapa = (typeof NIVELES_MAPA)[number];
+/** Un nivel del catálogo que escribe el pipeline en niveles.json (M11.1, AC-N1). */
+export interface NivelCatalogo {
+	id: string;
+	etiqueta: string;
+	/** Aclaración bajo la etiqueta en el selector, p. ej. «Solo Montevideo» (AC-V2). */
+	ayuda: string | null;
+	/** De grueso a fino (D2). */
+	orden: number;
+	/** Va al mapa (D1) y tiene capa en el PMTiles. */
+	dibujable: boolean;
+	/** Zoom desde el que la capa está en el PMTiles; null = desde el principio. */
+	minzoom: number | null;
+	/** Dónde tiene sentido encuadrar el nivel (AC-V7). */
+	ambito: 'pais' | 'montevideo';
+	/** Niveles que contienen enteros a sus territorios (AC-N7, #202). */
+	dentro_de: string[];
+}
 
-export const ETIQUETA_NIVEL_MAPA: Record<NivelMapa, string> = {
-	departamento: 'Departamento',
-	municipio_mvd: 'Municipio (Montevideo)',
-	seccion: 'Sección',
-	segmento: 'Segmento'
-};
+/** Un nivel del mapa: cualquier id del catálogo (M11.2: la app no tiene una lista fija, AC-N13). */
+export type NivelMapa = string;
 
-/** Cómo se muestra cada nivel en el selector del mapa (AC-V2): nombre corto y, si hace falta, una ayuda. */
-export const OPCION_NIVEL_MAPA: Record<NivelMapa, { etiqueta: string; ayuda?: string }> = {
-	departamento: { etiqueta: 'Departamento' },
-	municipio_mvd: { etiqueta: 'Municipio', ayuda: 'Solo Montevideo' },
-	seccion: { etiqueta: 'Sección' },
-	segmento: { etiqueta: 'Segmento' }
-};
+/** Los niveles que se pueden dibujar, en el orden del catálogo (capas del mapa). */
+export function nivelesDibujables(catalogo: NivelCatalogo[]): NivelCatalogo[] {
+	return catalogo.filter((n) => n.dibujable).sort((a, b) => a.orden - b.orden);
+}
 
-/** Desde qué zoom aparecen los segmentos en el PMTiles (pipeline/web.py PMTILES_MINZOOM). */
-export const ZOOM_SEGMENTOS = 9;
+/** AC-N4: los niveles que ofrece el selector para un indicador: con datos y dibujables, en el orden del catálogo. */
+export function nivelesOfrecidos(ind: { niveles: string[] } | undefined, catalogo: NivelCatalogo[]): NivelMapa[] {
+	if (!ind) return [];
+	return nivelesDibujables(catalogo)
+		.filter((n) => ind.niveles.includes(n.id))
+		.map((n) => n.id);
+}
+
+/**
+ * AC-N7: el nivel al cambiar de tema o indicador. Se conserva si se ofrece; si no, el más cercano de los niveles que
+ * lo contienen (`dentro_de`, decisión del mantenedor en #202: de un barrio no se pasa a la seccional, que no lo
+ * contiene); si ninguno se ofrece, el más grueso ofrecido. null si no se ofrece ninguno (solo país y región).
+ */
+export function nivelAlCambiar(actual: NivelMapa, ofrecidos: NivelMapa[], catalogo: NivelCatalogo[]): NivelMapa | null {
+	if (!ofrecidos.length) return null;
+	if (ofrecidos.includes(actual)) return actual;
+	const orden = (id: string) => catalogo.find((n) => n.id === id)?.orden ?? Infinity;
+	const contienen = catalogo.find((n) => n.id === actual)?.dentro_de ?? [];
+	const padre = ofrecidos.filter((id) => contienen.includes(id)).sort((a, b) => orden(b) - orden(a))[0];
+	return padre ?? [...ofrecidos].sort((a, b) => orden(a) - orden(b))[0];
+}
+
+/** Zoom desde el que se dibuja el nivel (0 si no tiene mínimo). Reemplaza la constante de los segmentos. */
+export function zoomMinimo(catalogo: NivelCatalogo[], nivel: string): number {
+	return catalogo.find((n) => n.id === nivel)?.minzoom ?? 0;
+}
+
+/** Etiqueta y ayuda del nivel en el selector (AC-V2), tomadas del catálogo. */
+export function opcionNivel(catalogo: NivelCatalogo[], nivel: string): { etiqueta: string; ayuda?: string } {
+	const n = catalogo.find((x) => x.id === nivel);
+	return n ? { etiqueta: n.etiqueta, ...(n.ayuda ? { ayuda: n.ayuda } : {}) } : { etiqueta: nivel };
+}
 
 /** Lo que trae indicadores.json para cada indicador. */
 export interface IndicadorMapa extends Indicador {
 	tema: string;
-	niveles: Nivel[];
+	/** Niveles con datos (indicadores.json, AC-N2): cualquier id del catálogo, no una lista fija (AC-N13). */
+	niveles: string[];
 	periodos: string[];
 }
 
@@ -41,11 +79,8 @@ export function indicadoresDelTema(indicadores: IndicadorMapa[], tema: string): 
 }
 
 /** El nivel más detallado del mapa en que el indicador tiene datos, o null. */
-export function nivelMasDetallado(ind: IndicadorMapa): NivelMapa | null {
-	for (let i = NIVELES_MAPA.length - 1; i >= 0; i--) {
-		if (ind.niveles.includes(NIVELES_MAPA[i])) return NIVELES_MAPA[i];
-	}
-	return null;
+export function nivelMasDetallado(ind: IndicadorMapa, catalogo: NivelCatalogo[]): NivelMapa | null {
+	return nivelesOfrecidos(ind, catalogo).at(-1) ?? null;
 }
 
 /**
@@ -54,7 +89,8 @@ export function nivelMasDetallado(ind: IndicadorMapa): NivelMapa | null {
  */
 export function avisoNivel(
 	ind: IndicadorMapa,
-	nivel: NivelMapa
+	nivel: NivelMapa,
+	catalogo: NivelCatalogo[]
 ): { mensaje: string; disponibles: NivelMapa[]; regional?: boolean } | null {
 	// AC-I20 (F3.7c): lo que se publica por región (los ingresos de la ECH) no va en el coroplético: no hay datos por
 	// departamento salvo Montevideo. Se avisa y se muestra la comparación entre regiones.
@@ -63,8 +99,8 @@ export function avisoNivel(
 	}
 	if (ind.niveles.includes(nivel)) return null;
 	// AC-V9: los niveles del mapa donde sí está, del más fino al más grueso (cada uno será un botón).
-	const disponibles = NIVELES_MAPA.filter((n) => ind.niveles.includes(n)).reverse();
-	const donde = minuscula(OPCION_NIVEL_MAPA[nivel].etiqueta);
+	const disponibles = nivelesOfrecidos(ind, catalogo).reverse();
+	const donde = minuscula(opcionNivel(catalogo, nivel).etiqueta);
 	return {
 		mensaje: disponibles.length
 			? `«${ind.nombre}» no se publica por ${donde}. Disponible por:`
@@ -73,9 +109,14 @@ export function avisoNivel(
 	};
 }
 
-/** Niveles del mapa en que algún indicador tiene datos (los demás no se ofrecen en el selector). */
-export function nivelesConDatos(indicadores: IndicadorMapa[]): NivelMapa[] {
-	return NIVELES_MAPA.filter((n) => indicadores.some((i) => i.niveles.includes(n)));
+/**
+ * Niveles del mapa en que algún indicador tiene datos. Lo usan todavía el selector (hasta M11.4, que pasa a
+ * nivelesOfrecidos del indicador elegido) y los tests visuales (hasta M11.5).
+ */
+export function nivelesConDatos(indicadores: IndicadorMapa[], catalogo: NivelCatalogo[]): NivelMapa[] {
+	return nivelesDibujables(catalogo)
+		.filter((n) => indicadores.some((i) => i.niveles.includes(n.id)))
+		.map((n) => n.id);
 }
 
 /**
@@ -186,15 +227,39 @@ export interface EstadoMapa {
 	territorio: string | null;
 }
 
-export function estadoDesdeUrl(params: URLSearchParams, indicadores: IndicadorMapa[]): EstadoMapa {
+/**
+ * AC-M5 / AC-N8: el estado desde la URL. Un `nivel` que no se ofrece para el indicador (un enlace viejo o escrito a
+ * mano) se cambia con la regla de AC-N7; la página reescribe la URL con replaceState, sin aviso.
+ */
+export function estadoDesdeUrl(params: URLSearchParams, indicadores: IndicadorMapa[], catalogo: NivelCatalogo[]): EstadoMapa {
 	const ind = indicadores.find((i) => i.codigo === params.get('indicador')) ?? indicadores[0];
-	const nivel = (NIVELES_MAPA as readonly string[]).includes(params.get('nivel') ?? '')
-		? (params.get('nivel') as NivelMapa)
-		: 'departamento';
+	const dibujables = nivelesDibujables(catalogo).map((n) => n.id);
+	const pedido = params.get('nivel') ?? '';
+	const base = catalogo.some((n) => n.id === pedido) ? pedido : (dibujables[0] ?? 'departamento');
+	// Sin niveles dibujables para el indicador (solo país y región, AC-I20): queda el pedido si se dibuja, o el más grueso.
+	const nivel =
+		nivelAlCambiar(base, nivelesOfrecidos(ind, catalogo), catalogo) ?? (dibujables.includes(base) ? base : (dibujables[0] ?? 'departamento'));
 	const periodo = ind?.periodos.includes(params.get('periodo') ?? '') ? params.get('periodo')! : (ind?.periodos.at(-1) ?? '');
 	const t = params.get('territorio');
-	const territorio = t && /^[a-z_]+\/[0-9A-Za-z-]+$/.test(t) ? t : null;
+	const valido = t && /^[a-z_]+\/[0-9A-Za-z-]+$/.test(t) ? t : null;
+	// AC-N8 + AC-V8: si el nivel se corrigió, el territorio sigue la regla de selección (nunca uno de otro nivel).
+	const territorio = valido && nivel !== pedido ? territorioAlCambiarNivel(valido, nivel, catalogo) : valido;
 	return { indicador: ind?.codigo ?? '', nivel, periodo, territorio };
+}
+
+/**
+ * AC-V8 sin la ficha (al abrir desde la URL): el territorio se conserva si es del nivel; si el nivel nuevo lo contiene
+ * (`dentro_de`) y el padre se sabe por el código, pasa al padre: sección y segmento → su departamento (los dos primeros
+ * dígitos del código INE), lo de Montevideo → departamento 01. Si no, la selección se vacía.
+ */
+export function territorioAlCambiarNivel(territorio: string, nivel: NivelMapa, catalogo: NivelCatalogo[]): string | null {
+	const [desde, codigo] = territorio.split('/');
+	if (desde === nivel) return territorio;
+	const origen = catalogo.find((n) => n.id === desde);
+	if (nivel !== 'departamento' || !origen?.dentro_de.includes('departamento')) return null;
+	if (origen.ambito === 'montevideo') return 'departamento/01';
+	if (desde === 'seccion' || desde === 'segmento') return `departamento/${codigo.slice(0, 2)}`;
+	return null;
 }
 
 export function urlDesdeEstado(e: EstadoMapa): string {

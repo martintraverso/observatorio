@@ -188,17 +188,20 @@ test('accesibilidad del mapa con el panel abierto (axe)', async ({ page }) => {
 	expect(graves.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(' ')}`)).toEqual([]);
 });
 
-test('el selector de nivel ofrece solo niveles con datos y un nivel sin valores no rompe la página', async ({ page }) => {
+test('el selector de nivel ofrece solo niveles con datos; AC-N8: un enlace a un nivel sin datos abre en uno que sí', async ({ page }) => {
 	const indicadores = JSON.parse(readFileSync('build/datos-web/indicadores.json', 'utf-8')) as { niveles: string[] }[];
 	const conMunicipio = indicadores.some((i) => i.niveles.includes('municipio_mvd'));
 	const errores: string[] = [];
 	page.on('pageerror', (e) => errores.push(e.message));
+	// Personas no se publica por municipio: el enlace (viejo o escrito a mano) abre en Departamento, el nivel que lo
+	// contiene (AC-N7), reescribe la URL y no muestra el aviso de AC-M2 (reemplaza el test del aviso por URL).
 	await page.goto('?indicador=pob_total&nivel=municipio_mvd&periodo=2023');
+	await expect(page).toHaveURL(/nivel=departamento/);
 	await abrirOpciones(page);
 	const nivel = page.getByRole('group', { name: 'Nivel territorial' });
 	await expect(nivel.getByRole('radio', { name: 'Municipio Solo Montevideo' })).toHaveCount(conMunicipio ? 1 : 0);
-	// llegado por URL a un nivel sin datos de Personas: aviso de AC-M2 y ningún error
-	await expect(page.getByRole('status').filter({ hasText: 'no se publica por municipio' })).toBeVisible();
+	await expect(nivel.getByRole('radio', { name: 'Departamento' })).toBeChecked();
+	await expect(page.getByText('no se publica por')).toHaveCount(0);
 	await page.waitForLoadState('networkidle');
 	expect(errores).toEqual([]);
 });
@@ -296,15 +299,16 @@ test('AC-V7: «Segmento» sin departamento elegido ofrece «Elegí un departamen
 	await expect(elegir).toHaveCount(0); // con zoom suficiente el aviso se va
 });
 
-test('AC-V9: el aviso nombra el nivel elegido y ofrece, como botones, los niveles con datos del más fino al más grueso', async ({ page }) => {
-	await page.goto('?indicador=pob_total&nivel=municipio_mvd&periodo=2023');
-	const aviso = page.getByRole('status').filter({ hasText: 'no se publica por' });
-	await expect(aviso).toContainText('«Personas» no se publica por municipio. Disponible por:');
-	await expect(aviso.getByRole('button')).toHaveText(['segmento', 'sección', 'departamento']);
-	await aviso.getByRole('button', { name: 'sección' }).click();
+// AC-V9 (el aviso por URL a un nivel sin datos): desde M11.2 ese enlace abre en un nivel con datos (AC-N8, test de
+// arriba). El texto y los botones del aviso los prueba estado.spec.ts; M11.4 lo saca del mapa (AC-N9).
+test('AC-N8: un enlace a un nivel que el indicador ofrece se respeta (Barrio para Personas)', async ({ page }) => {
+	const indicadores = JSON.parse(readFileSync('build/datos-web/indicadores.json', 'utf-8')) as { codigo: string; niveles: string[] }[];
+	test.skip(!indicadores.find((i) => i.codigo === 'pob_total')?.niveles.includes('barrio_mvd'), 'sin datos por barrio');
+	await page.goto('?indicador=pob_total&nivel=barrio_mvd&periodo=2023');
 	await abrirOpciones(page);
-	await expect(nivelRadio(page, 'Sección')).toBeChecked();
-	await expect(aviso).toHaveCount(0);
+	await expect(nivelRadio(page, 'Barrio Solo Montevideo')).toBeChecked();
+	await expect(page).toHaveURL(/nivel=barrio_mvd/);
+	await expect(page.getByText('no se publica por')).toHaveCount(0);
 });
 
 test('AC-V8: al ir a un nivel más fino el panel se vacía (no queda un territorio de otro nivel)', async ({ page }) => {

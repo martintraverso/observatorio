@@ -12,18 +12,17 @@
 		avisoNivel,
 		clasesCuantiles,
 		estadoDesdeUrl,
-		ETIQUETA_NIVEL_MAPA,
 		etiquetaPeriodo,
 		fuenteCorta,
 		indicadoresDelTema,
 		minuscula,
 		nivelesConDatos,
 		nivelMasDetallado,
-		OPCION_NIVEL_MAPA,
+		opcionNivel,
 		totalDelPais,
 		TEMAS,
 		urlDesdeEstado,
-		ZOOM_SEGMENTOS,
+		zoomMinimo,
 		type EstadoMapa,
 		type NivelMapa
 	} from '#lib/mapa/estado.ts';
@@ -37,7 +36,7 @@
 	}
 
 	// Valor inicial para el prerender; en el navegador se lee de la URL al montar.
-	let estado = $state<EstadoMapa>(estadoDesdeUrl(new URLSearchParams(), untrack(() => data.indicadores)));
+	let estado = $state<EstadoMapa>(estadoDesdeUrl(new URLSearchParams(), untrack(() => data.indicadores), untrack(() => data.catalogo)));
 	let tema = $state<string>(TEMAS[0]);
 	let montado = $state(false);
 	let zoom = $state(6);
@@ -51,7 +50,7 @@
 
 	let indicador = $derived(data.indicadores.find((i) => i.codigo === estado.indicador) ?? data.indicadores[0]);
 	let delTema = $derived(indicadoresDelTema(data.indicadores, tema));
-	let aviso = $derived(indicador ? avisoNivel(indicador, estado.nivel) : null);
+	let aviso = $derived(indicador ? avisoNivel(indicador, estado.nivel, data.catalogo) : null);
 	let valores = $derived<Record<string, number | null>>(
 		!aviso && valoresNivel?.nivel === estado.nivel ? (valoresNivel.indicadores[estado.indicador]?.[estado.periodo] ?? {}) : {}
 	);
@@ -61,7 +60,7 @@
 		const f = data.fuentes.find((x) => x.id === indicador?.fuente_id);
 		return f ? fuenteCorta(f) : '';
 	});
-	let niveles = $derived(nivelesConDatos(data.indicadores));
+	let niveles = $derived(nivelesConDatos(data.indicadores, data.catalogo));
 	// Total del país publicado por la fuente (valores/pais.json), para la nota del panel (F2.8b).
 	let valoresPais = $state<ValoresNivel | null>(null);
 	let totalPais = $derived(totalDelPais(valoresPais, estado.indicador, estado.periodo));
@@ -69,7 +68,7 @@
 	// AC-V13: en celular y tableta los controles van en una hoja que se abre desde una barra compacta.
 	let opcionesAbiertas = $state(false);
 	let resumenOpciones = $derived(
-		[indicador?.nombre ?? tema, OPCION_NIVEL_MAPA[estado.nivel].etiqueta, indicador ? etiquetaPeriodo(estado.periodo) : null]
+		[indicador?.nombre ?? tema, opcionNivel(data.catalogo, estado.nivel).etiqueta, indicador ? etiquetaPeriodo(estado.periodo) : null]
 			.filter(Boolean)
 			.join(' · ')
 	);
@@ -90,7 +89,9 @@
 
 	// AC-V10: sin territorio elegido no hay panel derecho; el mapa usa ese ancho y la pista va sobre el mapa.
 	let hayPanel = $derived(!!estado.territorio);
-	let faltaZoom = $derived(estado.nivel === 'segmento' && zoom < ZOOM_SEGMENTOS);
+	// Un nivel que se dibuja desde cierto zoom (los segmentos, AC-N1) y el mapa todavía no llegó.
+	let zoomNivel = $derived(zoomMinimo(data.catalogo, estado.nivel));
+	let faltaZoom = $derived(zoomNivel > 0 && zoom < zoomNivel);
 
 	/** "Instituto Nacional de Estadística (INE)" -> "INE". */
 	function siglas(organismo: string): string {
@@ -98,7 +99,7 @@
 	}
 
 	onMount(() => {
-		estado = estadoDesdeUrl(new URLSearchParams(location.search), data.indicadores);
+		estado = estadoDesdeUrl(new URLSearchParams(location.search), data.indicadores, data.catalogo);
 		tema = indicador?.tema ?? TEMAS[0];
 		enfocarAlCargar = !!estado.territorio;
 		montado = true;
@@ -218,9 +219,10 @@
 		const depto = deptoElegido();
 		estado.nivel = n;
 		estado.territorio = territorioEnNivel(n);
-		if (n === 'municipio_mvd') enfocarDepto('01');
+		// por ámbito del catálogo (M11.2): los niveles solo de Montevideo, en Montevideo
+		if (data.catalogo.find((c) => c.id === n)?.ambito === 'montevideo') enfocarDepto('01');
 		else if (n === 'departamento') mapa?.enfocarPais();
-		else if (depto) enfocarDepto(depto, n === 'segmento' ? ZOOM_SEGMENTOS : 0);
+		else if (depto) enfocarDepto(depto, zoomMinimo(data.catalogo, n));
 	}
 
 	function seleccionar(id: string) {
@@ -229,9 +231,10 @@
 	}
 
 	function hastaDonde(i: (typeof data.indicadores)[number]): string {
-		const n = nivelMasDetallado(i);
+		const n = nivelMasDetallado(i, data.catalogo);
 		if (i.niveles.includes('region')) return 'por región'; // AC-I20: los ingresos (no van en el coroplético)
-		return n ? `hasta ${minuscula(ETIQUETA_NIVEL_MAPA[n])}` : 'sin datos en el mapa';
+		const o = n ? opcionNivel(data.catalogo, n) : null;
+		return o ? `hasta ${minuscula(o.etiqueta)}${o.ayuda ? ` (${minuscula(o.ayuda)})` : ''}` : 'sin datos en el mapa';
 	}
 </script>
 
@@ -349,7 +352,7 @@
 			<!-- Lista vertical: entra cualquier cantidad de niveles sin cortar ninguno (AC-V1). -->
 			<div class="lista-niveles">
 				{#each niveles as n (n)}
-					{@const opcion = OPCION_NIVEL_MAPA[n]}
+					{@const opcion = opcionNivel(data.catalogo, n)}
 					<label class="nivel" class:activo={estado.nivel === n}>
 						<input type="radio" name="nivel" value={n} checked={estado.nivel === n} onchange={() => elegirNivel(n)} />
 						<span class="nombre">{opcion.etiqueta}</span>
@@ -373,6 +376,7 @@
 	<section class="centro" aria-label="Mapa interactivo">
 		<Mapa
 			bind:this={mapa}
+			catalogo={data.catalogo}
 			nivel={estado.nivel}
 			{valores}
 			{clases}
@@ -396,7 +400,7 @@
 						<div class="disponibles">
 							{#each aviso.disponibles as alt, i (alt)}
 								{#if i > 0}<span aria-hidden="true">·</span>{/if}
-								<button type="button" onclick={() => elegirNivel(alt)}>{minuscula(OPCION_NIVEL_MAPA[alt].etiqueta)}</button>
+								<button type="button" onclick={() => elegirNivel(alt)}>{minuscula(opcionNivel(data.catalogo, alt).etiqueta)}</button>
 							{/each}
 						</div>
 					{/if}
@@ -408,7 +412,7 @@
 					<select
 						id="elegir-depto"
 						onchange={(e) => {
-							if (e.currentTarget.value) enfocarDepto(e.currentTarget.value, ZOOM_SEGMENTOS);
+							if (e.currentTarget.value) enfocarDepto(e.currentTarget.value, zoomNivel);
 						}}
 					>
 						<option value="">Elegí un departamento</option>

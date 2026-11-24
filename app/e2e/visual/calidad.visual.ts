@@ -13,7 +13,8 @@ type Territorio = { nivel: string; codigo: string; nombre: string; depto: string
 const indice = JSON.parse(readFileSync('build/datos-web/territorios_index.json', 'utf-8')) as Territorio[];
 const fuentes = JSON.parse(readFileSync('build/datos-web/fuentes.json', 'utf-8')) as { id: string }[];
 const indicadores = JSON.parse(readFileSync('build/datos-web/indicadores.json', 'utf-8')) as Parameters<typeof nivelesConDatos>[0];
-const NIVELES = nivelesConDatos(indicadores);
+const catalogo = JSON.parse(readFileSync('build/datos-web/niveles.json', 'utf-8')) as Parameters<typeof nivelesConDatos>[1];
+const NIVELES = nivelesConDatos(indicadores, catalogo);
 
 // Tacuarembó es la ficha de referencia de AC-V18; con el fixture (sin Tacuarembó), Flores.
 const DEPTO = indice.find((t) => t.nivel === 'departamento' && t.codigo === '18') ?? indice.find((t) => t.nivel === 'departamento' && t.codigo === '07')!;
