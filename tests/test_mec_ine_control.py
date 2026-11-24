@@ -150,3 +150,19 @@ def entorno(salida, tmp_path):
     capturar_anuarios(crudo, FUENTE, sitio({URL[2023]: fix(2023), URL[2024]: fix(2024)}), hoy="2026-11-23")
     return crudo, copia
 
+
+
+def test_los_ids_del_mapeo_existen_en_el_registro():
+    import yaml
+
+    fuente = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario_educacion.yml").read_text(encoding="utf-8"))
+    ids = {x["id"] for e in fuente["cuadros"].values() for m in (e.get("mapeo") or {}).values() for x in m or []}
+    sin = []
+    for tabla, cols in correspondencias().items():
+        for col, m in cols.items():
+            for i in ([m] if isinstance(m, str) else m.values()):
+                base = i.split("__")[0]
+                if not (i.startswith("edu_serie_") or base in ids or i.replace("_tasa_promocion", "") in ids
+                        or "_tasa_promocion" in i):
+                    sin.append((tabla, col, i))
+    assert sin == []

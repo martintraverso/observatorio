@@ -133,7 +133,9 @@ TOLERANCIA_PCT = 0.05  # el INE publica algunos porcentajes con un decimal
 
 
 def _id(mapeo, anio: str) -> str | None:
-    return mapeo if isinstance(mapeo, str) else (mapeo or {}).get(int(anio))
+    if isinstance(mapeo, str):
+        return mapeo
+    return {int(k): v for k, v in (mapeo or {}).items()}.get(int(anio))  # «2023» o 2023 en el YAML
 
 
 def comparar(ine: pd.DataFrame, obs: pd.DataFrame, correspondencias: dict, porcentajes: set[str]) -> dict:
@@ -142,7 +144,7 @@ def comparar(ine: pd.DataFrame, obs: pd.DataFrame, correspondencias: dict, porce
     Toda diferencia se lista; una columna sin correspondencia queda listada aparte."""
     ine = ine[ine.anio.isin(ANIOS)]
     val = obs.assign(valor=obs.valor.astype(float)).set_index(["indicador", "territorio_id", "periodo"]).valor
-    pares, sin_par, sin_mec, diferencias, comparados = [], [], [], [], 0
+    pares, sin_par, sin_mec, diferencias, comparados, sin_anio = [], [], [], [], 0, set()
     for (tabla, col), g in ine.groupby(["tabla", "columna"]):
         mapeo = (correspondencias.get(tabla) or {}).get(col)
         if mapeo is None:
@@ -153,6 +155,7 @@ def comparar(ine: pd.DataFrame, obs: pd.DataFrame, correspondencias: dict, porce
         for r in g.itertuples():
             ind = _id(mapeo, r.anio)
             if ind is None:
+                sin_anio.add(f"{tabla} «{col}» {r.anio}")
                 continue
             k = (ind, r.territorio_id, r.anio)
             if k not in val.index:
@@ -163,7 +166,8 @@ def comparar(ine: pd.DataFrame, obs: pd.DataFrame, correspondencias: dict, porce
             igual = abs(mio - r.valor) <= TOLERANCIA_PCT if ind in porcentajes else mio == r.valor
             if not igual:
                 diferencias.append(f"{tabla} «{col}» {r.anio} {r.territorio_id.split('/', 1)[1]}: INE {r.valor:g}, MEC `{ind}` {mio:g}")
-    return {"pares": pares, "sin_par": sin_par, "sin_mec": sin_mec, "diferencias": diferencias, "comparados": comparados}
+    return {"pares": pares, "sin_par": sin_par, "sin_mec": sin_mec, "diferencias": diferencias, "comparados": comparados,
+            "sin_anio": sorted(sin_anio)}
 
 
 def leer_capturadas(crudo: Path) -> tuple[pd.DataFrame | None, dict]:
@@ -199,14 +203,17 @@ def lineas_reporte(r: dict | None, manifiesto: dict) -> list[str]:
     if r is None:
         if not manifiesto:
             return lineas + ["No hay tablas del INE guardadas (`pipeline/mec_anuario_captura.py --control-ine`): el control no corrió."]
-        r = {"pares": [], "sin_par": [], "sin_mec": [], "diferencias": [], "comparados": 0}  # ninguna se pudo comparar
+        r = {"pares": [], "sin_par": [], "sin_mec": [], "diferencias": [], "comparados": 0, "sin_anio": []}  # ninguna se pudo comparar
     lineas += [f"Tablas del INE del {manifiesto.get('fecha', '—')} ({manifiesto.get('pagina', '')}). Los valores del INE "
                "nunca se cargan.",
                f"Columnas del INE con su indicador del MEC (`control_ine` del registro): {len(r['pares'])}; valores "
                f"comparados por territorio y año (2023 y 2024, país incluido): {r['comparados']}; diferencias: "
                f"{len(r['diferencias'])}.", *[f"- {d}" for d in r["diferencias"]]]
     if r["sin_mec"]:
-        lineas.append(f"Territorios y años del INE sin valor en el MEC: {len(r['sin_mec'])} ({'; '.join(r['sin_mec'][:5])}…).")
+        lineas.append(f"Territorios y años del INE sin valor en el MEC: {len(r['sin_mec'])} ({'; '.join(r['sin_mec'][:5])}"
+                      f"{'…' if len(r['sin_mec']) > 5 else ''}).")
+    if r.get("sin_anio"):
+        lineas.append(f"Años sin indicador del MEC en el registro: {'; '.join(r['sin_anio'])}.")
     if r["sin_par"]:
         lineas.append(f"Columnas del INE sin correspondencia en el registro: {'; '.join(r['sin_par'])}.")
     if manifiesto.get("no_comparables"):
