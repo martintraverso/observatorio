@@ -419,7 +419,7 @@ async function floresConEducacion(page: import('@playwright/test').Page) {
 	await expect(page).toHaveURL(/territorio\/departamento\/07$/);
 }
 
-test('AC-E27 y AC-E29: la sección «Educación» de un departamento, por nivel, grupo y cuadro, con fuente y notas', async ({ page }) => {
+test('AC-E27 y AC-E29: la sección «Educación» de un departamento, por nivel, grupo y cuadro, con fuente y notas', async ({ page, browserName }) => {
 	await floresConEducacion(page);
 	const s = page.locator('#educacion');
 	await expect(s.getByRole('heading', { name: 'Primaria', level: 3 })).toBeVisible();
@@ -441,7 +441,9 @@ test('AC-E27 y AC-E29: la sección «Educación» de un departamento, por nivel,
 	await expect(rendimiento.locator('.valor')).toContainText('99,78 %');
 	await expect(rendimiento.locator('.valor .calculado')).toHaveText('calculado por el observatorio');
 	await expect(s).not.toContainText('Todavía no hay fuentes cargadas');
-	expect((await new AxeBuilder({ page }).include('#educacion').analyze()).violations).toEqual([]);
+	// axe, salvo en Firefox: ahí la página con la ficha inyectada por `route` se cae a veces dentro de axe («Page crashed»),
+	// también sin dibujar esta sección (probado en local, ver el PR #215). Chromium y WebKit sí lo corren.
+	if (browserName !== 'firefox') expect((await new AxeBuilder({ page }).include('#educacion').analyze()).violations).toEqual([]);
 });
 
 test('AC-E28: una sección dentro de un departamento con educación dice «Educación: datos por departamento»', async ({ page }) => {
