@@ -76,6 +76,8 @@ PMTILES_MAXZOOM = 13  # la app hace overzoom; 14 duplicaba el tamaño (~26 MB)
 # M11.1 (AC-N1): catálogo de niveles, de grueso a fino (orden de D2, #200). `en_mapa` es la decisión D1: qué niveles
 # ofrece el selector del mapa (localidad no cubre el país; CCZ casi repite al municipio). La seccional policial
 # (F5) se agrega acá, entre municipio y sección, con su capa en PMTILES_MINZOOM; la app no cambia (AC-N13).
+# D2 ordena solo los niveles del mapa: los que no van (localidad, CCZ, área especial) quedan al final. Si D1 suma uno,
+# hay que moverlo a su lugar de grueso a fino.
 NIVELES_CATALOGO = [
     {"id": "pais", "etiqueta": "País", "en_mapa": False, "ambito": "pais"},
     {"id": "region", "etiqueta": "Región", "en_mapa": False, "ambito": "pais"},

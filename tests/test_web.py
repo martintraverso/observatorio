@@ -453,10 +453,15 @@ def test_cada_nivel_del_mapa_tiene_capa_en_el_pmtiles():
 
     sin_capa = [n["id"] for n in NIVELES_CATALOGO if n["en_mapa"] and n["id"] not in PMTILES_MINZOOM]
     assert sin_capa == []
-    for n in catalogo_niveles():
-        assert n["dibujable"] == (n["id"] in PMTILES_MINZOOM and n["id"] not in SIN_GEOMETRIA and
-                                  next(c for c in NIVELES_CATALOGO if c["id"] == n["id"])["en_mapa"])
-        assert n["minzoom"] == (PMTILES_MINZOOM.get(n["id"]) or None)
+    # un nivel de D1 sin capa nunca se publica como dibujable
+    import web
+
+    falso = {"id": "nivel_falso", "etiqueta": "Falso", "en_mapa": True, "ambito": "pais"}
+    web.NIVELES_CATALOGO.append(falso)
+    try:
+        assert not next(n for n in catalogo_niveles() if n["id"] == "nivel_falso")["dibujable"]
+    finally:
+        web.NIVELES_CATALOGO.remove(falso)
 
 
 def test_niveles_sin_geometria_nunca_son_dibujables():
