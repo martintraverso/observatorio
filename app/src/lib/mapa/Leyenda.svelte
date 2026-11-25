@@ -9,7 +9,8 @@
 		clases,
 		fuente,
 		periodo,
-		hayEstimados = false
+		hayEstimados = false,
+		calculado = null
 	}: {
 		titulo: string;
 		unidad: string;
@@ -17,6 +18,8 @@
 		fuente: string;
 		periodo: string;
 		hayEstimados?: boolean;
+		/** AC-E26: si el valor lo calcula el observatorio, a partir de qué fuente («MEC»). */
+		calculado?: string | null;
 	} = $props();
 
 	let etiquetas = $derived(clases ? etiquetasLeyenda(clases) : []);
@@ -33,6 +36,7 @@
 	</ul>
 	<p class="fuente">Fuente: {fuenteYPeriodo(fuente, periodo)}</p>
 	{#if hayEstimados}<p class="fuente">Incluye valores estimados.</p>{/if}
+	{#if calculado}<p class="fuente">Valor calculado por el observatorio a partir de {calculado}.</p>{/if}
 </section>
 
 <style>

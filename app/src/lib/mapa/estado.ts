@@ -92,11 +92,44 @@ export interface IndicadorMapa extends Indicador {
 	niveles: string[];
 	/** Niveles con valor en al menos 2 territorios: los que pueden ir al mapa (AC-N6, #204). */
 	niveles_mapa?: string[];
+	/** Si va a la lista del mapa (de educación, solo las tasas calculadas, #213). */
+	mapa?: boolean;
+	/** Nivel educativo del cuadro del anuario («Primaria», «Media básica»…); vacío en los demás temas (#213). */
+	grupo?: string;
 	periodos: string[];
 }
 
 export function indicadoresDelTema(indicadores: IndicadorMapa[], tema: string): IndicadorMapa[] {
 	return indicadores.filter((i) => i.tema === tema);
+}
+
+/** El indicador con que abre cada tema; si no está, el primero del tema. Educación: D3 (#214). */
+export const INDICADOR_POR_DEFECTO: Record<string, string> = {
+	Educación: 'edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_total'
+};
+
+/** Orden de los niveles educativos en el selector (#214). */
+const ORDEN_GRUPOS = ['Primera infancia e inicial', 'Primaria', 'Media básica', 'Media superior'];
+
+export function indicadorInicialDelTema(indicadores: IndicadorMapa[], tema: string): IndicadorMapa | undefined {
+	const del = indicadoresDelTema(indicadores, tema);
+	return del.find((i) => i.codigo === INDICADOR_POR_DEFECTO[tema]) ?? del[0];
+}
+
+/** AC-E26: los niveles educativos del tema (vacío si el tema no tiene grupos), en el orden del sistema educativo. */
+export function gruposDelTema(indicadores: IndicadorMapa[], tema: string): string[] {
+	const g = new Set(indicadoresDelTema(indicadores, tema).map((i) => i.grupo ?? '').filter(Boolean));
+	return [...g].sort((a, b) => (ORDEN_GRUPOS.indexOf(a) + 1 || 99) - (ORDEN_GRUPOS.indexOf(b) + 1 || 99));
+}
+
+/**
+ * Los indicadores del tema en el nivel educativo elegido (o todos, si el tema no tiene grupos): primero los totales
+ * (sin apertura, «— …» en el nombre) y después las aperturas, en el orden del catálogo.
+ */
+export function indicadoresDelGrupo(indicadores: IndicadorMapa[], tema: string, grupo: string | null): IndicadorMapa[] {
+	const del = indicadoresDelTema(indicadores, tema).filter((i) => !grupo || i.grupo === grupo);
+	const apertura = (i: IndicadorMapa) => (i.nombre.includes(' — ') ? 1 : 0);
+	return [...del].sort((a, b) => apertura(a) - apertura(b));
 }
 
 /** El nivel más detallado del mapa en que el indicador tiene datos, o null. */
@@ -179,7 +212,10 @@ export function fuenteYPeriodo(fuente: string, periodo: string): string {
 /** "INE, ECH" si el nombre de la fuente termina con su sigla entre paréntesis; si no, "INE, <nombre>". */
 export function fuenteCorta(f: { organismo: string; nombre: string }): string {
 	const siglas = (s: string) => /\(([^()]+)\)\s*$/.exec(s)?.[1];
-	return `${siglas(f.organismo) ?? f.organismo}, ${siglas(f.nombre) ?? f.nombre}`;
+	const org = siglas(f.organismo) ?? f.organismo;
+	const nom = siglas(f.nombre) ?? f.nombre;
+	// «MEC, MEC» no dice nada: si la sigla del nombre es la del organismo, va el nombre sin la sigla (#214)
+	return nom === org ? `${org}, ${f.nombre.replace(/\s*\([^()]+\)\s*$/, '')}` : `${org}, ${nom}`;
 }
 
 // ---------------------------------------------------------------- clases (cuantiles)

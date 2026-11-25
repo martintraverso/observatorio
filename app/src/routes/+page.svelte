@@ -16,7 +16,9 @@
 		etiquetaPeriodo,
 		formaSelectorNivel,
 		fuenteCorta,
-		indicadoresDelTema,
+		gruposDelTema,
+		indicadorInicialDelTema,
+		indicadoresDelGrupo,
 		minuscula,
 		nivelAlCambiar,
 		nivelesOfrecidos,
@@ -53,7 +55,10 @@
 	let anchoLeyenda = $state(0);
 
 	let indicador = $derived(data.indicadores.find((i) => i.codigo === estado.indicador) ?? data.indicadores[0]);
-	let delTema = $derived(indicadoresDelTema(data.indicadores, tema));
+	// AC-E26 (#214): un tema con niveles educativos (Educación) filtra la lista por el nivel elegido
+	let grupo = $state<string | null>(null);
+	let grupos = $derived(gruposDelTema(data.indicadores, tema));
+	let delTema = $derived(indicadoresDelGrupo(data.indicadores, tema, grupos.length ? grupo : null));
 	// AC-N9: el mapa nunca avisa «no se publica por…»; solo queda el aviso del indicador sin niveles en el mapa (AC-N6).
 	let aviso = $derived(indicador ? avisoSinMapa(indicador, data.catalogo) : null);
 	let valores = $derived<Record<string, number | null>>(
@@ -114,6 +119,7 @@
 	onMount(() => {
 		estado = estadoDesdeUrl(new URLSearchParams(location.search), data.indicadores, data.catalogo);
 		tema = indicador?.tema ?? TEMAS[0];
+		grupo = indicador?.grupo || null;
 		enfocarAlCargar = !!estado.territorio;
 		montado = true;
 	});
@@ -176,7 +182,20 @@
 
 	function elegirTema(t: string) {
 		tema = t;
-		const primero = indicadoresDelTema(data.indicadores, t)[0];
+		// el indicador con que abre el tema (Educación: D3, la tasa de promoción en primaria pública) y su nivel educativo
+		const inicial = indicadorInicialDelTema(data.indicadores, t);
+		grupo = inicial?.grupo || null;
+		if (inicial) {
+			elegirIndicador(inicial.codigo);
+			// AC-E26: un tema abre en el último período de su indicador (no en el del tema anterior)
+			estado.periodo = inicial.periodos.at(-1) ?? estado.periodo;
+		}
+	}
+
+	/** AC-E26: al elegir un nivel educativo, el primer indicador del nivel (su total). */
+	function elegirGrupo(g: string) {
+		grupo = g;
+		const primero = indicadoresDelGrupo(data.indicadores, tema, g)[0];
 		if (primero) elegirIndicador(primero.codigo);
 	}
 
@@ -290,6 +309,7 @@
 			{fuente}
 			periodo={etiquetaPeriodo(estado.periodo)}
 			{hayEstimados}
+			calculado={indicador.es_derivado ? siglas(data.fuentes.find((f) => f.id === indicador?.fuente_id)?.organismo ?? '') : null}
 		/>
 	{/if}
 {/snippet}
@@ -342,6 +362,20 @@
 				{/each}
 			</div>
 		</fieldset>
+
+		{#if grupos.length}
+			<fieldset class="temas">
+				<legend>Nivel educativo</legend>
+				<div class="chips">
+					{#each grupos as g (g)}
+						<label class="chip" class:activo={grupo === g}>
+							<input type="radio" name="grupo" value={g} checked={grupo === g} onchange={() => elegirGrupo(g)} />
+							{g}
+						</label>
+					{/each}
+				</div>
+			</fieldset>
+		{/if}
 
 		<fieldset>
 			<legend>Indicador</legend>

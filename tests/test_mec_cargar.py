@@ -407,3 +407,5 @@ def test_213_ninguna_tasa_repite_nombre_en_su_cuadro(entorno):
     cuadro = t.columna_origen.str.extract(r"Cuadro (II-[\d.]+)")[0]
     repetidos = t.assign(c=cuadro).groupby(["c", "nombre"]).size()
     assert (repetidos == 1).all(), repetidos[repetidos > 1].head().to_dict()
+    # #214: van juntas en la lista del mapa: tampoco se repiten entre cuadros (II-2.2.13 y II-2.2.14, por área y por sexo)
+    assert not t.nombre.duplicated().any(), t[t.nombre.duplicated(keep=False)].nombre.head().tolist()
