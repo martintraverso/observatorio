@@ -41,7 +41,7 @@ anuarios:
     bytes: 1577158
     publicado: 20/12/2021
     actualizado: 29 de setiembre 2022
-    revisado: '2026-11-24'
+    revisado: '2026-11-25'
   2021:
     pagina: https://www.gub.uy/ministerio-educacion-cultura/datos-y-estadisticas/datos/anuario-estadistico-educacion-2021
     url: https://www.gub.uy/ministerio-educacion-cultura/sites/ministerio-educacion-cultura/files/2023-01/Anuario%20Estad%C3%ADstico%20de%20Educaci%C3%B3n%202021.xlsx
@@ -50,7 +50,7 @@ anuarios:
     bytes: 2353845
     publicado: 18/01/2023
     actualizado: null
-    revisado: '2026-11-24'
+    revisado: '2026-11-25'
   2022:
     pagina: https://www.gub.uy/ministerio-educacion-cultura/datos-y-estadisticas/datos/anuario-estadistico-educacion-2022
     url: https://www.gub.uy/ministerio-educacion-cultura/sites/ministerio-educacion-cultura/files/2023-12/Anuario%20Estad%C3%ADstico%20de%20Educaci%C3%B3n%202022_0.xlsx
@@ -59,7 +59,7 @@ anuarios:
     bytes: 2311783
     publicado: 18/12/2023
     actualizado: null
-    revisado: '2026-11-24'
+    revisado: '2026-11-25'
   2023:
     pagina: https://www.gub.uy/ministerio-educacion-cultura/datos-y-estadisticas/datos/anuario-estadistico-educacion-2023
     url: https://www.gub.uy/ministerio-educacion-cultura/sites/ministerio-educacion-cultura/files/2025-04/Anuario%20Estad%C3%ADstico%20de%20Educaci%C3%B3n%202023.xlsx
@@ -68,7 +68,7 @@ anuarios:
     bytes: 2353734
     publicado: 15/11/2024
     actualizado: 02/04/2025
-    revisado: '2026-11-24'
+    revisado: '2026-11-25'
   2024:
     pagina: https://www.gub.uy/ministerio-educacion-cultura/datos-y-estadisticas/datos/anuario-estadistico-educacion-2024
     url: https://www.gub.uy/ministerio-educacion-cultura/sites/ministerio-educacion-cultura/files/2026-02/Anuario%20Estad%C3%ADstico%20de%20Educaci%C3%B3n%202024.xlsx
@@ -77,7 +77,7 @@ anuarios:
     bytes: 1706786
     publicado: 02/01/2026
     actualizado: 13/02/2026
-    revisado: '2026-11-24'
+    revisado: '2026-11-25'
 serie_nacional:
   hoja: MATRÍCULA DEL SISTEMA 2002-<año>
   tipo: B
@@ -2862,14 +2862,18 @@ cuadros:
       - col: I
         ruta: FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato
         id: edu_ii_1_2_4_forma_de_administracion_centros_de_primera_infancia_privados_cpip_sexo_sin_dato
+    datos_de_otro_anio:
+      2020:
+      - El relevamiento de datos de 2020 de los Centros de Primera Infancia del MEC se realizó en el año 2021, por la División de Investigación y Estadística de la
+        Dirección de Educación- MEC. El listado de centros a relevar fue proporcionado por la oficina de Primera Infancia de la DE-MEC.
   II-1.2.5:
     titulo: ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL POR FORMA DE ADMINISTRACIÓN SEGÚN EDAD
     tipos:
-      2020: C
-      2021: C
-      2022: C
-      2023: C
-      2024: C
+      2020: B
+      2021: B
+      2022: B
+      2023: B
+      2024: B
     ola: 1
     unidad: estudiantes
     anios:
@@ -3137,6 +3141,18 @@ cuadros:
         id: edu_ii_1_2_5_forma_de_administracion_centros_de_primera_infancia_privados_cpip_sexo_sin_dato
         concepto: FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato
         comprobado: B = E + F + G + H + I + J + K + L + M + N + O + P + Q + R
+    datos_de_otro_anio:
+      2020:
+      - El relevamiento de datos de 2020 de los Centros de Primera Infancia del MEC se realizó en el año 2021, por la División de Investigación y Estadística de la
+        Dirección de Educación- MEC. El listado de centros a relevar fue proporcionado por la oficina de Primera Infancia de la DE-MEC.
+      2021:
+      - El relevamiento de datos del año 2021 de los CPIP (actualmente supervidados por el INAU) se realizó en el año 2022, por la División de Investigación y Estadística
+        de la Dirección de Educación- MEC. El listado de centros a relevar fue proporcionado por la oficina de Primera Infancia de la DE-MEC.
+      - Los datos correspondientes a Privada del DGEIP corresponden al año 2020, dado que al momento de cierre de la publicación no estaba el dato correspondiente
+        a 2021
+      2022:
+      - El relevamiento de datos del año 2022 de los CPIP (actualmente supervidados por el INAU) se realizó en el año 2023, por la División de Investigación y Estadística
+        de la Dirección de Educación- MEC. El listado de centros a relevar fue proporcionado por la oficina de Primera Infancia de la DE-MEC.
   II-1.2.6:
     titulo: ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PÚBLICA DE LA DGEIP POR ÁREA DEMOGRÁFICA SEGÚN DEPARTAMENTO
     tipos:
@@ -3402,6 +3418,17 @@ cuadros:
       - col: K
         ruta: E D A D/Sin dato
         id: edu_ii_1_2_7_e_d_a_d_sin_dato
+    datos_de_otro_anio:
+      2020:
+      - El relevamiento de datos de 2020 de los Centros de Primera Infancia del MEC se realizó en el año 2021, por la División de Investigación y Estadística de la
+        Dirección de Educación- MEC. El listado de centros a relevar fue proporcionado por la oficina de Primera Infancia de la DE-MEC.
+      2021:
+      - El relevamiento de datos de 2021 de los Centros de Primera Infancia del MEC se realizó en el año 2022, por la División de Investigación y Estadística de la
+        Dirección de Educación- MEC. El listado de centros a relevar fue proporcionado por la oficina de Primera Infancia de la DE-MEC.
+      2022:
+      - La matrícula Centros de Primera Infancia Privados supervisados por INAU corresponden a los Centros Privados supervisados por el MEC del año 2021.
+      - El relevamiento de datos de 2022 de los Centros de Primera Infancia del MEC se realizó en el año 2023, por la División de Investigación y Estadística de la
+        Dirección de Educación- MEC. El listado de centros a relevar fue proporcionado por la oficina de Primera Infancia de la DE-MEC.
   II-1.3.1:
     titulo: PERSONAL DOCENTE DE EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PÚBLICA DE LA DGEIP SEGÚN DEPARTAMENTO
     tipos:
@@ -3410,7 +3437,7 @@ cuadros:
       2022: A
       2023: A
       2024: A
-    ola: 2
+    ola: 1
     unidad: docentes
     anios:
     - 2020
@@ -3418,6 +3445,27 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: DOCENTES
+        id: edu_ii_1_3_1_docentes
+      2021:
+      - col: B
+        ruta: DOCENTES
+        id: edu_ii_1_3_1_docentes
+      2022:
+      - col: B
+        ruta: DOCENTES
+        id: edu_ii_1_3_1_docentes
+      2023:
+      - col: B
+        ruta: DOCENTES
+        id: edu_ii_1_3_1_docentes
+      2024:
+      - col: B
+        ruta: DOCENTES
+        id: edu_ii_1_3_1_docentes
   II-1.3.2:
     titulo: PERSONAL DOCENTE DE EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PRIVADA SEGÚN DEPARTAMENTO
     tipos:
@@ -3426,7 +3474,7 @@ cuadros:
       2022: A
       2023: A
       2024: A
-    ola: 2
+    ola: 1
     unidad: docentes
     anios:
     - 2020
@@ -3434,6 +3482,83 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: DOCENTES/TOTAL
+        id: edu_ii_1_3_2_docentes_total
+      - col: C
+        ruta: DOCENTES/Colegios Habilitados
+        id: edu_ii_1_3_2_docentes_colegios_habilitados
+      - col: D
+        ruta: DOCENTES/Colegios Autorizados
+        id: edu_ii_1_3_2_docentes_colegios_autorizados
+      - col: E
+        ruta: DOCENTES/Jardines de Infantes Autorizados
+        id: edu_ii_1_3_2_docentes_jardines_de_infantes_autorizados
+      2021:
+      - col: B
+        ruta: DOCENTES/TOTAL
+        id: edu_ii_1_3_2_docentes_total
+      - col: C
+        ruta: DOCENTES/Colegios Habilitados
+        id: edu_ii_1_3_2_docentes_colegios_habilitados
+      - col: D
+        ruta: DOCENTES/Colegios Autorizados
+        id: edu_ii_1_3_2_docentes_colegios_autorizados
+      - col: E
+        ruta: DOCENTES/Jardines de Infantes Autorizados
+        id: edu_ii_1_3_2_docentes_jardines_de_infantes_autorizados
+      2022:
+      - col: B
+        ruta: DOCENTES/TOTAL
+        id: edu_ii_1_3_2_docentes_total
+      - col: C
+        ruta: DOCENTES/Colegios Habilitados
+        id: edu_ii_1_3_2_docentes_colegios_habilitados
+      - col: D
+        ruta: DOCENTES/Colegios Autorizados
+        id: edu_ii_1_3_2_docentes_colegios_autorizados
+      - col: E
+        ruta: DOCENTES/Jardines de Infantes Autorizados
+        id: edu_ii_1_3_2_docentes_jardines_de_infantes_autorizados
+      2023:
+      - col: B
+        ruta: DOCENTES/TOTAL
+        id: edu_ii_1_3_2_docentes_total
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+      - col: C
+        ruta: DOCENTES/Colegios Habilitados
+        id: edu_ii_1_3_2_docentes_colegios_habilitados
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+      - col: D
+        ruta: DOCENTES/Colegios Autorizados
+        id: edu_ii_1_3_2_docentes_colegios_autorizados
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+      - col: E
+        ruta: DOCENTES/Jardines de Infantes Autorizados
+        id: edu_ii_1_3_2_docentes_jardines_de_infantes_autorizados
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+      2024:
+      - col: B
+        ruta: DOCENTES/TOTAL
+        id: edu_ii_1_3_2_docentes_total
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+      - col: C
+        ruta: DOCENTES/Colegios Habilitados
+        id: edu_ii_1_3_2_docentes_colegios_habilitados
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+      - col: D
+        ruta: DOCENTES/Colegios Autorizados
+        id: edu_ii_1_3_2_docentes_colegios_autorizados
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+      - col: E
+        ruta: DOCENTES/Jardines de Infantes Autorizados
+        id: edu_ii_1_3_2_docentes_jardines_de_infantes_autorizados
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+    datos_de_otro_anio:
+      2024:
+      - Nota:Se reporta último año disponible enviado por la DGEIP (año 2022).
   II-1.3.3:
     titulo: PERSONAL DOCENTE EN EDUCACIÓN EN LOS CENTROS DE PRIMERA INFANCIA PRIVADA SUPERVISADA POR INAU SEGÚN FUNCIÓN Y DEPARTAMENTO
     tipos:
@@ -3442,7 +3567,7 @@ cuadros:
       2022: A
       2023: A
       2024: A
-    ola: 2
+    ola: 1
     unidad: docentes
     anios:
     - 2020
@@ -3450,6 +3575,102 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: FUNCIÓN/TOTAL
+        id: edu_ii_1_3_3_funcion_total
+      - col: C
+        ruta: FUNCIÓN/Director responsable técnico
+        id: edu_ii_1_3_3_funcion_director_responsable_tecnico
+      - col: D
+        ruta: FUNCIÓN/Educadores
+        id: edu_ii_1_3_3_funcion_educadores
+      - col: E
+        ruta: FUNCIÓN/Otros especialistas
+        id: edu_ii_1_3_3_funcion_otros_especialistas
+      - col: F
+        ruta: FUNCIÓN/Profesores especiales
+        id: edu_ii_1_3_3_funcion_profesores_especiales
+      - col: G
+        ruta: FUNCIÓN/Responsable legal
+        id: edu_ii_1_3_3_funcion_responsable_legal
+      2021:
+      - col: B
+        ruta: FUNCIÓN/TOTAL
+        id: edu_ii_1_3_3_funcion_total
+      - col: C
+        ruta: FUNCIÓN/Director responsable técnico
+        id: edu_ii_1_3_3_funcion_director_responsable_tecnico
+      - col: D
+        ruta: FUNCIÓN/Educadores
+        id: edu_ii_1_3_3_funcion_educadores
+      - col: E
+        ruta: FUNCIÓN/Otros especialistas
+        id: edu_ii_1_3_3_funcion_otros_especialistas
+      - col: F
+        ruta: FUNCIÓN/Profesores especiales
+        id: edu_ii_1_3_3_funcion_profesores_especiales
+      - col: G
+        ruta: FUNCIÓN/Responsable legal
+        id: edu_ii_1_3_3_funcion_responsable_legal
+      2022:
+      - col: B
+        ruta: FUNCIÓN/TOTAL
+        id: edu_ii_1_3_3_funcion_total
+      - col: C
+        ruta: FUNCIÓN/Director responsable técnico
+        id: edu_ii_1_3_3_funcion_director_responsable_tecnico
+      - col: D
+        ruta: FUNCIÓN/Educadores
+        id: edu_ii_1_3_3_funcion_educadores
+      - col: E
+        ruta: FUNCIÓN/Otros especialistas
+        id: edu_ii_1_3_3_funcion_otros_especialistas
+      - col: F
+        ruta: FUNCIÓN/Profesores especiales
+        id: edu_ii_1_3_3_funcion_profesores_especiales
+      - col: G
+        ruta: FUNCIÓN/Responsable legal
+        id: edu_ii_1_3_3_funcion_responsable_legal
+      2023:
+      - col: B
+        ruta: FUNCIÓN/TOTAL
+        id: edu_ii_1_3_3_funcion_total
+      - col: C
+        ruta: FUNCIÓN/Director responsable técnico
+        id: edu_ii_1_3_3_funcion_director_responsable_tecnico
+      - col: D
+        ruta: FUNCIÓN/Educadores
+        id: edu_ii_1_3_3_funcion_educadores
+      - col: E
+        ruta: FUNCIÓN/Otros especialistas
+        id: edu_ii_1_3_3_funcion_otros_especialistas
+      - col: F
+        ruta: FUNCIÓN/Profesores especiales
+        id: edu_ii_1_3_3_funcion_profesores_especiales
+      - col: G
+        ruta: FUNCIÓN/Responsable legal
+        id: edu_ii_1_3_3_funcion_responsable_legal
+      2024:
+      - col: B
+        ruta: FUNCIÓN/TOTAL
+        id: edu_ii_1_3_3_funcion_total
+      - col: C
+        ruta: FUNCIÓN/Director responsable técnico
+        id: edu_ii_1_3_3_funcion_director_responsable_tecnico
+      - col: D
+        ruta: FUNCIÓN/Educadores
+        id: edu_ii_1_3_3_funcion_educadores
+      - col: E
+        ruta: FUNCIÓN/Otros especialistas
+        id: edu_ii_1_3_3_funcion_otros_especialistas
+      - col: F
+        ruta: FUNCIÓN/Profesores especiales
+        id: edu_ii_1_3_3_funcion_profesores_especiales
+      - col: G
+        ruta: FUNCIÓN/Responsable legal
+        id: edu_ii_1_3_3_funcion_responsable_legal
   II-1.3.4:
     titulo: PERSONAL DE DOCENCIA DIRECTA EN LOS CENTROS DE PRIMERA INFANCIA PRIVADA SUPERVISADA POR INAU SEGÚN NIVEL EDUCATIVO ALCANZADO Y FUNCIÓN
     tipos:
@@ -3458,7 +3679,7 @@ cuadros:
       2022: B
       2023: B
       2024: B
-    ola: 2
+    ola: 1
     unidad: docentes
     anios:
     - 2020
@@ -3466,6 +3687,90 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: NIVEL EDUCATIVO ALCANZADO/TOTAL
+        id: edu_ii_1_3_4_nivel_educativo_alcanzado_total
+      - col: C
+        ruta: NIVEL EDUCATIVO ALCANZADO/Primaria
+        id: edu_ii_1_3_4_nivel_educativo_alcanzado_primaria
+      - col: D
+        ruta: NIVEL EDUCATIVO ALCANZADO/Media Básica
+        id: edu_ii_1_3_4_nivel_educativo_alcanzado_media_basica
+      - col: E
+        ruta: NIVEL EDUCATIVO ALCANZADO/Media Superior
+        id: edu_ii_1_3_4_nivel_educativo_alcanzado_media_superior
+      - col: F
+        ruta: NIVEL EDUCATIVO ALCANZADO/Terciaria
+        id: edu_ii_1_3_4_nivel_educativo_alcanzado_terciaria
+      2021:
+      - col: B
+        ruta: NIVEL EDUCATIVO ALCANZADO/TOTAL
+        id: edu_ii_1_3_4_nivel_educativo_alcanzado_total
+      - col: C
+        ruta: NIVEL EDUCATIVO ALCANZADO/Primaria
+        id: edu_ii_1_3_4_nivel_educativo_alcanzado_primaria
+      - col: D
+        ruta: NIVEL EDUCATIVO ALCANZADO/Media Básica
+        id: edu_ii_1_3_4_nivel_educativo_alcanzado_media_basica
+      - col: E
+        ruta: NIVEL EDUCATIVO ALCANZADO/Media Superior
+        id: edu_ii_1_3_4_nivel_educativo_alcanzado_media_superior
+      - col: F
+        ruta: NIVEL EDUCATIVO ALCANZADO/Terciaria
+        id: edu_ii_1_3_4_nivel_educativo_alcanzado_terciaria
+      2022:
+      - col: B
+        ruta: NIVEL EDUCATIVO ALCANZADO/TOTAL
+        id: edu_ii_1_3_4_nivel_educativo_alcanzado_total
+      - col: C
+        ruta: NIVEL EDUCATIVO ALCANZADO/Primaria
+        id: edu_ii_1_3_4_nivel_educativo_alcanzado_primaria
+      - col: D
+        ruta: NIVEL EDUCATIVO ALCANZADO/Media Básica
+        id: edu_ii_1_3_4_nivel_educativo_alcanzado_media_basica
+      - col: E
+        ruta: NIVEL EDUCATIVO ALCANZADO/Media Superior
+        id: edu_ii_1_3_4_nivel_educativo_alcanzado_media_superior
+      - col: F
+        ruta: NIVEL EDUCATIVO ALCANZADO/Terciaria
+        id: edu_ii_1_3_4_nivel_educativo_alcanzado_terciaria
+      2023:
+      - col: B
+        ruta: NIVEL EDUCATIVO ALCANZADO/TOTAL
+        id: edu_ii_1_3_4_nivel_educativo_alcanzado_total
+      - col: C
+        ruta: NIVEL EDUCATIVO ALCANZADO/Primaria
+        id: edu_ii_1_3_4_nivel_educativo_alcanzado_primaria
+      - col: D
+        ruta: NIVEL EDUCATIVO ALCANZADO/Media Básica
+        id: edu_ii_1_3_4_nivel_educativo_alcanzado_media_basica
+      - col: E
+        ruta: NIVEL EDUCATIVO ALCANZADO/Media Superior
+        id: edu_ii_1_3_4_nivel_educativo_alcanzado_media_superior
+      - col: F
+        ruta: NIVEL EDUCATIVO ALCANZADO/Terciaria
+        id: edu_ii_1_3_4_nivel_educativo_alcanzado_terciaria
+      2024:
+      - col: B
+        ruta: NIVEL EDUCATIVO ALCANZADO/TOTAL
+        id: edu_ii_1_3_4_nivel_educativo_alcanzado_total
+      - col: C
+        ruta: NIVEL EDUCATIVO ALCANZADO/Primaria
+        id: edu_ii_1_3_4_nivel_educativo_alcanzado_primaria
+      - col: D
+        ruta: NIVEL EDUCATIVO ALCANZADO/Media Básica
+        id: edu_ii_1_3_4_nivel_educativo_alcanzado_media_basica
+      - col: E
+        ruta: NIVEL EDUCATIVO ALCANZADO/Media Superior
+        id: edu_ii_1_3_4_nivel_educativo_alcanzado_media_superior
+      - col: F
+        ruta: NIVEL EDUCATIVO ALCANZADO/Terciaria
+        id: edu_ii_1_3_4_nivel_educativo_alcanzado_terciaria
+      - col: G
+        ruta: NIVEL EDUCATIVO ALCANZADO/Sin dato
+        id: edu_ii_1_3_4_nivel_educativo_alcanzado_sin_dato
   II-1.3.5:
     titulo: PERSONAL DE DOCENCIA DIRECTA EN LOS CENTROS DE PRIMERA INFANCIA PRIVADA SEGÚN FUNCIÓN Y FORMACIÓN
     tipos:
@@ -3474,7 +3779,7 @@ cuadros:
       2022: C
       2023: C
       2024: C
-    ola: 2
+    ola: 1
     unidad: docentes
     anios:
     - 2020
@@ -3482,6 +3787,84 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: FUNCIÓN/TOTAL
+        id: edu_ii_1_3_5_funcion_total
+      - col: C
+        ruta: FUNCIÓN/Responsable de sala
+        id: edu_ii_1_3_5_funcion_responsable_de_sala
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: D
+        ruta: FUNCIÓN/Educador auxiliar
+        id: edu_ii_1_3_5_funcion_educador_auxiliar
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      2021:
+      - col: B
+        ruta: FUNCIÓN/TOTAL
+        id: edu_ii_1_3_5_funcion_total
+      - col: C
+        ruta: FUNCIÓN/Responsable de sala
+        id: edu_ii_1_3_5_funcion_responsable_de_sala
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: D
+        ruta: FUNCIÓN/Educador auxiliar
+        id: edu_ii_1_3_5_funcion_educador_auxiliar
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      2022:
+      - col: B
+        ruta: FUNCIÓN/TOTAL
+        id: edu_ii_1_3_5_funcion_total
+      - col: C
+        ruta: FUNCIÓN/Responsable de sala
+        id: edu_ii_1_3_5_funcion_responsable_de_sala
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: D
+        ruta: FUNCIÓN/Educador/a auxiliar
+        id: edu_ii_1_3_5_funcion_educador_a_auxiliar
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      2023:
+      - col: B
+        ruta: FUNCIÓN/TOTAL
+        id: edu_ii_1_3_5_funcion_total
+      - col: C
+        ruta: FUNCIÓN/Responsable de sala
+        id: edu_ii_1_3_5_funcion_responsable_de_sala
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: D
+        ruta: FUNCIÓN/Educador/a auxiliar
+        id: edu_ii_1_3_5_funcion_educador_a_auxiliar
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      2024:
+      - col: B
+        ruta: FUNCIÓN/TOTAL
+        id: edu_ii_1_3_5_funcion_total
+      - col: C
+        ruta: FUNCIÓN/Director responsable técnico
+        id: edu_ii_1_3_5_funcion_director_responsable_tecnico
+      - col: D
+        ruta: FUNCIÓN/Educadores
+        id: edu_ii_1_3_5_funcion_educadores
+      - col: E
+        ruta: FUNCIÓN/Otros especialistas
+        id: edu_ii_1_3_5_funcion_otros_especialistas
+      - col: F
+        ruta: FUNCIÓN/Profesores especiales
+        id: edu_ii_1_3_5_funcion_profesores_especiales
+      - col: G
+        ruta: FUNCIÓN/Responsable legal
+        id: edu_ii_1_3_5_funcion_responsable_legal
+    datos_de_otro_anio:
+      2022:
+      - 'Nota: El personal docente de Centros de Primera Infancia Privados supervisados por INAU corresponden al de los Centros Privados supervisados por el MEC del
+        año 2021.'
+      2023:
+      - 'Nota: El personal docente de Centros de Primera Infancia Privados supervisados por INAU corresponden al de los Centros Privados supervisados por el MEC del
+        año 2021.'
+    categorias_segundas:
+      2024:
+      - Otros cursos no reconocidos por el mec
   II-2.1.1:
     titulo: ESTABLECIMIENTOS DE EDUCACIÓN PRIMARIA POR FORMA DE ADMINISTRACIÓN Y TIPO DE EDUCACIÓN SEGÚN DEPARTAMENTO
     tipos:
@@ -4242,7 +4625,7 @@ cuadros:
       2022: A
       2023: A
       2024: A
-    ola: 2
+    ola: 1
     unidad: estudiantes
     anios:
     - 2020
@@ -4250,6 +4633,177 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_2_2_2_total
+      - col: C
+        ruta: TOTAL SEXO/VARÓN
+        id: edu_ii_2_2_2_total_sexo_varon
+      - col: D
+        ruta: TOTAL SEXO/MUJER
+        id: edu_ii_2_2_2_total_sexo_mujer
+      - col: E
+        ruta: TIPO DE EDUCACIÓN/COMÚN/Total
+        id: edu_ii_2_2_2_tipo_de_educacion_comun_total
+      - col: F
+        ruta: TIPO DE EDUCACIÓN/COMÚN/SEXO/V
+        id: edu_ii_2_2_2_tipo_de_educacion_comun_sexo_v
+      - col: G
+        ruta: TIPO DE EDUCACIÓN/COMÚN/SEXO/M
+        id: edu_ii_2_2_2_tipo_de_educacion_comun_sexo_m
+      - col: H
+        ruta: TIPO DE EDUCACIÓN/ESPECIAL/Total
+        id: edu_ii_2_2_2_tipo_de_educacion_especial_total
+      - col: I
+        ruta: TIPO DE EDUCACIÓN/ESPECIAL/ESCUELAS ESPECIALES/SEXO/V
+        id: edu_ii_2_2_2_tipo_de_educacion_especial_escuelas_especiales_sexo_v
+      - col: J
+        ruta: TIPO DE EDUCACIÓN/ESPECIAL/ESCUELAS ESPECIALES/SEXO/M
+        id: edu_ii_2_2_2_tipo_de_educacion_especial_escuelas_especiales_sexo_m
+      - col: K
+        ruta: TIPO DE EDUCACIÓN/ESPECIAL/CLASES ESPECIALES EN ESCUELAS COMUNES/SEXO/V
+        id: edu_ii_2_2_2_tipo_de_educacion_especial_clases_especiales_en_escuelas_comunes_sexo_v
+      - col: L
+        ruta: TIPO DE EDUCACIÓN/ESPECIAL/CLASES ESPECIALES EN ESCUELAS COMUNES/SEXO/M
+        id: edu_ii_2_2_2_tipo_de_educacion_especial_clases_especiales_en_escuelas_comunes_sexo_m
+      2021:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_2_2_2_total
+      - col: C
+        ruta: TOTAL SEXO/VARÓN
+        id: edu_ii_2_2_2_total_sexo_varon
+      - col: D
+        ruta: TOTAL SEXO/MUJER
+        id: edu_ii_2_2_2_total_sexo_mujer
+      - col: E
+        ruta: TIPO DE EDUCACIÓN/COMÚN/Total
+        id: edu_ii_2_2_2_tipo_de_educacion_comun_total
+      - col: F
+        ruta: TIPO DE EDUCACIÓN/COMÚN/SEXO/V
+        id: edu_ii_2_2_2_tipo_de_educacion_comun_sexo_v
+      - col: G
+        ruta: TIPO DE EDUCACIÓN/COMÚN/SEXO/M
+        id: edu_ii_2_2_2_tipo_de_educacion_comun_sexo_m
+      - col: H
+        ruta: TIPO DE EDUCACIÓN/ESPECIAL/Total
+        id: edu_ii_2_2_2_tipo_de_educacion_especial_total
+      - col: I
+        ruta: TIPO DE EDUCACIÓN/ESPECIAL/ESCUELAS ESPECIALES/SEXO/V
+        id: edu_ii_2_2_2_tipo_de_educacion_especial_escuelas_especiales_sexo_v
+      - col: J
+        ruta: TIPO DE EDUCACIÓN/ESPECIAL/ESCUELAS ESPECIALES/SEXO/M
+        id: edu_ii_2_2_2_tipo_de_educacion_especial_escuelas_especiales_sexo_m
+      - col: K
+        ruta: TIPO DE EDUCACIÓN/ESPECIAL/CLASES ESPECIALES EN ESCUELAS COMUNES/SEXO/V
+        id: edu_ii_2_2_2_tipo_de_educacion_especial_clases_especiales_en_escuelas_comunes_sexo_v
+      - col: L
+        ruta: TIPO DE EDUCACIÓN/ESPECIAL/CLASES ESPECIALES EN ESCUELAS COMUNES/SEXO/M
+        id: edu_ii_2_2_2_tipo_de_educacion_especial_clases_especiales_en_escuelas_comunes_sexo_m
+      2022:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_2_2_2_total
+      - col: C
+        ruta: TOTAL SEXO/VARÓN
+        id: edu_ii_2_2_2_total_sexo_varon
+      - col: D
+        ruta: TOTAL SEXO/MUJER
+        id: edu_ii_2_2_2_total_sexo_mujer
+      - col: E
+        ruta: TIPO DE EDUCACIÓN/COMÚN/Total
+        id: edu_ii_2_2_2_tipo_de_educacion_comun_total
+      - col: F
+        ruta: TIPO DE EDUCACIÓN/COMÚN/SEXO/V
+        id: edu_ii_2_2_2_tipo_de_educacion_comun_sexo_v
+      - col: G
+        ruta: TIPO DE EDUCACIÓN/COMÚN/SEXO/M
+        id: edu_ii_2_2_2_tipo_de_educacion_comun_sexo_m
+      - col: H
+        ruta: TIPO DE EDUCACIÓN/ESPECIAL/Total
+        id: edu_ii_2_2_2_tipo_de_educacion_especial_total
+      - col: I
+        ruta: TIPO DE EDUCACIÓN/ESPECIAL/ESCUELAS ESPECIALES/SEXO/V
+        id: edu_ii_2_2_2_tipo_de_educacion_especial_escuelas_especiales_sexo_v
+      - col: J
+        ruta: TIPO DE EDUCACIÓN/ESPECIAL/ESCUELAS ESPECIALES/SEXO/M
+        id: edu_ii_2_2_2_tipo_de_educacion_especial_escuelas_especiales_sexo_m
+      - col: K
+        ruta: TIPO DE EDUCACIÓN/ESPECIAL/CLASES ESPECIALES EN ESCUELAS COMUNES/SEXO/V
+        id: edu_ii_2_2_2_tipo_de_educacion_especial_clases_especiales_en_escuelas_comunes_sexo_v
+      - col: L
+        ruta: TIPO DE EDUCACIÓN/ESPECIAL/CLASES ESPECIALES EN ESCUELAS COMUNES/SEXO/M
+        id: edu_ii_2_2_2_tipo_de_educacion_especial_clases_especiales_en_escuelas_comunes_sexo_m
+      2023:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_2_2_2_total
+      - col: C
+        ruta: TOTAL SEXO/VARÓN
+        id: edu_ii_2_2_2_total_sexo_varon
+      - col: D
+        ruta: TOTAL SEXO/MUJER
+        id: edu_ii_2_2_2_total_sexo_mujer
+      - col: E
+        ruta: TIPO DE EDUCACIÓN/COMÚN/Total
+        id: edu_ii_2_2_2_tipo_de_educacion_comun_total
+      - col: F
+        ruta: TIPO DE EDUCACIÓN/COMÚN/SEXO/V
+        id: edu_ii_2_2_2_tipo_de_educacion_comun_sexo_v
+      - col: G
+        ruta: TIPO DE EDUCACIÓN/COMÚN/SEXO/M
+        id: edu_ii_2_2_2_tipo_de_educacion_comun_sexo_m
+      - col: H
+        ruta: TIPO DE EDUCACIÓN/ESPECIAL/Total
+        id: edu_ii_2_2_2_tipo_de_educacion_especial_total
+      - col: I
+        ruta: TIPO DE EDUCACIÓN/ESPECIAL/ESCUELAS ESPECIALES/SEXO/V
+        id: edu_ii_2_2_2_tipo_de_educacion_especial_escuelas_especiales_sexo_v
+      - col: J
+        ruta: TIPO DE EDUCACIÓN/ESPECIAL/ESCUELAS ESPECIALES/SEXO/M
+        id: edu_ii_2_2_2_tipo_de_educacion_especial_escuelas_especiales_sexo_m
+      - col: K
+        ruta: TIPO DE EDUCACIÓN/ESPECIAL/CLASES ESPECIALES EN ESCUELAS COMUNES/SEXO/V
+        id: edu_ii_2_2_2_tipo_de_educacion_especial_clases_especiales_en_escuelas_comunes_sexo_v
+      - col: L
+        ruta: TIPO DE EDUCACIÓN/ESPECIAL/CLASES ESPECIALES EN ESCUELAS COMUNES/SEXO/M
+        id: edu_ii_2_2_2_tipo_de_educacion_especial_clases_especiales_en_escuelas_comunes_sexo_m
+      2024:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_2_2_2_total
+      - col: C
+        ruta: TOTAL SEXO/VARÓN
+        id: edu_ii_2_2_2_total_sexo_varon
+      - col: D
+        ruta: TOTAL SEXO/MUJER
+        id: edu_ii_2_2_2_total_sexo_mujer
+      - col: E
+        ruta: TIPO DE EDUCACIÓN/COMÚN/Total
+        id: edu_ii_2_2_2_tipo_de_educacion_comun_total
+      - col: F
+        ruta: TIPO DE EDUCACIÓN/COMÚN/SEXO/V
+        id: edu_ii_2_2_2_tipo_de_educacion_comun_sexo_v
+      - col: G
+        ruta: TIPO DE EDUCACIÓN/COMÚN/SEXO/M
+        id: edu_ii_2_2_2_tipo_de_educacion_comun_sexo_m
+      - col: H
+        ruta: TIPO DE EDUCACIÓN/ESPECIAL/Total
+        id: edu_ii_2_2_2_tipo_de_educacion_especial_total
+      - col: I
+        ruta: TIPO DE EDUCACIÓN/ESPECIAL/ESCUELAS ESPECIALES/SEXO/V
+        id: edu_ii_2_2_2_tipo_de_educacion_especial_escuelas_especiales_sexo_v
+      - col: J
+        ruta: TIPO DE EDUCACIÓN/ESPECIAL/ESCUELAS ESPECIALES/SEXO/M
+        id: edu_ii_2_2_2_tipo_de_educacion_especial_escuelas_especiales_sexo_m
+      - col: K
+        ruta: TIPO DE EDUCACIÓN/ESPECIAL/CLASES ESPECIALES EN ESCUELAS COMUNES/SEXO/V
+        id: edu_ii_2_2_2_tipo_de_educacion_especial_clases_especiales_en_escuelas_comunes_sexo_v
+      - col: L
+        ruta: TIPO DE EDUCACIÓN/ESPECIAL/CLASES ESPECIALES EN ESCUELAS COMUNES/SEXO/M
+        id: edu_ii_2_2_2_tipo_de_educacion_especial_clases_especiales_en_escuelas_comunes_sexo_m
   II-2.2.3:
     titulo: ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PÚBLICA COMÚN POR ÁREA DEMOGRÁFICA Y CATEGORÍA SEGÚN DEPARTAMENTO
     tipos:
@@ -4258,7 +4812,7 @@ cuadros:
       2022: A
       2023: A
       2024: A
-    ola: 2
+    ola: 1
     unidad: estudiantes
     anios:
     - 2020
@@ -4266,6 +4820,292 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_2_2_3_total
+      - col: C
+        ruta: ÁREA DEMOGRÁFICA/URBANA/Total Urbana
+        id: edu_ii_2_2_3_area_demografica_urbana_total_urbana
+      - col: D
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Aprender
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_aprender
+      - col: E
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Aprender H. de Práctica
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_aprender_h_de_practica
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: F
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Común
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_comun
+      - col: G
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Práctica
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_practica
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: H
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Tiempo Completo
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_tiempo_completo
+      - col: I
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Habilitada de Práctica
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_habilitada_de_practica
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: J
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Tiempo Extendido H. de Práctica
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_tiempo_extendido_h_de_practica
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: K
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Tiempo Extendido de Práctica
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_tiempo_extendido_de_practica
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: L
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Tiempo Extendido
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_tiempo_extendido
+      - col: M
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Unidocente
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_unidocente
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: N
+        ruta: ÁREA DEMOGRÁFICA/URBANA/JICI
+        id: edu_ii_2_2_3_area_demografica_urbana_jici
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: O
+        ruta: ÁREA DEMOGRÁFICA/RURAL/Total Rural
+        id: edu_ii_2_2_3_area_demografica_rural_total_rural
+      - col: P
+        ruta: ÁREA DEMOGRÁFICA/RURAL/CATEGORÍA/con Maestro a cargo
+        id: edu_ii_2_2_3_area_demografica_rural_categoria_con_maestro_a_cargo
+      - col: Q
+        ruta: ÁREA DEMOGRÁFICA/RURAL/CATEGORÍA/Internado Rural
+        id: edu_ii_2_2_3_area_demografica_rural_categoria_internado_rural
+      - col: R
+        ruta: ÁREA DEMOGRÁFICA/RURAL/CATEGORÍA/Tiempo Extendido
+        id: edu_ii_2_2_3_area_demografica_rural_categoria_tiempo_extendido
+      - col: S
+        ruta: ÁREA DEMOGRÁFICA/RURAL/CATEGORÍA/Unidocente
+        id: edu_ii_2_2_3_area_demografica_rural_categoria_unidocente
+      2021:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_2_2_3_total
+      - col: C
+        ruta: ÁREA DEMOGRÁFICA/URBANA/Total Urbana
+        id: edu_ii_2_2_3_area_demografica_urbana_total_urbana
+      - col: D
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Aprender
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_aprender
+      - col: E
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Aprender H. de Práctica
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_aprender_h_de_practica
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: F
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Común
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_comun
+      - col: G
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Práctica
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_practica
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: H
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Tiempo Completo
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_tiempo_completo
+      - col: I
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Habilitada de Práctica
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_habilitada_de_practica
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: J
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Tiempo Extendido H. de Práctica
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_tiempo_extendido_h_de_practica
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: K
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Tiempo Extendido de Práctica
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_tiempo_extendido_de_practica
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: L
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Tiempo Extendido
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_tiempo_extendido
+      - col: M
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Unidocente
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_unidocente
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: N
+        ruta: ÁREA DEMOGRÁFICA/URBANA/JICI
+        id: edu_ii_2_2_3_area_demografica_urbana_jici
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: O
+        ruta: ÁREA DEMOGRÁFICA/RURAL/Total Rural
+        id: edu_ii_2_2_3_area_demografica_rural_total_rural
+      - col: P
+        ruta: ÁREA DEMOGRÁFICA/RURAL/CATEGORÍA/con Maestro a cargo
+        id: edu_ii_2_2_3_area_demografica_rural_categoria_con_maestro_a_cargo
+      - col: Q
+        ruta: ÁREA DEMOGRÁFICA/RURAL/CATEGORÍA/Internado Rural
+        id: edu_ii_2_2_3_area_demografica_rural_categoria_internado_rural
+      - col: R
+        ruta: ÁREA DEMOGRÁFICA/RURAL/CATEGORÍA/Tiempo Extendido
+        id: edu_ii_2_2_3_area_demografica_rural_categoria_tiempo_extendido
+      - col: S
+        ruta: ÁREA DEMOGRÁFICA/RURAL/CATEGORÍA/Unidocente
+        id: edu_ii_2_2_3_area_demografica_rural_categoria_unidocente
+      2022:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_2_2_3_total
+      - col: C
+        ruta: ÁREA DEMOGRÁFICA/URBANA/Total Urbana
+        id: edu_ii_2_2_3_area_demografica_urbana_total_urbana
+      - col: D
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Aprender
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_aprender
+      - col: E
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Aprender H. de Práctica
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_aprender_h_de_practica
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: F
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Común
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_comun
+      - col: G
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Práctica
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_practica
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: H
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Tiempo Completo
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_tiempo_completo
+      - col: I
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Habilitada de Práctica
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_habilitada_de_practica
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: J
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Tiempo Extendido H. de Práctica
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_tiempo_extendido_h_de_practica
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: K
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Tiempo Extendido de Práctica
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_tiempo_extendido_de_practica
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: L
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Tiempo Extendido
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_tiempo_extendido
+      - col: M
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Unidocente
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_unidocente
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: N
+        ruta: ÁREA DEMOGRÁFICA/URBANA/JICI
+        id: edu_ii_2_2_3_area_demografica_urbana_jici
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: O
+        ruta: ÁREA DEMOGRÁFICA/RURAL/Total Rural
+        id: edu_ii_2_2_3_area_demografica_rural_total_rural
+      - col: P
+        ruta: ÁREA DEMOGRÁFICA/RURAL/CATEGORÍA/con Maestro a cargo
+        id: edu_ii_2_2_3_area_demografica_rural_categoria_con_maestro_a_cargo
+      - col: Q
+        ruta: ÁREA DEMOGRÁFICA/RURAL/CATEGORÍA/Internado Rural
+        id: edu_ii_2_2_3_area_demografica_rural_categoria_internado_rural
+      - col: R
+        ruta: ÁREA DEMOGRÁFICA/RURAL/CATEGORÍA/Tiempo Extendido
+        id: edu_ii_2_2_3_area_demografica_rural_categoria_tiempo_extendido
+      - col: S
+        ruta: ÁREA DEMOGRÁFICA/RURAL/CATEGORÍA/Unidocente
+        id: edu_ii_2_2_3_area_demografica_rural_categoria_unidocente
+      2023:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_2_2_3_total
+      - col: C
+        ruta: ÁREA DEMOGRÁFICA/URBANA/Total Urbana
+        id: edu_ii_2_2_3_area_demografica_urbana_total_urbana
+      - col: D
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Aprender
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_aprender
+      - col: E
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Aprender H. de Práctica
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_aprender_h_de_practica
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: F
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Común
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_comun
+      - col: G
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Práctica
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_practica
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: H
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Tiempo Completo
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_tiempo_completo
+      - col: I
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Habilitada de Práctica
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_habilitada_de_practica
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: J
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Tiempo Extendido H. de Práctica
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_tiempo_extendido_h_de_practica
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: K
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Tiempo Extendido de Práctica
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_tiempo_extendido_de_practica
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: L
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Tiempo Extendido
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_tiempo_extendido
+      - col: M
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Unidocente
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_unidocente
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: N
+        ruta: ÁREA DEMOGRÁFICA/URBANA/JICI
+        id: edu_ii_2_2_3_area_demografica_urbana_jici
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: O
+        ruta: ÁREA DEMOGRÁFICA/RURAL/Total Rural
+        id: edu_ii_2_2_3_area_demografica_rural_total_rural
+      - col: P
+        ruta: ÁREA DEMOGRÁFICA/RURAL/CATEGORÍA/con Maestro a cargo
+        id: edu_ii_2_2_3_area_demografica_rural_categoria_con_maestro_a_cargo
+      - col: Q
+        ruta: ÁREA DEMOGRÁFICA/RURAL/CATEGORÍA/Internado Rural
+        id: edu_ii_2_2_3_area_demografica_rural_categoria_internado_rural
+      - col: R
+        ruta: ÁREA DEMOGRÁFICA/RURAL/CATEGORÍA/Tiempo Extendido
+        id: edu_ii_2_2_3_area_demografica_rural_categoria_tiempo_extendido
+      - col: S
+        ruta: ÁREA DEMOGRÁFICA/RURAL/CATEGORÍA/Unidocente
+        id: edu_ii_2_2_3_area_demografica_rural_categoria_unidocente
+      2024:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_2_2_3_total
+      - col: C
+        ruta: ÁREA DEMOGRÁFICA/URBANA/Total Urbana
+        id: edu_ii_2_2_3_area_demografica_urbana_total_urbana
+      - col: D
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Aprender
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_aprender
+      - col: E
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/De Práctica
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_de_practica
+      - col: F
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Tiempo Completo
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_tiempo_completo
+      - col: G
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Tiempo Extendido
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_tiempo_extendido
+      - col: H
+        ruta: ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Común
+        id: edu_ii_2_2_3_area_demografica_urbana_categoria_comun
+      - col: I
+        ruta: ÁREA DEMOGRÁFICA/RURAL/Total Rural
+        id: edu_ii_2_2_3_area_demografica_rural_total_rural
+      - col: J
+        ruta: ÁREA DEMOGRÁFICA/RURAL/CATEGORÍA/con Maestro a cargo
+        id: edu_ii_2_2_3_area_demografica_rural_categoria_con_maestro_a_cargo
+      - col: K
+        ruta: ÁREA DEMOGRÁFICA/RURAL/CATEGORÍA/Internado Rural
+        id: edu_ii_2_2_3_area_demografica_rural_categoria_internado_rural
+      - col: L
+        ruta: ÁREA DEMOGRÁFICA/RURAL/CATEGORÍA/Tiempo Extendido
+        id: edu_ii_2_2_3_area_demografica_rural_categoria_tiempo_extendido
+      - col: M
+        ruta: ÁREA DEMOGRÁFICA/RURAL/CATEGORÍA/Unidocente
+        id: edu_ii_2_2_3_area_demografica_rural_categoria_unidocente
   II-2.2.4:
     titulo: ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PÚBLICA ESPECIAL POR TIPO DE DISCAPACIDAD SEGÚN DEPARTAMENTO
     tipos:
@@ -4274,7 +5114,7 @@ cuadros:
       2022: A
       2023: A
       2024: A
-    ola: 2
+    ola: 1
     unidad: estudiantes
     anios:
     - 2020
@@ -4282,6 +5122,159 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: DEPARTAMENTO
+        id: edu_ii_2_2_4_departamento
+      - col: C
+        ruta: TOTAL
+        id: edu_ii_2_2_4_total
+      - col: D
+        ruta: DISCAPACIDAD/Auditiva
+        id: edu_ii_2_2_4_discapacidad_auditiva
+      - col: E
+        ruta: DISCAPACIDAD/Intelectual
+        id: edu_ii_2_2_4_discapacidad_intelectual
+      - col: F
+        ruta: DISCAPACIDAD/Motriz
+        id: edu_ii_2_2_4_discapacidad_motriz
+      - col: G
+        ruta: DISCAPACIDAD/Visual
+        id: edu_ii_2_2_4_discapacidad_visual
+      - col: H
+        ruta: DISCAPACIDAD/Problemas de conducta
+        id: edu_ii_2_2_4_discapacidad_problemas_de_conducta
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: I
+        ruta: DISCAPACIDAD/Problemas de personalidad
+        id: edu_ii_2_2_4_discapacidad_problemas_de_personalidad
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: J
+        ruta: DISCAPACIDAD/Trastornos generalizados del desarrollo
+        id: edu_ii_2_2_4_discapacidad_trastornos_generalizados_del_desarrollo
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      2021:
+      - col: B
+        ruta: DEPARTAMENTO
+        id: edu_ii_2_2_4_departamento
+      - col: C
+        ruta: TOTAL
+        id: edu_ii_2_2_4_total
+      - col: D
+        ruta: DISCAPACIDAD/Auditiva
+        id: edu_ii_2_2_4_discapacidad_auditiva
+      - col: E
+        ruta: DISCAPACIDAD/Intelectual
+        id: edu_ii_2_2_4_discapacidad_intelectual
+      - col: F
+        ruta: DISCAPACIDAD/Motriz
+        id: edu_ii_2_2_4_discapacidad_motriz
+      - col: G
+        ruta: DISCAPACIDAD/Visual
+        id: edu_ii_2_2_4_discapacidad_visual
+      - col: H
+        ruta: DISCAPACIDAD/Problemas de conducta
+        id: edu_ii_2_2_4_discapacidad_problemas_de_conducta
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: I
+        ruta: DISCAPACIDAD/Problemas de personalidad
+        id: edu_ii_2_2_4_discapacidad_problemas_de_personalidad
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: J
+        ruta: DISCAPACIDAD/Trastornos generalizados del desarrollo
+        id: edu_ii_2_2_4_discapacidad_trastornos_generalizados_del_desarrollo
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      2022:
+      - col: B
+        ruta: DEPARTAMENTO
+        id: edu_ii_2_2_4_departamento
+      - col: C
+        ruta: TOTAL
+        id: edu_ii_2_2_4_total
+      - col: D
+        ruta: DISCAPACIDAD/Auditiva
+        id: edu_ii_2_2_4_discapacidad_auditiva
+      - col: E
+        ruta: DISCAPACIDAD/Intelectual
+        id: edu_ii_2_2_4_discapacidad_intelectual
+      - col: F
+        ruta: DISCAPACIDAD/Motriz
+        id: edu_ii_2_2_4_discapacidad_motriz
+      - col: G
+        ruta: DISCAPACIDAD/Visual
+        id: edu_ii_2_2_4_discapacidad_visual
+      - col: H
+        ruta: DISCAPACIDAD/Problemas de conducta
+        id: edu_ii_2_2_4_discapacidad_problemas_de_conducta
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: I
+        ruta: DISCAPACIDAD/Problemas de personalidad
+        id: edu_ii_2_2_4_discapacidad_problemas_de_personalidad
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: J
+        ruta: DISCAPACIDAD/Trastornos generalizados del desarrollo
+        id: edu_ii_2_2_4_discapacidad_trastornos_generalizados_del_desarrollo
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      2023:
+      - col: B
+        ruta: DEPARTAMENTO
+        id: edu_ii_2_2_4_departamento
+      - col: C
+        ruta: TOTAL
+        id: edu_ii_2_2_4_total
+      - col: D
+        ruta: DISCAPACIDAD/Auditiva
+        id: edu_ii_2_2_4_discapacidad_auditiva
+      - col: E
+        ruta: DISCAPACIDAD/Intelectual
+        id: edu_ii_2_2_4_discapacidad_intelectual
+      - col: F
+        ruta: DISCAPACIDAD/Motriz
+        id: edu_ii_2_2_4_discapacidad_motriz
+      - col: G
+        ruta: DISCAPACIDAD/Visual
+        id: edu_ii_2_2_4_discapacidad_visual
+      - col: H
+        ruta: DISCAPACIDAD/Problemas de conducta
+        id: edu_ii_2_2_4_discapacidad_problemas_de_conducta
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: I
+        ruta: DISCAPACIDAD/Problemas de personalidad
+        id: edu_ii_2_2_4_discapacidad_problemas_de_personalidad
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: J
+        ruta: DISCAPACIDAD/Trastornos generalizados del desarrollo
+        id: edu_ii_2_2_4_discapacidad_trastornos_generalizados_del_desarrollo
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      2024:
+      - col: B
+        ruta: DEPARTAMENTO
+        id: edu_ii_2_2_4_departamento
+      - col: C
+        ruta: TOTAL
+        id: edu_ii_2_2_4_total
+      - col: D
+        ruta: DISCAPACIDAD/Auditiva
+        id: edu_ii_2_2_4_discapacidad_auditiva
+      - col: E
+        ruta: DISCAPACIDAD/Intelectual
+        id: edu_ii_2_2_4_discapacidad_intelectual
+      - col: F
+        ruta: DISCAPACIDAD/Motriz
+        id: edu_ii_2_2_4_discapacidad_motriz
+      - col: G
+        ruta: DISCAPACIDAD/Visual
+        id: edu_ii_2_2_4_discapacidad_visual
+      - col: H
+        ruta: DISCAPACIDAD/Pluri discapacidad
+        id: edu_ii_2_2_4_discapacidad_pluri_discapacidad
+      - col: I
+        ruta: DISCAPACIDAD/Socio-emocional
+        id: edu_ii_2_2_4_discapacidad_socio_emocional
+      - col: J
+        ruta: DISCAPACIDAD/Trastornos del espectro autista
+        id: edu_ii_2_2_4_discapacidad_trastornos_del_espectro_autista
   II-2.2.5:
     titulo: ESTUDIANTES MATRICULADOS EN EDUCACIÓN ESPECIAL PÚBLICA POR EDADES SIMPLES Y SEXO, SEGÚN DEPARTAMENTO
     tipos:
@@ -4290,7 +5283,7 @@ cuadros:
       2022: A
       2023: A
       2024: A
-    ola: 2
+    ola: 1
     unidad: estudiantes
     anios:
     - 2020
@@ -4298,6 +5291,811 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: TOTAL GENERAL
+        id: edu_ii_2_2_5_total_general
+      - col: C
+        ruta: TOTAL MUJERES
+        id: edu_ii_2_2_5_total_mujeres
+      - col: D
+        ruta: TOTAL VARONES
+        id: edu_ii_2_2_5_total_varones
+      - col: E
+        ruta: EDAD/Menos de 3 años/SEXO/M
+        id: edu_ii_2_2_5_edad_menos_de_3_anos_sexo_m
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: F
+        ruta: EDAD/Menos de 3 años/SEXO/V
+        id: edu_ii_2_2_5_edad_menos_de_3_anos_sexo_v
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: G
+        ruta: EDAD/3 años/SEXO/M
+        id: edu_ii_2_2_5_edad_3_anos_sexo_m
+      - col: H
+        ruta: EDAD/3 años/SEXO/V
+        id: edu_ii_2_2_5_edad_3_anos_sexo_v
+      - col: I
+        ruta: EDAD/4 años/SEXO/M
+        id: edu_ii_2_2_5_edad_4_anos_sexo_m
+      - col: J
+        ruta: EDAD/4 años/SEXO/V
+        id: edu_ii_2_2_5_edad_4_anos_sexo_v
+      - col: K
+        ruta: EDAD/5 años/SEXO/M
+        id: edu_ii_2_2_5_edad_5_anos_sexo_m
+      - col: L
+        ruta: EDAD/5 años/SEXO/V
+        id: edu_ii_2_2_5_edad_5_anos_sexo_v
+      - col: M
+        ruta: EDAD/6 años/SEXO/M
+        id: edu_ii_2_2_5_edad_6_anos_sexo_m
+      - col: N
+        ruta: EDAD/6 años/SEXO/V
+        id: edu_ii_2_2_5_edad_6_anos_sexo_v
+      - col: O
+        ruta: EDAD/7 años/SEXO/M
+        id: edu_ii_2_2_5_edad_7_anos_sexo_m
+      - col: P
+        ruta: EDAD/7 años/SEXO/V
+        id: edu_ii_2_2_5_edad_7_anos_sexo_v
+      - col: Q
+        ruta: EDAD/8 años/SEXO/M
+        id: edu_ii_2_2_5_edad_8_anos_sexo_m
+      - col: R
+        ruta: EDAD/8 años/SEXO/V
+        id: edu_ii_2_2_5_edad_8_anos_sexo_v
+      - col: S
+        ruta: EDAD/9 años/SEXO/M
+        id: edu_ii_2_2_5_edad_9_anos_sexo_m
+      - col: T
+        ruta: EDAD/9 años/SEXO/V
+        id: edu_ii_2_2_5_edad_9_anos_sexo_v
+      - col: U
+        ruta: EDAD/10 años/SEXO/M
+        id: edu_ii_2_2_5_edad_10_anos_sexo_m
+      - col: V
+        ruta: EDAD/10 años/SEXO/V
+        id: edu_ii_2_2_5_edad_10_anos_sexo_v
+      - col: W
+        ruta: EDAD/11 años/SEXO/M
+        id: edu_ii_2_2_5_edad_11_anos_sexo_m
+      - col: X
+        ruta: EDAD/11 años/SEXO/V
+        id: edu_ii_2_2_5_edad_11_anos_sexo_v
+      - col: Y
+        ruta: EDAD/12 años/SEXO/M
+        id: edu_ii_2_2_5_edad_12_anos_sexo_m
+      - col: Z
+        ruta: EDAD/12 años/SEXO/V
+        id: edu_ii_2_2_5_edad_12_anos_sexo_v
+      - col: AA
+        ruta: EDAD/13 años/SEXO/M
+        id: edu_ii_2_2_5_edad_13_anos_sexo_m
+      - col: AB
+        ruta: EDAD/13 años/SEXO/V
+        id: edu_ii_2_2_5_edad_13_anos_sexo_v
+      - col: AC
+        ruta: EDAD/14 años/SEXO/M
+        id: edu_ii_2_2_5_edad_14_anos_sexo_m
+      - col: AD
+        ruta: EDAD/14 años/SEXO/V
+        id: edu_ii_2_2_5_edad_14_anos_sexo_v
+      - col: AE
+        ruta: EDAD/15 años/SEXO/M
+        id: edu_ii_2_2_5_edad_15_anos_sexo_m
+      - col: AF
+        ruta: EDAD/15 años/SEXO/V
+        id: edu_ii_2_2_5_edad_15_anos_sexo_v
+      - col: AG
+        ruta: EDAD/16 años/SEXO/M
+        id: edu_ii_2_2_5_edad_16_anos_sexo_m
+      - col: AH
+        ruta: EDAD/16 años/SEXO/V
+        id: edu_ii_2_2_5_edad_16_anos_sexo_v
+      - col: AI
+        ruta: EDAD/17 años/SEXO/M
+        id: edu_ii_2_2_5_edad_17_anos_sexo_m
+      - col: AJ
+        ruta: EDAD/17 años/SEXO/V
+        id: edu_ii_2_2_5_edad_17_anos_sexo_v
+      - col: AK
+        ruta: EDAD/18 años/SEXO/M
+        id: edu_ii_2_2_5_edad_18_anos_sexo_m
+      - col: AL
+        ruta: EDAD/18 años/SEXO/V
+        id: edu_ii_2_2_5_edad_18_anos_sexo_v
+      - col: AM
+        ruta: EDAD/19 años/SEXO/M
+        id: edu_ii_2_2_5_edad_19_anos_sexo_m
+      - col: AN
+        ruta: EDAD/19 años/SEXO/V
+        id: edu_ii_2_2_5_edad_19_anos_sexo_v
+      - col: AO
+        ruta: EDAD/20 años/SEXO/M
+        id: edu_ii_2_2_5_edad_20_anos_sexo_m
+      - col: AP
+        ruta: EDAD/20 años/SEXO/V
+        id: edu_ii_2_2_5_edad_20_anos_sexo_v
+      - col: AQ
+        ruta: EDAD/21 años/SEXO/M
+        id: edu_ii_2_2_5_edad_21_anos_sexo_m
+      - col: AR
+        ruta: EDAD/21 años/SEXO/V
+        id: edu_ii_2_2_5_edad_21_anos_sexo_v
+      - col: AS
+        ruta: EDAD/Más de 21 años/SEXO/M
+        id: edu_ii_2_2_5_edad_mas_de_21_anos_sexo_m
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AT
+        ruta: EDAD/Más de 21 años/SEXO/V
+        id: edu_ii_2_2_5_edad_mas_de_21_anos_sexo_v
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      2021:
+      - col: B
+        ruta: TOTAL GENERAL
+        id: edu_ii_2_2_5_total_general
+      - col: C
+        ruta: TOTAL MUJERES
+        id: edu_ii_2_2_5_total_mujeres
+      - col: D
+        ruta: TOTAL VARONES
+        id: edu_ii_2_2_5_total_varones
+      - col: E
+        ruta: EDAD/Menos de 2 años/SEXO/M
+        id: edu_ii_2_2_5_edad_menos_de_2_anos_sexo_m
+      - col: F
+        ruta: EDAD/Menos de 2 años/SEXO/V
+        id: edu_ii_2_2_5_edad_menos_de_2_anos_sexo_v
+      - col: G
+        ruta: EDAD/2 años/SEXO/M
+        id: edu_ii_2_2_5_edad_2_anos_sexo_m
+      - col: H
+        ruta: EDAD/2 años/SEXO/V
+        id: edu_ii_2_2_5_edad_2_anos_sexo_v
+      - col: I
+        ruta: EDAD/3 años/SEXO/M
+        id: edu_ii_2_2_5_edad_3_anos_sexo_m
+      - col: J
+        ruta: EDAD/3 años/SEXO/V
+        id: edu_ii_2_2_5_edad_3_anos_sexo_v
+      - col: K
+        ruta: EDAD/4 años/SEXO/M
+        id: edu_ii_2_2_5_edad_4_anos_sexo_m
+      - col: L
+        ruta: EDAD/4 años/SEXO/V
+        id: edu_ii_2_2_5_edad_4_anos_sexo_v
+      - col: M
+        ruta: EDAD/5 años/SEXO/M
+        id: edu_ii_2_2_5_edad_5_anos_sexo_m
+      - col: N
+        ruta: EDAD/5 años/SEXO/V
+        id: edu_ii_2_2_5_edad_5_anos_sexo_v
+      - col: O
+        ruta: EDAD/6 años/SEXO/M
+        id: edu_ii_2_2_5_edad_6_anos_sexo_m
+      - col: P
+        ruta: EDAD/6 años/SEXO/V
+        id: edu_ii_2_2_5_edad_6_anos_sexo_v
+      - col: Q
+        ruta: EDAD/7 años/SEXO/M
+        id: edu_ii_2_2_5_edad_7_anos_sexo_m
+      - col: R
+        ruta: EDAD/7 años/SEXO/V
+        id: edu_ii_2_2_5_edad_7_anos_sexo_v
+      - col: S
+        ruta: EDAD/8 años/SEXO/M
+        id: edu_ii_2_2_5_edad_8_anos_sexo_m
+      - col: T
+        ruta: EDAD/8 años/SEXO/V
+        id: edu_ii_2_2_5_edad_8_anos_sexo_v
+      - col: U
+        ruta: EDAD/9 años/SEXO/M
+        id: edu_ii_2_2_5_edad_9_anos_sexo_m
+      - col: V
+        ruta: EDAD/9 años/SEXO/V
+        id: edu_ii_2_2_5_edad_9_anos_sexo_v
+      - col: W
+        ruta: EDAD/10 años/SEXO/M
+        id: edu_ii_2_2_5_edad_10_anos_sexo_m
+      - col: X
+        ruta: EDAD/10 años/SEXO/V
+        id: edu_ii_2_2_5_edad_10_anos_sexo_v
+      - col: Y
+        ruta: EDAD/11 años/SEXO/M
+        id: edu_ii_2_2_5_edad_11_anos_sexo_m
+      - col: Z
+        ruta: EDAD/11 años/SEXO/V
+        id: edu_ii_2_2_5_edad_11_anos_sexo_v
+      - col: AA
+        ruta: EDAD/12 años/SEXO/M
+        id: edu_ii_2_2_5_edad_12_anos_sexo_m
+      - col: AB
+        ruta: EDAD/12 años/SEXO/V
+        id: edu_ii_2_2_5_edad_12_anos_sexo_v
+      - col: AC
+        ruta: EDAD/13 años/SEXO/M
+        id: edu_ii_2_2_5_edad_13_anos_sexo_m
+      - col: AD
+        ruta: EDAD/13 años/SEXO/V
+        id: edu_ii_2_2_5_edad_13_anos_sexo_v
+      - col: AE
+        ruta: EDAD/14 años/SEXO/M
+        id: edu_ii_2_2_5_edad_14_anos_sexo_m
+      - col: AF
+        ruta: EDAD/14 años/SEXO/V
+        id: edu_ii_2_2_5_edad_14_anos_sexo_v
+      - col: AG
+        ruta: EDAD/15 años/SEXO/M
+        id: edu_ii_2_2_5_edad_15_anos_sexo_m
+      - col: AH
+        ruta: EDAD/15 años/SEXO/V
+        id: edu_ii_2_2_5_edad_15_anos_sexo_v
+      - col: AI
+        ruta: EDAD/16 años/SEXO/M
+        id: edu_ii_2_2_5_edad_16_anos_sexo_m
+      - col: AJ
+        ruta: EDAD/16 años/SEXO/V
+        id: edu_ii_2_2_5_edad_16_anos_sexo_v
+      - col: AK
+        ruta: EDAD/17 años/SEXO/M
+        id: edu_ii_2_2_5_edad_17_anos_sexo_m
+      - col: AL
+        ruta: EDAD/17 años/SEXO/V
+        id: edu_ii_2_2_5_edad_17_anos_sexo_v
+      - col: AM
+        ruta: EDAD/18 años/SEXO/M
+        id: edu_ii_2_2_5_edad_18_anos_sexo_m
+      - col: AN
+        ruta: EDAD/18 años/SEXO/V
+        id: edu_ii_2_2_5_edad_18_anos_sexo_v
+      - col: AO
+        ruta: EDAD/19 años/SEXO/M
+        id: edu_ii_2_2_5_edad_19_anos_sexo_m
+      - col: AP
+        ruta: EDAD/19 años/SEXO/V
+        id: edu_ii_2_2_5_edad_19_anos_sexo_v
+      - col: AQ
+        ruta: EDAD/20 años/SEXO/M
+        id: edu_ii_2_2_5_edad_20_anos_sexo_m
+      - col: AR
+        ruta: EDAD/20 años/SEXO/V
+        id: edu_ii_2_2_5_edad_20_anos_sexo_v
+      - col: AS
+        ruta: EDAD/21 años/SEXO/M
+        id: edu_ii_2_2_5_edad_21_anos_sexo_m
+      - col: AT
+        ruta: EDAD/21 años/SEXO/V
+        id: edu_ii_2_2_5_edad_21_anos_sexo_v
+      - col: AU
+        ruta: EDAD/22 años/SEXO/M
+        id: edu_ii_2_2_5_edad_22_anos_sexo_m
+      - col: AV
+        ruta: EDAD/22 años/SEXO/V
+        id: edu_ii_2_2_5_edad_22_anos_sexo_v
+      - col: AW
+        ruta: EDAD/23 años/SEXO/M
+        id: edu_ii_2_2_5_edad_23_anos_sexo_m
+      - col: AX
+        ruta: EDAD/23 años/SEXO/V
+        id: edu_ii_2_2_5_edad_23_anos_sexo_v
+      - col: AY
+        ruta: EDAD/24 años/SEXO/M
+        id: edu_ii_2_2_5_edad_24_anos_sexo_m
+      - col: AZ
+        ruta: EDAD/24 años/SEXO/V
+        id: edu_ii_2_2_5_edad_24_anos_sexo_v
+      - col: BA
+        ruta: EDAD/Entre 25 y 29 años/SEXO/M
+        id: edu_ii_2_2_5_edad_entre_25_y_29_anos_sexo_m
+      - col: BB
+        ruta: EDAD/Entre 25 y 29 años/SEXO/V
+        id: edu_ii_2_2_5_edad_entre_25_y_29_anos_sexo_v
+      - col: BC
+        ruta: EDAD/Más de 29 años/SEXO/M
+        id: edu_ii_2_2_5_edad_mas_de_29_anos_sexo_m
+      - col: BD
+        ruta: EDAD/Más de 29 años/SEXO/V
+        id: edu_ii_2_2_5_edad_mas_de_29_anos_sexo_v
+      2022:
+      - col: B
+        ruta: TOTAL GENERAL
+        id: edu_ii_2_2_5_total_general
+      - col: C
+        ruta: TOTAL MUJERES
+        id: edu_ii_2_2_5_total_mujeres
+      - col: D
+        ruta: TOTAL VARONES
+        id: edu_ii_2_2_5_total_varones
+      - col: E
+        ruta: EDAD/Menos de 2 años/SEXO/M
+        id: edu_ii_2_2_5_edad_menos_de_2_anos_sexo_m
+      - col: F
+        ruta: EDAD/Menos de 2 años/SEXO/V
+        id: edu_ii_2_2_5_edad_menos_de_2_anos_sexo_v
+      - col: G
+        ruta: EDAD/2 años/SEXO/M
+        id: edu_ii_2_2_5_edad_2_anos_sexo_m
+      - col: H
+        ruta: EDAD/2 años/SEXO/V
+        id: edu_ii_2_2_5_edad_2_anos_sexo_v
+      - col: I
+        ruta: EDAD/3 años/SEXO/M
+        id: edu_ii_2_2_5_edad_3_anos_sexo_m
+      - col: J
+        ruta: EDAD/3 años/SEXO/V
+        id: edu_ii_2_2_5_edad_3_anos_sexo_v
+      - col: K
+        ruta: EDAD/4 años/SEXO/M
+        id: edu_ii_2_2_5_edad_4_anos_sexo_m
+      - col: L
+        ruta: EDAD/4 años/SEXO/V
+        id: edu_ii_2_2_5_edad_4_anos_sexo_v
+      - col: M
+        ruta: EDAD/5 años/SEXO/M
+        id: edu_ii_2_2_5_edad_5_anos_sexo_m
+      - col: N
+        ruta: EDAD/5 años/SEXO/V
+        id: edu_ii_2_2_5_edad_5_anos_sexo_v
+      - col: O
+        ruta: EDAD/6 años/SEXO/M
+        id: edu_ii_2_2_5_edad_6_anos_sexo_m
+      - col: P
+        ruta: EDAD/6 años/SEXO/V
+        id: edu_ii_2_2_5_edad_6_anos_sexo_v
+      - col: Q
+        ruta: EDAD/7 años/SEXO/M
+        id: edu_ii_2_2_5_edad_7_anos_sexo_m
+      - col: R
+        ruta: EDAD/7 años/SEXO/V
+        id: edu_ii_2_2_5_edad_7_anos_sexo_v
+      - col: S
+        ruta: EDAD/8 años/SEXO/M
+        id: edu_ii_2_2_5_edad_8_anos_sexo_m
+      - col: T
+        ruta: EDAD/8 años/SEXO/V
+        id: edu_ii_2_2_5_edad_8_anos_sexo_v
+      - col: U
+        ruta: EDAD/9 años/SEXO/M
+        id: edu_ii_2_2_5_edad_9_anos_sexo_m
+      - col: V
+        ruta: EDAD/9 años/SEXO/V
+        id: edu_ii_2_2_5_edad_9_anos_sexo_v
+      - col: W
+        ruta: EDAD/10 años/SEXO/M
+        id: edu_ii_2_2_5_edad_10_anos_sexo_m
+      - col: X
+        ruta: EDAD/10 años/SEXO/V
+        id: edu_ii_2_2_5_edad_10_anos_sexo_v
+      - col: Y
+        ruta: EDAD/11 años/SEXO/M
+        id: edu_ii_2_2_5_edad_11_anos_sexo_m
+      - col: Z
+        ruta: EDAD/11 años/SEXO/V
+        id: edu_ii_2_2_5_edad_11_anos_sexo_v
+      - col: AA
+        ruta: EDAD/12 años/SEXO/M
+        id: edu_ii_2_2_5_edad_12_anos_sexo_m
+      - col: AB
+        ruta: EDAD/12 años/SEXO/V
+        id: edu_ii_2_2_5_edad_12_anos_sexo_v
+      - col: AC
+        ruta: EDAD/13 años/SEXO/M
+        id: edu_ii_2_2_5_edad_13_anos_sexo_m
+      - col: AD
+        ruta: EDAD/13 años/SEXO/V
+        id: edu_ii_2_2_5_edad_13_anos_sexo_v
+      - col: AE
+        ruta: EDAD/14 años/SEXO/M
+        id: edu_ii_2_2_5_edad_14_anos_sexo_m
+      - col: AF
+        ruta: EDAD/14 años/SEXO/V
+        id: edu_ii_2_2_5_edad_14_anos_sexo_v
+      - col: AG
+        ruta: EDAD/15 años/SEXO/M
+        id: edu_ii_2_2_5_edad_15_anos_sexo_m
+      - col: AH
+        ruta: EDAD/15 años/SEXO/V
+        id: edu_ii_2_2_5_edad_15_anos_sexo_v
+      - col: AI
+        ruta: EDAD/16 años/SEXO/M
+        id: edu_ii_2_2_5_edad_16_anos_sexo_m
+      - col: AJ
+        ruta: EDAD/16 años/SEXO/V
+        id: edu_ii_2_2_5_edad_16_anos_sexo_v
+      - col: AK
+        ruta: EDAD/17 años/SEXO/M
+        id: edu_ii_2_2_5_edad_17_anos_sexo_m
+      - col: AL
+        ruta: EDAD/17 años/SEXO/V
+        id: edu_ii_2_2_5_edad_17_anos_sexo_v
+      - col: AM
+        ruta: EDAD/18 años/SEXO/M
+        id: edu_ii_2_2_5_edad_18_anos_sexo_m
+      - col: AN
+        ruta: EDAD/18 años/SEXO/V
+        id: edu_ii_2_2_5_edad_18_anos_sexo_v
+      - col: AO
+        ruta: EDAD/19 años/SEXO/M
+        id: edu_ii_2_2_5_edad_19_anos_sexo_m
+      - col: AP
+        ruta: EDAD/19 años/SEXO/V
+        id: edu_ii_2_2_5_edad_19_anos_sexo_v
+      - col: AQ
+        ruta: EDAD/20 años/SEXO/M
+        id: edu_ii_2_2_5_edad_20_anos_sexo_m
+      - col: AR
+        ruta: EDAD/20 años/SEXO/V
+        id: edu_ii_2_2_5_edad_20_anos_sexo_v
+      - col: AS
+        ruta: EDAD/21 años/SEXO/M
+        id: edu_ii_2_2_5_edad_21_anos_sexo_m
+      - col: AT
+        ruta: EDAD/21 años/SEXO/V
+        id: edu_ii_2_2_5_edad_21_anos_sexo_v
+      - col: AU
+        ruta: EDAD/22 años/SEXO/M
+        id: edu_ii_2_2_5_edad_22_anos_sexo_m
+      - col: AV
+        ruta: EDAD/22 años/SEXO/V
+        id: edu_ii_2_2_5_edad_22_anos_sexo_v
+      - col: AW
+        ruta: EDAD/23 años/SEXO/M
+        id: edu_ii_2_2_5_edad_23_anos_sexo_m
+      - col: AX
+        ruta: EDAD/23 años/SEXO/V
+        id: edu_ii_2_2_5_edad_23_anos_sexo_v
+      - col: AY
+        ruta: EDAD/24 años/SEXO/M
+        id: edu_ii_2_2_5_edad_24_anos_sexo_m
+      - col: AZ
+        ruta: EDAD/24 años/SEXO/V
+        id: edu_ii_2_2_5_edad_24_anos_sexo_v
+      - col: BA
+        ruta: EDAD/Entre 25 y 29 años/SEXO/M
+        id: edu_ii_2_2_5_edad_entre_25_y_29_anos_sexo_m
+      - col: BB
+        ruta: EDAD/Entre 25 y 29 años/SEXO/V
+        id: edu_ii_2_2_5_edad_entre_25_y_29_anos_sexo_v
+      - col: BC
+        ruta: EDAD/Más de 29 años/SEXO/M
+        id: edu_ii_2_2_5_edad_mas_de_29_anos_sexo_m
+      - col: BD
+        ruta: EDAD/Más de 29 años/SEXO/V
+        id: edu_ii_2_2_5_edad_mas_de_29_anos_sexo_v
+      2023:
+      - col: B
+        ruta: TOTAL GENERAL
+        id: edu_ii_2_2_5_total_general
+      - col: C
+        ruta: TOTAL MUJERES
+        id: edu_ii_2_2_5_total_mujeres
+      - col: D
+        ruta: TOTAL VARONES
+        id: edu_ii_2_2_5_total_varones
+      - col: E
+        ruta: EDAD/Menos de 2 años/SEXO/M
+        id: edu_ii_2_2_5_edad_menos_de_2_anos_sexo_m
+      - col: F
+        ruta: EDAD/Menos de 2 años/SEXO/V
+        id: edu_ii_2_2_5_edad_menos_de_2_anos_sexo_v
+      - col: G
+        ruta: EDAD/2 años/SEXO/M
+        id: edu_ii_2_2_5_edad_2_anos_sexo_m
+      - col: H
+        ruta: EDAD/2 años/SEXO/V
+        id: edu_ii_2_2_5_edad_2_anos_sexo_v
+      - col: I
+        ruta: EDAD/3 años/SEXO/M
+        id: edu_ii_2_2_5_edad_3_anos_sexo_m
+      - col: J
+        ruta: EDAD/3 años/SEXO/V
+        id: edu_ii_2_2_5_edad_3_anos_sexo_v
+      - col: K
+        ruta: EDAD/4 años/SEXO/M
+        id: edu_ii_2_2_5_edad_4_anos_sexo_m
+      - col: L
+        ruta: EDAD/4 años/SEXO/V
+        id: edu_ii_2_2_5_edad_4_anos_sexo_v
+      - col: M
+        ruta: EDAD/5 años/SEXO/M
+        id: edu_ii_2_2_5_edad_5_anos_sexo_m
+      - col: N
+        ruta: EDAD/5 años/SEXO/V
+        id: edu_ii_2_2_5_edad_5_anos_sexo_v
+      - col: O
+        ruta: EDAD/6 años/SEXO/M
+        id: edu_ii_2_2_5_edad_6_anos_sexo_m
+      - col: P
+        ruta: EDAD/6 años/SEXO/V
+        id: edu_ii_2_2_5_edad_6_anos_sexo_v
+      - col: Q
+        ruta: EDAD/7 años/SEXO/M
+        id: edu_ii_2_2_5_edad_7_anos_sexo_m
+      - col: R
+        ruta: EDAD/7 años/SEXO/V
+        id: edu_ii_2_2_5_edad_7_anos_sexo_v
+      - col: S
+        ruta: EDAD/8 años/SEXO/M
+        id: edu_ii_2_2_5_edad_8_anos_sexo_m
+      - col: T
+        ruta: EDAD/8 años/SEXO/V
+        id: edu_ii_2_2_5_edad_8_anos_sexo_v
+      - col: U
+        ruta: EDAD/9 años/SEXO/M
+        id: edu_ii_2_2_5_edad_9_anos_sexo_m
+      - col: V
+        ruta: EDAD/9 años/SEXO/V
+        id: edu_ii_2_2_5_edad_9_anos_sexo_v
+      - col: W
+        ruta: EDAD/10 años/SEXO/M
+        id: edu_ii_2_2_5_edad_10_anos_sexo_m
+      - col: X
+        ruta: EDAD/10 años/SEXO/V
+        id: edu_ii_2_2_5_edad_10_anos_sexo_v
+      - col: Y
+        ruta: EDAD/11 años/SEXO/M
+        id: edu_ii_2_2_5_edad_11_anos_sexo_m
+      - col: Z
+        ruta: EDAD/11 años/SEXO/V
+        id: edu_ii_2_2_5_edad_11_anos_sexo_v
+      - col: AA
+        ruta: EDAD/12 años/SEXO/M
+        id: edu_ii_2_2_5_edad_12_anos_sexo_m
+      - col: AB
+        ruta: EDAD/12 años/SEXO/V
+        id: edu_ii_2_2_5_edad_12_anos_sexo_v
+      - col: AC
+        ruta: EDAD/13 años/SEXO/M
+        id: edu_ii_2_2_5_edad_13_anos_sexo_m
+      - col: AD
+        ruta: EDAD/13 años/SEXO/V
+        id: edu_ii_2_2_5_edad_13_anos_sexo_v
+      - col: AE
+        ruta: EDAD/14 años/SEXO/M
+        id: edu_ii_2_2_5_edad_14_anos_sexo_m
+      - col: AF
+        ruta: EDAD/14 años/SEXO/V
+        id: edu_ii_2_2_5_edad_14_anos_sexo_v
+      - col: AG
+        ruta: EDAD/15 años/SEXO/M
+        id: edu_ii_2_2_5_edad_15_anos_sexo_m
+      - col: AH
+        ruta: EDAD/15 años/SEXO/V
+        id: edu_ii_2_2_5_edad_15_anos_sexo_v
+      - col: AI
+        ruta: EDAD/16 años/SEXO/M
+        id: edu_ii_2_2_5_edad_16_anos_sexo_m
+      - col: AJ
+        ruta: EDAD/16 años/SEXO/V
+        id: edu_ii_2_2_5_edad_16_anos_sexo_v
+      - col: AK
+        ruta: EDAD/17 años/SEXO/M
+        id: edu_ii_2_2_5_edad_17_anos_sexo_m
+      - col: AL
+        ruta: EDAD/17 años/SEXO/V
+        id: edu_ii_2_2_5_edad_17_anos_sexo_v
+      - col: AM
+        ruta: EDAD/18 años/SEXO/M
+        id: edu_ii_2_2_5_edad_18_anos_sexo_m
+      - col: AN
+        ruta: EDAD/18 años/SEXO/V
+        id: edu_ii_2_2_5_edad_18_anos_sexo_v
+      - col: AO
+        ruta: EDAD/19 años/SEXO/M
+        id: edu_ii_2_2_5_edad_19_anos_sexo_m
+      - col: AP
+        ruta: EDAD/19 años/SEXO/V
+        id: edu_ii_2_2_5_edad_19_anos_sexo_v
+      - col: AQ
+        ruta: EDAD/20 años/SEXO/M
+        id: edu_ii_2_2_5_edad_20_anos_sexo_m
+      - col: AR
+        ruta: EDAD/20 años/SEXO/V
+        id: edu_ii_2_2_5_edad_20_anos_sexo_v
+      - col: AS
+        ruta: EDAD/21 años/SEXO/M
+        id: edu_ii_2_2_5_edad_21_anos_sexo_m
+      - col: AT
+        ruta: EDAD/21 años/SEXO/V
+        id: edu_ii_2_2_5_edad_21_anos_sexo_v
+      - col: AU
+        ruta: EDAD/22 años/SEXO/M
+        id: edu_ii_2_2_5_edad_22_anos_sexo_m
+      - col: AV
+        ruta: EDAD/22 años/SEXO/V
+        id: edu_ii_2_2_5_edad_22_anos_sexo_v
+      - col: AW
+        ruta: EDAD/23 años/SEXO/M
+        id: edu_ii_2_2_5_edad_23_anos_sexo_m
+      - col: AX
+        ruta: EDAD/23 años/SEXO/V
+        id: edu_ii_2_2_5_edad_23_anos_sexo_v
+      - col: AY
+        ruta: EDAD/24 años/SEXO/M
+        id: edu_ii_2_2_5_edad_24_anos_sexo_m
+      - col: AZ
+        ruta: EDAD/24 años/SEXO/V
+        id: edu_ii_2_2_5_edad_24_anos_sexo_v
+      - col: BA
+        ruta: EDAD/Entre 25 y 29 años/SEXO/M
+        id: edu_ii_2_2_5_edad_entre_25_y_29_anos_sexo_m
+      - col: BB
+        ruta: EDAD/Entre 25 y 29 años/SEXO/V
+        id: edu_ii_2_2_5_edad_entre_25_y_29_anos_sexo_v
+      - col: BC
+        ruta: EDAD/Más de 29 años/SEXO/M
+        id: edu_ii_2_2_5_edad_mas_de_29_anos_sexo_m
+      - col: BD
+        ruta: EDAD/Más de 29 años/SEXO/V
+        id: edu_ii_2_2_5_edad_mas_de_29_anos_sexo_v
+      2024:
+      - col: B
+        ruta: TOTAL GENERAL
+        id: edu_ii_2_2_5_total_general
+      - col: C
+        ruta: TOTAL MUJERES
+        id: edu_ii_2_2_5_total_mujeres
+      - col: D
+        ruta: TOTAL VARONES
+        id: edu_ii_2_2_5_total_varones
+      - col: E
+        ruta: EDAD/Menos de 2 años/SEXO/M
+        id: edu_ii_2_2_5_edad_menos_de_2_anos_sexo_m
+      - col: F
+        ruta: EDAD/Menos de 2 años/SEXO/V
+        id: edu_ii_2_2_5_edad_menos_de_2_anos_sexo_v
+      - col: G
+        ruta: EDAD/2 años/SEXO/M
+        id: edu_ii_2_2_5_edad_2_anos_sexo_m
+      - col: H
+        ruta: EDAD/2 años/SEXO/V
+        id: edu_ii_2_2_5_edad_2_anos_sexo_v
+      - col: I
+        ruta: EDAD/3 años/SEXO/M
+        id: edu_ii_2_2_5_edad_3_anos_sexo_m
+      - col: J
+        ruta: EDAD/3 años/SEXO/V
+        id: edu_ii_2_2_5_edad_3_anos_sexo_v
+      - col: K
+        ruta: EDAD/4 años/SEXO/M
+        id: edu_ii_2_2_5_edad_4_anos_sexo_m
+      - col: L
+        ruta: EDAD/4 años/SEXO/V
+        id: edu_ii_2_2_5_edad_4_anos_sexo_v
+      - col: M
+        ruta: EDAD/5 años/SEXO/M
+        id: edu_ii_2_2_5_edad_5_anos_sexo_m
+      - col: N
+        ruta: EDAD/5 años/SEXO/V
+        id: edu_ii_2_2_5_edad_5_anos_sexo_v
+      - col: O
+        ruta: EDAD/6 años/SEXO/M
+        id: edu_ii_2_2_5_edad_6_anos_sexo_m
+      - col: P
+        ruta: EDAD/6 años/SEXO/V
+        id: edu_ii_2_2_5_edad_6_anos_sexo_v
+      - col: Q
+        ruta: EDAD/7 años/SEXO/M
+        id: edu_ii_2_2_5_edad_7_anos_sexo_m
+      - col: R
+        ruta: EDAD/7 años/SEXO/V
+        id: edu_ii_2_2_5_edad_7_anos_sexo_v
+      - col: S
+        ruta: EDAD/8 años/SEXO/M
+        id: edu_ii_2_2_5_edad_8_anos_sexo_m
+      - col: T
+        ruta: EDAD/8 años/SEXO/V
+        id: edu_ii_2_2_5_edad_8_anos_sexo_v
+      - col: U
+        ruta: EDAD/9 años/SEXO/M
+        id: edu_ii_2_2_5_edad_9_anos_sexo_m
+      - col: V
+        ruta: EDAD/9 años/SEXO/V
+        id: edu_ii_2_2_5_edad_9_anos_sexo_v
+      - col: W
+        ruta: EDAD/10 años/SEXO/M
+        id: edu_ii_2_2_5_edad_10_anos_sexo_m
+      - col: X
+        ruta: EDAD/10 años/SEXO/V
+        id: edu_ii_2_2_5_edad_10_anos_sexo_v
+      - col: Y
+        ruta: EDAD/11 años/SEXO/M
+        id: edu_ii_2_2_5_edad_11_anos_sexo_m
+      - col: Z
+        ruta: EDAD/11 años/SEXO/V
+        id: edu_ii_2_2_5_edad_11_anos_sexo_v
+      - col: AA
+        ruta: EDAD/12 años/SEXO/M
+        id: edu_ii_2_2_5_edad_12_anos_sexo_m
+      - col: AB
+        ruta: EDAD/12 años/SEXO/V
+        id: edu_ii_2_2_5_edad_12_anos_sexo_v
+      - col: AC
+        ruta: EDAD/13 años/SEXO/M
+        id: edu_ii_2_2_5_edad_13_anos_sexo_m
+      - col: AD
+        ruta: EDAD/13 años/SEXO/V
+        id: edu_ii_2_2_5_edad_13_anos_sexo_v
+      - col: AE
+        ruta: EDAD/14 años/SEXO/M
+        id: edu_ii_2_2_5_edad_14_anos_sexo_m
+      - col: AF
+        ruta: EDAD/14 años/SEXO/V
+        id: edu_ii_2_2_5_edad_14_anos_sexo_v
+      - col: AG
+        ruta: EDAD/15 años/SEXO/M
+        id: edu_ii_2_2_5_edad_15_anos_sexo_m
+      - col: AH
+        ruta: EDAD/15 años/SEXO/V
+        id: edu_ii_2_2_5_edad_15_anos_sexo_v
+      - col: AI
+        ruta: EDAD/16 años/SEXO/M
+        id: edu_ii_2_2_5_edad_16_anos_sexo_m
+      - col: AJ
+        ruta: EDAD/16 años/SEXO/V
+        id: edu_ii_2_2_5_edad_16_anos_sexo_v
+      - col: AK
+        ruta: EDAD/17 años/SEXO/M
+        id: edu_ii_2_2_5_edad_17_anos_sexo_m
+      - col: AL
+        ruta: EDAD/17 años/SEXO/V
+        id: edu_ii_2_2_5_edad_17_anos_sexo_v
+      - col: AM
+        ruta: EDAD/18 años/SEXO/M
+        id: edu_ii_2_2_5_edad_18_anos_sexo_m
+      - col: AN
+        ruta: EDAD/18 años/SEXO/V
+        id: edu_ii_2_2_5_edad_18_anos_sexo_v
+      - col: AO
+        ruta: EDAD/19 años/SEXO/M
+        id: edu_ii_2_2_5_edad_19_anos_sexo_m
+      - col: AP
+        ruta: EDAD/19 años/SEXO/V
+        id: edu_ii_2_2_5_edad_19_anos_sexo_v
+      - col: AQ
+        ruta: EDAD/20 años/SEXO/M
+        id: edu_ii_2_2_5_edad_20_anos_sexo_m
+      - col: AR
+        ruta: EDAD/20 años/SEXO/V
+        id: edu_ii_2_2_5_edad_20_anos_sexo_v
+      - col: AS
+        ruta: EDAD/21 años/SEXO/M
+        id: edu_ii_2_2_5_edad_21_anos_sexo_m
+      - col: AT
+        ruta: EDAD/21 años/SEXO/V
+        id: edu_ii_2_2_5_edad_21_anos_sexo_v
+      - col: AU
+        ruta: EDAD/22 años/SEXO/M
+        id: edu_ii_2_2_5_edad_22_anos_sexo_m
+      - col: AV
+        ruta: EDAD/22 años/SEXO/V
+        id: edu_ii_2_2_5_edad_22_anos_sexo_v
+      - col: AW
+        ruta: EDAD/23 años/SEXO/M
+        id: edu_ii_2_2_5_edad_23_anos_sexo_m
+      - col: AX
+        ruta: EDAD/23 años/SEXO/V
+        id: edu_ii_2_2_5_edad_23_anos_sexo_v
+      - col: AY
+        ruta: EDAD/24 años/SEXO/M
+        id: edu_ii_2_2_5_edad_24_anos_sexo_m
+      - col: AZ
+        ruta: EDAD/24 años/SEXO/V
+        id: edu_ii_2_2_5_edad_24_anos_sexo_v
+      - col: BA
+        ruta: EDAD/Entre 25 y 29 años/SEXO/M
+        id: edu_ii_2_2_5_edad_entre_25_y_29_anos_sexo_m
+      - col: BB
+        ruta: EDAD/Entre 25 y 29 años/SEXO/V
+        id: edu_ii_2_2_5_edad_entre_25_y_29_anos_sexo_v
+      - col: BC
+        ruta: EDAD/Más de 29 años/SEXO/M
+        id: edu_ii_2_2_5_edad_mas_de_29_anos_sexo_m
+      - col: BD
+        ruta: EDAD/Más de 29 años/SEXO/V
+        id: edu_ii_2_2_5_edad_mas_de_29_anos_sexo_v
   II-2.2.6:
     titulo: ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PRIVADA POR TIPO DE EDUCACIÓN SEGÚN DEPARTAMENTO
     tipos:
@@ -4306,7 +6104,7 @@ cuadros:
       2022: A
       2023: A
       2024: A
-    ola: 2
+    ola: 1
     unidad: estudiantes
     anios:
     - 2020
@@ -4314,6 +6112,96 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: TIPO DE EDUCACIÓN/TOTAL
+        id: edu_ii_2_2_6_tipo_de_educacion_total
+      - col: C
+        ruta: TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Total
+        id: edu_ii_2_2_6_tipo_de_educacion_educacion_comun_total
+      - col: D
+        ruta: TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Habilitados
+        id: edu_ii_2_2_6_tipo_de_educacion_educacion_comun_habilitados
+      - col: E
+        ruta: TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Autorizados
+        id: edu_ii_2_2_6_tipo_de_educacion_educacion_comun_autorizados
+      - col: F
+        ruta: TIPO DE EDUCACIÓN/EDUCACIÓN ESPECIAL
+        id: edu_ii_2_2_6_tipo_de_educacion_educacion_especial
+      2021:
+      - col: B
+        ruta: TIPO DE EDUCACIÓN/TOTAL
+        id: edu_ii_2_2_6_tipo_de_educacion_total
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+      - col: C
+        ruta: TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Total
+        id: edu_ii_2_2_6_tipo_de_educacion_educacion_comun_total
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+      - col: D
+        ruta: TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Habilitados
+        id: edu_ii_2_2_6_tipo_de_educacion_educacion_comun_habilitados
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+      - col: E
+        ruta: TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Autorizados
+        id: edu_ii_2_2_6_tipo_de_educacion_educacion_comun_autorizados
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+      - col: F
+        ruta: TIPO DE EDUCACIÓN/EDUCACIÓN ESPECIAL
+        id: edu_ii_2_2_6_tipo_de_educacion_educacion_especial
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+      2022:
+      - col: B
+        ruta: TIPO DE EDUCACIÓN/TOTAL
+        id: edu_ii_2_2_6_tipo_de_educacion_total
+      - col: C
+        ruta: TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Total
+        id: edu_ii_2_2_6_tipo_de_educacion_educacion_comun_total
+      - col: D
+        ruta: TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Habilitados
+        id: edu_ii_2_2_6_tipo_de_educacion_educacion_comun_habilitados
+      - col: E
+        ruta: TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Autorizados
+        id: edu_ii_2_2_6_tipo_de_educacion_educacion_comun_autorizados
+      - col: F
+        ruta: TIPO DE EDUCACIÓN/EDUCACIÓN ESPECIAL
+        id: edu_ii_2_2_6_tipo_de_educacion_educacion_especial
+      2023:
+      - col: B
+        ruta: TIPO DE EDUCACIÓN/TOTAL
+        id: edu_ii_2_2_6_tipo_de_educacion_total
+      - col: C
+        ruta: TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Total
+        id: edu_ii_2_2_6_tipo_de_educacion_educacion_comun_total
+      - col: D
+        ruta: TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Habilitados
+        id: edu_ii_2_2_6_tipo_de_educacion_educacion_comun_habilitados
+      - col: E
+        ruta: TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Autorizados
+        id: edu_ii_2_2_6_tipo_de_educacion_educacion_comun_autorizados
+      - col: F
+        ruta: TIPO DE EDUCACIÓN/EDUCACIÓN ESPECIAL
+        id: edu_ii_2_2_6_tipo_de_educacion_educacion_especial
+      2024:
+      - col: B
+        ruta: TIPO DE EDUCACIÓN/TOTAL
+        id: edu_ii_2_2_6_tipo_de_educacion_total
+      - col: C
+        ruta: TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Total
+        id: edu_ii_2_2_6_tipo_de_educacion_educacion_comun_total
+      - col: D
+        ruta: TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Habilitados
+        id: edu_ii_2_2_6_tipo_de_educacion_educacion_comun_habilitados
+      - col: E
+        ruta: TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Autorizados
+        id: edu_ii_2_2_6_tipo_de_educacion_educacion_comun_autorizados
+      - col: F
+        ruta: TIPO DE EDUCACIÓN/EDUCACIÓN ESPECIAL
+        id: edu_ii_2_2_6_tipo_de_educacion_educacion_especial
+    datos_de_otro_anio:
+      2021:
+      - 'Nota: Los datos correspondientes a Privada de la DGEIP corresponden al año 2020, dado que al momento de cierre de la publicación no estaba el dato correspondiente
+        a 2021'
   II-2.2.7:
     titulo: ESTUDIANTES MATRICULADOS EN EDUCACIÓN ESPECIAL PRIVADA POR EDADES SIMPLES Y SEXO SEGÚN DEPARTAMENTO
     tipos:
@@ -4322,7 +6210,7 @@ cuadros:
       2022: A
       2023: A
       2024: A
-    ola: 2
+    ola: 1
     unidad: estudiantes
     anios:
     - 2020
@@ -4330,6 +6218,318 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020: null
+      2021: null
+      2022: null
+      2023:
+      - col: B
+        ruta: TOTAL GENERAL
+        id: edu_ii_2_2_7_total_general
+      - col: C
+        ruta: TOTAL VARONES
+        id: edu_ii_2_2_7_total_varones
+      - col: D
+        ruta: TOTAL MUJERES
+        id: edu_ii_2_2_7_total_mujeres
+      - col: E
+        ruta: EDAD/Menos de 2 años/SEXO/V
+        id: edu_ii_2_2_7_edad_menos_de_2_anos_sexo_v
+      - col: F
+        ruta: EDAD/Menos de 2 años/SEXO/M
+        id: edu_ii_2_2_7_edad_menos_de_2_anos_sexo_m
+      - col: G
+        ruta: EDAD/2 años/SEXO/V
+        id: edu_ii_2_2_7_edad_2_anos_sexo_v
+      - col: H
+        ruta: EDAD/2 años/SEXO/M
+        id: edu_ii_2_2_7_edad_2_anos_sexo_m
+      - col: I
+        ruta: EDAD/3 años/SEXO/V
+        id: edu_ii_2_2_7_edad_3_anos_sexo_v
+      - col: J
+        ruta: EDAD/3 años/SEXO/M
+        id: edu_ii_2_2_7_edad_3_anos_sexo_m
+      - col: K
+        ruta: EDAD/4 años/SEXO/V
+        id: edu_ii_2_2_7_edad_4_anos_sexo_v
+      - col: L
+        ruta: EDAD/4 años/SEXO/M
+        id: edu_ii_2_2_7_edad_4_anos_sexo_m
+      - col: M
+        ruta: EDAD/5 años/SEXO/V
+        id: edu_ii_2_2_7_edad_5_anos_sexo_v
+      - col: N
+        ruta: EDAD/5 años/SEXO/M
+        id: edu_ii_2_2_7_edad_5_anos_sexo_m
+      - col: O
+        ruta: EDAD/6 años/SEXO/V
+        id: edu_ii_2_2_7_edad_6_anos_sexo_v
+      - col: P
+        ruta: EDAD/6 años/SEXO/M
+        id: edu_ii_2_2_7_edad_6_anos_sexo_m
+      - col: Q
+        ruta: EDAD/7 años/SEXO/V
+        id: edu_ii_2_2_7_edad_7_anos_sexo_v
+      - col: R
+        ruta: EDAD/7 años/SEXO/M
+        id: edu_ii_2_2_7_edad_7_anos_sexo_m
+      - col: S
+        ruta: EDAD/8 años/SEXO/V
+        id: edu_ii_2_2_7_edad_8_anos_sexo_v
+      - col: T
+        ruta: EDAD/8 años/SEXO/M
+        id: edu_ii_2_2_7_edad_8_anos_sexo_m
+      - col: U
+        ruta: EDAD/9 años/SEXO/V
+        id: edu_ii_2_2_7_edad_9_anos_sexo_v
+      - col: V
+        ruta: EDAD/9 años/SEXO/M
+        id: edu_ii_2_2_7_edad_9_anos_sexo_m
+      - col: W
+        ruta: EDAD/10 años/SEXO/V
+        id: edu_ii_2_2_7_edad_10_anos_sexo_v
+      - col: X
+        ruta: EDAD/10 años/SEXO/M
+        id: edu_ii_2_2_7_edad_10_anos_sexo_m
+      - col: Y
+        ruta: EDAD/11 años/SEXO/V
+        id: edu_ii_2_2_7_edad_11_anos_sexo_v
+      - col: Z
+        ruta: EDAD/11 años/SEXO/M
+        id: edu_ii_2_2_7_edad_11_anos_sexo_m
+      - col: AA
+        ruta: EDAD/12 años/SEXO/V
+        id: edu_ii_2_2_7_edad_12_anos_sexo_v
+      - col: AB
+        ruta: EDAD/12 años/SEXO/M
+        id: edu_ii_2_2_7_edad_12_anos_sexo_m
+      - col: AC
+        ruta: EDAD/13 años/SEXO/V
+        id: edu_ii_2_2_7_edad_13_anos_sexo_v
+      - col: AD
+        ruta: EDAD/13 años/SEXO/M
+        id: edu_ii_2_2_7_edad_13_anos_sexo_m
+      - col: AE
+        ruta: EDAD/14 años/SEXO/V
+        id: edu_ii_2_2_7_edad_14_anos_sexo_v
+      - col: AF
+        ruta: EDAD/14 años/SEXO/M
+        id: edu_ii_2_2_7_edad_14_anos_sexo_m
+      - col: AG
+        ruta: EDAD/15 años/SEXO/V
+        id: edu_ii_2_2_7_edad_15_anos_sexo_v
+      - col: AH
+        ruta: EDAD/15 años/SEXO/M
+        id: edu_ii_2_2_7_edad_15_anos_sexo_m
+      - col: AI
+        ruta: EDAD/16 años/SEXO/V
+        id: edu_ii_2_2_7_edad_16_anos_sexo_v
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AJ
+        ruta: EDAD/16 años/SEXO/M
+        id: edu_ii_2_2_7_edad_16_anos_sexo_m
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AK
+        ruta: EDAD/17 años/SEXO/V
+        id: edu_ii_2_2_7_edad_17_anos_sexo_v
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AL
+        ruta: EDAD/17 años/SEXO/M
+        id: edu_ii_2_2_7_edad_17_anos_sexo_m
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AM
+        ruta: EDAD/18 años/SEXO/V
+        id: edu_ii_2_2_7_edad_18_anos_sexo_v
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AN
+        ruta: EDAD/18 años/SEXO/M
+        id: edu_ii_2_2_7_edad_18_anos_sexo_m
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AO
+        ruta: EDAD/19 años/SEXO/V
+        id: edu_ii_2_2_7_edad_19_anos_sexo_v
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AP
+        ruta: EDAD/19 años/SEXO/M
+        id: edu_ii_2_2_7_edad_19_anos_sexo_m
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AQ
+        ruta: EDAD/20 años/SEXO/V
+        id: edu_ii_2_2_7_edad_20_anos_sexo_v
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AR
+        ruta: EDAD/20 años/SEXO/M
+        id: edu_ii_2_2_7_edad_20_anos_sexo_m
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AS
+        ruta: EDAD/21 años/SEXO/V
+        id: edu_ii_2_2_7_edad_21_anos_sexo_v
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AT
+        ruta: EDAD/21 años/SEXO/M
+        id: edu_ii_2_2_7_edad_21_anos_sexo_m
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AU
+        ruta: EDAD/22 años/SEXO/V
+        id: edu_ii_2_2_7_edad_22_anos_sexo_v
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AV
+        ruta: EDAD/22 años/SEXO/M
+        id: edu_ii_2_2_7_edad_22_anos_sexo_m
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AW
+        ruta: EDAD/23 años/SEXO/V
+        id: edu_ii_2_2_7_edad_23_anos_sexo_v
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AX
+        ruta: EDAD/23 años/SEXO/M
+        id: edu_ii_2_2_7_edad_23_anos_sexo_m
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AY
+        ruta: EDAD/24 años/SEXO/V
+        id: edu_ii_2_2_7_edad_24_anos_sexo_v
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AZ
+        ruta: EDAD/24 años/SEXO/M
+        id: edu_ii_2_2_7_edad_24_anos_sexo_m
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: BA
+        ruta: EDAD/Entre 25 y 29 años/SEXO/V
+        id: edu_ii_2_2_7_edad_entre_25_y_29_anos_sexo_v
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: BB
+        ruta: EDAD/Entre 25 y 29 años/SEXO/M
+        id: edu_ii_2_2_7_edad_entre_25_y_29_anos_sexo_m
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: BC
+        ruta: EDAD/Más de 29 años/SEXO/V
+        id: edu_ii_2_2_7_edad_mas_de_29_anos_sexo_v
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: BD
+        ruta: EDAD/Más de 29 años/SEXO/M
+        id: edu_ii_2_2_7_edad_mas_de_29_anos_sexo_m
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      2024:
+      - col: B
+        ruta: TOTAL GENERAL
+        id: edu_ii_2_2_7_total_general
+      - col: C
+        ruta: TOTAL VARONES
+        id: edu_ii_2_2_7_total_varones
+      - col: D
+        ruta: TOTAL MUJERES
+        id: edu_ii_2_2_7_total_mujeres
+      - col: E
+        ruta: EDAD/Menos de 2 años/SEXO/V
+        id: edu_ii_2_2_7_edad_menos_de_2_anos_sexo_v
+      - col: F
+        ruta: EDAD/Menos de 2 años/SEXO/M
+        id: edu_ii_2_2_7_edad_menos_de_2_anos_sexo_m
+      - col: G
+        ruta: EDAD/2 años/SEXO/V
+        id: edu_ii_2_2_7_edad_2_anos_sexo_v
+      - col: H
+        ruta: EDAD/2 años/SEXO/M
+        id: edu_ii_2_2_7_edad_2_anos_sexo_m
+      - col: I
+        ruta: EDAD/3 años/SEXO/V
+        id: edu_ii_2_2_7_edad_3_anos_sexo_v
+      - col: J
+        ruta: EDAD/3 años/SEXO/M
+        id: edu_ii_2_2_7_edad_3_anos_sexo_m
+      - col: K
+        ruta: EDAD/4 años/SEXO/V
+        id: edu_ii_2_2_7_edad_4_anos_sexo_v
+      - col: L
+        ruta: EDAD/4 años/SEXO/M
+        id: edu_ii_2_2_7_edad_4_anos_sexo_m
+      - col: M
+        ruta: EDAD/5 años/SEXO/V
+        id: edu_ii_2_2_7_edad_5_anos_sexo_v
+      - col: N
+        ruta: EDAD/5 años/SEXO/M
+        id: edu_ii_2_2_7_edad_5_anos_sexo_m
+      - col: O
+        ruta: EDAD/6 años/SEXO/V
+        id: edu_ii_2_2_7_edad_6_anos_sexo_v
+      - col: P
+        ruta: EDAD/6 años/SEXO/M
+        id: edu_ii_2_2_7_edad_6_anos_sexo_m
+      - col: Q
+        ruta: EDAD/7 años/SEXO/V
+        id: edu_ii_2_2_7_edad_7_anos_sexo_v
+      - col: R
+        ruta: EDAD/7 años/SEXO/M
+        id: edu_ii_2_2_7_edad_7_anos_sexo_m
+      - col: S
+        ruta: EDAD/8 años/SEXO/V
+        id: edu_ii_2_2_7_edad_8_anos_sexo_v
+      - col: T
+        ruta: EDAD/8 años/SEXO/M
+        id: edu_ii_2_2_7_edad_8_anos_sexo_m
+      - col: U
+        ruta: EDAD/9 años/SEXO/V
+        id: edu_ii_2_2_7_edad_9_anos_sexo_v
+      - col: V
+        ruta: EDAD/9 años/SEXO/M
+        id: edu_ii_2_2_7_edad_9_anos_sexo_m
+      - col: W
+        ruta: EDAD/10 años/SEXO/V
+        id: edu_ii_2_2_7_edad_10_anos_sexo_v
+      - col: X
+        ruta: EDAD/10 años/SEXO/M
+        id: edu_ii_2_2_7_edad_10_anos_sexo_m
+      - col: Y
+        ruta: EDAD/11 años/SEXO/V
+        id: edu_ii_2_2_7_edad_11_anos_sexo_v
+      - col: Z
+        ruta: EDAD/11 años/SEXO/M
+        id: edu_ii_2_2_7_edad_11_anos_sexo_m
+      - col: AA
+        ruta: EDAD/12 años/SEXO/V
+        id: edu_ii_2_2_7_edad_12_anos_sexo_v
+      - col: AB
+        ruta: EDAD/12 años/SEXO/M
+        id: edu_ii_2_2_7_edad_12_anos_sexo_m
+      - col: AC
+        ruta: EDAD/13 años/SEXO/V
+        id: edu_ii_2_2_7_edad_13_anos_sexo_v
+      - col: AD
+        ruta: EDAD/13 años/SEXO/M
+        id: edu_ii_2_2_7_edad_13_anos_sexo_m
+      - col: AE
+        ruta: EDAD/14 años/SEXO/V
+        id: edu_ii_2_2_7_edad_14_anos_sexo_v
+      - col: AF
+        ruta: EDAD/14 años/SEXO/M
+        id: edu_ii_2_2_7_edad_14_anos_sexo_m
+      - col: AG
+        ruta: EDAD/15 años/SEXO/V
+        id: edu_ii_2_2_7_edad_15_anos_sexo_v
+      - col: AH
+        ruta: EDAD/15 años/SEXO/M
+        id: edu_ii_2_2_7_edad_15_anos_sexo_m
+      - col: AI
+        ruta: EDAD/Sin dato/SEXO/V
+        id: edu_ii_2_2_7_edad_sin_dato_sexo_v
+      - col: AJ
+        ruta: EDAD/Sin dato/SEXO/M
+        id: edu_ii_2_2_7_edad_sin_dato_sexo_m
+    sin_cargar:
+      2020: 'el MEC reparte el total por edad y sexo en proporción (la privada no tiene esos datos): publica estudiantes con decimales, que no son conteos (AC-E11)
+        ni cierran por departamento (AC-E17); no se carga el cuadro de este año (mantenedor, #224)'
+      2021: 'el MEC reparte el total por edad y sexo en proporción (la privada no tiene esos datos): publica estudiantes con decimales, que no son conteos (AC-E11)
+        ni cierran por departamento (AC-E17); no se carga el cuadro de este año (mantenedor, #224)'
+      2022: 'el MEC reparte el total por edad y sexo en proporción (la privada no tiene esos datos): publica estudiantes con decimales, que no son conteos (AC-E11)
+        ni cierran por departamento (AC-E17); no se carga el cuadro de este año (mantenedor, #224)'
+    datos_de_otro_anio:
+      2021:
+      - 'Nota: Los datos correspondientes a Privada de la DGEIP corresponden al año 2020, dado que al momento de cierre de la publicación no estaba el dato correspondiente
+        a 2021'
+      2022:
+      - 'Nota: El total por departamento y sexo corresponde a datos adminstrativos 2022, pero la desagregación por edad y sexo fue prorateada a partir de los últimos
+        datos disponibles que corresponden al año 2016.'
   II-2.2.8:
     titulo: ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN POR GRADO Y FORMA DE ADMINISTRACIÓN SEGÚN EDAD
     tipos:
@@ -4338,7 +6538,7 @@ cuadros:
       2022: B
       2023: B
       2024: B
-    ola: 2
+    ola: 1
     unidad: estudiantes
     anios:
     - 2020
@@ -4346,6 +6546,229 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: TOTAL/Pública
+        id: edu_ii_2_2_8_total_publica
+      - col: C
+        ruta: GRADO/TOTAL/Privada
+        id: edu_ii_2_2_8_grado_total_privada
+      - col: D
+        ruta: GRADO/Primero/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_primero_forma_de_administracion_publica
+      - col: E
+        ruta: GRADO/Primero/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_primero_forma_de_administracion_privada
+      - col: F
+        ruta: GRADO/Segundo/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_segundo_forma_de_administracion_publica
+      - col: G
+        ruta: GRADO/Segundo/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_segundo_forma_de_administracion_privada
+      - col: H
+        ruta: GRADO/Tercero/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_tercero_forma_de_administracion_publica
+      - col: I
+        ruta: GRADO/Tercero/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_tercero_forma_de_administracion_privada
+      - col: J
+        ruta: GRADO/Cuarto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_cuarto_forma_de_administracion_publica
+      - col: K
+        ruta: GRADO/Cuarto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_cuarto_forma_de_administracion_privada
+      - col: L
+        ruta: GRADO/Quinto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_quinto_forma_de_administracion_publica
+      - col: M
+        ruta: GRADO/Quinto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_quinto_forma_de_administracion_privada
+      - col: N
+        ruta: GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_sexto_forma_de_administracion_publica
+      - col: O
+        ruta: GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_sexto_forma_de_administracion_privada
+      2021:
+      - col: B
+        ruta: TOTAL/Pública
+        id: edu_ii_2_2_8_total_publica
+      - col: C
+        ruta: GRADO/TOTAL/Privada
+        id: edu_ii_2_2_8_grado_total_privada
+      - col: D
+        ruta: GRADO/Primero/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_primero_forma_de_administracion_publica
+      - col: E
+        ruta: GRADO/Primero/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_primero_forma_de_administracion_privada
+      - col: F
+        ruta: GRADO/Segundo/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_segundo_forma_de_administracion_publica
+      - col: G
+        ruta: GRADO/Segundo/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_segundo_forma_de_administracion_privada
+      - col: H
+        ruta: GRADO/Tercero/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_tercero_forma_de_administracion_publica
+      - col: I
+        ruta: GRADO/Tercero/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_tercero_forma_de_administracion_privada
+      - col: J
+        ruta: GRADO/Cuarto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_cuarto_forma_de_administracion_publica
+      - col: K
+        ruta: GRADO/Cuarto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_cuarto_forma_de_administracion_privada
+      - col: L
+        ruta: GRADO/Quinto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_quinto_forma_de_administracion_publica
+      - col: M
+        ruta: GRADO/Quinto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_quinto_forma_de_administracion_privada
+      - col: N
+        ruta: GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_sexto_forma_de_administracion_publica
+      - col: O
+        ruta: GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_sexto_forma_de_administracion_privada
+      2022:
+      - col: B
+        ruta: TOTAL/Pública
+        id: edu_ii_2_2_8_total_publica
+      - col: C
+        ruta: GRADO/TOTAL/Privada
+        id: edu_ii_2_2_8_grado_total_privada
+      - col: D
+        ruta: GRADO/Primero/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_primero_forma_de_administracion_publica
+      - col: E
+        ruta: GRADO/Primero/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_primero_forma_de_administracion_privada
+      - col: F
+        ruta: GRADO/Segundo/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_segundo_forma_de_administracion_publica
+      - col: G
+        ruta: GRADO/Segundo/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_segundo_forma_de_administracion_privada
+      - col: H
+        ruta: GRADO/Tercero/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_tercero_forma_de_administracion_publica
+      - col: I
+        ruta: GRADO/Tercero/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_tercero_forma_de_administracion_privada
+      - col: J
+        ruta: GRADO/Cuarto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_cuarto_forma_de_administracion_publica
+      - col: K
+        ruta: GRADO/Cuarto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_cuarto_forma_de_administracion_privada
+      - col: L
+        ruta: GRADO/Quinto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_quinto_forma_de_administracion_publica
+      - col: M
+        ruta: GRADO/Quinto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_quinto_forma_de_administracion_privada
+      - col: N
+        ruta: GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_sexto_forma_de_administracion_publica
+      - col: O
+        ruta: GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_sexto_forma_de_administracion_privada
+      2023:
+      - col: B
+        ruta: TOTAL/Pública
+        id: edu_ii_2_2_8_total_publica
+      - col: C
+        ruta: GRADO/TOTAL/Privada
+        id: edu_ii_2_2_8_grado_total_privada
+      - col: D
+        ruta: GRADO/Primero/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_primero_forma_de_administracion_publica
+      - col: E
+        ruta: GRADO/Primero/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_primero_forma_de_administracion_privada
+      - col: F
+        ruta: GRADO/Segundo/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_segundo_forma_de_administracion_publica
+      - col: G
+        ruta: GRADO/Segundo/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_segundo_forma_de_administracion_privada
+      - col: H
+        ruta: GRADO/Tercero/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_tercero_forma_de_administracion_publica
+      - col: I
+        ruta: GRADO/Tercero/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_tercero_forma_de_administracion_privada
+      - col: J
+        ruta: GRADO/Cuarto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_cuarto_forma_de_administracion_publica
+      - col: K
+        ruta: GRADO/Cuarto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_cuarto_forma_de_administracion_privada
+      - col: L
+        ruta: GRADO/Quinto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_quinto_forma_de_administracion_publica
+      - col: M
+        ruta: GRADO/Quinto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_quinto_forma_de_administracion_privada
+      - col: N
+        ruta: GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_sexto_forma_de_administracion_publica
+      - col: O
+        ruta: GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_sexto_forma_de_administracion_privada
+      2024:
+      - col: B
+        ruta: TOTAL/Pública
+        id: edu_ii_2_2_8_total_publica
+      - col: C
+        ruta: GRADO/TOTAL/Privada
+        id: edu_ii_2_2_8_grado_total_privada
+      - col: D
+        ruta: GRADO/Primero/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_primero_forma_de_administracion_publica
+      - col: E
+        ruta: GRADO/Primero/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_primero_forma_de_administracion_privada
+      - col: F
+        ruta: GRADO/Segundo/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_segundo_forma_de_administracion_publica
+      - col: G
+        ruta: GRADO/Segundo/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_segundo_forma_de_administracion_privada
+      - col: H
+        ruta: GRADO/Tercero/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_tercero_forma_de_administracion_publica
+      - col: I
+        ruta: GRADO/Tercero/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_tercero_forma_de_administracion_privada
+      - col: J
+        ruta: GRADO/Cuarto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_cuarto_forma_de_administracion_publica
+      - col: K
+        ruta: GRADO/Cuarto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_cuarto_forma_de_administracion_privada
+      - col: L
+        ruta: GRADO/Quinto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_quinto_forma_de_administracion_publica
+      - col: M
+        ruta: GRADO/Quinto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_quinto_forma_de_administracion_privada
+      - col: N
+        ruta: GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_8_grado_sexto_forma_de_administracion_publica
+      - col: O
+        ruta: GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_8_grado_sexto_forma_de_administracion_privada
+    datos_de_otro_anio:
+      2021:
+      - 'Primaria Privada: Se carece de datos desagregados por edad y sexo para la totalidad de la matrícula. Por lo tanto, se realizó un prorrateo a partir de la
+        información disponible que corresponden al año 2020, dado que al momento de cierre de la publicación no estaba el dato correspondiente a 2021'
+      2022:
+      - 'Primaria Privada: Se carece de datos desagregados por edad y sexo. El total por grado corresponde a datos adminstrativos 2022, pero la desagregación por
+        edad y sexo fue prorateada a partir de los últimos datos disponibles que corresponden al año 2016.'
   II-2.2.9:
     titulo: ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR GRADO Y SEXO SEGÚN EDAD
     tipos:
@@ -4354,7 +6777,7 @@ cuadros:
       2022: B
       2023: B
       2024: B
-    ola: 2
+    ola: 1
     unidad: estudiantes
     anios:
     - 2020
@@ -4362,6 +6785,237 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_2_2_9_total
+      - col: C
+        ruta: TOTAL SEXO/VARÓN
+        id: edu_ii_2_2_9_total_sexo_varon
+      - col: D
+        ruta: GRADO/TOTAL SEXO/MUJER
+        id: edu_ii_2_2_9_grado_total_sexo_mujer
+      - col: E
+        ruta: GRADO/Primero/SEXO/V
+        id: edu_ii_2_2_9_grado_primero_sexo_v
+      - col: F
+        ruta: GRADO/Primero/SEXO/M
+        id: edu_ii_2_2_9_grado_primero_sexo_m
+      - col: G
+        ruta: GRADO/Segundo/SEXO/V
+        id: edu_ii_2_2_9_grado_segundo_sexo_v
+      - col: H
+        ruta: GRADO/Segundo/SEXO/M
+        id: edu_ii_2_2_9_grado_segundo_sexo_m
+      - col: I
+        ruta: GRADO/Tercero/SEXO/V
+        id: edu_ii_2_2_9_grado_tercero_sexo_v
+      - col: J
+        ruta: GRADO/Tercero/SEXO/M
+        id: edu_ii_2_2_9_grado_tercero_sexo_m
+      - col: K
+        ruta: GRADO/Cuarto/SEXO/V
+        id: edu_ii_2_2_9_grado_cuarto_sexo_v
+      - col: L
+        ruta: GRADO/Cuarto/SEXO/M
+        id: edu_ii_2_2_9_grado_cuarto_sexo_m
+      - col: M
+        ruta: GRADO/Quinto/SEXO/V
+        id: edu_ii_2_2_9_grado_quinto_sexo_v
+      - col: N
+        ruta: GRADO/Quinto/SEXO/M
+        id: edu_ii_2_2_9_grado_quinto_sexo_m
+      - col: O
+        ruta: GRADO/Sexto/SEXO/V
+        id: edu_ii_2_2_9_grado_sexto_sexo_v
+      - col: P
+        ruta: GRADO/Sexto/SEXO/M
+        id: edu_ii_2_2_9_grado_sexto_sexo_m
+      2021:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_2_2_9_total
+      - col: C
+        ruta: TOTAL SEXO/VARÓN
+        id: edu_ii_2_2_9_total_sexo_varon
+      - col: D
+        ruta: GRADO/TOTAL SEXO/MUJER
+        id: edu_ii_2_2_9_grado_total_sexo_mujer
+      - col: E
+        ruta: GRADO/Primero/SEXO/V
+        id: edu_ii_2_2_9_grado_primero_sexo_v
+      - col: F
+        ruta: GRADO/Primero/SEXO/M
+        id: edu_ii_2_2_9_grado_primero_sexo_m
+      - col: G
+        ruta: GRADO/Segundo/SEXO/V
+        id: edu_ii_2_2_9_grado_segundo_sexo_v
+      - col: H
+        ruta: GRADO/Segundo/SEXO/M
+        id: edu_ii_2_2_9_grado_segundo_sexo_m
+      - col: I
+        ruta: GRADO/Tercero/SEXO/V
+        id: edu_ii_2_2_9_grado_tercero_sexo_v
+      - col: J
+        ruta: GRADO/Tercero/SEXO/M
+        id: edu_ii_2_2_9_grado_tercero_sexo_m
+      - col: K
+        ruta: GRADO/Cuarto/SEXO/V
+        id: edu_ii_2_2_9_grado_cuarto_sexo_v
+      - col: L
+        ruta: GRADO/Cuarto/SEXO/M
+        id: edu_ii_2_2_9_grado_cuarto_sexo_m
+      - col: M
+        ruta: GRADO/Quinto/SEXO/V
+        id: edu_ii_2_2_9_grado_quinto_sexo_v
+      - col: N
+        ruta: GRADO/Quinto/SEXO/M
+        id: edu_ii_2_2_9_grado_quinto_sexo_m
+      - col: O
+        ruta: GRADO/Sexto/SEXO/V
+        id: edu_ii_2_2_9_grado_sexto_sexo_v
+      - col: P
+        ruta: GRADO/Sexto/SEXO/M
+        id: edu_ii_2_2_9_grado_sexto_sexo_m
+      2022:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_2_2_9_total
+      - col: C
+        ruta: TOTAL SEXO/VARÓN
+        id: edu_ii_2_2_9_total_sexo_varon
+      - col: D
+        ruta: GRADO/TOTAL SEXO/MUJER
+        id: edu_ii_2_2_9_grado_total_sexo_mujer
+      - col: E
+        ruta: GRADO/Primero/SEXO/V
+        id: edu_ii_2_2_9_grado_primero_sexo_v
+      - col: F
+        ruta: GRADO/Primero/SEXO/M
+        id: edu_ii_2_2_9_grado_primero_sexo_m
+      - col: G
+        ruta: GRADO/Segundo/SEXO/V
+        id: edu_ii_2_2_9_grado_segundo_sexo_v
+      - col: H
+        ruta: GRADO/Segundo/SEXO/M
+        id: edu_ii_2_2_9_grado_segundo_sexo_m
+      - col: I
+        ruta: GRADO/Tercero/SEXO/V
+        id: edu_ii_2_2_9_grado_tercero_sexo_v
+      - col: J
+        ruta: GRADO/Tercero/SEXO/M
+        id: edu_ii_2_2_9_grado_tercero_sexo_m
+      - col: K
+        ruta: GRADO/Cuarto/SEXO/V
+        id: edu_ii_2_2_9_grado_cuarto_sexo_v
+      - col: L
+        ruta: GRADO/Cuarto/SEXO/M
+        id: edu_ii_2_2_9_grado_cuarto_sexo_m
+      - col: M
+        ruta: GRADO/Quinto/SEXO/V
+        id: edu_ii_2_2_9_grado_quinto_sexo_v
+      - col: N
+        ruta: GRADO/Quinto/SEXO/M
+        id: edu_ii_2_2_9_grado_quinto_sexo_m
+      - col: O
+        ruta: GRADO/Sexto/SEXO/V
+        id: edu_ii_2_2_9_grado_sexto_sexo_v
+      - col: P
+        ruta: GRADO/Sexto/SEXO/M
+        id: edu_ii_2_2_9_grado_sexto_sexo_m
+      2023:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_2_2_9_total
+      - col: C
+        ruta: TOTAL SEXO/VARÓN
+        id: edu_ii_2_2_9_total_sexo_varon
+      - col: D
+        ruta: GRADO/TOTAL SEXO/MUJER
+        id: edu_ii_2_2_9_grado_total_sexo_mujer
+      - col: E
+        ruta: GRADO/Primero/SEXO/V
+        id: edu_ii_2_2_9_grado_primero_sexo_v
+      - col: F
+        ruta: GRADO/Primero/SEXO/M
+        id: edu_ii_2_2_9_grado_primero_sexo_m
+      - col: G
+        ruta: GRADO/Segundo/SEXO/V
+        id: edu_ii_2_2_9_grado_segundo_sexo_v
+      - col: H
+        ruta: GRADO/Segundo/SEXO/M
+        id: edu_ii_2_2_9_grado_segundo_sexo_m
+      - col: I
+        ruta: GRADO/Tercero/SEXO/V
+        id: edu_ii_2_2_9_grado_tercero_sexo_v
+      - col: J
+        ruta: GRADO/Tercero/SEXO/M
+        id: edu_ii_2_2_9_grado_tercero_sexo_m
+      - col: K
+        ruta: GRADO/Cuarto/SEXO/V
+        id: edu_ii_2_2_9_grado_cuarto_sexo_v
+      - col: L
+        ruta: GRADO/Cuarto/SEXO/M
+        id: edu_ii_2_2_9_grado_cuarto_sexo_m
+      - col: M
+        ruta: GRADO/Quinto/SEXO/V
+        id: edu_ii_2_2_9_grado_quinto_sexo_v
+      - col: N
+        ruta: GRADO/Quinto/SEXO/M
+        id: edu_ii_2_2_9_grado_quinto_sexo_m
+      - col: O
+        ruta: GRADO/Sexto/SEXO/V
+        id: edu_ii_2_2_9_grado_sexto_sexo_v
+      - col: P
+        ruta: GRADO/Sexto/SEXO/M
+        id: edu_ii_2_2_9_grado_sexto_sexo_m
+      2024:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_2_2_9_total
+      - col: C
+        ruta: TOTAL SEXO/VARÓN
+        id: edu_ii_2_2_9_total_sexo_varon
+      - col: D
+        ruta: GRADO/TOTAL SEXO/MUJER
+        id: edu_ii_2_2_9_grado_total_sexo_mujer
+      - col: E
+        ruta: GRADO/Primero/SEXO/V
+        id: edu_ii_2_2_9_grado_primero_sexo_v
+      - col: F
+        ruta: GRADO/Primero/SEXO/M
+        id: edu_ii_2_2_9_grado_primero_sexo_m
+      - col: G
+        ruta: GRADO/Segundo/SEXO/V
+        id: edu_ii_2_2_9_grado_segundo_sexo_v
+      - col: H
+        ruta: GRADO/Segundo/SEXO/M
+        id: edu_ii_2_2_9_grado_segundo_sexo_m
+      - col: I
+        ruta: GRADO/Tercero/SEXO/V
+        id: edu_ii_2_2_9_grado_tercero_sexo_v
+      - col: J
+        ruta: GRADO/Tercero/SEXO/M
+        id: edu_ii_2_2_9_grado_tercero_sexo_m
+      - col: K
+        ruta: GRADO/Cuarto/SEXO/V
+        id: edu_ii_2_2_9_grado_cuarto_sexo_v
+      - col: L
+        ruta: GRADO/Cuarto/SEXO/M
+        id: edu_ii_2_2_9_grado_cuarto_sexo_m
+      - col: M
+        ruta: GRADO/Quinto/SEXO/V
+        id: edu_ii_2_2_9_grado_quinto_sexo_v
+      - col: N
+        ruta: GRADO/Quinto/SEXO/M
+        id: edu_ii_2_2_9_grado_quinto_sexo_m
+      - col: O
+        ruta: GRADO/Sexto/SEXO/V
+        id: edu_ii_2_2_9_grado_sexto_sexo_v
+      - col: P
+        ruta: GRADO/Sexto/SEXO/M
+        id: edu_ii_2_2_9_grado_sexto_sexo_m
   II-2.2.10:
     titulo: ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN PRIVADA POR GRADO Y SEXO SEGÚN EDAD
     tipos:
@@ -4370,7 +7024,7 @@ cuadros:
       2022: B
       2023: B
       2024: B
-    ola: 2
+    ola: 1
     unidad: estudiantes
     anios:
     - 2020
@@ -4378,6 +7032,259 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: TOTAL SEXO/TOTAL
+        id: edu_ii_2_2_10_total_sexo_total
+      - col: C
+        ruta: TOTAL SEXO/VARÓN
+        id: edu_ii_2_2_10_total_sexo_varon
+      - col: D
+        ruta: GRADO/TOTAL SEXO/MUJER
+        id: edu_ii_2_2_10_grado_total_sexo_mujer
+      - col: E
+        ruta: GRADO/Primero/SEXO/V
+        id: edu_ii_2_2_10_grado_primero_sexo_v
+      - col: F
+        ruta: GRADO/Primero/SEXO/M
+        id: edu_ii_2_2_10_grado_primero_sexo_m
+      - col: G
+        ruta: GRADO/Segundo/SEXO/V
+        id: edu_ii_2_2_10_grado_segundo_sexo_v
+      - col: H
+        ruta: GRADO/Segundo/SEXO/M
+        id: edu_ii_2_2_10_grado_segundo_sexo_m
+      - col: I
+        ruta: GRADO/Tercero/SEXO/V
+        id: edu_ii_2_2_10_grado_tercero_sexo_v
+      - col: J
+        ruta: GRADO/Tercero/SEXO/M
+        id: edu_ii_2_2_10_grado_tercero_sexo_m
+      - col: K
+        ruta: GRADO/Cuarto/SEXO/V
+        id: edu_ii_2_2_10_grado_cuarto_sexo_v
+      - col: L
+        ruta: GRADO/Cuarto/SEXO/M
+        id: edu_ii_2_2_10_grado_cuarto_sexo_m
+      - col: M
+        ruta: GRADO/Quinto/SEXO/V
+        id: edu_ii_2_2_10_grado_quinto_sexo_v
+      - col: N
+        ruta: GRADO/Quinto/SEXO/M
+        id: edu_ii_2_2_10_grado_quinto_sexo_m
+      - col: O
+        ruta: GRADO/Sexto/SEXO/V
+        id: edu_ii_2_2_10_grado_sexto_sexo_v
+      - col: P
+        ruta: GRADO/Sexto/SEXO/M
+        id: edu_ii_2_2_10_grado_sexto_sexo_m
+      2021:
+      - col: B
+        ruta: TOTAL SEXO/TOTAL
+        id: edu_ii_2_2_10_total_sexo_total
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+      - col: C
+        ruta: TOTAL SEXO/VARÓN
+        id: edu_ii_2_2_10_total_sexo_varon
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+      - col: D
+        ruta: GRADO/TOTAL SEXO/MUJER
+        id: edu_ii_2_2_10_grado_total_sexo_mujer
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+      - col: E
+        ruta: GRADO/Primero/SEXO/V
+        id: edu_ii_2_2_10_grado_primero_sexo_v
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+      - col: F
+        ruta: GRADO/Primero/SEXO/M
+        id: edu_ii_2_2_10_grado_primero_sexo_m
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+      - col: G
+        ruta: GRADO/Segundo/SEXO/V
+        id: edu_ii_2_2_10_grado_segundo_sexo_v
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+      - col: H
+        ruta: GRADO/Segundo/SEXO/M
+        id: edu_ii_2_2_10_grado_segundo_sexo_m
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+      - col: I
+        ruta: GRADO/Tercero/SEXO/V
+        id: edu_ii_2_2_10_grado_tercero_sexo_v
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+      - col: J
+        ruta: GRADO/Tercero/SEXO/M
+        id: edu_ii_2_2_10_grado_tercero_sexo_m
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+      - col: K
+        ruta: GRADO/Cuarto/SEXO/V
+        id: edu_ii_2_2_10_grado_cuarto_sexo_v
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+      - col: L
+        ruta: GRADO/Cuarto/SEXO/M
+        id: edu_ii_2_2_10_grado_cuarto_sexo_m
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+      - col: M
+        ruta: GRADO/Quinto/SEXO/V
+        id: edu_ii_2_2_10_grado_quinto_sexo_v
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+      - col: N
+        ruta: GRADO/Quinto/SEXO/M
+        id: edu_ii_2_2_10_grado_quinto_sexo_m
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+      - col: O
+        ruta: GRADO/Sexto/SEXO/V
+        id: edu_ii_2_2_10_grado_sexto_sexo_v
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+      - col: P
+        ruta: GRADO/Sexto/SEXO/M
+        id: edu_ii_2_2_10_grado_sexto_sexo_m
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+      2022:
+      - col: B
+        ruta: TOTAL SEXO/TOTAL
+        id: edu_ii_2_2_10_total_sexo_total
+      - col: C
+        ruta: TOTAL SEXO/VARÓN
+        id: edu_ii_2_2_10_total_sexo_varon
+      - col: D
+        ruta: GRADO/TOTAL SEXO/MUJER
+        id: edu_ii_2_2_10_grado_total_sexo_mujer
+      - col: E
+        ruta: GRADO/Primero/SEXO/V
+        id: edu_ii_2_2_10_grado_primero_sexo_v
+      - col: F
+        ruta: GRADO/Primero/SEXO/M
+        id: edu_ii_2_2_10_grado_primero_sexo_m
+      - col: G
+        ruta: GRADO/Segundo/SEXO/V
+        id: edu_ii_2_2_10_grado_segundo_sexo_v
+      - col: H
+        ruta: GRADO/Segundo/SEXO/M
+        id: edu_ii_2_2_10_grado_segundo_sexo_m
+      - col: I
+        ruta: GRADO/Tercero/SEXO/V
+        id: edu_ii_2_2_10_grado_tercero_sexo_v
+      - col: J
+        ruta: GRADO/Tercero/SEXO/M
+        id: edu_ii_2_2_10_grado_tercero_sexo_m
+      - col: K
+        ruta: GRADO/Cuarto/SEXO/V
+        id: edu_ii_2_2_10_grado_cuarto_sexo_v
+      - col: L
+        ruta: GRADO/Cuarto/SEXO/M
+        id: edu_ii_2_2_10_grado_cuarto_sexo_m
+      - col: M
+        ruta: GRADO/Quinto/SEXO/V
+        id: edu_ii_2_2_10_grado_quinto_sexo_v
+      - col: N
+        ruta: GRADO/Quinto/SEXO/M
+        id: edu_ii_2_2_10_grado_quinto_sexo_m
+      - col: O
+        ruta: GRADO/Sexto/SEXO/V
+        id: edu_ii_2_2_10_grado_sexto_sexo_v
+      - col: P
+        ruta: GRADO/Sexto/SEXO/M
+        id: edu_ii_2_2_10_grado_sexto_sexo_m
+      2023:
+      - col: B
+        ruta: TOTAL SEXO/TOTAL
+        id: edu_ii_2_2_10_total_sexo_total
+      - col: C
+        ruta: TOTAL SEXO/VARÓN
+        id: edu_ii_2_2_10_total_sexo_varon
+      - col: D
+        ruta: GRADO/TOTAL SEXO/MUJER
+        id: edu_ii_2_2_10_grado_total_sexo_mujer
+      - col: E
+        ruta: GRADO/Primero/SEXO/V
+        id: edu_ii_2_2_10_grado_primero_sexo_v
+      - col: F
+        ruta: GRADO/Primero/SEXO/M
+        id: edu_ii_2_2_10_grado_primero_sexo_m
+      - col: G
+        ruta: GRADO/Segundo/SEXO/V
+        id: edu_ii_2_2_10_grado_segundo_sexo_v
+      - col: H
+        ruta: GRADO/Segundo/SEXO/M
+        id: edu_ii_2_2_10_grado_segundo_sexo_m
+      - col: I
+        ruta: GRADO/Tercero/SEXO/V
+        id: edu_ii_2_2_10_grado_tercero_sexo_v
+      - col: J
+        ruta: GRADO/Tercero/SEXO/M
+        id: edu_ii_2_2_10_grado_tercero_sexo_m
+      - col: K
+        ruta: GRADO/Cuarto/SEXO/V
+        id: edu_ii_2_2_10_grado_cuarto_sexo_v
+      - col: L
+        ruta: GRADO/Cuarto/SEXO/M
+        id: edu_ii_2_2_10_grado_cuarto_sexo_m
+      - col: M
+        ruta: GRADO/Quinto/SEXO/V
+        id: edu_ii_2_2_10_grado_quinto_sexo_v
+      - col: N
+        ruta: GRADO/Quinto/SEXO/M
+        id: edu_ii_2_2_10_grado_quinto_sexo_m
+      - col: O
+        ruta: GRADO/Sexto/SEXO/V
+        id: edu_ii_2_2_10_grado_sexto_sexo_v
+      - col: P
+        ruta: GRADO/Sexto/SEXO/M
+        id: edu_ii_2_2_10_grado_sexto_sexo_m
+      2024:
+      - col: B
+        ruta: TOTAL SEXO/TOTAL
+        id: edu_ii_2_2_10_total_sexo_total
+      - col: C
+        ruta: TOTAL SEXO/VARÓN
+        id: edu_ii_2_2_10_total_sexo_varon
+      - col: D
+        ruta: GRADO/TOTAL SEXO/MUJER
+        id: edu_ii_2_2_10_grado_total_sexo_mujer
+      - col: E
+        ruta: GRADO/Primero/SEXO/V
+        id: edu_ii_2_2_10_grado_primero_sexo_v
+      - col: F
+        ruta: GRADO/Primero/SEXO/M
+        id: edu_ii_2_2_10_grado_primero_sexo_m
+      - col: G
+        ruta: GRADO/Segundo/SEXO/V
+        id: edu_ii_2_2_10_grado_segundo_sexo_v
+      - col: H
+        ruta: GRADO/Segundo/SEXO/M
+        id: edu_ii_2_2_10_grado_segundo_sexo_m
+      - col: I
+        ruta: GRADO/Tercero/SEXO/V
+        id: edu_ii_2_2_10_grado_tercero_sexo_v
+      - col: J
+        ruta: GRADO/Tercero/SEXO/M
+        id: edu_ii_2_2_10_grado_tercero_sexo_m
+      - col: K
+        ruta: GRADO/Cuarto/SEXO/V
+        id: edu_ii_2_2_10_grado_cuarto_sexo_v
+      - col: L
+        ruta: GRADO/Cuarto/SEXO/M
+        id: edu_ii_2_2_10_grado_cuarto_sexo_m
+      - col: M
+        ruta: GRADO/Quinto/SEXO/V
+        id: edu_ii_2_2_10_grado_quinto_sexo_v
+      - col: N
+        ruta: GRADO/Quinto/SEXO/M
+        id: edu_ii_2_2_10_grado_quinto_sexo_m
+      - col: O
+        ruta: GRADO/Sexto/SEXO/V
+        id: edu_ii_2_2_10_grado_sexto_sexo_v
+      - col: P
+        ruta: GRADO/Sexto/SEXO/M
+        id: edu_ii_2_2_10_grado_sexto_sexo_m
+    datos_de_otro_anio:
+      2021:
+      - 'Nota: Los datos correspondientes a Privada de la DGEIP corresponden al año 2020, dado que al momento de cierre de la publicación no estaba el dato correspondiente
+        a 2021'
+      2022:
+      - 'Nota: Se carece de datos desagregados por edad y sexo. El total por grado corresponde a datos adminstrativos 2022, pero la desagregación por edad y sexo
+        fue prorateada a partir de los últimos datos disponibles que corresponden al año 2016.'
   II-2.2.11:
     titulo: ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN POR GRADO Y FORMA DE ADMINISTRACIÓN SEGÚN DEPARTAMENTO
     tipos:
@@ -4386,7 +7293,7 @@ cuadros:
       2022: A
       2023: A
       2024: A
-    ola: 2
+    ola: 1
     unidad: estudiantes
     anios:
     - 2020
@@ -4394,6 +7301,233 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: GRADO/TOTAL/Pública
+        id: edu_ii_2_2_11_grado_total_publica
+      - col: C
+        ruta: GRADO/TOTAL/Privada
+        id: edu_ii_2_2_11_grado_total_privada
+      - col: D
+        ruta: GRADO/Primero/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_primero_forma_de_administracion_publica
+      - col: E
+        ruta: GRADO/Primero/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_primero_forma_de_administracion_privada
+      - col: F
+        ruta: GRADO/Segundo/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_segundo_forma_de_administracion_publica
+      - col: G
+        ruta: GRADO/Segundo/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_segundo_forma_de_administracion_privada
+      - col: H
+        ruta: GRADO/Tercero/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_tercero_forma_de_administracion_publica
+      - col: I
+        ruta: GRADO/Tercero/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_tercero_forma_de_administracion_privada
+      - col: J
+        ruta: GRADO/Cuarto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_cuarto_forma_de_administracion_publica
+      - col: K
+        ruta: GRADO/Cuarto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_cuarto_forma_de_administracion_privada
+      - col: L
+        ruta: GRADO/Quinto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_quinto_forma_de_administracion_publica
+      - col: M
+        ruta: GRADO/Quinto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_quinto_forma_de_administracion_privada
+      - col: N
+        ruta: GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_sexto_forma_de_administracion_publica
+      - col: O
+        ruta: GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_sexto_forma_de_administracion_privada
+      2021:
+      - col: B
+        ruta: GRADO/TOTAL/Pública
+        id: edu_ii_2_2_11_grado_total_publica
+      - col: C
+        ruta: GRADO/TOTAL/Privada
+        id: edu_ii_2_2_11_grado_total_privada
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+      - col: D
+        ruta: GRADO/Primero/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_primero_forma_de_administracion_publica
+      - col: E
+        ruta: GRADO/Primero/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_primero_forma_de_administracion_privada
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+      - col: F
+        ruta: GRADO/Segundo/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_segundo_forma_de_administracion_publica
+      - col: G
+        ruta: GRADO/Segundo/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_segundo_forma_de_administracion_privada
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+      - col: H
+        ruta: GRADO/Tercero/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_tercero_forma_de_administracion_publica
+      - col: I
+        ruta: GRADO/Tercero/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_tercero_forma_de_administracion_privada
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+      - col: J
+        ruta: GRADO/Cuarto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_cuarto_forma_de_administracion_publica
+      - col: K
+        ruta: GRADO/Cuarto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_cuarto_forma_de_administracion_privada
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+      - col: L
+        ruta: GRADO/Quinto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_quinto_forma_de_administracion_publica
+      - col: M
+        ruta: GRADO/Quinto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_quinto_forma_de_administracion_privada
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+      - col: N
+        ruta: GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_sexto_forma_de_administracion_publica
+      - col: O
+        ruta: GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_sexto_forma_de_administracion_privada
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+      2022:
+      - col: B
+        ruta: GRADO/TOTAL/Pública
+        id: edu_ii_2_2_11_grado_total_publica
+      - col: C
+        ruta: GRADO/TOTAL/Privada
+        id: edu_ii_2_2_11_grado_total_privada
+      - col: D
+        ruta: GRADO/Primero/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_primero_forma_de_administracion_publica
+      - col: E
+        ruta: GRADO/Primero/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_primero_forma_de_administracion_privada
+      - col: F
+        ruta: GRADO/Segundo/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_segundo_forma_de_administracion_publica
+      - col: G
+        ruta: GRADO/Segundo/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_segundo_forma_de_administracion_privada
+      - col: H
+        ruta: GRADO/Tercero/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_tercero_forma_de_administracion_publica
+      - col: I
+        ruta: GRADO/Tercero/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_tercero_forma_de_administracion_privada
+      - col: J
+        ruta: GRADO/Cuarto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_cuarto_forma_de_administracion_publica
+      - col: K
+        ruta: GRADO/Cuarto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_cuarto_forma_de_administracion_privada
+      - col: L
+        ruta: GRADO/Quinto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_quinto_forma_de_administracion_publica
+      - col: M
+        ruta: GRADO/Quinto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_quinto_forma_de_administracion_privada
+      - col: N
+        ruta: GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_sexto_forma_de_administracion_publica
+      - col: O
+        ruta: GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_sexto_forma_de_administracion_privada
+      2023:
+      - col: B
+        ruta: GRADO/TOTAL/Pública
+        id: edu_ii_2_2_11_grado_total_publica
+      - col: C
+        ruta: GRADO/TOTAL/Privada
+        id: edu_ii_2_2_11_grado_total_privada
+      - col: D
+        ruta: GRADO/Primero/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_primero_forma_de_administracion_publica
+      - col: E
+        ruta: GRADO/Primero/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_primero_forma_de_administracion_privada
+      - col: F
+        ruta: GRADO/Segundo/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_segundo_forma_de_administracion_publica
+      - col: G
+        ruta: GRADO/Segundo/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_segundo_forma_de_administracion_privada
+      - col: H
+        ruta: GRADO/Tercero/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_tercero_forma_de_administracion_publica
+      - col: I
+        ruta: GRADO/Tercero/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_tercero_forma_de_administracion_privada
+      - col: J
+        ruta: GRADO/Cuarto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_cuarto_forma_de_administracion_publica
+      - col: K
+        ruta: GRADO/Cuarto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_cuarto_forma_de_administracion_privada
+      - col: L
+        ruta: GRADO/Quinto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_quinto_forma_de_administracion_publica
+      - col: M
+        ruta: GRADO/Quinto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_quinto_forma_de_administracion_privada
+      - col: N
+        ruta: GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_sexto_forma_de_administracion_publica
+      - col: O
+        ruta: GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_sexto_forma_de_administracion_privada
+      2024:
+      - col: B
+        ruta: GRADO/TOTAL/Pública
+        id: edu_ii_2_2_11_grado_total_publica
+      - col: C
+        ruta: GRADO/TOTAL/Privada
+        id: edu_ii_2_2_11_grado_total_privada
+      - col: D
+        ruta: GRADO/Primero/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_primero_forma_de_administracion_publica
+      - col: E
+        ruta: GRADO/Primero/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_primero_forma_de_administracion_privada
+      - col: F
+        ruta: GRADO/Segundo/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_segundo_forma_de_administracion_publica
+      - col: G
+        ruta: GRADO/Segundo/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_segundo_forma_de_administracion_privada
+      - col: H
+        ruta: GRADO/Tercero/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_tercero_forma_de_administracion_publica
+      - col: I
+        ruta: GRADO/Tercero/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_tercero_forma_de_administracion_privada
+      - col: J
+        ruta: GRADO/Cuarto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_cuarto_forma_de_administracion_publica
+      - col: K
+        ruta: GRADO/Cuarto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_cuarto_forma_de_administracion_privada
+      - col: L
+        ruta: GRADO/Quinto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_quinto_forma_de_administracion_publica
+      - col: M
+        ruta: GRADO/Quinto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_quinto_forma_de_administracion_privada
+      - col: N
+        ruta: GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Pública
+        id: edu_ii_2_2_11_grado_sexto_forma_de_administracion_publica
+      - col: O
+        ruta: GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Privada
+        id: edu_ii_2_2_11_grado_sexto_forma_de_administracion_privada
+    datos_de_otro_anio:
+      2021:
+      - 'Nota: Los datos correspondientes a Privada de la DGEIP corresponden al año 2020, dado que al momento de cierre de la publicación no estaba el dato correspondiente
+        a 2021'
   II-2.2.12:
     titulo: RENDIMIENTO ESCOLAR EN EDUCACIÓN PRIMARIA COMÚN POR FORMA DE ADMINISTRACIÓN, ÁREA DEMOGRÁFICA Y SEXO SEGÚN GRADO
     tipos:
@@ -4402,7 +7536,7 @@ cuadros:
       2022: B
       2023: B
       2024: B
-    ola: 2
+    ola: 1
     unidad: estudiantes
     anios:
     - 2020
@@ -4410,6 +7544,537 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL
+        id: edu_ii_2_2_12_rendimiento_escolar_promovidos_total
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
+      - col: C
+        ruta: RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana
+        id: edu_ii_2_2_12_rendimiento_escolar_promovidos_area_demografica_urbana
+        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+      - col: D
+        ruta: RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural
+        id: edu_ii_2_2_12_rendimiento_escolar_promovidos_area_demografica_rural
+        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+      - col: E
+        ruta: RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL
+        id: edu_ii_2_2_12_rendimiento_escolar_no_promovidos_total
+        motivo_d6: 'concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí'
+      - col: F
+        ruta: RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana
+        id: edu_ii_2_2_12_rendimiento_escolar_no_promovidos_area_demografica_urbana
+        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+      - col: G
+        ruta: RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural
+        id: edu_ii_2_2_12_rendimiento_escolar_no_promovidos_area_demografica_rural
+        motivo_d6: '2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente'
+      2021:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_2_2_12_promovidos_total
+        concepto: PROMOVIDOS/TOTAL
+        comprobado: B = C + D
+      - col: C
+        ruta: PROMOVIDOS/Sexo/Varón
+        id: edu_ii_2_2_12_promovidos_sexo_varon
+      - col: D
+        ruta: PROMOVIDOS/Sexo/Mujer
+        id: edu_ii_2_2_12_promovidos_sexo_mujer
+      - col: E
+        ruta: TOTAL
+        id: edu_ii_2_2_12_no_promovidos_total
+        concepto: NO PROMOVIDOS/TOTAL
+        comprobado: E = F + G
+      - col: F
+        ruta: NO PROMOVIDOS/Sexo/Varón
+        id: edu_ii_2_2_12_no_promovidos_sexo_varon
+      - col: G
+        ruta: NO PROMOVIDOS/Sexo/Mujer
+        id: edu_ii_2_2_12_no_promovidos_sexo_mujer
+      - col: H
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_promovidos_total
+      - col: I
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_promovidos_varon
+      - col: J
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_promovidos_mujer
+      - col: K
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_promovidos_area_demografica_urbana_sexo_varon
+      - col: L
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_promovidos_area_demografica_urbana_sexo_mujer
+      - col: M
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_promovidos_area_demografica_rural_sexo_varon
+      - col: N
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_promovidos_area_demografica_rural_sexo_mujer
+      - col: O
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_no_promovidos_total
+      - col: P
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_no_promovidos_varon
+      - col: Q
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_no_promovidos_mujer
+      - col: R
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_no_promovidos_area_demografica_urbana_sexo_varon
+      - col: S
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_no_promovidos_area_demografica_urbana_sexo_mujer
+      - col: T
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_no_promovidos_area_demografica_rural_sexo_varon
+      - col: U
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_no_promovidos_area_demografica_rural_sexo_mujer
+      - col: V
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_total
+        anio: 2020
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: W
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_varon
+        anio: 2020
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: X
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_mujer
+        anio: 2020
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: Y
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_area_demografica_urbana_sexo_varon
+        anio: 2020
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: Z
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_area_demografica_urbana_sexo_mujer
+        anio: 2020
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AA
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_area_demografica_rural_sexo_varon
+        anio: 2020
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AB
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_area_demografica_rural_sexo_mujer
+        anio: 2020
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AC
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_total
+        anio: 2020
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AD
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_varon
+        anio: 2020
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AE
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_mujer
+        anio: 2020
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AF
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_area_demografica_urbana_sexo_varon
+        anio: 2020
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AG
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_area_demografica_urbana_sexo_mujer
+        anio: 2020
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AH
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_area_demografica_rural_sexo_varon
+        anio: 2020
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AI
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_area_demografica_rural_sexo_mujer
+        anio: 2020
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      2022:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_2_2_12_promovidos_total
+        concepto: PROMOVIDOS/TOTAL
+        comprobado: B = C + D
+      - col: C
+        ruta: PROMOVIDOS/Sexo/Varón
+        id: edu_ii_2_2_12_promovidos_sexo_varon
+      - col: D
+        ruta: PROMOVIDOS/Sexo/Mujer
+        id: edu_ii_2_2_12_promovidos_sexo_mujer
+      - col: E
+        ruta: TOTAL
+        id: edu_ii_2_2_12_no_promovidos_total
+        concepto: NO PROMOVIDOS/TOTAL
+        comprobado: E = F + G
+      - col: F
+        ruta: NO PROMOVIDOS/Sexo/Varón
+        id: edu_ii_2_2_12_no_promovidos_sexo_varon
+      - col: G
+        ruta: NO PROMOVIDOS/Sexo/Mujer
+        id: edu_ii_2_2_12_no_promovidos_sexo_mujer
+      - col: H
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_promovidos_total
+      - col: I
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_promovidos_varon
+      - col: J
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_promovidos_mujer
+      - col: K
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_promovidos_area_demografica_urbana_sexo_varon
+      - col: L
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_promovidos_area_demografica_urbana_sexo_mujer
+      - col: M
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_promovidos_area_demografica_rural_sexo_varon
+      - col: N
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_promovidos_area_demografica_rural_sexo_mujer
+      - col: O
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_no_promovidos_total
+      - col: P
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_no_promovidos_varon
+      - col: Q
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_no_promovidos_mujer
+      - col: R
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_no_promovidos_area_demografica_urbana_sexo_varon
+      - col: S
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_no_promovidos_area_demografica_urbana_sexo_mujer
+      - col: T
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_no_promovidos_area_demografica_rural_sexo_varon
+      - col: U
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_no_promovidos_area_demografica_rural_sexo_mujer
+      - col: V
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_total
+        omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+      - col: W
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_varon
+        omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+      - col: X
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_mujer
+        omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+      - col: Y
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_area_demografica_urbana_sexo_varon
+        omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+      - col: Z
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_area_demografica_urbana_sexo_mujer
+        omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+      - col: AA
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_area_demografica_rural_sexo_varon
+        omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+      - col: AB
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_area_demografica_rural_sexo_mujer
+        omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+      - col: AC
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_total
+        omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+      - col: AD
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_varon
+        omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+      - col: AE
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_mujer
+        omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+      - col: AF
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_area_demografica_urbana_sexo_varon
+        omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+      - col: AG
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_area_demografica_urbana_sexo_mujer
+        omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+      - col: AH
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_area_demografica_rural_sexo_varon
+        omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+      - col: AI
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_area_demografica_rural_sexo_mujer
+        omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+      2023:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_2_2_12_promovidos_total
+        concepto: PROMOVIDOS/TOTAL
+        comprobado: B = C + D
+      - col: C
+        ruta: PROMOVIDOS/Sexo/Varón
+        id: edu_ii_2_2_12_promovidos_sexo_varon
+      - col: D
+        ruta: PROMOVIDOS/Sexo/Mujer
+        id: edu_ii_2_2_12_promovidos_sexo_mujer
+      - col: E
+        ruta: TOTAL
+        id: edu_ii_2_2_12_no_promovidos_total
+        concepto: NO PROMOVIDOS/TOTAL
+        comprobado: E = F + G
+      - col: F
+        ruta: NO PROMOVIDOS/Sexo/Varón
+        id: edu_ii_2_2_12_no_promovidos_sexo_varon
+      - col: G
+        ruta: NO PROMOVIDOS/Sexo/Mujer
+        id: edu_ii_2_2_12_no_promovidos_sexo_mujer
+      - col: H
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_promovidos_total
+      - col: I
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_promovidos_varon
+      - col: J
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_promovidos_mujer
+      - col: K
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_promovidos_area_demografica_urbana_sexo_varon
+      - col: L
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_promovidos_area_demografica_urbana_sexo_mujer
+      - col: M
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_promovidos_area_demografica_rural_sexo_varon
+      - col: N
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_promovidos_area_demografica_rural_sexo_mujer
+      - col: O
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_no_promovidos_total
+      - col: P
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_no_promovidos_varon
+      - col: Q
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_no_promovidos_mujer
+      - col: R
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_no_promovidos_area_demografica_urbana_sexo_varon
+      - col: S
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_no_promovidos_area_demografica_urbana_sexo_mujer
+      - col: T
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_no_promovidos_area_demografica_rural_sexo_varon
+      - col: U
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_no_promovidos_area_demografica_rural_sexo_mujer
+      - col: V
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_total
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: W
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_varon
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: X
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_mujer
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: Y
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_area_demografica_urbana_sexo_varon
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: Z
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_area_demografica_urbana_sexo_mujer
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AA
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_area_demografica_rural_sexo_varon
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AB
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_area_demografica_rural_sexo_mujer
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AC
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_total
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AD
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_varon
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AE
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_mujer
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AF
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_area_demografica_urbana_sexo_varon
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AG
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_area_demografica_urbana_sexo_mujer
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AH
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_area_demografica_rural_sexo_varon
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: AI
+        ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_area_demografica_rural_sexo_mujer
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      2024:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_2_2_12_promovidos_total
+        concepto: PROMOVIDOS/TOTAL
+        comprobado: B = C + D
+      - col: C
+        ruta: PROMOVIDOS/Sexo/Varón
+        id: edu_ii_2_2_12_promovidos_sexo_varon
+      - col: D
+        ruta: PROMOVIDOS/Sexo/Mujer
+        id: edu_ii_2_2_12_promovidos_sexo_mujer
+      - col: E
+        ruta: TOTAL
+        id: edu_ii_2_2_12_no_promovidos_total
+        concepto: NO PROMOVIDOS/TOTAL
+        comprobado: E = F + G
+      - col: F
+        ruta: NO PROMOVIDOS/Sexo/Varón
+        id: edu_ii_2_2_12_no_promovidos_sexo_varon
+      - col: G
+        ruta: NO PROMOVIDOS/Sexo/Mujer
+        id: edu_ii_2_2_12_no_promovidos_sexo_mujer
+      - col: H
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_promovidos_total
+      - col: I
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_promovidos_varon
+      - col: J
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_promovidos_mujer
+      - col: K
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_promovidos_area_demografica_urbana_sexo_varon
+      - col: L
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_promovidos_area_demografica_urbana_sexo_mujer
+      - col: M
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_promovidos_area_demografica_rural_sexo_varon
+      - col: N
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_promovidos_area_demografica_rural_sexo_mujer
+      - col: O
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_no_promovidos_total
+      - col: P
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_no_promovidos_varon
+      - col: Q
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_no_promovidos_mujer
+      - col: R
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_no_promovidos_area_demografica_urbana_sexo_varon
+      - col: S
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_no_promovidos_area_demografica_urbana_sexo_mujer
+      - col: T
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_no_promovidos_area_demografica_rural_sexo_varon
+      - col: U
+        ruta: FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer
+        id: edu_ii_2_2_12_forma_de_administracion_publica_rendimiento_escolar_no_promovidos_area_demografica_rural_sexo_mujer
+    datos_de_otro_anio:
+      2021:
+      - 'Nota: Los datos correspondientes a Privada de la DGEIP corresponden al año 2020, dado que al momento de cierre de la publicación no estaba el dato correspondiente
+        a 2021'
+      2022:
+      - 'Nota: Los datos correspondientes a Privada de la DGEIP corresponden al año 2020, dado que al momento de cierre de la publicación no estaba el dato correspondiente
+        a 2022'
+      2023:
+      - 'Nota: Los datos correspondientes a Privada de la DGEIP corresponden al año 2020, dado que al momento de cierre de la publicación no estaba el dato correspondiente
+        a 2022'
+    anio_real_notas:
+      2021:
+      - 'V «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020'
+      - 'W «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Varón»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020'
+      - 'X «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Mujer»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020'
+      - 'Y «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón»: el anuario 2020 no tiene esta columna para comparar;
+        se carga como 2020'
+      - 'Z «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer»: el anuario 2020 no tiene esta columna para comparar;
+        se carga como 2020'
+      - 'AA «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón»: el anuario 2020 no tiene esta columna para comparar;
+        se carga como 2020'
+      - 'AB «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer»: el anuario 2020 no tiene esta columna para comparar;
+        se carga como 2020'
+      - 'AC «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020'
+      - 'AD «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Varón»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020'
+      - 'AE «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Mujer»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020'
+      - 'AF «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón»: el anuario 2020 no tiene esta columna para comparar;
+        se carga como 2020'
+      - 'AG «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer»: el anuario 2020 no tiene esta columna para comparar;
+        se carga como 2020'
+      - 'AH «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón»: el anuario 2020 no tiene esta columna para comparar;
+        se carga como 2020'
+      - 'AI «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer»: el anuario 2020 no tiene esta columna para comparar;
+        se carga como 2020'
+      2023:
+      - 'V «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas ([''TOTAL'', ''Primero'',
+        ''Segundo'']); se carga como 2023'
+      - 'W «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/Varón»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas ([''TOTAL'', ''Primero'',
+        ''Segundo'']); se carga como 2023'
+      - 'X «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/Mujer»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas ([''TOTAL'', ''Primero'',
+        ''Segundo'']); se carga como 2023'
+      - 'Y «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón»: el pie dice 2021 pero difiere del anuario 2021 en
+        7 filas ([''TOTAL'', ''Primero'', ''Segundo'']); se carga como 2023'
+      - 'Z «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer»: el pie dice 2021 pero difiere del anuario 2021 en
+        7 filas ([''TOTAL'', ''Primero'', ''Segundo'']); se carga como 2023'
+      - 'AA «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón»: el pie dice 2021 pero difiere del anuario 2021 en
+        6 filas ([''Primero'', ''Segundo'', ''Tercero'']); se carga como 2023'
+      - 'AB «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer»: el pie dice 2021 pero difiere del anuario 2021 en
+        6 filas ([''Primero'', ''Segundo'', ''Tercero'']); se carga como 2023'
+      - 'AC «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas ([''TOTAL'', ''Primero'',
+        ''Segundo'']); se carga como 2023'
+      - 'AD «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Varón»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas ([''TOTAL'', ''Primero'',
+        ''Segundo'']); se carga como 2023'
+      - 'AE «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Mujer»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas ([''TOTAL'', ''Primero'',
+        ''Segundo'']); se carga como 2023'
+      - 'AF «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón»: el pie dice 2021 pero difiere del anuario 2021
+        en 7 filas ([''TOTAL'', ''Primero'', ''Segundo'']); se carga como 2023'
+      - 'AG «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer»: el pie dice 2021 pero difiere del anuario 2021
+        en 7 filas ([''TOTAL'', ''Primero'', ''Segundo'']); se carga como 2023'
+      - 'AH «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón»: el pie dice 2021 pero difiere del anuario 2021
+        en 6 filas ([''Primero'', ''Segundo'', ''Tercero'']); se carga como 2023'
+      - 'AI «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer»: el pie dice 2021 pero difiere del anuario 2021
+        en 6 filas ([''Primero'', ''Segundo'', ''Tercero'']); se carga como 2023'
   II-2.2.13:
     titulo: RENDIMIENTO ESCOLAR EN EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR ÁREA DEMOGRÁFICA SEGÚN DEPARTAMENTO
     tipos:
@@ -8144,11 +11809,11 @@ cuadros:
   II-3.3.1:
     titulo: PERSONAL DOCENTE Y HORAS DOCENTES DE LA DGES EN EDUCACIÓN MEDIA BÁSICA GENERAL PÚBLICA POR TITULACIÓN SEGÚN ASIGNATURAS
     tipos:
-      2020: C
-      2021: C
-      2022: C
-      2023: C
-      2024: C
+      2020: B
+      2021: B
+      2022: B
+      2023: B
+      2024: B
     ola: 2
     unidad: docentes
     anios:
@@ -11887,11 +15552,11 @@ cuadros:
   II-4.3.1:
     titulo: PERSONAL DOCENTE Y HORAS DOCENTES DE LA DGES EN EDUCACIÓN MEDIA SUPERIOR GENERAL PÚBLICA POR CONDICIÓN DE TITULACIÓN
     tipos:
-      2020: C
-      2021: C
-      2022: C
-      2023: C
-      2024: C
+      2020: B
+      2021: B
+      2022: B
+      2023: B
+      2024: B
     ola: 2
     unidad: docentes
     anios:

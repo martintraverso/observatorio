@@ -143,6 +143,7 @@ class Estructura:
     filas: list[tuple[int, str]] = field(default_factory=list)  # (fila, rótulo) de los datos
     pie: list[str] = field(default_factory=list)
     heredadas: list[str] = field(default_factory=list)
+    fuera: int = 0  # F4.8a1 (#224): filas con números después del pie («Fuente:»), fuera del cuadro: no son datos
 
 
 def estructura(celdas: dict[tuple[int, int], object], combinadas, hoja: str) -> Estructura | None:
@@ -198,12 +199,22 @@ def estructura(celdas: dict[tuple[int, int], object], combinadas, hoja: str) -> 
             if not partes or partes[-1] != " ".join(str(v).split()):
                 partes.append(" ".join(str(v).split()))
         e.rutas[c] = "/".join(partes) or f"columna {c}"
+    despues_de_fuente = False
     for r in [x for x in filas if x >= desde]:
         a = celdas.get((r, 1))
         if isinstance(a, str) and re.match(r"\s*(Fuente|Nota|Notas|\(\d|\*)", a):
             e.pie.append(" ".join(a.split()))
+            despues_de_fuente = despues_de_fuente or bool(re.match(r"\s*Fuente", a))
             continue
         if a is None and not any((r, c) in celdas for c in range(2, max_col + 1)):
+            continue
+        # Después del pie («Fuente:»), ninguna fila es un dato: una con números está fuera del cuadro (II-2.2.6 de 2020
+        # trae restos más abajo) y una de texto sigue la nota.
+        if despues_de_fuente:
+            if any(numero(celdas.get((r, c))) is not None for c in range(1, max_col + 1)):
+                e.fuera += 1
+            else:  # texto en cualquier columna (II-2.2.8 de 2020 sigue la nota en la columna B): parte del pie
+                e.pie.append(" ".join(" ".join(str(celdas[(r, c)]).split()) for c in range(1, max_col + 1) if (r, c) in celdas))
             continue
         e.filas.append((r, " ".join(str(a).split()) if a is not None else ""))
     return e
@@ -240,7 +251,8 @@ COLUMNAS = ["indicador", "territorio_id", "periodo", "periodo_inicio", "periodo_
             "codigo_cuadro", "celda"]
 
 
-def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo: str) -> Cuadro:
+def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo: str,
+                   segundas: list[str] | tuple = ()) -> Cuadro:
     """Valores del cuadro `codigo` del anuario `anio`, con el mapeo por columna del registro.
 
     Tipo A: cada fila es un territorio (AC-E8). Tipo B y C: cada fila es una categoría que pasa a ser parte del
@@ -270,6 +282,8 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
     if faltan := sorted(columnas - set(e.rutas)):
         raise ErrorAnuario(f"{codigo} {anio}: columnas mapeadas que el archivo no tiene: {[letra(c) for c in faltan]} (AC-E9)")
     filas, sin_dato, pie, ignoradas, claves_sd, categorias = [], 0, list(e.pie), 0, [], {}
+    rotulo_de_sufijo: dict[str, str] = {}  # #224: dos filas con otro rótulo y el mismo nombre normalizado
+    avisos_casi_iguales: list[str] = []
     cols_mapeadas = [_col(m["col"]) for m in mapeo]
     grupo, territorio_grupo = "", PAIS
     for r, rotulo in e.filas:
@@ -298,6 +312,19 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
         else:
             categoria = "total" if es_total and not grupo else (rotulo if not grupo or rotulo == grupo else f"{grupo}/{rotulo}")
             territorio, sufijo = territorio_grupo, f"__{slug(categoria) or 'sin_rotulo'}"
+            # #224 (mantenedor): II-1.3.5 de 2024 publica «…por el mec» y «…por el MEC» con valores distintos. Son dos
+            # categorías: la segunda lleva __2 (y así), con su rótulo; nunca se suman. Dos filas idénticas siguen
+            # siendo un error (valores repetidos).
+            base, k = sufijo, 1
+            if categoria in segundas:  # el registro dice cuál de las dos lleva __2 (no el orden de las filas)
+                sufijo, k = f"{base}__2", 2
+            while sufijo in rotulo_de_sufijo and rotulo_de_sufijo[sufijo] != categoria:
+                k += 1
+                sufijo = f"{base}__{k}"
+            if k > 1:
+                avisos_casi_iguales.append(f"«{categoria}» (fila {r}) se carga como {sufijo}: el archivo publica otra fila "
+                                           f"casi igual" + (f", «{rotulo_de_sufijo[base]}»" if base in rotulo_de_sufijo else ""))
+            rotulo_de_sufijo.setdefault(sufijo, categoria)
             for m in mapeo:
                 categorias[m["id"] + sufijo] = categoria
         for m in mapeo:
@@ -332,6 +359,9 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
                            f"{datos.loc[repetidas, 'celda'].tolist()[:6]}")
     if ignoradas:
         avisos.append(f"{codigo} {anio}: {ignoradas} filas sin datos ignoradas")
+    avisos += [f"{codigo} {anio}: {a}" for a in avisos_casi_iguales]
+    if e.fuera:
+        avisos.append(f"{codigo} {anio}: {e.fuera} filas con números después del pie («Fuente:»), fuera del cuadro, ignoradas")
     return Cuadro(codigo, anio, e.titulo, datos, pie, sin_dato, avisos, claves_sd, categorias)
 
 

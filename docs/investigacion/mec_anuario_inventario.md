@@ -25,30 +25,30 @@ Ola por cuadro y tipo por año; «·» = no está ese año; «∅» = sin datos 
 | II-1.2.2 | ESTUDIANTES MATRICULADOS EN EDUCACIÓN PÚBLICA EN LA PRIMERA INFANCIA E INICIAL DE LA DGEIP | A | 1 | estudiantes | A | A | A | A | A |
 | II-1.2.3 | ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PRIVADA POR MODALID | A | 1 | estudiantes | A | A | A | A | A |
 | II-1.2.4 | ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL POR FORMA DE ADMINI | A | 1 | estudiantes | A | A | A | A | A |
-| II-1.2.5 | ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL POR FORMA DE ADMINI | C | 1 | estudiantes | C | C | C | C | C |
+| II-1.2.5 | ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL POR FORMA DE ADMINI | B | 1 | estudiantes | B | B | B | B | B |
 | II-1.2.6 | ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PÚBLICA DE LA DGEIP | A | 1 | estudiantes | A | A | A | A | A |
 | II-1.2.7 | ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL EN CENTROS DE PRIME | A | 1 | estudiantes | A | A | A | A | A |
-| II-1.3.1 | PERSONAL DOCENTE DE EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PÚBLICA DE LA DGEIP SEGÚN D | A | 2 | docentes | A | A | A | A | A |
-| II-1.3.2 | PERSONAL DOCENTE DE EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PRIVADA SEGÚN DEPARTAMENTO | A | 2 | docentes | A | A | A | A | A |
-| II-1.3.3 | PERSONAL DOCENTE EN EDUCACIÓN EN LOS CENTROS DE PRIMERA INFANCIA PRIVADA SUPERVISADA POR I | A | 2 | docentes | A | A | A | A | A |
-| II-1.3.4 | PERSONAL DE DOCENCIA DIRECTA EN LOS CENTROS DE PRIMERA INFANCIA PRIVADA SUPERVISADA POR IN | B | 2 | docentes | B | B | B | B | B |
-| II-1.3.5 | PERSONAL DE DOCENCIA DIRECTA EN LOS CENTROS DE PRIMERA INFANCIA PRIVADA SEGÚN FUNCIÓN Y FO | C | 2 | docentes | C | C | C | C | C |
+| II-1.3.1 | PERSONAL DOCENTE DE EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PÚBLICA DE LA DGEIP SEGÚN D | A | 1 | docentes | A | A | A | A | A |
+| II-1.3.2 | PERSONAL DOCENTE DE EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PRIVADA SEGÚN DEPARTAMENTO | A | 1 | docentes | A | A | A | A | A |
+| II-1.3.3 | PERSONAL DOCENTE EN EDUCACIÓN EN LOS CENTROS DE PRIMERA INFANCIA PRIVADA SUPERVISADA POR I | A | 1 | docentes | A | A | A | A | A |
+| II-1.3.4 | PERSONAL DE DOCENCIA DIRECTA EN LOS CENTROS DE PRIMERA INFANCIA PRIVADA SUPERVISADA POR IN | B | 1 | docentes | B | B | B | B | B |
+| II-1.3.5 | PERSONAL DE DOCENCIA DIRECTA EN LOS CENTROS DE PRIMERA INFANCIA PRIVADA SEGÚN FUNCIÓN Y FO | C | 1 | docentes | C | C | C | C | C |
 | II-2.1.1 | ESTABLECIMIENTOS DE EDUCACIÓN PRIMARIA POR FORMA DE ADMINISTRACIÓN Y TIPO DE EDUCACIÓN SEG | A | 1 | establecimientos | A | A | A | A | A |
 | II-2.1.2 | ESTABLECIMIENTOS DE EDUCACIÓN PRIMARIA PÚBLICA COMÚN POR ÁREA DEMOGRÁFICA Y CATEGORÍA SEGÚ | A | 1 | establecimientos | A | A | A | A | A |
 | II-2.1.3 | ESTABLECIMIENTOS DE EDUCACIÓN PRIMARIA PÚBLICA ESPECIAL POR TIPO DE DISCAPACIDAD SEGÚN DEP | A | 1 | establecimientos | A | A | A | A | A |
 | II-2.1.4 | ESTABLECIMIENTOS DE EDUCACIÓN PRIMARIA PRIVADA POR TIPO DE EDUCACIÓN SEGÚN DEPARTAMENTO | A | 1 | establecimientos | A | A | A | A | A |
 | II-2.2.1 | ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN POR FORMA DE ADMINISTRACIÓN Y SEXO SE | A | 1 | estudiantes | A | A | A | A | A |
-| II-2.2.2 | ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PÚBLICA POR TIPO DE EDUCACIÓN Y SEXO SEGÚN  | A | 2 | estudiantes | A | A | A | A | A |
-| II-2.2.3 | ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PÚBLICA COMÚN POR ÁREA DEMOGRÁFICA Y CATEGO | A | 2 | estudiantes | A | A | A | A | A |
-| II-2.2.4 | ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PÚBLICA ESPECIAL POR TIPO DE DISCAPACIDAD S | A | 2 | estudiantes | A | A | A | A | A |
-| II-2.2.5 | ESTUDIANTES MATRICULADOS EN EDUCACIÓN ESPECIAL PÚBLICA POR EDADES SIMPLES Y SEXO, SEGÚN DE | A | 2 | estudiantes | A | A | A | A | A |
-| II-2.2.6 | ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PRIVADA POR TIPO DE EDUCACIÓN SEGÚN DEPARTA | A | 2 | estudiantes | A | A | A | A | A |
-| II-2.2.7 | ESTUDIANTES MATRICULADOS EN EDUCACIÓN ESPECIAL PRIVADA POR EDADES SIMPLES Y SEXO SEGÚN DEP | A | 2 | estudiantes | A | A | A | A | A |
-| II-2.2.8 | ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN POR GRADO Y FORMA DE ADMINISTRACIÓN S | B | 2 | estudiantes | B | B | B | B | B |
-| II-2.2.9 | ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR GRADO Y SEXO SEGÚN EDAD | B | 2 | estudiantes | B | B | B | B | B |
-| II-2.2.10 | ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN PRIVADA POR GRADO Y SEXO SEGÚN EDAD | B | 2 | estudiantes | B | B | B | B | B |
-| II-2.2.11 | ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN POR GRADO Y FORMA DE ADMINISTRACIÓN S | A | 2 | estudiantes | A | A | A | A | A |
-| II-2.2.12 | RENDIMIENTO ESCOLAR EN EDUCACIÓN PRIMARIA COMÚN POR FORMA DE ADMINISTRACIÓN, ÁREA DEMOGRÁF | B | 2 | estudiantes | B | B | B | B | B |
+| II-2.2.2 | ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PÚBLICA POR TIPO DE EDUCACIÓN Y SEXO SEGÚN  | A | 1 | estudiantes | A | A | A | A | A |
+| II-2.2.3 | ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PÚBLICA COMÚN POR ÁREA DEMOGRÁFICA Y CATEGO | A | 1 | estudiantes | A | A | A | A | A |
+| II-2.2.4 | ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PÚBLICA ESPECIAL POR TIPO DE DISCAPACIDAD S | A | 1 | estudiantes | A | A | A | A | A |
+| II-2.2.5 | ESTUDIANTES MATRICULADOS EN EDUCACIÓN ESPECIAL PÚBLICA POR EDADES SIMPLES Y SEXO, SEGÚN DE | A | 1 | estudiantes | A | A | A | A | A |
+| II-2.2.6 | ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PRIVADA POR TIPO DE EDUCACIÓN SEGÚN DEPARTA | A | 1 | estudiantes | A | A | A | A | A |
+| II-2.2.7 | ESTUDIANTES MATRICULADOS EN EDUCACIÓN ESPECIAL PRIVADA POR EDADES SIMPLES Y SEXO SEGÚN DEP | A | 1 | estudiantes | A | A | A | A | A |
+| II-2.2.8 | ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN POR GRADO Y FORMA DE ADMINISTRACIÓN S | B | 1 | estudiantes | B | B | B | B | B |
+| II-2.2.9 | ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR GRADO Y SEXO SEGÚN EDAD | B | 1 | estudiantes | B | B | B | B | B |
+| II-2.2.10 | ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN PRIVADA POR GRADO Y SEXO SEGÚN EDAD | B | 1 | estudiantes | B | B | B | B | B |
+| II-2.2.11 | ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN POR GRADO Y FORMA DE ADMINISTRACIÓN S | A | 1 | estudiantes | A | A | A | A | A |
+| II-2.2.12 | RENDIMIENTO ESCOLAR EN EDUCACIÓN PRIMARIA COMÚN POR FORMA DE ADMINISTRACIÓN, ÁREA DEMOGRÁF | B | 1 | estudiantes | B | B | B | B | B |
 | II-2.2.13 | RENDIMIENTO ESCOLAR EN EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR ÁREA DEMOGRÁFICA SEGÚN DEPARTA | A | 1 | estudiantes | A | A | A | A | A |
 | II-2.2.14 | RENDIMIENTO ESCOLAR EN EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR SEXO SEGÚN DEPARTAMENTO | A | 1 | estudiantes | A | A | A | A | A |
 | II-2.2.15 | RENDIMIENTO ESCOLAR EN EDUCACIÓN PRIMARIA COMÚN PRIVADA POR SEXO SEGÚN DEPARTAMENTO | A | 1 | estudiantes | A | A | A | A | ∅ |
@@ -71,7 +71,7 @@ Ola por cuadro y tipo por año; «·» = no está ese año; «∅» = sin datos 
 | II-3.2.10 | RENDIMIENTO EDUCATIVO EN EDUCACIÓN TÉCNICA MEDIA BÁSICA POR TIPO DE CURSO Y SEXO SEGÚN DEP | A | 1 | estudiantes | · | A | A | A | A |
 | II-3.2.11 | RENDIMIENTO EDUCATIVO EN EDUCACIÓN MEDIA BÁSICA GENERAL POR FORMA DE ADMINISTRACIÓN Y GRAD | A | 1 | estudiantes | · | A | A | A | A |
 | II-3.2.12 | RENDIMIENTO EDUCATIVO EN EDUCACIÓN MEDIA BÁSICA TÉCNICA POR GRADO Y SEXO SEGÚN DEPARTAMENT | A | 1 | estudiantes | · | · | · | · | A |
-| II-3.3.1 | PERSONAL DOCENTE Y HORAS DOCENTES DE LA DGES EN EDUCACIÓN MEDIA BÁSICA GENERAL PÚBLICA POR | C | 2 | docentes | C | C | C | C | C |
+| II-3.3.1 | PERSONAL DOCENTE Y HORAS DOCENTES DE LA DGES EN EDUCACIÓN MEDIA BÁSICA GENERAL PÚBLICA POR | B | 2 | docentes | B | B | B | B | B |
 | II-3.3.2 | PERSONAL DOCENTE DE LA DGETP EN EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA POR TIPO DE CURSO SEGÚN | B/C | 2 | docentes | C | C | B | B | B |
 | II-3.4.1 | GRUPOS DEL DGES EN EDUCACIÓN MEDIA BÁSICA GENERAL COMPARADOS CON EL TOTAL DE GRUPOS EN EDU | B | 2 | grupos | B | B | B | B | B |
 | II-4.1.1 | ESTABLECIMIENTOS DE EDUCACIÓN MEDIA SUPERIOR POR MODALIDAD Y FORMA DE ADMINISTRACIÓN SEGÚN | A | 1 | establecimientos | A | A | A | A | A |
@@ -90,7 +90,7 @@ Ola por cuadro y tipo por año; «·» = no está ese año; «∅» = sin datos 
 | II-4.2.13 | RENDIMIENTO EDUCATIVO EN EDUCACIÓN TÉCNICA MEDIA SUPERIOR PÚBLICA POR TIPO DE CURSO Y SEXO | A | 1 | estudiantes | · | A | A | A | A |
 | II-4.2.14 | RENDIMIENTO EDUCATIVO EN EDUCACIÓN MEDIA SUPERIOR GENERAL POR FORMA DE ADMINISTRACIÓN, GRA | A | 1 | estudiantes | · | A | A | A | A |
 | II-4.2.15 | RENDIMIENTO EDUCATIVO EN EDUCACIÓN TÉCNICA MEDIA SUPERIOR PÚBLICA POR GRADO Y SEXO SEGÚN D | A | 1 | estudiantes | · | · | · | · | A |
-| II-4.3.1 | PERSONAL DOCENTE Y HORAS DOCENTES DE LA DGES EN EDUCACIÓN MEDIA SUPERIOR GENERAL PÚBLICA P | C | 2 | docentes | C | C | C | C | C |
+| II-4.3.1 | PERSONAL DOCENTE Y HORAS DOCENTES DE LA DGES EN EDUCACIÓN MEDIA SUPERIOR GENERAL PÚBLICA P | B | 2 | docentes | B | B | B | B | B |
 | II-4.3.2 | PERSONAL DOCENTE DE LA DGETP EN EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA POR TIPO DE CURSO SEG | B | 2 | docentes | B | B | B | B | B |
 | II-4.4.1 | GRUPOS DE EDUCACIÓN MEDIA SUPERIOR GENERAL COMPARADOS CON EL TOTAL DE AMBOS CICLOS SEGÚN G | B | 2 | grupos | B | B | B | B | B |
 | II-5.1.1 | MATRÍCULA Y PERSONAL DOCENTE POR SEXO SEGÚN GRANDES ÁREAS, DEPARTAMENTOS E INSTITUCIONES | A | 2 | docentes | A | A | A | A | A |
@@ -149,7 +149,18 @@ signifique lo mismo: ver la sección siguiente.
 - **II-1.2.5**, 2022 → 2023: + `FORMA DE ADMINISTRACIÓN/DGEIP-PRIVADOS (Habilitados y Autorizados)/SEXO/Sin dato`
 - **II-1.2.7**, 2020 → 2021: + `E D A D/Sin dato`; − `E D A D/Mayor de 6 años`
 - **II-1.2.7**, 2021 → 2022: + `E D A D/Más de 6 años`
+- **II-1.3.4**, 2023 → 2024: + `NIVEL EDUCATIVO ALCANZADO/Sin dato`
+- **II-1.3.5**, 2021 → 2022: + `FUNCIÓN/Educador/a auxiliar`; − `FUNCIÓN/Educador auxiliar`
+- **II-1.3.5**, 2023 → 2024: + `FUNCIÓN/Director responsable técnico`; + `FUNCIÓN/Educadores`; + `FUNCIÓN/Otros especialistas`; + `FUNCIÓN/Profesores especiales`; + `FUNCIÓN/Responsable legal`; − `FUNCIÓN/Educador/a auxiliar`; − `FUNCIÓN/Responsable de sala`
 - **II-2.1.2**, 2023 → 2024: − `ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Aprender H. de Práctica`; − `ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Habilitada de Práctica`; − `ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Tiempo Extendido de Práctica`; − `ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Tiempo Extendido H. de Práctica`; − `ÁREA DEMOGRÁFICA/URBANA/JICI`
+- **II-2.2.3**, 2023 → 2024: + `ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/De Práctica`; − `ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Aprender H. de Práctica`; − `ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Habilitada de Práctica`; − `ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Práctica`; − `ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Tiempo Extendido de Práctica`; − `ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Tiempo Extendido H. de Práctica`; − `ÁREA DEMOGRÁFICA/URBANA/CATEGORÍA/Unidocente`; − `ÁREA DEMOGRÁFICA/URBANA/JICI`
+- **II-2.2.4**, 2023 → 2024: + `DISCAPACIDAD/Pluri discapacidad`; + `DISCAPACIDAD/Socio-emocional`; + `DISCAPACIDAD/Trastornos del espectro autista`; − `DISCAPACIDAD/Problemas de conducta`; − `DISCAPACIDAD/Problemas de personalidad`; − `DISCAPACIDAD/Trastornos generalizados del desarrollo`
+- **II-2.2.5**, 2020 → 2021: + `EDAD/2 años/SEXO/M`; + `EDAD/2 años/SEXO/V`; + `EDAD/22 años/SEXO/M`; + `EDAD/22 años/SEXO/V`; + `EDAD/23 años/SEXO/M`; + `EDAD/23 años/SEXO/V`; + `EDAD/24 años/SEXO/M`; + `EDAD/24 años/SEXO/V`; + `EDAD/Entre 25 y 29 años/SEXO/M`; + `EDAD/Entre 25 y 29 años/SEXO/V`; + `EDAD/Más de 29 años/SEXO/M`; + `EDAD/Más de 29 años/SEXO/V`; + `EDAD/Menos de 2 años/SEXO/M`; + `EDAD/Menos de 2 años/SEXO/V`; − `EDAD/Más de 21 años/SEXO/M`; − `EDAD/Más de 21 años/SEXO/V`; − `EDAD/Menos de 3 años/SEXO/M`; − `EDAD/Menos de 3 años/SEXO/V`
+- **II-2.2.7**, 2020 → 2021: + `EDAD/2 años/SEXO/M`; + `EDAD/2 años/SEXO/V`; + `EDAD/22 años/SEXO/M`; + `EDAD/22 años/SEXO/V`; + `EDAD/23 años/SEXO/M`; + `EDAD/23 años/SEXO/V`; + `EDAD/24 años/SEXO/M`; + `EDAD/24 años/SEXO/V`; + `EDAD/Entre 25 y 29 años/SEXO/M`; + `EDAD/Entre 25 y 29 años/SEXO/V`; + `EDAD/Más de 29 años/SEXO/M`; + `EDAD/Más de 29 años/SEXO/V`; + `EDAD/Menos de 2 años/SEXO/M`; + `EDAD/Menos de 2 años/SEXO/V`; − `EDAD/Menos de 3 años/SEXO/M`; − `EDAD/Menos de 3 años/SEXO/V`
+- **II-2.2.7**, 2023 → 2024: + `EDAD/Sin dato/SEXO/M`; + `EDAD/Sin dato/SEXO/V`; − `EDAD/16 años/SEXO/M`; − `EDAD/16 años/SEXO/V`; − `EDAD/17 años/SEXO/M`; − `EDAD/17 años/SEXO/V`; − `EDAD/18 años/SEXO/M`; − `EDAD/18 años/SEXO/V`; − `EDAD/19 años/SEXO/M`; − `EDAD/19 años/SEXO/V`; − `EDAD/20 años/SEXO/M`; − `EDAD/20 años/SEXO/V`; − `EDAD/21 años/SEXO/M`; − `EDAD/21 años/SEXO/V`; − `EDAD/22 años/SEXO/M`; − `EDAD/22 años/SEXO/V`; − `EDAD/23 años/SEXO/M`; − `EDAD/23 años/SEXO/V`; − `EDAD/24 años/SEXO/M`; − `EDAD/24 años/SEXO/V`; − `EDAD/Entre 25 y 29 años/SEXO/M`; − `EDAD/Entre 25 y 29 años/SEXO/V`; − `EDAD/Más de 29 años/SEXO/M`; − `EDAD/Más de 29 años/SEXO/V`
+- **II-2.2.12**, 2020 → 2021: + `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Mujer`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Varón`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Mujer`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Varón`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Mujer`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Varón`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Mujer`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Varón`; + `NO PROMOVIDOS/Sexo/Mujer`; + `NO PROMOVIDOS/Sexo/Varón`; + `PROMOVIDOS/Sexo/Mujer`; + `PROMOVIDOS/Sexo/Varón`; + `TOTAL`; − `RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural`; − `RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana`; − `RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL`; − `RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural`; − `RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana`; − `RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL`
+- **II-2.2.12**, 2021 → 2022: + `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer`; + `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón`; + `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer`; + `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón`; + `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Mujer`; + `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL`; + `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Varón`; + `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer`; + `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón`; + `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer`; + `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón`; + `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/Mujer`; + `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL`; + `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/Varón`; − `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer`; − `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón`; − `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer`; − `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón`; − `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Mujer`; − `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL`; − `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Varón`; − `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer`; − `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón`; − `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer`; − `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón`; − `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Mujer`; − `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL`; − `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Varón`
+- **II-2.2.12**, 2023 → 2024: − `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer`; − `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón`; − `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer`; − `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón`; − `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Mujer`; − `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL`; − `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Varón`; − `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer`; − `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón`; − `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer`; − `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón`; − `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/Mujer`; − `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL`; − `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/Varón`
 - **II-2.2.17**, 2021 → 2022: + `PRIVADA*/SEXO/Mujer`; + `PRIVADA*/SEXO/Varón`; + `PRIVADA*/Total`; − `PRIVADA/SEXO/Mujer`; − `PRIVADA/SEXO/Varón`; − `PRIVADA/Total`
 - **II-2.2.17**, 2023 → 2024: − `PRIVADA*/SEXO/Mujer`; − `PRIVADA*/SEXO/Varón`; − `PRIVADA*/Total`
 - **II-3.1.1**, 2022 → 2023: + `DGES/TOTAL LICEOS PÚBLICOS`; + `MODALIDAD/DGEIP/Escuelas con Ciclo Básico Rural`; + `MODALIDAD/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica`; + `MODALIDAD/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica/Reparticiones`; + `MODALIDAD/FORMA DE ADMINISTRACIÓN/TOTAL PRIVADOS`; + `MODALIDAD/FORMA DE ADMINISTRACIÓN/TOTAL PÚBLICOS`; + `MODALIDAD/TOTAL ESCUELAS DE CBT Y TÈCNICA`; + `TOTAL PRIVADOS`; + `TOTAL PÚBLICOS`; − `MODALIDAD/DGEIP/FORMA DE ADMINISTRACIÓN/Escuelas con Ciclo Básico Rural`; − `MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica/Reparticiones`; − `MODALIDAD/FORMA DE ADMINISTRACIÓN/TOTAL ESCUELAS DE CBT Y TÈCNICA`; − `MODALIDAD/TOTAL LICEOS PÚBLICOS`
@@ -194,31 +205,38 @@ sexo: el «total» por sexo es solo pública ese año (AC-E13). Llevan `omitir`:
 
 ## Anomalías
 
+- **II-1.2.4 2020:** el pie dice que los datos son de 2021 («El relevamiento de datos de 2020 de los Centros de Primera Infancia del MEC se realizó en el año 202»)
+- **II-1.2.5 2020:** el pie dice que los datos son de 2021 («El relevamiento de datos de 2020 de los Centros de Primera Infancia del MEC se realizó en el año 202»)
+- **II-1.2.7 2020:** el pie dice que los datos son de 2021 («El relevamiento de datos de 2020 de los Centros de Primera Infancia del MEC se realizó en el año 202»)
 - **II-2.1.4 2020:** la fila del país dice «TOTAL DEL PAÍS»
-- **II-2.2.6 2020:** 1 valores numéricos guardados como texto
 - **II-2.2.6 2020:** la fila del país dice «TOTAL DEL PAÍS»
 - **II-3.2.1 2020:** la fila del país dice «TOTAL DEL PAÍS»
 - **II-3.4.1 2020:** la fila del país dice «TOTAL DEL PAÍS»
 - **II-4.2.1 2020:** la fila del país dice «TOTAL DEL PAÍS»
 - **II-4.4.1 2020:** la fila del país dice «TOTAL DEL PAÍS»
 - **II-6.1.1 2020:** el pie dice que los datos son de 2016 («Notas: 1) Matrícula considerada como el número de personas inscriptas para cursar al menos una mater»)
+- **II-7.2.8 2020:** el pie dice que los datos son de 2018 («CLAEH: El instituto CLAEH pasó a ser Universidad a partir del año 2018.»)
+- **II-7.2.8 2020:** el pie dice que los datos son de 2018 («UdelaR: A partir del año 2018, la Udelar reporta su matrícula, según Res. N°15 del CDC de fecha 23/1»)
 - **II-1.1.1 2021:** el pie dice que los datos son de 2020 («Nota: Los datos correspondientes a Privada del DGEIP corresponden al año 2020, dado que al momento d»)
 - **II-1.1.2 2021:** el pie dice que los datos son de 2020 («Nota: Los establecimientos CPIP corresponden a los Centros Privados supervisados por el MEC del año »)
 - **II-1.2.1 2021:** el pie dice que los datos son de 2020 («Nota: Los datos correspondientes a Privada del DGEIP corresponden al año 2020, dado que al momento d»)
 - **II-1.2.3 2021:** el título no dice el año («ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PRIVADA POR MODALIDAD Y NIVEL»)
 - **II-1.2.3 2021:** el pie dice que los datos son de 2020 («Nota: Los datos correspondientes a Privada del DGEIP corresponden al año 2020, dado que al momento d»)
+- **II-1.2.5 2021:** el pie dice que los datos son de 2022 («El relevamiento de datos del año 2021 de los CPIP (actualmente supervidados por el INAU) se realizó »)
+- **II-1.2.5 2021:** el pie dice que los datos son de 2020 («Los datos correspondientes a Privada del DGEIP corresponden al año 2020, dado que al momento de cier»)
+- **II-1.2.7 2021:** el pie dice que los datos son de 2022 («El relevamiento de datos de 2021 de los Centros de Primera Infancia del MEC se realizó en el año 202»)
 - **II-2.1.1 2021:** el pie dice que los datos son de 2020 («Nota: Los datos correspondientes a Privada de la DGEIP corresponden al año 2020, dado que al momento»)
 - **II-2.1.4 2021:** la fila del país dice «TOTAL DEL PAÍS»
 - **II-2.1.4 2021:** el pie dice que los datos son de 2020 («Nota: Los datos correspondientes a Privada del CEIP corresponden al año 2020, dado que al momento de»)
 - **II-2.1.4 2021:** el título dice 2020 («ESTABLECIMIENTOS DE EDUCACIÓN PRIMARIA PRIVADA POR TIPO DE EDUCACIÓN SEGÚN DEPARTAMENTO (Todo el paí»)
 - **II-2.2.1 2021:** el pie dice que los datos son de 2020 («Nota: Los datos correspondientes a Privada del CEIP corresponden al año 2020, dado que al momento de»)
 - **II-2.2.6 2021:** el título no dice el año («ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PRIVADA POR TIPO DE EDUCACIÓN SEGÚN DEPARTAMENTO (Tod»)
-- **II-2.2.6 2021:** 1 valores numéricos guardados como texto
 - **II-2.2.6 2021:** la fila del país dice «TOTAL DEL PAÍS»
 - **II-2.2.6 2021:** el pie dice que los datos son de 2020 («Nota: Los datos correspondientes a Privada de la DGEIP corresponden al año 2020, dado que al momento»)
 - **II-2.2.7 2021:** el título no dice el año («ESTUDIANTES MATRICULADOS EN EDUCACIÓN ESPECIAL PRIVADA POR EDADES SIMPLES Y SEXO SEGÚN DEPARTAMENTO »)
 - **II-2.2.7 2021:** el pie dice que los datos son de 2020 («Nota: Los datos correspondientes a Privada de la DGEIP corresponden al año 2020, dado que al momento»)
 - **II-2.2.8 2021:** el título no dice el año («ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN POR GRADO Y FORMA DE ADMINISTRACIÓN SEGÚN EDAD(»)
+- **II-2.2.8 2021:** el pie dice que los datos son de 2020 («Primaria Privada: Se carece de datos desagregados por edad y sexo para la totalidad de la matrícula.»)
 - **II-2.2.10 2021:** el título no dice el año («ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN PRIVADA POR GRADO Y SEXO SEGÚN EDAD (Todo el pa»)
 - **II-2.2.10 2021:** el pie dice que los datos son de 2020 («Nota: Los datos correspondientes a Privada de la DGEIP corresponden al año 2020, dado que al momento»)
 - **II-2.2.11 2021:** el pie dice que los datos son de 2020 («Nota: Los datos correspondientes a Privada de la DGEIP corresponden al año 2020, dado que al momento»)
@@ -231,14 +249,19 @@ sexo: el «total» por sexo es solo pública ese año (AC-E13). Llevan `omitir`:
 - **II-4.2.1 2021:** la fila del país dice «TOTAL DEL PAÍS»
 - **II-4.4.1 2021:** la fila del país dice «TOTAL DEL PAÍS»
 - **II-7.2.5 2021:** el pie dice que los datos son de 2020 («Notas:(*) no se incluye Competencia Notoria ni Actuación Documentada. PEDECIBA - Programa de Desarro»)
+- **II-7.2.8 2021:** el pie dice que los datos son de 2018 («CLAEH: El instituto CLAEH pasó a ser Universidad a partir del año 2018.»)
+- **II-7.2.8 2021:** el pie dice que los datos son de 2018 («UdelaR: A partir del año 2018, la Udelar reporta su matrícula, según Res. N°15 del CDC de fecha 23/1»)
 - **II-1.1.1 2022:** el pie dice que los datos son de 2020 («Nota: Los datos correspondientes a Privada del DGEIP corresponden al año 2020, dado que al momento d»)
 - **II-1.2.3 2022:** el título no dice el año («ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PRIVADA POR MODALIDAD Y NIVEL»)
+- **II-1.2.5 2022:** el pie dice que los datos son de 2023 («El relevamiento de datos del año 2022 de los CPIP (actualmente supervidados por el INAU) se realizó »)
+- **II-1.2.7 2022:** el pie dice que los datos son de 2021 («La matrícula Centros de Primera Infancia Privados supervisados por INAU corresponden a los Centros P»)
+- **II-1.2.7 2022:** el pie dice que los datos son de 2023 («El relevamiento de datos de 2022 de los Centros de Primera Infancia del MEC se realizó en el año 202»)
 - **II-1.3.5 2022:** el pie dice que los datos son de 2021 («Nota: El personal docente de Centros de Primera Infancia Privados supervisados por INAU corresponden»)
 - **II-2.1.4 2022:** la fila del país dice «TOTAL DEL PAÍS»
-- **II-2.2.6 2022:** 1 valores numéricos guardados como texto
 - **II-2.2.6 2022:** la fila del país dice «TOTAL DEL PAÍS»
 - **II-2.2.7 2022:** el pie dice que los datos son de 2016 («Nota: El total por departamento y sexo corresponde a datos adminstrativos 2022, pero la desagregació»)
 - **II-2.2.8 2022:** el título no dice el año («ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN POR GRADO Y FORMA DE ADMINISTRACIÓN SEGÚN EDAD(»)
+- **II-2.2.8 2022:** el pie dice que los datos son de 2016 («Primaria Privada: Se carece de datos desagregados por edad y sexo. El total por grado corresponde a »)
 - **II-2.2.10 2022:** el título no dice el año («ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN PRIVADA POR GRADO Y SEXO SEGÚN EDAD (Todo el pa»)
 - **II-2.2.10 2022:** el pie dice que los datos son de 2016 («Nota: Se carece de datos desagregados por edad y sexo. El total por grado corresponde a datos admins»)
 - **II-2.2.12 2022:** el pie dice que los datos son de 2020 («Nota: Los datos correspondientes a Privada de la DGEIP corresponden al año 2020, dado que al momento»)
@@ -250,10 +273,11 @@ sexo: el «total» por sexo es solo pública ese año (AC-E13). Llevan `omitir`:
 - **II-4.2.1 2022:** la fila del país dice «TOTAL DEL PAÍS»
 - **II-4.4.1 2022:** la fila del país dice «TOTAL DEL PAÍS»
 - **II-7.2.5 2022:** el pie dice que los datos son de 2020 («Notas:(*) no se incluye Competencia Notoria ni Actuación Documentada. PEDECIBA - Programa de Desarro»)
+- **II-7.2.8 2022:** el pie dice que los datos son de 2018 («CLAEH: El instituto CLAEH pasó a ser Universidad a partir del año 2018.»)
+- **II-7.2.8 2022:** el pie dice que los datos son de 2018 («UdelaR: A partir del año 2018, la Udelar reporta su matrícula, según Res. N°15 del CDC de fecha 23/1»)
 - **II-7.2.8 2022:** el pie dice que los datos son de 2021 («Nota: La Escuela de Guerra Naval no brindó cursos de nivel terciario durante el año 2021, por lo que»)
 - **II-1.3.5 2023:** el pie dice que los datos son de 2021 («Nota: El personal docente de Centros de Primera Infancia Privados supervisados por INAU corresponden»)
 - **II-2.1.4 2023:** la fila del país dice «TOTAL DEL PAÍS»
-- **II-2.2.6 2023:** 1 valores numéricos guardados como texto
 - **II-2.2.6 2023:** la fila del país dice «TOTAL DEL PAÍS»
 - **II-2.2.12 2023:** el pie dice que los datos son de 2020 («Nota: Los datos correspondientes a Privada de la DGEIP corresponden al año 2020, dado que al momento»)
 - **II-2.2.15 2023:** el pie dice que los datos son de 2020 («Nota: Los datos corresponden al año 2020, dado que al momento de cierre de la publicación no estaba »)
@@ -264,8 +288,10 @@ sexo: el «total» por sexo es solo pública ese año (AC-E13). Llevan `omitir`:
 - **II-3.4.1 2023:** la fila del país dice «TOTAL DEL PAÍS»
 - **II-4.2.1 2023:** la fila del país dice «TOTAL DEL PAÍS»
 - **II-4.4.1 2023:** la fila del país dice «TOTAL DEL PAÍS»
+- **II-7.1.1 2023:** el pie dice que los datos son de 2022 («Último dato disponible del Inst Metodista Univ Crandon año 2022.»)
 - **II-7.2.3 2023:** el pie dice que los datos son de 2022 («Nota: último dato disponible del Instituto Metodista Universitario Crandon año 2022.»)
 - **II-7.2.4 2023:** el pie dice que los datos son de 2022 («Nota: último dato disponible del Instituto Metodista Universitario Crandon año 2022.»)
+- **II-7.2.8 2023:** el pie dice que los datos son de 2018 («UdelaR: A partir del año 2018, la Udelar reporta su matrícula, según Res. N°15 del CDC de fecha 23/1»)
 - **II-7.2.8 2023:** el pie dice que los datos son de 2022 («Nota: último dato disponible del Instituto Metodista Universitario Crandon año 2022.»)
 - **II-7.2.8 2023:** el pie dice que los datos son de 2021 («Nota: La Escuela de Guerra Naval no brindó cursos de nivel terciario durante el año 2021, por lo que»)
 - **II-7.3.1 2023:** el pie dice que los datos son de 2022 («Nota: - último dato disponible del Instituto Metodista Universitario Crandon año 2022.»)
@@ -273,7 +299,6 @@ sexo: el «total» por sexo es solo pública ese año (AC-E13). Llevan `omitir`:
 - **II-1.3.2 2024:** el título no dice el año («PERSONAL DOCENTE DE EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PRIVADA SEGÚN DEPARTAMENTO (Todo el p»)
 - **II-1.3.2 2024:** el pie dice que los datos son de 2022 («Nota:Se reporta último año disponible enviado por la DGEIP (año 2022).»)
 - **II-2.1.4 2024:** la fila del país dice «TOTAL DEL PAÍS»
-- **II-2.2.6 2024:** 1 valores numéricos guardados como texto
 - **II-2.2.6 2024:** la fila del país dice «TOTAL DEL PAÍS»
 - **II-2.2.15 2024:** sin datos numéricos (Nota: No se cuenta con la información para el año de referencia.)
 - **II-2.3.2 2024:** el título no dice el año («PERSONAL DOCENTE DE EDUCACIÓN PRIMARIA PRIVADA POR TIPO DE ESTABLECIMIENTO Y TIPO DE DESEMPEÑO DOCEN»)
@@ -288,6 +313,7 @@ sexo: el «total» por sexo es solo pública ese año (AC-E13). Llevan `omitir`:
 - **II-7.2.2 2024:** el pie dice que los datos son de 2023 («** El dato de la UDE es último disponible año 2023.»)
 - **II-7.2.4 2024:** el pie dice que los datos son de 2023 («** El último dato disponible de la UDE es del año 2023.»)
 - **II-7.2.6 2024:** el pie dice que los datos son de 2023 («** Último dato disponible de la Universidad de la Empresa año 2023.»)
+- **II-7.2.8 2024:** el pie dice que los datos son de 2018 («UdelaR: A partir del año 2018, la Udelar reporta su matrícula, según Res. N°15 del CDC de fecha 23/1»)
 - **II-7.2.8 2024:** el pie dice que los datos son de 2022 («Nota: último dato disponible del Instituto Metodista Universitario Crandon año 2022.»)
 - **II-7.2.8 2024:** el pie dice que los datos son de 2021 («Nota: La Escuela de Guerra Naval no brindó cursos de nivel terciario durante el año 2021, por lo que»)
 - **II-7.3.1 2024:** el pie dice que los datos son de 2023 («** Último dato disponible de UDE año 2023.»)
@@ -422,6 +448,16 @@ etiquetados con su comprobación con sumas (D5), y columnas con datos de otro a�
   - R `Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato` → `FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato` (B = E + F + G + H + I + J + K + L + M + N + O + P + Q + R)
 - **II-1.2.5 2024:**
   - R `Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato` → `FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato` (B = E + F + G + H + I + J + K + L + M + N + O + P + Q + R)
+- **II-1.3.2 2023:**
+  - B `DOCENTES/TOTAL` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - C `DOCENTES/Colegios Habilitados` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - D `DOCENTES/Colegios Autorizados` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - E `DOCENTES/Jardines de Infantes Autorizados` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+- **II-1.3.2 2024:**
+  - B `DOCENTES/TOTAL` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - C `DOCENTES/Colegios Habilitados` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - D `DOCENTES/Colegios Autorizados` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - E `DOCENTES/Jardines de Infantes Autorizados` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
 - **II-2.1.1 2021:**
   - E `FORMA DE ADMINISTRACIÓN/TIPO DE EDUCACIÓN/PRIVADA/Común` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
   - F `FORMA DE ADMINISTRACIÓN/TIPO DE EDUCACIÓN/PRIVADA/Especial` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
@@ -437,6 +473,104 @@ etiquetados con su comprobación con sumas (D5), y columnas con datos de otro a�
   - H `FORMA DE ADMINISTRACIÓN/PRIVADA/TOTAL` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
   - I `FORMA DE ADMINISTRACIÓN/PRIVADA/SEXO/V` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
   - J `FORMA DE ADMINISTRACIÓN/PRIVADA/SEXO/M` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+- **II-2.2.6 2021:**
+  - B `TIPO DE EDUCACIÓN/TOTAL` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - C `TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Total` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - D `TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Habilitados` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - E `TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Autorizados` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - F `TIPO DE EDUCACIÓN/EDUCACIÓN ESPECIAL` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+- **II-2.2.10 2021:**
+  - B `TOTAL SEXO/TOTAL` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - C `TOTAL SEXO/VARÓN` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - D `GRADO/TOTAL SEXO/MUJER` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - E `GRADO/Primero/SEXO/V` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - F `GRADO/Primero/SEXO/M` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - G `GRADO/Segundo/SEXO/V` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - H `GRADO/Segundo/SEXO/M` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - I `GRADO/Tercero/SEXO/V` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - J `GRADO/Tercero/SEXO/M` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - K `GRADO/Cuarto/SEXO/V` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - L `GRADO/Cuarto/SEXO/M` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - M `GRADO/Quinto/SEXO/V` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - N `GRADO/Quinto/SEXO/M` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - O `GRADO/Sexto/SEXO/V` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - P `GRADO/Sexto/SEXO/M` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+- **II-2.2.11 2021:**
+  - C `GRADO/TOTAL/Privada` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - E `GRADO/Primero/FORMA DE ADMINISTRACIÓN/Privada` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - G `GRADO/Segundo/FORMA DE ADMINISTRACIÓN/Privada` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - I `GRADO/Tercero/FORMA DE ADMINISTRACIÓN/Privada` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - K `GRADO/Cuarto/FORMA DE ADMINISTRACIÓN/Privada` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - M `GRADO/Quinto/FORMA DE ADMINISTRACIÓN/Privada` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - O `GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Privada` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+- **II-2.2.12 2021:**
+  - B `TOTAL` → `PROMOVIDOS/TOTAL` (B = C + D)
+  - E `TOTAL` → `NO PROMOVIDOS/TOTAL` (E = F + G)
+  - V `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL` año real 2020
+  - W `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Varón` año real 2020
+  - X `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Mujer` año real 2020
+  - Y `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón` año real 2020
+  - Z `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer` año real 2020
+  - AA `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón` año real 2020
+  - AB `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer` año real 2020
+  - AC `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL` año real 2020
+  - AD `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Varón` año real 2020
+  - AE `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Mujer` año real 2020
+  - AF `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón` año real 2020
+  - AG `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer` año real 2020
+  - AH `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón` año real 2020
+  - AI `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer` año real 2020
+  - ⚠ V «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
+  - ⚠ W «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Varón»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
+  - ⚠ X «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Mujer»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
+  - ⚠ Y «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
+  - ⚠ Z «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
+  - ⚠ AA «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
+  - ⚠ AB «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
+  - ⚠ AC «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
+  - ⚠ AD «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Varón»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
+  - ⚠ AE «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Mujer»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
+  - ⚠ AF «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
+  - ⚠ AG «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
+  - ⚠ AH «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
+  - ⚠ AI «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
+- **II-2.2.12 2022:**
+  - B `TOTAL` → `PROMOVIDOS/TOTAL` (B = C + D)
+  - E `TOTAL` → `NO PROMOVIDOS/TOTAL` (E = F + G)
+  - V `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL` omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+  - W `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/Varón` omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+  - X `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/Mujer` omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+  - Y `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón` omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+  - Z `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer` omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+  - AA `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón` omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+  - AB `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer` omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+  - AC `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL` omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+  - AD `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Varón` omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+  - AE `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Mujer` omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+  - AF `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón` omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+  - AG `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer` omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+  - AH `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón` omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+  - AI `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer` omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+- **II-2.2.12 2023:**
+  - B `TOTAL` → `PROMOVIDOS/TOTAL` (B = C + D)
+  - E `TOTAL` → `NO PROMOVIDOS/TOTAL` (E = F + G)
+  - ⚠ V «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas (['TOTAL', 'Primero', 'Segundo']); se carga como 2023
+  - ⚠ W «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/Varón»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas (['TOTAL', 'Primero', 'Segundo']); se carga como 2023
+  - ⚠ X «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/Mujer»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas (['TOTAL', 'Primero', 'Segundo']); se carga como 2023
+  - ⚠ Y «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas (['TOTAL', 'Primero', 'Segundo']); se carga como 2023
+  - ⚠ Z «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas (['TOTAL', 'Primero', 'Segundo']); se carga como 2023
+  - ⚠ AA «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón»: el pie dice 2021 pero difiere del anuario 2021 en 6 filas (['Primero', 'Segundo', 'Tercero']); se carga como 2023
+  - ⚠ AB «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer»: el pie dice 2021 pero difiere del anuario 2021 en 6 filas (['Primero', 'Segundo', 'Tercero']); se carga como 2023
+  - ⚠ AC «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas (['TOTAL', 'Primero', 'Segundo']); se carga como 2023
+  - ⚠ AD «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Varón»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas (['TOTAL', 'Primero', 'Segundo']); se carga como 2023
+  - ⚠ AE «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Mujer»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas (['TOTAL', 'Primero', 'Segundo']); se carga como 2023
+  - ⚠ AF «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas (['TOTAL', 'Primero', 'Segundo']); se carga como 2023
+  - ⚠ AG «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas (['TOTAL', 'Primero', 'Segundo']); se carga como 2023
+  - ⚠ AH «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón»: el pie dice 2021 pero difiere del anuario 2021 en 6 filas (['Primero', 'Segundo', 'Tercero']); se carga como 2023
+  - ⚠ AI «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer»: el pie dice 2021 pero difiere del anuario 2021 en 6 filas (['Primero', 'Segundo', 'Tercero']); se carga como 2023
+- **II-2.2.12 2024:**
+  - B `TOTAL` → `PROMOVIDOS/TOTAL` (B = C + D)
+  - E `TOTAL` → `NO PROMOVIDOS/TOTAL` (E = F + G)
 - **II-2.2.15 2021:**
   - B `RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
   - C `RENDIMIENTO ESCOLAR/PROMOVIDOS/SEXO/V` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
@@ -591,10 +725,24 @@ de 2024 (`equivale_2024`); las demás conservan su id con un `motivo_d6`. Lo que
   - 2 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
 - **II-1.2.7:** 0 equivalencias, 1 con motivo
   - 1 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
+- **II-1.3.5:** 0 equivalencias, 8 con motivo
+  - 8 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
 - **II-2.1.2:** 0 equivalencias, 20 con motivo
   - 20 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
 - **II-2.2.1:** 0 equivalencias, 8 con motivo
   - 8 × concepto distinto (AC-E13): en 2024 esta columna cambia de significado y no se carga (D7)
+- **II-2.2.3:** 0 equivalencias, 28 con motivo
+  - 28 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
+- **II-2.2.4:** 0 equivalencias, 12 con motivo
+  - 12 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
+- **II-2.2.5:** 0 equivalencias, 4 con motivo
+  - 4 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
+- **II-2.2.7:** 0 equivalencias, 22 con motivo
+  - 22 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
+- **II-2.2.12:** 0 equivalencias, 34 con motivo
+  - 28 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
+  - 4 × 2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente
+  - 2 × concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí
 - **II-2.2.17:** 0 equivalencias, 3 con motivo
   - 3 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
 - **II-3.1.1:** 10 equivalencias, 11 con motivo
@@ -1026,7 +1174,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-1.2.1</b></summary>
 
-**2020** · hoja «II-1.2.1» · tipo A · 22 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL POR FORMA DE ADMINISTRACIÓN, MODALIDAD Y SEXO SEGÚN DEPARTAMENTO (Todo el país, 2020)
+**2020** · hoja «II-1.2.1» · tipo A · 21 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL POR FORMA DE ADMINISTRACIÓN, MODALIDAD Y SEXO SEGÚN DEPARTAMENTO (Todo el país, 2020)
 
 - `FORMA DE ADMINISTRACIÓN/TOTAL`
 - `FORMA DE ADMINISTRACIÓN/TOTAL/SEXO/VARÓN`
@@ -1069,6 +1217,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `FORMA DE ADMINISTRACIÓN/PRIVADA/Inicial en Colegios/SEXO/V`
 - `FORMA DE ADMINISTRACIÓN/PRIVADA/Inicial en Colegios/SEXO/M`
 - *Fuente: Procesamiento propio en base a datos proporcionados por el D.E.E. y el D.T.I. — DGEIP*
+- *Privados habilitados o autorizados por ANEP*
 
 **2021** · hoja «II-1.2.1» · tipo A · 21 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL POR FORMA DE ADMINISTRACIÓN, MODALIDAD Y SEXO SEGÚN DEPARTAMENTO (Todo el país, 2021)
 
@@ -1711,7 +1860,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `MODALIDAD/INICIAL EN COLEGIOS/NIVEL/5 años`
 - *Fuente: Procesamiento propio en base a datos proporcionados por el D.E.E. — DGEIP*
 
-**2023** · hoja «II-1.2.3» · tipo A · 22 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PRIVADA POR MODALIDAD Y NIVEL SEGÚN DEPARTAMENTO (Todo el país, 2023)
+**2023** · hoja «II-1.2.3» · tipo A · 21 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PRIVADA POR MODALIDAD Y NIVEL SEGÚN DEPARTAMENTO (Todo el país, 2023)
 
 - `TOTAL`
 - `MODALIDAD/Total`
@@ -1730,8 +1879,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `MODALIDAD/INICIAL EN COLEGIOS/NIVEL/6 años`
 - *Fuente: Procesamiento propio en base a datos proporcionados por el D.E.E. — DGEIP*
 - *Notas:*
+- *Los datos correspondientes a Privada del DGEIP carecen de información por edad para 24 estudiantes de Jardínes (15 en Montevideo y 9 en el resto del país) y 154 estudiantes de Inicial en Colegios (90 en Montevideo y 64 en el resto del país).*
 
-**2024** · hoja «II-1.2.3» · tipo A · 22 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PRIVADA POR MODALIDAD Y NIVEL SEGÚN DEPARTAMENTO (Todo el país, 2024)
+**2024** · hoja «II-1.2.3» · tipo A · 21 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PRIVADA POR MODALIDAD Y NIVEL SEGÚN DEPARTAMENTO (Todo el país, 2024)
 
 - `TOTAL`
 - `MODALIDAD/Total`
@@ -1750,12 +1900,13 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `MODALIDAD/INICIAL EN COLEGIOS/NIVEL/6 años`
 - *Fuente: Procesamiento propio en base a datos proporcionados por el D.E.E. — DGEIP*
 - *Notas:*
+- *Los datos correspondientes a Privada del DGEIP carecen de información por edad para 24 estudiantes de Jardínes (15 en Montevideo y 9 en el resto del país) y 154 estudiantes de Inicial en Colegios (90 en Montevideo y 64 en el resto del país).*
 
 </details>
 
 <details><summary><b>II-1.2.4</b></summary>
 
-**2020** · hoja «II-1.2.4» · tipo A · 24 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL POR FORMA DE ADMINISTRACIÓN Y SEXO SEGÚN DEPARTAMENTO (Todo el país, 2020)
+**2020** · hoja «II-1.2.4» · tipo A · 21 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL POR FORMA DE ADMINISTRACIÓN Y SEXO SEGÚN DEPARTAMENTO (Todo el país, 2020)
 
 - `TOTAL`
 - `TOTAL/SEXO/VARÓN`
@@ -1766,8 +1917,11 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `FORMA DE ADMINISTRACIÓN/Centros Privados/SEXO/M`
 - *Fuente: Elaboración propia en base al relevamiento realizado por la División Investigación y Estadística, sobre los Centros de Primera Infancia e Inicial Privados supervisados por el MEC y procesamiento de SIPI - INAU.*
 - *Notas:*
+- *El relevamiento de datos de 2020 de los Centros de Primera Infancia del MEC se realizó en el año 2021, por la División de Investigación y Estadística de la Dirección de Educación- MEC. El listado de centros a relevar fue proporcionado por la oficina de Primera Infancia de la DE-MEC.*
+- *Del reporte de los Centros Privados del MEC hay 354 niños/ niñas para quienes no se identifió sexo, ni edad.*
+- *Para CAIF, CAPI y NUESTROS NIÑOS la fuente de dato es SIPI, Dirección de Gobierno Digital de INAU. Se reportan niños y niñas de 0 a 4 años de edad que se encuentran asistiendo a algún establecimiento el 01 de julio de 2018.*
 
-**2021** · hoja «II-1.2.4» · tipo A · 22 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL POR FORMA DE ADMINISTRACIÓN Y SEXO SEGÚN DEPARTAMENTO (Todo el país, 2021)
+**2021** · hoja «II-1.2.4» · tipo A · 21 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL POR FORMA DE ADMINISTRACIÓN Y SEXO SEGÚN DEPARTAMENTO (Todo el país, 2021)
 
 - `TOTAL`
 - `TOTAL/SEXO/VARÓN`
@@ -1779,6 +1933,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato`
 - *Fuente: Elaboración propia en base al relevamiento realizado por la División Investigación y Estadística de la Dirección Nacional de Educación del MEC de los Centros de Primera Infancia Privados y de bases de datos proporcionadas por el SIPI de INAU para proyectos CAIF, CAPI, NUESTROS NIÑOS*
 - *Notas:*
+- *La matrícula de los CPIP (actualmente supervidados por el INAU) corresponde a los Centros Privados supervisados por el MEC del año 2021.*
 
 **2022** · hoja «II-1.2.4» · tipo A · 21 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL POR FORMA DE ADMINISTRACIÓN Y SEXO SEGÚN DEPARTAMENTO (Todo el país, 2022)
 
@@ -1820,7 +1975,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-1.2.5</b></summary>
 
-**2020** · hoja «II-1.2.5» · tipo C · 13 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL POR FORMA DE ADMINISTRACIÓN SEGÚN EDAD (Todo el país, 2020)
+**2020** · hoja «II-1.2.5» · tipo B · 9 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL POR FORMA DE ADMINISTRACIÓN SEGÚN EDAD (Todo el país, 2020)
 
 - `TOTAL`
 - `SEXO/V`
@@ -1838,9 +1993,13 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `FORMA DE ADMINISTRACIÓN/PRIVADOS MEC/SEXO/V`
 - `FORMA DE ADMINISTRACIÓN/PRIVADOS MEC/SEXO/M`
 - *Fuente: Relevamiento y Procesamiento propio en base a datos proporcionados por:*
+- *Registro Nacional de Centros de Educación Infantil Privados. MEC; SIPI de INAU; D.E.E. y D.T.I. de DGEIP*
 - *Notas:*
+- *El relevamiento de datos de 2020 de los Centros de Primera Infancia del MEC se realizó en el año 2021, por la División de Investigación y Estadística de la Dirección de Educación- MEC. El listado de centros a relevar fue proporcionado por la oficina de Primera Infancia de la DE-MEC.*
+- *Del reporte de los Centros Privados del MEC hay 354 niños/ niñas para quienes no se identifió sexo, ni edad.*
+- *Para CAIF, CAPI y NUESTROS NIÑOS la fuente de dato es SIPI, Dirección de Gobierno Digital de INAU. Se reportan niños y niñas de 0 a 4 años de edad que se encuentran asistiendo a algún establecimiento el 01 de julio de 2018.*
 
-**2021** · hoja «II-1.2.5» · tipo C · 13 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL POR FORMA DE ADMINISTRACIÓN SEGÚN EDAD (Todo el país, 2021)
+**2021** · hoja «II-1.2.5» · tipo B · 10 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL POR FORMA DE ADMINISTRACIÓN SEGÚN EDAD (Todo el país, 2021)
 
 - `TOTAL`
 - `SEXO/V`
@@ -1860,8 +2019,11 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato`
 - *Fuente: Relevamiento y procesamiento propio en base a datos proporcionados por SIPI de INAU, D.E.E. y D.T.I. de DGEIP, y relevamiento propio de CPIP*
 - *Notas:*
+- *El relevamiento de datos del año 2021 de los CPIP (actualmente supervidados por el INAU) se realizó en el año 2022, por la División de Investigación y Estadística de la Dirección de Educación- MEC. El listado de centros a relevar fue proporcionado por la oficina de Primera Infancia de la DE-MEC.*
+- *Los datos correspondientes a Privada del DGEIP corresponden al año 2020, dado que al momento de cierre de la publicación no estaba el dato correspondiente a 2021*
+- *Para CAIF, CAPI y NUESTROS NIÑOS la fuente de dato es SIPI, Dirección de Gobierno Digital de INAU. Se reportan niños y niñas de 0 a 4 años de edad que se encuentran asistiendo a algún establecimiento el 01 de julio de 2018.*
 
-**2022** · hoja «II-1.2.5» · tipo C · 14 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL POR FORMA DE ADMINISTRACIÓN SEGÚN EDAD (Todo el país, 2022)
+**2022** · hoja «II-1.2.5» · tipo B · 10 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL POR FORMA DE ADMINISTRACIÓN SEGÚN EDAD (Todo el país, 2022)
 
 - `TOTAL`
 - `SEXO/V`
@@ -1881,8 +2043,12 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato`
 - *Fuente: Relevamiento y procesamiento propio en base a datos proporcionados por SIPI de INAU, D.E.E. y D.T.I. de DGEIP, y relevamiento propio de CPIP*
 - *Notas:*
+- *El relevamiento de datos del año 2022 de los CPIP (actualmente supervidados por el INAU) se realizó en el año 2023, por la División de Investigación y Estadística de la Dirección de Educación- MEC. El listado de centros a relevar fue proporcionado por la oficina de Primera Infancia de la DE-MEC.*
+- *Los datos correspondientes a Privada del CEIP carecen de información por sexo para dos establecimientos educativos de Montevideo para 122 estudiantes*
+- *Para CAIF, CAPI y NUESTROS NIÑOS la fuente de dato es SIPI, Dirección de Gobierno Digital de INAU. Se reportan niños y niñas de 0 a 4 años de edad que se encuentran asistiendo a algún establecimiento el 01 de julio de 2018.*
+- *Para la categoría "Más de 6 años" en los CAIF, CAPI, Nuestros Niños y CPIP se contabilizó a aquellos que tenían 7 y 8 años de edad*
 
-**2023** · hoja «II-1.2.5» · tipo C · 13 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL POR FORMA DE ADMINISTRACIÓN SEGÚN EDAD (Todo el país, 2023)
+**2023** · hoja «II-1.2.5» · tipo B · 10 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL POR FORMA DE ADMINISTRACIÓN SEGÚN EDAD (Todo el país, 2023)
 
 - `TOTAL`
 - `SEXO/V`
@@ -1903,8 +2069,11 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato`
 - *Fuente: Relevamiento y procesamiento propio en base a datos proporcionados por SIPI del INAU, D.E.E. y D.T.I. de DGEIP, y relevamiento propio de los CPIP.*
 - *Notas:*
+- *El INAU, organismo referente del relevamiento de CAIF, CAPI y Nuestros Niños reportó información para niños y niñas de 0 a 4 años.*
+- *Los datos correspondientes a Privada de la DGEIP carecen de información por sexo para dos establecimientos educativos de Montevideo para 112 estudiantes.*
+- *Los casos sin dato (s/d) refiere a Departamentos, cuyos centros educativos de primera infancia privados no respondieron con información al relevamiento.*
 
-**2024** · hoja «II-1.2.5» · tipo C · 13 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL POR FORMA DE ADMINISTRACIÓN SEGÚN EDAD (Todo el país, 2024)
+**2024** · hoja «II-1.2.5» · tipo B · 10 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL POR FORMA DE ADMINISTRACIÓN SEGÚN EDAD (Todo el país, 2024)
 
 - `TOTAL`
 - `SEXO/V`
@@ -1925,6 +2094,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato`
 - *Fuente: Relevamiento y procesamiento propio en base a datos proporcionados por SIPI del INAU, D.E.E. y D.T.I. de DGEIP, y relevamiento propio de los CPIP.*
 - *Notas:*
+- *El INAU, organismo referente del relevamiento de CAIF, CAPI y Nuestros Niños reportó información para niños y niñas de 0 a 4 años.*
+- *Los datos correspondientes a Privada de la DGEIP carecen de información por sexo para dos establecimientos educativos de Montevideo para 112 estudiantes.*
+- *Los casos sin dato (s/d) refiere a Departamentos, cuyos centros educativos de primera infancia privados no respondieron con información al relevamiento.*
 
 </details>
 
@@ -1979,7 +2151,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-1.2.7</b></summary>
 
-**2020** · hoja «II-1.2.7» · tipo A · 24 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL EN CENTROS PRIVADOS HABILITADOS POR EL MEC, POR EDAD SEGÚN DEPARTAMENTO (Todo el país, 2020)
+**2020** · hoja «II-1.2.7» · tipo A · 21 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL EN CENTROS PRIVADOS HABILITADOS POR EL MEC, POR EDAD SEGÚN DEPARTAMENTO (Todo el país, 2020)
 
 - `E D A D/TOTAL`
 - `E D A D/0 a 11 meses`
@@ -1992,8 +2164,11 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `E D A D/Mayor de 6 años`
 - *Fuente: Elaboración propia en base al relevamiento realizado por la Div. Investigación y Estadística, sobre Centros de Primera Infancia e Inicial Privados, supervisados por el MEC.*
 - *Nota:*
+- *El relevamiento de datos de 2020 de los Centros de Primera Infancia del MEC se realizó en el año 2021, por la División de Investigación y Estadística de la Dirección de Educación- MEC. El listado de centros a relevar fue proporcionado por la oficina de Primera Infancia de la DE-MEC.*
+- *Del reporte de los Centros Privados del MEC hay 354 niños/ niñas para quienes no se identifió sexo, ni edad.*
+- *Para CAIF, CAPI y NUESTROS NIÑOS la fuente de dato es SIPI, Dirección de Gobierno Digital de INAU. Se reportan niños y niñas de 0 a 4 años de edad que se encuentran asistiendo a algún establecimiento el 01 de julio de 2018.*
 
-**2021** · hoja «II-1.2.7» · tipo A · 23 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL EN CENTROS DE PRIMERA INFANCIA PRIVADOS HABILITADOS POR EL INAU, POR EDAD SEGÚN DEPARTAMENTO (Todo el país, 2021)
+**2021** · hoja «II-1.2.7» · tipo A · 21 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL EN CENTROS DE PRIMERA INFANCIA PRIVADOS HABILITADOS POR EL INAU, POR EDAD SEGÚN DEPARTAMENTO (Todo el país, 2021)
 
 - `E D A D/TOTAL`
 - `E D A D/0 a 11 meses`
@@ -2006,8 +2181,10 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `E D A D/Sin dato`
 - *Fuente: Elaboración propia en base al relevamiento realizado por la División de Investigación y Estadística de la Dirección Nacional de Educación del MEC.*
 - *Nota:*
+- *La matrícula Centros de Primera Infancia Privados supervisados por INAU corresponden a los Centros Privados supervisados por el MEC del año 2021.*
+- *El relevamiento de datos de 2021 de los Centros de Primera Infancia del MEC se realizó en el año 2022, por la División de Investigación y Estadística de la Dirección de Educación- MEC. El listado de centros a relevar fue proporcionado por la oficina de Primera Infancia de la DE-MEC.*
 
-**2022** · hoja «II-1.2.7» · tipo A · 24 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL EN CENTROS DE PRIMERA INFANCIA PRIVADOS HABILITADOS POR EL INAU, POR EDAD SEGÚN DEPARTAMENTO (Todo el país, 2022)
+**2022** · hoja «II-1.2.7» · tipo A · 21 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL EN CENTROS DE PRIMERA INFANCIA PRIVADOS HABILITADOS POR EL INAU, POR EDAD SEGÚN DEPARTAMENTO (Todo el país, 2022)
 
 - `E D A D/TOTAL`
 - `E D A D/0 a 11 meses`
@@ -2021,6 +2198,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `E D A D/Sin dato`
 - *Fuente: Elaboración propia en base al relevamiento realizado por la División de Investigación y Estadística de la Dirección Nacional de Educación del MEC.*
 - *Nota:*
+- *La matrícula Centros de Primera Infancia Privados supervisados por INAU corresponden a los Centros Privados supervisados por el MEC del año 2021.*
+- *El relevamiento de datos de 2022 de los Centros de Primera Infancia del MEC se realizó en el año 2023, por la División de Investigación y Estadística de la Dirección de Educación- MEC. El listado de centros a relevar fue proporcionado por la oficina de Primera Infancia de la DE-MEC.*
+- *Para la categoría "Más de 6 años" se contabilizó a aquellos que tenían 7 y 8 años de edad*
 
 **2023** · hoja «II-1.2.7» · tipo A · 21 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL EN CENTROS DE PRIMERA INFANCIA PRIVADOS HABILITADOS POR EL INAU, POR EDAD SEGÚN DEPARTAMENTO (Todo el país, 2023)
 
@@ -2056,29 +2236,42 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-1.3.1</b></summary>
 
-**2020** · hoja «II-1.3.1» · tipo A · 22 filas · PERSONAL DOCENTE DE EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PÚBLICA DE LA DGEIP SEGÚN DEPARTAMENTO (Todo el país, 2020)
+**2020** · hoja «II-1.3.1» · tipo A · 21 filas · PERSONAL DOCENTE DE EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PÚBLICA DE LA DGEIP SEGÚN DEPARTAMENTO (Todo el país, 2020)
 
 - `DOCENTES`
 - *Fuente: Procesamiento propio en base a datos proporcionados por la Dirección Sectorial de Tecnologías de la Información y Comunicación — DGEIP*
 - *Nota: Personal docente se considera maestro/a de clase.*
+- **
 
-**2021** · hoja «II-1.3.1» · tipo A · 25 filas · PERSONAL DOCENTE DE EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PÚBLICA DE LA DGEIP SEGÚN DEPARTAMENTO (Todo el país, 2021)
-
-- `DOCENTES`
-- *Fuente: Departamento de Estadística Educativa de la D.G.E.I.P.*
-- *Notas:*
-
-**2022** · hoja «II-1.3.1» · tipo A · 25 filas · PERSONAL DOCENTE DE EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PÚBLICA DE LA DGEIP SEGÚN DEPARTAMENTO (Todo el país, 2022)
+**2021** · hoja «II-1.3.1» · tipo A · 21 filas · PERSONAL DOCENTE DE EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PÚBLICA DE LA DGEIP SEGÚN DEPARTAMENTO (Todo el país, 2021)
 
 - `DOCENTES`
 - *Fuente: Departamento de Estadística Educativa de la D.G.E.I.P.*
 - *Notas:*
+- *Se entiende por personal docente a cargos de docencia directa con grupo asignado.*
+- *No se toma en cuenta cargos de Directores sin clase (URBANOS)*
+- *No se toma en cuenta cargos de Sub-Directores ni Secretarios.*
+- *No se toman en cuenta cargos de Profesores.*
 
-**2023** · hoja «II-1.3.1» · tipo A · 25 filas · PERSONAL DOCENTE DE EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PÚBLICA DE LA DGEIP SEGÚN DEPARTAMENTO (Todo el país, 2023)
+**2022** · hoja «II-1.3.1» · tipo A · 21 filas · PERSONAL DOCENTE DE EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PÚBLICA DE LA DGEIP SEGÚN DEPARTAMENTO (Todo el país, 2022)
 
 - `DOCENTES`
 - *Fuente: Departamento de Estadística Educativa de la D.G.E.I.P.*
 - *Notas:*
+- *Se entiende por personal docente a cargos de docencia directa con grupo asignado.*
+- *No se toma en cuenta cargos de Directores sin clase (URBANOS)*
+- *No se toma en cuenta cargos de Sub-Directores ni Secretarios.*
+- *No se toman en cuenta cargos de Profesores.*
+
+**2023** · hoja «II-1.3.1» · tipo A · 21 filas · PERSONAL DOCENTE DE EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PÚBLICA DE LA DGEIP SEGÚN DEPARTAMENTO (Todo el país, 2023)
+
+- `DOCENTES`
+- *Fuente: Departamento de Estadística Educativa de la D.G.E.I.P.*
+- *Notas:*
+- *Se entiende por personal docente a cargos de docencia directa con grupo asignado.*
+- *No se toma en cuenta cargos de Directores sin clase (URBANOS)*
+- *No se toma en cuenta cargos de Sub-Directores ni Secretarios.*
+- *No se toman en cuenta cargos de Profesores.*
 
 **2024** · hoja «II-1.3.1» · tipo A · 21 filas · PERSONAL DOCENTE DE EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PÚBLICA DE LA DGEIP SEGÚN DEPARTAMENTO (Todo el país, 2024)
 
@@ -2089,7 +2282,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-1.3.2</b></summary>
 
-**2020** · hoja «II-1.3.2» · tipo A · 22 filas · PERSONAL DOCENTE DE EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PRIVADA SEGÚN DEPARTAMENTO (Todo el país, 2020)
+**2020** · hoja «II-1.3.2» · tipo A · 21 filas · PERSONAL DOCENTE DE EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PRIVADA SEGÚN DEPARTAMENTO (Todo el país, 2020)
 
 - `DOCENTES/TOTAL`
 - `DOCENTES/Colegios Habilitados`
@@ -2097,17 +2290,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `DOCENTES/Jardines de Infantes Autorizados`
 - *Fuente: D.E.E. — DGEIP*
 - *Nota: Personal docente solo considera maestro/a de clase.*
+- *Centros privados habilitados o autorizados por ANEP.*
 
-**2021** · hoja «II-1.3.2» · tipo A · 22 filas · PERSONAL DOCENTE DE EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PRIVADA SEGÚN DEPARTAMENTO (Todo el país, 2021)
-
-- `DOCENTES/TOTAL`
-- `DOCENTES/Colegios Habilitados`
-- `DOCENTES/Colegios Autorizados`
-- `DOCENTES/Jardines de Infantes Autorizados`
-- *Fuente: D.E.E. — DGEIP*
-- *Nota: Personal docente solo considera maestro/a de clase.*
-
-**2022** · hoja «II-1.3.2» · tipo A · 22 filas · PERSONAL DOCENTE DE EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PRIVADA SEGÚN DEPARTAMENTO (Todo el país, 2022)
+**2021** · hoja «II-1.3.2» · tipo A · 21 filas · PERSONAL DOCENTE DE EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PRIVADA SEGÚN DEPARTAMENTO (Todo el país, 2021)
 
 - `DOCENTES/TOTAL`
 - `DOCENTES/Colegios Habilitados`
@@ -2115,8 +2300,19 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `DOCENTES/Jardines de Infantes Autorizados`
 - *Fuente: D.E.E. — DGEIP*
 - *Nota: Personal docente solo considera maestro/a de clase.*
+- *Centros privados habilitados o autorizados por ANEP.*
 
-**2023** · hoja «II-1.3.2» · tipo A · 23 filas · PERSONAL DOCENTE DE EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PRIVADA SEGÚN DEPARTAMENTO (Todo el país, 2023)
+**2022** · hoja «II-1.3.2» · tipo A · 21 filas · PERSONAL DOCENTE DE EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PRIVADA SEGÚN DEPARTAMENTO (Todo el país, 2022)
+
+- `DOCENTES/TOTAL`
+- `DOCENTES/Colegios Habilitados`
+- `DOCENTES/Colegios Autorizados`
+- `DOCENTES/Jardines de Infantes Autorizados`
+- *Fuente: D.E.E. — DGEIP*
+- *Nota: Personal docente solo considera maestro/a de clase.*
+- *Centros privados habilitados o autorizados por ANEP.*
+
+**2023** · hoja «II-1.3.2» · tipo A · 21 filas · PERSONAL DOCENTE DE EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PRIVADA SEGÚN DEPARTAMENTO (Todo el país, 2023)
 
 - `DOCENTES/TOTAL`
 - `DOCENTES/Colegios Habilitados`
@@ -2124,8 +2320,10 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `DOCENTES/Jardines de Infantes Autorizados`
 - *Fuente: D.E.E. — DGEIP*
 - *Nota:Se reporta último año disponible enviado por la DGEIP- privada.*
+- *Personal docente solo considera maestro/a de clase.*
+- *Centros privados habilitados o autorizados por ANEP.*
 
-**2024** · hoja «II-1.3.2» · tipo A · 23 filas · PERSONAL DOCENTE DE EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PRIVADA SEGÚN DEPARTAMENTO (Todo el país, 2024*)
+**2024** · hoja «II-1.3.2» · tipo A · 21 filas · PERSONAL DOCENTE DE EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PRIVADA SEGÚN DEPARTAMENTO (Todo el país, 2024*)
 
 - `DOCENTES/TOTAL`
 - `DOCENTES/Colegios Habilitados`
@@ -2133,12 +2331,14 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `DOCENTES/Jardines de Infantes Autorizados`
 - *Fuente: D.E.E. — DGEIP*
 - *Nota:Se reporta último año disponible enviado por la DGEIP (año 2022).*
+- *Personal docente solo considera maestro/a de clase.*
+- *Centros privados habilitados o autorizados por ANEP.*
 
 </details>
 
 <details><summary><b>II-1.3.3</b></summary>
 
-**2020** · hoja «II-1.3.3» · tipo A · 25 filas · PERSONAL DOCENTE EN EDUCACIÓN EN LA PRIMERA INFANCIA PRIVADA SUPERVISADA POR EL MEC SEGÚN FUNCIÓN Y DEPARTAMENTO (Todo el país, 2020)
+**2020** · hoja «II-1.3.3» · tipo A · 21 filas · PERSONAL DOCENTE EN EDUCACIÓN EN LA PRIMERA INFANCIA PRIVADA SUPERVISADA POR EL MEC SEGÚN FUNCIÓN Y DEPARTAMENTO (Todo el país, 2020)
 
 - `FUNCIÓN/TOTAL`
 - `FUNCIÓN/Director responsable técnico`
@@ -2148,8 +2348,12 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `FUNCIÓN/Responsable legal`
 - *Fuente: Elaboración propia en base al relevamiento realizado por la Div. Investigación y Estadística, sobre Centros de Primera Infancia e Inicial Privados, supervisados por el MEC.*
 - *Notas:*
+- *Educadores: Son aquellos que la tarea de docencia es directa, ya sea de carácter de docente propiamente dicho o de auxiliar. Informe Primer censo nacional de centros de Educación Infantil Privados.*
+- *Otros especialistas: Se refiere a profesionales que apoyan la tarea de los educadores sin ejercer educación directa. En esta categoría entran psicólogo, psicomotricistas, trabajadores sociales, nutricionistas, médico pediatra y otros especialistas.*
+- *Profesores especiales: Son docentes que se especializan en un área en particular. Esta categoría incluye profesores de computación, inglés, plástica, eduación musical y artística y personal responsable de actividades extracurriculares.*
+- **
 
-**2021** · hoja «II-1.3.3» · tipo A · 26 filas · PERSONAL DOCENTE EN EDUCACIÓN EN LOS CENTROS DE PRIMERA INFANCIA PRIVADA SUPERVISADA POR INAU SEGÚN FUNCIÓN Y DEPARTAMENTO (Todo el país, 2021)
+**2021** · hoja «II-1.3.3» · tipo A · 21 filas · PERSONAL DOCENTE EN EDUCACIÓN EN LOS CENTROS DE PRIMERA INFANCIA PRIVADA SUPERVISADA POR INAU SEGÚN FUNCIÓN Y DEPARTAMENTO (Todo el país, 2021)
 
 - `FUNCIÓN/TOTAL`
 - `FUNCIÓN/Director responsable técnico`
@@ -2159,19 +2363,13 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `FUNCIÓN/Responsable legal`
 - *Fuente: Elaboración propia en base al relevamiento realizado por la División Investigación y Estadística de la Dirección Nacional de Educación del MEC de los Centros de Primera Infancia Privados y de bases de datos proporcionadas por el SIPI de INAU para proyectos CAIF, CAPI, NUESTROS NIÑOS*
 - *Notas:*
+- *El personal docente de Centros de Primera Infancia Privados supervisados por INAU corresponden al de los Centros Privados supervisados por el MEC del año 2021.*
+- *Educadores: Son aquellos que la tarea de docencia es directa, ya sea de carácter de docente propiamente dicho o de auxiliar.*
+- *Otros especialistas: Se refiere a profesionales que apoyan la tarea de los educadores sin ejercer educación directa. En esta categoría entran psicólogo, psicomotricistas, trabajadores sociales, nutricionistas, médico pediatra y otros especialistas.*
+- *Profesores especiales: Son docentes que se especializan en un área en particular. Esta categoría incluye profesores de computación, inglés, plástica, eduación musical y artística y personal responsable de actividades extracurriculares.*
+- **
 
-**2022** · hoja «II-1.3.3» · tipo A · 25 filas · PERSONAL DOCENTE EN EDUCACIÓN EN LOS CENTROS DE PRIMERA INFANCIA PRIVADA SUPERVISADA POR INAU SEGÚN FUNCIÓN Y DEPARTAMENTO (Todo el país, 2022)
-
-- `FUNCIÓN/TOTAL`
-- `FUNCIÓN/Director responsable técnico`
-- `FUNCIÓN/Educadores`
-- `FUNCIÓN/Otros especialistas`
-- `FUNCIÓN/Profesores especiales`
-- `FUNCIÓN/Responsable legal`
-- *Fuente: Elaboración propia en base al relevamiento realizado por la División Investigación y Estadística de la Dirección Nacional de Educación del MEC de los Centros de Primera Infancia Privados.*
-- *Notas:*
-
-**2023** · hoja «II-1.3.3» · tipo A · 25 filas · PERSONAL DOCENTE EN EDUCACIÓN EN LOS CENTROS DE PRIMERA INFANCIA PRIVADA SUPERVISADA POR INAU SEGÚN FUNCIÓN Y DEPARTAMENTO (Todo el país, 2023)
+**2022** · hoja «II-1.3.3» · tipo A · 21 filas · PERSONAL DOCENTE EN EDUCACIÓN EN LOS CENTROS DE PRIMERA INFANCIA PRIVADA SUPERVISADA POR INAU SEGÚN FUNCIÓN Y DEPARTAMENTO (Todo el país, 2022)
 
 - `FUNCIÓN/TOTAL`
 - `FUNCIÓN/Director responsable técnico`
@@ -2181,8 +2379,12 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `FUNCIÓN/Responsable legal`
 - *Fuente: Elaboración propia en base al relevamiento realizado por la División Investigación y Estadística de la Dirección Nacional de Educación del MEC de los Centros de Primera Infancia Privados.*
 - *Notas:*
+- *Educadores: Son aquellos que la tarea de docencia es directa, ya sea de carácter de docente propiamente dicho o de auxiliar.*
+- *Otros especialistas: Se refiere a profesionales que apoyan la tarea de los educadores sin ejercer educación directa. En esta categoría entran psicólogo, psicomotricistas, trabajadores sociales, nutricionistas, médico pediatra y otros especialistas.*
+- *Profesores especiales: Son docentes que se especializan en un área en particular. Esta categoría incluye profesores de computación, inglés, plástica, eduación musical y artística y personal responsable de actividades extracurriculares.*
+- **
 
-**2024** · hoja «II-1.3.3» · tipo A · 25 filas · PERSONAL DOCENTE EN EDUCACIÓN EN LOS CENTROS DE PRIMERA INFANCIA PRIVADA SUPERVISADA POR INAU SEGÚN FUNCIÓN Y DEPARTAMENTO (Todo el país, 2024)
+**2023** · hoja «II-1.3.3» · tipo A · 21 filas · PERSONAL DOCENTE EN EDUCACIÓN EN LOS CENTROS DE PRIMERA INFANCIA PRIVADA SUPERVISADA POR INAU SEGÚN FUNCIÓN Y DEPARTAMENTO (Todo el país, 2023)
 
 - `FUNCIÓN/TOTAL`
 - `FUNCIÓN/Director responsable técnico`
@@ -2192,6 +2394,25 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `FUNCIÓN/Responsable legal`
 - *Fuente: Elaboración propia en base al relevamiento realizado por la División Investigación y Estadística de la Dirección Nacional de Educación del MEC de los Centros de Primera Infancia Privados.*
 - *Notas:*
+- *Educadores: Son aquellos que la tarea de docencia es directa, ya sea de carácter de docente propiamente dicho o de auxiliar.*
+- *Otros especialistas: Se refiere a profesionales que apoyan la tarea de los educadores sin ejercer educación directa. En esta categoría entran psicólogo, psicomotricistas, trabajadores sociales, nutricionistas, médico pediatra y otros especialistas.*
+- *Profesores especiales: Son docentes que se especializan en un área en particular. Esta categoría incluye profesores de computación, inglés, plástica, eduación musical y artística y personal responsable de actividades extracurriculares.*
+- **
+
+**2024** · hoja «II-1.3.3» · tipo A · 21 filas · PERSONAL DOCENTE EN EDUCACIÓN EN LOS CENTROS DE PRIMERA INFANCIA PRIVADA SUPERVISADA POR INAU SEGÚN FUNCIÓN Y DEPARTAMENTO (Todo el país, 2024)
+
+- `FUNCIÓN/TOTAL`
+- `FUNCIÓN/Director responsable técnico`
+- `FUNCIÓN/Educadores`
+- `FUNCIÓN/Otros especialistas`
+- `FUNCIÓN/Profesores especiales`
+- `FUNCIÓN/Responsable legal`
+- *Fuente: Elaboración propia en base al relevamiento realizado por la División Investigación y Estadística de la Dirección Nacional de Educación del MEC de los Centros de Primera Infancia Privados.*
+- *Notas:*
+- *Educadores: Son aquellos que la tarea de docencia es directa, ya sea de carácter de docente propiamente dicho o de auxiliar.*
+- *Otros especialistas: Se refiere a profesionales que apoyan la tarea de los educadores sin ejercer educación directa. En esta categoría entran psicólogo, psicomotricistas, trabajadores sociales, nutricionistas, médico pediatra y otros especialistas.*
+- *Profesores especiales: Son docentes que se especializan en un área en particular. Esta categoría incluye profesores de computación, inglés, plástica, eduación musical y artística y personal responsable de actividades extracurriculares.*
+- **
 
 </details>
 
@@ -2458,7 +2679,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-2.1.3</b></summary>
 
-**2020** · hoja «II-2.1.3» · tipo A · 25 filas · ESTABLECIMIENTOS DE EDUCACIÓN PRIMARIA PÚBLICA ESPECIAL POR TIPO DE DISCAPACIDAD SEGÚN DEPARTAMENTO (Todo el país, 2020)
+**2020** · hoja «II-2.1.3» · tipo A · 21 filas · ESTABLECIMIENTOS DE EDUCACIÓN PRIMARIA PÚBLICA ESPECIAL POR TIPO DE DISCAPACIDAD SEGÚN DEPARTAMENTO (Todo el país, 2020)
 
 - `TOTAL`
 - `DISCAPACIDAD/Intelectual`
@@ -2466,17 +2687,12 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `DISCAPACIDAD/Visual`
 - *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
 - *Nota: Los establecimientos que atienden discapacidades intelectuales, además de atender niños con disfunciones clásicamente tipificadas como “Intelectuales”, atienden a los niños con discapacidades de orden motriz o de carácter, lo que implica que la matrícula correspondiente los agrupa.*
+- **
+- **
+- **
+- **
 
-**2021** · hoja «II-2.1.3» · tipo A · 25 filas · ESTABLECIMIENTOS DE EDUCACIÓN PRIMARIA PÚBLICA ESPECIAL POR TIPO DE DISCAPACIDAD SEGÚN DEPARTAMENTO (Todo el país, 2021)
-
-- `TOTAL`
-- `DISCAPACIDAD/Intelectual`
-- `DISCAPACIDAD/Auditiva`
-- `DISCAPACIDAD/Visual`
-- *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
-- *Nota: Los establecimientos que atienden discapacidades intelectuales, además de atender niños con disfunciones clásicamente tipificadas como “Intelectuales”, atienden a los niños con discapacidades de orden motriz o de carácter, lo que implica que la matrícula correspondiente los agrupa.*
-
-**2022** · hoja «II-2.1.3» · tipo A · 25 filas · ESTABLECIMIENTOS DE EDUCACIÓN PRIMARIA PÚBLICA ESPECIAL POR TIPO DE DISCAPACIDAD SEGÚN DEPARTAMENTO (Todo el país, 2022)
+**2021** · hoja «II-2.1.3» · tipo A · 21 filas · ESTABLECIMIENTOS DE EDUCACIÓN PRIMARIA PÚBLICA ESPECIAL POR TIPO DE DISCAPACIDAD SEGÚN DEPARTAMENTO (Todo el país, 2021)
 
 - `TOTAL`
 - `DISCAPACIDAD/Intelectual`
@@ -2484,17 +2700,12 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `DISCAPACIDAD/Visual`
 - *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
 - *Nota: Los establecimientos que atienden discapacidades intelectuales, además de atender niños con disfunciones clásicamente tipificadas como “Intelectuales”, atienden a los niños con discapacidades de orden motriz o de carácter, lo que implica que la matrícula correspondiente los agrupa.*
+- **
+- **
+- **
+- **
 
-**2023** · hoja «II-2.1.3» · tipo A · 25 filas · ESTABLECIMIENTOS DE EDUCACIÓN PRIMARIA PÚBLICA ESPECIAL POR TIPO DE DISCAPACIDAD SEGÚN DEPARTAMENTO (Todo el país, 2023)
-
-- `TOTAL`
-- `DISCAPACIDAD/Intelectual`
-- `DISCAPACIDAD/Auditiva`
-- `DISCAPACIDAD/Visual`
-- *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
-- *Nota: Los establecimientos que atienden discapacidades intelectuales, además de atender niños con disfunciones clásicamente tipificadas como “Intelectuales”, atienden a los niños con discapacidades de orden motriz o de carácter, lo que implica que la matrícula correspondiente los agrupa.*
-
-**2024** · hoja «II-2.1.3» · tipo A · 25 filas · ESTABLECIMIENTOS DE EDUCACIÓN PRIMARIA PÚBLICA ESPECIAL POR TIPO DE DISCAPACIDAD SEGÚN DEPARTAMENTO (Todo el país, 2024)
+**2022** · hoja «II-2.1.3» · tipo A · 21 filas · ESTABLECIMIENTOS DE EDUCACIÓN PRIMARIA PÚBLICA ESPECIAL POR TIPO DE DISCAPACIDAD SEGÚN DEPARTAMENTO (Todo el país, 2022)
 
 - `TOTAL`
 - `DISCAPACIDAD/Intelectual`
@@ -2502,6 +2713,36 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `DISCAPACIDAD/Visual`
 - *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
 - *Nota: Los establecimientos que atienden discapacidades intelectuales, además de atender niños con disfunciones clásicamente tipificadas como “Intelectuales”, atienden a los niños con discapacidades de orden motriz o de carácter, lo que implica que la matrícula correspondiente los agrupa.*
+- **
+- **
+- **
+- **
+
+**2023** · hoja «II-2.1.3» · tipo A · 21 filas · ESTABLECIMIENTOS DE EDUCACIÓN PRIMARIA PÚBLICA ESPECIAL POR TIPO DE DISCAPACIDAD SEGÚN DEPARTAMENTO (Todo el país, 2023)
+
+- `TOTAL`
+- `DISCAPACIDAD/Intelectual`
+- `DISCAPACIDAD/Auditiva`
+- `DISCAPACIDAD/Visual`
+- *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
+- *Nota: Los establecimientos que atienden discapacidades intelectuales, además de atender niños con disfunciones clásicamente tipificadas como “Intelectuales”, atienden a los niños con discapacidades de orden motriz o de carácter, lo que implica que la matrícula correspondiente los agrupa.*
+- **
+- **
+- **
+- **
+
+**2024** · hoja «II-2.1.3» · tipo A · 21 filas · ESTABLECIMIENTOS DE EDUCACIÓN PRIMARIA PÚBLICA ESPECIAL POR TIPO DE DISCAPACIDAD SEGÚN DEPARTAMENTO (Todo el país, 2024)
+
+- `TOTAL`
+- `DISCAPACIDAD/Intelectual`
+- `DISCAPACIDAD/Auditiva`
+- `DISCAPACIDAD/Visual`
+- *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
+- *Nota: Los establecimientos que atienden discapacidades intelectuales, además de atender niños con disfunciones clásicamente tipificadas como “Intelectuales”, atienden a los niños con discapacidades de orden motriz o de carácter, lo que implica que la matrícula correspondiente los agrupa.*
+- **
+- **
+- **
+- **
 
 </details>
 
@@ -2826,7 +3067,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-2.2.4</b></summary>
 
-**2020** · hoja «II-2.2.4» · tipo A · 22 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PÚBLICA ESPECIAL POR TIPO DE DISCAPACIDAD SEGÚN DEPARTAMENTO (Todo el país, 2020)
+**2020** · hoja «II-2.2.4» · tipo A · 21 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PÚBLICA ESPECIAL POR TIPO DE DISCAPACIDAD SEGÚN DEPARTAMENTO (Todo el país, 2020)
 
 - `DEPARTAMENTO`
 - `TOTAL`
@@ -2839,22 +3080,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `DISCAPACIDAD/Trastornos generalizados del desarrollo`
 - *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
 - *Nota: No incluye Clases Especiales en Escuelas Comunes*
+- *La categorìa "trastornos generalizados del desarrollo" incluye la categoría "especial" y “pluridiscapacidad”.*
 
-**2021** · hoja «II-2.2.4» · tipo A · 22 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PÚBLICA ESPECIAL POR TIPO DE DISCAPACIDAD SEGÚN DEPARTAMENTO (Todo el país, 2021)
-
-- `DEPARTAMENTO`
-- `TOTAL`
-- `DISCAPACIDAD/Auditiva`
-- `DISCAPACIDAD/Intelectual`
-- `DISCAPACIDAD/Motriz`
-- `DISCAPACIDAD/Visual`
-- `DISCAPACIDAD/Problemas de conducta`
-- `DISCAPACIDAD/Problemas de personalidad`
-- `DISCAPACIDAD/Trastornos generalizados del desarrollo`
-- *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
-- *Nota: No incluye Clases Especiales en Escuelas Comunes*
-
-**2022** · hoja «II-2.2.4» · tipo A · 22 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PÚBLICA ESPECIAL POR TIPO DE DISCAPACIDAD SEGÚN DEPARTAMENTO (Todo el país, 2022)
+**2021** · hoja «II-2.2.4» · tipo A · 21 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PÚBLICA ESPECIAL POR TIPO DE DISCAPACIDAD SEGÚN DEPARTAMENTO (Todo el país, 2021)
 
 - `DEPARTAMENTO`
 - `TOTAL`
@@ -2867,8 +3095,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `DISCAPACIDAD/Trastornos generalizados del desarrollo`
 - *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
 - *Nota: No incluye Clases Especiales en Escuelas Comunes*
+- *La categorìa "trastornos generalizados del desarrollo" incluye la categoría “pluridiscapacidad”.*
 
-**2023** · hoja «II-2.2.4» · tipo A · 22 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PÚBLICA ESPECIAL POR TIPO DE DISCAPACIDAD SEGÚN DEPARTAMENTO (Todo el país, 2023)
+**2022** · hoja «II-2.2.4» · tipo A · 21 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PÚBLICA ESPECIAL POR TIPO DE DISCAPACIDAD SEGÚN DEPARTAMENTO (Todo el país, 2022)
 
 - `DEPARTAMENTO`
 - `TOTAL`
@@ -2881,6 +3110,22 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `DISCAPACIDAD/Trastornos generalizados del desarrollo`
 - *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
 - *Nota: No incluye Clases Especiales en Escuelas Comunes*
+- *La categorìa "trastornos generalizados del desarrollo" incluye la categoría “pluridiscapacidad”.*
+
+**2023** · hoja «II-2.2.4» · tipo A · 21 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PÚBLICA ESPECIAL POR TIPO DE DISCAPACIDAD SEGÚN DEPARTAMENTO (Todo el país, 2023)
+
+- `DEPARTAMENTO`
+- `TOTAL`
+- `DISCAPACIDAD/Auditiva`
+- `DISCAPACIDAD/Intelectual`
+- `DISCAPACIDAD/Motriz`
+- `DISCAPACIDAD/Visual`
+- `DISCAPACIDAD/Problemas de conducta`
+- `DISCAPACIDAD/Problemas de personalidad`
+- `DISCAPACIDAD/Trastornos generalizados del desarrollo`
+- *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
+- *Nota: No incluye Clases Especiales en Escuelas Comunes*
+- *La categorìa "trastornos generalizados del desarrollo" incluye la categoría “pluridiscapacidad”.*
 
 **2024** · hoja «II-2.2.4» · tipo A · 21 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PÚBLICA ESPECIAL POR TIPO DE DISCAPACIDAD SEGÚN DEPARTAMENTO (Todo el país, 2024)
 
@@ -3189,7 +3434,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-2.2.6</b></summary>
 
-**2020** · hoja «II-2.2.6» · tipo A · 42 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PRIVADA POR TIPO DE EDUCACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2020)
+**2020** · hoja «II-2.2.6» · tipo A · 21 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PRIVADA POR TIPO DE EDUCACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2020)
 
 - `TIPO DE EDUCACIÓN/TOTAL`
 - `TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Total`
@@ -3198,8 +3443,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `TIPO DE EDUCACIÓN/EDUCACIÓN ESPECIAL`
 - *Fuente: Procesamiento propio en base a datos proporcionados por el D.E.E. — DGEIP*
 - *Nota: Especial incluye la matrícula de clases especiales en escuelas comunes,*
+- *Instrucción Temprana, Educación Inicial, Preparatorio y Talleres*
 
-**2021** · hoja «II-2.2.6» · tipo A · 42 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PRIVADA POR TIPO DE EDUCACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2021*)
+**2021** · hoja «II-2.2.6» · tipo A · 21 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PRIVADA POR TIPO DE EDUCACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2021*)
 
 - `TIPO DE EDUCACIÓN/TOTAL`
 - `TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Total`
@@ -3208,9 +3454,10 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `TIPO DE EDUCACIÓN/EDUCACIÓN ESPECIAL`
 - *Fuente: Procesamiento propio en base a datos proporcionados por el D.E.E. — DGEIP*
 - *Nota: Especial incluye la matrícula de clases especiales en escuelas comunes,*
+- *Instrucción Temprana, Educación Inicial, Preparatorio y Talleres*
 - *Nota: Los datos correspondientes a Privada de la DGEIP corresponden al año 2020, dado que al momento de cierre de la publicación no estaba el dato correspondiente a 2021*
 
-**2022** · hoja «II-2.2.6» · tipo A · 42 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PRIVADA POR TIPO DE EDUCACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2022)
+**2022** · hoja «II-2.2.6» · tipo A · 21 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PRIVADA POR TIPO DE EDUCACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2022)
 
 - `TIPO DE EDUCACIÓN/TOTAL`
 - `TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Total`
@@ -3219,18 +3466,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `TIPO DE EDUCACIÓN/EDUCACIÓN ESPECIAL`
 - *Fuente: Procesamiento propio en base a datos proporcionados por el D.E.E. — DGEIP*
 - *Nota: Especial incluye la matrícula de clases especiales en escuelas comunes,*
+- *Instrucción Temprana, Educación Inicial, Preparatorio y Talleres*
 
-**2023** · hoja «II-2.2.6» · tipo A · 42 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PRIVADA POR TIPO DE EDUCACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2023)
-
-- `TIPO DE EDUCACIÓN/TOTAL`
-- `TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Total`
-- `TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Habilitados`
-- `TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Autorizados`
-- `TIPO DE EDUCACIÓN/EDUCACIÓN ESPECIAL`
-- *Fuente: Procesamiento propio en base a datos proporcionados por el D.E.E. — DGEIP*
-- *Nota: Especial incluye la matrícula de clases especiales en escuelas comunes,*
-
-**2024** · hoja «II-2.2.6» · tipo A · 42 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PRIVADA POR TIPO DE EDUCACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2024)
+**2023** · hoja «II-2.2.6» · tipo A · 21 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PRIVADA POR TIPO DE EDUCACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2023)
 
 - `TIPO DE EDUCACIÓN/TOTAL`
 - `TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Total`
@@ -3239,6 +3477,18 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `TIPO DE EDUCACIÓN/EDUCACIÓN ESPECIAL`
 - *Fuente: Procesamiento propio en base a datos proporcionados por el D.E.E. — DGEIP*
 - *Nota: Especial incluye la matrícula de clases especiales en escuelas comunes,*
+- *Instrucción Temprana, Educación Inicial, Preparatorio y Talleres*
+
+**2024** · hoja «II-2.2.6» · tipo A · 21 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PRIVADA POR TIPO DE EDUCACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2024)
+
+- `TIPO DE EDUCACIÓN/TOTAL`
+- `TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Total`
+- `TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Habilitados`
+- `TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Autorizados`
+- `TIPO DE EDUCACIÓN/EDUCACIÓN ESPECIAL`
+- *Fuente: Procesamiento propio en base a datos proporcionados por el D.E.E. — DGEIP*
+- *Nota: Especial incluye la matrícula de clases especiales en escuelas comunes,*
+- *Instrucción Temprana, Educación Inicial, Preparatorio y Talleres*
 
 </details>
 
@@ -3518,7 +3768,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-2.2.8</b></summary>
 
-**2020** · hoja «II-2.2.8» · tipo B · 13 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN POR GRADO Y FORMA DE ADMINISTRACIÓN SEGÚN EDAD(Todo el país, 2020)
+**2020** · hoja «II-2.2.8» · tipo B · 11 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN POR GRADO Y FORMA DE ADMINISTRACIÓN SEGÚN EDAD(Todo el país, 2020)
 
 - `TOTAL/Pública`
 - `GRADO/TOTAL/Privada`
@@ -3536,27 +3786,10 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Privada`
 - *Fuente: Procesamiento propio en base a datos proporcionados por el D.E.E. y el D.T.I. — DGEIP*
 - *Notas: Primaria Pública no incluye la matrícula correspondiente a JICI*
+- *Primaria Privada: Se carece de datos desagregados por edad y sexo para la totalidad de la matrícula. Por lo tanto, se realizó un prorrateo a partir de la información disponible*
+- *En Primaria Pùblica se desconoce la edad para 3 casos*
 
-**2021** · hoja «II-2.2.8» · tipo B · 25 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN POR GRADO Y FORMA DE ADMINISTRACIÓN SEGÚN EDAD(Todo el país, 2021*)
-
-- `TOTAL/Pública`
-- `GRADO/TOTAL/Privada`
-- `GRADO/Primero/FORMA DE ADMINISTRACIÓN/Pública`
-- `GRADO/Primero/FORMA DE ADMINISTRACIÓN/Privada`
-- `GRADO/Segundo/FORMA DE ADMINISTRACIÓN/Pública`
-- `GRADO/Segundo/FORMA DE ADMINISTRACIÓN/Privada`
-- `GRADO/Tercero/FORMA DE ADMINISTRACIÓN/Pública`
-- `GRADO/Tercero/FORMA DE ADMINISTRACIÓN/Privada`
-- `GRADO/Cuarto/FORMA DE ADMINISTRACIÓN/Pública`
-- `GRADO/Cuarto/FORMA DE ADMINISTRACIÓN/Privada`
-- `GRADO/Quinto/FORMA DE ADMINISTRACIÓN/Pública`
-- `GRADO/Quinto/FORMA DE ADMINISTRACIÓN/Privada`
-- `GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Pública`
-- `GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Privada`
-- *Fuente: Procesamiento propio en base a datos proporcionados por el D.E.E. y el D.T.I. — DGEIP*
-- *Notas: Primaria Pública no incluye la matrícula correspondiente a JICI*
-
-**2022** · hoja «II-2.2.8» · tipo B · 25 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN POR GRADO Y FORMA DE ADMINISTRACIÓN SEGÚN EDAD(Todo el país, 2022*)
+**2021** · hoja «II-2.2.8» · tipo B · 24 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN POR GRADO Y FORMA DE ADMINISTRACIÓN SEGÚN EDAD(Todo el país, 2021*)
 
 - `TOTAL/Pública`
 - `GRADO/TOTAL/Privada`
@@ -3574,6 +3807,27 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Privada`
 - *Fuente: Procesamiento propio en base a datos proporcionados por el D.E.E. y el D.T.I. — DGEIP*
 - *Notas: Primaria Pública no incluye la matrícula correspondiente a JICI*
+- *Primaria Privada: Se carece de datos desagregados por edad y sexo para la totalidad de la matrícula. Por lo tanto, se realizó un prorrateo a partir de la información disponible que corresponden al año 2020, dado que al momento de cierre de la publicación no estaba el dato correspondiente a 2021*
+
+**2022** · hoja «II-2.2.8» · tipo B · 24 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN POR GRADO Y FORMA DE ADMINISTRACIÓN SEGÚN EDAD(Todo el país, 2022*)
+
+- `TOTAL/Pública`
+- `GRADO/TOTAL/Privada`
+- `GRADO/Primero/FORMA DE ADMINISTRACIÓN/Pública`
+- `GRADO/Primero/FORMA DE ADMINISTRACIÓN/Privada`
+- `GRADO/Segundo/FORMA DE ADMINISTRACIÓN/Pública`
+- `GRADO/Segundo/FORMA DE ADMINISTRACIÓN/Privada`
+- `GRADO/Tercero/FORMA DE ADMINISTRACIÓN/Pública`
+- `GRADO/Tercero/FORMA DE ADMINISTRACIÓN/Privada`
+- `GRADO/Cuarto/FORMA DE ADMINISTRACIÓN/Pública`
+- `GRADO/Cuarto/FORMA DE ADMINISTRACIÓN/Privada`
+- `GRADO/Quinto/FORMA DE ADMINISTRACIÓN/Pública`
+- `GRADO/Quinto/FORMA DE ADMINISTRACIÓN/Privada`
+- `GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Pública`
+- `GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Privada`
+- *Fuente: Procesamiento propio en base a datos proporcionados por el D.E.E. y el D.T.I. — DGEIP*
+- *Notas: Primaria Pública no incluye la matrícula correspondiente a JICI*
+- *Primaria Privada: Se carece de datos desagregados por edad y sexo. El total por grado corresponde a datos adminstrativos 2022, pero la desagregación por edad y sexo fue prorateada a partir de los últimos datos disponibles que corresponden al año 2016.*
 
 **2023** · hoja «II-2.2.8» · tipo B · 24 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN POR GRADO Y FORMA DE ADMINISTRACIÓN SEGÚN EDAD(Todo el país, 2023)
 
@@ -3594,7 +3848,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - *Fuente: Procesamiento propio en base a datos proporcionados por el D.E.E. y el D.T.I. — DGEIP*
 - *Notas: Primaria Pública no incluye la matrícula correspondiente a JICI*
 
-**2024** · hoja «II-2.2.8» · tipo B · 25 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN POR GRADO Y FORMA DE ADMINISTRACIÓN SEGÚN EDAD(Todo el país, 2024)
+**2024** · hoja «II-2.2.8» · tipo B · 24 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN POR GRADO Y FORMA DE ADMINISTRACIÓN SEGÚN EDAD(Todo el país, 2024)
 
 - `TOTAL/Pública`
 - `GRADO/TOTAL/Privada`
@@ -3612,12 +3866,13 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Privada`
 - *Fuente: Procesamiento propio en base a datos proporcionados por el D.E.E. y el D.T.I. — DGEIP*
 - *Notas: Primaria Pública no incluye la matrícula correspondiente a JICI*
+- *Primaria Privada carecen de información por edad*
 
 </details>
 
 <details><summary><b>II-2.2.9</b></summary>
 
-**2020** · hoja «II-2.2.9» · tipo B · 12 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR GRADO Y SEXO SEGÚN EDAD (Todo el país, 2020)
+**2020** · hoja «II-2.2.9» · tipo B · 11 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR GRADO Y SEXO SEGÚN EDAD (Todo el país, 2020)
 
 - `TOTAL`
 - `TOTAL SEXO/VARÓN`
@@ -3636,6 +3891,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `GRADO/Sexto/SEXO/M`
 - *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
 - *Nota: Primaria Pública no incluye la matrícula correspondiente a JICI*
+- *En Primaria Pùblica se desconoce la edad para 3 casos*
 
 **2021** · hoja «II-2.2.9» · tipo B · 24 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR GRADO Y SEXO SEGÚN EDAD (Todo el país, 2021)
 
@@ -4086,7 +4342,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-2.2.13</b></summary>
 
-**2020** · hoja «II-2.2.13» · tipo A · 22 filas · RENDIMIENTO ESCOLAR EN EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR ÁREA DEMOGRÁFICA SEGÚN DEPARTAMENTO (Todo el país, 2020)
+**2020** · hoja «II-2.2.13» · tipo A · 21 filas · RENDIMIENTO ESCOLAR EN EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR ÁREA DEMOGRÁFICA SEGÚN DEPARTAMENTO (Todo el país, 2020)
 
 - `RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL`
 - `RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana`
@@ -4096,19 +4352,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural`
 - *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
 - *Notas: No incluye datos correspondientes a JICI*
+- *No se presenta información para la Educación Primaria Privada porque no existen establecimientos privados en el área demográfica rural*
 
-**2021** · hoja «II-2.2.13» · tipo A · 22 filas · RENDIMIENTO ESCOLAR EN EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR ÁREA DEMOGRÁFICA SEGÚN DEPARTAMENTO (Todo el país, 2021)
-
-- `RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL`
-- `RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana`
-- `RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural`
-- `RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL`
-- `RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana`
-- `RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural`
-- *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
-- *Notas: No incluye datos correspondientes a JICI*
-
-**2022** · hoja «II-2.2.13» · tipo A · 22 filas · RENDIMIENTO ESCOLAR EN EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR ÁREA DEMOGRÁFICA SEGÚN DEPARTAMENTO (Todo el país, 2022)
+**2021** · hoja «II-2.2.13» · tipo A · 21 filas · RENDIMIENTO ESCOLAR EN EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR ÁREA DEMOGRÁFICA SEGÚN DEPARTAMENTO (Todo el país, 2021)
 
 - `RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL`
 - `RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana`
@@ -4118,19 +4364,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural`
 - *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
 - *Notas: No incluye datos correspondientes a JICI*
+- *No se presenta información para la Educación Primaria Privada porque no existen establecimientos privados en el área demográfica rural*
 
-**2023** · hoja «II-2.2.13» · tipo A · 22 filas · RENDIMIENTO ESCOLAR EN EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR ÁREA DEMOGRÁFICA SEGÚN DEPARTAMENTO (Todo el país, 2023)
-
-- `RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL`
-- `RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana`
-- `RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural`
-- `RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL`
-- `RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana`
-- `RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural`
-- *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
-- *Notas: No incluye datos correspondientes a JICI*
-
-**2024** · hoja «II-2.2.13» · tipo A · 22 filas · RENDIMIENTO ESCOLAR EN EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR ÁREA DEMOGRÁFICA SEGÚN DEPARTAMENTO (Todo el país, 2024)
+**2022** · hoja «II-2.2.13» · tipo A · 21 filas · RENDIMIENTO ESCOLAR EN EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR ÁREA DEMOGRÁFICA SEGÚN DEPARTAMENTO (Todo el país, 2022)
 
 - `RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL`
 - `RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana`
@@ -4140,6 +4376,31 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural`
 - *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
 - *Notas: No incluye datos correspondientes a JICI*
+- *No se presenta información para la Educación Primaria Privada porque no existen establecimientos privados en el área demográfica rural*
+
+**2023** · hoja «II-2.2.13» · tipo A · 21 filas · RENDIMIENTO ESCOLAR EN EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR ÁREA DEMOGRÁFICA SEGÚN DEPARTAMENTO (Todo el país, 2023)
+
+- `RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL`
+- `RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana`
+- `RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural`
+- `RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL`
+- `RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana`
+- `RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural`
+- *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
+- *Notas: No incluye datos correspondientes a JICI*
+- *No se presenta información para la Educación Primaria Privada porque no existen establecimientos privados en el área demográfica rural*
+
+**2024** · hoja «II-2.2.13» · tipo A · 21 filas · RENDIMIENTO ESCOLAR EN EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR ÁREA DEMOGRÁFICA SEGÚN DEPARTAMENTO (Todo el país, 2024)
+
+- `RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL`
+- `RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana`
+- `RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural`
+- `RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL`
+- `RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana`
+- `RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural`
+- *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
+- *Notas: No incluye datos correspondientes a JICI*
+- *No se presenta información para la Educación Primaria Privada porque no existen establecimientos privados en el área demográfica rural*
 
 </details>
 
@@ -4259,45 +4520,55 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-2.2.16</b></summary>
 
-**2020** · hoja «II-2.2.16» · tipo A · 23 filas · ESTUDIANTES MATRICULADOS EGRESADOS DE EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR ÁREA DEMOGRÁFICA SEGÚN DEPARTAMENTO (Todo el país, 2020)
+**2020** · hoja «II-2.2.16» · tipo A · 21 filas · ESTUDIANTES MATRICULADOS EGRESADOS DE EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR ÁREA DEMOGRÁFICA SEGÚN DEPARTAMENTO (Todo el país, 2020)
 
 - `ÁREA DEMOGRÁFICA/TOTAL`
 - `ÁREA DEMOGRÁFICA/Urbana`
 - `ÁREA DEMOGRÁFICA/Rural`
 - *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
 - *Nota: No se presenta información para Montevideo Rural por que no existen establecimientos en el área demográfica rural.*
+- **
+- **
 
-**2021** · hoja «II-2.2.16» · tipo A · 23 filas · ESTUDIANTES MATRICULADOS EGRESADOS DE EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR ÁREA DEMOGRÁFICA SEGÚN DEPARTAMENTO (Todo el país, 2021)
-
-- `ÁREA DEMOGRÁFICA/TOTAL`
-- `ÁREA DEMOGRÁFICA/Urbana`
-- `ÁREA DEMOGRÁFICA/Rural`
-- *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
-- *Nota: No se presenta información para Montevideo Rural por que no existen establecimientos en el área demográfica rural.*
-
-**2022** · hoja «II-2.2.16» · tipo A · 23 filas · ESTUDIANTES MATRICULADOS EGRESADOS DE EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR ÁREA DEMOGRÁFICA SEGÚN DEPARTAMENTO (Todo el país, 2022)
+**2021** · hoja «II-2.2.16» · tipo A · 21 filas · ESTUDIANTES MATRICULADOS EGRESADOS DE EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR ÁREA DEMOGRÁFICA SEGÚN DEPARTAMENTO (Todo el país, 2021)
 
 - `ÁREA DEMOGRÁFICA/TOTAL`
 - `ÁREA DEMOGRÁFICA/Urbana`
 - `ÁREA DEMOGRÁFICA/Rural`
 - *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
 - *Nota: No se presenta información para Montevideo Rural por que no existen establecimientos en el área demográfica rural.*
+- **
+- **
 
-**2023** · hoja «II-2.2.16» · tipo A · 23 filas · ESTUDIANTES MATRICULADOS EGRESADOS DE EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR ÁREA DEMOGRÁFICA SEGÚN DEPARTAMENTO (Todo el país, 2023)
-
-- `ÁREA DEMOGRÁFICA/TOTAL`
-- `ÁREA DEMOGRÁFICA/Urbana`
-- `ÁREA DEMOGRÁFICA/Rural`
-- *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
-- *Nota: No se presenta información para Montevideo Rural por que no existen establecimientos en el área demográfica rural.*
-
-**2024** · hoja «II-2.2.16» · tipo A · 23 filas · ESTUDIANTES MATRICULADOS EGRESADOS DE EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR ÁREA DEMOGRÁFICA SEGÚN DEPARTAMENTO (Todo el país, 2024)
+**2022** · hoja «II-2.2.16» · tipo A · 21 filas · ESTUDIANTES MATRICULADOS EGRESADOS DE EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR ÁREA DEMOGRÁFICA SEGÚN DEPARTAMENTO (Todo el país, 2022)
 
 - `ÁREA DEMOGRÁFICA/TOTAL`
 - `ÁREA DEMOGRÁFICA/Urbana`
 - `ÁREA DEMOGRÁFICA/Rural`
 - *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
 - *Nota: No se presenta información para Montevideo Rural por que no existen establecimientos en el área demográfica rural.*
+- **
+- **
+
+**2023** · hoja «II-2.2.16» · tipo A · 21 filas · ESTUDIANTES MATRICULADOS EGRESADOS DE EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR ÁREA DEMOGRÁFICA SEGÚN DEPARTAMENTO (Todo el país, 2023)
+
+- `ÁREA DEMOGRÁFICA/TOTAL`
+- `ÁREA DEMOGRÁFICA/Urbana`
+- `ÁREA DEMOGRÁFICA/Rural`
+- *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
+- *Nota: No se presenta información para Montevideo Rural por que no existen establecimientos en el área demográfica rural.*
+- **
+- **
+
+**2024** · hoja «II-2.2.16» · tipo A · 21 filas · ESTUDIANTES MATRICULADOS EGRESADOS DE EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR ÁREA DEMOGRÁFICA SEGÚN DEPARTAMENTO (Todo el país, 2024)
+
+- `ÁREA DEMOGRÁFICA/TOTAL`
+- `ÁREA DEMOGRÁFICA/Urbana`
+- `ÁREA DEMOGRÁFICA/Rural`
+- *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
+- *Nota: No se presenta información para Montevideo Rural por que no existen establecimientos en el área demográfica rural.*
+- **
+- **
 
 </details>
 
@@ -4367,7 +4638,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-2.2.18</b></summary>
 
-**2020** · hoja «II-2.2.18» · tipo A · 22 filas · ASISTENCIA INSUFICIENTE Y ABANDONO INTERMITENTE DE 1º GRADO Y 1º A 6º GRADO EN EDUCACIÓN COMÚN PÚBLICA SEGÚN DEPARTAMENTO (Todo el país, 2020)
+**2020** · hoja «II-2.2.18» · tipo A · 21 filas · ASISTENCIA INSUFICIENTE Y ABANDONO INTERMITENTE DE 1º GRADO Y 1º A 6º GRADO EN EDUCACIÓN COMÚN PÚBLICA SEGÚN DEPARTAMENTO (Todo el país, 2020)
 
 - `ASISTENCIA INSUFICIENTE/Sólo 1.er año`
 - `ASISTENCIA INSUFICIENTE/1.º a 6.º años`
@@ -4375,8 +4646,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `ABANDONO INTERMITENTE/1.º a 6.º años`
 - *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
 - *Nota: No incluye datos correspondientes a JICI .*
+- **
 
-**2021** · hoja «II-2.2.18» · tipo A · 22 filas · ASISTENCIA INSUFICIENTE Y ABANDONO INTERMITENTE DE 1º GRADO Y 1º A 6º GRADO EN EDUCACIÓN COMÚN PÚBLICA SEGÚN DEPARTAMENTO (Todo el país, 2021)
+**2021** · hoja «II-2.2.18» · tipo A · 21 filas · ASISTENCIA INSUFICIENTE Y ABANDONO INTERMITENTE DE 1º GRADO Y 1º A 6º GRADO EN EDUCACIÓN COMÚN PÚBLICA SEGÚN DEPARTAMENTO (Todo el país, 2021)
 
 - `ASISTENCIA INSUFICIENTE/Sólo 1.er año`
 - `ASISTENCIA INSUFICIENTE/1.º a 6.º años`
@@ -4384,17 +4656,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `ABANDONO INTERMITENTE/1.º a 6.º años`
 - *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
 - *Nota: No se reporta por la situación de emergencia sanitaria*
+- **
 
-**2022** · hoja «II-2.2.18» · tipo A · 22 filas · ASISTENCIA INSUFICIENTE Y ABANDONO INTERMITENTE DE 1º GRADO Y 1º A 6º GRADO EN EDUCACIÓN COMÚN PÚBLICA SEGÚN DEPARTAMENTO (Todo el país, 2022)
-
-- `ASISTENCIA INSUFICIENTE/Sólo 1.er año`
-- `ASISTENCIA INSUFICIENTE/1.º a 6.º años`
-- `ABANDONO INTERMITENTE/Sólo 1.er año`
-- `ABANDONO INTERMITENTE/1.º a 6.º años`
-- *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
-- *Nota: Al momento de cierre de la publicación no había datos disponibles para el año 2022.*
-
-**2023** · hoja «II-2.2.18» · tipo A · 22 filas · ASISTENCIA INSUFICIENTE Y ABANDONO INTERMITENTE DE 1º GRADO Y 1º A 6º GRADO EN EDUCACIÓN COMÚN PÚBLICA SEGÚN DEPARTAMENTO (Todo el país, 2023)
+**2022** · hoja «II-2.2.18» · tipo A · 21 filas · ASISTENCIA INSUFICIENTE Y ABANDONO INTERMITENTE DE 1º GRADO Y 1º A 6º GRADO EN EDUCACIÓN COMÚN PÚBLICA SEGÚN DEPARTAMENTO (Todo el país, 2022)
 
 - `ASISTENCIA INSUFICIENTE/Sólo 1.er año`
 - `ASISTENCIA INSUFICIENTE/1.º a 6.º años`
@@ -4402,51 +4666,77 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `ABANDONO INTERMITENTE/1.º a 6.º años`
 - *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
 - *Nota: Al momento de cierre de la publicación no había datos disponibles para el año 2022.*
+- **
 
-**2024** · hoja «II-2.2.18» · tipo A · 22 filas · ASISTENCIA INSUFICIENTE Y ABANDONO INTERMITENTE DE 1º GRADO Y 1º A 6º GRADO EN EDUCACIÓN COMÚN PÚBLICA SEGÚN DEPARTAMENTO (Todo el país, 2024)
+**2023** · hoja «II-2.2.18» · tipo A · 21 filas · ASISTENCIA INSUFICIENTE Y ABANDONO INTERMITENTE DE 1º GRADO Y 1º A 6º GRADO EN EDUCACIÓN COMÚN PÚBLICA SEGÚN DEPARTAMENTO (Todo el país, 2023)
 
 - `ASISTENCIA INSUFICIENTE/Sólo 1.er año`
 - `ASISTENCIA INSUFICIENTE/1.º a 6.º años`
 - `ABANDONO INTERMITENTE/Sólo 1.er año`
 - `ABANDONO INTERMITENTE/1.º a 6.º años`
 - *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
+- *Nota: Al momento de cierre de la publicación no había datos disponibles para el año 2022.*
+- **
+
+**2024** · hoja «II-2.2.18» · tipo A · 21 filas · ASISTENCIA INSUFICIENTE Y ABANDONO INTERMITENTE DE 1º GRADO Y 1º A 6º GRADO EN EDUCACIÓN COMÚN PÚBLICA SEGÚN DEPARTAMENTO (Todo el país, 2024)
+
+- `ASISTENCIA INSUFICIENTE/Sólo 1.er año`
+- `ASISTENCIA INSUFICIENTE/1.º a 6.º años`
+- `ABANDONO INTERMITENTE/Sólo 1.er año`
+- `ABANDONO INTERMITENTE/1.º a 6.º años`
+- *Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP*
+- **
 
 </details>
 
 <details><summary><b>II-2.3.1</b></summary>
 
-**2020** · hoja «II-2.3.1» · tipo A · 44 filas · PERSONAL DOCENTE DE EDUCACIÓN PRIMARIA PÚBLICA POR TIPO DE EDUCACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2020)
+**2020** · hoja «II-2.3.1» · tipo A · 21 filas · PERSONAL DOCENTE DE EDUCACIÓN PRIMARIA PÚBLICA POR TIPO DE EDUCACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2020)
 
 - `TIPO DE EDUCACIÓN/TOTAL`
 - `TIPO DE EDUCACIÓN/Común`
 - `TIPO DE EDUCACIÓN/Especial`
 - *Fuente: Procesamiento propio en base a datos proporcionados por la Dirección Sectorial de Tecnologías de la Información y Comunicación — CODICEN*
+- **
+- **
 
-**2021** · hoja «II-2.3.1» · tipo A · 46 filas · PERSONAL DOCENTE DE EDUCACIÓN PRIMARIA PÚBLICA POR TIPO DE EDUCACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2021)
-
-- `TIPO DE EDUCACIÓN/TOTAL`
-- `TIPO DE EDUCACIÓN/Común`
-- `TIPO DE EDUCACIÓN/Especial`
-- *Fuente: Departamento de Estadística Educativa de la D.G.E.I.P.*
-- *Notas:*
-
-**2022** · hoja «II-2.3.1» · tipo A · 46 filas · PERSONAL DOCENTE DE EDUCACIÓN PRIMARIA PÚBLICA POR TIPO DE EDUCACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2022)
+**2021** · hoja «II-2.3.1» · tipo A · 21 filas · PERSONAL DOCENTE DE EDUCACIÓN PRIMARIA PÚBLICA POR TIPO DE EDUCACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2021)
 
 - `TIPO DE EDUCACIÓN/TOTAL`
 - `TIPO DE EDUCACIÓN/Común`
 - `TIPO DE EDUCACIÓN/Especial`
 - *Fuente: Departamento de Estadística Educativa de la D.G.E.I.P.*
 - *Notas:*
+- *Se entiende por personal docente a cargos de docencia directa con grupo asignado.*
+- *No se toma en cuenta cargos de Directores sin clase (URBANOS)*
+- *No se toma en cuenta cargos de Sub-Directores ni Secretarios.*
+- *No se toman en cuenta cargos de Profesores.*
 
-**2023** · hoja «II-2.3.1» · tipo A · 46 filas · PERSONAL DOCENTE DE EDUCACIÓN PRIMARIA PÚBLICA POR TIPO DE EDUCACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2023)
+**2022** · hoja «II-2.3.1» · tipo A · 21 filas · PERSONAL DOCENTE DE EDUCACIÓN PRIMARIA PÚBLICA POR TIPO DE EDUCACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2022)
 
 - `TIPO DE EDUCACIÓN/TOTAL`
 - `TIPO DE EDUCACIÓN/Común`
 - `TIPO DE EDUCACIÓN/Especial`
 - *Fuente: Departamento de Estadística Educativa de la D.G.E.I.P.*
 - *Notas:*
+- *Se entiende por personal docente a cargos de docencia directa con grupo asignado.*
+- *No se toma en cuenta cargos de Directores sin clase (URBANOS)*
+- *No se toma en cuenta cargos de Sub-Directores ni Secretarios.*
+- *No se toman en cuenta cargos de Profesores.*
 
-**2024** · hoja «II-2.3.1» · tipo A · 42 filas · PERSONAL DOCENTE DE EDUCACIÓN PRIMARIA PÚBLICA POR TIPO DE EDUCACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2024)
+**2023** · hoja «II-2.3.1» · tipo A · 21 filas · PERSONAL DOCENTE DE EDUCACIÓN PRIMARIA PÚBLICA POR TIPO DE EDUCACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2023)
+
+- `TIPO DE EDUCACIÓN/TOTAL`
+- `TIPO DE EDUCACIÓN/Común`
+- `TIPO DE EDUCACIÓN/Especial`
+- *Fuente: Departamento de Estadística Educativa de la D.G.E.I.P.*
+- *Notas:*
+- *Se entiende por personal docente a cargos de docencia directa con grupo asignado.*
+- *No se toma en cuenta cargos de Directores sin clase (URBANOS)*
+- *No se toma en cuenta cargos de Sub-Directores ni Secretarios.*
+- *No se toman en cuenta cargos de Profesores.*
+
+**2024** · hoja «II-2.3.1» · tipo A · 21 filas · PERSONAL DOCENTE DE EDUCACIÓN PRIMARIA PÚBLICA POR TIPO DE EDUCACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2024)
 
 - `TIPO DE EDUCACIÓN/TOTAL`
 - `TIPO DE EDUCACIÓN/Común`
@@ -4457,7 +4747,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-2.3.2</b></summary>
 
-**2020** · hoja «II-2.3.2» · tipo A · 22 filas · PERSONAL DOCENTE DE EDUCACIÓN PRIMARIA PRIVADA POR TIPO DE ESTABLECIMIENTO Y TIPO DE DESEMPEÑO DOCENTE SEGÚN DEPARTAMENTO (Todo el país, 2020)
+**2020** · hoja «II-2.3.2» · tipo A · 21 filas · PERSONAL DOCENTE DE EDUCACIÓN PRIMARIA PRIVADA POR TIPO DE ESTABLECIMIENTO Y TIPO DE DESEMPEÑO DOCENTE SEGÚN DEPARTAMENTO (Todo el país, 2020)
 
 - `DEPARTAMENTO`
 - `TOTAL`
@@ -4470,6 +4760,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `ESTABLECIMIENTOS/AUTORIZADOS/Maestros`
 - `ESTABLECIMIENTOS/AUTORIZADOS/Profesores`
 - *Fuente: D.E.E. — DGEIP Planillas enviadas por las Inspecciones Departamentales a abril de 2019.*
+- *NOTA: El personal docente incluye exclusivamente docencia directa*
 
 **2021** · hoja «II-2.3.2» · tipo A · 21 filas · PERSONAL DOCENTE DE EDUCACIÓN PRIMARIA PRIVADA POR TIPO DE ESTABLECIMIENTO Y TIPO DE DESEMPEÑO DOCENTE SEGÚN DEPARTAMENTO (Todo el país, 2021)
 
@@ -4641,7 +4932,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-3.1.2</b></summary>
 
-**2020** · hoja «II-3.1.2» · tipo A · 22 filas · ESTABLECIMIENTOS FÍSICOS DE EDUCACIÓN MEDIA POR FORMA DE ADMINISTRACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2020)
+**2020** · hoja «II-3.1.2» · tipo A · 21 filas · ESTABLECIMIENTOS FÍSICOS DE EDUCACIÓN MEDIA POR FORMA DE ADMINISTRACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2020)
 
 - `MODALIDAD/TOTAL GENERAL`
 - `MODALIDAD/DGES/LICEOS PÚBLICOS`
@@ -4650,18 +4941,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `MODALIDAD/DGETP/Escuelas de CBT y Técnica.`
 - *Fuente:DGES - DGETP- DGEIP*
 - *Nota: 1- A diferencia del cuadro anterior II-3.1.1, el presente consolida la cantidad de establecimientos físicos con independencia del nivel educativo al cual son dirigidos los programas de estudios impartidos. En el caso de la DGETP debe considerarse que además de Educación Media se dictan programas dirigidos a Educación Terciaria No Universitaria y Educación de Jóvenes y Adultos.*
+- *2- Dentro de la cantidad de establecimientos declarados por la DGETP en este apartado se encuentran 109 reparticiones (Montevideo=23; Resto del País=86). Son localizaciones en las cuales se imparten cursos administrados por la DGETP. Estos locales no forman parte de los activos de ANEP.*
 
-**2021** · hoja «II-3.1.2» · tipo A · 22 filas · ESTABLECIMIENTOS FÍSICOS DE EDUCACIÓN MEDIA POR FORMA DE ADMINISTRACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2021)
-
-- `MODALIDAD/TOTAL GENERAL`
-- `MODALIDAD/DGES/LICEOS PÚBLICOS`
-- `MODALIDAD/DGES/LICEOS PRIVADOS`
-- `MODALIDAD/DGEIP/Escuelas con Ciclo Básico Rural`
-- `MODALIDAD/DGETP/Escuelas de CBT y Técnica.`
-- *Fuente:DGES - DGETP- DGEIP*
-- *Nota: 1- A diferencia del cuadro anterior II-3.1.1, el presente consolida la cantidad de establecimientos físicos con independencia del nivel educativo al cual son dirigidos los programas de estudios impartidos. En el caso de la DGETP debe considerarse que además de Educación Media se dictan programas dirigidos a Educación Terciaria No Universitaria y Educación de Jóvenes y Adultos.*
-
-**2022** · hoja «II-3.1.2» · tipo A · 22 filas · ESTABLECIMIENTOS FÍSICOS DE EDUCACIÓN MEDIA POR FORMA DE ADMINISTRACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2022)
+**2021** · hoja «II-3.1.2» · tipo A · 21 filas · ESTABLECIMIENTOS FÍSICOS DE EDUCACIÓN MEDIA POR FORMA DE ADMINISTRACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2021)
 
 - `MODALIDAD/TOTAL GENERAL`
 - `MODALIDAD/DGES/LICEOS PÚBLICOS`
@@ -4670,8 +4952,20 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `MODALIDAD/DGETP/Escuelas de CBT y Técnica.`
 - *Fuente:DGES - DGETP- DGEIP*
 - *Nota: 1- A diferencia del cuadro anterior II-3.1.1, el presente consolida la cantidad de establecimientos físicos con independencia del nivel educativo al cual son dirigidos los programas de estudios impartidos. En el caso de la DGETP debe considerarse que además de Educación Media se dictan programas dirigidos a Educación Terciaria No Universitaria y Educación de Jóvenes y Adultos.*
+- *2- Dentro de la cantidad de establecimientos declarados por la DGETP en este apartado se encuentran 100 reparticiones (Montevideo=20; Resto del País=80). Son localizaciones en las cuales se imparten cursos administrados por la DGETP. Estos locales no forman parte de los activos de ANEP.*
 
-**2023** · hoja «II-3.1.2» · tipo A · 22 filas · ESTABLECIMIENTOS FÍSICOS DE EDUCACIÓN MEDIA POR FORMA DE ADMINISTRACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2023)
+**2022** · hoja «II-3.1.2» · tipo A · 21 filas · ESTABLECIMIENTOS FÍSICOS DE EDUCACIÓN MEDIA POR FORMA DE ADMINISTRACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2022)
+
+- `MODALIDAD/TOTAL GENERAL`
+- `MODALIDAD/DGES/LICEOS PÚBLICOS`
+- `MODALIDAD/DGES/LICEOS PRIVADOS`
+- `MODALIDAD/DGEIP/Escuelas con Ciclo Básico Rural`
+- `MODALIDAD/DGETP/Escuelas de CBT y Técnica.`
+- *Fuente:DGES - DGETP- DGEIP*
+- *Nota: 1- A diferencia del cuadro anterior II-3.1.1, el presente consolida la cantidad de establecimientos físicos con independencia del nivel educativo al cual son dirigidos los programas de estudios impartidos. En el caso de la DGETP debe considerarse que además de Educación Media se dictan programas dirigidos a Educación Terciaria No Universitaria y Educación de Jóvenes y Adultos.*
+- *2- Dentro de la cantidad de establecimientos declarados por la DGETP en este apartado se encuentran 93 reparticiones (Montevideo=21; Resto del País=72). Son localizaciones en las cuales se imparten cursos administrados por la DGETP. Estos locales no forman parte de los activos de ANEP.*
+
+**2023** · hoja «II-3.1.2» · tipo A · 21 filas · ESTABLECIMIENTOS FÍSICOS DE EDUCACIÓN MEDIA POR FORMA DE ADMINISTRACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2023)
 
 - `MODALIDAD/TOTAL GENERAL`
 - `MODALIDAD/DGES/LICEOS PÚBLICOS`
@@ -4681,8 +4975,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `MODALIDAD/DGETP/Escuelas Técnicas Privadas`
 - *Fuente:DGES - DGETP- DGEIP*
 - *Nota: 1- A diferencia del cuadro anterior II-3.1.1, el presente consolida la cantidad de establecimientos físicos con independencia del nivel educativo al cual son dirigidos los programas de estudios impartidos. En el caso de la DGETP debe considerarse que además de Educación Media se dictan programas dirigidos a Educación Terciaria No Universitaria y Educación de Jóvenes y Adultos.*
+- *2- Dentro de la cantidad de establecimientos declarados por la DGETP en este apartado se encuentran 87 reparticiones (Montevideo=18; Resto del País=69). Son localizaciones en las cuales se imparten cursos administrados por la DGETP. Estos locales no forman parte de los activos de ANEP. Todas corresponden al sector público.*
 
-**2024** · hoja «II-3.1.2» · tipo A · 22 filas · ESTABLECIMIENTOS FÍSICOS DE EDUCACIÓN MEDIA POR FORMA DE ADMINISTRACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2024)
+**2024** · hoja «II-3.1.2» · tipo A · 21 filas · ESTABLECIMIENTOS FÍSICOS DE EDUCACIÓN MEDIA POR FORMA DE ADMINISTRACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2024)
 
 - `MODALIDAD/TOTAL GENERAL`
 - `MODALIDAD/DGES/LICEOS PÚBLICOS`
@@ -4692,12 +4987,13 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `MODALIDAD/DGETP/Escuelas Técnicas Privadas`
 - *Fuente:DGES - DGETP- DGEIP*
 - *Nota: 1- A diferencia del cuadro anterior II-3.1.1, el presente consolida la cantidad de establecimientos físicos con independencia del nivel educativo al cual son dirigidos los programas de estudios impartidos. En el caso de la DGETP debe considerarse que además de Educación Media se dictan programas dirigidos a Educación Terciaria No Universitaria y Educación de Jóvenes y Adultos.*
+- *2- Dentro de la cantidad de establecimientos declarados por la DGETP en este apartado se encuentran 87 reparticiones (Montevideo=18; Resto del País=69). Son localizaciones en las cuales se imparten cursos administrados por la DGETP. Estos locales no forman parte de los activos de ANEP. Todas corresponden al sector público.*
 
 </details>
 
 <details><summary><b>II-3.2.1</b></summary>
 
-**2020** · hoja «II-3.2.1» · tipo B · 16 filas · ESTUDIANTES MATRICULADOS EN EDUCACION MEDIA BÁSICA GENERAL POR GRADO SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2020)
+**2020** · hoja «II-3.2.1» · tipo B · 15 filas · ESTUDIANTES MATRICULADOS EN EDUCACION MEDIA BÁSICA GENERAL POR GRADO SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2020)
 
 - `GRADO/TOTAL`
 - `GRADO/PRIMERO`
@@ -4705,17 +5001,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `GRADO/TERCERO`
 - *Fuente: D.E. — DGES*
 - *Nota: La referencia "Privada", (incluye los Habilitados "Liceo Naval" y "Liceo Militar"), se corresponde con la de "Liceos Habilitados" presente en ediciones anteriores del Anuario Estadístico del MEC.*
+- **
 
-**2021** · hoja «II-3.2.1» · tipo B · 16 filas · ESTUDIANTES MATRICULADOS EN EDUCACION MEDIA BÁSICA GENERAL POR GRADO SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2021)
-
-- `GRADO/TOTAL`
-- `GRADO/PRIMERO`
-- `GRADO/SEGUNDO`
-- `GRADO/TERCERO`
-- *Fuente: D.E. — DGES*
-- *Nota: A partir de esta edición el "Liceo Naval" y "Liceo Militar" se incluyen en la matrícula pública. Anteriormente estos eran contabilizados en la matrícula privada siguiendo el criterio ANEP*
-
-**2022** · hoja «II-3.2.1» · tipo B · 16 filas · ESTUDIANTES MATRICULADOS EN EDUCACION MEDIA BÁSICA GENERAL POR GRADO SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2022)
+**2021** · hoja «II-3.2.1» · tipo B · 15 filas · ESTUDIANTES MATRICULADOS EN EDUCACION MEDIA BÁSICA GENERAL POR GRADO SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2021)
 
 - `GRADO/TOTAL`
 - `GRADO/PRIMERO`
@@ -4723,8 +5011,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `GRADO/TERCERO`
 - *Fuente: D.E. — DGES*
 - *Nota: A partir de esta edición el "Liceo Naval" y "Liceo Militar" se incluyen en la matrícula pública. Anteriormente estos eran contabilizados en la matrícula privada siguiendo el criterio ANEP*
+- **
 
-**2023** · hoja «II-3.2.1» · tipo B · 16 filas · ESTUDIANTES MATRICULADOS EN EDUCACION MEDIA BÁSICA GENERAL POR GRADO SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2023)
+**2022** · hoja «II-3.2.1» · tipo B · 15 filas · ESTUDIANTES MATRICULADOS EN EDUCACION MEDIA BÁSICA GENERAL POR GRADO SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2022)
 
 - `GRADO/TOTAL`
 - `GRADO/PRIMERO`
@@ -4732,14 +5021,26 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `GRADO/TERCERO`
 - *Fuente: D.E. — DGES*
 - *Nota: A partir de esta edición el "Liceo Naval" y "Liceo Militar" se incluyen en la matrícula pública. Anteriormente estos eran contabilizados en la matrícula privada siguiendo el criterio ANEP*
+- **
 
-**2024** · hoja «II-3.2.1» · tipo B · 16 filas · ESTUDIANTES MATRICULADOS EN EDUCACION MEDIA BÁSICA GENERAL POR GRADO SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2024)
+**2023** · hoja «II-3.2.1» · tipo B · 15 filas · ESTUDIANTES MATRICULADOS EN EDUCACION MEDIA BÁSICA GENERAL POR GRADO SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2023)
 
 - `GRADO/TOTAL`
 - `GRADO/PRIMERO`
 - `GRADO/SEGUNDO`
 - `GRADO/TERCERO`
 - *Fuente: D.E. — DGES*
+- *Nota: A partir de esta edición el "Liceo Naval" y "Liceo Militar" se incluyen en la matrícula pública. Anteriormente estos eran contabilizados en la matrícula privada siguiendo el criterio ANEP*
+- **
+
+**2024** · hoja «II-3.2.1» · tipo B · 15 filas · ESTUDIANTES MATRICULADOS EN EDUCACION MEDIA BÁSICA GENERAL POR GRADO SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2024)
+
+- `GRADO/TOTAL`
+- `GRADO/PRIMERO`
+- `GRADO/SEGUNDO`
+- `GRADO/TERCERO`
+- *Fuente: D.E. — DGES*
+- **
 
 </details>
 
@@ -5499,7 +5800,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-3.2.11</b></summary>
 
-**2021** · hoja «II-3.2.11» · tipo A · 22 filas · RENDIMIENTO EDUCATIVO EN EDUCACIÓN MEDIA BÁSICA GENERAL POR FORMA DE ADMINISTRACIÓN Y GRADO SEGÚN DEPARTAMENTO (Todo el país, 2021)
+**2021** · hoja «II-3.2.11» · tipo A · 21 filas · RENDIMIENTO EDUCATIVO EN EDUCACIÓN MEDIA BÁSICA GENERAL POR FORMA DE ADMINISTRACIÓN Y GRADO SEGÚN DEPARTAMENTO (Todo el país, 2021)
 
 - `RENDIMIENTO/Promovido`
 - `RENDIMIENTO/No promovido`
@@ -5521,31 +5822,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `FORMA DE ADMINISTRACIÓN/PRIVADA/GRADO/TERCERO/RENDIMIENTO/No promovido`
 - *Fuente : Procesamiento propio en base a datos proporcionados por el D.E.- DGES*
 - *Nota: Las diferencias en la cantidad de estudiantes presentes entre este cuadro y los de matrícula se debe a que esta última releva la matrícula inicial, mientras que la de promoción releva la cantidad de estudiantes con fallo al finalizar el año.*
+- *Los datos refieren al Plan Reformulación 2006*
 
-**2022** · hoja «II-3.2.11» · tipo A · 22 filas · RENDIMIENTO EDUCATIVO EN EDUCACIÓN MEDIA BÁSICA GENERAL POR FORMA DE ADMINISTRACIÓN Y GRADO SEGÚN DEPARTAMENTO (Todo el país, 2022)
-
-- `RENDIMIENTO/Promovido`
-- `RENDIMIENTO/No promovido`
-- `PÚBLICA/RENDIMIENTO/Promovido`
-- `PÚBLICA/RENDIMIENTO/No promovido`
-- `FORMA DE ADMINISTRACIÓN/PÚBLICA/GRADO/PRIMERO/RENDIMIENTO/Promovido`
-- `FORMA DE ADMINISTRACIÓN/PÚBLICA/GRADO/PRIMERO/RENDIMIENTO/No promovido`
-- `FORMA DE ADMINISTRACIÓN/PÚBLICA/GRADO/SEGUNDO/RENDIMIENTO/Promovido`
-- `FORMA DE ADMINISTRACIÓN/PÚBLICA/GRADO/SEGUNDO/RENDIMIENTO/No promovido`
-- `FORMA DE ADMINISTRACIÓN/PÚBLICA/GRADO/TERCERO/RENDIMIENTO/Promovido`
-- `FORMA DE ADMINISTRACIÓN/PÚBLICA/GRADO/TERCERO/RENDIMIENTO/No promovido`
-- `PRIVADA/RENDIMIENTO/Promovido`
-- `PRIVADA/RENDIMIENTO/No promovido`
-- `FORMA DE ADMINISTRACIÓN/PRIVADA/GRADO/PRIMERO/RENDIMIENTO/Promovido`
-- `FORMA DE ADMINISTRACIÓN/PRIVADA/GRADO/PRIMERO/RENDIMIENTO/No promovido`
-- `FORMA DE ADMINISTRACIÓN/PRIVADA/GRADO/SEGUNDO/RENDIMIENTO/Promovido`
-- `FORMA DE ADMINISTRACIÓN/PRIVADA/GRADO/SEGUNDO/RENDIMIENTO/No promovido`
-- `FORMA DE ADMINISTRACIÓN/PRIVADA/GRADO/TERCERO/RENDIMIENTO/Promovido`
-- `FORMA DE ADMINISTRACIÓN/PRIVADA/GRADO/TERCERO/RENDIMIENTO/No promovido`
-- *Fuente : Procesamiento propio en base a datos proporcionados por el D.E.- DGES*
-- *Nota: Las diferencias en la cantidad de estudiantes presentes entre este cuadro y los de matrícula se debe a que esta última releva la matrícula inicial, mientras que la de promoción releva la cantidad de estudiantes con fallo al finalizar el año.*
-
-**2023** · hoja «II-3.2.11» · tipo A · 22 filas · RENDIMIENTO EDUCATIVO EN EDUCACIÓN MEDIA BÁSICA GENERAL POR FORMA DE ADMINISTRACIÓN Y GRADO SEGÚN DEPARTAMENTO (Todo el país, 2023)
+**2022** · hoja «II-3.2.11» · tipo A · 21 filas · RENDIMIENTO EDUCATIVO EN EDUCACIÓN MEDIA BÁSICA GENERAL POR FORMA DE ADMINISTRACIÓN Y GRADO SEGÚN DEPARTAMENTO (Todo el país, 2022)
 
 - `RENDIMIENTO/Promovido`
 - `RENDIMIENTO/No promovido`
@@ -5567,8 +5846,33 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `FORMA DE ADMINISTRACIÓN/PRIVADA/GRADO/TERCERO/RENDIMIENTO/No promovido`
 - *Fuente : Procesamiento propio en base a datos proporcionados por el D.E.- DGES*
 - *Nota: Las diferencias en la cantidad de estudiantes presentes entre este cuadro y los de matrícula se debe a que esta última releva la matrícula inicial, mientras que la de promoción releva la cantidad de estudiantes con fallo al finalizar el año.*
+- *Los datos refieren al Plan Reformulación 2006*
 
-**2024** · hoja «II-3.2.11» · tipo A · 22 filas · RENDIMIENTO EDUCATIVO EN EDUCACIÓN MEDIA BÁSICA GENERAL POR FORMA DE ADMINISTRACIÓN Y GRADO SEGÚN DEPARTAMENTO (Todo el país, 2024)
+**2023** · hoja «II-3.2.11» · tipo A · 21 filas · RENDIMIENTO EDUCATIVO EN EDUCACIÓN MEDIA BÁSICA GENERAL POR FORMA DE ADMINISTRACIÓN Y GRADO SEGÚN DEPARTAMENTO (Todo el país, 2023)
+
+- `RENDIMIENTO/Promovido`
+- `RENDIMIENTO/No promovido`
+- `PÚBLICA/RENDIMIENTO/Promovido`
+- `PÚBLICA/RENDIMIENTO/No promovido`
+- `FORMA DE ADMINISTRACIÓN/PÚBLICA/GRADO/PRIMERO/RENDIMIENTO/Promovido`
+- `FORMA DE ADMINISTRACIÓN/PÚBLICA/GRADO/PRIMERO/RENDIMIENTO/No promovido`
+- `FORMA DE ADMINISTRACIÓN/PÚBLICA/GRADO/SEGUNDO/RENDIMIENTO/Promovido`
+- `FORMA DE ADMINISTRACIÓN/PÚBLICA/GRADO/SEGUNDO/RENDIMIENTO/No promovido`
+- `FORMA DE ADMINISTRACIÓN/PÚBLICA/GRADO/TERCERO/RENDIMIENTO/Promovido`
+- `FORMA DE ADMINISTRACIÓN/PÚBLICA/GRADO/TERCERO/RENDIMIENTO/No promovido`
+- `PRIVADA/RENDIMIENTO/Promovido`
+- `PRIVADA/RENDIMIENTO/No promovido`
+- `FORMA DE ADMINISTRACIÓN/PRIVADA/GRADO/PRIMERO/RENDIMIENTO/Promovido`
+- `FORMA DE ADMINISTRACIÓN/PRIVADA/GRADO/PRIMERO/RENDIMIENTO/No promovido`
+- `FORMA DE ADMINISTRACIÓN/PRIVADA/GRADO/SEGUNDO/RENDIMIENTO/Promovido`
+- `FORMA DE ADMINISTRACIÓN/PRIVADA/GRADO/SEGUNDO/RENDIMIENTO/No promovido`
+- `FORMA DE ADMINISTRACIÓN/PRIVADA/GRADO/TERCERO/RENDIMIENTO/Promovido`
+- `FORMA DE ADMINISTRACIÓN/PRIVADA/GRADO/TERCERO/RENDIMIENTO/No promovido`
+- *Fuente : Procesamiento propio en base a datos proporcionados por el D.E.- DGES*
+- *Nota: Las diferencias en la cantidad de estudiantes presentes entre este cuadro y los de matrícula se debe a que esta última releva la matrícula inicial, mientras que la de promoción releva la cantidad de estudiantes con fallo al finalizar el año.*
+- *Los datos refieren al Plan Reformulación 2006*
+
+**2024** · hoja «II-3.2.11» · tipo A · 21 filas · RENDIMIENTO EDUCATIVO EN EDUCACIÓN MEDIA BÁSICA GENERAL POR FORMA DE ADMINISTRACIÓN Y GRADO SEGÚN DEPARTAMENTO (Todo el país, 2024)
 
 - `RENDIMIENTO/Promovido/SEXO/Varón`
 - `RENDIMIENTO/Promovido/SEXO/Mujer`
@@ -5608,6 +5912,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `FORMA DE ADMINISTRACIÓN/PRIVADA/GRADO/TERCERO/RENDIMIENTO/No promovido/SEXO/Mujer`
 - *Fuente : Procesamiento propio en base a datos proporcionados por el D.E.- DGES*
 - *Nota: Las diferencias en la cantidad de estudiantes presentes entre este cuadro y los de matrícula se debe a que esta última releva la matrícula inicial, mientras que la de promoción releva la cantidad de estudiantes con fallo al finalizar el año.*
+- *Los datos refieren al Plan Reformulación 2006*
 
 </details>
 
@@ -5638,7 +5943,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-3.3.1</b></summary>
 
-**2020** · hoja «II-3.3.1» · tipo C · 23 filas · PERSONAL DOCENTE Y HORAS DOCENTES DE LA DGES EN EDUCACIÓN MEDIA BÁSICA GENERAL POR TITULACIÓN SEGÚN ASIGNATURAS (Todo el país, 2020)
+**2020** · hoja «II-3.3.1» · tipo B · 20 filas · PERSONAL DOCENTE Y HORAS DOCENTES DE LA DGES EN EDUCACIÓN MEDIA BÁSICA GENERAL POR TITULACIÓN SEGÚN ASIGNATURAS (Todo el país, 2020)
 
 - `TOTAL DOCENTES`
 - `PERSONAL DOCENTE/Titulados`
@@ -5648,19 +5953,11 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `HORAS DOCENTES/No Titulados`
 - *Fuente: Departamento de Estadística — DGES*
 - *Nota: Los docentes que dictan más de una asignatura son considerados como personas distintas en cada asignatura.*
+- *El cuadro muestra la cantidad de docentes titulados según la asignatura que dicta y no según la asignatura en la cual se tituló.*
+- *Se consideran los docentes de docencia directa de los liceos oficiales que se encontraban activos al momento de la extracción de los datos.*
+- *Las horas refieren al Plan Reformulación 2006.*
 
-**2021** · hoja «II-3.3.1» · tipo C · 21 filas · PERSONAL DOCENTE Y HORAS DOCENTES DE LA DGES EN EDUCACIÓN MEDIA BÁSICA GENERAL POR TITULACIÓN SEGÚN ASIGNATURAS (Todo el país, 2021)
-
-- `TOTAL DOCENTES`
-- `PERSONAL DOCENTE/Titulados`
-- `PERSONAL DOCENTE/No Titulados`
-- `TOTAL HORAS`
-- `HORAS DOCENTES/Titulados`
-- `HORAS DOCENTES/No Titulados`
-- *Fuente: Departamento de Estadística — DGES*
-- *Nota: Los docentes que dictan más de una asignatura son considerados como personas distintas en cada asignatura.*
-
-**2022** · hoja «II-3.3.1» · tipo C · 21 filas · PERSONAL DOCENTE Y HORAS DOCENTES DE LA DGES EN EDUCACIÓN MEDIA BÁSICA GENERAL PÚBLICA POR TITULACIÓN SEGÚN ASIGNATURAS (Todo el país, 2022)
+**2021** · hoja «II-3.3.1» · tipo B · 18 filas · PERSONAL DOCENTE Y HORAS DOCENTES DE LA DGES EN EDUCACIÓN MEDIA BÁSICA GENERAL POR TITULACIÓN SEGÚN ASIGNATURAS (Todo el país, 2021)
 
 - `TOTAL DOCENTES`
 - `PERSONAL DOCENTE/Titulados`
@@ -5670,19 +5967,11 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `HORAS DOCENTES/No Titulados`
 - *Fuente: Departamento de Estadística — DGES*
 - *Nota: Los docentes que dictan más de una asignatura son considerados como personas distintas en cada asignatura.*
+- *El cuadro muestra la cantidad de docentes titulados según la asignatura que dicta y no según la asignatura en la cual se tituló.*
+- *Se consideran los docentes de docencia directa de los liceos oficiales que se encontraban activos al momento de la extracción de los datos.*
+- *Las horas refieren al Plan Reformulación 2006.*
 
-**2023** · hoja «II-3.3.1» · tipo C · 20 filas · PERSONAL DOCENTE Y HORAS DOCENTES DE LA DGES EN EDUCACIÓN MEDIA BÁSICA GENERAL PÚBLICA POR TITULACIÓN SEGÚN ASIGNATURAS (Todo el país, 2023)
-
-- `TOTAL DOCENTES`
-- `PERSONAL DOCENTE/Titulados`
-- `PERSONAL DOCENTE/No Titulados`
-- `TOTAL HORAS`
-- `HORAS DOCENTES/Titulados`
-- `HORAS DOCENTES/No Titulados`
-- *Fuente: Departamento de Estadística — DGES*
-- *Nota: Los docentes que dictan más de una asignatura son considerados como personas distintas en cada asignatura.*
-
-**2024** · hoja «II-3.3.1» · tipo C · 21 filas · PERSONAL DOCENTE Y HORAS DOCENTES DE LA DGES EN EDUCACIÓN MEDIA BÁSICA GENERAL PÚBLICA POR TITULACIÓN SEGÚN ASIGNATURAS (Todo el país, 2024)
+**2022** · hoja «II-3.3.1» · tipo B · 18 filas · PERSONAL DOCENTE Y HORAS DOCENTES DE LA DGES EN EDUCACIÓN MEDIA BÁSICA GENERAL PÚBLICA POR TITULACIÓN SEGÚN ASIGNATURAS (Todo el país, 2022)
 
 - `TOTAL DOCENTES`
 - `PERSONAL DOCENTE/Titulados`
@@ -5692,6 +5981,37 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `HORAS DOCENTES/No Titulados`
 - *Fuente: Departamento de Estadística — DGES*
 - *Nota: Los docentes que dictan más de una asignatura son considerados como personas distintas en cada asignatura.*
+- *El cuadro muestra la cantidad de docentes titulados según la asignatura que dicta y no según la asignatura en la cual se tituló.*
+- *Se consideran los docentes de docencia directa de los liceos oficiales que se encontraban activos al momento de la extracción de los datos.*
+- *Las horas refieren al Plan Reformulación 2006.*
+
+**2023** · hoja «II-3.3.1» · tipo B · 17 filas · PERSONAL DOCENTE Y HORAS DOCENTES DE LA DGES EN EDUCACIÓN MEDIA BÁSICA GENERAL PÚBLICA POR TITULACIÓN SEGÚN ASIGNATURAS (Todo el país, 2023)
+
+- `TOTAL DOCENTES`
+- `PERSONAL DOCENTE/Titulados`
+- `PERSONAL DOCENTE/No Titulados`
+- `TOTAL HORAS`
+- `HORAS DOCENTES/Titulados`
+- `HORAS DOCENTES/No Titulados`
+- *Fuente: Departamento de Estadística — DGES*
+- *Nota: Los docentes que dictan más de una asignatura son considerados como personas distintas en cada asignatura.*
+- *El cuadro muestra la cantidad de docentes titulados según la asignatura que dicta y no según la asignatura en la cual se tituló.*
+- *Se consideran los docentes de docencia directa de los liceos oficiales que se encontraban activos al momento de la extracción de los datos.*
+- *Las horas refieren al Plan 2023 Educación Media Básica*
+
+**2024** · hoja «II-3.3.1» · tipo B · 18 filas · PERSONAL DOCENTE Y HORAS DOCENTES DE LA DGES EN EDUCACIÓN MEDIA BÁSICA GENERAL PÚBLICA POR TITULACIÓN SEGÚN ASIGNATURAS (Todo el país, 2024)
+
+- `TOTAL DOCENTES`
+- `PERSONAL DOCENTE/Titulados`
+- `PERSONAL DOCENTE/No Titulados`
+- `TOTAL HORAS`
+- `HORAS DOCENTES/Titulados`
+- `HORAS DOCENTES/No Titulados`
+- *Fuente: Departamento de Estadística — DGES*
+- *Nota: Los docentes que dictan más de una asignatura son considerados como personas distintas en cada asignatura.*
+- *El cuadro muestra la cantidad de docentes titulados según la asignatura que dicta y no según la asignatura en la cual se tituló.*
+- *Se consideran los docentes de docencia directa de los liceos oficiales que se encontraban activos al momento de la extracción de los datos.*
+- *Las horas refieren al Plan 2023 Educación Media Básica*
 
 </details>
 
@@ -5777,7 +6097,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-4.1.1</b></summary>
 
-**2020** · hoja «II-4.1.1» · tipo A · 22 filas · ESTABLECIMIENTOS DE EDUCACIÓN MEDIA SUPERIOR POR MODALIDAD Y FORMA DE ADMINISTRACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2020)
+**2020** · hoja «II-4.1.1» · tipo A · 21 filas · ESTABLECIMIENTOS DE EDUCACIÓN MEDIA SUPERIOR POR MODALIDAD Y FORMA DE ADMINISTRACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2020)
 
 - `MODALIDAD/TOTAL GENERAL`
 - `MODALIDAD/DGES/TOTAL LICEOS PÚBLICOS`
@@ -5793,8 +6113,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `MODALIDAD/DGETP/Escuelas de CBT y Técnica./Reparticiones`
 - *Fuente: D.E.- C.E.S .*
 - *Nota: 1- Los establecimientos considerados en el Tipo de Educación Escuelas con "Ciclo Básico Rural” ya fueron considerados en los totales de establecimientos de Educación Primaria por lo cual, si bien se presentan en la columna correspondiente, no participan en el “Total” del presente cuadro.*
+- *2- En un mismo establecimiento de la DGETP coexisten cursos de distintos nivel edcuativo. En este cuadro se exponen las escuelas que dictan cursos de EDUCACIÓN MEDIA SUPERIOR. Se incluyeron reparticiones (localizaciones) que no son establecimientos de activos de ANEP.*
 
-**2021** · hoja «II-4.1.1» · tipo A · 22 filas · ESTABLECIMIENTOS DE EDUCACIÓN MEDIA SUPERIOR POR MODALIDAD Y FORMA DE ADMINISTRACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2021)
+**2021** · hoja «II-4.1.1» · tipo A · 21 filas · ESTABLECIMIENTOS DE EDUCACIÓN MEDIA SUPERIOR POR MODALIDAD Y FORMA DE ADMINISTRACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2021)
 
 - `MODALIDAD/TOTAL GENERAL`
 - `MODALIDAD/DGES/TOTAL LICEOS PÚBLICOS`
@@ -5810,6 +6131,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `MODALIDAD/DGETP/Escuelas de CBT y Técnica./Reparticiones`
 - *Fuente: D.E.- C.E.S .*
 - *Nota: 1- Los establecimientos considerados en el Tipo de Educación Escuelas con "Ciclo Básico Rural” ya fueron considerados en los totales de establecimientos de Educación Primaria por lo cual, si bien se presentan en la columna correspondiente, no participan en el “Total” del presente cuadro.*
+- *2- En un mismo establecimiento de la DGETP coexisten cursos de distintos nivel edcuativo. En este cuadro se exponen las escuelas que dictan cursos de EDUCACIÓN MEDIA SUPERIOR. Se incluyeron reparticiones (localizaciones) que no son establecimientos de activos de ANEP.*
 
 **2022** · hoja «II-4.1.1» · tipo A · 21 filas · ESTABLECIMIENTOS DE EDUCACIÓN MEDIA SUPERIOR POR MODALIDAD Y FORMA DE ADMINISTRACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2022)
 
@@ -5879,7 +6201,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-4.2.1</b></summary>
 
-**2020** · hoja «II-4.2.1» · tipo B · 19 filas · ESTUDIANTES MATRICULADOS DE LA DGES EN EDUCACIÓN MEDIA SUPERIOR GENERAL POR GRADO SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2020)
+**2020** · hoja «II-4.2.1» · tipo B · 15 filas · ESTUDIANTES MATRICULADOS DE LA DGES EN EDUCACIÓN MEDIA SUPERIOR GENERAL POR GRADO SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2020)
 
 - `TOTAL`
 - `GRADO/CUARTO`
@@ -5887,17 +6209,12 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `GRADO/SEXTO`
 - *Fuente: DE — DGES*
 - *Nota: La referencia "Privada" (incluye los Habilitados "Liceo Naval" y "Liceo Militar"), se corresponde con la de "Liceos Habilitados" presente en ediciones anteriores del Anuario Estadístico del MEC*
+- **
+- **
+- **
+- **
 
-**2021** · hoja «II-4.2.1» · tipo B · 19 filas · ESTUDIANTES MATRICULADOS DE LA DGES EN EDUCACIÓN MEDIA SUPERIOR GENERAL POR GRADO SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2021)
-
-- `TOTAL`
-- `GRADO/CUARTO`
-- `GRADO/QUINTO`
-- `GRADO/SEXTO`
-- *Fuente: DE — DGES*
-- *Nota: A partir de esta edición el "Liceo Naval" y "Liceo Militar" se incluyen en la matrícula pública. Anteriormente estos eran contabilizados en la matrícula privada siguiendo el criterio ANEP*
-
-**2022** · hoja «II-4.2.1» · tipo B · 19 filas · ESTUDIANTES MATRICULADOS DE LA DGES EN EDUCACIÓN MEDIA SUPERIOR GENERAL POR GRADO SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2022)
+**2021** · hoja «II-4.2.1» · tipo B · 15 filas · ESTUDIANTES MATRICULADOS DE LA DGES EN EDUCACIÓN MEDIA SUPERIOR GENERAL POR GRADO SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2021)
 
 - `TOTAL`
 - `GRADO/CUARTO`
@@ -5905,8 +6222,12 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `GRADO/SEXTO`
 - *Fuente: DE — DGES*
 - *Nota: A partir de esta edición el "Liceo Naval" y "Liceo Militar" se incluyen en la matrícula pública. Anteriormente estos eran contabilizados en la matrícula privada siguiendo el criterio ANEP*
+- **
+- **
+- **
+- **
 
-**2023** · hoja «II-4.2.1» · tipo B · 19 filas · ESTUDIANTES MATRICULADOS DE LA DGES EN EDUCACIÓN MEDIA SUPERIOR GENERAL POR GRADO SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2023)
+**2022** · hoja «II-4.2.1» · tipo B · 15 filas · ESTUDIANTES MATRICULADOS DE LA DGES EN EDUCACIÓN MEDIA SUPERIOR GENERAL POR GRADO SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2022)
 
 - `TOTAL`
 - `GRADO/CUARTO`
@@ -5914,14 +6235,35 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `GRADO/SEXTO`
 - *Fuente: DE — DGES*
 - *Nota: A partir de esta edición el "Liceo Naval" y "Liceo Militar" se incluyen en la matrícula pública. Anteriormente estos eran contabilizados en la matrícula privada siguiendo el criterio ANEP*
+- **
+- **
+- **
+- **
 
-**2024** · hoja «II-4.2.1» · tipo B · 19 filas · ESTUDIANTES MATRICULADOS DE LA DGES EN EDUCACIÓN MEDIA SUPERIOR GENERAL POR GRADO SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2024)
+**2023** · hoja «II-4.2.1» · tipo B · 15 filas · ESTUDIANTES MATRICULADOS DE LA DGES EN EDUCACIÓN MEDIA SUPERIOR GENERAL POR GRADO SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2023)
 
 - `TOTAL`
 - `GRADO/CUARTO`
 - `GRADO/QUINTO`
 - `GRADO/SEXTO`
 - *Fuente: DE — DGES*
+- *Nota: A partir de esta edición el "Liceo Naval" y "Liceo Militar" se incluyen en la matrícula pública. Anteriormente estos eran contabilizados en la matrícula privada siguiendo el criterio ANEP*
+- **
+- **
+- **
+- **
+
+**2024** · hoja «II-4.2.1» · tipo B · 15 filas · ESTUDIANTES MATRICULADOS DE LA DGES EN EDUCACIÓN MEDIA SUPERIOR GENERAL POR GRADO SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2024)
+
+- `TOTAL`
+- `GRADO/CUARTO`
+- `GRADO/QUINTO`
+- `GRADO/SEXTO`
+- *Fuente: DE — DGES*
+- **
+- **
+- **
+- **
 
 </details>
 
@@ -6506,7 +6848,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-4.2.7</b></summary>
 
-**2020** · hoja «II-4.2.7» · tipo A · 22 filas · ESTUDIANTES MATRICULADOS EN LA DGES EN QUINTO GRADO DE EDUCACIÓN MEDIA SUPERIOR DE EDUCACIÓN SECUNDARIA PRIVADA POR ORIENTACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2020)
+**2020** · hoja «II-4.2.7» · tipo A · 21 filas · ESTUDIANTES MATRICULADOS EN LA DGES EN QUINTO GRADO DE EDUCACIÓN MEDIA SUPERIOR DE EDUCACIÓN SECUNDARIA PRIVADA POR ORIENTACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2020)
 
 - `TOTAL`
 - `QUINTO GRADO DE EDUCACIÓN MEDIA GENERAL/ORIENTACIÓN Planes 86+93+2006/Humanística`
@@ -6516,6 +6858,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `QUINTO GRADO DE EDUCACIÓN MEDIA GENERAL/OTROS (*)/BINT y/o BICUL`
 - *Fuente: DE — DGES*
 - *Nota: Otros (*) Corresponde a los cursos de Bachillerato Internacional y*
+- *Bachillerato Bicultural*
 
 **2021** · hoja «II-4.2.7» · tipo A · 21 filas · ESTUDIANTES MATRICULADOS EN LA DGES EN QUINTO GRADO DE EDUCACIÓN MEDIA SUPERIOR DE EDUCACIÓN SECUNDARIA PRIVADA POR ORIENTACIÓN SEGÚN DEPARTAMENTO (Todo el país, 2021)
 
@@ -7063,7 +7406,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-4.2.14</b></summary>
 
-**2021** · hoja «II-4.2.14» · tipo A · 22 filas · RENDIMIENTO EDUCATIVO EN EDUCACIÓN MEDIA SUPERIOR GENERAL PÚBLICA POR GRADO SEGÚN DEPARTAMENTO (Todo el país, 2021)
+**2021** · hoja «II-4.2.14» · tipo A · 21 filas · RENDIMIENTO EDUCATIVO EN EDUCACIÓN MEDIA SUPERIOR GENERAL PÚBLICA POR GRADO SEGÚN DEPARTAMENTO (Todo el país, 2021)
 
 - `RENDIMIENTO/Promovido`
 - `RENDIMIENTO/No promovido`
@@ -7075,21 +7418,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `GRADO/SEXTO/RENDIMIENTO/No promovido`
 - *Fuente : Procesamiento propio en base a datos proporcionados por el D.E.- DGES*
 - *Nota: Las diferencias en la cantidad de estudiantes presentes entre este cuadro y los de matrícula se debe a que esta última releva la matrícula inicial, mientras que la de promoción releva la cantidad de estudiantes con fallo al finalizar el año.*
+- *Los datos refieren al Plan Reformulación 2006*
 
-**2022** · hoja «II-4.2.14» · tipo A · 22 filas · RENDIMIENTO EDUCATIVO EN EDUCACIÓN MEDIA SUPERIOR GENERAL PÚBLICA POR GRADO SEGÚN DEPARTAMENTO (Todo el país, 2022)
-
-- `RENDIMIENTO/Promovido`
-- `RENDIMIENTO/No promovido`
-- `GRADO/CUARTO/RENDIMIENTO/Promovido`
-- `GRADO/CUARTO/RENDIMIENTO/No promovido`
-- `GRADO/QUINTO/RENDIMIENTO/Promovido`
-- `GRADO/QUINTO/RENDIMIENTO/No promovido`
-- `GRADO/SEXTO/RENDIMIENTO/Promovido`
-- `GRADO/SEXTO/RENDIMIENTO/No promovido`
-- *Fuente : Procesamiento propio en base a datos proporcionados por el D.E.- DGES*
-- *Nota: Las diferencias en la cantidad de estudiantes presentes entre este cuadro y los de matrícula se debe a que esta última releva la matrícula inicial, mientras que la de promoción releva la cantidad de estudiantes con fallo al finalizar el año.*
-
-**2023** · hoja «II-4.2.14» · tipo A · 22 filas · RENDIMIENTO EDUCATIVO EN EDUCACIÓN MEDIA SUPERIOR GENERAL PÚBLICA POR GRADO SEGÚN DEPARTAMENTO (Todo el país, 2023)
+**2022** · hoja «II-4.2.14» · tipo A · 21 filas · RENDIMIENTO EDUCATIVO EN EDUCACIÓN MEDIA SUPERIOR GENERAL PÚBLICA POR GRADO SEGÚN DEPARTAMENTO (Todo el país, 2022)
 
 - `RENDIMIENTO/Promovido`
 - `RENDIMIENTO/No promovido`
@@ -7101,8 +7432,23 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `GRADO/SEXTO/RENDIMIENTO/No promovido`
 - *Fuente : Procesamiento propio en base a datos proporcionados por el D.E.- DGES*
 - *Nota: Las diferencias en la cantidad de estudiantes presentes entre este cuadro y los de matrícula se debe a que esta última releva la matrícula inicial, mientras que la de promoción releva la cantidad de estudiantes con fallo al finalizar el año.*
+- *Los datos refieren al Plan Reformulación 2006*
 
-**2024** · hoja «II-4.2.14» · tipo A · 22 filas · RENDIMIENTO EDUCATIVO EN EDUCACIÓN MEDIA SUPERIOR GENERAL POR FORMA DE ADMINISTRACIÓN, GRADO Y SEXO SEGÚN DEPARTAMENTO (Todo el país, 2024)
+**2023** · hoja «II-4.2.14» · tipo A · 21 filas · RENDIMIENTO EDUCATIVO EN EDUCACIÓN MEDIA SUPERIOR GENERAL PÚBLICA POR GRADO SEGÚN DEPARTAMENTO (Todo el país, 2023)
+
+- `RENDIMIENTO/Promovido`
+- `RENDIMIENTO/No promovido`
+- `GRADO/CUARTO/RENDIMIENTO/Promovido`
+- `GRADO/CUARTO/RENDIMIENTO/No promovido`
+- `GRADO/QUINTO/RENDIMIENTO/Promovido`
+- `GRADO/QUINTO/RENDIMIENTO/No promovido`
+- `GRADO/SEXTO/RENDIMIENTO/Promovido`
+- `GRADO/SEXTO/RENDIMIENTO/No promovido`
+- *Fuente : Procesamiento propio en base a datos proporcionados por el D.E.- DGES*
+- *Nota: Las diferencias en la cantidad de estudiantes presentes entre este cuadro y los de matrícula se debe a que esta última releva la matrícula inicial, mientras que la de promoción releva la cantidad de estudiantes con fallo al finalizar el año.*
+- *Los datos refieren al Plan Reformulación 2006*
+
+**2024** · hoja «II-4.2.14» · tipo A · 21 filas · RENDIMIENTO EDUCATIVO EN EDUCACIÓN MEDIA SUPERIOR GENERAL POR FORMA DE ADMINISTRACIÓN, GRADO Y SEXO SEGÚN DEPARTAMENTO (Todo el país, 2024)
 
 - `TOTAL/PROMOVIDO/TOTAL`
 - `TOTAL/PROMOVIDO/SEXO/Varón`
@@ -7148,6 +7494,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `FORMA DE ADMINISTRACIÓN/PRIVADA/GRADO/SEXTO/RENDIMIENTO/No promovido/SEXO/Mujer`
 - *Fuente : Procesamiento propio en base a datos proporcionados por el D.E.- DGES*
 - *Nota: Las diferencias en la cantidad de estudiantes presentes entre este cuadro y los de matrícula se debe a que esta última releva la matrícula inicial, mientras que la de promoción releva la cantidad de estudiantes con fallo al finalizar el año.*
+- *Los datos refieren al Plan Reformulación 2006*
 
 </details>
 
@@ -7180,7 +7527,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-4.3.1</b></summary>
 
-**2020** · hoja «II-4.3.1» · tipo C · 30 filas · PERSONAL DOCENTE Y HORAS DOCENTES DE LA DGES EN EDUCACIÓN MEDIA SUPERIOR GENERAL PÚBLICA POR CONDICIÓN DE TITULACIÓN (Todo el país, 2020)
+**2020** · hoja «II-4.3.1» · tipo B · 27 filas · PERSONAL DOCENTE Y HORAS DOCENTES DE LA DGES EN EDUCACIÓN MEDIA SUPERIOR GENERAL PÚBLICA POR CONDICIÓN DE TITULACIÓN (Todo el país, 2020)
 
 - `TOTAL DOCENTES`
 - `PERSONAL DOCENTE/Titulados`
@@ -7190,19 +7537,11 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `HORAS DOCENTES/No Titulados`
 - *Fuente: Departamento de Estadística — DGES*
 - *Nota: Los docentes que dictan más de una asignatura son considerados como personas distintas en cada asignatura.*
+- *El cuadro muestra la cantidad de docentes titulados según la asignatura que dicta y no según la asignatura en la cual se tituló.*
+- *Se consideran los docentes de docencia directa de los liceos oficiales que se encontraban activos al momento de la extracción de los datos.*
+- *Las horas refieren al Plan Reformulación 2006.*
 
-**2021** · hoja «II-4.3.1» · tipo C · 28 filas · PERSONAL DOCENTE Y HORAS DOCENTES DE LA DGES EN EDUCACIÓN MEDIA SUPERIOR GENERAL PÚBLICA POR CONDICIÓN DE TITULACIÓN (Todo el país, 2021)
-
-- `TOTAL DOCENTES`
-- `PERSONAL DOCENTE/Titulados`
-- `PERSONAL DOCENTE/No Titulados`
-- `TOTAL HORAS`
-- `HORAS DOCENTES/Titulados`
-- `HORAS DOCENTES/No Titulados`
-- *Fuente: Departamento de Estadística — DGES*
-- *Nota: Los docentes que dictan más de una asignatura son considerados como personas distintas en cada asignatura.*
-
-**2022** · hoja «II-4.3.1» · tipo C · 28 filas · PERSONAL DOCENTE Y HORAS DOCENTES DE LA DGES EN EDUCACIÓN MEDIA SUPERIOR GENERAL PÚBLICA POR CONDICIÓN DE TITULACIÓN (Todo el país, 2022)
+**2021** · hoja «II-4.3.1» · tipo B · 25 filas · PERSONAL DOCENTE Y HORAS DOCENTES DE LA DGES EN EDUCACIÓN MEDIA SUPERIOR GENERAL PÚBLICA POR CONDICIÓN DE TITULACIÓN (Todo el país, 2021)
 
 - `TOTAL DOCENTES`
 - `PERSONAL DOCENTE/Titulados`
@@ -7212,19 +7551,11 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `HORAS DOCENTES/No Titulados`
 - *Fuente: Departamento de Estadística — DGES*
 - *Nota: Los docentes que dictan más de una asignatura son considerados como personas distintas en cada asignatura.*
+- *El cuadro muestra la cantidad de docentes titulados según la asignatura que dicta y no según la asignatura en la cual se tituló.*
+- *Se consideran los docentes de docencia directa de los liceos oficiales que se encontraban activos al momento de la extracción de los datos.*
+- *Las horas refieren al Plan Reformulación 2006.*
 
-**2023** · hoja «II-4.3.1» · tipo C · 28 filas · PERSONAL DOCENTE Y HORAS DOCENTES DE LA DGES EN EDUCACIÓN MEDIA SUPERIOR GENERAL PÚBLICA POR CONDICIÓN DE TITULACIÓN (Todo el país, 2023)
-
-- `TOTAL DOCENTES`
-- `PERSONAL DOCENTE/Titulados`
-- `PERSONAL DOCENTE/No Titulados`
-- `TOTAL HORAS`
-- `HORAS DOCENTES/Titulados`
-- `HORAS DOCENTES/No Titulados`
-- *Fuente: Departamento de Estadística — DGES*
-- *Nota: Los docentes que dictan más de una asignatura son considerados como personas distintas en cada asignatura.*
-
-**2024** · hoja «II-4.3.1» · tipo C · 29 filas · PERSONAL DOCENTE Y HORAS DOCENTES DE LA DGES EN EDUCACIÓN MEDIA SUPERIOR GENERAL PÚBLICA POR CONDICIÓN DE TITULACIÓN (Todo el país, 2024)
+**2022** · hoja «II-4.3.1» · tipo B · 25 filas · PERSONAL DOCENTE Y HORAS DOCENTES DE LA DGES EN EDUCACIÓN MEDIA SUPERIOR GENERAL PÚBLICA POR CONDICIÓN DE TITULACIÓN (Todo el país, 2022)
 
 - `TOTAL DOCENTES`
 - `PERSONAL DOCENTE/Titulados`
@@ -7234,6 +7565,37 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `HORAS DOCENTES/No Titulados`
 - *Fuente: Departamento de Estadística — DGES*
 - *Nota: Los docentes que dictan más de una asignatura son considerados como personas distintas en cada asignatura.*
+- *El cuadro muestra la cantidad de docentes titulados según la asignatura que dicta y no según la asignatura en la cual se tituló.*
+- *Se consideran los docentes de docencia directa de los liceos oficiales que se encontraban activos al momento de la extracción de los datos.*
+- *Las horas refieren al Plan Reformulación 2006.*
+
+**2023** · hoja «II-4.3.1» · tipo B · 25 filas · PERSONAL DOCENTE Y HORAS DOCENTES DE LA DGES EN EDUCACIÓN MEDIA SUPERIOR GENERAL PÚBLICA POR CONDICIÓN DE TITULACIÓN (Todo el país, 2023)
+
+- `TOTAL DOCENTES`
+- `PERSONAL DOCENTE/Titulados`
+- `PERSONAL DOCENTE/No Titulados`
+- `TOTAL HORAS`
+- `HORAS DOCENTES/Titulados`
+- `HORAS DOCENTES/No Titulados`
+- *Fuente: Departamento de Estadística — DGES*
+- *Nota: Los docentes que dictan más de una asignatura son considerados como personas distintas en cada asignatura.*
+- *El cuadro muestra la cantidad de docentes titulados según la asignatura que dicta y no según la asignatura en la cual se tituló.*
+- *Se consideran los docentes de docencia directa de los liceos oficiales que se encontraban activos al momento de la extracción de los datos.*
+- *Las horas refieren al Plan Reformulación 2006.*
+
+**2024** · hoja «II-4.3.1» · tipo B · 26 filas · PERSONAL DOCENTE Y HORAS DOCENTES DE LA DGES EN EDUCACIÓN MEDIA SUPERIOR GENERAL PÚBLICA POR CONDICIÓN DE TITULACIÓN (Todo el país, 2024)
+
+- `TOTAL DOCENTES`
+- `PERSONAL DOCENTE/Titulados`
+- `PERSONAL DOCENTE/No Titulados`
+- `TOTAL HORAS`
+- `HORAS DOCENTES/Titulados`
+- `HORAS DOCENTES/No Titulados`
+- *Fuente: Departamento de Estadística — DGES*
+- *Nota: Los docentes que dictan más de una asignatura son considerados como personas distintas en cada asignatura.*
+- *El cuadro muestra la cantidad de docentes titulados según la asignatura que dicta y no según la asignatura en la cual se tituló.*
+- *Se consideran los docentes de docencia directa de los liceos oficiales que se encontraban activos al momento de la extracción de los datos.*
+- *Las horas refieren al Plan Reformulación 2006.*
 
 </details>
 
@@ -7279,51 +7641,71 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-4.4.1</b></summary>
 
-**2020** · hoja «II-4.4.1» · tipo B · 19 filas · GRUPOS DE EDUCACIÓN MEDIA SUPERIOR GENERAL COMPARADOS CON EL TOTAL DE AMBOS CICLOS SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2020)
+**2020** · hoja «II-4.4.1» · tipo B · 15 filas · GRUPOS DE EDUCACIÓN MEDIA SUPERIOR GENERAL COMPARADOS CON EL TOTAL DE AMBOS CICLOS SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2020)
 
 - `FORMA DE ADMINISTRACIÓN/Grupos en Educación Media Superior General`
 - `Total de Grupos en Educación Media General`
 - `Promedio de alumnos por grupo de Media Superior`
 - *Fuente: DE — DGES*
 - *Nota: El “Total de ambos Ciclos” presenta de manera agregada la cantidad total de grupos con que cuente Educación Secundaria y es el resultado de adicionar al total de Grupos del presente cuadro (Ciclo Superior de Educación Secundaria), el total de los grupos presentados en el Cuadro II-3.4.1 (Ciclo Básico de Educación Secundaria)*
+- **
+- **
+- **
+- **
 
-**2021** · hoja «II-4.4.1» · tipo B · 19 filas · GRUPOS DE EDUCACIÓN MEDIA SUPERIOR GENERAL COMPARADOS CON EL TOTAL DE AMBOS CICLOS SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2021)
-
-- `FORMA DE ADMINISTRACIÓN/Grupos en Educación Media Superior General`
-- `Total de Grupos en Educación Media General`
-- `Promedio de alumnos por grupo de Media Superior`
-- *Fuente: DE — DGES*
-- *Nota: El “Total de ambos Ciclos” presenta de manera agregada la cantidad total de grupos con que cuente Educación Secundaria y es el resultado de adicionar al total de Grupos del presente cuadro (Ciclo Superior de Educación Secundaria), el total de los grupos presentados en el Cuadro II-3.4.1 (Ciclo Básico de Educación Secundaria)*
-
-**2022** · hoja «II-4.4.1» · tipo B · 19 filas · GRUPOS DE EDUCACIÓN MEDIA SUPERIOR GENERAL COMPARADOS CON EL TOTAL DE AMBOS CICLOS SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2022)
+**2021** · hoja «II-4.4.1» · tipo B · 15 filas · GRUPOS DE EDUCACIÓN MEDIA SUPERIOR GENERAL COMPARADOS CON EL TOTAL DE AMBOS CICLOS SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2021)
 
 - `FORMA DE ADMINISTRACIÓN/Grupos en Educación Media Superior General`
 - `Total de Grupos en Educación Media General`
 - `Promedio de alumnos por grupo de Media Superior`
 - *Fuente: DE — DGES*
 - *Nota: El “Total de ambos Ciclos” presenta de manera agregada la cantidad total de grupos con que cuente Educación Secundaria y es el resultado de adicionar al total de Grupos del presente cuadro (Ciclo Superior de Educación Secundaria), el total de los grupos presentados en el Cuadro II-3.4.1 (Ciclo Básico de Educación Secundaria)*
+- **
+- **
+- **
+- **
 
-**2023** · hoja «II-4.4.1» · tipo B · 19 filas · GRUPOS DE EDUCACIÓN MEDIA SUPERIOR GENERAL COMPARADOS CON EL TOTAL DE AMBOS CICLOS SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2023)
+**2022** · hoja «II-4.4.1» · tipo B · 15 filas · GRUPOS DE EDUCACIÓN MEDIA SUPERIOR GENERAL COMPARADOS CON EL TOTAL DE AMBOS CICLOS SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2022)
+
+- `FORMA DE ADMINISTRACIÓN/Grupos en Educación Media Superior General`
+- `Total de Grupos en Educación Media General`
+- `Promedio de alumnos por grupo de Media Superior`
+- *Fuente: DE — DGES*
+- *Nota: El “Total de ambos Ciclos” presenta de manera agregada la cantidad total de grupos con que cuente Educación Secundaria y es el resultado de adicionar al total de Grupos del presente cuadro (Ciclo Superior de Educación Secundaria), el total de los grupos presentados en el Cuadro II-3.4.1 (Ciclo Básico de Educación Secundaria)*
+- **
+- **
+- **
+- **
+
+**2023** · hoja «II-4.4.1» · tipo B · 15 filas · GRUPOS DE EDUCACIÓN MEDIA SUPERIOR GENERAL COMPARADOS CON EL TOTAL DE AMBOS CICLOS SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2023)
 
 - `FORMA DE ADMINISTRACIÓN/Grupos en Educación Media Superior General`
 - `FORMA DE ADMINISTRACIÓN/Total de Grupos en Educación Media General`
 - `FORMA DE ADMINISTRACIÓN/Promedio de alumnos por grupo de Media Superior`
 - *Fuente: DE — DGES*
 - *Nota: El “Total de ambos Ciclos” presenta de manera agregada la cantidad total de grupos con que cuente Educación Secundaria y es el resultado de adicionar al total de Grupos del presente cuadro (Ciclo Superior de Educación Secundaria), el total de los grupos presentados en el Cuadro II-3.4.1 (Ciclo Básico de Educación Secundaria)*
+- **
+- **
+- **
+- **
 
-**2024** · hoja «II-4.4.1» · tipo B · 19 filas · GRUPOS DE EDUCACIÓN MEDIA SUPERIOR GENERAL COMPARADOS CON EL TOTAL DE AMBOS CICLOS SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2024)
+**2024** · hoja «II-4.4.1» · tipo B · 15 filas · GRUPOS DE EDUCACIÓN MEDIA SUPERIOR GENERAL COMPARADOS CON EL TOTAL DE AMBOS CICLOS SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN (Todo el país, 2024)
 
 - `FORMA DE ADMINISTRACIÓN/Grupos en Educación Media Superior General`
 - `FORMA DE ADMINISTRACIÓN/Total de Grupos en Educación Media General`
 - `FORMA DE ADMINISTRACIÓN/Promedio de alumnos por grupo de Media Superior`
 - *Fuente: DE — DGES*
 - *Nota: El “Total de ambos Ciclos” presenta de manera agregada la cantidad total de grupos con que cuente Educación Secundaria y es el resultado de adicionar al total de Grupos del presente cuadro (Ciclo Superior de Educación Secundaria), el total de los grupos presentados en el Cuadro II-3.4.1 (Ciclo Básico de Educación Secundaria)*
+- **
+- **
+- **
+- **
 
 </details>
 
 <details><summary><b>II-5.1.1</b></summary>
 
-**2020** · hoja «II-5.1.1» · tipo A · 35 filas · MATRÍCULA Y PERSONAL DOCENTE POR SEXO SEGÚN GRANDES ÁREAS, DEPARTAMENTOS E INSTITUCIONES (Todo el país, 2020)
+**2020** · hoja «II-5.1.1» · tipo A · 31 filas · MATRÍCULA Y PERSONAL DOCENTE POR SEXO SEGÚN GRANDES ÁREAS, DEPARTAMENTOS E INSTITUCIONES (Todo el país, 2020)
 
 - `TOTAL MATRÍCULA`
 - `MATRICULA/SEXO/VARÓN`
@@ -7332,8 +7714,12 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `DOCENTES/SEXO/VARÓN`
 - `DOCENTES/SEXO/MUJER`
 - *Fuente:*
+- *D.E - DGETP*
+- *Escuela Nacional de Policía*
+- *Dirección de Formación. Ministerio de Defensa Nacional*
+- *Oficinas productoras de cada una de las instituciones.*
 
-**2021** · hoja «II-5.1.1» · tipo A · 35 filas · MATRÍCULA Y PERSONAL DOCENTE POR SEXO SEGÚN GRANDES ÁREAS, DEPARTAMENTOS E INSTITUCIONES (Todo el país, 2021)
+**2021** · hoja «II-5.1.1» · tipo A · 31 filas · MATRÍCULA Y PERSONAL DOCENTE POR SEXO SEGÚN GRANDES ÁREAS, DEPARTAMENTOS E INSTITUCIONES (Todo el país, 2021)
 
 - `TOTAL MATRÍCULA`
 - `MATRICULA/SEXO/VARÓN`
@@ -7342,8 +7728,12 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `DOCENTES/SEXO/VARÓN`
 - `DOCENTES/SEXO/MUJER`
 - *Fuente:*
+- *D.E - DGETP*
+- *Escuela Nacional de Policía*
+- *Dirección de Formación. Ministerio de Defensa Nacional*
+- *Oficinas productoras de cada una de las instituciones.*
 
-**2022** · hoja «II-5.1.1» · tipo A · 35 filas · MATRÍCULA Y PERSONAL DOCENTE POR SEXO SEGÚN GRANDES ÁREAS, DEPARTAMENTOS E INSTITUCIONES (Todo el país, 2022)
+**2022** · hoja «II-5.1.1» · tipo A · 31 filas · MATRÍCULA Y PERSONAL DOCENTE POR SEXO SEGÚN GRANDES ÁREAS, DEPARTAMENTOS E INSTITUCIONES (Todo el país, 2022)
 
 - `TOTAL MATRÍCULA`
 - `MATRÍCULA/SEXO/VARÓN`
@@ -7352,18 +7742,12 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `DOCENTES/SEXO/VARÓN`
 - `DOCENTES/SEXO/MUJER`
 - *Fuente:*
+- *D.E - DGETP*
+- *Escuela Nacional de Policía*
+- *Dirección de Formación. Ministerio de Defensa Nacional*
+- *Oficinas productoras de cada una de las instituciones.*
 
-**2023** · hoja «II-5.1.1» · tipo A · 39 filas · MATRÍCULA Y PERSONAL DOCENTE POR SEXO SEGÚN GRANDES ÁREAS, DEPARTAMENTOS E INSTITUCIONES (Todo el país, 2023)
-
-- `TOTAL MATRÍCULA`
-- `MATRÍCULA/SEXO/VARÓN`
-- `MATRÍCULA/SEXO/MUJER`
-- `TOTAL DOCENTES`
-- `DOCENTES/SEXO/VARÓN`
-- `DOCENTES/SEXO/MUJER`
-- *Fuentes:*
-
-**2024** · hoja «II-5.1.1» · tipo A · 39 filas · MATRÍCULA Y PERSONAL DOCENTE POR SEXO SEGÚN GRANDES ÁREAS, DEPARTAMENTOS E INSTITUCIONES (Todo el país, 2024)
+**2023** · hoja «II-5.1.1» · tipo A · 35 filas · MATRÍCULA Y PERSONAL DOCENTE POR SEXO SEGÚN GRANDES ÁREAS, DEPARTAMENTOS E INSTITUCIONES (Todo el país, 2023)
 
 - `TOTAL MATRÍCULA`
 - `MATRÍCULA/SEXO/VARÓN`
@@ -7372,12 +7756,30 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `DOCENTES/SEXO/VARÓN`
 - `DOCENTES/SEXO/MUJER`
 - *Fuentes:*
+- *D.E - DGETP*
+- *Escuela Nacional de Policía*
+- *Dirección de Formación. Ministerio de Defensa Nacional*
+- *Oficinas productoras de cada una de las instituciones.*
+
+**2024** · hoja «II-5.1.1» · tipo A · 35 filas · MATRÍCULA Y PERSONAL DOCENTE POR SEXO SEGÚN GRANDES ÁREAS, DEPARTAMENTOS E INSTITUCIONES (Todo el país, 2024)
+
+- `TOTAL MATRÍCULA`
+- `MATRÍCULA/SEXO/VARÓN`
+- `MATRÍCULA/SEXO/MUJER`
+- `TOTAL DOCENTES`
+- `DOCENTES/SEXO/VARÓN`
+- `DOCENTES/SEXO/MUJER`
+- *Fuentes:*
+- *D.E - DGETP*
+- *Escuela Nacional de Policía*
+- *Dirección de Formación. Ministerio de Defensa Nacional*
+- *Oficinas productoras de cada una de las instituciones.*
 
 </details>
 
 <details><summary><b>II-5.2.1</b></summary>
 
-**2020** · hoja «II-5.2.1» · tipo C · 22 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN NIVEL TERCIARIO NO UNIVERSITARIO DEL ÁREA SEGURIDAD Y DEFENSA POR SEXO SEGÚN INSTITUCIÓN Y CARRERA (Todo el país, 2020)
+**2020** · hoja «II-5.2.1» · tipo C · 21 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN NIVEL TERCIARIO NO UNIVERSITARIO DEL ÁREA SEGURIDAD Y DEFENSA POR SEXO SEGÚN INSTITUCIÓN Y CARRERA (Todo el país, 2020)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -7389,21 +7791,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `EGRESADOS/SEXO/V`
 - `EGRESADOS/SEXO/M`
 - *Fuentes: Escuela Nacional de Policía*
+- *Dirección de Formación. Ministerio de Defensa Nacional*
 
-**2021** · hoja «II-5.2.1» · tipo C · 13 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN NIVEL TERCIARIO NO UNIVERSITARIO DEL ÁREA SEGURIDAD Y DEFENSA POR SEXO SEGÚN INSTITUCIÓN Y CARRERA (Todo el país, 2021)
-
-- `TOTAL`
-- `INGRESADOS/SEXO/V`
-- `INGRESADOS/SEXO/M`
-- `TOTAL`
-- `MATRICULADOS/SEXO/V`
-- `MATRICULADOS/SEXO/M`
-- `TOTAL`
-- `EGRESADOS/SEXO/V`
-- `EGRESADOS/SEXO/M`
-- *Fuentes: Escuela Nacional de Policía*
-
-**2022** · hoja «II-5.2.1» · tipo C · 15 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN NIVEL TERCIARIO NO UNIVERSITARIO DEL ÁREA SEGURIDAD Y DEFENSA POR SEXO SEGÚN INSTITUCIÓN Y CARRERA (Todo el país, 2022)
+**2021** · hoja «II-5.2.1» · tipo C · 12 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN NIVEL TERCIARIO NO UNIVERSITARIO DEL ÁREA SEGURIDAD Y DEFENSA POR SEXO SEGÚN INSTITUCIÓN Y CARRERA (Todo el país, 2021)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -7415,21 +7805,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `EGRESADOS/SEXO/V`
 - `EGRESADOS/SEXO/M`
 - *Fuentes: Escuela Nacional de Policía*
+- *Dirección de Formación. Ministerio de Defensa Nacional*
 
-**2023** · hoja «II-5.2.1» · tipo C · 14 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN NIVEL TERCIARIO NO UNIVERSITARIO DEL ÁREA SEGURIDAD Y DEFENSA POR SEXO SEGÚN INSTITUCIÓN Y CARRERA (Todo el país, 2023)
-
-- `TOTAL`
-- `INGRESADOS/SEXO/V`
-- `INGRESADOS/SEXO/M`
-- `TOTAL`
-- `MATRICULADOS/SEXO/V`
-- `MATRICULADOS/SEXO/M`
-- `TOTAL`
-- `EGRESADOS/SEXO/V`
-- `EGRESADOS/SEXO/M`
-- *Fuentes: Escuela Nacional de Policía*
-
-**2024** · hoja «II-5.2.1» · tipo C · 14 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN NIVEL TERCIARIO NO UNIVERSITARIO DEL ÁREA SEGURIDAD Y DEFENSA POR SEXO SEGÚN INSTITUCIÓN Y CARRERA (Todo el país, 2024)
+**2022** · hoja «II-5.2.1» · tipo C · 14 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN NIVEL TERCIARIO NO UNIVERSITARIO DEL ÁREA SEGURIDAD Y DEFENSA POR SEXO SEGÚN INSTITUCIÓN Y CARRERA (Todo el país, 2022)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -7441,12 +7819,41 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `EGRESADOS/SEXO/V`
 - `EGRESADOS/SEXO/M`
 - *Fuentes: Escuela Nacional de Policía*
+- *Dirección de Formación. Ministerio de Defensa Nacional*
+
+**2023** · hoja «II-5.2.1» · tipo C · 13 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN NIVEL TERCIARIO NO UNIVERSITARIO DEL ÁREA SEGURIDAD Y DEFENSA POR SEXO SEGÚN INSTITUCIÓN Y CARRERA (Todo el país, 2023)
+
+- `TOTAL`
+- `INGRESADOS/SEXO/V`
+- `INGRESADOS/SEXO/M`
+- `TOTAL`
+- `MATRICULADOS/SEXO/V`
+- `MATRICULADOS/SEXO/M`
+- `TOTAL`
+- `EGRESADOS/SEXO/V`
+- `EGRESADOS/SEXO/M`
+- *Fuentes: Escuela Nacional de Policía*
+- *Dirección de Formación. Ministerio de Defensa Nacional*
+
+**2024** · hoja «II-5.2.1» · tipo C · 13 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN NIVEL TERCIARIO NO UNIVERSITARIO DEL ÁREA SEGURIDAD Y DEFENSA POR SEXO SEGÚN INSTITUCIÓN Y CARRERA (Todo el país, 2024)
+
+- `TOTAL`
+- `INGRESADOS/SEXO/V`
+- `INGRESADOS/SEXO/M`
+- `TOTAL`
+- `MATRICULADOS/SEXO/V`
+- `MATRICULADOS/SEXO/M`
+- `TOTAL`
+- `EGRESADOS/SEXO/V`
+- `EGRESADOS/SEXO/M`
+- *Fuentes: Escuela Nacional de Policía*
+- *Dirección de Formación. Ministerio de Defensa Nacional*
 
 </details>
 
 <details><summary><b>II-5.2.2</b></summary>
 
-**2020** · hoja «II-5.2.2» · tipo C · 89 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN OTRAS OFERTAS DE NIVEL TERCIARIO NO UNIVERSITARIO POR SEXO SEGÚN INSTITUCIÓN Y CARRERA (Todo el país, 2020)
+**2020** · hoja «II-5.2.2» · tipo C · 87 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN OTRAS OFERTAS DE NIVEL TERCIARIO NO UNIVERSITARIO POR SEXO SEGÚN INSTITUCIÓN Y CARRERA (Todo el país, 2020)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -7458,21 +7865,10 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `EGRESADOS/SEXO/V`
 - `EGRESADOS/SEXO/M`
 - *Fuentes:*
+- *Oficinas productoras de cada una de las instituciones.*
+- *D.E - DGETP*
 
-**2021** · hoja «II-5.2.2» · tipo C · 92 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN OTRAS OFERTAS DE NIVEL TERCIARIO NO UNIVERSITARIO POR SEXO SEGÚN INSTITUCIÓN Y CARRERA (Todo el país, 2021)
-
-- `TOTAL`
-- `INGRESADOS/SEXO/V`
-- `INGRESADOS/SEXO/M`
-- `TOTAL`
-- `MATRICULADOS/SEXO/V`
-- `MATRICULADOS/SEXO/M`
-- `TOTAL`
-- `EGRESADOS/SEXO/V`
-- `EGRESADOS/SEXO/M`
-- *Fuentes:*
-
-**2022** · hoja «II-5.2.2» · tipo C · 95 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN OTRAS OFERTAS DE NIVEL TERCIARIO NO UNIVERSITARIO POR SEXO SEGÚN INSTITUCIÓN Y CARRERA (Todo el país, 2022)
+**2021** · hoja «II-5.2.2» · tipo C · 90 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN OTRAS OFERTAS DE NIVEL TERCIARIO NO UNIVERSITARIO POR SEXO SEGÚN INSTITUCIÓN Y CARRERA (Todo el país, 2021)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -7484,8 +7880,10 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `EGRESADOS/SEXO/V`
 - `EGRESADOS/SEXO/M`
 - *Fuentes:*
+- *Oficinas productoras de cada una de las instituciones.*
+- *D.E - DGETP*
 
-**2023** · hoja «II-5.2.2» · tipo C · 100 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN OTRAS OFERTAS DE NIVEL TERCIARIO NO UNIVERSITARIO POR SEXO SEGÚN INSTITUCIÓN Y CARRERA (Todo el país, 2023)
+**2022** · hoja «II-5.2.2» · tipo C · 93 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN OTRAS OFERTAS DE NIVEL TERCIARIO NO UNIVERSITARIO POR SEXO SEGÚN INSTITUCIÓN Y CARRERA (Todo el país, 2022)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -7497,8 +7895,25 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `EGRESADOS/SEXO/V`
 - `EGRESADOS/SEXO/M`
 - *Fuentes:*
+- *Oficinas productoras de cada una de las instituciones.*
+- *D.E - DGETP*
 
-**2024** · hoja «II-5.2.2» · tipo C · 104 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN OTRAS OFERTAS DE NIVEL TERCIARIO NO UNIVERSITARIO POR SEXO SEGÚN INSTITUCIÓN Y CARRERA (Todo el país, 2024)
+**2023** · hoja «II-5.2.2» · tipo C · 98 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN OTRAS OFERTAS DE NIVEL TERCIARIO NO UNIVERSITARIO POR SEXO SEGÚN INSTITUCIÓN Y CARRERA (Todo el país, 2023)
+
+- `TOTAL`
+- `INGRESADOS/SEXO/V`
+- `INGRESADOS/SEXO/M`
+- `TOTAL`
+- `MATRICULADOS/SEXO/V`
+- `MATRICULADOS/SEXO/M`
+- `TOTAL`
+- `EGRESADOS/SEXO/V`
+- `EGRESADOS/SEXO/M`
+- *Fuentes:*
+- *Oficinas productoras de cada una de las instituciones.*
+- *D.E - DGETP*
+
+**2024** · hoja «II-5.2.2» · tipo C · 103 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN OTRAS OFERTAS DE NIVEL TERCIARIO NO UNIVERSITARIO POR SEXO SEGÚN INSTITUCIÓN Y CARRERA (Todo el país, 2024)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -7510,12 +7925,13 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `EGRESADOS/SEXO/V`
 - `EGRESADOS/SEXO/M`
 - *Fuentes: Oficinas productoras de cada una de las instituciones.*
+- *D.E - DGETP*
 
 </details>
 
 <details><summary><b>II-5.3.1</b></summary>
 
-**2020** · hoja «II-5.3.1» · tipo C · 32 filas · PERSONAL ACADÉMICO DE NIVEL TERCIARIO NO UNIVERSITARIO DEL ÁREA SEGURIDAD Y DEFENSA POR CARGA HORARIA, SEXO, SEGÚN INSTITUCIÓN Y FORMACIÓN (Todo el país, 2020)
+**2020** · hoja «II-5.3.1» · tipo C · 31 filas · PERSONAL ACADÉMICO DE NIVEL TERCIARIO NO UNIVERSITARIO DEL ÁREA SEGURIDAD Y DEFENSA POR CARGA HORARIA, SEXO, SEGÚN INSTITUCIÓN Y FORMACIÓN (Todo el país, 2020)
 
 - `TOTAL`
 - `HORAS SEMANALES/Total`
@@ -7528,22 +7944,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `HORAS SEMANALES/31 horas y más/SEXO/V`
 - `HORAS SEMANALES/31 horas y más/SEXO/M`
 - *Fuentes: Escuela Nacional de Policía*
+- *Dirección de Formación. Ministerio de Defensa Nacional*
 
-**2021** · hoja «II-5.3.1» · tipo C · 26 filas · PERSONAL ACADÉMICO DE NIVEL TERCIARIO NO UNIVERSITARIO DEL ÁREA SEGURIDAD Y DEFENSA POR CARGA HORARIA, SEXO, SEGÚN INSTITUCIÓN Y FORMACIÓN (Todo el país, 2021)
-
-- `TOTAL`
-- `HORAS SEMANALES/Total`
-- `HORAS SEMANALES/20 horas o menos/SEXO/V`
-- `HORAS SEMANALES/20 horas o menos/SEXO/M`
-- `HORAS SEMANALES/Total`
-- `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/V`
-- `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/M`
-- `HORAS SEMANALES/Total`
-- `HORAS SEMANALES/31 horas y más/SEXO/V`
-- `HORAS SEMANALES/31 horas y más/SEXO/M`
-- *Fuentes: Escuela Nacional de Policía*
-
-**2022** · hoja «II-5.3.1» · tipo C · 26 filas · PERSONAL ACADÉMICO DE NIVEL TERCIARIO NO UNIVERSITARIO DEL ÁREA SEGURIDAD Y DEFENSA POR CARGA HORARIA, SEXO, SEGÚN INSTITUCIÓN Y FORMACIÓN (Todo el país, 2022)
+**2021** · hoja «II-5.3.1» · tipo C · 25 filas · PERSONAL ACADÉMICO DE NIVEL TERCIARIO NO UNIVERSITARIO DEL ÁREA SEGURIDAD Y DEFENSA POR CARGA HORARIA, SEXO, SEGÚN INSTITUCIÓN Y FORMACIÓN (Todo el país, 2021)
 
 - `TOTAL`
 - `HORAS SEMANALES/Total`
@@ -7556,8 +7959,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `HORAS SEMANALES/31 horas y más/SEXO/V`
 - `HORAS SEMANALES/31 horas y más/SEXO/M`
 - *Fuentes: Escuela Nacional de Policía*
+- *Dirección de Formación. Ministerio de Defensa Nacional*
 
-**2023** · hoja «II-5.3.1» · tipo C · 32 filas · PERSONAL ACADÉMICO DE NIVEL TERCIARIO NO UNIVERSITARIO DEL ÁREA SEGURIDAD Y DEFENSA POR CARGA HORARIA, SEXO, SEGÚN INSTITUCIÓN Y FORMACIÓN (Todo el país, 2023)
+**2022** · hoja «II-5.3.1» · tipo C · 25 filas · PERSONAL ACADÉMICO DE NIVEL TERCIARIO NO UNIVERSITARIO DEL ÁREA SEGURIDAD Y DEFENSA POR CARGA HORARIA, SEXO, SEGÚN INSTITUCIÓN Y FORMACIÓN (Todo el país, 2022)
 
 - `TOTAL`
 - `HORAS SEMANALES/Total`
@@ -7570,9 +7974,25 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `HORAS SEMANALES/31 horas y más/SEXO/V`
 - `HORAS SEMANALES/31 horas y más/SEXO/M`
 - *Fuentes: Escuela Nacional de Policía*
+- *Dirección de Formación. Ministerio de Defensa Nacional*
+
+**2023** · hoja «II-5.3.1» · tipo C · 31 filas · PERSONAL ACADÉMICO DE NIVEL TERCIARIO NO UNIVERSITARIO DEL ÁREA SEGURIDAD Y DEFENSA POR CARGA HORARIA, SEXO, SEGÚN INSTITUCIÓN Y FORMACIÓN (Todo el país, 2023)
+
+- `TOTAL`
+- `HORAS SEMANALES/Total`
+- `HORAS SEMANALES/20 horas o menos/SEXO/V`
+- `HORAS SEMANALES/20 horas o menos/SEXO/M`
+- `HORAS SEMANALES/Total`
+- `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/V`
+- `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/M`
+- `HORAS SEMANALES/Total`
+- `HORAS SEMANALES/31 horas y más/SEXO/V`
+- `HORAS SEMANALES/31 horas y más/SEXO/M`
+- *Fuentes: Escuela Nacional de Policía*
+- *Dirección de Formación. Ministerio de Defensa Nacional*
 - *Nota: Para el caso de la Escuela Nacional de Policía se presenta el personal académico del total de la oferta de la institución ya que no es posible discriminar a los mismos por carrera.*
 
-**2024** · hoja «II-5.3.1» · tipo C · 32 filas · PERSONAL ACADÉMICO DE NIVEL TERCIARIO NO UNIVERSITARIO DEL ÁREA SEGURIDAD Y DEFENSA POR CARGA HORARIA, SEXO, SEGÚN INSTITUCIÓN Y FORMACIÓN (Todo el país, 2024)
+**2024** · hoja «II-5.3.1» · tipo C · 31 filas · PERSONAL ACADÉMICO DE NIVEL TERCIARIO NO UNIVERSITARIO DEL ÁREA SEGURIDAD Y DEFENSA POR CARGA HORARIA, SEXO, SEGÚN INSTITUCIÓN Y FORMACIÓN (Todo el país, 2024)
 
 - `TOTAL`
 - `HORAS SEMANALES/Total`
@@ -7585,12 +8005,13 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `HORAS SEMANALES/31 horas y más/SEXO/V`
 - `HORAS SEMANALES/31 horas y más/SEXO/M`
 - *Fuentes: Escuela Nacional de Policía*
+- *Dirección de Formación. Ministerio de Defensa Nacional*
 
 </details>
 
 <details><summary><b>II-5.3.2</b></summary>
 
-**2020** · hoja «II-5.3.2» · tipo C · 26 filas · PERSONAL ACADÉMICO DE NIVEL TERCIARIO NO UNIVERSITARIO POR CARGA HORARIA SEMANAL, SEXO, SEGÚN INSTITUCIÓN Y FORMACIÓN (Todo el país, 2020)
+**2020** · hoja «II-5.3.2» · tipo C · 25 filas · PERSONAL ACADÉMICO DE NIVEL TERCIARIO NO UNIVERSITARIO POR CARGA HORARIA SEMANAL, SEXO, SEGÚN INSTITUCIÓN Y FORMACIÓN (Todo el país, 2020)
 
 - `TOTAL`
 - `HORAS SEMANALES/Total`
@@ -7603,22 +8024,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `HORAS SEMANALES/31 horas y más/SEXO/V`
 - `HORAS SEMANALES/31 horas y más/SEXO/M`
 - *Fuente:*
+- *Oficinas productoras de cada una de las instituciones*
 
-**2021** · hoja «II-5.3.2» · tipo C · 26 filas · PERSONAL ACADÉMICO DE NIVEL TERCIARIO NO UNIVERSITARIO POR CARGA HORARIA SEMANAL, SEXO, SEGÚN INSTITUCIÓN Y FORMACIÓN (Todo el país, 2021)
-
-- `TOTAL`
-- `HORAS SEMANALES/Total`
-- `HORAS SEMANALES/20 horas o menos/SEXO/V`
-- `HORAS SEMANALES/20 horas o menos/SEXO/M`
-- `HORAS SEMANALES/Total`
-- `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/V`
-- `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/M`
-- `HORAS SEMANALES/Total`
-- `HORAS SEMANALES/31 horas y más/SEXO/V`
-- `HORAS SEMANALES/31 horas y más/SEXO/M`
-- *Fuente:*
-
-**2022** · hoja «II-5.3.2» · tipo C · 33 filas · PERSONAL ACADÉMICO DE NIVEL TERCIARIO NO UNIVERSITARIO POR CARGA HORARIA SEMANAL, SEXO, SEGÚN INSTITUCIÓN Y FORMACIÓN (Todo el país, 2022)
+**2021** · hoja «II-5.3.2» · tipo C · 25 filas · PERSONAL ACADÉMICO DE NIVEL TERCIARIO NO UNIVERSITARIO POR CARGA HORARIA SEMANAL, SEXO, SEGÚN INSTITUCIÓN Y FORMACIÓN (Todo el país, 2021)
 
 - `TOTAL`
 - `HORAS SEMANALES/Total`
@@ -7631,22 +8039,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `HORAS SEMANALES/31 horas y más/SEXO/V`
 - `HORAS SEMANALES/31 horas y más/SEXO/M`
 - *Fuente:*
+- *Oficinas productoras de cada una de las instituciones*
 
-**2023** · hoja «II-5.3.2» · tipo C · 38 filas · PERSONAL ACADÉMICO DE NIVEL TERCIARIO NO UNIVERSITARIO POR CARGA HORARIA SEMANAL, SEXO, SEGÚN INSTITUCIÓN Y FORMACIÓN (Todo el país, 2023)
-
-- `TOTAL`
-- `HORAS SEMANALES/Total`
-- `HORAS SEMANALES/20 horas o menos/SEXO/V`
-- `HORAS SEMANALES/20 horas o menos/SEXO/M`
-- `HORAS SEMANALES/Total`
-- `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/V`
-- `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/M`
-- `HORAS SEMANALES/Total`
-- `HORAS SEMANALES/31 horas y más/SEXO/V`
-- `HORAS SEMANALES/31 horas y más/SEXO/M`
-- *Fuente:*
-
-**2024** · hoja «II-5.3.2» · tipo C · 32 filas · PERSONAL ACADÉMICO DE NIVEL TERCIARIO NO UNIVERSITARIO POR CARGA HORARIA SEMANAL Y SEXO, SEGÚN INSTITUCIÓN Y FORMACIÓN (Todo el país, 2024)
+**2022** · hoja «II-5.3.2» · tipo C · 32 filas · PERSONAL ACADÉMICO DE NIVEL TERCIARIO NO UNIVERSITARIO POR CARGA HORARIA SEMANAL, SEXO, SEGÚN INSTITUCIÓN Y FORMACIÓN (Todo el país, 2022)
 
 - `TOTAL`
 - `HORAS SEMANALES/Total`
@@ -7659,51 +8054,88 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `HORAS SEMANALES/31 horas y más/SEXO/V`
 - `HORAS SEMANALES/31 horas y más/SEXO/M`
 - *Fuente:*
+- *Oficinas productoras de cada una de las instituciones*
+
+**2023** · hoja «II-5.3.2» · tipo C · 37 filas · PERSONAL ACADÉMICO DE NIVEL TERCIARIO NO UNIVERSITARIO POR CARGA HORARIA SEMANAL, SEXO, SEGÚN INSTITUCIÓN Y FORMACIÓN (Todo el país, 2023)
+
+- `TOTAL`
+- `HORAS SEMANALES/Total`
+- `HORAS SEMANALES/20 horas o menos/SEXO/V`
+- `HORAS SEMANALES/20 horas o menos/SEXO/M`
+- `HORAS SEMANALES/Total`
+- `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/V`
+- `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/M`
+- `HORAS SEMANALES/Total`
+- `HORAS SEMANALES/31 horas y más/SEXO/V`
+- `HORAS SEMANALES/31 horas y más/SEXO/M`
+- *Fuente:*
+- *Oficinas productoras de cada una de las instituciones*
+
+**2024** · hoja «II-5.3.2» · tipo C · 31 filas · PERSONAL ACADÉMICO DE NIVEL TERCIARIO NO UNIVERSITARIO POR CARGA HORARIA SEMANAL Y SEXO, SEGÚN INSTITUCIÓN Y FORMACIÓN (Todo el país, 2024)
+
+- `TOTAL`
+- `HORAS SEMANALES/Total`
+- `HORAS SEMANALES/20 horas o menos/SEXO/V`
+- `HORAS SEMANALES/20 horas o menos/SEXO/M`
+- `HORAS SEMANALES/Total`
+- `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/V`
+- `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/M`
+- `HORAS SEMANALES/Total`
+- `HORAS SEMANALES/31 horas y más/SEXO/V`
+- `HORAS SEMANALES/31 horas y más/SEXO/M`
+- *Fuente:*
+- *Oficinas productoras de cada una de las instituciones*
 
 </details>
 
 <details><summary><b>II-6.1.1</b></summary>
 
-**2020** · hoja «II-6.1.1» · tipo A · 27 filas · MATRÍCULA Y PERSONAL DOCENTE SEGÚN GRANDES ÁREAS, DEPARTAMENTOS E INSTITUCIONES (Todo el país, 2020)
+**2020** · hoja «II-6.1.1» · tipo A · 25 filas · MATRÍCULA Y PERSONAL DOCENTE SEGÚN GRANDES ÁREAS, DEPARTAMENTOS E INSTITUCIONES (Todo el país, 2020)
 
 - `TOTAL`
 - `DOCENTES`
 - *Fuente: División de Información y Estadística del CFE*
 - *Notas: 1) Matrícula considerada como el número de personas inscriptas para cursar al menos una materia de las carreras que se ofrecen en el CFE. 2) A partir del año 2016, los estudiantes de Educador Social del IPA, pasan al nuevo Instutito de Formación en Educación Social (IFES)*
+- *3) Como docente se contabilizó a aquellos con horas de clase asignadas*
+- *4) En el total de docentes se contabiliza 8 docentes del IPES, 29 del CFE y 155 semipresenciales.*
 
-**2021** · hoja «II-6.1.1» · tipo A · 26 filas · MATRÍCULA Y PERSONAL DOCENTE SEGÚN GRANDES ÁREAS, DEPARTAMENTOS E INSTITUCIONES (Todo el país, 2021)
-
-- `TOTAL`
-- `DOCENTES`
-- *Fuente: División de Información y Estadística del CFE*
-- *Notas: 1) Matrícula considerada como el número de personas inscriptas para cursar al menos una materia de las carreras que se ofrecen en el CFE.*
-
-**2022** · hoja «II-6.1.1» · tipo A · 26 filas · MATRÍCULA Y PERSONAL DOCENTE SEGÚN GRANDES ÁREAS, DEPARTAMENTOS E INSTITUCIONES (Todo el país, 2022)
+**2021** · hoja «II-6.1.1» · tipo A · 25 filas · MATRÍCULA Y PERSONAL DOCENTE SEGÚN GRANDES ÁREAS, DEPARTAMENTOS E INSTITUCIONES (Todo el país, 2021)
 
 - `TOTAL`
 - `DOCENTES`
 - *Fuente: División de Información y Estadística del CFE*
 - *Notas: 1) Matrícula considerada como el número de personas inscriptas para cursar al menos una materia de las carreras que se ofrecen en el CFE.*
+- *2) Como docente se contabilizó a aquellos con docencia directa*
 
-**2023** · hoja «II-6.1.1» · tipo A · 26 filas · MATRÍCULA Y PERSONAL DOCENTE SEGÚN GRANDES ÁREAS, DEPARTAMENTOS E INSTITUCIONES (Todo el país, 2023)
-
-- `TOTAL`
-- `DOCENTES`
-- *Fuente: División de Información y Estadística del CFE*
-- *Notas: 1) Matrícula considerada como el número de personas inscriptas para cursar al menos una materia de las carreras que se ofrecen en el CFE.*
-
-**2024** · hoja «II-6.1.1» · tipo A · 26 filas · MATRÍCULA Y PERSONAL DOCENTE SEGÚN GRANDES ÁREAS, DEPARTAMENTOS E INSTITUCIONES (Todo el país, 2024)
+**2022** · hoja «II-6.1.1» · tipo A · 25 filas · MATRÍCULA Y PERSONAL DOCENTE SEGÚN GRANDES ÁREAS, DEPARTAMENTOS E INSTITUCIONES (Todo el país, 2022)
 
 - `TOTAL`
 - `DOCENTES`
 - *Fuente: División de Información y Estadística del CFE*
 - *Notas: 1) Matrícula considerada como el número de personas inscriptas para cursar al menos una materia de las carreras que se ofrecen en el CFE.*
+- *2) Como docente se contabilizó a aquellos con docencia directa*
+
+**2023** · hoja «II-6.1.1» · tipo A · 25 filas · MATRÍCULA Y PERSONAL DOCENTE SEGÚN GRANDES ÁREAS, DEPARTAMENTOS E INSTITUCIONES (Todo el país, 2023)
+
+- `TOTAL`
+- `DOCENTES`
+- *Fuente: División de Información y Estadística del CFE*
+- *Notas: 1) Matrícula considerada como el número de personas inscriptas para cursar al menos una materia de las carreras que se ofrecen en el CFE.*
+- *2) Como docente se contabilizó a aquellos con docencia directa*
+
+**2024** · hoja «II-6.1.1» · tipo A · 25 filas · MATRÍCULA Y PERSONAL DOCENTE SEGÚN GRANDES ÁREAS, DEPARTAMENTOS E INSTITUCIONES (Todo el país, 2024)
+
+- `TOTAL`
+- `DOCENTES`
+- *Fuente: División de Información y Estadística del CFE*
+- *Notas: 1) Matrícula considerada como el número de personas inscriptas para cursar al menos una materia de las carreras que se ofrecen en el CFE.*
+- *2) Como docente se contabilizó a aquellos con docencia directa*
 
 </details>
 
 <details><summary><b>II-6.2.1</b></summary>
 
-**2020** · hoja «II-6.2.1» · tipo C · 47 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR CARRERA SEGÚN DEPARTAMENTO Y ESTABLECIMIENTO (Todo el país, 2020)
+**2020** · hoja «II-6.2.1» · tipo C · 42 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR CARRERA SEGÚN DEPARTAMENTO Y ESTABLECIMIENTO (Todo el país, 2020)
 
 - `DEPARTAMENTO / ESTABLECIMIENTO`
 - `TOTAL/Ingr.`
@@ -7720,26 +8152,13 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `CARRERA/Educador Social/Egr.`
 - *Fuente: División de Información y Estadística del CFE*
 - *Notas:*
+- *Matrícula considerada como el número de inscripciones para cursar al menos una materia de las carreras que se ofrecen en el CFE.*
+- *Los matriculados en Profesorado del INET corresponden tanto al profesorado de Informática como a Maestros Técnicos.*
+- *La categoría profesorado incluye a los maestros, profesores técnicos, asistente de laboratorios en tecnologías digitales y certificación de lenguas extranjeras.*
+- *La categoría Maestro incluye maestro de educación primaria, maestro de primera infancia, magisterio opción inicial.*
+- *El I.F.E.S. es el Instituto de Formación en Educación Social*
 
-**2021** · hoja «II-6.2.1» · tipo C · 48 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR CARRERA SEGÚN DEPARTAMENTO Y ESTABLECIMIENTO (Todo el país, 2021)
-
-- `DEPARTAMENTO / ESTABLECIMIENTO`
-- `TOTAL/Ingr.`
-- `TOTAL/Matr.`
-- `TOTAL/Egr.`
-- `CARRERA/Magisterio/Ingr.`
-- `CARRERA/Magisterio/Matr.`
-- `CARRERA/Magisterio/Egr.`
-- `CARRERA/Profesorado/Ingr.`
-- `CARRERA/Profesorado/Matr.`
-- `CARRERA/Profesorado/Egr.`
-- `CARRERA/Educador Social/Ingr.`
-- `CARRERA/Educador Social/Matr.`
-- `CARRERA/Educador Social/Egr.`
-- *Fuente: División de Información y Estadística del CFE*
-- *Notas:*
-
-**2022** · hoja «II-6.2.1» · tipo C · 48 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR CARRERA SEGÚN DEPARTAMENTO Y ESTABLECIMIENTO (Todo el país, 2022)
+**2021** · hoja «II-6.2.1» · tipo C · 42 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR CARRERA SEGÚN DEPARTAMENTO Y ESTABLECIMIENTO (Todo el país, 2021)
 
 - `DEPARTAMENTO / ESTABLECIMIENTO`
 - `TOTAL/Ingr.`
@@ -7756,26 +8175,14 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `CARRERA/Educador Social/Egr.`
 - *Fuente: División de Información y Estadística del CFE*
 - *Notas:*
+- *Los ingresos son las personas que ingresan por primera vez en el CFE en el año.*
+- *Matrícula considerada como el número de inscripciones para cursar al menos una materia de las carreras que se ofrecen en el CFE.*
+- *Los matriculados en Profesorado del INET corresponden tanto al profesorado de Informática como a Maestros Técnicos.*
+- *La categoría Profesorado incluye a los maestros, profesores técnicos, asistente de laboratorios en tecnologías digitales y certificación de lenguas extranjeras.*
+- *La categoría Magisterio incluye maestro de educación primaria, maestro de primera infancia, magisterio opción inicial.*
+- *El I.F.E.S. es el Instituto de Formación en Educación Social*
 
-**2023** · hoja «II-6.2.1» · tipo C · 48 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR CARRERA SEGÚN DEPARTAMENTO Y ESTABLECIMIENTO (Todo el país, 2023)
-
-- `DEPARTAMENTO / ESTABLECIMIENTO`
-- `TOTAL/Ingr.`
-- `TOTAL/Matr.`
-- `TOTAL/Egr.`
-- `CARRERA/Magisterio/Ingr.`
-- `CARRERA/Magisterio/Matr.`
-- `CARRERA/Magisterio/Egr.`
-- `CARRERA/Profesorado/Ingr.`
-- `CARRERA/Profesorado/Matr.`
-- `CARRERA/Profesorado/Egr.`
-- `CARRERA/Educador Social/Ingr.`
-- `CARRERA/Educador Social/Matr.`
-- `CARRERA/Educador Social/Egr.`
-- *Fuente: División de Información y Estadística del CFE*
-- *Notas:*
-
-**2024** · hoja «II-6.2.1» · tipo C · 47 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR CARRERA SEGÚN DEPARTAMENTO Y ESTABLECIMIENTO (Todo el país, 2024)
+**2022** · hoja «II-6.2.1» · tipo C · 42 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR CARRERA SEGÚN DEPARTAMENTO Y ESTABLECIMIENTO (Todo el país, 2022)
 
 - `DEPARTAMENTO / ESTABLECIMIENTO`
 - `TOTAL/Ingr.`
@@ -7792,12 +8199,66 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `CARRERA/Educador Social/Egr.`
 - *Fuente: División de Información y Estadística del CFE*
 - *Notas:*
+- *Los ingresos son las personas que ingresan por primera vez en el CFE en el año.*
+- *Matrícula considerada como el número de inscripciones para cursar al menos una materia de las carreras que se ofrecen en el CFE.*
+- *Los matriculados en Profesorado del INET corresponden tanto al profesorado de Informática como a Maestros Técnicos.*
+- *La categoría Profesorado incluye a los Profesores, Maestros técnicos, Profesores técnicos y Certificación de lenguas extranjeras.*
+- *La categoría Magisterio incluye Maestro de educación primaria y Maestro de primera infancia.*
+- *El I.F.E.S. es el Instituto de Formación en Educación Social*
+
+**2023** · hoja «II-6.2.1» · tipo C · 42 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR CARRERA SEGÚN DEPARTAMENTO Y ESTABLECIMIENTO (Todo el país, 2023)
+
+- `DEPARTAMENTO / ESTABLECIMIENTO`
+- `TOTAL/Ingr.`
+- `TOTAL/Matr.`
+- `TOTAL/Egr.`
+- `CARRERA/Magisterio/Ingr.`
+- `CARRERA/Magisterio/Matr.`
+- `CARRERA/Magisterio/Egr.`
+- `CARRERA/Profesorado/Ingr.`
+- `CARRERA/Profesorado/Matr.`
+- `CARRERA/Profesorado/Egr.`
+- `CARRERA/Educador Social/Ingr.`
+- `CARRERA/Educador Social/Matr.`
+- `CARRERA/Educador Social/Egr.`
+- *Fuente: División de Información y Estadística del CFE*
+- *Notas:*
+- *Los ingresos son las personas que ingresan por primera vez en el CFE en el año.*
+- *Matrícula considerada como el número de inscripciones para cursar al menos una materia de las carreras que se ofrecen en el CFE.*
+- *Los matriculados en Profesorado del INET corresponden tanto al profesorado de Informática como a Maestros Técnicos.*
+- *La categoría Profesorado incluye a los Profesores, Maestros técnicos, Profesores técnicos y Certificación de lenguas extranjeras.*
+- *La categoría Magisterio incluye Maestro de educación primaria y Maestro de primera infancia.*
+- *El I.F.E.S. es el Instituto de Formación en Educación Social*
+
+**2024** · hoja «II-6.2.1» · tipo C · 41 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR CARRERA SEGÚN DEPARTAMENTO Y ESTABLECIMIENTO (Todo el país, 2024)
+
+- `DEPARTAMENTO / ESTABLECIMIENTO`
+- `TOTAL/Ingr.`
+- `TOTAL/Matr.`
+- `TOTAL/Egr.`
+- `CARRERA/Magisterio/Ingr.`
+- `CARRERA/Magisterio/Matr.`
+- `CARRERA/Magisterio/Egr.`
+- `CARRERA/Profesorado/Ingr.`
+- `CARRERA/Profesorado/Matr.`
+- `CARRERA/Profesorado/Egr.`
+- `CARRERA/Educador Social/Ingr.`
+- `CARRERA/Educador Social/Matr.`
+- `CARRERA/Educador Social/Egr.`
+- *Fuente: División de Información y Estadística del CFE*
+- *Notas:*
+- *Los ingresos son las personas que ingresan por primera vez en el CFE en el año.*
+- *Matrícula considerada como el número de inscripciones para cursar al menos una materia de las carreras que se ofrecen en el CFE.*
+- *Los matriculados en Profesorado del INET corresponden tanto al profesorado de Informática como a Maestros Técnicos.*
+- *La categoría Profesorado incluye a los Profesores, Maestros técnicos, Profesores técnicos y Certificación de lenguas extranjeras.*
+- *La categoría Magisterio incluye Maestro de educación primaria y Maestro de primera infancia.*
+- *El I.F.E.S. es el Instituto de Formación en Educación Social*
 
 </details>
 
 <details><summary><b>II-6.2.2</b></summary>
 
-**2020** · hoja «II-6.2.2» · tipo B · 3 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR SEXO SEGÚN INSTITUCIÓN Y CARRERA (Todo el país, 2020)
+**2020** · hoja «II-6.2.2» · tipo B · 2 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR SEXO SEGÚN INSTITUCIÓN Y CARRERA (Todo el país, 2020)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -7809,8 +8270,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `EGRESADOS/SEXO/V`
 - `EGRESADOS/SEXO/M`
 - *Fuente:*
+- *CEN.FOR.ES - I.N.A.U.*
 
-**2021** · hoja «II-6.2.2» · tipo B · 3 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR SEXO SEGÚN INSTITUCIÓN Y CARRERA (Todo el país, 2021)
+**2021** · hoja «II-6.2.2» · tipo B · 2 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR SEXO SEGÚN INSTITUCIÓN Y CARRERA (Todo el país, 2021)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -7822,6 +8284,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `EGRESADOS/SEXO/V`
 - `EGRESADOS/SEXO/M`
 - *Fuente:*
+- *CEN.FOR.ES - I.N.A.U.*
 
 **2022** · hoja «II-6.2.2» · tipo B · 2 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR SEXO SEGÚN INSTITUCIÓN Y CARRERA (Todo el país, 2022)
 
@@ -8046,7 +8509,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-7.1.1</b></summary>
 
-**2020** · hoja «II-7.1.1» · tipo C · 63 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO POR SEXO SEGÚN GRANDES ÁREAS, DEPARTAMENTO E INSTITUCIÓN (Todo el país, 2020)
+**2020** · hoja «II-7.1.1» · tipo C · 59 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO POR SEXO SEGÚN GRANDES ÁREAS, DEPARTAMENTO E INSTITUCIÓN (Todo el país, 2020)
 
 - `TOTAL`
 - `INGRESO/SEXO/V`
@@ -8059,10 +8522,14 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `EGRESADOS/SEXO/M`
 - *Fuente: Oficinas Productoras de cada una de las Instituciones.*
 - *Nota:*
+- *Para UdelaR:*
+- *Ingresos: Según Res. N°15 del CDC de fecha 23/10/12, se entiende por Generación de Ingreso a Carrera a todos los estudiantes que ingresan por primera vez a una carrera terciaria y/o de grado, en un año dado. No se consideran los estudiantes que ingresan a la carrera a través de un CIO o de un ciclo básico común en años anteriores. No se incluyen los estudiantes provisorios por previas, ni los de intercambio. Se incluyen los estudiantes de cortesía diplomática.*
+- *Matrícula: Según Res. N°15 del CDC de fecha 23/10/12, se entiende por Estudiante Activo por Carrera a los estudiantes que registran alguna actividad de rendición de curso o examen en los últimos dos años calendario consecutivos anteriores, en cualquier unidad curricular básica de la carrera, más la generación de ingreso a la carrera en el año dado. (Se incluyen en esta categoría los niveles de formación y certificaciones contemplados en la ordenanza de grado.)*
 - ** En la carrera de Licenciado en Obstetricia (Paysandú) no se dispone de la matrícula desagregada por sexo para 208 estudiantes.*
 - ** En la carrera de Tecnólogo Cárnico (Tacuarembó) no se dispone de la matrícula desagregada por sexo para 101 estudiantes .*
+- *El dato de egreso 2020 de UdelaR es PRELIMINAR*
 
-**2021** · hoja «II-7.1.1» · tipo C · 67 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO POR SEXO SEGÚN GRANDES ÁREAS, DEPARTAMENTO E INSTITUCIÓN (Todo el país, 2021)
+**2021** · hoja «II-7.1.1» · tipo C · 63 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO POR SEXO SEGÚN GRANDES ÁREAS, DEPARTAMENTO E INSTITUCIÓN (Todo el país, 2021)
 
 - `TOTAL`
 - `INGRESO/SEXO/V`
@@ -8075,10 +8542,14 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `EGRESADOS/SEXO/M`
 - *Fuente: Oficinas Productoras de cada una de las Instituciones.*
 - *Nota:*
+- *Para UdelaR:*
+- *Ingresos: Según Res. N°15 del CDC de fecha 23/10/12, se entiende por Generación de Ingreso a Carrera a todos los estudiantes que ingresan por primera vez a una carrera terciaria y/o de grado, en un año dado. No se consideran los estudiantes que ingresan a la carrera a través de un CIO o de un ciclo básico común en años anteriores. No se incluyen los estudiantes provisorios por previas, ni los de intercambio. Se incluyen los estudiantes de cortesía diplomática.*
+- *Matrícula: Según Res. N°15 del CDC de fecha 23/10/12, se entiende por Estudiante Activo por Carrera a los estudiantes que registran alguna actividad de rendición de curso o examen en los últimos dos años calendario consecutivos anteriores, en cualquier unidad curricular básica de la carrera, más la generación de ingreso a la carrera en el año dado. (Se incluyen en esta categoría los niveles de formación y certificaciones contemplados en la ordenanza de grado.)*
 - ** En la carrera de Licenciado en Obstetricia (Paysandú) no se dispone de la matrícula desagregada por sexo.*
 - ** En la carrera de Tecnólogo Cárnico (Tacuarembó) no se dispone de la matrícula desagregada por sexo.*
+- *El dato de egreso 2021 de UdelaR es PRELIMINAR*
 
-**2022** · hoja «II-7.1.1» · tipo C · 65 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO POR SEXO SEGÚN GRANDES ÁREAS, DEPARTAMENTO E INSTITUCIÓN (Todo el país, 2022)
+**2022** · hoja «II-7.1.1» · tipo C · 61 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO POR SEXO SEGÚN GRANDES ÁREAS, DEPARTAMENTO E INSTITUCIÓN (Todo el país, 2022)
 
 - `TOTAL`
 - `INGRESO/SEXO/V`
@@ -8091,10 +8562,14 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `EGRESADOS/SEXO/M`
 - *Fuente: Oficinas Productoras de cada una de las Instituciones.*
 - *Nota:*
+- *Para UdelaR:*
+- *Ingresos: Según Res. N°15 del CDC de fecha 23/10/12, se entiende por Generación de Ingreso a Carrera a todos los estudiantes que ingresan por primera vez a una carrera terciaria y/o de grado, en un año dado. No se consideran los estudiantes que ingresan a la carrera a través de un CIO o de un ciclo básico común en años anteriores. No se incluyen los estudiantes provisorios por previas, ni los de intercambio. Se incluyen los estudiantes de cortesía diplomática.*
+- *Matrícula: Según Res. N°15 del CDC de fecha 23/10/12, se entiende por Estudiante Activo por Carrera a los estudiantes que registran alguna actividad de rendición de curso o examen en los últimos dos años calendario consecutivos anteriores, en cualquier unidad curricular básica de la carrera, más la generación de ingreso a la carrera en el año dado. (Se incluyen en esta categoría los niveles de formación y certificaciones contemplados en la ordenanza de grado.)*
 - ** En la carrera de Licenciado en Obstetricia (Paysandú) no se dispone de la matrícula desagregada por sexo para 378 estudiantes.*
 - ** En la carrera de Tecnólogo Cárnico (Tacuarembó) no se dispone de la matrícula desagregada por sexo para 89 estudiantes.*
+- *El dato de egreso 2022 de UdelaR es PRELIMINAR*
 
-**2023** · hoja «II-7.1.1» · tipo C · 83 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO POR SEXO SEGÚN GRANDES ÁREAS, DEPARTAMENTO E INSTITUCIÓN (Todo el país, 2023)
+**2023** · hoja «II-7.1.1» · tipo C · 78 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO POR SEXO SEGÚN GRANDES ÁREAS, DEPARTAMENTO E INSTITUCIÓN (Todo el país, 2023)
 
 - `TOTAL`
 - `INGRESO/SEXO/V`
@@ -8107,8 +8582,13 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `EGRESADOS/SEXO/M`
 - *Fuente: Oficinas Productoras de cada una de las Instituciones.*
 - *Nota:*
+- *Ingresos UdelaR: Según Res. N°15 del CDC de fecha 23/10/12, se entiende por Generación de Ingreso a Carrera a todos los estudiantes que ingresan por primera vez a una carrera terciaria y/o de grado, en un año dado. No se consideran los estudiantes que ingresan a la carrera a través de un CIO o de un ciclo básico común en años anteriores. No se incluyen los estudiantes provisorios por previas, ni los de intercambio. Se incluyen los estudiantes de cortesía diplomática.*
+- *Matrícula UdelaR: Según Res. N°15 del CDC de fecha 23/10/12, se entiende por Estudiante Activo por Carrera a los estudiantes que registran alguna actividad de rendición de curso o examen en los últimos dos años calendario consecutivos anteriores, en cualquier unidad curricular básica de la carrera, más la generación de ingreso a la carrera en el año dado. (Se incluyen en esta categoría los niveles de formación y certificaciones contemplados en la ordenanza de grado.)*
+- *Egreso: El dato UdelaR es PRELIMINAR a mayo 2024.*
+- *UdelaR: La carrera de Tecnólogo Cárnico no aparece registrada porque no cuenta con el dato desagregado por sexo. El total de la matricula es 82. La carrera de Licenciatura en obstetricia de Paysandú tampoco cuenta con el desglose de matricula por sexo el total es 233.*
+- *Último dato disponible del Inst Metodista Univ Crandon año 2022.*
 
-**2024** · hoja «II-7.1.1» · tipo C · 84 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO POR SEXO SEGÚN GRANDES ÁREAS, FORMA DE ADMINISTRACIÓN, DEPARTAMENTO E INSTITUCIÓN (Todo el país, 2024)
+**2024** · hoja «II-7.1.1» · tipo C · 81 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO POR SEXO SEGÚN GRANDES ÁREAS, FORMA DE ADMINISTRACIÓN, DEPARTAMENTO E INSTITUCIÓN (Todo el país, 2024)
 
 - `TOTAL`
 - `INGRESO/SEXO/V`
@@ -8121,6 +8601,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `EGRESO/SEXO/M`
 - *Fuente: Oficinas Productoras de cada una de las Instituciones.*
 - *Nota:*
+- *Ingresos UdelaR: Según Res. N°15 del CDC de fecha 23/10/12, se entiende por Generación de Ingreso a Carrera a todos los estudiantes que ingresan por primera vez a una carrera terciaria y/o de grado, en un año dado. No se consideran los estudiantes que ingresan a la carrera a través de un CIO o de un ciclo básico común en años anteriores. No se incluyen los estudiantes provisorios por previas, ni los de intercambio. Se incluyen los estudiantes de cortesía diplomática.*
+- *Matrícula UdelaR: Según Res. N°15 del CDC de fecha 23/10/12, se entiende por Estudiante Activo por Carrera a los estudiantes que registran alguna actividad de rendición de curso o examen en los últimos dos años calendario consecutivos anteriores, en cualquier unidad curricular básica de la carrera, más la generación de ingreso a la carrera en el año dado. (Se incluyen en esta categoría los niveles de formación y certificaciones contemplados en la ordenanza de grado.)*
+- *Egreso: El dato UdelaR es PRELIMINAR a mayo 2025.*
 - **En UdelaR y en el total general de matrícula: El total de matrícula de UdelaR no coincide con la suma desagregada por sexo, dado que no se cuenta con información de sexo para la totalidad de los registros. En particular, se encuentran sin desagregación: - Tecnólogo Cárnico (Tacuarembó): 77 casos - Licenciatura en Obstetricia (Paysandú): 142 casos.*
 - *** El dato de la UDE es último disponible año 2023.*
 
@@ -8128,7 +8611,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-7.1.2</b></summary>
 
-**2020** · hoja «II-7.1.2» · tipo C · 33 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE POSTGRADO POR SEXO SEGÚN INSTITUCIÓN (Todo el país, 2020)
+**2020** · hoja «II-7.1.2» · tipo C · 31 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE POSTGRADO POR SEXO SEGÚN INSTITUCIÓN (Todo el país, 2020)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -8140,9 +8623,11 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `EGRESADOS/SEXO/V`
 - `EGRESADOS/SEXO/M`
 - *Fuente: Bedelías de los Servicios Universitarios y Sistema de Gestión de Bedelías-SeCIU*
+- *UdelaR:*
+- *El dato de Egresos de Posgrado 2020 es PRELIMINAR*
 - ** La matrícula de UdelaR corresponde al I Censo de Estudiantes de Posgrado 2012.*
 
-**2021** · hoja «II-7.1.2» · tipo C · 33 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE POSTGRADO POR SEXO SEGÚN INSTITUCIÓN (Todo el país, 2021)
+**2021** · hoja «II-7.1.2» · tipo C · 31 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE POSTGRADO POR SEXO SEGÚN INSTITUCIÓN (Todo el país, 2021)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -8154,10 +8639,12 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `EGRESADOS/SEXO/V`
 - `EGRESADOS/SEXO/M`
 - *Fuente: Bedelías de los Servicios Universitarios y Sistema de Gestión de Bedelías-SeCIU*
+- *UdelaR:*
+- *El dato de Egresos de Posgrado de UdelaR 2021 es PRELIMINAR*
 - ** La matrícula de UdelaR corresponde al I Censo de Estudiantes de Posgrado 2012.*
 - *Nota: La Escuela de Guerra Naval no brindó cursos de nivel terciario durante el año 2021, por lo que figura en el cuadro II-8.1.7*
 
-**2022** · hoja «II-7.1.2» · tipo C · 32 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE POSTGRADO POR SEXO SEGÚN INSTITUCIÓN (Todo el país, 2022)
+**2022** · hoja «II-7.1.2» · tipo C · 30 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE POSTGRADO POR SEXO SEGÚN INSTITUCIÓN (Todo el país, 2022)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -8169,9 +8656,11 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `EGRESADOS/SEXO/V`
 - `EGRESADOS/SEXO/M`
 - *Fuente: Bedelías de los Servicios Universitarios y Sistema de Gestión de Bedelías-SeCIU*
+- *UdelaR:*
+- *El dato de Egresos de Posgrado de UdelaR 2022 es PRELIMINAR*
 - ** La matrícula de UdelaR corresponde al I Censo de Estudiantes de Posgrado 2012.*
 
-**2023** · hoja «II-7.1.2» · tipo C · 37 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE POSTGRADO POR SEXO SEGÚN INSTITUCIÓN (Todo el país, 2023)
+**2023** · hoja «II-7.1.2» · tipo C · 34 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE POSTGRADO POR SEXO SEGÚN INSTITUCIÓN (Todo el país, 2023)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -8183,8 +8672,11 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `EGRESADOS/SEXO/V`
 - `EGRESADOS/SEXO/M`
 - *Fuente: Oficinas Productoras de cada una de las Instituciones.*
+- *UdelaR:*
+- *El dato de Egresos de Posgrado de UdelaR 2023 es PRELIMINAR*
+- *s/d Sin dato disponible.*
 
-**2024** · hoja «II-7.1.2» · tipo C · 42 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE POSTGRADO POR SEXO SEGÚN GRANDES ÁREAS, FORMA DE ADMINISTRACIÓN, DEPARTAMENTO E INSTITUCIÓN (Todo el país, 2024)
+**2024** · hoja «II-7.1.2» · tipo C · 39 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE POSTGRADO POR SEXO SEGÚN GRANDES ÁREAS, FORMA DE ADMINISTRACIÓN, DEPARTAMENTO E INSTITUCIÓN (Todo el país, 2024)
 
 - `TOTAL`
 - `INGRESO/SEXO/V`
@@ -8196,6 +8688,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `EGRESO/SEXO/V`
 - `EGRESO/SEXO/M`
 - *Fuente: Oficinas Productoras de cada una de las Instituciones.*
+- *UdelaR:*
+- *El dato de Egresos de Posgrado de UdelaR 2024 es PRELIMINAR a mayo 2025.*
+- *s/d Sin dato disponible.*
 - *** El dato de la UDE es último disponible año 2023.*
 
 </details>
@@ -8556,7 +9051,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-7.2.4</b></summary>
 
-**2020** · hoja «II-7.2.4» · tipo C · 86 filas · ESTUDIANTES INGRESADOS Y MATRICULADOS DE GRADO Y POSGRADO EN UNIVERSIDADES E INSTITUTOS UNIVERSITARIOS, SEGÚN INSTITUCIÓN Y LUGAR DE ORIGEN (Todo el país, 2020)
+**2020** · hoja «II-7.2.4» · tipo C · 84 filas · ESTUDIANTES INGRESADOS Y MATRICULADOS DE GRADO Y POSGRADO EN UNIVERSIDADES E INSTITUTOS UNIVERSITARIOS, SEGÚN INSTITUCIÓN Y LUGAR DE ORIGEN (Todo el país, 2020)
 
 - `TOTAL`
 - `ORIGEN DE LOS ESTUDIANTES/Total Uruguay`
@@ -8566,19 +9061,10 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `ORIGEN DE LOS ESTUDIANTES/Sin dato`
 - *Fuente: Oficinas Productoras de cada una de las Instituciones.*
 - *Nota:*
+- *La categoría "s/d" es "Sin dato", refiere a los alumnos de los cuales no se cuenta con información de origen.*
+- *La categoría "na." es "No aplica", refiere en este caso a instituciones que no imparten cursos de grado o posgrado.*
 
-**2021** · hoja «II-7.2.4» · tipo C · 91 filas · ESTUDIANTES INGRESADOS Y MATRICULADOS DE GRADO Y POSGRADO EN UNIVERSIDADES E INSTITUTOS UNIVERSITARIOS, SEGÚN INSTITUCIÓN Y LUGAR DE ORIGEN (Todo el país, 2021)
-
-- `TOTAL`
-- `ORIGEN DE LOS ESTUDIANTES/Total Uruguay`
-- `ORIGEN DE LOS ESTUDIANTES/Montevideo`
-- `ORIGEN DE LOS ESTUDIANTES/Interior`
-- `ORIGEN DE LOS ESTUDIANTES/Extranjero`
-- `ORIGEN DE LOS ESTUDIANTES/Sin dato`
-- *Fuente: Oficinas Productoras de cada una de las Instituciones.*
-- *Nota:*
-
-**2022** · hoja «II-7.2.4» · tipo C · 91 filas · ESTUDIANTES INGRESADOS Y MATRICULADOS DE GRADO Y POSGRADO EN UNIVERSIDADES E INSTITUTOS UNIVERSITARIOS, SEGÚN INSTITUCIÓN Y LUGAR DE ORIGEN (Todo el país, 2022)
+**2021** · hoja «II-7.2.4» · tipo C · 89 filas · ESTUDIANTES INGRESADOS Y MATRICULADOS DE GRADO Y POSGRADO EN UNIVERSIDADES E INSTITUTOS UNIVERSITARIOS, SEGÚN INSTITUCIÓN Y LUGAR DE ORIGEN (Todo el país, 2021)
 
 - `TOTAL`
 - `ORIGEN DE LOS ESTUDIANTES/Total Uruguay`
@@ -8588,9 +9074,24 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `ORIGEN DE LOS ESTUDIANTES/Sin dato`
 - *Fuente: Oficinas Productoras de cada una de las Instituciones.*
 - *Nota:*
+- *La categoría "s/d" es "Sin dato", refiere a los alumnos de los cuales no se cuenta con información de origen.*
+- *La categoría "na." es "No aplica", refiere en este caso a instituciones que no imparten cursos de grado o posgrado.*
+
+**2022** · hoja «II-7.2.4» · tipo C · 89 filas · ESTUDIANTES INGRESADOS Y MATRICULADOS DE GRADO Y POSGRADO EN UNIVERSIDADES E INSTITUTOS UNIVERSITARIOS, SEGÚN INSTITUCIÓN Y LUGAR DE ORIGEN (Todo el país, 2022)
+
+- `TOTAL`
+- `ORIGEN DE LOS ESTUDIANTES/Total Uruguay`
+- `ORIGEN DE LOS ESTUDIANTES/Montevideo`
+- `ORIGEN DE LOS ESTUDIANTES/Interior`
+- `ORIGEN DE LOS ESTUDIANTES/Extranjero`
+- `ORIGEN DE LOS ESTUDIANTES/Sin dato`
+- *Fuente: Oficinas Productoras de cada una de las Instituciones.*
+- *Nota:*
+- *La categoría "s/d" es "Sin dato", refiere a los alumnos de los cuales no se cuenta con información de origen.*
+- *La categoría "na." es "No aplica", refiere en este caso a instituciones que no imparten cursos de grado o posgrado.*
 - ** en UCU En el caso de ingresos y matrícula de postgrado, maestría y doctorado, a la fecha, en la mayoría de los registros no contamos con los datos desagregados por departamento en el que cursó el último año de bachillerato. Por tanto en esos casos se utilizó depto de residencia.*
 
-**2023** · hoja «II-7.2.4» · tipo C · 91 filas · ESTUDIANTES INGRESADOS Y MATRICULADOS DE GRADO Y POSGRADO EN UNIVERSIDADES E INSTITUTOS UNIVERSITARIOS, SEGÚN INSTITUCIÓN Y LUGAR DE ORIGEN (Todo el país, 2023)
+**2023** · hoja «II-7.2.4» · tipo C · 89 filas · ESTUDIANTES INGRESADOS Y MATRICULADOS DE GRADO Y POSGRADO EN UNIVERSIDADES E INSTITUTOS UNIVERSITARIOS, SEGÚN INSTITUCIÓN Y LUGAR DE ORIGEN (Todo el país, 2023)
 
 - `TOTAL`
 - `ORIGEN DE LOS ESTUDIANTES/Total Uruguay`
@@ -8600,9 +9101,11 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `ORIGEN DE LOS ESTUDIANTES/Sin dato`
 - *Fuente: Oficinas Productoras de cada una de las Instituciones.*
 - *Nota:*
+- *La categoría "s/d" es "Sin dato", refiere a los alumnos de los cuales no se cuenta con información de origen.*
+- *La categoría "na." es "No aplica", refiere en este caso a instituciones que no imparten cursos de grado o posgrado.*
 - *Nota: último dato disponible del Instituto Metodista Universitario Crandon año 2022.*
 
-**2024** · hoja «II-7.2.4» · tipo C · 91 filas · ESTUDIANTES INGRESADOS Y MATRICULADOS EN UNIVERSIDADES E INSTITUTOS UNIVERSITARIOS DE GRADO Y POSGRADO, SEGÚN INSTITUCIÓN Y LUGAR DE ORIGEN DONDE CULMINÓ EDUCACIÓN MEDIA (Todo el país, 2024)
+**2024** · hoja «II-7.2.4» · tipo C · 89 filas · ESTUDIANTES INGRESADOS Y MATRICULADOS EN UNIVERSIDADES E INSTITUTOS UNIVERSITARIOS DE GRADO Y POSGRADO, SEGÚN INSTITUCIÓN Y LUGAR DE ORIGEN DONDE CULMINÓ EDUCACIÓN MEDIA (Todo el país, 2024)
 
 - `TOTAL`
 - `ORIGEN DE LOS ESTUDIANTES/Total Uruguay`
@@ -8612,13 +9115,15 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `ORIGEN DE LOS ESTUDIANTES/Sin dato`
 - *Fuente: Oficinas Productoras de cada una de las Instituciones.*
 - *Nota:*
+- *La categoría "s/d" es "Sin dato", refiere a los alumnos de los cuales no se cuenta con información de origen.*
+- *La categoría "na." es "No aplica", refiere en este caso a instituciones que no imparten cursos de grado o posgrado.*
 - *** El último dato disponible de la UDE es del año 2023.*
 
 </details>
 
 <details><summary><b>II-7.2.5</b></summary>
 
-**2020** · hoja «II-7.2.5» · tipo C · 307 filas · UNIVERSIDADES PÚBLICAS: ESTUDIANTES INGRESADOS 2020 Y EGRESADOS PRELIMINARES 2020 EN PROGRAMAS DE POSGRADO DE LA UNIVERSIDAD DE LA REPÚBLICA Y UTEC POR SEXO SEGÚN SERVICIO UNIVERSITARIO Y ACREDITACIÓN (Todo el país, 2020)
+**2020** · hoja «II-7.2.5» · tipo C · 304 filas · UNIVERSIDADES PÚBLICAS: ESTUDIANTES INGRESADOS 2020 Y EGRESADOS PRELIMINARES 2020 EN PROGRAMAS DE POSGRADO DE LA UNIVERSIDAD DE LA REPÚBLICA Y UTEC POR SEXO SEGÚN SERVICIO UNIVERSITARIO Y ACREDITACIÓN (Todo el país, 2020)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -8630,10 +9135,13 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `EGRESADOS (UDELAR datos preliminares)/SEXO/V`
 - `EGRESADOS (UDELAR datos preliminares)/SEXO/M`
 - *Fuente: Sistema de Gestión de Administración de la Enseñanza (SGAE) y Bedelías de los Servicios Universitarios*
+- *Programa de Evaluación y Estadística, UTEC*
 - *Notas UdelaR:*
 - *Notas:(*) no se incluye Competencia Notoria ni Actuación Documentada. (1) Incluye inscripción provisoria sujeta a aprobación del Consejo de Facultad. A partir del año 2020 los ingresos y egresos del Convenio IPES ( ANEP) - Udelar se dejan de registrar como carreras compartidas y se incluyen en los servicios respectivos y los ingresos a Maestría en Ciencias Humanas de Humanidades no se detallan por opción.*
+- *PEDECIBA - Programa de Desarrollo de las Ciencias Básicas.*
+- *El dato de Egresos de Posgrado 2020 es PRELIMINAR*
 
-**2021** · hoja «II-7.2.5» · tipo C · 316 filas · UNIVERSIDADES PÚBLICAS: ESTUDIANTES INGRESADOS 2021 Y EGRESADOS PRELIMINARES 2021 EN PROGRAMAS DE POSGRADO DE LA UNIVERSIDAD DE LA REPÚBLICA Y UTEC POR SEXO SEGÚN SERVICIO UNIVERSITARIO Y ACREDITACIÓN (Todo el país, 2021)
+**2021** · hoja «II-7.2.5» · tipo C · 313 filas · UNIVERSIDADES PÚBLICAS: ESTUDIANTES INGRESADOS 2021 Y EGRESADOS PRELIMINARES 2021 EN PROGRAMAS DE POSGRADO DE LA UNIVERSIDAD DE LA REPÚBLICA Y UTEC POR SEXO SEGÚN SERVICIO UNIVERSITARIO Y ACREDITACIÓN (Todo el país, 2021)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -8645,10 +9153,13 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `EGRESADOS (UDELAR datos preliminares)/SEXO/V`
 - `EGRESADOS (UDELAR datos preliminares)/SEXO/M`
 - *Fuente: Sistema de Gestión de Administración de la Enseñanza (SGAE) y Bedelías de los Servicios Universitarios*
+- *Programa de Evaluación y Estadística, UTEC*
 - *Notas UdelaR:*
 - *Notas:(*) no se incluye Competencia Notoria ni Actuación Documentada. PEDECIBA - Programa de Desarrollo de las Ciencias Básicas. (1) Incluye inscripción provisoria sujeta a aprobación del Consejo de Facultad. A partir del año 2020 los ingresos y egresos del Convenio IPES ( ANEP) - Udelar se dejan de registrar como carreras compartidas y se incluyen en los servicios respectivos y los ingresos a Maestría en Ciencias Humanas de Humanidades no se detallan por opción.*
+- *PEDECIBA - Programa de Desarrollo de las Ciencias Básicas.*
+- *El dato de Egresos de Posgrado 2021 es PRELIMINAR*
 
-**2022** · hoja «II-7.2.5» · tipo C · 317 filas · UNIVERSIDADES PÚBLICAS: ESTUDIANTES INGRESADOS 2022 Y EGRESADOS PRELIMINARES 2022 EN PROGRAMAS DE POSGRADO DE LA UNIVERSIDAD DE LA REPÚBLICA Y UTEC POR SEXO SEGÚN SERVICIO UNIVERSITARIO Y ACREDITACIÓN (Todo el país, 2022)
+**2022** · hoja «II-7.2.5» · tipo C · 314 filas · UNIVERSIDADES PÚBLICAS: ESTUDIANTES INGRESADOS 2022 Y EGRESADOS PRELIMINARES 2022 EN PROGRAMAS DE POSGRADO DE LA UNIVERSIDAD DE LA REPÚBLICA Y UTEC POR SEXO SEGÚN SERVICIO UNIVERSITARIO Y ACREDITACIÓN (Todo el país, 2022)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -8660,10 +9171,13 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `EGRESADOS (UDELAR datos preliminares)/SEXO/V`
 - `EGRESADOS (UDELAR datos preliminares)/SEXO/M`
 - *Fuente: Sistema de Gestión de Administración de la Enseñanza (SGAE) y Bedelías de los Servicios Universitarios (UdelaR)*
+- *Programa de Evaluación y Estadística, UTEC*
 - *Notas UdelaR:*
 - *Notas:(*) no se incluye Competencia Notoria ni Actuación Documentada. PEDECIBA - Programa de Desarrollo de las Ciencias Básicas. (1) Incluye inscripción provisoria sujeta a aprobación del Consejo de Facultad. A partir del año 2020 los ingresos y egresos del Convenio IPES ( ANEP) - Udelar se dejan de registrar como carreras compartidas y se incluyen en los servicios respectivos y los ingresos a Maestría en Ciencias Humanas de Humanidades no se detallan por opción.*
+- *PEDECIBA - Programa de Desarrollo de las Ciencias Básicas.*
+- *El dato de Egresos de Posgrado 2022 es PRELIMINAR*
 
-**2023** · hoja «II-7.2.5» · tipo C · 364 filas · UNIVERSIDADES PÚBLICAS: ESTUDIANTES INGRESADOS Y EGRESADOS EN PROGRAMAS DE POSGRADO DE LA UNIVERSIDAD DE LA REPÚBLICA Y UTEC POR SEXO SEGÚN SERVICIO UNIVERSITARIO Y ACREDITACIÓN (Todo el país, 2023)
+**2023** · hoja «II-7.2.5» · tipo C · 359 filas · UNIVERSIDADES PÚBLICAS: ESTUDIANTES INGRESADOS Y EGRESADOS EN PROGRAMAS DE POSGRADO DE LA UNIVERSIDAD DE LA REPÚBLICA Y UTEC POR SEXO SEGÚN SERVICIO UNIVERSITARIO Y ACREDITACIÓN (Todo el país, 2023)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -8675,9 +9189,14 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `EGRESADOS (UDELAR datos preliminares)/SEXO/V`
 - `EGRESADOS (UDELAR datos preliminares)/SEXO/M`
 - *Fuente: Sistema de Gestión de Administración de la Enseñanza (SGAE) y Bedelías de los Servicios Universitarios (UdelaR)*
+- *Programa de Evaluación y Estadística, UTEC*
+- *s/d Sin dato disponible.*
 - *Notas UdelaR:*
+- *- no se incluye Competencia Notoria ni Actuación Documentada.*
+- *- (1) Incluye inscripción provisoria sujeta a aprobación del Consejo de Facultad.*
+- *- El dato de Egresos de Posgrado 2023 es PRELIMINAR a mayo 2024.*
 
-**2024** · hoja «II-7.2.5» · tipo C · 308 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE POSGRADO DE UNIVERSIDADES PÚBLICAS, POR SEXO SEGÚN INSTITUCIÓN, SERVICIO UNIVERSITARIO, DEPARTAMENTO Y CARRERA (Todo el país, 2024)
+**2024** · hoja «II-7.2.5» · tipo C · 304 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE POSGRADO DE UNIVERSIDADES PÚBLICAS, POR SEXO SEGÚN INSTITUCIÓN, SERVICIO UNIVERSITARIO, DEPARTAMENTO Y CARRERA (Todo el país, 2024)
 
 - `TOTAL`
 - `INGRESO/SEXO/V`
@@ -8689,7 +9208,11 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `EGRESO/SEXO/V`
 - `EGRESO/SEXO/M`
 - *Fuente: Sistema de Gestión de Administración de la Enseñanza (SGAE) y Bedelías de los Servicios Universitarios (UdelaR)*
+- *Programa de Evaluación y Estadística, UTEC*
+- *s/d Sin dato disponible.*
 - *Notas UdelaR:*
+- *- no se incluye Competencia Notoria ni Actuación Documentada.*
+- *- El dato de Egresos de Posgrado 2024 es PRELIMINAR a mayo 2025.*
 
 </details>
 
@@ -8835,7 +9358,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-7.2.8</b></summary>
 
-**2020** · hoja «II-7.2.8» · tipo C · 37 filas · EVOLUCIÓN DE LA MATRÍCULA DE LAS INSTITUCIONES UNIVERSITARIAS DE GRADO Y POSTGRADO POR AÑO LECTIVO, SEGÚN INSTITUCIÓN. (Todo el país, 2000 – 2020)
+**2020** · hoja «II-7.2.8» · tipo C · 33 filas · EVOLUCIÓN DE LA MATRÍCULA DE LAS INSTITUCIONES UNIVERSITARIAS DE GRADO Y POSTGRADO POR AÑO LECTIVO, SEGÚN INSTITUCIÓN. (Todo el país, 2000 – 2020)
 
 - `AÑO LECTIVO`
 - `AÑO LECTIVO`
@@ -8859,8 +9382,12 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `columna 21`
 - `columna 22`
 - *Fuentes: Oficinas productoras de cada una de las instituciones*
+- *CLAEH: El instituto CLAEH pasó a ser Universidad a partir del año 2018.*
+- *UdelaR: Hasta el 2017 el dato corresponde Proyección de Matrícula de Estudiantes de Grado de la UdelaR (División Estadística, Dir. Gral. de Planeamiento). (Incluye carreras técnicas, tecnológicas y de grado).*
+- *UdelaR: A partir del año 2018, la Udelar reporta su matrícula, según Res. N°15 del CDC de fecha 23/10/12, se entiende por Estudiante Activo por Carrera a los estudiantes que registran alguna actividad de rendición de curso o examen en los últimos dos años calendario consecutivos anteriores, en cualquier unidad curricular básica de la carrera, más la generación de ingreso a la carrera en el año dado. (Se incluyen en esta categoría los niveles de formación y certificaciones contemplados en la ordenanza de grado.) (División Estadística, Dir. Gral. de Planeamiento)*
+- *UdelaR: No se cuenta con el dato de matrícula de postgrado.*
 
-**2021** · hoja «II-7.2.8» · tipo C · 37 filas · EVOLUCIÓN DE LA MATRÍCULA DE LAS INSTITUCIONES UNIVERSITARIAS DE GRADO Y POSTGRADO POR AÑO LECTIVO, SEGÚN INSTITUCIÓN. (Todo el país, 2000 – 2021)
+**2021** · hoja «II-7.2.8» · tipo C · 33 filas · EVOLUCIÓN DE LA MATRÍCULA DE LAS INSTITUCIONES UNIVERSITARIAS DE GRADO Y POSTGRADO POR AÑO LECTIVO, SEGÚN INSTITUCIÓN. (Todo el país, 2000 – 2021)
 
 - `AÑO LECTIVO`
 - `AÑO LECTIVO`
@@ -8885,9 +9412,13 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `columna 22`
 - `columna 23`
 - *Fuentes: Oficinas productoras de cada una de las instituciones*
+- *CLAEH: El instituto CLAEH pasó a ser Universidad a partir del año 2018.*
+- *UdelaR: Hasta el 2017 el dato corresponde Proyección de Matrícula de Estudiantes de Grado de la UdelaR (División Estadística, Dir. Gral. de Planeamiento). (Incluye carreras técnicas, tecnológicas y de grado).*
+- *UdelaR: A partir del año 2018, la Udelar reporta su matrícula, según Res. N°15 del CDC de fecha 23/10/12, se entiende por Estudiante Activo por Carrera a los estudiantes que registran alguna actividad de rendición de curso o examen en los últimos dos años calendario consecutivos anteriores, en cualquier unidad curricular básica de la carrera, más la generación de ingreso a la carrera en el año dado. (Se incluyen en esta categoría los niveles de formación y certificaciones contemplados en la ordenanza de grado.) (División Estadística, Dir. Gral. de Planeamiento)*
+- *UdelaR: No se cuenta con el dato de matrícula de postgrado.*
 - *Nota: La Escuela de Guerra Naval no brindó cursos de nivel terciario durante el año 2021, por lo que figura en el cuadro II-8.1.7*
 
-**2022** · hoja «II-7.2.8» · tipo C · 37 filas · EVOLUCIÓN DE LA MATRÍCULA DE LAS INSTITUCIONES UNIVERSITARIAS DE GRADO Y POSTGRADO POR AÑO LECTIVO, SEGÚN INSTITUCIÓN. (Todo el país, 2000 – 2022)
+**2022** · hoja «II-7.2.8» · tipo C · 33 filas · EVOLUCIÓN DE LA MATRÍCULA DE LAS INSTITUCIONES UNIVERSITARIAS DE GRADO Y POSTGRADO POR AÑO LECTIVO, SEGÚN INSTITUCIÓN. (Todo el país, 2000 – 2022)
 
 - `AÑO LECTIVO`
 - `AÑO LECTIVO`
@@ -8913,9 +9444,13 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `columna 23`
 - `columna 24`
 - *Fuentes: Oficinas productoras de cada una de las instituciones*
+- *CLAEH: El instituto CLAEH pasó a ser Universidad a partir del año 2018.*
+- *UdelaR: Hasta el 2017 el dato corresponde Proyección de Matrícula de Estudiantes de Grado de la UdelaR (División Estadística, Dir. Gral. de Planeamiento). (Incluye carreras técnicas, tecnológicas y de grado).*
+- *UdelaR: A partir del año 2018, la Udelar reporta su matrícula, según Res. N°15 del CDC de fecha 23/10/12, se entiende por Estudiante Activo por Carrera a los estudiantes que registran alguna actividad de rendición de curso o examen en los últimos dos años calendario consecutivos anteriores, en cualquier unidad curricular básica de la carrera, más la generación de ingreso a la carrera en el año dado. (Se incluyen en esta categoría los niveles de formación y certificaciones contemplados en la ordenanza de grado.) (División Estadística, Dir. Gral. de Planeamiento)*
+- *UdelaR: No se cuenta con el dato de matrícula de postgrado.*
 - *Nota: La Escuela de Guerra Naval no brindó cursos de nivel terciario durante el año 2021, por lo que figura en el cuadro II-8.1.7*
 
-**2023** · hoja «II-7.2.8» · tipo C · 37 filas · EVOLUCIÓN DE LA MATRÍCULA DE LAS INSTITUCIONES UNIVERSITARIAS DE GRADO Y POSTGRADO POR AÑO LECTIVO, SEGÚN INSTITUCIÓN. (Todo el país, 2000 – 2023)
+**2023** · hoja «II-7.2.8» · tipo C · 34 filas · EVOLUCIÓN DE LA MATRÍCULA DE LAS INSTITUCIONES UNIVERSITARIAS DE GRADO Y POSTGRADO POR AÑO LECTIVO, SEGÚN INSTITUCIÓN. (Todo el país, 2000 – 2023)
 
 - `AÑO LECTIVO`
 - `AÑO LECTIVO`
@@ -8942,10 +9477,13 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `columna 24`
 - `columna 25`
 - *Fuentes: Oficinas productoras de cada una de las instituciones*
+- *UdelaR: Hasta el 2017 el dato corresponde Proyección de Matrícula de Estudiantes de Grado de la UdelaR (División Estadística, Dir. Gral. de Planeamiento). (Incluye carreras técnicas, tecnológicas y de grado).*
+- *UdelaR: A partir del año 2018, la Udelar reporta su matrícula, según Res. N°15 del CDC de fecha 23/10/12, se entiende por Estudiante Activo por Carrera a los estudiantes que registran alguna actividad de rendición de curso o examen en los últimos dos años calendario consecutivos anteriores, en cualquier unidad curricular básica de la carrera, más la generación de ingreso a la carrera en el año dado. (Se incluyen en esta categoría los niveles de formación y certificaciones contemplados en la ordenanza de grado.) (División Estadística, Dir. Gral. de Planeamiento)*
+- *UdelaR: No se cuenta con el dato de matrícula de postgrado.*
 - *Nota: último dato disponible del Instituto Metodista Universitario Crandon año 2022.*
 - *Nota: La Escuela de Guerra Naval no brindó cursos de nivel terciario durante el año 2021, por lo que figura en el cuadro II-8.1.7*
 
-**2024** · hoja «II-7.2.8» · tipo C · 38 filas · EVOLUCIÓN DE LA MATRÍCULA UNIVERSITARIA DE GRADO Y POSTGRADO POR AÑO LECTIVO, SEGÚN INSTITUCIÓN. (Todo el país, 2000 – 2024)
+**2024** · hoja «II-7.2.8» · tipo C · 35 filas · EVOLUCIÓN DE LA MATRÍCULA UNIVERSITARIA DE GRADO Y POSTGRADO POR AÑO LECTIVO, SEGÚN INSTITUCIÓN. (Todo el país, 2000 – 2024)
 
 - `AÑO LECTIVO`
 - `AÑO LECTIVO`
@@ -8973,6 +9511,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `columna 25`
 - `columna 26`
 - *Fuentes: Oficinas productoras de cada una de las instituciones*
+- *UdelaR: Hasta el 2017 el dato corresponde Proyección de Matrícula de Estudiantes de Grado de la UdelaR (División Estadística, Dir. Gral. de Planeamiento). (Incluye carreras técnicas, tecnológicas y de grado).*
+- *UdelaR: A partir del año 2018, la Udelar reporta su matrícula, según Res. N°15 del CDC de fecha 23/10/12, se entiende por Estudiante Activo por Carrera a los estudiantes que registran alguna actividad de rendición de curso o examen en los últimos dos años calendario consecutivos anteriores, en cualquier unidad curricular básica de la carrera, más la generación de ingreso a la carrera en el año dado. (Se incluyen en esta categoría los niveles de formación y certificaciones contemplados en la ordenanza de grado.) (División Estadística, Dir. Gral. de Planeamiento)*
+- *UdelaR: No se cuenta con el dato de matrícula de postgrado.*
 - *Nota: último dato disponible del Instituto Metodista Universitario Crandon año 2022.*
 - *Nota: La Escuela de Guerra Naval no brindó cursos de nivel terciario durante el año 2021, por lo que figura en el cuadro II-8.1.7*
 - *** Último dato disponible de la UDE es 2023.*
@@ -9026,7 +9567,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `Carga horaria semanal/40 y +/Sexo/M`
 - *Fuente: Oficinas Productoras de cada una de las Instituciones.*
 
-**2023** · hoja «II-7.3.1» · tipo C · 145 filas · PERSONAL DOCENTE Y NO DOCENTE DE INSTITUCIONES UNIVERSITARIAS EXPRESADAS EN POSICIONES FUNCIONALES POR CARGA HORARIA SEMANAL SEGÚN INSTITUCIÓN, ACTIVIDAD Y SEXO (Todo el país, 2023).
+**2023** · hoja «II-7.3.1» · tipo C · 143 filas · PERSONAL DOCENTE Y NO DOCENTE DE INSTITUCIONES UNIVERSITARIAS EXPRESADAS EN POSICIONES FUNCIONALES POR CARGA HORARIA SEMANAL SEGÚN INSTITUCIÓN, ACTIVIDAD Y SEXO (Todo el país, 2023).
 
 - `Carga horaria semanal/TOTAL`
 - `Carga horaria semanal/19 y -/Total`
@@ -9040,8 +9581,10 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `Carga horaria semanal/40 y +/Sexo/M`
 - *Fuente: Oficinas Productoras de cada una de las Instituciones.*
 - *Nota: - último dato disponible del Instituto Metodista Universitario Crandon año 2022.*
+- *Para el caso de la Escuela Nacional de Policía se presenta el personal del total de la oferta de la institución ya que no es posible discriminar a los mismos por carrera.*
+- *s/d Sin dato disponible.*
 
-**2024** · hoja «II-7.3.1» · tipo C · 151 filas · PERSONAL DOCENTE Y NO DOCENTE DE INSTITUCIONES UNIVERSITARIAS POR CARGA HORARIA SEMANAL Y SEXO, SEGÚN INSTITUCIÓN Y ACTIVIDAD (Todo el país, 2024).
+**2024** · hoja «II-7.3.1» · tipo C · 150 filas · PERSONAL DOCENTE Y NO DOCENTE DE INSTITUCIONES UNIVERSITARIAS POR CARGA HORARIA SEMANAL Y SEXO, SEGÚN INSTITUCIÓN Y ACTIVIDAD (Todo el país, 2024).
 
 - `Carga horaria semanal/TOTAL`
 - `Carga horaria semanal/19 y -/Total`
@@ -9054,6 +9597,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `Carga horaria semanal/40 y +/Sexo/V`
 - `Carga horaria semanal/40 y +/Sexo/M`
 - *Fuente: Oficinas Productoras de cada una de las Instituciones.*
+- *s/d Sin dato disponible.*
 - *** Último dato disponible de UDE año 2023.*
 
 </details>
@@ -9265,41 +9809,46 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-8.1.4</b></summary>
 
-**2020** · hoja «II-8.1.4» · tipo B · 31 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN TÉCNICA POR TIPO DE CURSO SEGÚN ÁREAS Y SECTORES DE ESTUDIO (TODO EL PAÍS, 2020)
+**2020** · hoja «II-8.1.4» · tipo B · 30 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN TÉCNICA POR TIPO DE CURSO SEGÚN ÁREAS Y SECTORES DE ESTUDIO (TODO EL PAÍS, 2020)
 
 - `Total`
 - *Fuente: DE - DGETP*
 - *Nota: El presente cuadro no incluye las Áreas y Sectores de Estudios contenidos en Educación*
+- *Media Básica y Superior, en tanto solo aplican para dichos niveles*
 
-**2021** · hoja «II-8.1.4» · tipo B · 33 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN TÉCNICA POR TIPO DE CURSO SEGÚN ÁREAS Y SECTORES DE ESTUDIO (Todo el país, 2021)
-
-- `Total`
-- *Fuente: DE - DGETP*
-- *Nota: El presente cuadro no incluye las Áreas y Sectores de Estudios contenidos en Educación*
-
-**2022** · hoja «II-8.1.4» · tipo B · 33 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN TÉCNICA POR TIPO DE CURSO SEGÚN ÁREAS Y SECTORES DE ESTUDIO (Todo el país, 2022)
+**2021** · hoja «II-8.1.4» · tipo B · 32 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN TÉCNICA POR TIPO DE CURSO SEGÚN ÁREAS Y SECTORES DE ESTUDIO (Todo el país, 2021)
 
 - `Total`
 - *Fuente: DE - DGETP*
 - *Nota: El presente cuadro no incluye las Áreas y Sectores de Estudios contenidos en Educación*
+- *Media Básica y Superior, en tanto solo aplican para dichos niveles*
 
-**2023** · hoja «II-8.1.4» · tipo B · 32 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN TÉCNICA POR TIPO DE CURSO SEGÚN ÁREAS Y SECTORES DE ESTUDIO (Todo el país, 2023)
-
-- `Total`
-- *Fuente: DE - DGETP*
-- *Nota: El presente cuadro no incluye las Áreas y Sectores de Estudios contenidos en Educación*
-
-**2024** · hoja «II-8.1.4» · tipo B · 32 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN TÉCNICA POR TIPO DE CURSO SEGÚN ÁREAS Y SECTORES DE ESTUDIO (Todo el país, 2024)
+**2022** · hoja «II-8.1.4» · tipo B · 32 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN TÉCNICA POR TIPO DE CURSO SEGÚN ÁREAS Y SECTORES DE ESTUDIO (Todo el país, 2022)
 
 - `Total`
 - *Fuente: DE - DGETP*
 - *Nota: El presente cuadro no incluye las Áreas y Sectores de Estudios contenidos en Educación*
+- *Media Básica y Superior, en tanto solo aplican para dichos niveles*
+
+**2023** · hoja «II-8.1.4» · tipo B · 31 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN TÉCNICA POR TIPO DE CURSO SEGÚN ÁREAS Y SECTORES DE ESTUDIO (Todo el país, 2023)
+
+- `Total`
+- *Fuente: DE - DGETP*
+- *Nota: El presente cuadro no incluye las Áreas y Sectores de Estudios contenidos en Educación*
+- *Media Básica y Superior, en tanto solo aplican para dichos niveles*
+
+**2024** · hoja «II-8.1.4» · tipo B · 31 filas · ESTUDIANTES MATRICULADOS EN EDUCACIÓN TÉCNICA POR TIPO DE CURSO SEGÚN ÁREAS Y SECTORES DE ESTUDIO (Todo el país, 2024)
+
+- `Total`
+- *Fuente: DE - DGETP*
+- *Nota: El presente cuadro no incluye las Áreas y Sectores de Estudios contenidos en Educación*
+- *Media Básica y Superior, en tanto solo aplican para dichos niveles*
 
 </details>
 
 <details><summary><b>II-8.1.5</b></summary>
 
-**2020** · hoja «II-8.1.5» · tipo B · 91 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN CECAP POR SEXO, SEGÚN DEPARTAMENTO Y EDAD (Todo el país, 2020)
+**2020** · hoja «II-8.1.5» · tipo B · 88 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN CECAP POR SEXO, SEGÚN DEPARTAMENTO Y EDAD (Todo el país, 2020)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -9312,22 +9861,11 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `EGRESADOS/SEXO/M`
 - *Fuente: Área de Educación No Formal, Dirección de Educación, MEC.*
 - *Nota:*
+- *Ingresos: Todos los individuos que comenzaron a cursar la propuesta educativa en el primer o segundo semestre del año 2020.(1er. SEMESTRE MARZO 2020 /1 er. SEMESTRE JULIO 2020)*
+- *Matriculados: Todos los individuos que durante el año 2020 cursaron la propuesta educativa. (1er. 2do. 3er. 4to. Y 5to. semestre)*
+- *Egresos: Todos los individuos que culminaron durante el 2020 los cuatro semestres que prevee la propuesta educativa (Estudiantes con Estado Egresado que culminaron 4to y 5to semestre durante el 2020)*
 
-**2021** · hoja «II-8.1.5» · tipo B · 91 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN CECAP POR SEXO, SEGÚN DEPARTAMENTO Y EDAD (Todo el país, 2021)
-
-- `TOTAL`
-- `INGRESADOS/SEXO/V`
-- `INGRESADOS/SEXO/M`
-- `TOTAL`
-- `MATRICULADOS/SEXO/V`
-- `MATRICULADOS/SEXO/M`
-- `TOTAL`
-- `EGRESADOS/SEXO/V`
-- `EGRESADOS/SEXO/M`
-- *Fuente: Área de Innovación Educativa, Dirección Nacional de Educación, MEC.*
-- *Nota:*
-
-**2022** · hoja «II-8.1.5» · tipo B · 103 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN CECAP POR SEXO, SEGÚN DEPARTAMENTO Y EDAD (Todo el país, 2022)
+**2021** · hoja «II-8.1.5» · tipo B · 88 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN CECAP POR SEXO, SEGÚN DEPARTAMENTO Y EDAD (Todo el país, 2021)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -9340,22 +9878,11 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `EGRESADOS/SEXO/M`
 - *Fuente: Área de Innovación Educativa, Dirección Nacional de Educación, MEC.*
 - *Nota:*
+- *Ingresos: Todos los individuos que comenzaron a cursar la propuesta educativa en el primer o segundo semestre del año 2021. (1er. SEMESTRE MARZO 2021 /1er. SEMESTRE JULIO 2021)*
+- *Matriculados: Todos los individuos que durante el año 2021 cursaron la propuesta educativa. (1er. 2do. 3er. 4to. Y 5to. semestre)*
+- *Egresos: Todos los individuos que culminaron durante el 2021 los cuatro semestres que prevee la propuesta educativa (Estudiantes con Estado Egresado que culminaron 4to y 5to semestre durante el 2021)*
 
-**2023** · hoja «II-8.1.5» · tipo B · 90 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN CECAP POR SEXO, SEGÚN DEPARTAMENTO Y EDAD (Todo el país, 2023)
-
-- `TOTAL`
-- `INGRESADOS/SEXO/V`
-- `INGRESADOS/SEXO/M`
-- `TOTAL`
-- `MATRICULADOS/SEXO/V`
-- `MATRICULADOS/SEXO/M`
-- `TOTAL`
-- `EGRESADOS/SEXO/V`
-- `EGRESADOS/SEXO/M`
-- *Fuente: Área de Innovación Educativa, Dirección Nacional de Educación, MEC.*
-- *Nota:*
-
-**2024** · hoja «II-8.1.5» · tipo A · 108 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN CECAP POR SEXO, SEGÚN DEPARTAMENTO Y EDAD (Todo el país, 2024)
+**2022** · hoja «II-8.1.5» · tipo B · 100 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN CECAP POR SEXO, SEGÚN DEPARTAMENTO Y EDAD (Todo el país, 2022)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -9368,12 +9895,49 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `EGRESADOS/SEXO/M`
 - *Fuente: Área de Innovación Educativa, Dirección Nacional de Educación, MEC.*
 - *Nota:*
+- *Ingresos: Todos los individuos que comenzaron a cursar la propuesta educativa en el primer o segundo semestre del año 2022. (1er. SEMESTRE MARZO 2022 /1er. SEMESTRE JULIO 2022)*
+- *Matriculados: Todos los individuos que durante el año 2022 cursaron la propuesta educativa. (1er. 2do. 3er. 4to. Y 5to. semestre)*
+- *Egresos: Todos los individuos que culminaron durante el 2022 los cuatro semestres que prevee la propuesta educativa (Estudiantes con Estado Egresado que culminaron 4to y 5to semestre durante el 2022)*
+
+**2023** · hoja «II-8.1.5» · tipo B · 87 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN CECAP POR SEXO, SEGÚN DEPARTAMENTO Y EDAD (Todo el país, 2023)
+
+- `TOTAL`
+- `INGRESADOS/SEXO/V`
+- `INGRESADOS/SEXO/M`
+- `TOTAL`
+- `MATRICULADOS/SEXO/V`
+- `MATRICULADOS/SEXO/M`
+- `TOTAL`
+- `EGRESADOS/SEXO/V`
+- `EGRESADOS/SEXO/M`
+- *Fuente: Área de Innovación Educativa, Dirección Nacional de Educación, MEC.*
+- *Nota:*
+- *Ingresos: Todos los individuos que comenzaron a cursar la propuesta educativa en el primer o segundo semestre del año 2023. (1er. SEMESTRE MARZO 2023 /1er. SEMESTRE JULIO 2023)*
+- *Matriculados: Todos los individuos que durante el año 2023 cursaron la propuesta educativa. (1er. 2do. 3er. 4to. y 5to. semestre)*
+- *Egresos: Todos los individuos que culminaron durante el 2023 los cuatro semestres que prevee la propuesta educativa (Estudiantes con Estado Egresado que culminaron 4to y 5to semestre durante el 2023)*
+
+**2024** · hoja «II-8.1.5» · tipo A · 105 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN CECAP POR SEXO, SEGÚN DEPARTAMENTO Y EDAD (Todo el país, 2024)
+
+- `TOTAL`
+- `INGRESADOS/SEXO/V`
+- `INGRESADOS/SEXO/M`
+- `TOTAL`
+- `MATRICULADOS/SEXO/V`
+- `MATRICULADOS/SEXO/M`
+- `TOTAL`
+- `EGRESADOS/SEXO/V`
+- `EGRESADOS/SEXO/M`
+- *Fuente: Área de Innovación Educativa, Dirección Nacional de Educación, MEC.*
+- *Nota:*
+- *Ingresos: Todos los individuos que comenzaron a cursar la propuesta educativa en el primer o segundo semestre del año 2024. (1er. SEMESTRE MARZO 2024 /1er. SEMESTRE JULIO 2024)*
+- *Matriculados: Todos los individuos que durante el año 2024 cursaron la propuesta educativa. (1er. 2do. 3er. 4to. y 5to. semestre)*
+- *Egresos: Todos los individuos que culminaron durante el 2024 los cuatro semestres que prevee la propuesta educativa (Estudiantes con Estado Egresado que culminaron 4to y 5to semestre durante el 2024)*
 
 </details>
 
 <details><summary><b>II-8.1.6</b></summary>
 
-**2020** · hoja «II-8.1.6» · tipo B · 79 filas · ESTUDIANTES CON EGRESO ANTICIPADO Y DESVINCULADOS DE CECAP POR SEXO, SEGÚN DEPARTAMENTO Y EDAD (Todo el país, 2020)
+**2020** · hoja «II-8.1.6» · tipo B · 77 filas · ESTUDIANTES CON EGRESO ANTICIPADO Y DESVINCULADOS DE CECAP POR SEXO, SEGÚN DEPARTAMENTO Y EDAD (Todo el país, 2020)
 
 - `TOTAL`
 - `EGRESO ANTICIPADO/SEXO/V`
@@ -9383,19 +9947,10 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `DESVINCULADOS/SEXO/M`
 - *Fuente: Área de Educación No Formal, Dirección de Educación, MEC.*
 - *Notas:*
+- *Egreso Anticipado: Todos los individuos que durante el 2020 egresaron de CECAP para incorporarse a otra propuesta educativa o al mundo del trabajo, habiendo cursado un período menor a cuatro semestres.*
+- *Desvinculados: Todos los individuos que durante el 2020 dejaron de asistir a la propuesta.*
 
-**2021** · hoja «II-8.1.6» · tipo B · 83 filas · ESTUDIANTES CON EGRESO ANTICIPADO Y DESVINCULADOS DE CECAP POR SEXO, SEGÚN DEPARTAMENTO Y EDAD (Todo el país, 2021)
-
-- `TOTAL`
-- `EGRESO ANTICIPADO/SEXO/V`
-- `EGRESO ANTICIPADO/SEXO/M`
-- `TOTAL`
-- `DESVINCULADOS/SEXO/V`
-- `DESVINCULADOS/SEXO/M`
-- *Fuente: Área de Innovación Educativa, Dirección Nacional de Educación, MEC.*
-- *Notas:*
-
-**2022** · hoja «II-8.1.6» · tipo B · 94 filas · ESTUDIANTES CON EGRESO ANTICIPADO Y DESVINCULADOS DE CECAP POR SEXO, SEGÚN DEPARTAMENTO Y EDAD (Todo el país, 2022)
+**2021** · hoja «II-8.1.6» · tipo B · 81 filas · ESTUDIANTES CON EGRESO ANTICIPADO Y DESVINCULADOS DE CECAP POR SEXO, SEGÚN DEPARTAMENTO Y EDAD (Todo el país, 2021)
 
 - `TOTAL`
 - `EGRESO ANTICIPADO/SEXO/V`
@@ -9405,19 +9960,10 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `DESVINCULADOS/SEXO/M`
 - *Fuente: Área de Innovación Educativa, Dirección Nacional de Educación, MEC.*
 - *Notas:*
+- *Egreso Anticipado: Todos los individuos que durante el 2021 egresaron de CECAP para incorporarse a otra propuesta educativa o al mundo del trabajo, habiendo cursado un período menor a cuatro semestres.*
+- *Desvinculados: Todos los individuos que durante el 2021 dejaron de asistir a la propuesta.*
 
-**2023** · hoja «II-8.1.6» · tipo B · 93 filas · ESTUDIANTES CON EGRESO ANTICIPADO Y DESVINCULADOS DE CECAP POR SEXO, SEGÚN DEPARTAMENTO Y EDAD (Todo el país, 2023)
-
-- `TOTAL`
-- `EGRESO ANTICIPADO/SEXO/V`
-- `EGRESO ANTICIPADO/SEXO/M`
-- `TOTAL`
-- `DESVINCULADOS/SEXO/V`
-- `DESVINCULADOS/SEXO/M`
-- *Fuente: Área de Innovación Educativa, Dirección Nacional de Educación, MEC.*
-- *Notas:*
-
-**2024** · hoja «II-8.1.6» · tipo B · 100 filas · ESTUDIANTES CON EGRESO ANTICIPADO Y DESVINCULADOS DE CECAP POR SEXO, SEGÚN DEPARTAMENTO Y EDAD (Todo el país, 2024)
+**2022** · hoja «II-8.1.6» · tipo B · 92 filas · ESTUDIANTES CON EGRESO ANTICIPADO Y DESVINCULADOS DE CECAP POR SEXO, SEGÚN DEPARTAMENTO Y EDAD (Todo el país, 2022)
 
 - `TOTAL`
 - `EGRESO ANTICIPADO/SEXO/V`
@@ -9427,6 +9973,34 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `DESVINCULADOS/SEXO/M`
 - *Fuente: Área de Innovación Educativa, Dirección Nacional de Educación, MEC.*
 - *Notas:*
+- *Egreso Anticipado: Todos los individuos que durante el 2022 egresaron de CECAP para incorporarse a otra propuesta educativa o al mundo del trabajo, habiendo cursado un período menor a cuatro semestres.*
+- *Desvinculados: Todos los individuos que durante el 2022 dejaron de asistir a la propuesta.*
+
+**2023** · hoja «II-8.1.6» · tipo B · 91 filas · ESTUDIANTES CON EGRESO ANTICIPADO Y DESVINCULADOS DE CECAP POR SEXO, SEGÚN DEPARTAMENTO Y EDAD (Todo el país, 2023)
+
+- `TOTAL`
+- `EGRESO ANTICIPADO/SEXO/V`
+- `EGRESO ANTICIPADO/SEXO/M`
+- `TOTAL`
+- `DESVINCULADOS/SEXO/V`
+- `DESVINCULADOS/SEXO/M`
+- *Fuente: Área de Innovación Educativa, Dirección Nacional de Educación, MEC.*
+- *Notas:*
+- *Egreso Anticipado: Todos los individuos que durante el 2023 egresaron de CECAP para incorporarse a otra propuesta educativa o al mundo del trabajo, habiendo cursado un período menor a cuatro semestres.*
+- *Desvinculados: Todos los individuos que durante el 2023 dejaron de asistir a la propuesta.*
+
+**2024** · hoja «II-8.1.6» · tipo B · 98 filas · ESTUDIANTES CON EGRESO ANTICIPADO Y DESVINCULADOS DE CECAP POR SEXO, SEGÚN DEPARTAMENTO Y EDAD (Todo el país, 2024)
+
+- `TOTAL`
+- `EGRESO ANTICIPADO/SEXO/V`
+- `EGRESO ANTICIPADO/SEXO/M`
+- `TOTAL`
+- `DESVINCULADOS/SEXO/V`
+- `DESVINCULADOS/SEXO/M`
+- *Fuente: Área de Innovación Educativa, Dirección Nacional de Educación, MEC.*
+- *Notas:*
+- *Egreso Anticipado: Todos los individuos que durante el 2024 egresaron de CECAP para incorporarse a otra propuesta educativa o al mundo del trabajo, habiendo cursado un período menor a cuatro semestres.*
+- *Desvinculados: Todos los individuos que durante el 2024 dejaron de asistir a la propuesta.*
 
 </details>
 
@@ -9665,7 +10239,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-8.4.2</b></summary>
 
-**2020** · hoja «II-8.4.2» · tipo B · 118 filas · MATRÍCULA DEL RELEVAMIENTO DE INSTITUCIONES DE OFERTA DE FORMACIÓN EN EDUCACIÓN NO FORMAL SEGÚN REGIÓN Y ÁREAS DE CONOCIMIENTO. (Todo el país, 2020)
+**2020** · hoja «II-8.4.2» · tipo B · 114 filas · MATRÍCULA DEL RELEVAMIENTO DE INSTITUCIONES DE OFERTA DE FORMACIÓN EN EDUCACIÓN NO FORMAL SEGÚN REGIÓN Y ÁREAS DE CONOCIMIENTO. (Todo el país, 2020)
 
 - `MATRÍCULA/TOTAL`
 - `MATRÍCULA/SEXO/M`
@@ -9673,17 +10247,12 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `MATRÍCULA/SEXO/SD`
 - *Fuente: Elaboración propia en base a la información del Relevamiento de Instituciones de oferta de formación en Educación No Formal. Realizado por la División de Investigación y Estadística.*
 - *Nota 1: Región Sur: Canelones, Colonia, Maldonado y San José*
+- *Región Este: Lavalleja, Rocha y Treinta y Tres*
+- *Región Central: Durazno, Florida y Tacuarembó*
+- *Región Litoral: Flores, Paysandú, Río Negro, Salto y Soriano*
+- *Región Norte: Artigas, Cerro Largo y Rivera*
 
-**2021** · hoja «II-8.4.2» · tipo B · 123 filas · MATRÍCULA DEL RELEVAMIENTO DE INSTITUCIONES DE OFERTA DE FORMACIÓN EN EDUCACIÓN NO FORMAL SEGÚN REGIÓN Y ÁREAS DE CONOCIMIENTO (Todo el país, 2021)
-
-- `MATRÍCULA/TOTAL`
-- `MATRÍCULA/SEXO/V`
-- `MATRÍCULA/SEXO/M`
-- `MATRÍCULA/SEXO/SD`
-- *Fuente: Elaboración propia en base a la información del Relevamiento de Instituciones de oferta de formación en Educación No Formal. Realizado por la División de Investigación y Estadística.*
-- *Nota 1: Región Sur: Canelones, Colonia, Maldonado y San José*
-
-**2022** · hoja «II-8.4.2» · tipo B · 116 filas · MATRÍCULA DEL RELEVAMIENTO DE INSTITUCIONES DE OFERTA DE FORMACIÓN EN EDUCACIÓN NO FORMAL SEGÚN REGIÓN Y ÁREAS DE CONOCIMIENTO, POR SEXO (Todo el país, 2022)
+**2021** · hoja «II-8.4.2» · tipo B · 119 filas · MATRÍCULA DEL RELEVAMIENTO DE INSTITUCIONES DE OFERTA DE FORMACIÓN EN EDUCACIÓN NO FORMAL SEGÚN REGIÓN Y ÁREAS DE CONOCIMIENTO (Todo el país, 2021)
 
 - `MATRÍCULA/TOTAL`
 - `MATRÍCULA/SEXO/V`
@@ -9691,6 +10260,23 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `MATRÍCULA/SEXO/SD`
 - *Fuente: Elaboración propia en base a la información del Relevamiento de Instituciones de oferta de formación en Educación No Formal. Realizado por la División de Investigación y Estadística.*
 - *Nota 1: Región Sur: Canelones, Colonia, Maldonado y San José*
+- *Región Este: Lavalleja, Rocha y Treinta y Tres*
+- *Región Central: Durazno, Florida y Tacuarembó*
+- *Región Litoral: Flores, Paysandú, Río Negro, Salto y Soriano*
+- *Región Norte: Artigas, Cerro Largo y Rivera*
+
+**2022** · hoja «II-8.4.2» · tipo B · 112 filas · MATRÍCULA DEL RELEVAMIENTO DE INSTITUCIONES DE OFERTA DE FORMACIÓN EN EDUCACIÓN NO FORMAL SEGÚN REGIÓN Y ÁREAS DE CONOCIMIENTO, POR SEXO (Todo el país, 2022)
+
+- `MATRÍCULA/TOTAL`
+- `MATRÍCULA/SEXO/V`
+- `MATRÍCULA/SEXO/M`
+- `MATRÍCULA/SEXO/SD`
+- *Fuente: Elaboración propia en base a la información del Relevamiento de Instituciones de oferta de formación en Educación No Formal. Realizado por la División de Investigación y Estadística.*
+- *Nota 1: Región Sur: Canelones, Colonia, Maldonado y San José*
+- *Región Este: Lavalleja, Rocha y Treinta y Tres*
+- *Región Central: Durazno, Florida y Tacuarembó*
+- *Región Litoral: Flores, Paysandú, Río Negro, Salto y Soriano*
+- *Región Norte: Artigas, Cerro Largo y Rivera*
 
 **2023** · hoja «II-8.4.2» · tipo B · 9 filas · INGRESO, MATRÍCULA Y EGRESO DE LOS CURSOS DICTADOS POR EL CENTRO DE ALTOS ESTUDIOS NACIONALES, SEGÚN SEXO (Todo el país, 2023)
 
