@@ -179,11 +179,17 @@ def test_227_la_educacion_va_aparte_y_juntas_dan_la_ficha_completa(web):
             assert sorted(map(clave, juntas)) == sorted(map(clave, f["observaciones"])), i
             usados = {o["indicador"] for o in f["observaciones"]}
             assert usados <= set(principal["indicadores"]) | set(parte["indicadores"]), i
-            assert {**principal["capturas"], **parte["capturas"]} == {k: f["capturas"][k] for k in {o["captura_id"] for o in f["observaciones"]}}, i
-            assert set(principal["fuentes"]) | set(parte["fuentes"]) == set(f["fuentes"]), i
-        # el aviso del padre: «Educación: datos por departamento» (AC-V24, AC-E28)
-        for r_full, r in zip(f["padres"], principal["padres"]):
+            assert set(parte["capturas"]) == {o["captura_id"] for o in tiene}, i
+        # la cita y «Fuentes de esta ficha» nombran a todas sus fuentes sin cargar la parte (AC-F6, revisión de #235)
+        assert principal["capturas"] == f["capturas"] and principal["fuentes"] == f["fuentes"], i
+        # el aviso de padres y contenidos: «Educación: datos por departamento» (AC-V24, AC-E28); los estimados que no
+        # son de educación quedan
+        todos = list(zip(f["padres"], principal["padres"])) + [
+            par for n in f["contenidos"] for par in zip(f["contenidos"][n], principal["contenidos"][n])]
+        for r_full, r in todos:
             assert bool(r.get("educacion")) == bool(set(r_full["valores"]) & edu), i
+            assert set(r["valores"]) == set(r_full["valores"]) - edu, i
+            assert r.get("estimados", []) == [e for e in r_full.get("estimados", []) if e.split("/", 1)[0] not in edu], i
     assert con_parte >= 19 + 2  # los departamentos, el país y el Interior
     # sin educación, la ficha principal es la misma
     sin = next(f for f in fichas.values() if f["nivel"] == "segmento")

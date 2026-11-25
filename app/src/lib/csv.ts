@@ -1,7 +1,7 @@
 // CSV de los valores de un territorio (AC-F5): exactamente los valores que muestra, con su origen
 // y su período completo (AC-L27).
 
-import type { Ficha } from './datos.ts';
+import { cargarEducacion, unirEducacion, type Ficha } from './datos.ts';
 
 export const COLUMNAS_CSV = [
 	'territorio_id',
@@ -72,4 +72,12 @@ export function descargarCsv(f: Ficha): void {
 	a.click();
 	a.remove();
 	setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+/**
+ * #227: el CSV de la ficha con todas sus filas (AC-F5): si la educación va aparte y todavía no llegó, la pide antes.
+ * Si no llega, falla sin bajar un CSV incompleto.
+ */
+export async function descargarCsvCompleto(f: Ficha): Promise<void> {
+	descargarCsv(f.educacion ? unirEducacion(f, await cargarEducacion(f.nivel, f.codigo)) : f);
 }

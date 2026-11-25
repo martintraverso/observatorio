@@ -397,11 +397,22 @@ test('AC-I21 y AC-I24: la serie de ingresos con su variante, base de precios, fr
 // MEC está «en preparación» y no llega a la app: se suman a la ficha de Flores dos cuadros reales de 2023–2024.
 const EDUCACION = JSON.parse(readFileSync('e2e/fixtures/ficha-educacion-flores.json', 'utf-8'));
 
-/** #227: la ficha avisa que tiene educación (`educacion: true`) y la educación llega aparte, en `educacion.json`. */
-async function conEducacion(page: import('@playwright/test').Page, ficha: string, parte: unknown) {
+/**
+ * #227: como la escribe el pipeline: la ficha avisa que tiene educación (`educacion: true`) y trae sus capturas y
+ * fuentes (la cita, AC-F6); las observaciones e indicadores llegan aparte, en `educacion.json`.
+ */
+async function conEducacion(
+	page: import('@playwright/test').Page,
+	ficha: string,
+	parte: { capturas: object; fuentes: object }
+) {
 	await page.route(`**/datos-web/fichas/${ficha}.json`, async (route) => {
 		const r = await route.fetch();
-		await route.fulfill({ response: r, json: { ...(await r.json()), educacion: true } });
+		const f = await r.json();
+		await route.fulfill({
+			response: r,
+			json: { ...f, educacion: true, capturas: { ...f.capturas, ...parte.capturas }, fuentes: { ...f.fuentes, ...parte.fuentes } }
+		});
 	});
 	await page.route(`**/datos-web/fichas/${ficha}/educacion.json`, (route) => route.fulfill({ json: parte }));
 }
@@ -550,7 +561,8 @@ test('#227: la educación llega aparte: «Cargando…», y si falla lo dice sin 
 	let falla = true;
 	await page.route('**/datos-web/fichas/departamento/07.json', async (route) => {
 		const r = await route.fetch();
-		await route.fulfill({ response: r, json: { ...(await r.json()), educacion: true } });
+		const f = await r.json();
+		await route.fulfill({ response: r, json: { ...f, educacion: true, fuentes: { ...f.fuentes, ...EDUCACION.fuentes } } });
 	});
 	let liberar = () => {};
 	const espera = new Promise<void>((ok) => (liberar = ok));
@@ -587,4 +599,12 @@ test('#227: la página prerenderizada de una ficha no incrusta la educación', a
 		const html = (await (await request.get(ruta)).text());
 		expect(html, ruta).not.toMatch(/edu_ii_\d/);
 	}
+});
+
+test('#227 y AC-F6: la cita y «Fuentes de esta ficha» nombran al MEC sin bajar a la educación', async ({ page }) => {
+	await conEducacion(page, 'departamento/07', EDUCACION);
+	await irAFlores(page);
+	await page.getByRole('link', { name: 'Cómo citar' }).click();
+	await expect(page.locator('blockquote.cita')).toContainText('Ministerio de Educación y Cultura (MEC), Anuario Estadístico de Educación (MEC)');
+	await expect(page.locator('#fuentes')).toContainText('Anuario Estadístico de Educación (MEC)');
 });

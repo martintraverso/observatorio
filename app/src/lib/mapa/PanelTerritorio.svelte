@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Panel del territorio seleccionado (AC-M3, AC-M4, AC-G2).
-	import { descargarCsv } from '../csv.ts';
+	import { descargarCsvCompleto } from '../csv.ts';
 	import { hrefFicha, NOMBRE_NIVEL, type Ficha, type Observacion } from '../datos.ts';
 	import { publicado } from '../formato.ts';
 	import { etiquetaPeriodo, fuenteCorta } from './estado.ts';
@@ -21,6 +21,17 @@
 		totalPais?: 'periodo' | 'otros' | 'nunca';
 		oncerrar: () => void;
 	} = $props();
+
+	// #227: el CSV con la educación aunque el panel no la haya pedido (va aparte)
+	let avisoCsv = $state('');
+	async function bajarCsv() {
+		avisoCsv = '';
+		try {
+			await descargarCsvCompleto(ficha);
+		} catch {
+			avisoCsv = 'No se pudo cargar la educación: el CSV no se bajó. Probá de nuevo.';
+		}
+	}
 
 	let principal = $derived(ficha.observaciones.find((o) => o.indicador === indicador && o.periodo === periodo) ?? null);
 	let otros = $derived(
@@ -100,8 +111,10 @@
 
 	<div class="acciones">
 		<a class="boton primario" href={hrefFicha(ficha)}>Ver ficha completa</a>
-		<button type="button" class="boton" onclick={() => descargarCsv(ficha)}>Descargar CSV</button>
+		<button type="button" class="boton" onclick={bajarCsv}>Descargar CSV</button>
 	</div>
+	<p class="visualmente-oculto" role="status" aria-live="polite">{avisoCsv}</p>
+	{#if avisoCsv}<p class="error" aria-hidden="true">{avisoCsv}</p>{/if}
 </article>
 
 <style>

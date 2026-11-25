@@ -48,7 +48,9 @@
 	// #227: la educación va en su propio archivo; se pide al ver la sección (o al bajar el CSV). Va con el id de la
 	// ficha para que, al navegar a otra, no se mezcle la de la anterior.
 	let parte = $state<{ id: string; datos: ParteEducacion } | null>(null);
-	let errorEdu = $state('');
+	// el error, con el id de su ficha: al navegar a otra no queda pegado
+	let falloEdu = $state<{ id: string; texto: string } | null>(null);
+	let errorEdu = $derived(falloEdu?.id === data.ficha.id ? falloEdu.texto : '');
 	let cargaEdu: { id: string; promesa: Promise<void> } | null = null;
 	let f = $derived(unirEducacion(data.ficha, parte?.id === data.ficha.id ? parte.datos : null));
 	let pendienteEdu = $derived(!!data.ficha.educacion && parte?.id !== data.ficha.id);
@@ -57,14 +59,14 @@
 		const ficha = data.ficha;
 		if (!ficha.educacion || parte?.id === ficha.id) return Promise.resolve();
 		if (cargaEdu?.id === ficha.id) return cargaEdu.promesa;
-		errorEdu = '';
+		falloEdu = null;
 		const promesa = cargarEducacion(ficha.nivel, ficha.codigo)
 			.then((datos) => {
 				if (data.ficha.id === ficha.id) parte = { id: ficha.id, datos };
 			})
 			.catch((e) => {
-				cargaEdu = null;
-				if (data.ficha.id === ficha.id) errorEdu = 'No se pudo cargar la educación de esta ficha.';
+				if (cargaEdu?.id === ficha.id) cargaEdu = null;
+				falloEdu = { id: ficha.id, texto: 'No se pudo cargar la educación de esta ficha.' };
 				throw e;
 			});
 		cargaEdu = { id: ficha.id, promesa };
@@ -98,6 +100,12 @@
 			},
 			destroy: () => obs?.disconnect()
 		};
+	}
+
+	/** El botón desaparece al reintentar: el foco va al título de la sección, que anuncia lo que sigue. */
+	function reintentarEdu() {
+		document.getElementById('titulo-educacion')?.focus();
+		cargarEdu().catch(() => {});
 	}
 
 	async function bajarCsv() {
@@ -276,13 +284,13 @@
 	{@const series = new Map([...todas].filter(([c]) => !c.startsWith('ing_') && !(educacion.length && f.indicadores[c]?.cuadro)))}
 	{@const enRegion = datosEnRegion(f, s.temas)}
 	<section id={s.id} class="tarjeta seccion" aria-labelledby="titulo-{s.id}" use:alVer={s.id === 'educacion' ? data.ficha.id : ''}>
-		<h2 id="titulo-{s.id}">{s.titulo}</h2>
+		<h2 id="titulo-{s.id}" tabindex="-1">{s.titulo}</h2>
 		{#if s.id === 'educacion' && pendienteEdu}
 			<!-- #227: la educación llega aparte -->
 			{#if errorEdu}
 				<div class="error" role="alert">
 					<p>{errorEdu}</p>
-					<button type="button" class="boton" onclick={() => cargarEdu().catch(() => {})}>Reintentar</button>
+					<button type="button" class="boton" onclick={reintentarEdu}>Reintentar</button>
 				</div>
 			{:else}
 				<p class="info vacio" role="status">Cargando…</p>

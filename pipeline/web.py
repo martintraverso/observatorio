@@ -530,8 +530,8 @@ def separar_educacion(f: dict, edu: set[str]) -> tuple[dict, dict | None]:
     (`fichas/<nivel>/<código>/educacion.json`) que la app pide al ver la sección. La ficha principal queda sin los
     valores de educación (los suyos y los de sus padres y contenidos) y lo avisa con `educacion: true` (en la ficha, si
     tiene valores propios; en cada padre o contenido que los tiene, para «Educación: datos por departamento», AC-V24).
-    La parte trae sus observaciones, sus indicadores y las capturas y fuentes de esas observaciones. Ficha principal +
-    parte = la ficha completa (sin repetidos ni faltantes)."""
+    Las capturas y fuentes siguen todas en la principal (la cita nombra al MEC, AC-F6). La parte trae sus observaciones,
+    sus indicadores y las capturas y fuentes de esas observaciones. Ficha principal + parte = la ficha completa."""
     def limpiar(r: dict) -> dict:
         valores = {k: v for k, v in r["valores"].items() if k not in edu}
         out = {**r, "valores": valores}
@@ -545,15 +545,12 @@ def separar_educacion(f: dict, edu: set[str]) -> tuple[dict, dict | None]:
         return out
 
     propias = [o for o in f["observaciones"] if o["indicador"] in edu]
-    resto = [o for o in f["observaciones"] if o["indicador"] not in edu]
-    caps_resto = {o["captura_id"] for o in resto}
+    # Las capturas y fuentes quedan todas en la principal (pesan poco): la cita y «Fuentes de esta ficha» nombran al
+    # MEC aunque la sección no se haya cargado (AC-F6, revisión de #235).
     principal = {**f, "padres": [limpiar(r) for r in f["padres"]],
                  "contenidos": {n: [limpiar(r) for r in rs] for n, rs in f["contenidos"].items()},
-                 "observaciones": resto,
-                 "indicadores": {k: v for k, v in f["indicadores"].items() if k not in edu},
-                 "capturas": {k: v for k, v in f["capturas"].items() if k in caps_resto}}
-    principal["fuentes"] = {k: v for k, v in f["fuentes"].items()
-                            if any(c["fuente_id"] == k for c in principal["capturas"].values())}
+                 "observaciones": [o for o in f["observaciones"] if o["indicador"] not in edu],
+                 "indicadores": {k: v for k, v in f["indicadores"].items() if k not in edu}}
     if not propias:
         return principal, None
     principal["educacion"] = True

@@ -59,6 +59,7 @@ describe('unirEducacion (#227)', () => {
 		expect(Object.keys(u.indicadores)).toEqual(['pob_total', 'edu_x']);
 		expect(Object.keys(u.capturas)).toEqual(['c1', 'c2']);
 		expect(Object.keys(u.fuentes)).toEqual(['ine', 'mec']);
+		expect(u.educacion).toBe(false); // nada pendiente
 		expect(unirEducacion(f, null)).toBe(f);
 	});
 });
