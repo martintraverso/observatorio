@@ -3153,6 +3153,12 @@ cuadros:
       2022:
       - El relevamiento de datos del año 2022 de los CPIP (actualmente supervidados por el INAU) se realizó en el año 2023, por la División de Investigación y Estadística
         de la Dirección de Educación- MEC. El listado de centros a relevar fue proporcionado por la oficina de Primera Infancia de la DE-MEC.
+    anio_real_notas:
+      2021:
+      - 'G «FORMA DE ADMINISTRACIÓN/DGEIP-PRIVADOS (Habilitados y Autorizados)/SEXO/V»: el pie dice 2020 pero difiere del anuario 2020 en 1 filas ([''1 año'']); se
+        carga como 2021'
+      - 'H «FORMA DE ADMINISTRACIÓN/DGEIP-PRIVADOS (Habilitados y Autorizados)/SEXO/M»: el pie dice 2020 pero difiere del anuario 2020 en 1 filas ([''1 año'']); se
+        carga como 2021'
   II-1.2.6:
     titulo: ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PÚBLICA DE LA DGEIP POR ÁREA DEMOGRÁFICA SEGÚN DEPARTAMENTO
     tipos:

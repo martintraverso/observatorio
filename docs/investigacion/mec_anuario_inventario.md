@@ -442,6 +442,8 @@ etiquetados con su comprobación con sumas (D5), y columnas con datos de otro a�
   - D `FORMA DE ADMINISTRACIÓN/TOTAL/SEXO/MUJER` → `TOTAL/SEXO/MUJER` (D = F + H)
 - **II-1.2.5 2021:**
   - Q `Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato` → `FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato` (B = E + F + G + H + I + J + K + L + M + N + O + P + Q)
+  - ⚠ G «FORMA DE ADMINISTRACIÓN/DGEIP-PRIVADOS (Habilitados y Autorizados)/SEXO/V»: el pie dice 2020 pero difiere del anuario 2020 en 1 filas (['1 año']); se carga como 2021
+  - ⚠ H «FORMA DE ADMINISTRACIÓN/DGEIP-PRIVADOS (Habilitados y Autorizados)/SEXO/M»: el pie dice 2020 pero difiere del anuario 2020 en 1 filas (['1 año']); se carga como 2021
 - **II-1.2.5 2022:**
   - Q `Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato` → `FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato` (B = E + F + G + H + I + J + K + L + M + N + O + P + Q)
 - **II-1.2.5 2023:**

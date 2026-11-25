@@ -17,6 +17,8 @@ anio_real:
     2021: {anio: 2020, columnas: privad}
   II-1.2.3:
     2021: {anio: 2020, columnas: todas}  # cuadro de inicial privada: todo es privada
+  II-1.2.5:
+    2021: {anio: 2020, columnas: dgeip-privad}  # #229: el pie nombra solo «Privada del DGEIP»; los CPIP son de 2021 (D4)
   II-2.1.1:
     2021: {anio: 2020, columnas: privad}
   II-2.1.4:

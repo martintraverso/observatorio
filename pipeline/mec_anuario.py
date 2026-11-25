@@ -360,6 +360,11 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
     if ignoradas:
         avisos.append(f"{codigo} {anio}: {ignoradas} filas sin datos ignoradas")
     avisos += [f"{codigo} {anio}: {a}" for a in avisos_casi_iguales]
+    # #229: una «segunda» del registro que no aparece en el archivo (una errata, o el archivo cambió) frena la carga:
+    # sin ella, el orden de las filas volvería a decidir qué categoría conserva el id de la serie (AC-E13)
+    faltan = [s for s in segundas if s not in rotulo_de_sufijo.values()]
+    if faltan:
+        raise ErrorAnuario(f"{codigo} {anio}: categorias_segundas sin fila en el archivo: {faltan}")
     if e.fuera:
         avisos.append(f"{codigo} {anio}: {e.fuera} filas con números después del pie («Fuente:»), fuera del cuadro, ignoradas")
     return Cuadro(codigo, anio, e.titulo, datos, pie, sin_dato, avisos, claves_sd, categorias)

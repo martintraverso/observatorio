@@ -349,3 +349,12 @@ def test_224_d4_en_la_ola_2():
     assert all(x.get("anio") == 2020 for x in privadas(2021))
     assert all(x.get("omitir") for x in privadas(2022))
     assert not any(x.get("omitir") or x.get("anio") for x in privadas(2023))
+
+
+def test_229_una_segunda_que_no_aparece_frena():
+    """#229: si el rótulo de `categorias_segundas` no está en el archivo, la carga frena en vez de dejar que el orden
+    de las filas decida."""
+    x = (FIX / "2024.xlsx").read_bytes()
+    e = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario_educacion.yml").read_text(encoding="utf-8"))["cuadros"]["II-1.3.5"]
+    with pytest.raises(mec.ErrorAnuario, match="categorias_segundas sin fila"):
+        mec.parsear_cuadro(x, "II-1.3.5", 2024, e["mapeo"][2024], e["tipos"][2024], ["Una fila que no existe"])
