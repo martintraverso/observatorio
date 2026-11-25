@@ -2974,14 +2974,17 @@ cuadros:
       - col: O
         ruta: FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/V
         id: edu_ii_1_2_5_forma_de_administracion_centros_de_primera_infancia_privados_cpip_sexo_v
+        anio: 2020
       - col: P
         ruta: FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/M
         id: edu_ii_1_2_5_forma_de_administracion_centros_de_primera_infancia_privados_cpip_sexo_m
+        anio: 2020
       - col: Q
         ruta: Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato
         id: edu_ii_1_2_5_forma_de_administracion_centros_de_primera_infancia_privados_cpip_sexo_sin_dato
         concepto: FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato
         comprobado: B = E + F + G + H + I + J + K + L + M + N + O + P + Q
+        anio: 2020
       2022:
       - col: B
         ruta: TOTAL
@@ -3153,6 +3156,15 @@ cuadros:
       2022:
       - El relevamiento de datos del año 2022 de los CPIP (actualmente supervidados por el INAU) se realizó en el año 2023, por la División de Investigación y Estadística
         de la Dirección de Educación- MEC. El listado de centros a relevar fue proporcionado por la oficina de Primera Infancia de la DE-MEC.
+    anio_real_notas:
+      2021:
+      - 'G «FORMA DE ADMINISTRACIÓN/DGEIP-PRIVADOS (Habilitados y Autorizados)/SEXO/V»: el pie dice 2020 pero difiere del anuario 2020 en 1 filas ([''1 año'']); se
+        carga como 2021'
+      - 'H «FORMA DE ADMINISTRACIÓN/DGEIP-PRIVADOS (Habilitados y Autorizados)/SEXO/M»: el pie dice 2020 pero difiere del anuario 2020 en 1 filas ([''1 año'']); se
+        carga como 2021'
+      - 'O «FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/V»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020'
+      - 'P «FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/M»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020'
+      - 'Q «Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020'
   II-1.2.6:
     titulo: ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PÚBLICA DE LA DGEIP POR ÁREA DEMOGRÁFICA SEGÚN DEPARTAMENTO
     tipos:
