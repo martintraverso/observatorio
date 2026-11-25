@@ -238,6 +238,8 @@
 		{/if}
 		{#if educacion.length}
 			<EducacionFicha niveles={educacion} />
+			<!-- AC-E32: el catálogo de los cuadros del anuario -->
+			<p class="suave"><a href={resolve('/educacion')}>Catálogo de educación: todos los cuadros del anuario</a></p>
 		{/if}
 		{#if ingresos.size}
 			<SerieIngresos ficha={f} series={ingresos} pais={data.pais} fuenteDe={fuenteDe} titulo="Ingresos" />

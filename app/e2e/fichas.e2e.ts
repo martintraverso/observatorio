@@ -521,3 +521,26 @@ test('AC-E27 (país): la serie de matrícula 2002–2024 empieza por el total de
 	const media = s.locator('.nivel-educativo').filter({ has: page.getByRole('heading', { name: 'Media básica', level: 3 }) });
 	await expect(media.locator('.fuente', { hasText: 'cuadro II-3.2.1' })).toHaveCount(1);
 });
+
+test('AC-E32: el catálogo de educación lista cada cuadro con código, título, tipo, años y dónde se ve', async ({ page }) => {
+	const catalogo = JSON.parse(readFileSync('build/datos-web/educacion_catalogo.json', 'utf-8')) as {
+		cuadro: string;
+		tipo: string;
+		mapa: string | null;
+	}[];
+	await page.goto('educacion');
+	await expect(page.getByRole('heading', { level: 1 })).toHaveText('Catálogo de educación');
+	if (!catalogo.length) {
+		// sin la fuente del MEC activa (CI del fixture, sitio publicado hasta #222)
+		await expect(page.getByText('Todavía no hay cuadros de educación publicados en el sitio.')).toBeVisible();
+		return;
+	}
+	const filas = page.locator('tbody tr');
+	await expect(filas).toHaveCount(catalogo.length);
+	for (const c of catalogo.slice(0, 5)) {
+		const fila = filas.filter({ hasText: c.cuadro });
+		await expect(fila.getByRole('link', { name: c.tipo === 'A' ? 'Fichas de departamento' : 'Ficha del país' })).toBeVisible();
+		await expect(fila.getByRole('link', { name: 'Mapa' })).toHaveCount(c.mapa ? 1 : 0);
+	}
+	expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+});

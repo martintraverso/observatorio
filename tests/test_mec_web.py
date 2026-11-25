@@ -7,7 +7,7 @@ from __future__ import annotations
 import pandas as pd
 import pytest
 from test_mec_cargar import correr, entorno  # noqa: F401
-from web import con_corte, con_cuadro, con_mapa, construir_fichas, csv_observaciones
+from web import catalogo_educacion, con_corte, con_cuadro, con_mapa, construir_fichas, csv_observaciones
 
 FLORES, PAIS = "INE-2023/departamento/07", "INE-2023/pais/UY"
 
@@ -106,3 +106,20 @@ def test_213_mapa_y_grupo_de_cada_indicador():
     r = con_mapa(ind).set_index("codigo")
     assert r.mapa.tolist() == [True, False, True, True]
     assert r.grupo.tolist() == ["Primaria", "Primaria", "Media básica", ""]
+
+
+def test_ac_e32_el_catalogo_lista_cada_cuadro_con_datos(entorno):  # noqa: F811
+    """AC-E32 (#226): el catálogo de educación lista cada cuadro con datos, con código, título legible, tipo, años y
+    la tasa del mapa si la tiene; sin datos de educación, vacío."""
+    crudo, salida = entorno
+    correr(crudo, salida)
+    obs = pd.read_parquet(salida / "observaciones.parquet")
+    ind = pd.read_parquet(salida / "indicadores.parquet")
+    cat = {c["cuadro"]: c for c in catalogo_educacion(ind, obs)}
+    assert {"II-2.2.1", "II-2.2.13"} <= set(cat)
+    c = cat["II-2.2.13"]
+    assert c["tipo"] == "A" and c["anios"] == sorted(c["anios"]) and c["titulo"][0].isupper() and not c["titulo"].isupper()
+    assert c["mapa"] and "tasa_promocion" in c["mapa"]
+    assert cat["II-2.2.1"]["mapa"] == "edu_ii_2_2_1_pct_privada"
+    assert all(set(x) == {"cuadro", "titulo", "tipo", "anios", "mapa"} for x in cat.values())
+    assert catalogo_educacion(ind[ind.fuente_id != "mec_anuario_educacion"], obs) == []
