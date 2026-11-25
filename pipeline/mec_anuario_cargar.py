@@ -202,6 +202,17 @@ def indicadores(obs: pd.DataFrame, fuente: dict, pies: dict, formulas: dict, ser
                       "nota": " ".join(pies[cod]) if cod in pies else (notas_prev or {}).get(ind, ""),
                       "es_derivado": False, "formula": ""})
     df = pd.DataFrame(filas)
+    # #214: dos tasas de cuadros distintos con el mismo nombre (el total de primaria pública en II-2.2.13, por área, y
+    # en II-2.2.14, por sexo) van juntas en la lista del mapa: se distinguen por la apertura del cuadro («por sexo»).
+    tasas = df.es_derivado & df.nombre.str.startswith("Tasa de promoción")
+    choque = tasas & df.nombre.duplicated(keep=False) & ~df.assign(_c=df.columna_origen).duplicated(["nombre", "_c"], keep=False)
+
+    def por_del_cuadro(origen: str) -> str:
+        cod = re.search(r"(II-[\d.]+)", origen)
+        m = re.search(r" (POR .+?)(?: SEG[ÚU]N |$)", fuente["cuadros"].get(cod.group(1), {}).get("titulo", "") if cod else "")
+        return f" ({legible(m.group(1), False)})" if m else ""
+
+    df.loc[choque, "nombre"] = df.loc[choque, "nombre"] + df.loc[choque, "columna_origen"].map(por_del_cuadro)
     # #213: dos indicadores del mismo cuadro con el mismo nombre (p. ej. la tasa total de II-4.2.14 hasta 2023, que
     # sale de otras columnas que la de 2024) se distinguen por los años que cubren; nunca se supone que son el mismo.
     anios = obs.groupby("indicador").periodo.agg(lambda x: f"{min(x)}–{max(x)}" if min(x) != max(x) else min(x))

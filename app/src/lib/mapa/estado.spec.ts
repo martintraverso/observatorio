@@ -11,6 +11,9 @@ import {
 	etiquetasLeyenda,
 	fuenteCorta,
 	fuenteYPeriodo,
+	gruposDelTema,
+	indicadorInicialDelTema,
+	indicadoresDelGrupo,
 	indicadoresDelTema,
 	nivelAlCambiar,
 	nivelesConDatos,
@@ -168,6 +171,12 @@ describe('F2.8b: Trabajo en el mapa', () => {
 		expect(etiquetaPeriodo('2026-13/2027-01')).toBe('2026-13/2027-01');
 	});
 
+	it('fuente corta sin repetir la sigla («MEC, Anuario Estadístico de Educación», no «MEC, MEC»)', () => {
+		expect(fuenteCorta({ organismo: 'Ministerio de Educación y Cultura (MEC)', nombre: 'Anuario Estadístico de Educación (MEC)' })).toBe(
+			'MEC, Anuario Estadístico de Educación'
+		);
+	});
+
 	it('AC-L24: fuente corta («INE, ECH»)', () => {
 		expect(fuenteCorta({ organismo: 'Instituto Nacional de Estadística (INE)', nombre: 'Mercado de trabajo por área geográfica de residencia (ECH)' })).toBe('INE, ECH');
 		expect(fuenteCorta({ organismo: 'Instituto Nacional de Estadística (INE)', nombre: 'Unidades geoestadísticas Censo 2023' })).toBe(
@@ -318,5 +327,31 @@ describe('M11.3: encuadre y selección según el catálogo', () => {
 		expect(territorioAlCambiarNivel('segmento/0710101', 'departamento', CATALOGO)).toBe('departamento/07');
 		expect(territorioAlCambiarNivel('barrio_mvd/1000000', 'municipio_mvd', CATALOGO)).toBeNull(); // un barrio no está dentro de un municipio
 		expect(territorioAlCambiarNivel('departamento/07', 'seccion', CATALOGO)).toBeNull(); // ir a uno más fino vacía
+	});
+});
+
+describe('F4.7c2 (AC-E26): tema «Educación» en el mapa', () => {
+	const tasa = (codigo: string, nombre: string, grupo: string) =>
+		({ ...ind(codigo, 'Educación', ['departamento'], ['2023', '2024']), nombre, grupo, es_derivado: true }) as IndicadorMapa;
+	const D3 = tasa('edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_total', 'Tasa de promoción en educación primaria común pública', 'Primaria');
+	const EDU = [
+		tasa('edu_ii_2_2_14_x', 'Tasa de promoción en educación primaria común pública — sexo · mujer', 'Primaria'),
+		D3,
+		tasa('edu_ii_4_2_14_total_tasa_promocion_total', 'Tasa de promoción en educación media superior general', 'Media superior'),
+		tasa('edu_ii_3_2_11_y', 'Tasa de promoción en educación media básica general — grado · primero', 'Media básica'),
+		tasa('edu_ii_3_2_10_rendimiento_tasa_promocion', 'Tasa de promoción en educación técnica media básica', 'Media básica')
+	];
+	it('abre en la tasa de promoción en primaria pública (D3)', () => {
+		expect(indicadorInicialDelTema([PERSONAS, ...EDU], 'Educación')?.codigo).toBe(D3.codigo);
+		expect(indicadorInicialDelTema([PERSONAS, ...EDU], 'Población')?.codigo).toBe('pob_total');
+	});
+	it('ofrece los niveles educativos en el orden del sistema; los demás temas no tienen', () => {
+		expect(gruposDelTema(EDU, 'Educación')).toEqual(['Primaria', 'Media básica', 'Media superior']);
+		expect(gruposDelTema([PERSONAS], 'Población')).toEqual([]);
+	});
+	it('lista los indicadores del nivel, primero los totales', () => {
+		expect(indicadoresDelGrupo(EDU, 'Educación', 'Media básica').map((i) => i.codigo)).toEqual(['edu_ii_3_2_10_rendimiento_tasa_promocion', 'edu_ii_3_2_11_y']);
+		expect(indicadoresDelGrupo(EDU, 'Educación', 'Primaria')[0].codigo).toBe(D3.codigo);
+		expect(indicadoresDelGrupo([PERSONAS, DESEMPLEO], 'Población', null)).toEqual([PERSONAS]);
 	});
 });

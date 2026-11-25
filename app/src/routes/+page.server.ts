@@ -11,7 +11,8 @@ export const load: PageServerLoad = () => ({
 		.filter((t) => t.nivel === 'departamento')
 		.map(({ codigo, nombre, bbox }) => ({ codigo, nombre, bbox }))
 		.sort((a, b) => a.nombre.localeCompare(b.nombre, 'es')),
-	indicadores: leerDatos<IndicadorMapa[]>('indicadores.json'),
+	// #214: solo los indicadores que van a la lista del mapa (de educación, las tasas calculadas; #213)
+	indicadores: leerDatos<IndicadorMapa[]>('indicadores.json').filter((i) => i.mapa !== false),
 	// M11.2: catálogo de niveles del pipeline (niveles.json, AC-N1): etiquetas, orden, zoom mínimo y ámbito.
 	catalogo: leerDatos<NivelCatalogo[]>('niveles.json'),
 	fuentes: leerDatos<Fuente[]>('fuentes.json').map((f) => ({ id: f.id, nombre: f.nombre, organismo: f.organismo }))

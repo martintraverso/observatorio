@@ -157,9 +157,13 @@ test('segmentos: pide acercar el mapa', async ({ page }) => {
 });
 
 test('tema sin fuentes lo dice', async ({ page }) => {
+	// un tema sin indicadores en el mapa con estos datos (con la vista previa del MEC, Educación ya no lo es)
+	const indicadores = JSON.parse(readFileSync('build/datos-web/indicadores.json', 'utf-8')) as { tema: string; mapa?: boolean }[];
+	const vacio = ['Hogares', 'Educación', 'Ingresos', 'Trabajo', 'Vivienda'].find((t) => !indicadores.some((i) => i.tema === t && i.mapa !== false));
+	test.skip(!vacio, 'todos los temas tienen datos');
 	await page.goto('');
 	await abrirOpciones(page);
-	await page.getByText('Educación', { exact: true }).click();
+	await page.getByRole('group', { name: 'Tema' }).getByText(vacio!, { exact: true }).click();
 	await expect(page.getByText('Todavía no hay fuentes cargadas para este tema.')).toBeVisible();
 });
 
@@ -553,4 +557,31 @@ test('AC-N11: el selector «Nivel territorial» es un grupo de radios que se man
 	// Tab sale del grupo (una sola parada) al control siguiente, el período
 	await page.keyboard.press('Tab');
 	await expect(page.locator('#periodo')).toBeFocused();
+});
+
+// F4.7c2 (#214, AC-E26): solo con datos de educación (la vista previa con la fuente del MEC, o la fuente activa); en
+// el CI del fixture no hay y la prueba se saltea.
+test('AC-E26: el tema «Educación» abre en la tasa de promoción en primaria pública, con nivel educativo, indicador y año', async ({ page }) => {
+	const indicadores = JSON.parse(readFileSync('build/datos-web/indicadores.json', 'utf-8')) as { codigo: string; mapa?: boolean }[];
+	const D3 = 'edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_total';
+	test.skip(!indicadores.some((i) => i.codigo === D3 && i.mapa !== false), 'el build no trae educación en el mapa');
+	// la lista del mapa solo trae las tasas calculadas (#213): ningún conteo de educación
+	expect(indicadores.filter((i) => i.codigo.startsWith('edu_') && i.mapa).every((i) => /tasa_promocion|pct_privada/.test(i.codigo))).toBe(true);
+	await page.goto('');
+	await abrirOpciones(page);
+	await page.getByRole('group', { name: 'Tema' }).getByText('Educación', { exact: true }).click();
+	await expect(page).toHaveURL(new RegExp(`indicador=${D3}`));
+	await expect(page).toHaveURL(/nivel=departamento/);
+	const niveles = page.getByRole('group', { name: 'Nivel educativo' });
+	await expect(niveles.getByRole('radio')).toHaveCount(3);
+	await expect(niveles.getByRole('radio', { name: 'Primaria' })).toBeChecked();
+	// el último año por defecto, y el selector de año
+	await expect(page.locator('#periodo option:checked')).toHaveText('2024');
+	// la leyenda dice que el valor lo calcula el observatorio a partir de MEC
+	const leyenda = page.getByRole('region', { name: 'Leyenda' }).locator('visible=true');
+	await expect(leyenda).toContainText('Valor calculado por el observatorio a partir de MEC.');
+	// otro nivel educativo: la lista cambia y se elige su primer indicador (un total)
+	await niveles.getByText('Media básica', { exact: true }).click();
+	await expect(page).toHaveURL(/indicador=edu_ii_3_/);
+	await expect(page.getByText('no se publica por')).toHaveCount(0);
 });
