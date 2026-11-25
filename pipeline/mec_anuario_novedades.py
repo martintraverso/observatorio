@@ -7,7 +7,10 @@
   `scripts/inventario_mec.py`).
 - Con `--issues`, abre un issue «Nuevo anuario MEC <año>: revisar mapeo» con la etiqueta `necesita-humano`, salvo
   que ya exista uno con ese título (abierto o cerrado): nunca lo repite en las corridas siguientes.
-- Una versión nueva de un año que el registro ya tiene la captura `mec_anuario_captura.py` (otra captura vigente).
+- Un año del registro cuya página enlaza otro xlsx que el del registro (el MEC lo volvió a subir en otra carpeta o con
+  otro sufijo): se avisa en el resultado y, con `--issues`, con un issue «Anuario MEC <año> actualizado: revisar URL»,
+  una sola vez. Un archivo cambiado en la misma URL lo captura `mec_anuario_captura.py` (otra captura vigente).
+- El xlsx de un año nuevo no se sube a «crudos» (no es una captura del registro): el issue lleva su URL y su sha256.
 
 Uso: python pipeline/mec_anuario_novedades.py [--crudo datos/crudo] [--issues]
 """
@@ -22,6 +25,9 @@ import sys
 import urllib.request
 from collections.abc import Callable
 from pathlib import Path
+
+from ech_ingresos_captura import es_xlsx
+from mec_anuario_captura import bajar as bajar_archivo
 
 from comun.capturas import ahora
 from comun.registro import RAIZ, cargar_fuentes
@@ -61,6 +67,17 @@ def titulo_issue(anio: int) -> str:
     return f"Nuevo anuario MEC {anio}: revisar mapeo"
 
 
+def titulo_actualizado(anio: int) -> str:
+    return f"Anuario MEC {anio} actualizado: revisar URL"
+
+
+def cuerpo_actualizado(anio: int, antes: str, ahora_url: str, pagina: str) -> str:
+    return (f"La página del anuario {anio} del MEC enlaza otro archivo que el del registro (AC-E25): el MEC lo volvió a "
+            f"subir.\n\n- Página: {pagina}\n- En el registro: {antes}\n- En la página: {ahora_url}\n\n"
+            "Regenerar el registro con `scripts/inventario_mec.py` (toma la URL de la página) y revisar con el inventario "
+            "si cambió algún cuadro. La captura sigue con la URL vieja hasta entonces.\n")
+
+
 def cuerpo_issue(anio: int, nuevo: dict) -> str:
     return (f"La corrida semanal de datos encontró el anuario {anio} del MEC, que el registro todavía no tiene (AC-E25).\n\n"
             f"- Página: {nuevo['pagina']}\n- Archivo: {nuevo['url']}\n- sha256: `{nuevo['sha256']}`\n\n"
@@ -84,21 +101,37 @@ def gh_cli(*args: str) -> str:
 
 
 def novedades(crudo: Path, fuente: dict, pedir: Callable[[str], bytes] = pedir_oficial,
-              gh: Callable[..., str] | None = None) -> dict:
-    """Busca años nuevos, baja su xlsx a `nuevos/` (sin cargarlos) y, si se pasa `gh`, abre su issue una sola vez."""
+              gh: Callable[..., str] | None = None, bajar: Callable[[str], bytes] = bajar_archivo) -> dict:
+    """Busca años nuevos, baja su xlsx a `nuevos/` (sin cargarlos) y años del registro con otra URL en su página; si se
+    pasa `gh`, abre el issue de cada uno una sola vez."""
     registrados = {int(a) for a in (fuente.get("anuarios") or {})}
     publicados = anios_en_pagina(pedir(PAGINA).decode("utf-8"))
     carpeta = crudo / CARPETA / "nuevos"
     registro = carpeta / "nuevos.json"
     anotados = json.loads(registro.read_text(encoding="utf-8")) if registro.exists() else {}
-    resultado = {"publicados": publicados, "nuevos": [], "issues": [], "errores": {}}
+    resultado = {"publicados": publicados, "nuevos": [], "actualizados": [], "issues": [], "errores": {}}
+    # Años del registro: ¿la página enlaza el mismo xlsx? (el MEC cambia la carpeta o el sufijo al volver a subir)
+    for anio, f in sorted((int(a), f) for a, f in (fuente.get("anuarios") or {}).items()):
+        try:
+            pagina = PAGINA_ANIO.format(anio=anio)
+            url = xlsx_de_pagina(pedir(pagina).decode("utf-8"), anio)
+            if url != f.get("url"):
+                resultado["actualizados"].append(anio)
+                if gh is not None and not issue_existe(titulo_actualizado(anio), gh):
+                    gh("issue", "create", "--title", titulo_actualizado(anio), "--label", "necesita-humano",
+                       "--body", cuerpo_actualizado(anio, f.get("url", ""), url, pagina))
+                    resultado["issues"].append(anio)
+        except Exception as e:
+            resultado["errores"][str(anio)] = str(e)
     # Solo años posteriores al último del registro: los anteriores que la página también enlaza (2015–2019, en .rar)
     # esperan su propia decisión (F4.9) y no son «nuevos».
     for anio in [a for a in publicados if a > max(registrados, default=0)]:
         try:
             pagina = PAGINA_ANIO.format(anio=anio)
             url = xlsx_de_pagina(pedir(pagina).decode("utf-8"), anio)
-            contenido = pedir(url)
+            contenido = bajar(url)  # con tope de tamaño y solo del sitio oficial
+            if not es_xlsx(contenido):
+                raise ValueError(f"{url} no es un xlsx")
             sha = hashlib.sha256(contenido).hexdigest()
             carpeta.mkdir(parents=True, exist_ok=True)
             destino = carpeta / f"{anio}.xlsx"
