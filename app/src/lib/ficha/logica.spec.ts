@@ -3,6 +3,7 @@ import type { Ficha, Observacion } from '../datos';
 import {
 	cita,
 	consultaMapa,
+	CORTE_SIN_MOTIVO,
 	cuadrosEducacion,
 	datosEnPadre,
 	datosEnRegion,
@@ -12,6 +13,7 @@ import {
 	decimalesComunes,
 	densidad,
 	fuentesDeFicha,
+	geometriaMiniSerie,
 	indicesEtiquetas,
 	marcasRedondas,
 	notaNoAditiva,
@@ -401,11 +403,22 @@ describe('F4.7b1: educación en la ficha (AC-E27, AC-E28, AC-E29)', () => {
 		const media = cs.find((c) => c.cuadro === 'II-3.1.1')!;
 		expect(media.tramos.map((t) => t.map((p) => `${p.anio}:${p.valor}`))).toEqual([['2021:10', '2022:11'], ['2023:15', '2024:16']]);
 		expect(media.cortes).toEqual([MOTIVO]);
-		// otro id sin cambio de concepto (sin «corte»): la serie sigue unida
+		// otro id sin motivo en el registro (p. ej. una tasa calculada de otras columnas): también se corta, con el aviso
+		// general; no se supone que mida lo mismo (II-4.2.14: hasta 2023 solo pública, en 2024 pública y privada)
 		const prim = cs.find((c) => c.cuadro === 'II-2.1.1')!;
-		expect(prim.tramos).toHaveLength(1);
-		expect(prim.tramos[0].map((p) => p.valor)).toEqual([30, 31, 32]);
-		expect(prim.cortes).toEqual([]);
+		expect(prim.tramos.map((t) => t.map((p) => p.valor))).toEqual([[30], [31, 32]]);
+		expect(prim.cortes).toEqual([CORTE_SIN_MOTIVO]);
+	});
+
+	it('el gráfico chico ubica cada punto por año y no une la línea sobre un año sin dato', () => {
+		const g = geometriaMiniSerie([[{ anio: '2020', valor: 1 }, { anio: '2022', valor: 2 }, { anio: '2023', valor: 3 }], [{ anio: '2024', valor: 4 }]], 104, 20, 2);
+		expect(g.map((t) => [t.tramo, t.puntos.map((p) => p.anio)])).toEqual([
+			[0, ['2020']],
+			[0, ['2022', '2023']],
+			[1, ['2024']]
+		]);
+		// x por año: 2020 en 2, 2024 en 102, 2022 a mitad de camino
+		expect(g.flatMap((t) => t.puntos.map((p) => p.cx))).toEqual([2, 52, 77, 102]);
 	});
 
 	it('las siglas quedan en mayúsculas', () => {

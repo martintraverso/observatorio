@@ -291,6 +291,43 @@ export interface CuadroEducacion {
 
 type IndicadorConCorte = { corte?: string | null };
 
+/** El aviso de un corte de serie cuando el registro no dice el motivo (AC-E30). */
+export const CORTE_SIN_MOTIVO = 'el anuario publica este total en otra columna; puede no medir lo mismo';
+
+/**
+ * Geometría del gráfico chico de una fila (F4.7b2): x por año (no por posición), y entre el mínimo y el máximo. Cada
+ * tramo se parte donde falta un año, para no unir la línea sobre un año sin dato; `tramo` dice a qué tramo pertenece
+ * (los tramos de otro concepto se dibujan con otro trazo, AC-E30).
+ */
+export function geometriaMiniSerie(
+	tramos: { anio: string; valor: number }[][],
+	ancho: number,
+	alto: number,
+	margen: number
+): { tramo: number; puntos: { anio: string; valor: number; cx: number; cy: number }[] }[] {
+	const pts = tramos.flat();
+	if (!pts.length) return [];
+	const anios = pts.map((p) => Number(p.anio));
+	const [a0, a1] = [Math.min(...anios), Math.max(...anios)];
+	const vs = pts.map((p) => p.valor);
+	const [min, max] = [Math.min(...vs), Math.max(...vs)];
+	const x = (a: string) => margen + ((Number(a) - a0) * (ancho - 2 * margen)) / Math.max(1, a1 - a0);
+	const y = (v: number) => (max === min ? alto / 2 : alto - margen - ((v - min) * (alto - 2 * margen)) / (max - min));
+	const salida: { tramo: number; puntos: { anio: string; valor: number; cx: number; cy: number }[] }[] = [];
+	tramos.forEach((t, i) => {
+		let actual: { anio: string; valor: number; cx: number; cy: number }[] = [];
+		t.forEach((p, k) => {
+			if (k > 0 && Number(p.anio) - Number(t[k - 1].anio) > 1) {
+				salida.push({ tramo: i, puntos: actual });
+				actual = [];
+			}
+			actual.push({ ...p, cx: x(p.anio), cy: y(p.valor) });
+		});
+		salida.push({ tramo: i, puntos: actual });
+	});
+	return salida;
+}
+
 /** La ruta de la columna de origen de un indicador del anuario («FORMA DE ADMINISTRACIÓN/PÚBLICA/TOTAL»). */
 function rutaEducacion(ind: { columna_origen: string }): string {
 	return ind.columna_origen.split(' · ').slice(1).join(' · ');
@@ -368,13 +405,14 @@ export function cuadrosEducacion(
 			return (
 				unico(vs.filter((v) => v.calculado && TASA_TOTAL.test(v.observacion.indicador))) ??
 				unico(publicados.filter((v) => /^TOTAL( GENERAL)?$/.test(rutaDe(v)))) ??
-				unico(publicados.filter((v) => /^[^/]+\/TOTAL$/.test(rutaDe(v)))) ??
+				unico(publicados.filter((v) => /^[^/]+\/TOTAL( GENERAL)?$/.test(rutaDe(v)))) ??
 				null
 			);
 		};
 		const valores = valoresDe(anio);
 		const principal = resumenDe(valores);
-		// La serie del resumen: un tramo nuevo cuando el indicador cambia y alguno de los dos cambia de concepto (AC-E13).
+		// La serie del resumen: un tramo nuevo cada vez que el resumen pasa a otro indicador (AC-E30). No se supone que dos
+		// ids distintos midan lo mismo: el motivo es el del registro (AC-E13) o, si no lo hay, el aviso general.
 		const tramos: { anio: string; valor: number; indicador: string }[][] = [];
 		const cortes = new Set<string>();
 		if (principal) {
@@ -384,8 +422,11 @@ export function cuadrosEducacion(
 				if (!r || r.unidad !== principal.unidad || r.observacion.valor === null) continue;
 				const ind = r.observacion.indicador;
 				const corte = (k: string) => (f.indicadores[k] as IndicadorConCorte | undefined)?.corte || '';
-				if (previo === null || (ind !== previo && (corte(ind) || corte(previo)))) {
-					if (previo !== null) for (const c of [corte(previo), corte(ind)]) if (c) cortes.add(c);
+				if (previo === null || ind !== previo) {
+					if (previo !== null) {
+						const motivos = [corte(previo), corte(ind)].filter(Boolean);
+						for (const c of motivos.length ? motivos : [CORTE_SIN_MOTIVO]) cortes.add(c);
+					}
 					tramos.push([]);
 				}
 				tramos.at(-1)!.push({ anio: a, valor: r.observacion.valor, indicador: ind });

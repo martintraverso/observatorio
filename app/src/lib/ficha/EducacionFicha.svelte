@@ -2,7 +2,7 @@
 	// F4.7b1 (#210, AC-E27, AC-E29): la educación de la ficha, una fila por cuadro del anuario del MEC con el valor
 	// que lo resume en su último año, y el detalle (aperturas y notas del cuadro) plegado.
 	import { publicado } from '../formato.ts';
-	import type { cuadrosEducacion } from './logica.ts';
+	import { geometriaMiniSerie, type cuadrosEducacion } from './logica.ts';
 
 	let { niveles }: { niveles: ReturnType<typeof cuadrosEducacion> } = $props();
 
@@ -11,22 +11,12 @@
 	const W = 160;
 	const H = 36;
 	const M = 4;
-	/** Coordenadas de cada tramo (los tramos no se unen: AC-E30). */
-	function geometria(c: Cuadro) {
-		const pts = c.tramos.flat();
-		const anios = [...new Set(pts.map((p) => p.anio))].sort();
-		const vs = pts.map((p) => p.valor);
-		const [min, max] = [Math.min(...vs), Math.max(...vs)];
-		const x = (a: string) => M + (anios.indexOf(a) * (W - 2 * M)) / Math.max(1, anios.length - 1);
-		const y = (v: number) => (max === min ? H / 2 : H - M - ((v - min) * (H - 2 * M)) / (max - min));
-		return c.tramos.map((t) => t.map((p) => ({ ...p, cx: x(p.anio), cy: y(p.valor) })));
-	}
 	/** Lo que dice el gráfico, en texto (para lectores de pantalla). */
 	function descripcion(c: Cuadro): string {
 		const unidad = c.principal?.unidad ?? '';
 		return (
 			'Evolución: ' +
-			c.tramos.map((t) => t.map((p) => `${p.anio}: ${publicado(p.valor)} ${unidad}`).join('; ')).join(' — serie cortada — ')
+			c.tramos.map((t) => t.map((p) => `${p.anio}: ${publicado(p.valor)}${unidad ? ` ${unidad}` : ''}`).join('; ')).join(' — serie cortada — ')
 		);
 	}
 </script>
@@ -55,9 +45,9 @@
 						{#if c.tramos.flat().length > 1}
 							<figure class="mini-serie">
 								<svg viewBox="0 0 {W} {H}" width={W} height={H} role="img" aria-label={descripcion(c)}>
-									{#each geometria(c) as t, i (i)}
-										<polyline class="tramo" class:otro={i % 2 === 1} points={t.map((p) => `${p.cx},${p.cy}`).join(' ')} />
-										{#each t as p (p.anio)}<circle class="punto" class:otro={i % 2 === 1} cx={p.cx} cy={p.cy} r="2.5" />{/each}
+									{#each geometriaMiniSerie(c.tramos, W, H, M) as t, i (i)}
+										<polyline class="tramo" class:otro={t.tramo % 2 === 1} points={t.puntos.map((p) => `${p.cx},${p.cy}`).join(' ')} />
+										{#each t.puntos as p (p.anio)}<circle class="punto" class:otro={t.tramo % 2 === 1} cx={p.cx} cy={p.cy} r="2.5" />{/each}
 									{/each}
 								</svg>
 								<figcaption class="suave">
