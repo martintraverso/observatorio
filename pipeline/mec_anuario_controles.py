@@ -186,18 +186,29 @@ def controles(obs: pd.DataFrame, fuente: dict, manual: dict, derivados: set[str]
         por_cuadro[(cuadro_de[ind], per)][r] = ind
     extras = manual.get("desgloses_extra") or {}
     territorios = sorted(set(conteos.territorio_id))
+    # #233: en los cuadros B y C cada valor lleva su categoría (`__categoria`); el desglose de columnas se prueba en
+    # cada fila (categoría) del cuadro, no solo con el id base (antes no se probaba nunca en esos cuadros).
+    cats = collections.defaultdict(set)
+    for i in conteos.indicador[conteos.indicador.str.contains("__", regex=False)].unique():
+        b, c = i.split("__", 1)
+        cats[b].add("__" + c)
     for (cod, per), por in por_cuadro.items():
+        sufijos = [""] + sorted({c for i in por.values() for c in cats.get(i, ())})
         for total, partes in _desgloses(por, extras.get(cod) or []):
-            for terr in territorios:
-                kt, ks = (por[total], terr, per), [(por[x], terr, per) for x in partes]
-                if kt in salteada or any(k in salteada for k in ks) or kt not in val.index or not all(k in val.index for k in ks):
-                    continue
-                probados += 1
-                suma = sum(val[k] for k in ks)
-                if val[kt] != suma:
-                    texto = (f"{cod} {per} {_corto(terr)}: «{'/'.join(total)}» {val[kt]:g} ≠ "
+            for suf in sufijos:
+                for terr in territorios:
+                    kt, ks = (por[total] + suf, terr, per), [(por[x] + suf, terr, per) for x in partes]
+                    if (kt in salteada or any(k in salteada for k in ks) or kt not in val.index
+                            or not all(k in val.index for k in ks)):
+                        continue
+                    probados += 1
+                    suma = sum(val[k] for k in ks)
+                    if val[kt] == suma:
+                        continue
+                    fila = f" [{suf[2:]}]" if suf else ""
+                    texto = (f"{cod} {per} {_corto(terr)}{fila}: «{'/'.join(total)}» {val[kt]:g} ≠ "
                              + " + ".join("/".join(x) for x in partes) + f" = {suma:g}")
-                    if (m := exc.motivo("AC-E19", cod, per, por[total], terr)):
+                    if (m := exc.motivo("AC-E19", cod, per, por[total] + suf, terr)):
                         excs.append(f"{texto} ({m})")
                     else:
                         fallas.append(texto)
@@ -207,7 +218,7 @@ def controles(obs: pd.DataFrame, fuente: dict, manual: dict, derivados: set[str]
     no_aditivos = manual.get("no_aditivos") or {}
     for (b, terr, per), g in cat.groupby(["base", "territorio_id", "periodo"]):
         v = dict(zip(g.categoria, g.valor))
-        if "total" not in v:
+        if "total" not in v or len(v) == 1:  # #233: sin categorías cargadas (p. ej. horas 2020–21) no hay qué sumar
             continue
         cod = cuadro_de[b]
         if (na := no_aditivos.get(cod)) and na["patron"] in b:
