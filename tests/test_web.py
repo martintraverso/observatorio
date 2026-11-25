@@ -161,7 +161,8 @@ def test_cada_territorio_tiene_ficha(web, territorios):
     faltan = [r.id for r in territorios.itertuples()
               if not (web / "fichas" / r.nivel / f"{r.codigo}.json").exists()]
     assert faltan == []
-    assert sum(1 for _ in (web / "fichas").rglob("*.json")) == len(territorios)
+    # una ficha por territorio; los `educacion.json` de cada ficha van aparte (#227)
+    assert sum(1 for p in (web / "fichas").rglob("*.json") if p.name != "educacion.json") == len(territorios)
 
 
 def ficha(web, nivel, codigo):
