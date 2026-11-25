@@ -286,6 +286,23 @@ def catalogo_niveles() -> list[dict]:
     } for i, n in enumerate(NIVELES_CATALOGO)]
 
 
+def con_corte(indicadores: pd.DataFrame, registro: Path | None = None) -> pd.DataFrame:
+    """F4.7b2 (#211, AC-E13/AC-E30): `corte` = el motivo de un indicador del anuario del MEC cuyo concepto cambia entre
+    años («concepto distinto (AC-E13): …», del registro); vacío en los demás. La ficha corta ahí la serie y muestra la
+    nota. Solo para la web: no cambia la base."""
+    registro = registro or RAIZ / "fuentes" / "mec_anuario_educacion.yml"
+    cortes: dict[str, str] = {}
+    if registro.exists():
+        import yaml
+
+        for e in (yaml.safe_load(registro.read_text(encoding="utf-8")).get("cuadros") or {}).values():
+            for m in (e.get("mapeo") or {}).values():
+                for x in m or []:
+                    if "AC-E13" in (x.get("motivo_d6") or ""):
+                        cortes[x["id"]] = x["motivo_d6"].split(": ", 1)[-1]
+    return indicadores.assign(corte=indicadores.codigo.map(cortes).fillna(""))
+
+
 def con_cuadro(indicadores: pd.DataFrame) -> pd.DataFrame:
     """F4.7a (#191, AC-E29/E31): el código del cuadro de origen de cada indicador del anuario del MEC («II-2.2.1»),
     tomado de su `columna_origen` («Cuadro II-2.2.1 · …»); vacío para los demás."""
@@ -569,7 +586,7 @@ def main(argv=None):
     historial = pd.read_parquet(s / ARCHIVO_HISTORIAL) if (s / ARCHIVO_HISTORIAL).exists() else capturas.iloc[0:0]
     obs, indicadores, capturas, historial = solo_activas(  # F2.5d
         obs, indicadores, capturas, fuentes, historial, incluir_en_preparacion=args.incluir_en_preparacion)
-    indicadores = con_cuadro(indicadores)
+    indicadores = con_corte(con_cuadro(indicadores))
     if args.incluir_en_preparacion:
         print("Vista previa: incluye fuentes «en preparación». No publicar esta salida.", file=sys.stderr)
 

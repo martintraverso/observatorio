@@ -465,3 +465,21 @@ test('AC-E28: una sección dentro de un departamento con educación dice «Educa
 	await expect(aviso).toHaveText('Educación: datos por departamento → ver Flores');
 	await expect(aviso.getByRole('link')).toHaveAttribute('href', /territorio\/departamento\/07#educacion$/);
 });
+
+test('AC-E27 y AC-E30: cada cuadro con su serie 2020–2024; si cambia de concepto, dos tramos sin unir y la nota', async ({ page }) => {
+	await floresConEducacion(page);
+	const s = page.locator('#educacion');
+	const cuadro = (c: string) => s.locator('.cuadro').filter({ has: page.locator('.fuente', { hasText: new RegExp(`cuadro ${c.replaceAll('.', '\\.')}$`) }) });
+	// matrícula de primaria: una sola línea con los cinco años
+	const matricula = cuadro('II-2.2.1').locator('.mini-serie');
+	await expect(matricula.locator('polyline')).toHaveCount(1);
+	await expect(matricula.locator('circle')).toHaveCount(5);
+	await expect(matricula.locator('svg')).toHaveAttribute('aria-label', /^Evolución: 2020: 2\.145 estudiantes;.*2024: 2\.112 estudiantes$/);
+	await expect(matricula.locator('figcaption')).toHaveText('2020–2024');
+	// establecimientos de media básica: hasta 2022 sin privados, desde 2023 con privados (AC-E13): dos tramos y la nota
+	const media = cuadro('II-3.1.1').locator('.mini-serie');
+	await expect(media.locator('polyline')).toHaveCount(2);
+	await expect(media.locator('polyline.otro')).toHaveCount(1);
+	await expect(media.locator('svg')).toHaveAttribute('aria-label', /serie cortada/);
+	await expect(media.locator('figcaption')).toContainText('Serie cortada: hasta 2022 el total no incluye privados; desde 2023 sí');
+});

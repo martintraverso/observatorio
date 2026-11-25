@@ -10,7 +10,8 @@
    "nota": "Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP Notas: No incluye datos correspondientes a JICI No se presenta información para la Educación Primaria Privada porque no existen establecimientos privados en el área demográfica rural",
    "es_derivado": false,
    "formula": "",
-   "cuadro": "II-2.2.13"
+   "cuadro": "II-2.2.13",
+   "corte": ""
   },
   "edu_ii_2_2_13_rendimiento_escolar_no_promovidos_area_demografica_urbana": {
    "codigo": "edu_ii_2_2_13_rendimiento_escolar_no_promovidos_area_demografica_urbana",
@@ -22,7 +23,8 @@
    "nota": "Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP Notas: No incluye datos correspondientes a JICI No se presenta información para la Educación Primaria Privada porque no existen establecimientos privados en el área demográfica rural",
    "es_derivado": false,
    "formula": "",
-   "cuadro": "II-2.2.13"
+   "cuadro": "II-2.2.13",
+   "corte": ""
   },
   "edu_ii_2_2_13_rendimiento_escolar_no_promovidos_total": {
    "codigo": "edu_ii_2_2_13_rendimiento_escolar_no_promovidos_total",
@@ -34,7 +36,8 @@
    "nota": "Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP Notas: No incluye datos correspondientes a JICI No se presenta información para la Educación Primaria Privada porque no existen establecimientos privados en el área demográfica rural",
    "es_derivado": false,
    "formula": "",
-   "cuadro": "II-2.2.13"
+   "cuadro": "II-2.2.13",
+   "corte": ""
   },
   "edu_ii_2_2_13_rendimiento_escolar_promovidos_area_demografica_rural": {
    "codigo": "edu_ii_2_2_13_rendimiento_escolar_promovidos_area_demografica_rural",
@@ -46,7 +49,8 @@
    "nota": "Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP Notas: No incluye datos correspondientes a JICI No se presenta información para la Educación Primaria Privada porque no existen establecimientos privados en el área demográfica rural",
    "es_derivado": false,
    "formula": "",
-   "cuadro": "II-2.2.13"
+   "cuadro": "II-2.2.13",
+   "corte": ""
   },
   "edu_ii_2_2_13_rendimiento_escolar_promovidos_area_demografica_urbana": {
    "codigo": "edu_ii_2_2_13_rendimiento_escolar_promovidos_area_demografica_urbana",
@@ -58,7 +62,8 @@
    "nota": "Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP Notas: No incluye datos correspondientes a JICI No se presenta información para la Educación Primaria Privada porque no existen establecimientos privados en el área demográfica rural",
    "es_derivado": false,
    "formula": "",
-   "cuadro": "II-2.2.13"
+   "cuadro": "II-2.2.13",
+   "corte": ""
   },
   "edu_ii_2_2_13_rendimiento_escolar_promovidos_total": {
    "codigo": "edu_ii_2_2_13_rendimiento_escolar_promovidos_total",
@@ -70,7 +75,8 @@
    "nota": "Fuente: Procesamiento propio en base a datos proporcionados por el D.T.I. — DGEIP Notas: No incluye datos correspondientes a JICI No se presenta información para la Educación Primaria Privada porque no existen establecimientos privados en el área demográfica rural",
    "es_derivado": false,
    "formula": "",
-   "cuadro": "II-2.2.13"
+   "cuadro": "II-2.2.13",
+   "corte": ""
   },
   "edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_area_demografica_rural": {
    "codigo": "edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_area_demografica_rural",
@@ -82,7 +88,8 @@
    "nota": "Calculado por el observatorio a partir de MEC.",
    "es_derivado": true,
    "formula": "edu_ii_2_2_13_rendimiento_escolar_promovidos_area_demografica_rural / (edu_ii_2_2_13_rendimiento_escolar_promovidos_area_demografica_rural + edu_ii_2_2_13_rendimiento_escolar_no_promovidos_area_demografica_rural) × 100",
-   "cuadro": "II-2.2.13"
+   "cuadro": "II-2.2.13",
+   "corte": ""
   },
   "edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_area_demografica_urbana": {
    "codigo": "edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_area_demografica_urbana",
@@ -94,7 +101,8 @@
    "nota": "Calculado por el observatorio a partir de MEC.",
    "es_derivado": true,
    "formula": "edu_ii_2_2_13_rendimiento_escolar_promovidos_area_demografica_urbana / (edu_ii_2_2_13_rendimiento_escolar_promovidos_area_demografica_urbana + edu_ii_2_2_13_rendimiento_escolar_no_promovidos_area_demografica_urbana) × 100",
-   "cuadro": "II-2.2.13"
+   "cuadro": "II-2.2.13",
+   "corte": ""
   },
   "edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_total": {
    "codigo": "edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_total",
@@ -106,7 +114,8 @@
    "nota": "Calculado por el observatorio a partir de MEC.",
    "es_derivado": true,
    "formula": "edu_ii_2_2_13_rendimiento_escolar_promovidos_total / (edu_ii_2_2_13_rendimiento_escolar_promovidos_total + edu_ii_2_2_13_rendimiento_escolar_no_promovidos_total) × 100",
-   "cuadro": "II-2.2.13"
+   "cuadro": "II-2.2.13",
+   "corte": ""
   },
   "edu_ii_2_2_1_forma_de_administracion_privada_sexo_m": {
    "codigo": "edu_ii_2_2_1_forma_de_administracion_privada_sexo_m",
@@ -118,7 +127,8 @@
    "nota": "Fuente: Procesamiento propio en base a datos proporcionados por el D.E.E y el D.T.I. — DGEIP Nota: Pública no incluye JICI. Nota: Los datos correspondientes a Privada carecen de información por sexo",
    "es_derivado": false,
    "formula": "",
-   "cuadro": "II-2.2.1"
+   "cuadro": "II-2.2.1",
+   "corte": ""
   },
   "edu_ii_2_2_1_forma_de_administracion_privada_sexo_v": {
    "codigo": "edu_ii_2_2_1_forma_de_administracion_privada_sexo_v",
@@ -130,7 +140,8 @@
    "nota": "Fuente: Procesamiento propio en base a datos proporcionados por el D.E.E y el D.T.I. — DGEIP Nota: Pública no incluye JICI. Nota: Los datos correspondientes a Privada carecen de información por sexo",
    "es_derivado": false,
    "formula": "",
-   "cuadro": "II-2.2.1"
+   "cuadro": "II-2.2.1",
+   "corte": ""
   },
   "edu_ii_2_2_1_forma_de_administracion_privada_total": {
    "codigo": "edu_ii_2_2_1_forma_de_administracion_privada_total",
@@ -142,7 +153,8 @@
    "nota": "Fuente: Procesamiento propio en base a datos proporcionados por el D.E.E y el D.T.I. — DGEIP Nota: Pública no incluye JICI. Nota: Los datos correspondientes a Privada carecen de información por sexo",
    "es_derivado": false,
    "formula": "",
-   "cuadro": "II-2.2.1"
+   "cuadro": "II-2.2.1",
+   "corte": ""
   },
   "edu_ii_2_2_1_forma_de_administracion_publica_sexo_m": {
    "codigo": "edu_ii_2_2_1_forma_de_administracion_publica_sexo_m",
@@ -154,7 +166,8 @@
    "nota": "Fuente: Procesamiento propio en base a datos proporcionados por el D.E.E y el D.T.I. — DGEIP Nota: Pública no incluye JICI. Nota: Los datos correspondientes a Privada carecen de información por sexo",
    "es_derivado": false,
    "formula": "",
-   "cuadro": "II-2.2.1"
+   "cuadro": "II-2.2.1",
+   "corte": ""
   },
   "edu_ii_2_2_1_forma_de_administracion_publica_sexo_v": {
    "codigo": "edu_ii_2_2_1_forma_de_administracion_publica_sexo_v",
@@ -166,7 +179,8 @@
    "nota": "Fuente: Procesamiento propio en base a datos proporcionados por el D.E.E y el D.T.I. — DGEIP Nota: Pública no incluye JICI. Nota: Los datos correspondientes a Privada carecen de información por sexo",
    "es_derivado": false,
    "formula": "",
-   "cuadro": "II-2.2.1"
+   "cuadro": "II-2.2.1",
+   "corte": ""
   },
   "edu_ii_2_2_1_forma_de_administracion_publica_total": {
    "codigo": "edu_ii_2_2_1_forma_de_administracion_publica_total",
@@ -178,7 +192,8 @@
    "nota": "Fuente: Procesamiento propio en base a datos proporcionados por el D.E.E y el D.T.I. — DGEIP Nota: Pública no incluye JICI. Nota: Los datos correspondientes a Privada carecen de información por sexo",
    "es_derivado": false,
    "formula": "",
-   "cuadro": "II-2.2.1"
+   "cuadro": "II-2.2.1",
+   "corte": ""
   },
   "edu_ii_2_2_1_forma_de_administracion_total_mujer": {
    "codigo": "edu_ii_2_2_1_forma_de_administracion_total_mujer",
@@ -190,7 +205,8 @@
    "nota": "Fuente: Procesamiento propio en base a datos proporcionados por el D.E.E y el D.T.I. — DGEIP Nota: Pública no incluye JICI. Nota: Los datos correspondientes a Privada carecen de información por sexo",
    "es_derivado": false,
    "formula": "",
-   "cuadro": "II-2.2.1"
+   "cuadro": "II-2.2.1",
+   "corte": "en 2024 esta columna cambia de significado y no se carga (D7)"
   },
   "edu_ii_2_2_1_forma_de_administracion_total_varon": {
    "codigo": "edu_ii_2_2_1_forma_de_administracion_total_varon",
@@ -202,7 +218,8 @@
    "nota": "Fuente: Procesamiento propio en base a datos proporcionados por el D.E.E y el D.T.I. — DGEIP Nota: Pública no incluye JICI. Nota: Los datos correspondientes a Privada carecen de información por sexo",
    "es_derivado": false,
    "formula": "",
-   "cuadro": "II-2.2.1"
+   "cuadro": "II-2.2.1",
+   "corte": "en 2024 esta columna cambia de significado y no se carga (D7)"
   },
   "edu_ii_2_2_1_pct_privada": {
    "codigo": "edu_ii_2_2_1_pct_privada",
@@ -214,7 +231,8 @@
    "nota": "Calculado por el observatorio a partir de MEC.",
    "es_derivado": true,
    "formula": "edu_ii_2_2_1_forma_de_administracion_privada_total / edu_ii_2_2_1_total × 100",
-   "cuadro": "II-2.2.1"
+   "cuadro": "II-2.2.1",
+   "corte": ""
   },
   "edu_ii_2_2_1_total": {
    "codigo": "edu_ii_2_2_1_total",
@@ -226,10 +244,327 @@
    "nota": "Fuente: Procesamiento propio en base a datos proporcionados por el D.E.E y el D.T.I. — DGEIP Nota: Pública no incluye JICI. Nota: Los datos correspondientes a Privada carecen de información por sexo",
    "es_derivado": false,
    "formula": "",
-   "cuadro": "II-2.2.1"
+   "cuadro": "II-2.2.1",
+   "corte": ""
+  },
+  "edu_ii_3_1_1_dges_total_liceos_publicos": {
+   "codigo": "edu_ii_3_1_1_dges_total_liceos_publicos",
+   "nombre": "Establecimientos de educación media básica por modalidad y forma de administración según departamento: DGES/TOTAL LICEOS PÚBLICOS",
+   "unidad": "establecimientos",
+   "tema": "Educación",
+   "columna_origen": "Cuadro II-3.1.1 · DGES/TOTAL LICEOS PÚBLICOS",
+   "fuente_id": "mec_anuario_educacion",
+   "nota": "Fuente: D.E.- DGES - DGEIP - DGETP Notas: 1- Los establecimientos considerados en el Tipo de Educación Escuelas con Ciclo Básico Rural ya fueron considerados en los totales de establecimientos de Educación Primaria por lo cual, si bien se presentan en la columna correspondiente, no participan en el “Total” del presente cuadro. 2- En un mismo establecimiento de DGETP coexisten ofertas educativas de diferentes niveles. Los establecimientos que se consideraron en este cuadro son aquellos en los que se dictan cursos clasificados como de EDUCACIÓN MEDIA BÁSICA.",
+   "es_derivado": false,
+   "formula": "",
+   "cuadro": "II-3.1.1",
+   "corte": ""
+  },
+  "edu_ii_3_1_1_modalidad_dgeip_escuelas_con_ciclo_basico_rural": {
+   "codigo": "edu_ii_3_1_1_modalidad_dgeip_escuelas_con_ciclo_basico_rural",
+   "nombre": "Establecimientos de educación media básica por modalidad y forma de administración según departamento: MODALIDAD/DGEIP/Escuelas con Ciclo Básico Rural",
+   "unidad": "establecimientos",
+   "tema": "Educación",
+   "columna_origen": "Cuadro II-3.1.1 · MODALIDAD/DGEIP/Escuelas con Ciclo Básico Rural",
+   "fuente_id": "mec_anuario_educacion",
+   "nota": "Fuente: D.E.- DGES - DGEIP - DGETP Notas: 1- Los establecimientos considerados en el Tipo de Educación Escuelas con Ciclo Básico Rural ya fueron considerados en los totales de establecimientos de Educación Primaria por lo cual, si bien se presentan en la columna correspondiente, no participan en el “Total” del presente cuadro. 2- En un mismo establecimiento de DGETP coexisten ofertas educativas de diferentes niveles. Los establecimientos que se consideraron en este cuadro son aquellos en los que se dictan cursos clasificados como de EDUCACIÓN MEDIA BÁSICA.",
+   "es_derivado": false,
+   "formula": "",
+   "cuadro": "II-3.1.1",
+   "corte": ""
+  },
+  "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_privados_c_basico_y_bachillerato": {
+   "codigo": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_privados_c_basico_y_bachillerato",
+   "nombre": "Establecimientos de educación media básica por modalidad y forma de administración según departamento: MODALIDAD/DGES/FORMA DE ADMINISTRACIÓN/Liceos Privados/C.Básico y Bachillerato",
+   "unidad": "establecimientos",
+   "tema": "Educación",
+   "columna_origen": "Cuadro II-3.1.1 · MODALIDAD/DGES/FORMA DE ADMINISTRACIÓN/Liceos Privados/C.Básico y Bachillerato",
+   "fuente_id": "mec_anuario_educacion",
+   "nota": "Fuente: D.E.- DGES - DGEIP - DGETP Notas: 1- Los establecimientos considerados en el Tipo de Educación Escuelas con Ciclo Básico Rural ya fueron considerados en los totales de establecimientos de Educación Primaria por lo cual, si bien se presentan en la columna correspondiente, no participan en el “Total” del presente cuadro. 2- En un mismo establecimiento de DGETP coexisten ofertas educativas de diferentes niveles. Los establecimientos que se consideraron en este cuadro son aquellos en los que se dictan cursos clasificados como de EDUCACIÓN MEDIA BÁSICA.",
+   "es_derivado": false,
+   "formula": "",
+   "cuadro": "II-3.1.1",
+   "corte": ""
+  },
+  "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_privados_ciclo_basico": {
+   "codigo": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_privados_ciclo_basico",
+   "nombre": "Establecimientos de educación media básica por modalidad y forma de administración según departamento: MODALIDAD/DGES/FORMA DE ADMINISTRACIÓN/Liceos Privados/Ciclo Básico",
+   "unidad": "establecimientos",
+   "tema": "Educación",
+   "columna_origen": "Cuadro II-3.1.1 · MODALIDAD/DGES/FORMA DE ADMINISTRACIÓN/Liceos Privados/Ciclo Básico",
+   "fuente_id": "mec_anuario_educacion",
+   "nota": "Fuente: D.E.- DGES - DGEIP - DGETP Notas: 1- Los establecimientos considerados en el Tipo de Educación Escuelas con Ciclo Básico Rural ya fueron considerados en los totales de establecimientos de Educación Primaria por lo cual, si bien se presentan en la columna correspondiente, no participan en el “Total” del presente cuadro. 2- En un mismo establecimiento de DGETP coexisten ofertas educativas de diferentes niveles. Los establecimientos que se consideraron en este cuadro son aquellos en los que se dictan cursos clasificados como de EDUCACIÓN MEDIA BÁSICA.",
+   "es_derivado": false,
+   "formula": "",
+   "cuadro": "II-3.1.1",
+   "corte": ""
+  },
+  "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_publicos_diurnos_oficiales_c_basico_y_bachillerato": {
+   "codigo": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_publicos_diurnos_oficiales_c_basico_y_bachillerato",
+   "nombre": "Establecimientos de educación media básica por modalidad y forma de administración según departamento: MODALIDAD/DGES/FORMA DE ADMINISTRACIÓN/LICEOS PÚBLICOS/Diurnos Oficiales/C.Básico y Bachillerato",
+   "unidad": "establecimientos",
+   "tema": "Educación",
+   "columna_origen": "Cuadro II-3.1.1 · MODALIDAD/DGES/FORMA DE ADMINISTRACIÓN/LICEOS PÚBLICOS/Diurnos Oficiales/C.Básico y Bachillerato",
+   "fuente_id": "mec_anuario_educacion",
+   "nota": "Fuente: D.E.- DGES - DGEIP - DGETP Notas: 1- Los establecimientos considerados en el Tipo de Educación Escuelas con Ciclo Básico Rural ya fueron considerados en los totales de establecimientos de Educación Primaria por lo cual, si bien se presentan en la columna correspondiente, no participan en el “Total” del presente cuadro. 2- En un mismo establecimiento de DGETP coexisten ofertas educativas de diferentes niveles. Los establecimientos que se consideraron en este cuadro son aquellos en los que se dictan cursos clasificados como de EDUCACIÓN MEDIA BÁSICA.",
+   "es_derivado": false,
+   "formula": "",
+   "cuadro": "II-3.1.1",
+   "corte": ""
+  },
+  "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_publicos_diurnos_oficiales_ciclo_basico": {
+   "codigo": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_publicos_diurnos_oficiales_ciclo_basico",
+   "nombre": "Establecimientos de educación media básica por modalidad y forma de administración según departamento: MODALIDAD/DGES/FORMA DE ADMINISTRACIÓN/LICEOS PÚBLICOS/Diurnos Oficiales/Ciclo Básico",
+   "unidad": "establecimientos",
+   "tema": "Educación",
+   "columna_origen": "Cuadro II-3.1.1 · MODALIDAD/DGES/FORMA DE ADMINISTRACIÓN/LICEOS PÚBLICOS/Diurnos Oficiales/Ciclo Básico",
+   "fuente_id": "mec_anuario_educacion",
+   "nota": "Fuente: D.E.- DGES - DGEIP - DGETP Notas: 1- Los establecimientos considerados en el Tipo de Educación Escuelas con Ciclo Básico Rural ya fueron considerados en los totales de establecimientos de Educación Primaria por lo cual, si bien se presentan en la columna correspondiente, no participan en el “Total” del presente cuadro. 2- En un mismo establecimiento de DGETP coexisten ofertas educativas de diferentes niveles. Los establecimientos que se consideraron en este cuadro son aquellos en los que se dictan cursos clasificados como de EDUCACIÓN MEDIA BÁSICA.",
+   "es_derivado": false,
+   "formula": "",
+   "cuadro": "II-3.1.1",
+   "corte": ""
+  },
+  "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_publicos_extra_edad_oficiales_nocturno_y_diurno_c_basico_y_bachillerato": {
+   "codigo": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_publicos_extra_edad_oficiales_nocturno_y_diurno_c_basico_y_bachillerato",
+   "nombre": "Establecimientos de educación media básica por modalidad y forma de administración según departamento: MODALIDAD/DGES/FORMA DE ADMINISTRACIÓN/LICEOS PÚBLICOS/Extra Edad Oficiales (Nocturno Y Diurno)/C.Básico y Bachillerato",
+   "unidad": "establecimientos",
+   "tema": "Educación",
+   "columna_origen": "Cuadro II-3.1.1 · MODALIDAD/DGES/FORMA DE ADMINISTRACIÓN/LICEOS PÚBLICOS/Extra Edad Oficiales (Nocturno Y Diurno)/C.Básico y Bachillerato",
+   "fuente_id": "mec_anuario_educacion",
+   "nota": "Fuente: D.E.- DGES - DGEIP - DGETP Notas: 1- Los establecimientos considerados en el Tipo de Educación Escuelas con Ciclo Básico Rural ya fueron considerados en los totales de establecimientos de Educación Primaria por lo cual, si bien se presentan en la columna correspondiente, no participan en el “Total” del presente cuadro. 2- En un mismo establecimiento de DGETP coexisten ofertas educativas de diferentes niveles. Los establecimientos que se consideraron en este cuadro son aquellos en los que se dictan cursos clasificados como de EDUCACIÓN MEDIA BÁSICA.",
+   "es_derivado": false,
+   "formula": "",
+   "cuadro": "II-3.1.1",
+   "corte": ""
+  },
+  "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_publicos_extra_edad_oficiales_nocturno_y_diurno_ciclo_basico": {
+   "codigo": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_publicos_extra_edad_oficiales_nocturno_y_diurno_ciclo_basico",
+   "nombre": "Establecimientos de educación media básica por modalidad y forma de administración según departamento: MODALIDAD/DGES/FORMA DE ADMINISTRACIÓN/LICEOS PÚBLICOS/Extra Edad Oficiales (Nocturno Y Diurno)/Ciclo Básico",
+   "unidad": "establecimientos",
+   "tema": "Educación",
+   "columna_origen": "Cuadro II-3.1.1 · MODALIDAD/DGES/FORMA DE ADMINISTRACIÓN/LICEOS PÚBLICOS/Extra Edad Oficiales (Nocturno Y Diurno)/Ciclo Básico",
+   "fuente_id": "mec_anuario_educacion",
+   "nota": "Fuente: D.E.- DGES - DGEIP - DGETP Notas: 1- Los establecimientos considerados en el Tipo de Educación Escuelas con Ciclo Básico Rural ya fueron considerados en los totales de establecimientos de Educación Primaria por lo cual, si bien se presentan en la columna correspondiente, no participan en el “Total” del presente cuadro. 2- En un mismo establecimiento de DGETP coexisten ofertas educativas de diferentes niveles. Los establecimientos que se consideraron en este cuadro son aquellos en los que se dictan cursos clasificados como de EDUCACIÓN MEDIA BÁSICA.",
+   "es_derivado": false,
+   "formula": "",
+   "cuadro": "II-3.1.1",
+   "corte": ""
+  },
+  "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_total_liceos_privados": {
+   "codigo": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_total_liceos_privados",
+   "nombre": "Establecimientos de educación media básica por modalidad y forma de administración según departamento: MODALIDAD/DGES/FORMA DE ADMINISTRACIÓN/TOTAL LICEOS PRIVADOS",
+   "unidad": "establecimientos",
+   "tema": "Educación",
+   "columna_origen": "Cuadro II-3.1.1 · MODALIDAD/DGES/FORMA DE ADMINISTRACIÓN/TOTAL LICEOS PRIVADOS",
+   "fuente_id": "mec_anuario_educacion",
+   "nota": "Fuente: D.E.- DGES - DGEIP - DGETP Notas: 1- Los establecimientos considerados en el Tipo de Educación Escuelas con Ciclo Básico Rural ya fueron considerados en los totales de establecimientos de Educación Primaria por lo cual, si bien se presentan en la columna correspondiente, no participan en el “Total” del presente cuadro. 2- En un mismo establecimiento de DGETP coexisten ofertas educativas de diferentes niveles. Los establecimientos que se consideraron en este cuadro son aquellos en los que se dictan cursos clasificados como de EDUCACIÓN MEDIA BÁSICA.",
+   "es_derivado": false,
+   "formula": "",
+   "cuadro": "II-3.1.1",
+   "corte": ""
+  },
+  "edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica": {
+   "codigo": "edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica",
+   "nombre": "Establecimientos de educación media básica por modalidad y forma de administración según departamento: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica",
+   "unidad": "establecimientos",
+   "tema": "Educación",
+   "columna_origen": "Cuadro II-3.1.1 · MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica",
+   "fuente_id": "mec_anuario_educacion",
+   "nota": "Fuente: D.E.- DGES - DGEIP - DGETP Notas: 1- Los establecimientos considerados en el Tipo de Educación Escuelas con Ciclo Básico Rural ya fueron considerados en los totales de establecimientos de Educación Primaria por lo cual, si bien se presentan en la columna correspondiente, no participan en el “Total” del presente cuadro. 2- En un mismo establecimiento de DGETP coexisten ofertas educativas de diferentes niveles. Los establecimientos que se consideraron en este cuadro son aquellos en los que se dictan cursos clasificados como de EDUCACIÓN MEDIA BÁSICA.",
+   "es_derivado": false,
+   "formula": "",
+   "cuadro": "II-3.1.1",
+   "corte": ""
+  },
+  "edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica_reparticiones": {
+   "codigo": "edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica_reparticiones",
+   "nombre": "Establecimientos de educación media básica por modalidad y forma de administración según departamento: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica/Reparticiones",
+   "unidad": "establecimientos",
+   "tema": "Educación",
+   "columna_origen": "Cuadro II-3.1.1 · MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica/Reparticiones",
+   "fuente_id": "mec_anuario_educacion",
+   "nota": "Fuente: D.E.- DGES - DGEIP - DGETP Notas: 1- Los establecimientos considerados en el Tipo de Educación Escuelas con Ciclo Básico Rural ya fueron considerados en los totales de establecimientos de Educación Primaria por lo cual, si bien se presentan en la columna correspondiente, no participan en el “Total” del presente cuadro. 2- En un mismo establecimiento de DGETP coexisten ofertas educativas de diferentes niveles. Los establecimientos que se consideraron en este cuadro son aquellos en los que se dictan cursos clasificados como de EDUCACIÓN MEDIA BÁSICA.",
+   "es_derivado": false,
+   "formula": "",
+   "cuadro": "II-3.1.1",
+   "corte": ""
+  },
+  "edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_total_privados": {
+   "codigo": "edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_total_privados",
+   "nombre": "Establecimientos de educación media básica por modalidad y forma de administración según departamento: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/TOTAL PRIVADOS",
+   "unidad": "establecimientos",
+   "tema": "Educación",
+   "columna_origen": "Cuadro II-3.1.1 · MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/TOTAL PRIVADOS",
+   "fuente_id": "mec_anuario_educacion",
+   "nota": "Fuente: D.E.- DGES - DGEIP - DGETP Notas: 1- Los establecimientos considerados en el Tipo de Educación Escuelas con Ciclo Básico Rural ya fueron considerados en los totales de establecimientos de Educación Primaria por lo cual, si bien se presentan en la columna correspondiente, no participan en el “Total” del presente cuadro. 2- En un mismo establecimiento de DGETP coexisten ofertas educativas de diferentes niveles. Los establecimientos que se consideraron en este cuadro son aquellos en los que se dictan cursos clasificados como de EDUCACIÓN MEDIA BÁSICA.",
+   "es_derivado": false,
+   "formula": "",
+   "cuadro": "II-3.1.1",
+   "corte": ""
+  },
+  "edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_total_privados_escuelas_de_cbt_y_tecnica": {
+   "codigo": "edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_total_privados_escuelas_de_cbt_y_tecnica",
+   "nombre": "Establecimientos de educación media básica por modalidad y forma de administración según departamento: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/TOTAL PRIVADOS/Escuelas de CBT y Técnica",
+   "unidad": "establecimientos",
+   "tema": "Educación",
+   "columna_origen": "Cuadro II-3.1.1 · MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/TOTAL PRIVADOS/Escuelas de CBT y Técnica",
+   "fuente_id": "mec_anuario_educacion",
+   "nota": "Fuente: D.E.- DGES - DGEIP - DGETP Notas: 1- Los establecimientos considerados en el Tipo de Educación Escuelas con Ciclo Básico Rural ya fueron considerados en los totales de establecimientos de Educación Primaria por lo cual, si bien se presentan en la columna correspondiente, no participan en el “Total” del presente cuadro. 2- En un mismo establecimiento de DGETP coexisten ofertas educativas de diferentes niveles. Los establecimientos que se consideraron en este cuadro son aquellos en los que se dictan cursos clasificados como de EDUCACIÓN MEDIA BÁSICA.",
+   "es_derivado": false,
+   "formula": "",
+   "cuadro": "II-3.1.1",
+   "corte": ""
+  },
+  "edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_total_publicos": {
+   "codigo": "edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_total_publicos",
+   "nombre": "Establecimientos de educación media básica por modalidad y forma de administración según departamento: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/TOTAL PÚBLICOS",
+   "unidad": "establecimientos",
+   "tema": "Educación",
+   "columna_origen": "Cuadro II-3.1.1 · MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/TOTAL PÚBLICOS",
+   "fuente_id": "mec_anuario_educacion",
+   "nota": "Fuente: D.E.- DGES - DGEIP - DGETP Notas: 1- Los establecimientos considerados en el Tipo de Educación Escuelas con Ciclo Básico Rural ya fueron considerados en los totales de establecimientos de Educación Primaria por lo cual, si bien se presentan en la columna correspondiente, no participan en el “Total” del presente cuadro. 2- En un mismo establecimiento de DGETP coexisten ofertas educativas de diferentes niveles. Los establecimientos que se consideraron en este cuadro son aquellos en los que se dictan cursos clasificados como de EDUCACIÓN MEDIA BÁSICA.",
+   "es_derivado": false,
+   "formula": "",
+   "cuadro": "II-3.1.1",
+   "corte": ""
+  },
+  "edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_total_publicos_escuelas_de_cbt_y_tecnica": {
+   "codigo": "edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_total_publicos_escuelas_de_cbt_y_tecnica",
+   "nombre": "Establecimientos de educación media básica por modalidad y forma de administración según departamento: MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/TOTAL PÚBLICOS/Escuelas de CBT y Técnica",
+   "unidad": "establecimientos",
+   "tema": "Educación",
+   "columna_origen": "Cuadro II-3.1.1 · MODALIDAD/DGETP/FORMA DE ADMINISTRACIÓN/TOTAL PÚBLICOS/Escuelas de CBT y Técnica",
+   "fuente_id": "mec_anuario_educacion",
+   "nota": "Fuente: D.E.- DGES - DGEIP - DGETP Notas: 1- Los establecimientos considerados en el Tipo de Educación Escuelas con Ciclo Básico Rural ya fueron considerados en los totales de establecimientos de Educación Primaria por lo cual, si bien se presentan en la columna correspondiente, no participan en el “Total” del presente cuadro. 2- En un mismo establecimiento de DGETP coexisten ofertas educativas de diferentes niveles. Los establecimientos que se consideraron en este cuadro son aquellos en los que se dictan cursos clasificados como de EDUCACIÓN MEDIA BÁSICA.",
+   "es_derivado": false,
+   "formula": "",
+   "cuadro": "II-3.1.1",
+   "corte": ""
+  },
+  "edu_ii_3_1_1_modalidad_dgetp_total_escuelas_de_cbt_y_tecnica": {
+   "codigo": "edu_ii_3_1_1_modalidad_dgetp_total_escuelas_de_cbt_y_tecnica",
+   "nombre": "Establecimientos de educación media básica por modalidad y forma de administración según departamento: MODALIDAD/DGETP/TOTAL ESCUELAS DE CBT Y TÈCNICA",
+   "unidad": "establecimientos",
+   "tema": "Educación",
+   "columna_origen": "Cuadro II-3.1.1 · MODALIDAD/DGETP/TOTAL ESCUELAS DE CBT Y TÈCNICA",
+   "fuente_id": "mec_anuario_educacion",
+   "nota": "Fuente: D.E.- DGES - DGEIP - DGETP Notas: 1- Los establecimientos considerados en el Tipo de Educación Escuelas con Ciclo Básico Rural ya fueron considerados en los totales de establecimientos de Educación Primaria por lo cual, si bien se presentan en la columna correspondiente, no participan en el “Total” del presente cuadro. 2- En un mismo establecimiento de DGETP coexisten ofertas educativas de diferentes niveles. Los establecimientos que se consideraron en este cuadro son aquellos en los que se dictan cursos clasificados como de EDUCACIÓN MEDIA BÁSICA.",
+   "es_derivado": false,
+   "formula": "",
+   "cuadro": "II-3.1.1",
+   "corte": ""
+  },
+  "edu_ii_3_1_1_modalidad_forma_de_administracion_escuelas_de_cbt_y_tecnica": {
+   "codigo": "edu_ii_3_1_1_modalidad_forma_de_administracion_escuelas_de_cbt_y_tecnica",
+   "nombre": "Establecimientos de educación media básica por modalidad y forma de administración según departamento: MODALIDAD/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica",
+   "unidad": "establecimientos",
+   "tema": "Educación",
+   "columna_origen": "Cuadro II-3.1.1 · MODALIDAD/FORMA DE ADMINISTRACIÓN/Escuelas de CBT y Técnica",
+   "fuente_id": "mec_anuario_educacion",
+   "nota": "Fuente: D.E.- DGES - DGEIP - DGETP Notas: 1- Los establecimientos considerados en el Tipo de Educación Escuelas con Ciclo Básico Rural ya fueron considerados en los totales de establecimientos de Educación Primaria por lo cual, si bien se presentan en la columna correspondiente, no participan en el “Total” del presente cuadro. 2- En un mismo establecimiento de DGETP coexisten ofertas educativas de diferentes niveles. Los establecimientos que se consideraron en este cuadro son aquellos en los que se dictan cursos clasificados como de EDUCACIÓN MEDIA BÁSICA.",
+   "es_derivado": false,
+   "formula": "",
+   "cuadro": "II-3.1.1",
+   "corte": ""
+  },
+  "edu_ii_3_1_1_modalidad_forma_de_administracion_total_escuelas_de_cbt_y_tecnica": {
+   "codigo": "edu_ii_3_1_1_modalidad_forma_de_administracion_total_escuelas_de_cbt_y_tecnica",
+   "nombre": "Establecimientos de educación media básica por modalidad y forma de administración según departamento: MODALIDAD/FORMA DE ADMINISTRACIÓN/TOTAL ESCUELAS DE CBT Y TÈCNICA",
+   "unidad": "establecimientos",
+   "tema": "Educación",
+   "columna_origen": "Cuadro II-3.1.1 · MODALIDAD/FORMA DE ADMINISTRACIÓN/TOTAL ESCUELAS DE CBT Y TÈCNICA",
+   "fuente_id": "mec_anuario_educacion",
+   "nota": "Fuente: D.E.- DGES - DGEIP - DGETP Notas: 1- Los establecimientos considerados en el Tipo de Educación Escuelas con Ciclo Básico Rural ya fueron considerados en los totales de establecimientos de Educación Primaria por lo cual, si bien se presentan en la columna correspondiente, no participan en el “Total” del presente cuadro. 2- En un mismo establecimiento de DGETP coexisten ofertas educativas de diferentes niveles. Los establecimientos que se consideraron en este cuadro son aquellos en los que se dictan cursos clasificados como de EDUCACIÓN MEDIA BÁSICA.",
+   "es_derivado": false,
+   "formula": "",
+   "cuadro": "II-3.1.1",
+   "corte": "hasta 2022 el total no incluye privados; desde 2023 sí"
+  },
+  "edu_ii_3_1_1_total_general": {
+   "codigo": "edu_ii_3_1_1_total_general",
+   "nombre": "Establecimientos de educación media básica por modalidad y forma de administración según departamento: TOTAL GENERAL",
+   "unidad": "establecimientos",
+   "tema": "Educación",
+   "columna_origen": "Cuadro II-3.1.1 · TOTAL GENERAL",
+   "fuente_id": "mec_anuario_educacion",
+   "nota": "Fuente: D.E.- DGES - DGEIP - DGETP Notas: 1- Los establecimientos considerados en el Tipo de Educación Escuelas con Ciclo Básico Rural ya fueron considerados en los totales de establecimientos de Educación Primaria por lo cual, si bien se presentan en la columna correspondiente, no participan en el “Total” del presente cuadro. 2- En un mismo establecimiento de DGETP coexisten ofertas educativas de diferentes niveles. Los establecimientos que se consideraron en este cuadro son aquellos en los que se dictan cursos clasificados como de EDUCACIÓN MEDIA BÁSICA.",
+   "es_derivado": false,
+   "formula": "",
+   "cuadro": "II-3.1.1",
+   "corte": ""
+  },
+  "edu_ii_3_1_1_total_general_sin_privados": {
+   "codigo": "edu_ii_3_1_1_total_general_sin_privados",
+   "nombre": "Establecimientos de educación media básica por modalidad y forma de administración según departamento: TOTAL GENERAL",
+   "unidad": "establecimientos",
+   "tema": "Educación",
+   "columna_origen": "Cuadro II-3.1.1 · TOTAL GENERAL",
+   "fuente_id": "mec_anuario_educacion",
+   "nota": "Fuente: D.E.- DGES - DGEIP - DGETP Notas: 1- Los establecimientos considerados en el Tipo de Educación Escuelas con Ciclo Básico Rural ya fueron considerados en los totales de establecimientos de Educación Primaria por lo cual, si bien se presentan en la columna correspondiente, no participan en el “Total” del presente cuadro. 2- En un mismo establecimiento de DGETP coexisten ofertas educativas de diferentes niveles. Los establecimientos que se consideraron en este cuadro son aquellos en los que se dictan cursos clasificados como de EDUCACIÓN MEDIA BÁSICA.",
+   "es_derivado": false,
+   "formula": "",
+   "cuadro": "II-3.1.1",
+   "corte": "hasta 2022 el total no incluye privados; desde 2023 sí"
+  },
+  "edu_ii_3_1_1_total_privados": {
+   "codigo": "edu_ii_3_1_1_total_privados",
+   "nombre": "Establecimientos de educación media básica por modalidad y forma de administración según departamento: TOTAL PRIVADOS",
+   "unidad": "establecimientos",
+   "tema": "Educación",
+   "columna_origen": "Cuadro II-3.1.1 · TOTAL PRIVADOS",
+   "fuente_id": "mec_anuario_educacion",
+   "nota": "Fuente: D.E.- DGES - DGEIP - DGETP Notas: 1- Los establecimientos considerados en el Tipo de Educación Escuelas con Ciclo Básico Rural ya fueron considerados en los totales de establecimientos de Educación Primaria por lo cual, si bien se presentan en la columna correspondiente, no participan en el “Total” del presente cuadro. 2- En un mismo establecimiento de DGETP coexisten ofertas educativas de diferentes niveles. Los establecimientos que se consideraron en este cuadro son aquellos en los que se dictan cursos clasificados como de EDUCACIÓN MEDIA BÁSICA.",
+   "es_derivado": false,
+   "formula": "",
+   "cuadro": "II-3.1.1",
+   "corte": ""
+  },
+  "edu_ii_3_1_1_total_publicos": {
+   "codigo": "edu_ii_3_1_1_total_publicos",
+   "nombre": "Establecimientos de educación media básica por modalidad y forma de administración según departamento: TOTAL PÚBLICOS",
+   "unidad": "establecimientos",
+   "tema": "Educación",
+   "columna_origen": "Cuadro II-3.1.1 · TOTAL PÚBLICOS",
+   "fuente_id": "mec_anuario_educacion",
+   "nota": "Fuente: D.E.- DGES - DGEIP - DGETP Notas: 1- Los establecimientos considerados en el Tipo de Educación Escuelas con Ciclo Básico Rural ya fueron considerados en los totales de establecimientos de Educación Primaria por lo cual, si bien se presentan en la columna correspondiente, no participan en el “Total” del presente cuadro. 2- En un mismo establecimiento de DGETP coexisten ofertas educativas de diferentes niveles. Los establecimientos que se consideraron en este cuadro son aquellos en los que se dictan cursos clasificados como de EDUCACIÓN MEDIA BÁSICA.",
+   "es_derivado": false,
+   "formula": "",
+   "cuadro": "II-3.1.1",
+   "corte": ""
   }
  },
  "observaciones": [
+  {
+   "indicador": "edu_ii_2_2_13_rendimiento_escolar_no_promovidos_area_demografica_rural",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 0,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_2_2_13_rendimiento_escolar_no_promovidos_area_demografica_rural",
+   "periodo": "2021",
+   "periodo_inicio": "2021-01-01",
+   "periodo_fin": "2021-12-31",
+   "tipo_periodo": "anio",
+   "valor": 2,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:5e6d68e0a85b"
+  },
+  {
+   "indicador": "edu_ii_2_2_13_rendimiento_escolar_no_promovidos_area_demografica_rural",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
+  },
   {
    "indicador": "edu_ii_2_2_13_rendimiento_escolar_no_promovidos_area_demografica_rural",
    "periodo": "2023",
@@ -249,6 +584,36 @@
    "valor": 0,
    "es_estimado": false,
    "captura_id": "mec_anuario_educacion:8eaceec78cc7"
+  },
+  {
+   "indicador": "edu_ii_2_2_13_rendimiento_escolar_no_promovidos_area_demografica_urbana",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 56,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_2_2_13_rendimiento_escolar_no_promovidos_area_demografica_urbana",
+   "periodo": "2021",
+   "periodo_inicio": "2021-01-01",
+   "periodo_fin": "2021-12-31",
+   "tipo_periodo": "anio",
+   "valor": 4,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:5e6d68e0a85b"
+  },
+  {
+   "indicador": "edu_ii_2_2_13_rendimiento_escolar_no_promovidos_area_demografica_urbana",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 2,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
   },
   {
    "indicador": "edu_ii_2_2_13_rendimiento_escolar_no_promovidos_area_demografica_urbana",
@@ -272,6 +637,36 @@
   },
   {
    "indicador": "edu_ii_2_2_13_rendimiento_escolar_no_promovidos_total",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 56,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_2_2_13_rendimiento_escolar_no_promovidos_total",
+   "periodo": "2021",
+   "periodo_inicio": "2021-01-01",
+   "periodo_fin": "2021-12-31",
+   "tipo_periodo": "anio",
+   "valor": 6,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:5e6d68e0a85b"
+  },
+  {
+   "indicador": "edu_ii_2_2_13_rendimiento_escolar_no_promovidos_total",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 3,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
+  },
+  {
+   "indicador": "edu_ii_2_2_13_rendimiento_escolar_no_promovidos_total",
    "periodo": "2023",
    "periodo_inicio": "2023-01-01",
    "periodo_fin": "2023-12-31",
@@ -289,6 +684,36 @@
    "valor": 4,
    "es_estimado": false,
    "captura_id": "mec_anuario_educacion:8eaceec78cc7"
+  },
+  {
+   "indicador": "edu_ii_2_2_13_rendimiento_escolar_promovidos_area_demografica_rural",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 201,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_2_2_13_rendimiento_escolar_promovidos_area_demografica_rural",
+   "periodo": "2021",
+   "periodo_inicio": "2021-01-01",
+   "periodo_fin": "2021-12-31",
+   "tipo_periodo": "anio",
+   "valor": 200,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:5e6d68e0a85b"
+  },
+  {
+   "indicador": "edu_ii_2_2_13_rendimiento_escolar_promovidos_area_demografica_rural",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 181,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
   },
   {
    "indicador": "edu_ii_2_2_13_rendimiento_escolar_promovidos_area_demografica_rural",
@@ -312,6 +737,36 @@
   },
   {
    "indicador": "edu_ii_2_2_13_rendimiento_escolar_promovidos_area_demografica_urbana",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1653,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_2_2_13_rendimiento_escolar_promovidos_area_demografica_urbana",
+   "periodo": "2021",
+   "periodo_inicio": "2021-01-01",
+   "periodo_fin": "2021-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1691,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:5e6d68e0a85b"
+  },
+  {
+   "indicador": "edu_ii_2_2_13_rendimiento_escolar_promovidos_area_demografica_urbana",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1710,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
+  },
+  {
+   "indicador": "edu_ii_2_2_13_rendimiento_escolar_promovidos_area_demografica_urbana",
    "periodo": "2023",
    "periodo_inicio": "2023-01-01",
    "periodo_fin": "2023-12-31",
@@ -329,6 +784,36 @@
    "valor": 1688,
    "es_estimado": false,
    "captura_id": "mec_anuario_educacion:8eaceec78cc7"
+  },
+  {
+   "indicador": "edu_ii_2_2_13_rendimiento_escolar_promovidos_total",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1854,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_2_2_13_rendimiento_escolar_promovidos_total",
+   "periodo": "2021",
+   "periodo_inicio": "2021-01-01",
+   "periodo_fin": "2021-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1891,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:5e6d68e0a85b"
+  },
+  {
+   "indicador": "edu_ii_2_2_13_rendimiento_escolar_promovidos_total",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1891,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
   },
   {
    "indicador": "edu_ii_2_2_13_rendimiento_escolar_promovidos_total",
@@ -352,6 +837,36 @@
   },
   {
    "indicador": "edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_area_demografica_rural",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 100,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_area_demografica_rural",
+   "periodo": "2021",
+   "periodo_inicio": "2021-01-01",
+   "periodo_fin": "2021-12-31",
+   "tipo_periodo": "anio",
+   "valor": 99.00990099009901,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:5e6d68e0a85b"
+  },
+  {
+   "indicador": "edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_area_demografica_rural",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 99.45054945054946,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
+  },
+  {
+   "indicador": "edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_area_demografica_rural",
    "periodo": "2023",
    "periodo_inicio": "2023-01-01",
    "periodo_fin": "2023-12-31",
@@ -369,6 +884,36 @@
    "valor": 100,
    "es_estimado": false,
    "captura_id": "mec_anuario_educacion:8eaceec78cc7"
+  },
+  {
+   "indicador": "edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_area_demografica_urbana",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 96.72322995904038,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_area_demografica_urbana",
+   "periodo": "2021",
+   "periodo_inicio": "2021-01-01",
+   "periodo_fin": "2021-12-31",
+   "tipo_periodo": "anio",
+   "valor": 99.76401179941003,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:5e6d68e0a85b"
+  },
+  {
+   "indicador": "edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_area_demografica_urbana",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 99.88317757009347,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
   },
   {
    "indicador": "edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_area_demografica_urbana",
@@ -392,6 +937,36 @@
   },
   {
    "indicador": "edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_total",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 97.06806282722513,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_total",
+   "periodo": "2021",
+   "periodo_inicio": "2021-01-01",
+   "periodo_fin": "2021-12-31",
+   "tipo_periodo": "anio",
+   "valor": 99.68371112282551,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:5e6d68e0a85b"
+  },
+  {
+   "indicador": "edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_total",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 99.8416050686378,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
+  },
+  {
+   "indicador": "edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_total",
    "periodo": "2023",
    "periodo_inicio": "2023-01-01",
    "periodo_fin": "2023-12-31",
@@ -409,6 +984,26 @@
    "valor": 99.7836668469443,
    "es_estimado": false,
    "captura_id": "mec_anuario_educacion:8eaceec78cc7"
+  },
+  {
+   "indicador": "edu_ii_2_2_1_forma_de_administracion_privada_sexo_m",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 129,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_2_2_1_forma_de_administracion_privada_sexo_m",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 117,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
   },
   {
    "indicador": "edu_ii_2_2_1_forma_de_administracion_privada_sexo_m",
@@ -432,6 +1027,26 @@
   },
   {
    "indicador": "edu_ii_2_2_1_forma_de_administracion_privada_sexo_v",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 106,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_2_2_1_forma_de_administracion_privada_sexo_v",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 132,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
+  },
+  {
+   "indicador": "edu_ii_2_2_1_forma_de_administracion_privada_sexo_v",
    "periodo": "2023",
    "periodo_inicio": "2023-01-01",
    "periodo_fin": "2023-12-31",
@@ -449,6 +1064,26 @@
    "valor": 128,
    "es_estimado": false,
    "captura_id": "mec_anuario_educacion:8eaceec78cc7"
+  },
+  {
+   "indicador": "edu_ii_2_2_1_forma_de_administracion_privada_total",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 235,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_2_2_1_forma_de_administracion_privada_total",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 249,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
   },
   {
    "indicador": "edu_ii_2_2_1_forma_de_administracion_privada_total",
@@ -472,6 +1107,36 @@
   },
   {
    "indicador": "edu_ii_2_2_1_forma_de_administracion_publica_sexo_m",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 956,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_2_2_1_forma_de_administracion_publica_sexo_m",
+   "periodo": "2021",
+   "periodo_inicio": "2021-01-01",
+   "periodo_fin": "2021-12-31",
+   "tipo_periodo": "anio",
+   "valor": 908,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:5e6d68e0a85b"
+  },
+  {
+   "indicador": "edu_ii_2_2_1_forma_de_administracion_publica_sexo_m",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 921,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
+  },
+  {
+   "indicador": "edu_ii_2_2_1_forma_de_administracion_publica_sexo_m",
    "periodo": "2023",
    "periodo_inicio": "2023-01-01",
    "periodo_fin": "2023-12-31",
@@ -489,6 +1154,36 @@
    "valor": 905,
    "es_estimado": false,
    "captura_id": "mec_anuario_educacion:8eaceec78cc7"
+  },
+  {
+   "indicador": "edu_ii_2_2_1_forma_de_administracion_publica_sexo_v",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 954,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_2_2_1_forma_de_administracion_publica_sexo_v",
+   "periodo": "2021",
+   "periodo_inicio": "2021-01-01",
+   "periodo_fin": "2021-12-31",
+   "tipo_periodo": "anio",
+   "valor": 989,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:5e6d68e0a85b"
+  },
+  {
+   "indicador": "edu_ii_2_2_1_forma_de_administracion_publica_sexo_v",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 973,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
   },
   {
    "indicador": "edu_ii_2_2_1_forma_de_administracion_publica_sexo_v",
@@ -512,6 +1207,36 @@
   },
   {
    "indicador": "edu_ii_2_2_1_forma_de_administracion_publica_total",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1910,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_2_2_1_forma_de_administracion_publica_total",
+   "periodo": "2021",
+   "periodo_inicio": "2021-01-01",
+   "periodo_fin": "2021-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1897,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:5e6d68e0a85b"
+  },
+  {
+   "indicador": "edu_ii_2_2_1_forma_de_administracion_publica_total",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1894,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
+  },
+  {
+   "indicador": "edu_ii_2_2_1_forma_de_administracion_publica_total",
    "periodo": "2023",
    "periodo_inicio": "2023-01-01",
    "periodo_fin": "2023-12-31",
@@ -532,6 +1257,36 @@
   },
   {
    "indicador": "edu_ii_2_2_1_forma_de_administracion_total_mujer",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1085,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_2_2_1_forma_de_administracion_total_mujer",
+   "periodo": "2021",
+   "periodo_inicio": "2021-01-01",
+   "periodo_fin": "2021-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1037,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:5e6d68e0a85b"
+  },
+  {
+   "indicador": "edu_ii_2_2_1_forma_de_administracion_total_mujer",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1038,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
+  },
+  {
+   "indicador": "edu_ii_2_2_1_forma_de_administracion_total_mujer",
    "periodo": "2023",
    "periodo_inicio": "2023-01-01",
    "periodo_fin": "2023-12-31",
@@ -542,6 +1297,36 @@
   },
   {
    "indicador": "edu_ii_2_2_1_forma_de_administracion_total_varon",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1060,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_2_2_1_forma_de_administracion_total_varon",
+   "periodo": "2021",
+   "periodo_inicio": "2021-01-01",
+   "periodo_fin": "2021-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1095,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:5e6d68e0a85b"
+  },
+  {
+   "indicador": "edu_ii_2_2_1_forma_de_administracion_total_varon",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1105,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
+  },
+  {
+   "indicador": "edu_ii_2_2_1_forma_de_administracion_total_varon",
    "periodo": "2023",
    "periodo_inicio": "2023-01-01",
    "periodo_fin": "2023-12-31",
@@ -549,6 +1334,26 @@
    "valor": 1099,
    "es_estimado": false,
    "captura_id": "mec_anuario_educacion:ac6fb85dfbea"
+  },
+  {
+   "indicador": "edu_ii_2_2_1_pct_privada",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 10.955710955710956,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_2_2_1_pct_privada",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 11.619225384974335,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
   },
   {
    "indicador": "edu_ii_2_2_1_pct_privada",
@@ -572,6 +1377,36 @@
   },
   {
    "indicador": "edu_ii_2_2_1_total",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 2145,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_2_2_1_total",
+   "periodo": "2021",
+   "periodo_inicio": "2021-01-01",
+   "periodo_fin": "2021-12-31",
+   "tipo_periodo": "anio",
+   "valor": 2132,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:5e6d68e0a85b"
+  },
+  {
+   "indicador": "edu_ii_2_2_1_total",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 2143,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
+  },
+  {
+   "indicador": "edu_ii_2_2_1_total",
    "periodo": "2023",
    "periodo_inicio": "2023-01-01",
    "periodo_fin": "2023-12-31",
@@ -589,6 +1424,756 @@
    "valor": 2112,
    "es_estimado": false,
    "captura_id": "mec_anuario_educacion:8eaceec78cc7"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_dges_total_liceos_publicos",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 4,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_dges_total_liceos_publicos",
+   "periodo": "2021",
+   "periodo_inicio": "2021-01-01",
+   "periodo_fin": "2021-12-31",
+   "tipo_periodo": "anio",
+   "valor": 4,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:5e6d68e0a85b"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_dges_total_liceos_publicos",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 4,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_dges_total_liceos_publicos",
+   "periodo": "2023",
+   "periodo_inicio": "2023-01-01",
+   "periodo_fin": "2023-12-31",
+   "tipo_periodo": "anio",
+   "valor": 4,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:ac6fb85dfbea"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_dges_total_liceos_publicos",
+   "periodo": "2024",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "anio",
+   "valor": 4,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:8eaceec78cc7"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dgeip_escuelas_con_ciclo_basico_rural",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dgeip_escuelas_con_ciclo_basico_rural",
+   "periodo": "2021",
+   "periodo_inicio": "2021-01-01",
+   "periodo_fin": "2021-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:5e6d68e0a85b"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dgeip_escuelas_con_ciclo_basico_rural",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dgeip_escuelas_con_ciclo_basico_rural",
+   "periodo": "2023",
+   "periodo_inicio": "2023-01-01",
+   "periodo_fin": "2023-12-31",
+   "tipo_periodo": "anio",
+   "valor": 0,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:ac6fb85dfbea"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dgeip_escuelas_con_ciclo_basico_rural",
+   "periodo": "2024",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "anio",
+   "valor": 0,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:8eaceec78cc7"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_privados_c_basico_y_bachillerato",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 2,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_privados_c_basico_y_bachillerato",
+   "periodo": "2021",
+   "periodo_inicio": "2021-01-01",
+   "periodo_fin": "2021-12-31",
+   "tipo_periodo": "anio",
+   "valor": 2,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:5e6d68e0a85b"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_privados_c_basico_y_bachillerato",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 2,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_privados_c_basico_y_bachillerato",
+   "periodo": "2023",
+   "periodo_inicio": "2023-01-01",
+   "periodo_fin": "2023-12-31",
+   "tipo_periodo": "anio",
+   "valor": 2,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:ac6fb85dfbea"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_privados_c_basico_y_bachillerato",
+   "periodo": "2024",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "anio",
+   "valor": 2,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:8eaceec78cc7"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_privados_ciclo_basico",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 0,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_privados_ciclo_basico",
+   "periodo": "2021",
+   "periodo_inicio": "2021-01-01",
+   "periodo_fin": "2021-12-31",
+   "tipo_periodo": "anio",
+   "valor": 0,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:5e6d68e0a85b"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_privados_ciclo_basico",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 0,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_privados_ciclo_basico",
+   "periodo": "2023",
+   "periodo_inicio": "2023-01-01",
+   "periodo_fin": "2023-12-31",
+   "tipo_periodo": "anio",
+   "valor": 0,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:ac6fb85dfbea"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_privados_ciclo_basico",
+   "periodo": "2024",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "anio",
+   "valor": 0,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:8eaceec78cc7"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_publicos_diurnos_oficiales_c_basico_y_bachillerato",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 2,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_publicos_diurnos_oficiales_c_basico_y_bachillerato",
+   "periodo": "2021",
+   "periodo_inicio": "2021-01-01",
+   "periodo_fin": "2021-12-31",
+   "tipo_periodo": "anio",
+   "valor": 2,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:5e6d68e0a85b"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_publicos_diurnos_oficiales_c_basico_y_bachillerato",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 2,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_publicos_diurnos_oficiales_c_basico_y_bachillerato",
+   "periodo": "2023",
+   "periodo_inicio": "2023-01-01",
+   "periodo_fin": "2023-12-31",
+   "tipo_periodo": "anio",
+   "valor": 2,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:ac6fb85dfbea"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_publicos_diurnos_oficiales_c_basico_y_bachillerato",
+   "periodo": "2024",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "anio",
+   "valor": 2,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:8eaceec78cc7"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_publicos_diurnos_oficiales_ciclo_basico",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_publicos_diurnos_oficiales_ciclo_basico",
+   "periodo": "2021",
+   "periodo_inicio": "2021-01-01",
+   "periodo_fin": "2021-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:5e6d68e0a85b"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_publicos_diurnos_oficiales_ciclo_basico",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_publicos_diurnos_oficiales_ciclo_basico",
+   "periodo": "2023",
+   "periodo_inicio": "2023-01-01",
+   "periodo_fin": "2023-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:ac6fb85dfbea"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_publicos_diurnos_oficiales_ciclo_basico",
+   "periodo": "2024",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:8eaceec78cc7"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_publicos_extra_edad_oficiales_nocturno_y_diurno_c_basico_y_bachillerato",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_publicos_extra_edad_oficiales_nocturno_y_diurno_c_basico_y_bachillerato",
+   "periodo": "2021",
+   "periodo_inicio": "2021-01-01",
+   "periodo_fin": "2021-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:5e6d68e0a85b"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_publicos_extra_edad_oficiales_nocturno_y_diurno_c_basico_y_bachillerato",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_publicos_extra_edad_oficiales_nocturno_y_diurno_c_basico_y_bachillerato",
+   "periodo": "2023",
+   "periodo_inicio": "2023-01-01",
+   "periodo_fin": "2023-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:ac6fb85dfbea"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_publicos_extra_edad_oficiales_nocturno_y_diurno_c_basico_y_bachillerato",
+   "periodo": "2024",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:8eaceec78cc7"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_publicos_extra_edad_oficiales_nocturno_y_diurno_ciclo_basico",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 0,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_publicos_extra_edad_oficiales_nocturno_y_diurno_ciclo_basico",
+   "periodo": "2021",
+   "periodo_inicio": "2021-01-01",
+   "periodo_fin": "2021-12-31",
+   "tipo_periodo": "anio",
+   "valor": 0,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:5e6d68e0a85b"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_publicos_extra_edad_oficiales_nocturno_y_diurno_ciclo_basico",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 0,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_publicos_extra_edad_oficiales_nocturno_y_diurno_ciclo_basico",
+   "periodo": "2023",
+   "periodo_inicio": "2023-01-01",
+   "periodo_fin": "2023-12-31",
+   "tipo_periodo": "anio",
+   "valor": 0,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:ac6fb85dfbea"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_liceos_publicos_extra_edad_oficiales_nocturno_y_diurno_ciclo_basico",
+   "periodo": "2024",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "anio",
+   "valor": 0,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:8eaceec78cc7"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_total_liceos_privados",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 2,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_total_liceos_privados",
+   "periodo": "2021",
+   "periodo_inicio": "2021-01-01",
+   "periodo_fin": "2021-12-31",
+   "tipo_periodo": "anio",
+   "valor": 2,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:5e6d68e0a85b"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_total_liceos_privados",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 2,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_total_liceos_privados",
+   "periodo": "2023",
+   "periodo_inicio": "2023-01-01",
+   "periodo_fin": "2023-12-31",
+   "tipo_periodo": "anio",
+   "valor": 2,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:ac6fb85dfbea"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dges_forma_de_administracion_total_liceos_privados",
+   "periodo": "2024",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "anio",
+   "valor": 2,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:8eaceec78cc7"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 2,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica",
+   "periodo": "2021",
+   "periodo_inicio": "2021-01-01",
+   "periodo_fin": "2021-12-31",
+   "tipo_periodo": "anio",
+   "valor": 2,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:5e6d68e0a85b"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 2,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica",
+   "periodo": "2023",
+   "periodo_inicio": "2023-01-01",
+   "periodo_fin": "2023-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:ac6fb85dfbea"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica_reparticiones",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica_reparticiones",
+   "periodo": "2021",
+   "periodo_inicio": "2021-01-01",
+   "periodo_fin": "2021-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:5e6d68e0a85b"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica_reparticiones",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica_reparticiones",
+   "periodo": "2023",
+   "periodo_inicio": "2023-01-01",
+   "periodo_fin": "2023-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:ac6fb85dfbea"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_escuelas_de_cbt_y_tecnica_reparticiones",
+   "periodo": "2024",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "anio",
+   "valor": 3,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:8eaceec78cc7"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_total_privados",
+   "periodo": "2023",
+   "periodo_inicio": "2023-01-01",
+   "periodo_fin": "2023-12-31",
+   "tipo_periodo": "anio",
+   "valor": 0,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:ac6fb85dfbea"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_total_privados",
+   "periodo": "2024",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "anio",
+   "valor": 0,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:8eaceec78cc7"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_total_privados_escuelas_de_cbt_y_tecnica",
+   "periodo": "2024",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "anio",
+   "valor": 0,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:8eaceec78cc7"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_total_publicos",
+   "periodo": "2023",
+   "periodo_inicio": "2023-01-01",
+   "periodo_fin": "2023-12-31",
+   "tipo_periodo": "anio",
+   "valor": 2,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:ac6fb85dfbea"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_total_publicos",
+   "periodo": "2024",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "anio",
+   "valor": 4,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:8eaceec78cc7"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dgetp_forma_de_administracion_total_publicos_escuelas_de_cbt_y_tecnica",
+   "periodo": "2024",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "anio",
+   "valor": 1,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:8eaceec78cc7"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dgetp_total_escuelas_de_cbt_y_tecnica",
+   "periodo": "2023",
+   "periodo_inicio": "2023-01-01",
+   "periodo_fin": "2023-12-31",
+   "tipo_periodo": "anio",
+   "valor": 2,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:ac6fb85dfbea"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_dgetp_total_escuelas_de_cbt_y_tecnica",
+   "periodo": "2024",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "anio",
+   "valor": 4,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:8eaceec78cc7"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_forma_de_administracion_escuelas_de_cbt_y_tecnica",
+   "periodo": "2023",
+   "periodo_inicio": "2023-01-01",
+   "periodo_fin": "2023-12-31",
+   "tipo_periodo": "anio",
+   "valor": 0,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:ac6fb85dfbea"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_forma_de_administracion_total_escuelas_de_cbt_y_tecnica",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 3,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_forma_de_administracion_total_escuelas_de_cbt_y_tecnica",
+   "periodo": "2021",
+   "periodo_inicio": "2021-01-01",
+   "periodo_fin": "2021-12-31",
+   "tipo_periodo": "anio",
+   "valor": 3,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:5e6d68e0a85b"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_modalidad_forma_de_administracion_total_escuelas_de_cbt_y_tecnica",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 3,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_total_general",
+   "periodo": "2023",
+   "periodo_inicio": "2023-01-01",
+   "periodo_fin": "2023-12-31",
+   "tipo_periodo": "anio",
+   "valor": 8,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:ac6fb85dfbea"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_total_general",
+   "periodo": "2024",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "anio",
+   "valor": 10,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:8eaceec78cc7"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_total_general_sin_privados",
+   "periodo": "2020",
+   "periodo_inicio": "2020-01-01",
+   "periodo_fin": "2020-12-31",
+   "tipo_periodo": "anio",
+   "valor": 10,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:b1c40a546beb"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_total_general_sin_privados",
+   "periodo": "2021",
+   "periodo_inicio": "2021-01-01",
+   "periodo_fin": "2021-12-31",
+   "tipo_periodo": "anio",
+   "valor": 10,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:5e6d68e0a85b"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_total_general_sin_privados",
+   "periodo": "2022",
+   "periodo_inicio": "2022-01-01",
+   "periodo_fin": "2022-12-31",
+   "tipo_periodo": "anio",
+   "valor": 10,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:aeefd1953615"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_total_privados",
+   "periodo": "2023",
+   "periodo_inicio": "2023-01-01",
+   "periodo_fin": "2023-12-31",
+   "tipo_periodo": "anio",
+   "valor": 2,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:ac6fb85dfbea"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_total_privados",
+   "periodo": "2024",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "anio",
+   "valor": 2,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:8eaceec78cc7"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_total_publicos",
+   "periodo": "2023",
+   "periodo_inicio": "2023-01-01",
+   "periodo_fin": "2023-12-31",
+   "tipo_periodo": "anio",
+   "valor": 6,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:ac6fb85dfbea"
+  },
+  {
+   "indicador": "edu_ii_3_1_1_total_publicos",
+   "periodo": "2024",
+   "periodo_inicio": "2024-01-01",
+   "periodo_fin": "2024-12-31",
+   "tipo_periodo": "anio",
+   "valor": 8,
+   "es_estimado": false,
+   "captura_id": "mec_anuario_educacion:8eaceec78cc7"
   }
  ],
  "capturas": {
@@ -599,6 +2184,36 @@
    "sha256": "ac6fb85dfbea9b7518c097abefc5f341de92d7fb201cd8101cc87f1daed9c679",
    "fecha_proceso": "2026-11-24T13:53:15+00:00",
    "url": "https://www.gub.uy/ministerio-educacion-cultura/sites/ministerio-educacion-cultura/files/2025-04/Anuario%20Estad%C3%ADstico%20de%20Educaci%C3%B3n%202023.xlsx",
+   "descargado": "2026-11-23",
+   "vigente": true
+  },
+  "mec_anuario_educacion:aeefd1953615": {
+   "id": "mec_anuario_educacion:aeefd1953615",
+   "fuente_id": "mec_anuario_educacion",
+   "archivo": "mec_anuario/2022.xlsx",
+   "sha256": "aeefd19536158a2f0df5426156b4c8fa5c8c92287fc6b74fec6ab0bcb7768d3c",
+   "fecha_proceso": "2026-11-24T13:53:15+00:00",
+   "url": "https://www.gub.uy/ministerio-educacion-cultura/sites/ministerio-educacion-cultura/files/2023-12/Anuario%20Estad%C3%ADstico%20de%20Educaci%C3%B3n%202022_0.xlsx",
+   "descargado": "2026-11-23",
+   "vigente": true
+  },
+  "mec_anuario_educacion:b1c40a546beb": {
+   "id": "mec_anuario_educacion:b1c40a546beb",
+   "fuente_id": "mec_anuario_educacion",
+   "archivo": "mec_anuario/2020.xlsx",
+   "sha256": "b1c40a546beb30faa69ff31ef4055b654bda64461f1eb2efa8225b490e02915c",
+   "fecha_proceso": "2026-11-24T13:53:15+00:00",
+   "url": "https://www.gub.uy/ministerio-educacion-cultura/sites/ministerio-educacion-cultura/files/2022-09/Anuario%20Estad%C3%ADstico%20de%20Educaci%C3%B3n%202020_0.xlsx",
+   "descargado": "2026-11-23",
+   "vigente": true
+  },
+  "mec_anuario_educacion:5e6d68e0a85b": {
+   "id": "mec_anuario_educacion:5e6d68e0a85b",
+   "fuente_id": "mec_anuario_educacion",
+   "archivo": "mec_anuario/2021.xlsx",
+   "sha256": "5e6d68e0a85bb11a669aff81859d6ca6b25a7a3c5e1d69773fd7cbdc564552fe",
+   "fecha_proceso": "2026-11-24T13:53:15+00:00",
+   "url": "https://www.gub.uy/ministerio-educacion-cultura/sites/ministerio-educacion-cultura/files/2023-01/Anuario%20Estad%C3%ADstico%20de%20Educaci%C3%B3n%202021.xlsx",
    "descargado": "2026-11-23",
    "vigente": true
   },

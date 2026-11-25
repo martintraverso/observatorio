@@ -3,6 +3,7 @@ import type { Ficha, Observacion } from '../datos';
 import {
 	cita,
 	consultaMapa,
+	CORTE_SIN_MOTIVO,
 	cuadrosEducacion,
 	datosEnPadre,
 	datosEnRegion,
@@ -12,6 +13,7 @@ import {
 	decimalesComunes,
 	densidad,
 	fuentesDeFicha,
+	geometriaMiniSerie,
 	indicesEtiquetas,
 	marcasRedondas,
 	notaNoAditiva,
@@ -380,6 +382,43 @@ describe('F4.7b1: educación en la ficha (AC-E27, AC-E28, AC-E29)', () => {
 		const centros = cs.find((c) => c.cuadro === 'II-2.1.1')!;
 		expect(centros.principal?.observacion.valor).toBe(37); // el total publicado de su única dimensión
 		expect(centros.principal?.etiqueta).toBe('Forma de administración · Total');
+	});
+
+	it('F4.7b2 (AC-E30): la serie del resumen se corta en dos tramos cuando cambia de concepto, con la nota', () => {
+		const MOTIVO = 'hasta 2022 el total no incluye privados; desde 2023 sí';
+		const h = {
+			capturas: { c24: { archivo: 'mec_anuario/2024.xlsx' } },
+			indicadores: {
+				sin_priv: ind('sin_priv', 'II-3.1.1', 'TOTAL', { unidad: 'establecimientos', corte: MOTIVO }),
+				con_priv: ind('con_priv', 'II-3.1.1', 'TOTAL', { unidad: 'establecimientos', corte: '' }),
+				viejo: ind('viejo', 'II-2.1.1', 'TOTAL', { unidad: 'establecimientos' }),
+				nuevo: ind('nuevo', 'II-2.1.1', 'TOTAL', { unidad: 'establecimientos' })
+			},
+			observaciones: [
+				o('sin_priv', '2021', 10), o('sin_priv', '2022', 11), o('con_priv', '2023', 15), o('con_priv', '2024', 16),
+				o('viejo', '2022', 30), o('nuevo', '2023', 31), o('nuevo', '2024', 32)
+			]
+		} as never;
+		const cs = cuadrosEducacion(h).flatMap((n) => n.grupos.flatMap((x) => x.cuadros));
+		const media = cs.find((c) => c.cuadro === 'II-3.1.1')!;
+		expect(media.tramos.map((t) => t.map((p) => `${p.anio}:${p.valor}`))).toEqual([['2021:10', '2022:11'], ['2023:15', '2024:16']]);
+		expect(media.cortes).toEqual([MOTIVO]);
+		// otro id sin motivo en el registro (p. ej. una tasa calculada de otras columnas): también se corta, con el aviso
+		// general; no se supone que mida lo mismo (II-4.2.14: hasta 2023 solo pública, en 2024 pública y privada)
+		const prim = cs.find((c) => c.cuadro === 'II-2.1.1')!;
+		expect(prim.tramos.map((t) => t.map((p) => p.valor))).toEqual([[30], [31, 32]]);
+		expect(prim.cortes).toEqual([CORTE_SIN_MOTIVO]);
+	});
+
+	it('el gráfico chico ubica cada punto por año y no une la línea sobre un año sin dato', () => {
+		const g = geometriaMiniSerie([[{ anio: '2020', valor: 1 }, { anio: '2022', valor: 2 }, { anio: '2023', valor: 3 }], [{ anio: '2024', valor: 4 }]], 104, 20, 2);
+		expect(g.map((t) => [t.tramo, t.puntos.map((p) => p.anio)])).toEqual([
+			[0, ['2020']],
+			[0, ['2022', '2023']],
+			[1, ['2024']]
+		]);
+		// x por año: 2020 en 2, 2024 en 102, 2022 a mitad de camino
+		expect(g.flatMap((t) => t.puntos.map((p) => p.cx))).toEqual([2, 52, 77, 102]);
 	});
 
 	it('las siglas quedan en mayúsculas', () => {

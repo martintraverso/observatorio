@@ -7,7 +7,7 @@ from __future__ import annotations
 import pandas as pd
 import pytest
 from test_mec_cargar import correr, entorno  # noqa: F401
-from web import con_cuadro, construir_fichas, csv_observaciones
+from web import con_corte, con_cuadro, construir_fichas, csv_observaciones
 
 FLORES, PAIS = "INE-2023/departamento/07", "INE-2023/pais/UY"
 
@@ -70,3 +70,25 @@ def test_ac_e31_el_csv_trae_las_filas_de_educacion_con_cuadro_y_es_derivado(web)
     assert set(serie.territorio_id) == {PAIS} and (serie.cuadro == "").all()  # la serie nacional no es un cuadro
     otras = csv[~csv.indicador.str.startswith("edu_")]
     assert (otras.cuadro == "").all() and (otras.es_derivado == "false").all()
+
+
+def test_211_corte_marca_los_indicadores_que_cambian_de_concepto():
+    """AC-E13/AC-E30 (#211): los ids que el registro marca «concepto distinto (AC-E13)» llevan su motivo en `corte`
+    (la ficha corta la serie ahí); los demás, vacío. No sale del registro de la base: solo de la web."""
+    ind = pd.DataFrame({"codigo": ["edu_ii_2_2_1_forma_de_administracion_total_varon", "edu_ii_2_2_1_total", "pob_total"]})
+    c = dict(zip(ind.codigo, con_corte(ind).corte))
+    assert "2024 esta columna cambia de significado" in c["edu_ii_2_2_1_forma_de_administracion_total_varon"]
+    assert c["edu_ii_2_2_1_total"] == "" and c["pob_total"] == ""
+
+
+def test_211_la_ficha_lleva_el_corte_de_cada_indicador(entorno):  # noqa: F811
+    import geopandas as gpd
+
+    crudo, salida = entorno
+    correr(crudo, salida)
+    t = gpd.read_parquet(salida / "territorios.parquet")
+    tablas = {n: pd.read_parquet(salida / f"{n}.parquet") for n in ("observaciones", "indicadores", "capturas", "fuentes", "correspondencias")}
+    ind = con_corte(con_cuadro(tablas["indicadores"]))
+    fichas = construir_fichas(t, tablas["observaciones"], ind, tablas["capturas"], tablas["fuentes"], tablas["correspondencias"])
+    f = fichas[FLORES]
+    assert all("corte" in i for i in f["indicadores"].values())
