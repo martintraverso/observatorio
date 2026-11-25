@@ -64,6 +64,9 @@ def ola(codigo: str) -> int:
         return 1
     if n[:2] == (2, 2) and 13 <= n[2] <= 18:
         return 1
+    # F4.8a1 (#224): la ola 2 de inicial y primaria (II-1.3.x, II-2.2.2–II-2.2.12) se suma a la carga
+    if n[:2] in {(1, 3), (2, 2)}:
+        return 1
     return 2
 
 

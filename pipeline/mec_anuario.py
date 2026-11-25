@@ -143,6 +143,7 @@ class Estructura:
     filas: list[tuple[int, str]] = field(default_factory=list)  # (fila, rótulo) de los datos
     pie: list[str] = field(default_factory=list)
     heredadas: list[str] = field(default_factory=list)
+    fuera: int = 0  # F4.8a1 (#224): filas con números después del pie («Fuente:»), fuera del cuadro: no son datos
 
 
 def estructura(celdas: dict[tuple[int, int], object], combinadas, hoja: str) -> Estructura | None:
@@ -198,12 +199,22 @@ def estructura(celdas: dict[tuple[int, int], object], combinadas, hoja: str) -> 
             if not partes or partes[-1] != " ".join(str(v).split()):
                 partes.append(" ".join(str(v).split()))
         e.rutas[c] = "/".join(partes) or f"columna {c}"
+    despues_de_fuente = False
     for r in [x for x in filas if x >= desde]:
         a = celdas.get((r, 1))
         if isinstance(a, str) and re.match(r"\s*(Fuente|Nota|Notas|\(\d|\*)", a):
             e.pie.append(" ".join(a.split()))
+            despues_de_fuente = despues_de_fuente or bool(re.match(r"\s*Fuente", a))
             continue
         if a is None and not any((r, c) in celdas for c in range(2, max_col + 1)):
+            continue
+        # Después del pie («Fuente:»), ninguna fila es un dato: una con números está fuera del cuadro (II-2.2.6 de 2020
+        # trae restos más abajo) y una de texto sigue la nota.
+        if despues_de_fuente:
+            if any(numero(celdas.get((r, c))) is not None for c in range(1, max_col + 1)):
+                e.fuera += 1
+            else:  # texto en cualquier columna (II-2.2.8 de 2020 sigue la nota en la columna B): parte del pie
+                e.pie.append(" ".join(" ".join(str(celdas[(r, c)]).split()) for c in range(1, max_col + 1) if (r, c) in celdas))
             continue
         e.filas.append((r, " ".join(str(a).split()) if a is not None else ""))
     return e
@@ -332,6 +343,8 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
                            f"{datos.loc[repetidas, 'celda'].tolist()[:6]}")
     if ignoradas:
         avisos.append(f"{codigo} {anio}: {ignoradas} filas sin datos ignoradas")
+    if e.fuera:
+        avisos.append(f"{codigo} {anio}: {e.fuera} filas con números después del pie («Fuente:»), fuera del cuadro, ignoradas")
     return Cuadro(codigo, anio, e.titulo, datos, pie, sin_dato, avisos, claves_sd, categorias)
 
 
