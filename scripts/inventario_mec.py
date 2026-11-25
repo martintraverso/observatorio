@@ -250,8 +250,13 @@ def resolver_repetidas(c: dict, estrategia: str, fila_con_error: str | None = No
                     hechas[i] = (rutas[i], prueba)
                     break
             else:
-                fallas.append(f"{c['columnas'][i]} «{rutas[i]}»: el total general no cierra")
-            continue
+                # #224: II-2.2.12 empieza con el «TOTAL» de PROMOVIDOS, no con el total general: si el cuadro tiene
+                # estrategia de vecino, se prueba esa (con su suma); si no, es una falla.
+                if estrategia not in ("derecha", "izquierda"):
+                    fallas.append(f"{c['columnas'][i]} «{rutas[i]}»: el total general no cierra")
+                    continue
+            if i in hechas:
+                continue
         if estrategia in ("derecha", "izquierda"):
             paso = 1 if estrategia == "derecha" else -1
             v = i + paso

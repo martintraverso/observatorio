@@ -2862,14 +2862,18 @@ cuadros:
       - col: I
         ruta: FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato
         id: edu_ii_1_2_4_forma_de_administracion_centros_de_primera_infancia_privados_cpip_sexo_sin_dato
+    datos_de_otro_anio:
+      2020:
+      - El relevamiento de datos de 2020 de los Centros de Primera Infancia del MEC se realizó en el año 2021, por la División de Investigación y Estadística de la
+        Dirección de Educación- MEC. El listado de centros a relevar fue proporcionado por la oficina de Primera Infancia de la DE-MEC.
   II-1.2.5:
     titulo: ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL POR FORMA DE ADMINISTRACIÓN SEGÚN EDAD
     tipos:
-      2020: C
-      2021: C
-      2022: C
-      2023: C
-      2024: C
+      2020: B
+      2021: B
+      2022: B
+      2023: B
+      2024: B
     ola: 1
     unidad: estudiantes
     anios:
@@ -3137,6 +3141,18 @@ cuadros:
         id: edu_ii_1_2_5_forma_de_administracion_centros_de_primera_infancia_privados_cpip_sexo_sin_dato
         concepto: FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato
         comprobado: B = E + F + G + H + I + J + K + L + M + N + O + P + Q + R
+    datos_de_otro_anio:
+      2020:
+      - El relevamiento de datos de 2020 de los Centros de Primera Infancia del MEC se realizó en el año 2021, por la División de Investigación y Estadística de la
+        Dirección de Educación- MEC. El listado de centros a relevar fue proporcionado por la oficina de Primera Infancia de la DE-MEC.
+      2021:
+      - El relevamiento de datos del año 2021 de los CPIP (actualmente supervidados por el INAU) se realizó en el año 2022, por la División de Investigación y Estadística
+        de la Dirección de Educación- MEC. El listado de centros a relevar fue proporcionado por la oficina de Primera Infancia de la DE-MEC.
+      - Los datos correspondientes a Privada del DGEIP corresponden al año 2020, dado que al momento de cierre de la publicación no estaba el dato correspondiente
+        a 2021
+      2022:
+      - El relevamiento de datos del año 2022 de los CPIP (actualmente supervidados por el INAU) se realizó en el año 2023, por la División de Investigación y Estadística
+        de la Dirección de Educación- MEC. El listado de centros a relevar fue proporcionado por la oficina de Primera Infancia de la DE-MEC.
   II-1.2.6:
     titulo: ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PÚBLICA DE LA DGEIP POR ÁREA DEMOGRÁFICA SEGÚN DEPARTAMENTO
     tipos:
@@ -3402,6 +3418,17 @@ cuadros:
       - col: K
         ruta: E D A D/Sin dato
         id: edu_ii_1_2_7_e_d_a_d_sin_dato
+    datos_de_otro_anio:
+      2020:
+      - El relevamiento de datos de 2020 de los Centros de Primera Infancia del MEC se realizó en el año 2021, por la División de Investigación y Estadística de la
+        Dirección de Educación- MEC. El listado de centros a relevar fue proporcionado por la oficina de Primera Infancia de la DE-MEC.
+      2021:
+      - El relevamiento de datos de 2021 de los Centros de Primera Infancia del MEC se realizó en el año 2022, por la División de Investigación y Estadística de la
+        Dirección de Educación- MEC. El listado de centros a relevar fue proporcionado por la oficina de Primera Infancia de la DE-MEC.
+      2022:
+      - La matrícula Centros de Primera Infancia Privados supervisados por INAU corresponden a los Centros Privados supervisados por el MEC del año 2021.
+      - El relevamiento de datos de 2022 de los Centros de Primera Infancia del MEC se realizó en el año 2023, por la División de Investigación y Estadística de la
+        Dirección de Educación- MEC. El listado de centros a relevar fue proporcionado por la oficina de Primera Infancia de la DE-MEC.
   II-1.3.1:
     titulo: PERSONAL DOCENTE DE EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PÚBLICA DE LA DGEIP SEGÚN DEPARTAMENTO
     tipos:
@@ -6176,526 +6203,9 @@ cuadros:
     - 2023
     - 2024
     mapeo:
-      2020:
-      - col: B
-        ruta: TOTAL GENERAL
-        id: edu_ii_2_2_7_total_general
-      - col: C
-        ruta: TOTAL VARONES
-        id: edu_ii_2_2_7_total_varones
-      - col: D
-        ruta: TOTAL MUJERES
-        id: edu_ii_2_2_7_total_mujeres
-      - col: E
-        ruta: EDAD/Menos de 3 años/SEXO/V
-        id: edu_ii_2_2_7_edad_menos_de_3_anos_sexo_v
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: F
-        ruta: EDAD/Menos de 3 años/SEXO/M
-        id: edu_ii_2_2_7_edad_menos_de_3_anos_sexo_m
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: G
-        ruta: EDAD/3 años/SEXO/V
-        id: edu_ii_2_2_7_edad_3_anos_sexo_v
-      - col: H
-        ruta: EDAD/3 años/SEXO/M
-        id: edu_ii_2_2_7_edad_3_anos_sexo_m
-      - col: I
-        ruta: EDAD/4 años/SEXO/V
-        id: edu_ii_2_2_7_edad_4_anos_sexo_v
-      - col: J
-        ruta: EDAD/4 años/SEXO/M
-        id: edu_ii_2_2_7_edad_4_anos_sexo_m
-      - col: K
-        ruta: EDAD/5 años/SEXO/V
-        id: edu_ii_2_2_7_edad_5_anos_sexo_v
-      - col: L
-        ruta: EDAD/5 años/SEXO/M
-        id: edu_ii_2_2_7_edad_5_anos_sexo_m
-      - col: M
-        ruta: EDAD/6 años/SEXO/V
-        id: edu_ii_2_2_7_edad_6_anos_sexo_v
-      - col: N
-        ruta: EDAD/6 años/SEXO/M
-        id: edu_ii_2_2_7_edad_6_anos_sexo_m
-      - col: O
-        ruta: EDAD/7 años/SEXO/V
-        id: edu_ii_2_2_7_edad_7_anos_sexo_v
-      - col: P
-        ruta: EDAD/7 años/SEXO/M
-        id: edu_ii_2_2_7_edad_7_anos_sexo_m
-      - col: Q
-        ruta: EDAD/8 años/SEXO/V
-        id: edu_ii_2_2_7_edad_8_anos_sexo_v
-      - col: R
-        ruta: EDAD/8 años/SEXO/M
-        id: edu_ii_2_2_7_edad_8_anos_sexo_m
-      - col: S
-        ruta: EDAD/9 años/SEXO/V
-        id: edu_ii_2_2_7_edad_9_anos_sexo_v
-      - col: T
-        ruta: EDAD/9 años/SEXO/M
-        id: edu_ii_2_2_7_edad_9_anos_sexo_m
-      - col: U
-        ruta: EDAD/10 años/SEXO/V
-        id: edu_ii_2_2_7_edad_10_anos_sexo_v
-      - col: V
-        ruta: EDAD/10 años/SEXO/M
-        id: edu_ii_2_2_7_edad_10_anos_sexo_m
-      - col: W
-        ruta: EDAD/11 años/SEXO/V
-        id: edu_ii_2_2_7_edad_11_anos_sexo_v
-      - col: X
-        ruta: EDAD/11 años/SEXO/M
-        id: edu_ii_2_2_7_edad_11_anos_sexo_m
-      - col: Y
-        ruta: EDAD/12 años/SEXO/V
-        id: edu_ii_2_2_7_edad_12_anos_sexo_v
-      - col: Z
-        ruta: EDAD/12 años/SEXO/M
-        id: edu_ii_2_2_7_edad_12_anos_sexo_m
-      - col: AA
-        ruta: EDAD/13 años/SEXO/V
-        id: edu_ii_2_2_7_edad_13_anos_sexo_v
-      - col: AB
-        ruta: EDAD/13 años/SEXO/M
-        id: edu_ii_2_2_7_edad_13_anos_sexo_m
-      - col: AC
-        ruta: EDAD/14 años/SEXO/V
-        id: edu_ii_2_2_7_edad_14_anos_sexo_v
-      - col: AD
-        ruta: EDAD/14 años/SEXO/M
-        id: edu_ii_2_2_7_edad_14_anos_sexo_m
-      - col: AE
-        ruta: EDAD/15 años/SEXO/V
-        id: edu_ii_2_2_7_edad_15_anos_sexo_v
-      - col: AF
-        ruta: EDAD/15 años/SEXO/M
-        id: edu_ii_2_2_7_edad_15_anos_sexo_m
-      - col: AG
-        ruta: EDAD/16 años/SEXO/V
-        id: edu_ii_2_2_7_edad_16_anos_sexo_v
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AH
-        ruta: EDAD/16 años/SEXO/M
-        id: edu_ii_2_2_7_edad_16_anos_sexo_m
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AI
-        ruta: EDAD/17 años/SEXO/V
-        id: edu_ii_2_2_7_edad_17_anos_sexo_v
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AJ
-        ruta: EDAD/17 años/SEXO/M
-        id: edu_ii_2_2_7_edad_17_anos_sexo_m
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AK
-        ruta: EDAD/18 años/SEXO/V
-        id: edu_ii_2_2_7_edad_18_anos_sexo_v
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AL
-        ruta: EDAD/18 años/SEXO/M
-        id: edu_ii_2_2_7_edad_18_anos_sexo_m
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AM
-        ruta: EDAD/19 años/SEXO/V
-        id: edu_ii_2_2_7_edad_19_anos_sexo_v
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AN
-        ruta: EDAD/19 años/SEXO/M
-        id: edu_ii_2_2_7_edad_19_anos_sexo_m
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AO
-        ruta: EDAD/20 años/SEXO/V
-        id: edu_ii_2_2_7_edad_20_anos_sexo_v
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AP
-        ruta: EDAD/20 años/SEXO/M
-        id: edu_ii_2_2_7_edad_20_anos_sexo_m
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AQ
-        ruta: EDAD/21 años/SEXO/V
-        id: edu_ii_2_2_7_edad_21_anos_sexo_v
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AR
-        ruta: EDAD/21 años/SEXO/M
-        id: edu_ii_2_2_7_edad_21_anos_sexo_m
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      2021:
-      - col: B
-        ruta: TOTAL GENERAL
-        id: edu_ii_2_2_7_total_general
-      - col: C
-        ruta: TOTAL VARONES
-        id: edu_ii_2_2_7_total_varones
-      - col: D
-        ruta: TOTAL MUJERES
-        id: edu_ii_2_2_7_total_mujeres
-      - col: E
-        ruta: EDAD/Menos de 2 años/SEXO/V
-        id: edu_ii_2_2_7_edad_menos_de_2_anos_sexo_v
-      - col: F
-        ruta: EDAD/Menos de 2 años/SEXO/M
-        id: edu_ii_2_2_7_edad_menos_de_2_anos_sexo_m
-      - col: G
-        ruta: EDAD/2 años/SEXO/V
-        id: edu_ii_2_2_7_edad_2_anos_sexo_v
-      - col: H
-        ruta: EDAD/2 años/SEXO/M
-        id: edu_ii_2_2_7_edad_2_anos_sexo_m
-      - col: I
-        ruta: EDAD/3 años/SEXO/V
-        id: edu_ii_2_2_7_edad_3_anos_sexo_v
-      - col: J
-        ruta: EDAD/3 años/SEXO/M
-        id: edu_ii_2_2_7_edad_3_anos_sexo_m
-      - col: K
-        ruta: EDAD/4 años/SEXO/V
-        id: edu_ii_2_2_7_edad_4_anos_sexo_v
-      - col: L
-        ruta: EDAD/4 años/SEXO/M
-        id: edu_ii_2_2_7_edad_4_anos_sexo_m
-      - col: M
-        ruta: EDAD/5 años/SEXO/V
-        id: edu_ii_2_2_7_edad_5_anos_sexo_v
-      - col: N
-        ruta: EDAD/5 años/SEXO/M
-        id: edu_ii_2_2_7_edad_5_anos_sexo_m
-      - col: O
-        ruta: EDAD/6 años/SEXO/V
-        id: edu_ii_2_2_7_edad_6_anos_sexo_v
-      - col: P
-        ruta: EDAD/6 años/SEXO/M
-        id: edu_ii_2_2_7_edad_6_anos_sexo_m
-      - col: Q
-        ruta: EDAD/7 años/SEXO/V
-        id: edu_ii_2_2_7_edad_7_anos_sexo_v
-      - col: R
-        ruta: EDAD/7 años/SEXO/M
-        id: edu_ii_2_2_7_edad_7_anos_sexo_m
-      - col: S
-        ruta: EDAD/8 años/SEXO/V
-        id: edu_ii_2_2_7_edad_8_anos_sexo_v
-      - col: T
-        ruta: EDAD/8 años/SEXO/M
-        id: edu_ii_2_2_7_edad_8_anos_sexo_m
-      - col: U
-        ruta: EDAD/9 años/SEXO/V
-        id: edu_ii_2_2_7_edad_9_anos_sexo_v
-      - col: V
-        ruta: EDAD/9 años/SEXO/M
-        id: edu_ii_2_2_7_edad_9_anos_sexo_m
-      - col: W
-        ruta: EDAD/10 años/SEXO/V
-        id: edu_ii_2_2_7_edad_10_anos_sexo_v
-      - col: X
-        ruta: EDAD/10 años/SEXO/M
-        id: edu_ii_2_2_7_edad_10_anos_sexo_m
-      - col: Y
-        ruta: EDAD/11 años/SEXO/V
-        id: edu_ii_2_2_7_edad_11_anos_sexo_v
-      - col: Z
-        ruta: EDAD/11 años/SEXO/M
-        id: edu_ii_2_2_7_edad_11_anos_sexo_m
-      - col: AA
-        ruta: EDAD/12 años/SEXO/V
-        id: edu_ii_2_2_7_edad_12_anos_sexo_v
-      - col: AB
-        ruta: EDAD/12 años/SEXO/M
-        id: edu_ii_2_2_7_edad_12_anos_sexo_m
-      - col: AC
-        ruta: EDAD/13 años/SEXO/V
-        id: edu_ii_2_2_7_edad_13_anos_sexo_v
-      - col: AD
-        ruta: EDAD/13 años/SEXO/M
-        id: edu_ii_2_2_7_edad_13_anos_sexo_m
-      - col: AE
-        ruta: EDAD/14 años/SEXO/V
-        id: edu_ii_2_2_7_edad_14_anos_sexo_v
-      - col: AF
-        ruta: EDAD/14 años/SEXO/M
-        id: edu_ii_2_2_7_edad_14_anos_sexo_m
-      - col: AG
-        ruta: EDAD/15 años/SEXO/V
-        id: edu_ii_2_2_7_edad_15_anos_sexo_v
-      - col: AH
-        ruta: EDAD/15 años/SEXO/M
-        id: edu_ii_2_2_7_edad_15_anos_sexo_m
-      - col: AI
-        ruta: EDAD/16 años/SEXO/V
-        id: edu_ii_2_2_7_edad_16_anos_sexo_v
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AJ
-        ruta: EDAD/16 años/SEXO/M
-        id: edu_ii_2_2_7_edad_16_anos_sexo_m
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AK
-        ruta: EDAD/17 años/SEXO/V
-        id: edu_ii_2_2_7_edad_17_anos_sexo_v
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AL
-        ruta: EDAD/17 años/SEXO/M
-        id: edu_ii_2_2_7_edad_17_anos_sexo_m
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AM
-        ruta: EDAD/18 años/SEXO/V
-        id: edu_ii_2_2_7_edad_18_anos_sexo_v
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AN
-        ruta: EDAD/18 años/SEXO/M
-        id: edu_ii_2_2_7_edad_18_anos_sexo_m
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AO
-        ruta: EDAD/19 años/SEXO/V
-        id: edu_ii_2_2_7_edad_19_anos_sexo_v
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AP
-        ruta: EDAD/19 años/SEXO/M
-        id: edu_ii_2_2_7_edad_19_anos_sexo_m
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AQ
-        ruta: EDAD/20 años/SEXO/V
-        id: edu_ii_2_2_7_edad_20_anos_sexo_v
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AR
-        ruta: EDAD/20 años/SEXO/M
-        id: edu_ii_2_2_7_edad_20_anos_sexo_m
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AS
-        ruta: EDAD/21 años/SEXO/V
-        id: edu_ii_2_2_7_edad_21_anos_sexo_v
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AT
-        ruta: EDAD/21 años/SEXO/M
-        id: edu_ii_2_2_7_edad_21_anos_sexo_m
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AU
-        ruta: EDAD/22 años/SEXO/V
-        id: edu_ii_2_2_7_edad_22_anos_sexo_v
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AV
-        ruta: EDAD/22 años/SEXO/M
-        id: edu_ii_2_2_7_edad_22_anos_sexo_m
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AW
-        ruta: EDAD/23 años/SEXO/V
-        id: edu_ii_2_2_7_edad_23_anos_sexo_v
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AX
-        ruta: EDAD/23 años/SEXO/M
-        id: edu_ii_2_2_7_edad_23_anos_sexo_m
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AY
-        ruta: EDAD/24 años/SEXO/V
-        id: edu_ii_2_2_7_edad_24_anos_sexo_v
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AZ
-        ruta: EDAD/24 años/SEXO/M
-        id: edu_ii_2_2_7_edad_24_anos_sexo_m
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: BA
-        ruta: EDAD/Entre 25 y 29 años/SEXO/V
-        id: edu_ii_2_2_7_edad_entre_25_y_29_anos_sexo_v
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: BB
-        ruta: EDAD/Entre 25 y 29 años/SEXO/M
-        id: edu_ii_2_2_7_edad_entre_25_y_29_anos_sexo_m
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: BC
-        ruta: EDAD/Más de 29 años/SEXO/V
-        id: edu_ii_2_2_7_edad_mas_de_29_anos_sexo_v
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: BD
-        ruta: EDAD/Más de 29 años/SEXO/M
-        id: edu_ii_2_2_7_edad_mas_de_29_anos_sexo_m
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      2022:
-      - col: B
-        ruta: TOTAL GENERAL
-        id: edu_ii_2_2_7_total_general
-      - col: C
-        ruta: TOTAL VARONES
-        id: edu_ii_2_2_7_total_varones
-      - col: D
-        ruta: TOTAL MUJERES
-        id: edu_ii_2_2_7_total_mujeres
-      - col: E
-        ruta: EDAD/Menos de 2 años/SEXO/V
-        id: edu_ii_2_2_7_edad_menos_de_2_anos_sexo_v
-      - col: F
-        ruta: EDAD/Menos de 2 años/SEXO/M
-        id: edu_ii_2_2_7_edad_menos_de_2_anos_sexo_m
-      - col: G
-        ruta: EDAD/2 años/SEXO/V
-        id: edu_ii_2_2_7_edad_2_anos_sexo_v
-      - col: H
-        ruta: EDAD/2 años/SEXO/M
-        id: edu_ii_2_2_7_edad_2_anos_sexo_m
-      - col: I
-        ruta: EDAD/3 años/SEXO/V
-        id: edu_ii_2_2_7_edad_3_anos_sexo_v
-      - col: J
-        ruta: EDAD/3 años/SEXO/M
-        id: edu_ii_2_2_7_edad_3_anos_sexo_m
-      - col: K
-        ruta: EDAD/4 años/SEXO/V
-        id: edu_ii_2_2_7_edad_4_anos_sexo_v
-      - col: L
-        ruta: EDAD/4 años/SEXO/M
-        id: edu_ii_2_2_7_edad_4_anos_sexo_m
-      - col: M
-        ruta: EDAD/5 años/SEXO/V
-        id: edu_ii_2_2_7_edad_5_anos_sexo_v
-      - col: N
-        ruta: EDAD/5 años/SEXO/M
-        id: edu_ii_2_2_7_edad_5_anos_sexo_m
-      - col: O
-        ruta: EDAD/6 años/SEXO/V
-        id: edu_ii_2_2_7_edad_6_anos_sexo_v
-      - col: P
-        ruta: EDAD/6 años/SEXO/M
-        id: edu_ii_2_2_7_edad_6_anos_sexo_m
-      - col: Q
-        ruta: EDAD/7 años/SEXO/V
-        id: edu_ii_2_2_7_edad_7_anos_sexo_v
-      - col: R
-        ruta: EDAD/7 años/SEXO/M
-        id: edu_ii_2_2_7_edad_7_anos_sexo_m
-      - col: S
-        ruta: EDAD/8 años/SEXO/V
-        id: edu_ii_2_2_7_edad_8_anos_sexo_v
-      - col: T
-        ruta: EDAD/8 años/SEXO/M
-        id: edu_ii_2_2_7_edad_8_anos_sexo_m
-      - col: U
-        ruta: EDAD/9 años/SEXO/V
-        id: edu_ii_2_2_7_edad_9_anos_sexo_v
-      - col: V
-        ruta: EDAD/9 años/SEXO/M
-        id: edu_ii_2_2_7_edad_9_anos_sexo_m
-      - col: W
-        ruta: EDAD/10 años/SEXO/V
-        id: edu_ii_2_2_7_edad_10_anos_sexo_v
-      - col: X
-        ruta: EDAD/10 años/SEXO/M
-        id: edu_ii_2_2_7_edad_10_anos_sexo_m
-      - col: Y
-        ruta: EDAD/11 años/SEXO/V
-        id: edu_ii_2_2_7_edad_11_anos_sexo_v
-      - col: Z
-        ruta: EDAD/11 años/SEXO/M
-        id: edu_ii_2_2_7_edad_11_anos_sexo_m
-      - col: AA
-        ruta: EDAD/12 años/SEXO/V
-        id: edu_ii_2_2_7_edad_12_anos_sexo_v
-      - col: AB
-        ruta: EDAD/12 años/SEXO/M
-        id: edu_ii_2_2_7_edad_12_anos_sexo_m
-      - col: AC
-        ruta: EDAD/13 años/SEXO/V
-        id: edu_ii_2_2_7_edad_13_anos_sexo_v
-      - col: AD
-        ruta: EDAD/13 años/SEXO/M
-        id: edu_ii_2_2_7_edad_13_anos_sexo_m
-      - col: AE
-        ruta: EDAD/14 años/SEXO/V
-        id: edu_ii_2_2_7_edad_14_anos_sexo_v
-      - col: AF
-        ruta: EDAD/14 años/SEXO/M
-        id: edu_ii_2_2_7_edad_14_anos_sexo_m
-      - col: AG
-        ruta: EDAD/15 años/SEXO/V
-        id: edu_ii_2_2_7_edad_15_anos_sexo_v
-      - col: AH
-        ruta: EDAD/15 años/SEXO/M
-        id: edu_ii_2_2_7_edad_15_anos_sexo_m
-      - col: AI
-        ruta: EDAD/16 años/SEXO/V
-        id: edu_ii_2_2_7_edad_16_anos_sexo_v
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AJ
-        ruta: EDAD/16 años/SEXO/M
-        id: edu_ii_2_2_7_edad_16_anos_sexo_m
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AK
-        ruta: EDAD/17 años/SEXO/V
-        id: edu_ii_2_2_7_edad_17_anos_sexo_v
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AL
-        ruta: EDAD/17 años/SEXO/M
-        id: edu_ii_2_2_7_edad_17_anos_sexo_m
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AM
-        ruta: EDAD/18 años/SEXO/V
-        id: edu_ii_2_2_7_edad_18_anos_sexo_v
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AN
-        ruta: EDAD/18 años/SEXO/M
-        id: edu_ii_2_2_7_edad_18_anos_sexo_m
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AO
-        ruta: EDAD/19 años/SEXO/V
-        id: edu_ii_2_2_7_edad_19_anos_sexo_v
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AP
-        ruta: EDAD/19 años/SEXO/M
-        id: edu_ii_2_2_7_edad_19_anos_sexo_m
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AQ
-        ruta: EDAD/20 años/SEXO/V
-        id: edu_ii_2_2_7_edad_20_anos_sexo_v
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AR
-        ruta: EDAD/20 años/SEXO/M
-        id: edu_ii_2_2_7_edad_20_anos_sexo_m
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AS
-        ruta: EDAD/21 años/SEXO/V
-        id: edu_ii_2_2_7_edad_21_anos_sexo_v
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AT
-        ruta: EDAD/21 años/SEXO/M
-        id: edu_ii_2_2_7_edad_21_anos_sexo_m
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AU
-        ruta: EDAD/22 años/SEXO/V
-        id: edu_ii_2_2_7_edad_22_anos_sexo_v
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AV
-        ruta: EDAD/22 años/SEXO/M
-        id: edu_ii_2_2_7_edad_22_anos_sexo_m
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AW
-        ruta: EDAD/23 años/SEXO/V
-        id: edu_ii_2_2_7_edad_23_anos_sexo_v
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AX
-        ruta: EDAD/23 años/SEXO/M
-        id: edu_ii_2_2_7_edad_23_anos_sexo_m
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AY
-        ruta: EDAD/24 años/SEXO/V
-        id: edu_ii_2_2_7_edad_24_anos_sexo_v
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: AZ
-        ruta: EDAD/24 años/SEXO/M
-        id: edu_ii_2_2_7_edad_24_anos_sexo_m
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: BA
-        ruta: EDAD/Entre 25 y 29 años/SEXO/V
-        id: edu_ii_2_2_7_edad_entre_25_y_29_anos_sexo_v
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: BB
-        ruta: EDAD/Entre 25 y 29 años/SEXO/M
-        id: edu_ii_2_2_7_edad_entre_25_y_29_anos_sexo_m
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: BC
-        ruta: EDAD/Más de 29 años/SEXO/V
-        id: edu_ii_2_2_7_edad_mas_de_29_anos_sexo_v
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
-      - col: BD
-        ruta: EDAD/Más de 29 años/SEXO/M
-        id: edu_ii_2_2_7_edad_mas_de_29_anos_sexo_m
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      2020: null
+      2021: null
+      2022: null
       2023:
       - col: B
         ruta: TOTAL GENERAL
@@ -6990,6 +6500,13 @@ cuadros:
       - col: AJ
         ruta: EDAD/Sin dato/SEXO/M
         id: edu_ii_2_2_7_edad_sin_dato_sexo_m
+    sin_cargar:
+      2020: 'el MEC reparte el total por edad y sexo en proporción (la privada no tiene esos datos): publica estudiantes con decimales, que no son conteos (AC-E11)
+        ni cierran por departamento (AC-E17); no se carga el cuadro de este año (mantenedor, #224)'
+      2021: 'el MEC reparte el total por edad y sexo en proporción (la privada no tiene esos datos): publica estudiantes con decimales, que no son conteos (AC-E11)
+        ni cierran por departamento (AC-E17); no se carga el cuadro de este año (mantenedor, #224)'
+      2022: 'el MEC reparte el total por edad y sexo en proporción (la privada no tiene esos datos): publica estudiantes con decimales, que no son conteos (AC-E11)
+        ni cierran por departamento (AC-E17); no se carga el cuadro de este año (mantenedor, #224)'
     datos_de_otro_anio:
       2021:
       - 'Nota: Los datos correspondientes a Privada de la DGEIP corresponden al año 2020, dado que al momento de cierre de la publicación no estaba el dato correspondiente
@@ -7229,6 +6746,13 @@ cuadros:
       - col: O
         ruta: GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Privada
         id: edu_ii_2_2_8_grado_sexto_forma_de_administracion_privada
+    datos_de_otro_anio:
+      2021:
+      - 'Primaria Privada: Se carece de datos desagregados por edad y sexo para la totalidad de la matrícula. Por lo tanto, se realizó un prorrateo a partir de la
+        información disponible que corresponden al año 2020, dado que al momento de cierre de la publicación no estaba el dato correspondiente a 2021'
+      2022:
+      - 'Primaria Privada: Se carece de datos desagregados por edad y sexo. El total por grado corresponde a datos adminstrativos 2022, pero la desagregación por
+        edad y sexo fue prorateada a partir de los últimos datos disponibles que corresponden al año 2016.'
   II-2.2.9:
     titulo: ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR GRADO Y SEXO SEGÚN EDAD
     tipos:
@@ -8011,8 +7535,9 @@ cuadros:
       2021:
       - col: B
         ruta: TOTAL
-        id: edu_ii_2_2_12_total
-        repetida: true
+        id: edu_ii_2_2_12_promovidos_total
+        concepto: PROMOVIDOS/TOTAL
+        comprobado: B = C + D
       - col: C
         ruta: PROMOVIDOS/Sexo/Varón
         id: edu_ii_2_2_12_promovidos_sexo_varon
@@ -8021,8 +7546,9 @@ cuadros:
         id: edu_ii_2_2_12_promovidos_sexo_mujer
       - col: E
         ruta: TOTAL
-        id: edu_ii_2_2_12_total__2
-        repetida: true
+        id: edu_ii_2_2_12_no_promovidos_total
+        concepto: NO PROMOVIDOS/TOTAL
+        comprobado: E = F + G
       - col: F
         ruta: NO PROMOVIDOS/Sexo/Varón
         id: edu_ii_2_2_12_no_promovidos_sexo_varon
@@ -8130,8 +7656,9 @@ cuadros:
       2022:
       - col: B
         ruta: TOTAL
-        id: edu_ii_2_2_12_total
-        repetida: true
+        id: edu_ii_2_2_12_promovidos_total
+        concepto: PROMOVIDOS/TOTAL
+        comprobado: B = C + D
       - col: C
         ruta: PROMOVIDOS/Sexo/Varón
         id: edu_ii_2_2_12_promovidos_sexo_varon
@@ -8140,8 +7667,9 @@ cuadros:
         id: edu_ii_2_2_12_promovidos_sexo_mujer
       - col: E
         ruta: TOTAL
-        id: edu_ii_2_2_12_total__2
-        repetida: true
+        id: edu_ii_2_2_12_no_promovidos_total
+        concepto: NO PROMOVIDOS/TOTAL
+        comprobado: E = F + G
       - col: F
         ruta: NO PROMOVIDOS/Sexo/Varón
         id: edu_ii_2_2_12_no_promovidos_sexo_varon
@@ -8249,8 +7777,9 @@ cuadros:
       2023:
       - col: B
         ruta: TOTAL
-        id: edu_ii_2_2_12_total
-        repetida: true
+        id: edu_ii_2_2_12_promovidos_total
+        concepto: PROMOVIDOS/TOTAL
+        comprobado: B = C + D
       - col: C
         ruta: PROMOVIDOS/Sexo/Varón
         id: edu_ii_2_2_12_promovidos_sexo_varon
@@ -8259,8 +7788,9 @@ cuadros:
         id: edu_ii_2_2_12_promovidos_sexo_mujer
       - col: E
         ruta: TOTAL
-        id: edu_ii_2_2_12_total__2
-        repetida: true
+        id: edu_ii_2_2_12_no_promovidos_total
+        concepto: NO PROMOVIDOS/TOTAL
+        comprobado: E = F + G
       - col: F
         ruta: NO PROMOVIDOS/Sexo/Varón
         id: edu_ii_2_2_12_no_promovidos_sexo_varon
@@ -8368,8 +7898,9 @@ cuadros:
       2024:
       - col: B
         ruta: TOTAL
-        id: edu_ii_2_2_12_total
-        repetida: true
+        id: edu_ii_2_2_12_promovidos_total
+        concepto: PROMOVIDOS/TOTAL
+        comprobado: B = C + D
       - col: C
         ruta: PROMOVIDOS/Sexo/Varón
         id: edu_ii_2_2_12_promovidos_sexo_varon
@@ -8378,8 +7909,9 @@ cuadros:
         id: edu_ii_2_2_12_promovidos_sexo_mujer
       - col: E
         ruta: TOTAL
-        id: edu_ii_2_2_12_total__2
-        repetida: true
+        id: edu_ii_2_2_12_no_promovidos_total
+        concepto: NO PROMOVIDOS/TOTAL
+        comprobado: E = F + G
       - col: F
         ruta: NO PROMOVIDOS/Sexo/Varón
         id: edu_ii_2_2_12_no_promovidos_sexo_varon
@@ -12172,11 +11704,11 @@ cuadros:
   II-3.3.1:
     titulo: PERSONAL DOCENTE Y HORAS DOCENTES DE LA DGES EN EDUCACIÓN MEDIA BÁSICA GENERAL PÚBLICA POR TITULACIÓN SEGÚN ASIGNATURAS
     tipos:
-      2020: C
-      2021: C
-      2022: C
-      2023: C
-      2024: C
+      2020: B
+      2021: B
+      2022: B
+      2023: B
+      2024: B
     ola: 2
     unidad: docentes
     anios:
@@ -15915,11 +15447,11 @@ cuadros:
   II-4.3.1:
     titulo: PERSONAL DOCENTE Y HORAS DOCENTES DE LA DGES EN EDUCACIÓN MEDIA SUPERIOR GENERAL PÚBLICA POR CONDICIÓN DE TITULACIÓN
     tipos:
-      2020: C
-      2021: C
-      2022: C
-      2023: C
-      2024: C
+      2020: B
+      2021: B
+      2022: B
+      2023: B
+      2024: B
     ola: 2
     unidad: docentes
     anios:

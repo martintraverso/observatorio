@@ -299,3 +299,36 @@ def test_ac_e8_rotulos_con_llamada_de_nota():
     assert mec.territorio_de_fila("Colonia*") == mec.tid("departamento", "05")
     assert mec.territorio_de_fila("Salto (1)") == mec.tid("departamento", "15")
     assert mec.territorio_de_fila("Total 2023") is None
+
+
+def test_224_despues_del_pie_ninguna_fila_es_un_dato():
+    """#224 (II-2.2.6 y II-2.2.8 de 2020): después de «Fuente:», una fila con números está fuera del cuadro (se cuenta y
+    no se lee) y una de texto, en cualquier columna, sigue el pie."""
+    celdas = {
+        (3, 1): "Cuadro Nº II-2.2.6",
+        (5, 1): "ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PRIVADA SEGÚN DEPARTAMENTO (Todo el país, 2020)",
+        (6, 1): "DEPARTAMENTO", (6, 2): "TOTAL",
+        (8, 1): "TOTAL DEL PAÍS", (8, 2): 50762,
+        (9, 1): "MONTEVIDEO", (9, 2): 30979,
+        (10, 1): "Fuente: Procesamiento propio — DGEIP",
+        (11, 2): "Primaria Privada: se carece de datos desagregados",  # la nota sigue en la columna B
+        (40, 1): "30025", (40, 2): 2163,  # restos fuera del cuadro
+    }
+    e = mec.estructura(celdas, [], "II-2.2.6")
+    assert [r for r, _ in e.filas] == [8, 9]
+    assert e.fuera == 1
+    assert any("se carece de datos desagregados" in p for p in e.pie)
+
+
+def test_224_dos_filas_casi_iguales_son_dos_categorias():
+    """#224 (mantenedor): II-1.3.5 de 2024 publica «…por el mec» y «…por el MEC» con valores distintos: la segunda va
+    con __2, nada se suma, y el aviso lo dice."""
+    x = (FIX / "2024.xlsx").read_bytes()
+    reg = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario_educacion.yml").read_text(encoding="utf-8"))
+    e = reg["cuadros"]["II-1.3.5"]
+    c = mec.parsear_cuadro(x, "II-1.3.5", 2024, e["mapeo"][2024], e["tipos"][2024])
+    base = "edu_ii_1_3_5_funcion_total__otros_cursos_no_reconocidos_por_el_mec"
+    total = c.datos[c.datos.indicador.isin([base, base + "__2"])].set_index("indicador").valor
+    assert total.to_dict() == {base: 15, base + "__2": 206}
+    assert c.categorias[base + "__2"] == "Otros cursos no reconocidos por el MEC"
+    assert any("casi igual" in a for a in c.avisos)

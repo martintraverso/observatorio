@@ -301,7 +301,7 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False, fuent
     anios_vigentes = [int(c["codigo"]) for c in vigentes]
     ultimo_de = {cod: max((a for a in anios_vigentes if (e.get("mapeo") or {}).get(a)), default=None)
                  for cod, e in fuente["cuadros"].items()}
-    partes, pies, avisos, parseadas, sin_dato, categorias = [], {}, [], [], set(), {}
+    partes, pies, avisos, parseadas, sin_dato, categorias_anio = [], {}, [], [], set(), {}
     for c in vigentes:
         anio = int(c["codigo"])
         if c["id"] in ya:
@@ -310,7 +310,12 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False, fuent
             partes.append(previas.drop(columns=["es_estimado"], errors="ignore").assign(
                 codigo_cuadro=previas.indicador.str.split("__").str[0].map(cuadro_de), celda=""))
             continue
-        datos, p, a = leer_anuario((crudo / c["archivo"]).read_bytes(), anio, fuente, sin_dato, categorias)
+        cats: dict = {}
+        datos, p, a = leer_anuario((crudo / c["archivo"]).read_bytes(), anio, fuente, sin_dato, cats)
+        # #224: el rótulo de cada categoría, del año más nuevo que se parsea
+        for k, v in cats.items():
+            if anio >= categorias_anio.get(k, (0, ""))[0]:
+                categorias_anio[k] = (anio, v)
         partes.append(datos.assign(captura_id=c["id"]))
         # la nota de un indicador es el pie del cuadro en el anuario más reciente que lo trae: un año viejo
         # parseado (una revisión de 2022) no la cambia
@@ -349,6 +354,11 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False, fuent
         i_prev = pd.read_parquet(salida / "indicadores.parquet")
         i_prev = i_prev[i_prev.fuente_id == FUENTE_ID]
         notas_prev, nombres_prev = dict(zip(i_prev.codigo, i_prev.nota)), dict(zip(i_prev.codigo, i_prev.nombre))
+    # #224: el rótulo vale solo si viene del anuario más nuevo que publica el indicador; si ese no se parseó en esta
+    # corrida (revisión de un año viejo), queda el nombre ya publicado (AC-E6: igual que una carga completa).
+    anio_de_captura = {c["id"]: int(c["codigo"]) for c in vigentes}
+    ultimo_anio = obs.assign(_a=obs.captura_id.map(anio_de_captura)).groupby("indicador")._a.max()
+    categorias = {k: v for k, (a, v) in categorias_anio.items() if a >= ultimo_anio.get(k, a)}
     ind = indicadores(obs, fuente, pies, formulas, serie, notas_prev, categorias, nombres_prev)
     hoy = ahora()
     fecha_prev = {} if cap_prev is None else dict(zip(cap_prev.id, cap_prev.fecha_proceso))

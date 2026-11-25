@@ -50,6 +50,7 @@ total_con_error:
 #   padre: las columnas repetidas seguidas desglosan la columna no repetida de su izquierda -> <padre>/<rótulo>
 repetidas:
   II-1.2.2: izquierda
+  II-2.2.12: derecha  # #224: «TOTAL» de PROMOVIDOS (B) y de NO PROMOVIDOS (E), cada uno del grupo a su derecha
   II-3.1.1: padre
   II-3.2.2: derecha
   II-3.2.7: derecha
@@ -260,3 +261,7 @@ control_ine:
 cuadros_sin_cargar:
   II-3.2.10:
     2024: "en el archivo, el TOTAL y «Articulación» son iguales en las 21 filas y «EBI» los repite en el Interior y los 18 departamentos (Articulación pasa de 2.549 promovidos en 2023 a 18.529); no se carga el cuadro de 2024 (mantenedor, #196)"
+  II-2.2.7:
+    2020: "el MEC reparte el total por edad y sexo en proporción (la privada no tiene esos datos): publica estudiantes con decimales, que no son conteos (AC-E11) ni cierran por departamento (AC-E17); no se carga el cuadro de este año (mantenedor, #224)"
+    2021: "el MEC reparte el total por edad y sexo en proporción (la privada no tiene esos datos): publica estudiantes con decimales, que no son conteos (AC-E11) ni cierran por departamento (AC-E17); no se carga el cuadro de este año (mantenedor, #224)"
+    2022: "el MEC reparte el total por edad y sexo en proporción (la privada no tiene esos datos): publica estudiantes con decimales, que no son conteos (AC-E11) ni cierran por departamento (AC-E17); no se carga el cuadro de este año (mantenedor, #224)"

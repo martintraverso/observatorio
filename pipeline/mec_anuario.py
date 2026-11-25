@@ -281,6 +281,8 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
     if faltan := sorted(columnas - set(e.rutas)):
         raise ErrorAnuario(f"{codigo} {anio}: columnas mapeadas que el archivo no tiene: {[letra(c) for c in faltan]} (AC-E9)")
     filas, sin_dato, pie, ignoradas, claves_sd, categorias = [], 0, list(e.pie), 0, [], {}
+    rotulo_de_sufijo: dict[str, str] = {}  # #224: dos filas con otro rótulo y el mismo nombre normalizado
+    avisos_casi_iguales: list[str] = []
     cols_mapeadas = [_col(m["col"]) for m in mapeo]
     grupo, territorio_grupo = "", PAIS
     for r, rotulo in e.filas:
@@ -309,6 +311,17 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
         else:
             categoria = "total" if es_total and not grupo else (rotulo if not grupo or rotulo == grupo else f"{grupo}/{rotulo}")
             territorio, sufijo = territorio_grupo, f"__{slug(categoria) or 'sin_rotulo'}"
+            # #224 (mantenedor): II-1.3.5 de 2024 publica «…por el mec» y «…por el MEC» con valores distintos. Son dos
+            # categorías: la segunda lleva __2 (y así), con su rótulo; nunca se suman. Dos filas idénticas siguen
+            # siendo un error (valores repetidos).
+            base, k = sufijo, 1
+            while sufijo in rotulo_de_sufijo and rotulo_de_sufijo[sufijo] != categoria:
+                k += 1
+                sufijo = f"{base}__{k}"
+            if k > 1:
+                avisos_casi_iguales.append(f"«{categoria}» (fila {r}) se carga como {sufijo}: el archivo publica otra fila "
+                                           f"casi igual, «{rotulo_de_sufijo[base]}»")
+            rotulo_de_sufijo.setdefault(sufijo, categoria)
             for m in mapeo:
                 categorias[m["id"] + sufijo] = categoria
         for m in mapeo:
@@ -343,6 +356,7 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
                            f"{datos.loc[repetidas, 'celda'].tolist()[:6]}")
     if ignoradas:
         avisos.append(f"{codigo} {anio}: {ignoradas} filas sin datos ignoradas")
+    avisos += [f"{codigo} {anio}: {a}" for a in avisos_casi_iguales]
     if e.fuera:
         avisos.append(f"{codigo} {anio}: {e.fuera} filas con números después del pie («Fuente:»), fuera del cuadro, ignoradas")
     return Cuadro(codigo, anio, e.titulo, datos, pie, sin_dato, avisos, claves_sd, categorias)
