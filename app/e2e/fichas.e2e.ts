@@ -521,3 +521,37 @@ test('AC-E27 (país): la serie de matrícula 2002–2024 empieza por el total de
 	const media = s.locator('.nivel-educativo').filter({ has: page.getByRole('heading', { name: 'Media básica', level: 3 }) });
 	await expect(media.locator('.fuente', { hasText: 'cuadro II-3.2.1' })).toHaveCount(1);
 });
+
+test('AC-E32: el catálogo de educación lista cada cuadro con código, título, tipo, años y dónde se ve', async ({ page }) => {
+	const catalogo = JSON.parse(readFileSync('build/datos-web/educacion_catalogo.json', 'utf-8')) as {
+		cuadro: string;
+		tipo: string;
+		departamental: boolean;
+		mapa: string | null;
+	}[];
+	await page.goto('educacion');
+	await expect(page.getByRole('heading', { level: 1 })).toHaveText('Catálogo de educación');
+	if (!catalogo.length) {
+		// sin la fuente del MEC activa (CI del fixture, sitio publicado hasta #222)
+		await expect(page.getByText('Todavía no hay cuadros de educación publicados en el sitio.')).toBeVisible();
+		return;
+	}
+	const filas = page.locator('tbody tr');
+	await expect(filas).toHaveCount(catalogo.length);
+	// a propósito: uno por departamento, uno nacional y uno con tasa en el mapa (revisión de #234)
+	const elegidos = [
+		catalogo.find((c) => c.departamental),
+		catalogo.find((c) => !c.departamental),
+		catalogo.find((c) => c.mapa)
+	].filter((c) => c !== undefined);
+	for (const c of elegidos) {
+		const fila = filas.filter({ has: page.getByRole('cell', { name: c.cuadro, exact: true }) });
+		await expect(fila).toHaveCount(1);
+		await expect(fila.getByRole('link', { name: `Ficha del país (${c.cuadro})` })).toBeVisible();
+		await expect(fila.getByRole('link', { name: `Fichas de departamento (${c.cuadro})` })).toHaveCount(c.departamental ? 1 : 0);
+		await expect(fila.getByRole('link', { name: `Mapa (${c.cuadro})` })).toHaveCount(c.mapa ? 1 : 0);
+		if (c.mapa) await expect(fila.getByRole('link', { name: `Mapa (${c.cuadro})` })).toHaveAttribute('href', new RegExp(`indicador=${c.mapa}$`));
+	}
+	await expect(page.getByRole('cell', { name: /^[ABC]?$/ })).toHaveCount(0); // ninguna celda vacía (tipo null, #234)
+	expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+});
