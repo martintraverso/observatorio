@@ -121,8 +121,12 @@ for (const cantidad of [1, 2, 3, 4, 5, 6]) {
 }
 
 test('AC-V2: el municipio dice «Municipio» con la ayuda «Solo Montevideo»', async ({ page }) => {
-	test.skip(!NIVELES.includes('municipio_mvd'), 'el build no trae datos por municipio (fixture)');
-	await page.goto('');
+	// M11.4: el selector es del indicador elegido; se abre uno que se publica por municipio (Trabajo), no el de inicio
+	const conMunicipio = (indicadores as unknown as { codigo: string; niveles: string[]; niveles_mapa?: string[] }[]).find((i) =>
+		(i.niveles_mapa ?? i.niveles).includes('municipio_mvd')
+	);
+	test.skip(!conMunicipio, 'el build no trae datos por municipio (fixture)');
+	await page.goto(`?indicador=${conMunicipio!.codigo}&nivel=departamento`);
 	const opcion = page.locator(NIVEL_TERRITORIAL).locator('label', { has: page.locator('input[value="municipio_mvd"]') });
 	await expect(opcion.locator('.nombre')).toHaveText('Municipio');
 	await expect(opcion.locator('.ayuda')).toHaveText('Solo Montevideo');
