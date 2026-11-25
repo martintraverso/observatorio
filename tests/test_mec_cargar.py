@@ -474,3 +474,24 @@ def test_233_las_horas_van_con_su_unidad(entorno):
     d = i[i.index.str.startswith(("edu_ii_3_3_1_", "edu_ii_4_3_1_"))]
     assert len(d) and (d[d.index.str.contains("horas")].unidad == "horas docentes").all()
     assert (d[~d.index.str.contains("horas")].unidad == "docentes").all()
+
+
+def test_233_con_genero_el_total_es_varones_mujeres_y_trans():
+    """#233 (revisión): con el encabezado GÉNERO (II-3.3.2 2023–, II-4.3.2 2024–), AC-E19 prueba en cada fila TOTAL =
+    varones + mujeres + trans (`desgloses_extra`); II-4.3.2 2024 queda con sus dos filas exceptuadas, con su motivo."""
+    import mec_anuario as mec
+    import mec_anuario_controles as mc
+
+    manual = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario" / "mapeo_manual.yml").read_text(encoding="utf-8"))
+    e = FUENTE["cuadros"]["II-4.3.2"]
+    c = mec.parsear_cuadro(fix(2024), "II-4.3.2", 2024, e["mapeo"][2024], "B")
+    r = mc.controles(c.datos, {"cuadros": {"II-4.3.2": e}}, manual, set(), set(), {"2024"})
+    assert not [f for f in r.controles.fallas if f["control"].startswith("AC-E19")]
+    exceptuadas = [a for a in r.advertencias if a.startswith("II-4.3.2 2024")]
+    for fila in ("[educacion_media_superior]", "[educacion_media_tecnologica]"):  # las dos sin el docente trans
+        assert any(fila in a and "trans" in a for a in exceptuadas), r.advertencias
+    # sin la excepción, el control las atrapa
+    sin = {**manual, "controles_excepciones": {}}
+    r = mc.controles(c.datos, {"cuadros": {"II-4.3.2": e}}, sin, set(), set(), {"2024"})
+    falla = next(f for f in r.controles.fallas if f["control"].startswith("AC-E19"))
+    assert "[educacion_media_superior]" in falla["detalle"] or "[educacion_media_tecnologica]" in falla["detalle"]

@@ -153,6 +153,12 @@ desgloses_extra:
   II-1.2.4:  # el TOTAL es varones + mujeres + los «sin dato» de CPIP (columna dentro de CPIP)
     - total: TOTAL
       partes: ["TOTAL/SEXO/VARÓN", "TOTAL/SEXO/MUJER", "FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato"]
+  II-3.3.2:  # #233: con GÉNERO (2023–), el TOTAL de cada fila es varones + mujeres + trans
+    - total: TOTAL
+      partes: ["GÉNERO/Varones", "GÉNERO/Mujeres", "GÉNERO/Trans"]
+  II-4.3.2:  # #233: ídem (2024–)
+    - total: TOTAL
+      partes: ["GÉNERO/Varones", "GÉNERO/Mujeres", "GÉNERO/Trans"]
   II-1.2.5:  # #233: como II-1.2.4, en cada fila (edad): el TOTAL es varones + mujeres + los «sin dato» de sexo, que el cuadro
     # publica solo dentro de CPIP (2021–) y de la privada DGEIP (2023–). Con las dos columnas manda la segunda declaración.
     - total: TOTAL
@@ -237,7 +243,7 @@ controles_excepciones:
     II-4.3.2:
       2024:
         motivo: "la fila TOTAL es coherente (8.793 + 12.485 + 2 trans = 21.280), pero las filas «Educación Media Superior» (5.741) y «Educación Media Tecnológica» (5.357) no cuentan en su total al docente trans (5.742 y 5.358 con él): la suma de las categorías da 21.278"
-        indicadores: [edu_ii_4_3_2_total]
+        indicadores: [edu_ii_4_3_2_total, edu_ii_4_3_2_total__educacion_media_superior, edu_ii_4_3_2_total__educacion_media_tecnologica]
         territorios: [pais/UY]
     II-1.2.1:
       2023:
@@ -251,7 +257,7 @@ controles_excepciones:
         territorios: [pais/UY]
     II-1.2.5:
       2020:
-        motivo: "el total por sexo publicado no es la suma por edad (mujeres 97.051 contra 97.084; varones 92.669 contra 92.692); y en la fila TOTAL, el TOTAL (189.776) es 56 más que varones + mujeres (189.720), sin una columna de sexo sin dato en el anuario de 2020 (#233)"
+        motivo: "el total por sexo publicado no es la suma por edad (mujeres 97.051 contra 97.084; varones 92.669 contra 92.692); por eso, en la fila TOTAL, varones + mujeres (189.720) no llega al TOTAL (189.776, que sí es la suma por edad): a los varones y mujeres de esa fila les faltan los de «más de 6 años» (23 + 33 = 56) (#233)"
         indicadores: [edu_ii_1_2_5_sexo_m, edu_ii_1_2_5_sexo_v, edu_ii_1_2_5_forma_de_administracion_privados_mec_sexo_m, edu_ii_1_2_5_forma_de_administracion_privados_mec_sexo_v, edu_ii_1_2_5_total__total]
         territorios: [pais/UY]
     II-2.2.1:

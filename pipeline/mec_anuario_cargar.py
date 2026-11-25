@@ -391,7 +391,8 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False, fuent
     # #233: la nota de lo que no se carga dice qué años faltan y por qué (AC-E2)
     for k, i in enumerate(ind.codigo):
         if (r := regla_sin_cargar(sin_cargar, cuadro_de.get(i.split("__")[0]), i)) and r["motivo"] not in ind.at[k, "nota"]:
-            ind.at[k, "nota"] = (ind.at[k, "nota"] + " " + r["motivo"]).strip()
+            previa = ind.at[k, "nota"].strip()
+            ind.at[k, "nota"] = (previa + ("" if not previa or previa.endswith(".") else ".") + " " + r["motivo"]).strip()
     hoy = ahora()
     fecha_prev = {} if cap_prev is None else dict(zip(cap_prev.id, cap_prev.fecha_proceso))
     capturas = [nueva_captura(FUENTE_ID, c["archivo"], c["sha256"], hoy if c["id"] in parseadas else fecha_prev.get(c["id"], hoy),
