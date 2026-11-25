@@ -483,3 +483,41 @@ test('AC-E27 y AC-E30: cada cuadro con su serie 2020–2024; si cambia de concep
 	await expect(media.locator('svg')).toHaveAttribute('aria-label', /serie cortada/);
 	await expect(media.locator('figcaption')).toContainText('Serie cortada: hasta 2022 el total no incluye privados; desde 2023 sí');
 });
+
+test('AC-E27 (país): la serie de matrícula 2002–2024 empieza por el total del sistema, y los cuadros B y C van por nivel', async ({ page }) => {
+	// La ficha del país con tres series nacionales y un cuadro de tipo B (II-3.2.1), reales, de la vista previa.
+	const E = JSON.parse(readFileSync('e2e/fixtures/ficha-educacion-pais.json', 'utf-8'));
+	await page.route('**/datos-web/fichas/pais/UY.json', async (route) => {
+		const r = await route.fetch();
+		const f = await r.json();
+		await route.fulfill({
+			response: r,
+			json: {
+				...f,
+				indicadores: { ...f.indicadores, ...E.indicadores },
+				observaciones: [...f.observaciones, ...E.observaciones],
+				capturas: { ...f.capturas, ...E.capturas },
+				fuentes: { ...f.fuentes, ...E.fuentes }
+			}
+		});
+	});
+	// se navega desde /fichas para que la app pida el JSON: la carga directa viene prerenderizada, y otras fichas (el
+	// Interior, un departamento con la ECH) ya piden la del país al cargar y la guardan en la caché
+	await page.goto('fichas');
+	await page.getByRole('link', { name: 'Uruguay', exact: true }).last().click();
+	await expect(page).toHaveURL(/territorio\/pais\/UY$/);
+	const s = page.locator('#educacion');
+	const selector = s.getByRole('combobox').first();
+	await expect(selector.locator('option:checked')).toHaveText('Matrícula del sistema educativo: TOTAL SISTEMA');
+	await expect(selector.locator('option')).toHaveText([
+		'Matrícula del sistema educativo: TOTAL SISTEMA',
+		'Matrícula del sistema educativo: Total Educación Primaria',
+		'Matrícula del sistema educativo: CENFORES - INAU'
+	]);
+	// la tabla de la serie va de 2002 a 2024 con el total del sistema
+	await expect(s.locator('table')).toContainText('2002');
+	await expect(s.locator('table')).toContainText('1.042.564');
+	// el cuadro de tipo B (media básica, estudiantes) con su fila, bajo su nivel educativo
+	const media = s.locator('.nivel-educativo').filter({ has: page.getByRole('heading', { name: 'Media básica', level: 3 }) });
+	await expect(media.locator('.fuente', { hasText: 'cuadro II-3.2.1' })).toHaveCount(1);
+});

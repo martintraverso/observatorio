@@ -22,6 +22,7 @@
 		notaNoAditiva,
 		cuadrosEducacion,
 		observacionesDeSeccion,
+		ordenSerieEducacion,
 		partes,
 		SECCIONES_FICHA,
 		textoEnPadre,
@@ -221,7 +222,19 @@
 			</p>
 		{/if}
 		{#if series.size}
-			<SerieFicha ficha={f} {series} pais={data.pais} fuenteDe={fuenteDe} titulo={s.titulo} />
+			{#if s.id === 'educacion'}
+				<!-- F4.7b3 (#212): la serie nacional de matrícula 2002–2024 (ficha del país), con el total del sistema primero -->
+				<SerieFicha
+					ficha={f}
+					{series}
+					pais={data.pais}
+					{fuenteDe}
+					titulo="Matrícula del sistema educativo"
+					ordenar={(c) => ordenSerieEducacion(c, f.indicadores)}
+				/>
+			{:else}
+				<SerieFicha ficha={f} {series} pais={data.pais} fuenteDe={fuenteDe} titulo={s.titulo} />
+			{/if}
 		{/if}
 		{#if educacion.length}
 			<EducacionFicha niveles={educacion} />

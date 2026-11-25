@@ -474,3 +474,19 @@ export function textoEnPadre(temas: string[], nivelPadre: string): string {
 	if (temas.length === 1 && temas[0] === 'Educación' && nivelPadre === 'departamento') return 'Educación: datos por departamento';
 	return `${temas.join(' e ')}: se publica por ${(NOMBRE_NIVEL[nivelPadre as keyof typeof NOMBRE_NIVEL] ?? nivelPadre).toLowerCase()}`;
 }
+
+/** Niveles de la serie nacional de matrícula del anuario (hoja «MATRÍCULA DEL SISTEMA»), en orden (F4.7b3). */
+const NIVELES_SERIE = ['TOTAL SISTEMA', 'Total Edu. en la Primera Infancia e Inicial', 'Total Educación Primaria', 'Total Educación Media', 'Total Educación Terciaria'];
+
+/**
+ * F4.7b3 (#212): orden de la serie nacional de matrícula 2002–2024 en la ficha del país. Primero el total del sistema,
+ * después los totales por nivel educativo y, al final, lo demás; cada apertura justo después de lo que abre (por ruta).
+ */
+export function ordenSerieEducacion(codigos: string[], indicadores: Record<string, { columna_origen: string }>): string[] {
+	const ruta = (c: string) => indicadores[c]?.columna_origen.split(' · ').slice(1).join(' · ') ?? c;
+	const rango = (c: string) => {
+		const i = NIVELES_SERIE.indexOf(ruta(c).split('/')[0]);
+		return i === -1 ? NIVELES_SERIE.length : i;
+	};
+	return [...codigos].sort((a, b) => rango(a) - rango(b) || ruta(a).localeCompare(ruta(b), 'es'));
+}

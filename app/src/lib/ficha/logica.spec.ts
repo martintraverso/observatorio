@@ -18,6 +18,7 @@ import {
 	marcasRedondas,
 	notaNoAditiva,
 	observacionesDeSeccion,
+	ordenSerieEducacion,
 	partes,
 	puntosSerie,
 	rutaLegible,
@@ -419,6 +420,18 @@ describe('F4.7b1: educación en la ficha (AC-E27, AC-E28, AC-E29)', () => {
 		]);
 		// x por año: 2020 en 2, 2024 en 102, 2022 a mitad de camino
 		expect(g.flatMap((t) => t.puntos.map((p) => p.cx))).toEqual([2, 52, 77, 102]);
+	});
+
+	it('F4.7b3: la serie nacional de matrícula empieza por el total del sistema, después los niveles, cada apertura tras lo que abre', () => {
+		const i = (ruta: string) => ({ columna_origen: `Hoja MATRÍCULA DEL SISTEMA · ${ruta}` });
+		const ind = {
+			cenfores: i('CENFORES - INAU'),
+			total: i('TOTAL SISTEMA'),
+			prim_pub: i('Total Educación Primaria/Común Pública'),
+			prim: i('Total Educación Primaria'),
+			ini: i('Total Edu. en la Primera Infancia e Inicial')
+		};
+		expect(ordenSerieEducacion(Object.keys(ind), ind)).toEqual(['total', 'ini', 'prim', 'prim_pub', 'cenfores']);
 	});
 
 	it('las siglas quedan en mayúsculas', () => {

@@ -14,19 +14,24 @@
 		series,
 		pais,
 		fuenteDe,
-		titulo
+		titulo,
+		ordenar
 	}: {
 		ficha: Ficha;
 		series: Map<string, Observacion[]>;
 		pais: Ficha | null;
 		fuenteDe: (o: Observacion) => string;
 		titulo: string;
+		/** Orden propio de los indicadores del selector (p. ej. la serie de educación: el total primero). */
+		ordenar?: (codigos: string[]) => string[];
 	} = $props();
 
 	// Orden del catálogo de la fuente: tasas primero, después miles de personas; lo demás, alfabético.
 	const ORDEN = ['tasa_actividad', 'tasa_empleo', 'tasa_desempleo', 'tasa_no_registro', 'activos', 'ocupados', 'desocupados'];
 	const rango_ = (c: string) => (ORDEN.includes(c) ? ORDEN.indexOf(c) : ORDEN.length);
-	const codigos = $derived([...series.keys()].sort((a, b) => rango_(a) - rango_(b) || a.localeCompare(b)));
+	const codigos = $derived(
+		ordenar ? ordenar([...series.keys()]) : [...series.keys()].sort((a, b) => rango_(a) - rango_(b) || a.localeCompare(b))
+	);
 	let elegido = $state<string | null>(null);
 	let indicador = $derived(elegido && series.has(elegido) ? elegido : (codigos[0] ?? ''));
 	let info = $derived(ficha.indicadores[indicador]);
