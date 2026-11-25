@@ -162,6 +162,19 @@ particiones:
   II-4.2.1:
     - [total, [media_superior_publica, media_superior_privada]]
     - [media_superior_publica, [diurna, cuarto_turno]]
+  # F4.8a2 (#225): grupos de media básica y superior (filas jerárquicas como II-3.2.1)
+  II-3.4.1:
+    - [total, [media_basica_publica, media_basica_privada]]
+    - [media_basica_publica, [diurna, cuarto_turno]]
+  II-4.4.1:
+    - [total, [educacion_media_superior_publica, educacion_media_superior_privada]]
+    - [educacion_media_superior_publica, [diurna, nocturna]]
+
+# no_aditivos (#225, mantenedor): columnas publicadas que no son conteos (promedios). Se cargan con su unidad y quedan
+# fuera del control de sumas (AC-E19). `patron`: parte del id del indicador.
+no_aditivos:
+  II-3.4.1: {patron: promedio, unidad: alumnos por grupo}
+  II-4.4.1: {patron: promedio, unidad: alumnos por grupo}
 
 # huecos (F4.5a, AC-E21): territorios que faltan en un cuadro A sin que el anuario los publique sin dato.
 # Hoy ninguno: todo lo que falta está publicado como «s/d» o «-».
@@ -196,6 +209,11 @@ controles_excepciones:
         motivo: "el país publicado no es la suma de los departamentos (promovidos 37.131 contra 34.226; no promovidos 12.366 contra 10.992)"
         indicadores: [edu_ii_4_2_13_rendimiento_promovido, edu_ii_4_2_13_rendimiento_no_promovido]
   AC-E19:  # desgloses
+    II-4.3.2:
+      2024:
+        motivo: "el total publicado de docentes de la DGETP en media superior (21.280) es 2 más que la suma de sus categorías (21.278) en el archivo"
+        indicadores: [edu_ii_4_3_2_total]
+        territorios: [pais/UY]
     II-1.2.1:
       2023:
         motivo: "el total no es varones + mujeres en el archivo (país 95.709 contra 95.597)"

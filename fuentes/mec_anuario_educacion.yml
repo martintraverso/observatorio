@@ -11820,7 +11820,7 @@ cuadros:
       2022: B
       2023: B
       2024: B
-    ola: 2
+    ola: 1
     unidad: docentes
     anios:
     - 2020
@@ -11828,6 +11828,102 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: TOTAL DOCENTES
+        id: edu_ii_3_3_1_total_docentes
+      - col: C
+        ruta: PERSONAL DOCENTE/Titulados
+        id: edu_ii_3_3_1_personal_docente_titulados
+      - col: D
+        ruta: PERSONAL DOCENTE/No Titulados
+        id: edu_ii_3_3_1_personal_docente_no_titulados
+      - col: E
+        ruta: TOTAL HORAS
+        id: edu_ii_3_3_1_total_horas
+      - col: F
+        ruta: HORAS DOCENTES/Titulados
+        id: edu_ii_3_3_1_horas_docentes_titulados
+      - col: G
+        ruta: HORAS DOCENTES/No Titulados
+        id: edu_ii_3_3_1_horas_docentes_no_titulados
+      2021:
+      - col: B
+        ruta: TOTAL DOCENTES
+        id: edu_ii_3_3_1_total_docentes
+      - col: C
+        ruta: PERSONAL DOCENTE/Titulados
+        id: edu_ii_3_3_1_personal_docente_titulados
+      - col: D
+        ruta: PERSONAL DOCENTE/No Titulados
+        id: edu_ii_3_3_1_personal_docente_no_titulados
+      - col: E
+        ruta: TOTAL HORAS
+        id: edu_ii_3_3_1_total_horas
+      - col: F
+        ruta: HORAS DOCENTES/Titulados
+        id: edu_ii_3_3_1_horas_docentes_titulados
+      - col: G
+        ruta: HORAS DOCENTES/No Titulados
+        id: edu_ii_3_3_1_horas_docentes_no_titulados
+      2022:
+      - col: B
+        ruta: TOTAL DOCENTES
+        id: edu_ii_3_3_1_total_docentes
+      - col: C
+        ruta: PERSONAL DOCENTE/Titulados
+        id: edu_ii_3_3_1_personal_docente_titulados
+      - col: D
+        ruta: PERSONAL DOCENTE/No Titulados
+        id: edu_ii_3_3_1_personal_docente_no_titulados
+      - col: E
+        ruta: TOTAL HORAS
+        id: edu_ii_3_3_1_total_horas
+      - col: F
+        ruta: HORAS DOCENTES/Titulados
+        id: edu_ii_3_3_1_horas_docentes_titulados
+      - col: G
+        ruta: HORAS DOCENTES/No Titulados
+        id: edu_ii_3_3_1_horas_docentes_no_titulados
+      2023:
+      - col: B
+        ruta: TOTAL DOCENTES
+        id: edu_ii_3_3_1_total_docentes
+      - col: C
+        ruta: PERSONAL DOCENTE/Titulados
+        id: edu_ii_3_3_1_personal_docente_titulados
+      - col: D
+        ruta: PERSONAL DOCENTE/No Titulados
+        id: edu_ii_3_3_1_personal_docente_no_titulados
+      - col: E
+        ruta: TOTAL HORAS
+        id: edu_ii_3_3_1_total_horas
+      - col: F
+        ruta: HORAS DOCENTES/Titulados
+        id: edu_ii_3_3_1_horas_docentes_titulados
+      - col: G
+        ruta: HORAS DOCENTES/No Titulados
+        id: edu_ii_3_3_1_horas_docentes_no_titulados
+      2024:
+      - col: B
+        ruta: TOTAL DOCENTES
+        id: edu_ii_3_3_1_total_docentes
+      - col: C
+        ruta: PERSONAL DOCENTE/Titulados
+        id: edu_ii_3_3_1_personal_docente_titulados
+      - col: D
+        ruta: PERSONAL DOCENTE/No Titulados
+        id: edu_ii_3_3_1_personal_docente_no_titulados
+      - col: E
+        ruta: TOTAL HORAS
+        id: edu_ii_3_3_1_total_horas
+      - col: F
+        ruta: HORAS DOCENTES/Titulados
+        id: edu_ii_3_3_1_horas_docentes_titulados
+      - col: G
+        ruta: HORAS DOCENTES/No Titulados
+        id: edu_ii_3_3_1_horas_docentes_no_titulados
   II-3.3.2:
     titulo: PERSONAL DOCENTE DE LA DGETP EN EDUCACIÓN MEDIA BÁSICA TECNOLÓGICA POR TIPO DE CURSO SEGÚN GÉNERO
     tipos:
@@ -11836,7 +11932,7 @@ cuadros:
       2022: B
       2023: B
       2024: B
-    ola: 2
+    ola: 1
     unidad: docentes
     anios:
     - 2020
@@ -11844,6 +11940,69 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_3_3_2_total
+      - col: C
+        ruta: SEXO/Mujeres
+        id: edu_ii_3_3_2_sexo_mujeres
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: D
+        ruta: SEXO/Varones
+        id: edu_ii_3_3_2_sexo_varones
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      2021:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_3_3_2_total
+      - col: C
+        ruta: SEXO/Mujeres
+        id: edu_ii_3_3_2_sexo_mujeres
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: D
+        ruta: SEXO/Varones
+        id: edu_ii_3_3_2_sexo_varones
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      2022:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_3_3_2_total
+      - col: C
+        ruta: SEXO/Mujeres
+        id: edu_ii_3_3_2_sexo_mujeres
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: D
+        ruta: SEXO/Varones
+        id: edu_ii_3_3_2_sexo_varones
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      2023:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_3_3_2_total
+      - col: C
+        ruta: GÉNERO/Mujeres
+        id: edu_ii_3_3_2_genero_mujeres
+      - col: D
+        ruta: GÉNERO/Varones
+        id: edu_ii_3_3_2_genero_varones
+      - col: E
+        ruta: GÉNERO/Trans
+        id: edu_ii_3_3_2_genero_trans
+      2024:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_3_3_2_total
+      - col: C
+        ruta: GÉNERO/Varones
+        id: edu_ii_3_3_2_genero_varones
+      - col: D
+        ruta: GÉNERO/Mujeres
+        id: edu_ii_3_3_2_genero_mujeres
+      - col: E
+        ruta: GÉNERO/Trans
+        id: edu_ii_3_3_2_genero_trans
   II-3.4.1:
     titulo: GRUPOS DEL DGES EN EDUCACIÓN MEDIA BÁSICA GENERAL COMPARADOS CON EL TOTAL DE GRUPOS EN EDUCACIÓN MEDIA GENERAL SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN
     tipos:
@@ -11852,7 +12011,7 @@ cuadros:
       2022: B
       2023: B
       2024: B
-    ola: 2
+    ola: 1
     unidad: grupos
     anios:
     - 2020
@@ -11860,6 +12019,57 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: FORMA DE ADMINISTRACIÓN/Grupos en Educación Media Básica General
+        id: edu_ii_3_4_1_forma_de_administracion_grupos_en_educacion_media_basica_general
+      - col: C
+        ruta: FORMA DE ADMINISTRACIÓN/Total de grupos en Educación Media General
+        id: edu_ii_3_4_1_forma_de_administracion_total_de_grupos_en_educacion_media_general
+      - col: D
+        ruta: FORMA DE ADMINISTRACIÓN/Promedio alumnos por grupo de Media Básica
+        id: edu_ii_3_4_1_forma_de_administracion_promedio_alumnos_por_grupo_de_media_basica
+      2021:
+      - col: B
+        ruta: FORMA DE ADMINISTRACIÓN/Grupos en Educación Media Básica General
+        id: edu_ii_3_4_1_forma_de_administracion_grupos_en_educacion_media_basica_general
+      - col: C
+        ruta: FORMA DE ADMINISTRACIÓN/Total de grupos en Educación Media General
+        id: edu_ii_3_4_1_forma_de_administracion_total_de_grupos_en_educacion_media_general
+      - col: D
+        ruta: FORMA DE ADMINISTRACIÓN/Promedio alumnos por grupo de Media Básica
+        id: edu_ii_3_4_1_forma_de_administracion_promedio_alumnos_por_grupo_de_media_basica
+      2022:
+      - col: B
+        ruta: FORMA DE ADMINISTRACIÓN/Grupos en Educación Media Básica General
+        id: edu_ii_3_4_1_forma_de_administracion_grupos_en_educacion_media_basica_general
+      - col: C
+        ruta: FORMA DE ADMINISTRACIÓN/Total de grupos en Educación Media General
+        id: edu_ii_3_4_1_forma_de_administracion_total_de_grupos_en_educacion_media_general
+      - col: D
+        ruta: FORMA DE ADMINISTRACIÓN/Promedio alumnos por grupo de Media Básica
+        id: edu_ii_3_4_1_forma_de_administracion_promedio_alumnos_por_grupo_de_media_basica
+      2023:
+      - col: B
+        ruta: FORMA DE ADMINISTRACIÓN/Grupos en Educación Media Básica General
+        id: edu_ii_3_4_1_forma_de_administracion_grupos_en_educacion_media_basica_general
+      - col: C
+        ruta: FORMA DE ADMINISTRACIÓN/Total de grupos en Educación Media General
+        id: edu_ii_3_4_1_forma_de_administracion_total_de_grupos_en_educacion_media_general
+      - col: D
+        ruta: FORMA DE ADMINISTRACIÓN/Promedio alumnos por grupo de Media Básica
+        id: edu_ii_3_4_1_forma_de_administracion_promedio_alumnos_por_grupo_de_media_basica
+      2024:
+      - col: B
+        ruta: FORMA DE ADMINISTRACIÓN/Grupos en Educación Media Básica General
+        id: edu_ii_3_4_1_forma_de_administracion_grupos_en_educacion_media_basica_general
+      - col: C
+        ruta: FORMA DE ADMINISTRACIÓN/Total de grupos en Educación Media General
+        id: edu_ii_3_4_1_forma_de_administracion_total_de_grupos_en_educacion_media_general
+      - col: D
+        ruta: FORMA DE ADMINISTRACIÓN/Promedio alumnos por grupo de Media Básica
+        id: edu_ii_3_4_1_forma_de_administracion_promedio_alumnos_por_grupo_de_media_basica
   II-4.1.1:
     titulo: ESTABLECIMIENTOS DE EDUCACIÓN MEDIA SUPERIOR POR MODALIDAD Y FORMA DE ADMINISTRACIÓN SEGÚN DEPARTAMENTO
     tipos:
@@ -15563,7 +15773,7 @@ cuadros:
       2022: B
       2023: B
       2024: B
-    ola: 2
+    ola: 1
     unidad: docentes
     anios:
     - 2020
@@ -15571,6 +15781,102 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: TOTAL DOCENTES
+        id: edu_ii_4_3_1_total_docentes
+      - col: C
+        ruta: PERSONAL DOCENTE/Titulados
+        id: edu_ii_4_3_1_personal_docente_titulados
+      - col: D
+        ruta: PERSONAL DOCENTE/No Titulados
+        id: edu_ii_4_3_1_personal_docente_no_titulados
+      - col: E
+        ruta: TOTAL HORAS
+        id: edu_ii_4_3_1_total_horas
+      - col: F
+        ruta: HORAS DOCENTES/Titulados
+        id: edu_ii_4_3_1_horas_docentes_titulados
+      - col: G
+        ruta: HORAS DOCENTES/No Titulados
+        id: edu_ii_4_3_1_horas_docentes_no_titulados
+      2021:
+      - col: B
+        ruta: TOTAL DOCENTES
+        id: edu_ii_4_3_1_total_docentes
+      - col: C
+        ruta: PERSONAL DOCENTE/Titulados
+        id: edu_ii_4_3_1_personal_docente_titulados
+      - col: D
+        ruta: PERSONAL DOCENTE/No Titulados
+        id: edu_ii_4_3_1_personal_docente_no_titulados
+      - col: E
+        ruta: TOTAL HORAS
+        id: edu_ii_4_3_1_total_horas
+      - col: F
+        ruta: HORAS DOCENTES/Titulados
+        id: edu_ii_4_3_1_horas_docentes_titulados
+      - col: G
+        ruta: HORAS DOCENTES/No Titulados
+        id: edu_ii_4_3_1_horas_docentes_no_titulados
+      2022:
+      - col: B
+        ruta: TOTAL DOCENTES
+        id: edu_ii_4_3_1_total_docentes
+      - col: C
+        ruta: PERSONAL DOCENTE/Titulados
+        id: edu_ii_4_3_1_personal_docente_titulados
+      - col: D
+        ruta: PERSONAL DOCENTE/No Titulados
+        id: edu_ii_4_3_1_personal_docente_no_titulados
+      - col: E
+        ruta: TOTAL HORAS
+        id: edu_ii_4_3_1_total_horas
+      - col: F
+        ruta: HORAS DOCENTES/Titulados
+        id: edu_ii_4_3_1_horas_docentes_titulados
+      - col: G
+        ruta: HORAS DOCENTES/No Titulados
+        id: edu_ii_4_3_1_horas_docentes_no_titulados
+      2023:
+      - col: B
+        ruta: TOTAL DOCENTES
+        id: edu_ii_4_3_1_total_docentes
+      - col: C
+        ruta: PERSONAL DOCENTE/Titulados
+        id: edu_ii_4_3_1_personal_docente_titulados
+      - col: D
+        ruta: PERSONAL DOCENTE/No Titulados
+        id: edu_ii_4_3_1_personal_docente_no_titulados
+      - col: E
+        ruta: TOTAL HORAS
+        id: edu_ii_4_3_1_total_horas
+      - col: F
+        ruta: HORAS DOCENTES/Titulados
+        id: edu_ii_4_3_1_horas_docentes_titulados
+      - col: G
+        ruta: HORAS DOCENTES/No Titulados
+        id: edu_ii_4_3_1_horas_docentes_no_titulados
+      2024:
+      - col: B
+        ruta: TOTAL DOCENTES
+        id: edu_ii_4_3_1_total_docentes
+      - col: C
+        ruta: PERSONAL DOCENTE/Titulados
+        id: edu_ii_4_3_1_personal_docente_titulados
+      - col: D
+        ruta: PERSONAL DOCENTE/No Titulados
+        id: edu_ii_4_3_1_personal_docente_no_titulados
+      - col: E
+        ruta: TOTAL HORAS
+        id: edu_ii_4_3_1_total_horas
+      - col: F
+        ruta: HORAS DOCENTES/Titulados
+        id: edu_ii_4_3_1_horas_docentes_titulados
+      - col: G
+        ruta: HORAS DOCENTES/No Titulados
+        id: edu_ii_4_3_1_horas_docentes_no_titulados
   II-4.3.2:
     titulo: PERSONAL DOCENTE DE LA DGETP EN EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA POR TIPO DE CURSO SEGÚN GÉNERO
     tipos:
@@ -15579,7 +15885,7 @@ cuadros:
       2022: B
       2023: B
       2024: B
-    ola: 2
+    ola: 1
     unidad: docentes
     anios:
     - 2020
@@ -15587,6 +15893,68 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_4_3_2_total
+      - col: C
+        ruta: SEXO/Mujeres
+        id: edu_ii_4_3_2_sexo_mujeres
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: D
+        ruta: SEXO/Varones
+        id: edu_ii_4_3_2_sexo_varones
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      2021:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_4_3_2_total
+      - col: C
+        ruta: SEXO/Mujeres
+        id: edu_ii_4_3_2_sexo_mujeres
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: D
+        ruta: SEXO/Varones
+        id: edu_ii_4_3_2_sexo_varones
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      2022:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_4_3_2_total
+      - col: C
+        ruta: SEXO/Mujeres
+        id: edu_ii_4_3_2_sexo_mujeres
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: D
+        ruta: SEXO/Varones
+        id: edu_ii_4_3_2_sexo_varones
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      2023:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_4_3_2_total
+      - col: C
+        ruta: SEXO/Mujeres
+        id: edu_ii_4_3_2_sexo_mujeres
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: D
+        ruta: SEXO/Varones
+        id: edu_ii_4_3_2_sexo_varones
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      2024:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_4_3_2_total
+      - col: C
+        ruta: GÉNERO/Varones
+        id: edu_ii_4_3_2_genero_varones
+      - col: D
+        ruta: GÉNERO/Mujeres
+        id: edu_ii_4_3_2_genero_mujeres
+      - col: E
+        ruta: GÉNERO/Trans
+        id: edu_ii_4_3_2_genero_trans
   II-4.4.1:
     titulo: GRUPOS DE EDUCACIÓN MEDIA SUPERIOR GENERAL COMPARADOS CON EL TOTAL DE AMBOS CICLOS SEGÚN GRANDES ÁREAS Y FORMA DE ADMINISTRACIÓN
     tipos:
@@ -15595,7 +15963,7 @@ cuadros:
       2022: B
       2023: B
       2024: B
-    ola: 2
+    ola: 1
     unidad: grupos
     anios:
     - 2020
@@ -15603,6 +15971,63 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: FORMA DE ADMINISTRACIÓN/Grupos en Educación Media Superior General
+        id: edu_ii_4_4_1_forma_de_administracion_grupos_en_educacion_media_superior_general
+      - col: C
+        ruta: Total de Grupos en Educación Media General
+        id: edu_ii_4_4_1_forma_de_administracion_total_de_grupos_en_educacion_media_general
+        equivale_2024: misma columna dentro de otro grupo del encabezado
+      - col: D
+        ruta: Promedio de alumnos por grupo de Media Superior
+        id: edu_ii_4_4_1_forma_de_administracion_promedio_de_alumnos_por_grupo_de_media_superior
+        equivale_2024: misma columna dentro de otro grupo del encabezado
+      2021:
+      - col: B
+        ruta: FORMA DE ADMINISTRACIÓN/Grupos en Educación Media Superior General
+        id: edu_ii_4_4_1_forma_de_administracion_grupos_en_educacion_media_superior_general
+      - col: C
+        ruta: Total de Grupos en Educación Media General
+        id: edu_ii_4_4_1_forma_de_administracion_total_de_grupos_en_educacion_media_general
+        equivale_2024: misma columna dentro de otro grupo del encabezado
+      - col: D
+        ruta: Promedio de alumnos por grupo de Media Superior
+        id: edu_ii_4_4_1_forma_de_administracion_promedio_de_alumnos_por_grupo_de_media_superior
+        equivale_2024: misma columna dentro de otro grupo del encabezado
+      2022:
+      - col: B
+        ruta: FORMA DE ADMINISTRACIÓN/Grupos en Educación Media Superior General
+        id: edu_ii_4_4_1_forma_de_administracion_grupos_en_educacion_media_superior_general
+      - col: C
+        ruta: Total de Grupos en Educación Media General
+        id: edu_ii_4_4_1_forma_de_administracion_total_de_grupos_en_educacion_media_general
+        equivale_2024: misma columna dentro de otro grupo del encabezado
+      - col: D
+        ruta: Promedio de alumnos por grupo de Media Superior
+        id: edu_ii_4_4_1_forma_de_administracion_promedio_de_alumnos_por_grupo_de_media_superior
+        equivale_2024: misma columna dentro de otro grupo del encabezado
+      2023:
+      - col: B
+        ruta: FORMA DE ADMINISTRACIÓN/Grupos en Educación Media Superior General
+        id: edu_ii_4_4_1_forma_de_administracion_grupos_en_educacion_media_superior_general
+      - col: C
+        ruta: FORMA DE ADMINISTRACIÓN/Total de Grupos en Educación Media General
+        id: edu_ii_4_4_1_forma_de_administracion_total_de_grupos_en_educacion_media_general
+      - col: D
+        ruta: FORMA DE ADMINISTRACIÓN/Promedio de alumnos por grupo de Media Superior
+        id: edu_ii_4_4_1_forma_de_administracion_promedio_de_alumnos_por_grupo_de_media_superior
+      2024:
+      - col: B
+        ruta: FORMA DE ADMINISTRACIÓN/Grupos en Educación Media Superior General
+        id: edu_ii_4_4_1_forma_de_administracion_grupos_en_educacion_media_superior_general
+      - col: C
+        ruta: FORMA DE ADMINISTRACIÓN/Total de Grupos en Educación Media General
+        id: edu_ii_4_4_1_forma_de_administracion_total_de_grupos_en_educacion_media_general
+      - col: D
+        ruta: FORMA DE ADMINISTRACIÓN/Promedio de alumnos por grupo de Media Superior
+        id: edu_ii_4_4_1_forma_de_administracion_promedio_de_alumnos_por_grupo_de_media_superior
   II-5.1.1:
     titulo: MATRÍCULA Y PERSONAL DOCENTE POR SEXO SEGÚN GRANDES ÁREAS, DEPARTAMENTOS E INSTITUCIONES
     tipos:
