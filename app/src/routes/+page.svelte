@@ -369,7 +369,14 @@
 				<div class="chips">
 					{#each grupos as g (g)}
 						<label class="chip" class:activo={grupo === g}>
-							<input type="radio" name="grupo" value={g} checked={grupo === g} onchange={() => elegirGrupo(g)} />
+							<input
+								type="radio"
+								name="grupo"
+								value={g}
+								checked={grupo === g}
+								onchange={() => elegirGrupo(g)}
+								onfocus={(e) => e.currentTarget.closest('label')?.scrollIntoView({ inline: 'center', block: 'nearest' })}
+							/>
 							{g}
 						</label>
 					{/each}
