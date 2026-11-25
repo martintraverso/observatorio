@@ -448,6 +448,16 @@ etiquetados con su comprobación con sumas (D5), y columnas con datos de otro a�
   - R `Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato` → `FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato` (B = E + F + G + H + I + J + K + L + M + N + O + P + Q + R)
 - **II-1.2.5 2024:**
   - R `Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato` → `FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato` (B = E + F + G + H + I + J + K + L + M + N + O + P + Q + R)
+- **II-1.3.2 2023:**
+  - B `DOCENTES/TOTAL` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - C `DOCENTES/Colegios Habilitados` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - D `DOCENTES/Colegios Autorizados` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - E `DOCENTES/Jardines de Infantes Autorizados` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+- **II-1.3.2 2024:**
+  - B `DOCENTES/TOTAL` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - C `DOCENTES/Colegios Habilitados` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - D `DOCENTES/Colegios Autorizados` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
+  - E `DOCENTES/Jardines de Infantes Autorizados` omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
 - **II-2.1.1 2021:**
   - E `FORMA DE ADMINISTRACIÓN/TIPO DE EDUCACIÓN/PRIVADA/Común` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
   - F `FORMA DE ADMINISTRACIÓN/TIPO DE EDUCACIÓN/PRIVADA/Especial` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
@@ -463,15 +473,101 @@ etiquetados con su comprobación con sumas (D5), y columnas con datos de otro a�
   - H `FORMA DE ADMINISTRACIÓN/PRIVADA/TOTAL` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
   - I `FORMA DE ADMINISTRACIÓN/PRIVADA/SEXO/V` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
   - J `FORMA DE ADMINISTRACIÓN/PRIVADA/SEXO/M` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+- **II-2.2.6 2021:**
+  - B `TIPO DE EDUCACIÓN/TOTAL` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - C `TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Total` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - D `TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Habilitados` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - E `TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Autorizados` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - F `TIPO DE EDUCACIÓN/EDUCACIÓN ESPECIAL` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+- **II-2.2.10 2021:**
+  - B `TOTAL SEXO/TOTAL` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - C `TOTAL SEXO/VARÓN` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - D `GRADO/TOTAL SEXO/MUJER` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - E `GRADO/Primero/SEXO/V` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - F `GRADO/Primero/SEXO/M` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - G `GRADO/Segundo/SEXO/V` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - H `GRADO/Segundo/SEXO/M` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - I `GRADO/Tercero/SEXO/V` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - J `GRADO/Tercero/SEXO/M` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - K `GRADO/Cuarto/SEXO/V` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - L `GRADO/Cuarto/SEXO/M` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - M `GRADO/Quinto/SEXO/V` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - N `GRADO/Quinto/SEXO/M` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - O `GRADO/Sexto/SEXO/V` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - P `GRADO/Sexto/SEXO/M` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+- **II-2.2.11 2021:**
+  - C `GRADO/TOTAL/Privada` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - E `GRADO/Primero/FORMA DE ADMINISTRACIÓN/Privada` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - G `GRADO/Segundo/FORMA DE ADMINISTRACIÓN/Privada` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - I `GRADO/Tercero/FORMA DE ADMINISTRACIÓN/Privada` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - K `GRADO/Cuarto/FORMA DE ADMINISTRACIÓN/Privada` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - M `GRADO/Quinto/FORMA DE ADMINISTRACIÓN/Privada` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
+  - O `GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Privada` omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
 - **II-2.2.12 2021:**
   - B `TOTAL` → `PROMOVIDOS/TOTAL` (B = C + D)
   - E `TOTAL` → `NO PROMOVIDOS/TOTAL` (E = F + G)
+  - V `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL` año real 2020
+  - W `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Varón` año real 2020
+  - X `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Mujer` año real 2020
+  - Y `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón` año real 2020
+  - Z `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer` año real 2020
+  - AA `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón` año real 2020
+  - AB `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer` año real 2020
+  - AC `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL` año real 2020
+  - AD `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Varón` año real 2020
+  - AE `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Mujer` año real 2020
+  - AF `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón` año real 2020
+  - AG `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer` año real 2020
+  - AH `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón` año real 2020
+  - AI `FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer` año real 2020
+  - ⚠ V «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
+  - ⚠ W «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Varón»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
+  - ⚠ X «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Mujer»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
+  - ⚠ Y «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
+  - ⚠ Z «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
+  - ⚠ AA «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
+  - ⚠ AB «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
+  - ⚠ AC «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
+  - ⚠ AD «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Varón»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
+  - ⚠ AE «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Mujer»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
+  - ⚠ AF «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
+  - ⚠ AG «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
+  - ⚠ AH «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
+  - ⚠ AI «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020
 - **II-2.2.12 2022:**
   - B `TOTAL` → `PROMOVIDOS/TOTAL` (B = C + D)
   - E `TOTAL` → `NO PROMOVIDOS/TOTAL` (E = F + G)
+  - V `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL` omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+  - W `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/Varón` omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+  - X `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/Mujer` omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+  - Y `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón` omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+  - Z `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer` omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+  - AA `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón` omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+  - AB `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer` omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+  - AC `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL` omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+  - AD `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Varón` omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+  - AE `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Mujer` omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+  - AF `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón` omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+  - AG `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer` omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+  - AH `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón` omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
+  - AI `FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer` omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
 - **II-2.2.12 2023:**
   - B `TOTAL` → `PROMOVIDOS/TOTAL` (B = C + D)
   - E `TOTAL` → `NO PROMOVIDOS/TOTAL` (E = F + G)
+  - ⚠ V «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas (['TOTAL', 'Primero', 'Segundo']); se carga como 2023
+  - ⚠ W «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/Varón»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas (['TOTAL', 'Primero', 'Segundo']); se carga como 2023
+  - ⚠ X «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/Mujer»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas (['TOTAL', 'Primero', 'Segundo']); se carga como 2023
+  - ⚠ Y «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas (['TOTAL', 'Primero', 'Segundo']); se carga como 2023
+  - ⚠ Z «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas (['TOTAL', 'Primero', 'Segundo']); se carga como 2023
+  - ⚠ AA «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón»: el pie dice 2021 pero difiere del anuario 2021 en 6 filas (['Primero', 'Segundo', 'Tercero']); se carga como 2023
+  - ⚠ AB «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer»: el pie dice 2021 pero difiere del anuario 2021 en 6 filas (['Primero', 'Segundo', 'Tercero']); se carga como 2023
+  - ⚠ AC «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas (['TOTAL', 'Primero', 'Segundo']); se carga como 2023
+  - ⚠ AD «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Varón»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas (['TOTAL', 'Primero', 'Segundo']); se carga como 2023
+  - ⚠ AE «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Mujer»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas (['TOTAL', 'Primero', 'Segundo']); se carga como 2023
+  - ⚠ AF «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas (['TOTAL', 'Primero', 'Segundo']); se carga como 2023
+  - ⚠ AG «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas (['TOTAL', 'Primero', 'Segundo']); se carga como 2023
+  - ⚠ AH «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón»: el pie dice 2021 pero difiere del anuario 2021 en 6 filas (['Primero', 'Segundo', 'Tercero']); se carga como 2023
+  - ⚠ AI «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer»: el pie dice 2021 pero difiere del anuario 2021 en 6 filas (['Primero', 'Segundo', 'Tercero']); se carga como 2023
 - **II-2.2.12 2024:**
   - B `TOTAL` → `PROMOVIDOS/TOTAL` (B = C + D)
   - E `TOTAL` → `NO PROMOVIDOS/TOTAL` (E = F + G)
@@ -643,8 +739,8 @@ de 2024 (`equivale_2024`); las demás conservan su id con un `motivo_d6`. Lo que
   - 4 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
 - **II-2.2.7:** 0 equivalencias, 22 con motivo
   - 22 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
-- **II-2.2.12:** 0 equivalencias, 48 con motivo
-  - 42 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
+- **II-2.2.12:** 0 equivalencias, 34 con motivo
+  - 28 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
   - 4 × 2024 publica este grupo con otro desglose (p. ej. por sexo): sin columna equivalente
   - 2 × concepto distinto (AC-E13): hasta 2022 el total no incluye privados; desde 2023 sí
 - **II-2.2.17:** 0 equivalencias, 3 con motivo

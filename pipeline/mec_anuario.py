@@ -251,7 +251,8 @@ COLUMNAS = ["indicador", "territorio_id", "periodo", "periodo_inicio", "periodo_
             "codigo_cuadro", "celda"]
 
 
-def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo: str) -> Cuadro:
+def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo: str,
+                   segundas: list[str] | tuple = ()) -> Cuadro:
     """Valores del cuadro `codigo` del anuario `anio`, con el mapeo por columna del registro.
 
     Tipo A: cada fila es un territorio (AC-E8). Tipo B y C: cada fila es una categoría que pasa a ser parte del
@@ -315,12 +316,14 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
             # categorías: la segunda lleva __2 (y así), con su rótulo; nunca se suman. Dos filas idénticas siguen
             # siendo un error (valores repetidos).
             base, k = sufijo, 1
+            if categoria in segundas:  # el registro dice cuál de las dos lleva __2 (no el orden de las filas)
+                sufijo, k = f"{base}__2", 2
             while sufijo in rotulo_de_sufijo and rotulo_de_sufijo[sufijo] != categoria:
                 k += 1
                 sufijo = f"{base}__{k}"
             if k > 1:
                 avisos_casi_iguales.append(f"«{categoria}» (fila {r}) se carga como {sufijo}: el archivo publica otra fila "
-                                           f"casi igual, «{rotulo_de_sufijo[base]}»")
+                                           f"casi igual" + (f", «{rotulo_de_sufijo[base]}»" if base in rotulo_de_sufijo else ""))
             rotulo_de_sufijo.setdefault(sufijo, categoria)
             for m in mapeo:
                 categorias[m["id"] + sufijo] = categoria

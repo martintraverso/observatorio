@@ -614,6 +614,8 @@ def escribir_registro(ex: dict, archivos: dict) -> None:
                 notas_otro = [n for n in c.get("pie", []) if any(int(x) != a for x in re.findall(r"año (\d{4})", n))]
                 if notas_otro:  # parte o todo el cuadro con datos de otro año: se cargan con el año real (D4)
                     e.setdefault("datos_de_otro_anio", {})[a] = notas_otro
+                if (segundas := manual.get("categorias_segundas", {}).get(cod, {}).get(a)):
+                    e.setdefault("categorias_segundas", {})[a] = segundas
                 motivo = manual.get("cuadros_sin_cargar", {}).get(cod, {}).get(a) or (
                     "sin datos numéricos" if c.get("sin_datos") else
                     f"el título dice {c['anio_titulo']} (AC-E10: debe ser el año del archivo)"

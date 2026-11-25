@@ -3526,28 +3526,36 @@ cuadros:
       - col: B
         ruta: DOCENTES/TOTAL
         id: edu_ii_1_3_2_docentes_total
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
       - col: C
         ruta: DOCENTES/Colegios Habilitados
         id: edu_ii_1_3_2_docentes_colegios_habilitados
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
       - col: D
         ruta: DOCENTES/Colegios Autorizados
         id: edu_ii_1_3_2_docentes_colegios_autorizados
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
       - col: E
         ruta: DOCENTES/Jardines de Infantes Autorizados
         id: edu_ii_1_3_2_docentes_jardines_de_infantes_autorizados
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
       2024:
       - col: B
         ruta: DOCENTES/TOTAL
         id: edu_ii_1_3_2_docentes_total
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
       - col: C
         ruta: DOCENTES/Colegios Habilitados
         id: edu_ii_1_3_2_docentes_colegios_habilitados
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
       - col: D
         ruta: DOCENTES/Colegios Autorizados
         id: edu_ii_1_3_2_docentes_colegios_autorizados
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
       - col: E
         ruta: DOCENTES/Jardines de Infantes Autorizados
         id: edu_ii_1_3_2_docentes_jardines_de_infantes_autorizados
+        omitir: ya cargado desde el anuario 2022, con los mismos valores (D4)
     datos_de_otro_anio:
       2024:
       - Nota:Se reporta último año disponible enviado por la DGEIP (año 2022).
@@ -3854,6 +3862,9 @@ cuadros:
       2023:
       - 'Nota: El personal docente de Centros de Primera Infancia Privados supervisados por INAU corresponden al de los Centros Privados supervisados por el MEC del
         año 2021.'
+    categorias_segundas:
+      2024:
+      - Otros cursos no reconocidos por el mec
   II-2.1.1:
     titulo: ESTABLECIMIENTOS DE EDUCACIÓN PRIMARIA POR FORMA DE ADMINISTRACIÓN Y TIPO DE EDUCACIÓN SEGÚN DEPARTAMENTO
     tipos:
@@ -6122,18 +6133,23 @@ cuadros:
       - col: B
         ruta: TIPO DE EDUCACIÓN/TOTAL
         id: edu_ii_2_2_6_tipo_de_educacion_total
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: C
         ruta: TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Total
         id: edu_ii_2_2_6_tipo_de_educacion_educacion_comun_total
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: D
         ruta: TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Habilitados
         id: edu_ii_2_2_6_tipo_de_educacion_educacion_comun_habilitados
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: E
         ruta: TIPO DE EDUCACIÓN/EDUCACIÓN COMÚN/Autorizados
         id: edu_ii_2_2_6_tipo_de_educacion_educacion_comun_autorizados
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: F
         ruta: TIPO DE EDUCACIÓN/EDUCACIÓN ESPECIAL
         id: edu_ii_2_2_6_tipo_de_educacion_educacion_especial
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       2022:
       - col: B
         ruta: TIPO DE EDUCACIÓN/TOTAL
@@ -7067,48 +7083,63 @@ cuadros:
       - col: B
         ruta: TOTAL SEXO/TOTAL
         id: edu_ii_2_2_10_total_sexo_total
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: C
         ruta: TOTAL SEXO/VARÓN
         id: edu_ii_2_2_10_total_sexo_varon
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: D
         ruta: GRADO/TOTAL SEXO/MUJER
         id: edu_ii_2_2_10_grado_total_sexo_mujer
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: E
         ruta: GRADO/Primero/SEXO/V
         id: edu_ii_2_2_10_grado_primero_sexo_v
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: F
         ruta: GRADO/Primero/SEXO/M
         id: edu_ii_2_2_10_grado_primero_sexo_m
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: G
         ruta: GRADO/Segundo/SEXO/V
         id: edu_ii_2_2_10_grado_segundo_sexo_v
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: H
         ruta: GRADO/Segundo/SEXO/M
         id: edu_ii_2_2_10_grado_segundo_sexo_m
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: I
         ruta: GRADO/Tercero/SEXO/V
         id: edu_ii_2_2_10_grado_tercero_sexo_v
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: J
         ruta: GRADO/Tercero/SEXO/M
         id: edu_ii_2_2_10_grado_tercero_sexo_m
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: K
         ruta: GRADO/Cuarto/SEXO/V
         id: edu_ii_2_2_10_grado_cuarto_sexo_v
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: L
         ruta: GRADO/Cuarto/SEXO/M
         id: edu_ii_2_2_10_grado_cuarto_sexo_m
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: M
         ruta: GRADO/Quinto/SEXO/V
         id: edu_ii_2_2_10_grado_quinto_sexo_v
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: N
         ruta: GRADO/Quinto/SEXO/M
         id: edu_ii_2_2_10_grado_quinto_sexo_m
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: O
         ruta: GRADO/Sexto/SEXO/V
         id: edu_ii_2_2_10_grado_sexto_sexo_v
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: P
         ruta: GRADO/Sexto/SEXO/M
         id: edu_ii_2_2_10_grado_sexto_sexo_m
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       2022:
       - col: B
         ruta: TOTAL SEXO/TOTAL
@@ -7321,42 +7352,49 @@ cuadros:
       - col: C
         ruta: GRADO/TOTAL/Privada
         id: edu_ii_2_2_11_grado_total_privada
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: D
         ruta: GRADO/Primero/FORMA DE ADMINISTRACIÓN/Pública
         id: edu_ii_2_2_11_grado_primero_forma_de_administracion_publica
       - col: E
         ruta: GRADO/Primero/FORMA DE ADMINISTRACIÓN/Privada
         id: edu_ii_2_2_11_grado_primero_forma_de_administracion_privada
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: F
         ruta: GRADO/Segundo/FORMA DE ADMINISTRACIÓN/Pública
         id: edu_ii_2_2_11_grado_segundo_forma_de_administracion_publica
       - col: G
         ruta: GRADO/Segundo/FORMA DE ADMINISTRACIÓN/Privada
         id: edu_ii_2_2_11_grado_segundo_forma_de_administracion_privada
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: H
         ruta: GRADO/Tercero/FORMA DE ADMINISTRACIÓN/Pública
         id: edu_ii_2_2_11_grado_tercero_forma_de_administracion_publica
       - col: I
         ruta: GRADO/Tercero/FORMA DE ADMINISTRACIÓN/Privada
         id: edu_ii_2_2_11_grado_tercero_forma_de_administracion_privada
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: J
         ruta: GRADO/Cuarto/FORMA DE ADMINISTRACIÓN/Pública
         id: edu_ii_2_2_11_grado_cuarto_forma_de_administracion_publica
       - col: K
         ruta: GRADO/Cuarto/FORMA DE ADMINISTRACIÓN/Privada
         id: edu_ii_2_2_11_grado_cuarto_forma_de_administracion_privada
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: L
         ruta: GRADO/Quinto/FORMA DE ADMINISTRACIÓN/Pública
         id: edu_ii_2_2_11_grado_quinto_forma_de_administracion_publica
       - col: M
         ruta: GRADO/Quinto/FORMA DE ADMINISTRACIÓN/Privada
         id: edu_ii_2_2_11_grado_quinto_forma_de_administracion_privada
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       - col: N
         ruta: GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Pública
         id: edu_ii_2_2_11_grado_sexto_forma_de_administracion_publica
       - col: O
         ruta: GRADO/Sexto/FORMA DE ADMINISTRACIÓN/Privada
         id: edu_ii_2_2_11_grado_sexto_forma_de_administracion_privada
+        omitir: ya cargado desde el anuario 2020, con los mismos valores (D4)
       2022:
       - col: B
         ruta: GRADO/TOTAL/Pública
@@ -7600,58 +7638,72 @@ cuadros:
       - col: V
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL
         id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_total
+        anio: 2020
         motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: W
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Varón
         id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_varon
+        anio: 2020
         motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: X
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Mujer
         id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_mujer
+        anio: 2020
         motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: Y
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón
         id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_area_demografica_urbana_sexo_varon
+        anio: 2020
         motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: Z
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer
         id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_area_demografica_urbana_sexo_mujer
+        anio: 2020
         motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: AA
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón
         id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_area_demografica_rural_sexo_varon
+        anio: 2020
         motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: AB
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer
         id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_area_demografica_rural_sexo_mujer
+        anio: 2020
         motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: AC
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL
         id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_total
+        anio: 2020
         motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: AD
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Varón
         id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_varon
+        anio: 2020
         motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: AE
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Mujer
         id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_mujer
+        anio: 2020
         motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: AF
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón
         id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_area_demografica_urbana_sexo_varon
+        anio: 2020
         motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: AG
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer
         id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_area_demografica_urbana_sexo_mujer
+        anio: 2020
         motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: AH
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón
         id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_area_demografica_rural_sexo_varon
+        anio: 2020
         motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: AI
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer
         id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_area_demografica_rural_sexo_mujer
+        anio: 2020
         motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       2022:
       - col: B
@@ -7721,59 +7773,59 @@ cuadros:
       - col: V
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL
         id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_total
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+        omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
       - col: W
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/Varón
         id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_varon
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+        omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
       - col: X
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/Mujer
         id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_mujer
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+        omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
       - col: Y
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón
         id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_area_demografica_urbana_sexo_varon
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+        omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
       - col: Z
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer
         id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_area_demografica_urbana_sexo_mujer
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+        omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
       - col: AA
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón
         id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_area_demografica_rural_sexo_varon
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+        omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
       - col: AB
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer
         id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_promovidos_area_demografica_rural_sexo_mujer
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+        omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
       - col: AC
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL
         id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_total
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+        omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
       - col: AD
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Varón
         id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_varon
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+        omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
       - col: AE
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Mujer
         id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_mujer
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+        omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
       - col: AF
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón
         id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_area_demografica_urbana_sexo_varon
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+        omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
       - col: AG
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer
         id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_area_demografica_urbana_sexo_mujer
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+        omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
       - col: AH
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón
         id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_area_demografica_rural_sexo_varon
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+        omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
       - col: AI
         ruta: FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer
         id: edu_ii_2_2_12_forma_de_administracion_privada_rendimiento_escolar_no_promovidos_area_demografica_rural_sexo_mujer
-        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+        omitir: ya cargado desde el anuario 2021, con los mismos valores (D4)
       2023:
       - col: B
         ruta: TOTAL
@@ -7970,6 +8022,59 @@ cuadros:
       2023:
       - 'Nota: Los datos correspondientes a Privada de la DGEIP corresponden al año 2020, dado que al momento de cierre de la publicación no estaba el dato correspondiente
         a 2022'
+    anio_real_notas:
+      2021:
+      - 'V «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020'
+      - 'W «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Varón»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020'
+      - 'X «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/Mujer»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020'
+      - 'Y «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón»: el anuario 2020 no tiene esta columna para comparar;
+        se carga como 2020'
+      - 'Z «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer»: el anuario 2020 no tiene esta columna para comparar;
+        se carga como 2020'
+      - 'AA «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón»: el anuario 2020 no tiene esta columna para comparar;
+        se carga como 2020'
+      - 'AB «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer»: el anuario 2020 no tiene esta columna para comparar;
+        se carga como 2020'
+      - 'AC «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020'
+      - 'AD «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Varón»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020'
+      - 'AE «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Mujer»: el anuario 2020 no tiene esta columna para comparar; se carga como 2020'
+      - 'AF «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón»: el anuario 2020 no tiene esta columna para comparar;
+        se carga como 2020'
+      - 'AG «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer»: el anuario 2020 no tiene esta columna para comparar;
+        se carga como 2020'
+      - 'AH «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón»: el anuario 2020 no tiene esta columna para comparar;
+        se carga como 2020'
+      - 'AI «FORMA DE ADMINISTRACIÓN/PRIVADA/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer»: el anuario 2020 no tiene esta columna para comparar;
+        se carga como 2020'
+      2023:
+      - 'V «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas ([''TOTAL'', ''Primero'',
+        ''Segundo'']); se carga como 2023'
+      - 'W «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/Varón»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas ([''TOTAL'', ''Primero'',
+        ''Segundo'']); se carga como 2023'
+      - 'X «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/Mujer»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas ([''TOTAL'', ''Primero'',
+        ''Segundo'']); se carga como 2023'
+      - 'Y «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón»: el pie dice 2021 pero difiere del anuario 2021 en
+        7 filas ([''TOTAL'', ''Primero'', ''Segundo'']); se carga como 2023'
+      - 'Z «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer»: el pie dice 2021 pero difiere del anuario 2021 en
+        7 filas ([''TOTAL'', ''Primero'', ''Segundo'']); se carga como 2023'
+      - 'AA «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón»: el pie dice 2021 pero difiere del anuario 2021 en
+        6 filas ([''Primero'', ''Segundo'', ''Tercero'']); se carga como 2023'
+      - 'AB «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer»: el pie dice 2021 pero difiere del anuario 2021 en
+        6 filas ([''Primero'', ''Segundo'', ''Tercero'']); se carga como 2023'
+      - 'AC «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/TOTAL»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas ([''TOTAL'', ''Primero'',
+        ''Segundo'']); se carga como 2023'
+      - 'AD «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Varón»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas ([''TOTAL'', ''Primero'',
+        ''Segundo'']); se carga como 2023'
+      - 'AE «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/Mujer»: el pie dice 2021 pero difiere del anuario 2021 en 7 filas ([''TOTAL'', ''Primero'',
+        ''Segundo'']); se carga como 2023'
+      - 'AF «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Varón»: el pie dice 2021 pero difiere del anuario 2021
+        en 7 filas ([''TOTAL'', ''Primero'', ''Segundo'']); se carga como 2023'
+      - 'AG «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Urbana/Sexo/Mujer»: el pie dice 2021 pero difiere del anuario 2021
+        en 7 filas ([''TOTAL'', ''Primero'', ''Segundo'']); se carga como 2023'
+      - 'AH «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Varón»: el pie dice 2021 pero difiere del anuario 2021
+        en 6 filas ([''Primero'', ''Segundo'', ''Tercero'']); se carga como 2023'
+      - 'AI «FORMA DE ADMINISTRACIÓN/PRIVADA*/RENDIMIENTO ESCOLAR/NO PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural/Sexo/Mujer»: el pie dice 2021 pero difiere del anuario 2021
+        en 6 filas ([''Primero'', ''Segundo'', ''Tercero'']); se carga como 2023'
   II-2.2.13:
     titulo: RENDIMIENTO ESCOLAR EN EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR ÁREA DEMOGRÁFICA SEGÚN DEPARTAMENTO
     tipos:

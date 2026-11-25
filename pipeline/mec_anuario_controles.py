@@ -203,7 +203,7 @@ def controles(obs: pd.DataFrame, fuente: dict, manual: dict, derivados: set[str]
                         fallas.append(texto)
     particiones = manual.get("particiones") or {}
     cat = conteos[conteos.indicador.str.contains("__")].assign(
-        base=lambda d: d.indicador.str.split("__").str[0], categoria=lambda d: d.indicador.str.split("__").str[-1])
+        base=lambda d: d.indicador.str.split("__").str[0], categoria=lambda d: d.indicador.str.split("__", n=1).str[1])
     for (b, terr, per), g in cat.groupby(["base", "territorio_id", "periodo"]):
         v = dict(zip(g.categoria, g.valor))
         if "total" not in v:

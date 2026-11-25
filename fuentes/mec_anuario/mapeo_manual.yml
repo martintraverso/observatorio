@@ -34,6 +34,23 @@ anio_real:
   II-2.3.2:
     2023: {anio: 2022, columnas: todas}
     2024: {anio: 2022, columnas: todas}
+  # F4.8a1 (#224): la ola 2 de inicial y primaria, con las mismas notas que la ola 1
+  II-1.3.2:
+    2023: {anio: 2022, columnas: todas}  # «último año disponible… (año 2022)»
+    2024: {anio: 2022, columnas: todas}
+  II-2.2.6:
+    2021: {anio: 2020, columnas: todas}  # matrícula de primaria privada: todo es privada
+  II-2.2.10:
+    2021: {anio: 2020, columnas: todas}  # primaria común privada
+  II-2.2.11:
+    2021: {anio: 2020, columnas: privad}
+  II-2.2.12:
+    2021: {anio: 2020, columnas: privad}
+    # 2022 y 2023 repiten la nota «Privada… año 2020». El anuario 2020 no publica estas columnas, así que se comparan
+    # con las del anuario 2021 (que son las de 2020): 2022 es igual en las 98 celdas y no se vuelve a cargar; 2023
+    # difiere (4 de 50 iguales) y queda en 2023 con su nota (D4).
+    2022: {anio: 2021, columnas: privad}
+    2023: {anio: 2021, columnas: privad}
   # II-2.2.18 2023 no es de otro año: no hay datos (todo «s/d»), lo resuelve el parser.
 
 # total_con_error (D5): filas en las que el total general publicado no cierra con sus partes por un error de la
@@ -265,3 +282,9 @@ cuadros_sin_cargar:
     2020: "el MEC reparte el total por edad y sexo en proporción (la privada no tiene esos datos): publica estudiantes con decimales, que no son conteos (AC-E11) ni cierran por departamento (AC-E17); no se carga el cuadro de este año (mantenedor, #224)"
     2021: "el MEC reparte el total por edad y sexo en proporción (la privada no tiene esos datos): publica estudiantes con decimales, que no son conteos (AC-E11) ni cierran por departamento (AC-E17); no se carga el cuadro de este año (mantenedor, #224)"
     2022: "el MEC reparte el total por edad y sexo en proporción (la privada no tiene esos datos): publica estudiantes con decimales, que no son conteos (AC-E11) ni cierran por departamento (AC-E17); no se carga el cuadro de este año (mantenedor, #224)"
+
+# categorias_segundas (#224): dos filas con distinto rótulo y el mismo nombre normalizado son dos categorías
+# (mantenedor). La que se nombra acá lleva «__2»; la otra conserva el id de los años anteriores (AC-E13).
+categorias_segundas:
+  II-1.3.5:
+    2024: ["Otros cursos no reconocidos por el mec"]  # 2020–2023 publican solo «…por el MEC», que sigue su serie

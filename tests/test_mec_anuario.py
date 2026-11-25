@@ -321,14 +321,31 @@ def test_224_despues_del_pie_ninguna_fila_es_un_dato():
 
 
 def test_224_dos_filas_casi_iguales_son_dos_categorias():
-    """#224 (mantenedor): II-1.3.5 de 2024 publica «…por el mec» y «…por el MEC» con valores distintos: la segunda va
-    con __2, nada se suma, y el aviso lo dice."""
+    """#224 (mantenedor): II-1.3.5 de 2024 publica «…por el mec» y «…por el MEC» con valores distintos: son dos
+    categorías, nada se suma, y el aviso lo dice. El registro dice cuál lleva __2 («…por el mec»): «…por el MEC»,
+    la única fila de 2020–2023, conserva su id y su serie (AC-E13), sin depender del orden de las filas."""
     x = (FIX / "2024.xlsx").read_bytes()
     reg = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario_educacion.yml").read_text(encoding="utf-8"))
     e = reg["cuadros"]["II-1.3.5"]
-    c = mec.parsear_cuadro(x, "II-1.3.5", 2024, e["mapeo"][2024], e["tipos"][2024])
+    assert e["categorias_segundas"][2024] == ["Otros cursos no reconocidos por el mec"]
+    c = mec.parsear_cuadro(x, "II-1.3.5", 2024, e["mapeo"][2024], e["tipos"][2024], e["categorias_segundas"][2024])
     base = "edu_ii_1_3_5_funcion_total__otros_cursos_no_reconocidos_por_el_mec"
     total = c.datos[c.datos.indicador.isin([base, base + "__2"])].set_index("indicador").valor
-    assert total.to_dict() == {base: 15, base + "__2": 206}
-    assert c.categorias[base + "__2"] == "Otros cursos no reconocidos por el MEC"
+    assert total.to_dict() == {base: 206, base + "__2": 15}
+    assert c.categorias[base] == "Otros cursos no reconocidos por el MEC"
     assert any("casi igual" in a for a in c.avisos)
+    # sin la regla del registro, por el orden de las filas el id de la serie quedaría con la otra categoría
+    sin_regla = mec.parsear_cuadro(x, "II-1.3.5", 2024, e["mapeo"][2024], e["tipos"][2024])
+    assert sin_regla.datos[sin_regla.datos.indicador == base].valor.iloc[0] == 15
+
+
+def test_224_d4_en_la_ola_2():
+    """#224: D4 vale en la ola 2. II-1.3.2 de 2023 y 2024 repite 2022 («último año disponible»): no se vuelve a
+    cargar. II-2.2.12: lo privado de 2022 es copia de 2021 (datos de 2020) y no se carga; 2023 difiere y queda."""
+    reg = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario_educacion.yml").read_text(encoding="utf-8"))["cuadros"]
+    for anio in (2023, 2024):
+        assert all(x.get("omitir") for x in reg["II-1.3.2"]["mapeo"][anio])
+    privadas = lambda a: [x for x in reg["II-2.2.12"]["mapeo"][a] if "privad" in x["id"]]  # noqa: E731
+    assert all(x.get("anio") == 2020 for x in privadas(2021))
+    assert all(x.get("omitir") for x in privadas(2022))
+    assert not any(x.get("omitir") or x.get("anio") for x in privadas(2023))
