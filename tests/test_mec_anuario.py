@@ -16,6 +16,7 @@ from comun.xlsx import _hojas
 RAIZ = Path(__file__).resolve().parents[1]
 REG = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario_educacion.yml").read_text(encoding="utf-8"))
 FIX = RAIZ / "tests" / "fixtures" / "mec_anuario"
+MANUAL = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario" / "mapeo_manual.yml").read_text(encoding="utf-8"))
 XLSX = {a: (FIX / f"{a}.xlsx").read_bytes() for a in (2024, 2023)}
 
 
@@ -72,7 +73,10 @@ def test_cada_cuadro_de_la_ola_1_se_lee_con_su_mapeo(anio):
         c = cuadro(cod, anio)
         todo_omitido = all(m.get("omitir") for m in e["mapeo"][anio])  # II-2.3.2 2024: datos de 2022, ya cargados (D4)
         assert len(c.datos) or todo_omitido or any("total en 0" in a for a in c.avisos), cod  # II-2.2.18 2023: todo «s/d»
-        assert c.datos.valor.map(lambda v: isinstance(v, int)).all(), cod
+        # los promedios publicados (#225, `no_aditivos`) no son conteos: el resto, enteros (AC-E11)
+        na = (MANUAL.get("no_aditivos") or {}).get(cod)
+        conteos = c.datos[~c.datos.indicador.str.contains(na["patron"])] if na else c.datos
+        assert conteos.valor.map(lambda v: float(v).is_integer()).all(), cod  # la columna puede ser float si hay promedios
         leidos += 1
     assert leidos >= 50
 

@@ -152,7 +152,7 @@ def nombre_tasa(cod: str, e: dict, concepto: str, categoria: str = "") -> str:
 
 def indicadores(obs: pd.DataFrame, fuente: dict, pies: dict, formulas: dict, serie: pd.DataFrame,
                 notas_prev: dict | None = None, categorias: dict | None = None,
-                nombres_prev: dict | None = None) -> pd.DataFrame:
+                nombres_prev: dict | None = None, no_aditivos: dict | None = None) -> pd.DataFrame:
     """El catálogo: nombre, unidad y columna de origen de cada indicador cargado; la nota es el pie del cuadro (del
     año más reciente parseado; si en esta corrida no se parseó, la que ya estaba publicada). El nombre usa la ortografía
     del archivo: el título con sus siglas, y la categoría de los cuadros B y C tal como la escribe el archivo
@@ -197,7 +197,9 @@ def indicadores(obs: pd.DataFrame, fuente: dict, pies: dict, formulas: dict, ser
                 nombre = nombres_prev[ind]
             else:
                 nombre += f" — {categoria.replace('_', ' ')}"
-        filas.append({"codigo": ind, "nombre": nombre, "unidad": e.get("unidad", "estudiantes"),
+        na = (no_aditivos or {}).get(cod)
+        unidad = na["unidad"] if na and na["patron"] in base else e.get("unidad", "estudiantes")  # #225: promedios
+        filas.append({"codigo": ind, "nombre": nombre, "unidad": unidad,
                       "columna_origen": f"Cuadro {cod} · {concepto}",
                       "nota": " ".join(pies[cod]) if cod in pies else (notas_prev or {}).get(ind, ""),
                       "es_derivado": False, "formula": ""})
@@ -359,7 +361,7 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False, fuent
     anio_de_captura = {c["id"]: int(c["codigo"]) for c in vigentes}
     ultimo_anio = obs.assign(_a=obs.captura_id.map(anio_de_captura)).groupby("indicador")._a.max()
     categorias = {k: v for k, (a, v) in categorias_anio.items() if a >= ultimo_anio.get(k, a)}
-    ind = indicadores(obs, fuente, pies, formulas, serie, notas_prev, categorias, nombres_prev)
+    ind = indicadores(obs, fuente, pies, formulas, serie, notas_prev, categorias, nombres_prev, manual.get("no_aditivos"))
     hoy = ahora()
     fecha_prev = {} if cap_prev is None else dict(zip(cap_prev.id, cap_prev.fecha_proceso))
     capturas = [nueva_captura(FUENTE_ID, c["archivo"], c["sha256"], hoy if c["id"] in parseadas else fecha_prev.get(c["id"], hoy),

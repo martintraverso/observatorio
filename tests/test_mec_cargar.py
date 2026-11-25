@@ -179,7 +179,7 @@ def test_ac_e16_tasas_derivadas(entorno):
     assert fila.es_derivado and fila.unidad == "%" and "promovidos" in fila.formula
     assert round(valor(o, "edu_ii_2_2_1_pct_privada"), 2) == round(47559 / 284944 * 100, 2)
     publicados = i[~i.es_derivado]
-    assert (publicados.formula == "").all() and set(publicados.unidad) <= {"estudiantes", "establecimientos", "docentes", "grupos"}
+    assert (publicados.formula == "").all() and set(publicados.unidad) <= {"estudiantes", "establecimientos", "docentes", "grupos", "alumnos por grupo"}  # #225: promedios publicados
 
 
 def test_resto_del_pais_va_a_la_region_interior(entorno):
@@ -409,3 +409,15 @@ def test_213_ninguna_tasa_repite_nombre_en_su_cuadro(entorno):
     assert (repetidos == 1).all(), repetidos[repetidos > 1].head().to_dict()
     # #214: van juntas en la lista del mapa: tampoco se repiten entre cuadros (II-2.2.13 y II-2.2.14, por área y por sexo)
     assert not t.nombre.duplicated().any(), t[t.nombre.duplicated(keep=False)].nombre.head().tolist()
+
+
+def test_225_los_promedios_se_cargan_con_su_unidad_y_sin_sumarlos(entorno):
+    """#225 (mantenedor): el «promedio de alumnos por grupo» de II-3.4.1 y II-4.4.1 se carga como valor publicado, con
+    su unidad, y queda fuera del control de sumas (AC-E19); los grupos sí cierran con sus `particiones`."""
+    crudo, salida = entorno
+    correr(crudo, salida)
+    i = pd.read_parquet(salida / "indicadores.parquet").set_index("codigo")
+    prom = i[i.index.str.startswith(("edu_ii_3_4_1_", "edu_ii_4_4_1_")) & i.index.str.contains("promedio")]
+    grupos = i[i.index.str.startswith(("edu_ii_3_4_1_", "edu_ii_4_4_1_")) & ~i.index.str.contains("promedio")]
+    assert len(prom) > 0 and (prom.unidad == "alumnos por grupo").all()
+    assert len(grupos) > 0 and (grupos.unidad == "grupos").all()

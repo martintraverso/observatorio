@@ -204,11 +204,14 @@ def controles(obs: pd.DataFrame, fuente: dict, manual: dict, derivados: set[str]
     particiones = manual.get("particiones") or {}
     cat = conteos[conteos.indicador.str.contains("__")].assign(
         base=lambda d: d.indicador.str.split("__").str[0], categoria=lambda d: d.indicador.str.split("__", n=1).str[1])
+    no_aditivos = manual.get("no_aditivos") or {}
     for (b, terr, per), g in cat.groupby(["base", "territorio_id", "periodo"]):
         v = dict(zip(g.categoria, g.valor))
         if "total" not in v:
             continue
         cod = cuadro_de[b]
+        if (na := no_aditivos.get(cod)) and na["patron"] in b:
+            continue  # #225: un promedio publicado no se suma entre categorías
         for tot, partes in particiones.get(cod) or [["total", [k for k in v if k != "total"]]]:
             if tot in v and all(p in v for p in partes):
                 probados += 1
