@@ -233,6 +233,7 @@ class Cuadro:
     sin_dato: int  # celdas mapeadas que no son datos («-», «…», «s/d», vacías): AC-E11
     avisos: list[str]
     sin_dato_claves: list = field(default_factory=list)  # (indicador, territorio, período) publicados sin dato
+    categorias: dict = field(default_factory=dict)  # #213: indicador con «__» → rótulo de la fila tal como lo escribe el archivo
 
 
 COLUMNAS = ["indicador", "territorio_id", "periodo", "periodo_inicio", "periodo_fin", "tipo_periodo", "valor",
@@ -268,7 +269,7 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
     columnas = {_col(m["col"]) for m in mapeo}
     if faltan := sorted(columnas - set(e.rutas)):
         raise ErrorAnuario(f"{codigo} {anio}: columnas mapeadas que el archivo no tiene: {[letra(c) for c in faltan]} (AC-E9)")
-    filas, sin_dato, pie, ignoradas, claves_sd = [], 0, list(e.pie), 0, []
+    filas, sin_dato, pie, ignoradas, claves_sd, categorias = [], 0, list(e.pie), 0, [], {}
     cols_mapeadas = [_col(m["col"]) for m in mapeo]
     grupo, territorio_grupo = "", PAIS
     for r, rotulo in e.filas:
@@ -297,6 +298,8 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
         else:
             categoria = "total" if es_total and not grupo else (rotulo if not grupo or rotulo == grupo else f"{grupo}/{rotulo}")
             territorio, sufijo = territorio_grupo, f"__{slug(categoria) or 'sin_rotulo'}"
+            for m in mapeo:
+                categorias[m["id"] + sufijo] = categoria
         for m in mapeo:
             if m.get("omitir"):
                 continue  # repite otra columna que ya se carga (D7)
@@ -329,7 +332,7 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
                            f"{datos.loc[repetidas, 'celda'].tolist()[:6]}")
     if ignoradas:
         avisos.append(f"{codigo} {anio}: {ignoradas} filas sin datos ignoradas")
-    return Cuadro(codigo, anio, e.titulo, datos, pie, sin_dato, avisos, claves_sd)
+    return Cuadro(codigo, anio, e.titulo, datos, pie, sin_dato, avisos, claves_sd, categorias)
 
 
 def _col(letras: str) -> int:

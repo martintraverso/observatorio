@@ -372,3 +372,38 @@ def test_196_ii_3_2_10_2024_no_se_carga_y_el_control_lo_atrapa_si_vuelve():
     fuente = {"cuadros": {"II-3.2.10": {**e, "mapeo": {**e["mapeo"], 2024: m24}}}}
     r = mc.controles(c.datos, fuente, manual, set(), set(c.sin_dato_claves), {"2024"})
     assert any(f["control"].startswith("AC-E19") and "II-3.2.10" in f["detalle"] for f in r.controles.fallas)
+
+
+def test_213_titulos_y_tasas_con_la_ortografia_del_archivo():
+    """#213: el título conserva sus siglas; la tasa se nombra con el nivel del título y la apertura de su «promovidos»."""
+    from mec_anuario_cargar import legible, nombre_tasa
+
+    assert legible("ESTUDIANTES MATRICULADOS DE LA DGEIP POR SEXO") == "Estudiantes matriculados de la DGEIP por sexo"
+    e = {"titulo": "RENDIMIENTO ESCOLAR EN EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR ÁREA DEMOGRÁFICA SEGÚN DEPARTAMENTO"}
+    assert nombre_tasa("II-2.2.13", e, "RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural") == (
+        "Tasa de promoción en educación primaria común pública — área demográfica · rural")
+    assert nombre_tasa("II-2.2.13", e, "RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL") == "Tasa de promoción en educación primaria común pública"
+    assert nombre_tasa("II-3.2.1", {"titulo": "X EN EDUCACIÓN MEDIA BÁSICA POR GRADO"}, "GRADO/PRIMERO/RENDIMIENTO/Promovido",
+                       "1 año") == "Tasa de promoción en educación media básica — grado · primero; 1 año"
+    # sin emparejar dimensión y valor (II-3.2.11: «PRIVADA/…/SEXO/Mujer» no es «privada sexo, mujer»)
+    e11 = {"titulo": "RENDIMIENTO EDUCATIVO EN EDUCACIÓN MEDIA BÁSICA GENERAL POR FORMA DE ADMINISTRACIÓN"}
+    assert nombre_tasa("II-3.2.11", e11, "PRIVADA/RENDIMIENTO/Promovido/SEXO/Mujer") == (
+        "Tasa de promoción en educación media básica general — privada · sexo · mujer")
+    # una letra (M, V) y las siglas con puntos quedan como en el archivo
+    e15 = {"titulo": "RENDIMIENTO ESCOLAR EN EDUCACIÓN PRIMARIA COMÚN PRIVADA POR SEXO SEGÚN DEPARTAMENTO"}
+    assert nombre_tasa("II-2.2.15", e15, "RENDIMIENTO ESCOLAR/PROMOVIDOS/SEXO/M").endswith("— sexo · M")
+    assert legible("C.B.T. AGRARIO", False) == "C.B.T. agrario" and legible("E. M. P. ESPECIALIZACIÓN", False) == "E. M. P. especialización"
+
+
+def test_213_ninguna_tasa_repite_nombre_en_su_cuadro(entorno):
+    """#213: con la carga de los fixtures, dos tasas calculadas del mismo cuadro nunca se llaman igual, y ningún nombre
+    queda con el código del cuadro en lugar del nivel (el formato viejo «Tasa de promoción (II-…)»)."""
+    crudo, salida = entorno
+    correr(crudo, salida)
+    i = pd.read_parquet(salida / "indicadores.parquet")
+    t = i[i.es_derivado & i.nombre.str.startswith("Tasa de promoción")]
+    assert len(t) > 0
+    assert not t.nombre.str.contains(r"\(II-").any()
+    cuadro = t.columna_origen.str.extract(r"Cuadro (II-[\d.]+)")[0]
+    repetidos = t.assign(c=cuadro).groupby(["c", "nombre"]).size()
+    assert (repetidos == 1).all(), repetidos[repetidos > 1].head().to_dict()

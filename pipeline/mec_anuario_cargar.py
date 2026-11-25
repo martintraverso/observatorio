@@ -61,9 +61,11 @@ class ErrorCarga(ValueError):
 
 # ---------------------------------------------------------------- lectura de los anuarios
 
-def leer_anuario(xlsx: bytes, anio: int, fuente: dict, sin_dato: set | None = None) -> tuple[pd.DataFrame, dict, list[str]]:
+def leer_anuario(xlsx: bytes, anio: int, fuente: dict, sin_dato: set | None = None,
+                 categorias: dict | None = None) -> tuple[pd.DataFrame, dict, list[str]]:
     """Valores de los cuadros de la ola 1 de un anuario, con sus pies y avisos por cuadro. Si se pasa `sin_dato`,
-    le agrega las celdas publicadas sin dato (indicador, territorio, período), para AC-E21."""
+    le agrega las celdas publicadas sin dato (indicador, territorio, período), para AC-E21; si se pasa `categorias`,
+    el rótulo original de cada categoría de los cuadros B y C (#213)."""
     partes, pies, avisos = [], {}, []
     for cod, e in fuente["cuadros"].items():
         mapeo = (e.get("mapeo") or {}).get(anio)
@@ -73,6 +75,8 @@ def leer_anuario(xlsx: bytes, anio: int, fuente: dict, sin_dato: set | None = No
         partes.append(c.datos)
         if sin_dato is not None:
             sin_dato.update(c.sin_dato_claves)
+        if categorias is not None:
+            categorias.update(c.categorias)
         pies[cod] = c.pie
         avisos += c.avisos + ([f"{cod} {anio}: {c.sin_dato} celdas sin dato («-», «s/d», vacías)"] if c.sin_dato else [])
     return pd.concat(partes, ignore_index=True) if partes else pd.DataFrame(columns=mec.COLUMNAS), pies, avisos
@@ -109,10 +113,51 @@ def derivados(obs: pd.DataFrame) -> tuple[pd.DataFrame, dict[str, str]]:
     return d, formulas
 
 
+# Siglas que aparecen en los títulos de los cuadros: quedan en mayúsculas al pasar el título a minúsculas (#213).
+SIGLAS = {"ANEP", "CAIF", "CEIP", "CENFORES", "CES", "CETP", "CFE", "CIEP", "DGEIP", "DGES", "DGETP", "INAU", "JICI",
+          "FINEST", "MEC", "UDELAR", "UTEC", "UTU"}
+
+
+def _sigla(palabra: str) -> bool:
+    """Una sigla del archivo: de la lista (DGEIP, INAU…) o con puntos («C.B.T.», «E.»)."""
+    p = palabra.strip("(),:;")
+    return (p.strip(".") in SIGLAS and p.isupper()) or bool(re.fullmatch(r"(?:[A-ZÁÉÍÓÚÑ]\.)+", p))
+
+
+def legible(texto: str, primera: bool = True) -> str:
+    """«ESTUDIANTES … DE LA DGEIP» → «Estudiantes … de la DGEIP»: minúsculas salvo las siglas, sin cambiar palabras."""
+    t = " ".join(p if _sigla(p) else p.lower() for p in texto.split(" "))
+    return t[:1].upper() + t[1:] if primera else t
+
+
+def apertura_legible(ruta: str) -> str:
+    """«FORMA DE ADMINISTRACIÓN/PRIVADA/SEXO/M» → «forma de administración · privada · sexo · M». Los tramos van
+    separados como en el archivo, sin suponer cuál es la dimensión y cuál el valor; un tramo de una letra (M, V) queda
+    como está."""
+    tramos = [t.strip() for t in ruta.split("/") if t.strip()]
+    return " · ".join(t if re.fullmatch(r"\w", t) else legible(t, False) for t in tramos)
+
+
+def nombre_tasa(cod: str, e: dict, concepto: str, categoria: str = "") -> str:
+    """#213: «Tasa de promoción en educación primaria común pública — área demográfica rural». El nivel sale del título
+    del cuadro; la apertura, de la ruta del indicador «promovidos» de la fórmula, sin los tramos de rendimiento."""
+    m = re.search(r"\bEN (EDUCACI[ÓO]N .+?)(?: POR | SEG[ÚU]N |$)", e.get("titulo", ""))
+    donde = legible(m.group(1), False) if m else f"el cuadro {cod}"
+    tramos = [t for t in concepto.split("/") if not re.fullmatch(r"(?i)\s*(rendimiento( escolar| educativo)?|promovidos?)\s*", t)]
+    tramos = [t for t in tramos if t.strip().upper() != "TOTAL"]
+    apertura = apertura_legible("/".join(tramos))
+    extra = [x for x in (apertura, legible(categoria, False) if categoria else "") if x]
+    return f"Tasa de promoción en {donde}" + (f" — {'; '.join(extra)}" if extra else "")
+
+
 def indicadores(obs: pd.DataFrame, fuente: dict, pies: dict, formulas: dict, serie: pd.DataFrame,
-                notas_prev: dict | None = None) -> pd.DataFrame:
+                notas_prev: dict | None = None, categorias: dict | None = None,
+                nombres_prev: dict | None = None) -> pd.DataFrame:
     """El catálogo: nombre, unidad y columna de origen de cada indicador cargado; la nota es el pie del cuadro (del
-    año más reciente parseado; si en esta corrida no se parseó, la que ya estaba publicada)."""
+    año más reciente parseado; si en esta corrida no se parseó, la que ya estaba publicada). El nombre usa la ortografía
+    del archivo: el título con sus siglas, y la categoría de los cuadros B y C tal como la escribe el archivo
+    (`categorias`; si el año no se parseó en esta corrida, el nombre ya publicado, #213)."""
+    categorias, nombres_prev = categorias or {}, nombres_prev or {}
     origen = {}
     for cod, e in fuente["cuadros"].items():
         for anio, m in sorted((e.get("mapeo") or {}).items()):
@@ -129,9 +174,14 @@ def indicadores(obs: pd.DataFrame, fuente: dict, pies: dict, formulas: dict, ser
             continue
         if ind in formulas:
             formula, cod = formulas[ind]
-            alcance = ind.split("_tasa_promocion")[-1].strip("_").replace("_", " ")
-            nombre = (next((n for i, _, _, n in PCT_PRIVADA if i == ind), None)
-                      or f"Tasa de promoción ({cod})" + (f": {alcance}" if alcance else ""))
+            prom = formula.split(" / ")[0].strip()
+            pbase, _, pcat = prom.partition("__")
+            _, concepto_p, e_p = origen.get(pbase) or (cod, "", {})
+            nombre = next((n for i, _, _, n in PCT_PRIVADA if i == ind), None)
+            if nombre is None and pcat and prom not in categorias and ind in nombres_prev:
+                nombre = nombres_prev[ind]  # año no parseado en esta corrida: el nombre que ya estaba publicado
+            if nombre is None:
+                nombre = nombre_tasa(cod, e_p, concepto_p, categorias.get(prom, pcat.replace("_", " ")))
             filas.append({"codigo": ind, "nombre": nombre, "unidad": "%", "columna_origen": f"Cuadro {cod} (calculado)",
                           "nota": "Calculado por el observatorio a partir de MEC.", "es_derivado": True,
                           "formula": formula})
@@ -139,14 +189,25 @@ def indicadores(obs: pd.DataFrame, fuente: dict, pies: dict, formulas: dict, ser
         cod, concepto, e = origen.get(base) or origen.get(re.sub(r"__\d+$", "", base)) or (None, base, {})
         if cod is None:
             raise ErrorCarga(f"Indicador sin origen en el registro: {ind}")
-        nombre = re.sub(r"\s*\(Todo el país.*", "", e["titulo"]).capitalize() + f": {concepto}"
+        nombre = legible(re.sub(r"\s*\(Todo el país.*", "", e["titulo"])) + f": {concepto}"
         if categoria:
-            nombre += f" — {categoria.replace('_', ' ')}"
+            if ind in categorias:
+                nombre += f" — {categorias[ind]}"
+            elif ind in nombres_prev:  # año no parseado en esta corrida: el nombre que ya estaba publicado
+                nombre = nombres_prev[ind]
+            else:
+                nombre += f" — {categoria.replace('_', ' ')}"
         filas.append({"codigo": ind, "nombre": nombre, "unidad": e.get("unidad", "estudiantes"),
                       "columna_origen": f"Cuadro {cod} · {concepto}",
                       "nota": " ".join(pies[cod]) if cod in pies else (notas_prev or {}).get(ind, ""),
                       "es_derivado": False, "formula": ""})
     df = pd.DataFrame(filas)
+    # #213: dos indicadores del mismo cuadro con el mismo nombre (p. ej. la tasa total de II-4.2.14 hasta 2023, que
+    # sale de otras columnas que la de 2024) se distinguen por los años que cubren; nunca se supone que son el mismo.
+    anios = obs.groupby("indicador").periodo.agg(lambda x: f"{min(x)}–{max(x)}" if min(x) != max(x) else min(x))
+    cuadro = df.columna_origen.str.extract(r"(II-[\d.]+)")[0]
+    repetido = df.assign(_c=cuadro).duplicated(["_c", "nombre"], keep=False) & cuadro.notna()
+    df.loc[repetido, "nombre"] = df.loc[repetido].apply(lambda r: f"{r.nombre} ({anios.get(r.codigo, '')})", axis=1)
     df["tema"], df["fuente_id"] = TEMA, FUENTE_ID
     return df
 
@@ -229,7 +290,7 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False, fuent
     anios_vigentes = [int(c["codigo"]) for c in vigentes]
     ultimo_de = {cod: max((a for a in anios_vigentes if (e.get("mapeo") or {}).get(a)), default=None)
                  for cod, e in fuente["cuadros"].items()}
-    partes, pies, avisos, parseadas, sin_dato = [], {}, [], [], set()
+    partes, pies, avisos, parseadas, sin_dato, categorias = [], {}, [], [], set(), {}
     for c in vigentes:
         anio = int(c["codigo"])
         if c["id"] in ya:
@@ -238,7 +299,7 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False, fuent
             partes.append(previas.drop(columns=["es_estimado"], errors="ignore").assign(
                 codigo_cuadro=previas.indicador.str.split("__").str[0].map(cuadro_de), celda=""))
             continue
-        datos, p, a = leer_anuario((crudo / c["archivo"]).read_bytes(), anio, fuente, sin_dato)
+        datos, p, a = leer_anuario((crudo / c["archivo"]).read_bytes(), anio, fuente, sin_dato, categorias)
         partes.append(datos.assign(captura_id=c["id"]))
         # la nota de un indicador es el pie del cuadro en el anuario más reciente que lo trae: un año viejo
         # parseado (una revisión de 2022) no la cambia
@@ -272,11 +333,12 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False, fuent
     fuera = sorted(set(nivel) - set(fuente["niveles_publicados"]))
     if fuera:
         raise ErrorCarga(f"Observaciones en niveles que la fuente no publica: {fuera}")  # AC-P5
-    notas_prev = {}
+    notas_prev, nombres_prev = {}, {}
     if (salida / "indicadores.parquet").exists():
         i_prev = pd.read_parquet(salida / "indicadores.parquet")
-        notas_prev = dict(zip(i_prev[i_prev.fuente_id == FUENTE_ID].codigo, i_prev[i_prev.fuente_id == FUENTE_ID].nota))
-    ind = indicadores(obs, fuente, pies, formulas, serie, notas_prev)
+        i_prev = i_prev[i_prev.fuente_id == FUENTE_ID]
+        notas_prev, nombres_prev = dict(zip(i_prev.codigo, i_prev.nota)), dict(zip(i_prev.codigo, i_prev.nombre))
+    ind = indicadores(obs, fuente, pies, formulas, serie, notas_prev, categorias, nombres_prev)
     hoy = ahora()
     fecha_prev = {} if cap_prev is None else dict(zip(cap_prev.id, cap_prev.fecha_proceso))
     capturas = [nueva_captura(FUENTE_ID, c["archivo"], c["sha256"], hoy if c["id"] in parseadas else fecha_prev.get(c["id"], hoy),

@@ -303,6 +303,21 @@ def con_corte(indicadores: pd.DataFrame, registro: Path | None = None) -> pd.Dat
     return indicadores.assign(corte=indicadores.codigo.map(cortes).fillna(""))
 
 
+# #213: nivel educativo de un cuadro del anuario del MEC según su código (II-<nivel>.…), para agrupar en el mapa.
+GRUPOS_EDUCACION = {"1": "Primera infancia e inicial", "2": "Primaria", "3": "Media básica", "4": "Media superior"}
+
+
+def con_mapa(indicadores: pd.DataFrame) -> pd.DataFrame:
+    """#213 (decisión del mantenedor en #193): `mapa` dice si el indicador va a la lista del mapa (de educación, solo
+    las tasas calculadas; los demás temas, todos) y `grupo`, el nivel educativo del cuadro (vacío fuera de educación).
+    Los demás valores de educación siguen en las fichas y en las descargas. Solo para la web: no cambia la base."""
+    ind = indicadores if "cuadro" in indicadores else con_cuadro(indicadores)
+    educacion = ind.tema == "Educación"
+    nivel = ind.cuadro.fillna("").str.extract(r"^II-(\d+)\.")[0]
+    return ind.assign(mapa=~educacion | ind.es_derivado.fillna(False).astype(bool),
+                      grupo=nivel.map(GRUPOS_EDUCACION).where(educacion, "").fillna(""))
+
+
 def con_cuadro(indicadores: pd.DataFrame) -> pd.DataFrame:
     """F4.7a (#191, AC-E29/E31): el código del cuadro de origen de cada indicador del anuario del MEC («II-2.2.1»),
     tomado de su `columna_origen` («Cuadro II-2.2.1 · …»); vacío para los demás."""
@@ -586,7 +601,7 @@ def main(argv=None):
     historial = pd.read_parquet(s / ARCHIVO_HISTORIAL) if (s / ARCHIVO_HISTORIAL).exists() else capturas.iloc[0:0]
     obs, indicadores, capturas, historial = solo_activas(  # F2.5d
         obs, indicadores, capturas, fuentes, historial, incluir_en_preparacion=args.incluir_en_preparacion)
-    indicadores = con_corte(con_cuadro(indicadores))
+    indicadores = con_mapa(con_corte(con_cuadro(indicadores)))
     if args.incluir_en_preparacion:
         print("Vista previa: incluye fuentes «en preparación». No publicar esta salida.", file=sys.stderr)
 

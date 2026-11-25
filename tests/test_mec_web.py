@@ -7,7 +7,7 @@ from __future__ import annotations
 import pandas as pd
 import pytest
 from test_mec_cargar import correr, entorno  # noqa: F401
-from web import con_corte, con_cuadro, construir_fichas, csv_observaciones
+from web import con_corte, con_cuadro, con_mapa, construir_fichas, csv_observaciones
 
 FLORES, PAIS = "INE-2023/departamento/07", "INE-2023/pais/UY"
 
@@ -92,3 +92,17 @@ def test_211_la_ficha_lleva_el_corte_de_cada_indicador(entorno):  # noqa: F811
     fichas = construir_fichas(t, tablas["observaciones"], ind, tablas["capturas"], tablas["fuentes"], tablas["correspondencias"])
     f = fichas[FLORES]
     assert all("corte" in i for i in f["indicadores"].values())
+
+
+def test_213_mapa_y_grupo_de_cada_indicador():
+    """#213: de educación van a la lista del mapa solo las tasas calculadas, con su nivel educativo; los demás temas,
+    todos y sin grupo."""
+    ind = pd.DataFrame({
+        "codigo": ["edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_total", "edu_ii_2_2_1_total", "edu_ii_3_2_11_x_tasa_promocion", "pob_total"],
+        "tema": ["Educación", "Educación", "Educación", "Población"],
+        "columna_origen": ["Cuadro II-2.2.13 (calculado)", "Cuadro II-2.2.1 · TOTAL", "Cuadro II-3.2.11 (calculado)", ""],
+        "es_derivado": [True, False, True, False],
+    })
+    r = con_mapa(ind).set_index("codigo")
+    assert r.mapa.tolist() == [True, False, True, True]
+    assert r.grupo.tolist() == ["Primaria", "Primaria", "Media básica", ""]
