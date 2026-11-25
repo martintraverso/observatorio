@@ -35,3 +35,30 @@ describe('datos', () => {
 		await expect(leerJson('falta.json', no as unknown as typeof fetch)).rejects.toBeInstanceOf(ErrorDatos);
 	});
 });
+
+describe('unirEducacion (#227)', () => {
+	it('la ficha principal más su educación dan la ficha completa; sin parte, la misma ficha', async () => {
+		const { unirEducacion } = await import('./datos.ts');
+		const o = (indicador: string, captura_id: string) => ({ indicador, periodo: '2024', captura_id }) as never;
+		const f = {
+			id: 'INE-2023/departamento/07',
+			observaciones: [o('pob_total', 'c1')],
+			indicadores: { pob_total: { tema: 'Población' } },
+			capturas: { c1: { fuente_id: 'ine' } },
+			fuentes: { ine: { nombre: 'INE' } },
+			educacion: true
+		} as never;
+		const parte = {
+			observaciones: [o('edu_x', 'c2')],
+			indicadores: { edu_x: { tema: 'Educación' } },
+			capturas: { c2: { fuente_id: 'mec' } },
+			fuentes: { mec: { nombre: 'MEC' } }
+		} as never;
+		const u = unirEducacion(f, parte);
+		expect(u.observaciones.map((x) => x.indicador)).toEqual(['pob_total', 'edu_x']);
+		expect(Object.keys(u.indicadores)).toEqual(['pob_total', 'edu_x']);
+		expect(Object.keys(u.capturas)).toEqual(['c1', 'c2']);
+		expect(Object.keys(u.fuentes)).toEqual(['ine', 'mec']);
+		expect(unirEducacion(f, null)).toBe(f);
+	});
+});

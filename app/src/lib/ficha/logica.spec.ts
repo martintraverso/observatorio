@@ -256,6 +256,13 @@ describe('datosEnPadre (AC-V24)', () => {
 		expect(datosEnPadre({ padres, indicadores }, ['Educación'])).toBeNull();
 		expect(datosEnPadre({ padres: [], indicadores }, ['Trabajo'])).toBeNull();
 	});
+
+	it('#227: la educación del padre va aparte; su aviso `educacion` alcanza', () => {
+		const conEdu = [{ ...(padres[0] as object), educacion: true }, padres[1]] as never;
+		const r = datosEnPadre({ padres: conEdu, indicadores }, ['Educación']);
+		expect(r?.padre.nombre).toBe('San José');
+		expect(r?.temas).toEqual(['Educación']);
+	});
 });
 
 describe('ejes de los gráficos de series (AC-V20)', () => {

@@ -147,7 +147,10 @@ export function fuentesDeFicha(f: Pick<Ficha, 'capturas' | 'fuentes'>): FuenteDe
  */
 export function datosEnPadre(f: Pick<Ficha, 'padres' | 'indicadores'>, temas: readonly string[]): { padre: Resumen; temas: string[] } | null {
 	for (const padre of [...f.padres].reverse()) {
-		const conDatos = temas.filter((t) => Object.keys(padre.valores).some((k) => f.indicadores[k]?.tema === t));
+		// #227: los valores de educación van aparte; el padre avisa que los tiene (`educacion`)
+		const conDatos = temas.filter(
+			(t) => (t === 'Educación' && padre.educacion) || Object.keys(padre.valores).some((k) => f.indicadores[k]?.tema === t)
+		);
 		if (conDatos.length) return { padre, temas: conDatos };
 	}
 	return null;

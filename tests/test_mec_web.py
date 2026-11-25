@@ -10,7 +10,15 @@ import pandas as pd
 import pytest
 import yaml
 from test_mec_cargar import correr, entorno  # noqa: F401
-from web import catalogo_educacion, con_corte, con_cuadro, con_mapa, construir_fichas, csv_observaciones
+from web import (
+    catalogo_educacion,
+    con_corte,
+    con_cuadro,
+    con_mapa,
+    construir_fichas,
+    csv_observaciones,
+    separar_educacion,
+)
 
 RAIZ = Path(__file__).resolve().parents[1]
 
@@ -146,3 +154,38 @@ def test_ac_e32_el_tipo_es_el_del_ultimo_anio_con_datos_que_lo_tiene(entorno, tm
     cat = catalogo_educacion(ind, obs, tmp_path / "reg.yml")
     con_anterior = [x for x in cat if len(x["anios"]) > 1]  # el fixture trae 2023 y 2024
     assert con_anterior and all(x["tipo"] in {"A", "B", "C"} for x in con_anterior)
+
+
+def test_227_la_educacion_va_aparte_y_juntas_dan_la_ficha_completa(web):
+    """#227 (AC-W4): la ficha principal no trae valores de educación (ni propios ni de padres o contenidos) y lo avisa
+    con `educacion: true`; `educacion.json` trae toda la educación de la ficha. Principal + parte = la ficha completa,
+    sin repetidos ni faltantes."""
+    fichas, _, t = web
+    edu = {k for f in fichas.values() for k, m in f["indicadores"].items() if m["tema"] == "Educación"}
+    assert edu
+    con_parte = 0
+    for i, f in fichas.items():
+        principal, parte = separar_educacion(f, edu)
+        assert not any(o["indicador"] in edu for o in principal["observaciones"]), i
+        assert not set(principal["indicadores"]) & edu, i
+        for r in principal["padres"] + [r for rs in principal["contenidos"].values() for r in rs]:
+            assert not set(r["valores"]) & edu, i
+        tiene = [o for o in f["observaciones"] if o["indicador"] in edu]
+        assert (parte is not None) == bool(tiene) == bool(principal.get("educacion")), i
+        if parte:
+            con_parte += 1
+            juntas = principal["observaciones"] + parte["observaciones"]
+            clave = lambda o: (o["indicador"], o["periodo"], o["captura_id"])  # noqa: E731
+            assert sorted(map(clave, juntas)) == sorted(map(clave, f["observaciones"])), i
+            usados = {o["indicador"] for o in f["observaciones"]}
+            assert usados <= set(principal["indicadores"]) | set(parte["indicadores"]), i
+            assert {**principal["capturas"], **parte["capturas"]} == {k: f["capturas"][k] for k in {o["captura_id"] for o in f["observaciones"]}}, i
+            assert set(principal["fuentes"]) | set(parte["fuentes"]) == set(f["fuentes"]), i
+        # el aviso del padre: «Educación: datos por departamento» (AC-V24, AC-E28)
+        for r_full, r in zip(f["padres"], principal["padres"]):
+            assert bool(r.get("educacion")) == bool(set(r_full["valores"]) & edu), i
+    assert con_parte >= 19 + 2  # los departamentos, el país y el Interior
+    # sin educación, la ficha principal es la misma
+    sin = next(f for f in fichas.values() if f["nivel"] == "segmento")
+    p, parte = separar_educacion(sin, edu)
+    assert parte is None and p["observaciones"] == sin["observaciones"]

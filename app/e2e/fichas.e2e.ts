@@ -397,26 +397,30 @@ test('AC-I21 y AC-I24: la serie de ingresos con su variante, base de precios, fr
 // MEC está «en preparación» y no llega a la app: se suman a la ficha de Flores dos cuadros reales de 2023–2024.
 const EDUCACION = JSON.parse(readFileSync('e2e/fixtures/ficha-educacion-flores.json', 'utf-8'));
 
-async function floresConEducacion(page: import('@playwright/test').Page) {
-	await page.route('**/datos-web/fichas/departamento/07.json', async (route) => {
+/** #227: la ficha avisa que tiene educación (`educacion: true`) y la educación llega aparte, en `educacion.json`. */
+async function conEducacion(page: import('@playwright/test').Page, ficha: string, parte: unknown) {
+	await page.route(`**/datos-web/fichas/${ficha}.json`, async (route) => {
 		const r = await route.fetch();
-		const f = await r.json();
-		await route.fulfill({
-			response: r,
-			json: {
-				...f,
-				indicadores: { ...f.indicadores, ...EDUCACION.indicadores },
-				observaciones: [...f.observaciones, ...EDUCACION.observaciones],
-				capturas: { ...f.capturas, ...EDUCACION.capturas },
-				fuentes: { ...f.fuentes, ...EDUCACION.fuentes }
-			}
-		});
+		await route.fulfill({ response: r, json: { ...(await r.json()), educacion: true } });
 	});
-	// se navega desde el país para que la app pida el JSON (la carga directa viene prerenderizada)
-	await page.goto('territorio/pais/UY');
-	await page.getByRole('tab', { name: /^Departamento/ }).click();
+	await page.route(`**/datos-web/fichas/${ficha}/educacion.json`, (route) => route.fulfill({ json: parte }));
+}
+
+/**
+ * Se navega desde /fichas para que la app pida el JSON (la carga directa viene prerenderizada). No desde la ficha del
+ * país: con la vista previa, al bajar hasta «Flores» se pasa por su educación, que se carga y corre el enlace (#227).
+ */
+async function irAFlores(page: import('@playwright/test').Page) {
+	await page.goto('fichas');
 	await page.getByRole('link', { name: 'Flores', exact: true }).first().click();
 	await expect(page).toHaveURL(/territorio\/departamento\/07$/);
+}
+
+async function floresConEducacion(page: import('@playwright/test').Page) {
+	await conEducacion(page, 'departamento/07', EDUCACION);
+	await irAFlores(page);
+	// #227: la educación se pide cuando la sección se acerca a la pantalla
+	await page.locator('#educacion').scrollIntoViewIfNeeded();
 }
 
 test('AC-E27 y AC-E29: la sección «Educación» de un departamento, por nivel, grupo y cuadro, con fuente y notas', async ({ page, browserName }) => {
@@ -448,14 +452,12 @@ test('AC-E27 y AC-E29: la sección «Educación» de un departamento, por nivel,
 
 test('AC-E28: una sección dentro de un departamento con educación dice «Educación: datos por departamento»', async ({ page }) => {
 	// La sección llega con su departamento (padre) con un valor de educación, como cuando la fuente esté activa.
-	const clave = 'edu_ii_2_2_1_total';
+	// #227: los valores de educación del departamento van aparte; el padre avisa que los tiene (`educacion: true`)
 	await page.route('**/datos-web/fichas/seccion/*.json', async (route) => {
 		const r = await route.fetch();
 		const f = await r.json();
-		const padres = f.padres.map((p: { nivel: string; valores: Record<string, unknown> }) =>
-			p.nivel === 'departamento' ? { ...p, valores: { ...p.valores, [clave]: { '2024': 2112 } } } : p
-		);
-		await route.fulfill({ response: r, json: { ...f, padres, indicadores: { ...f.indicadores, [clave]: EDUCACION.indicadores[clave] } } });
+		const padres = f.padres.map((p: { nivel: string }) => (p.nivel === 'departamento' ? { ...p, educacion: true } : p));
+		await route.fulfill({ response: r, json: { ...f, padres } });
 	});
 	await page.goto('territorio/departamento/07');
 	await page.getByRole('tab', { name: /^Sección/ }).click();
@@ -487,26 +489,14 @@ test('AC-E27 y AC-E30: cada cuadro con su serie 2020–2024; si cambia de concep
 test('AC-E27 (país): la serie de matrícula 2002–2024 empieza por el total del sistema, y los cuadros B y C van por nivel', async ({ page }) => {
 	// La ficha del país con tres series nacionales y un cuadro de tipo B (II-3.2.1), reales, de la vista previa.
 	const E = JSON.parse(readFileSync('e2e/fixtures/ficha-educacion-pais.json', 'utf-8'));
-	await page.route('**/datos-web/fichas/pais/UY.json', async (route) => {
-		const r = await route.fetch();
-		const f = await r.json();
-		await route.fulfill({
-			response: r,
-			json: {
-				...f,
-				indicadores: { ...f.indicadores, ...E.indicadores },
-				observaciones: [...f.observaciones, ...E.observaciones],
-				capturas: { ...f.capturas, ...E.capturas },
-				fuentes: { ...f.fuentes, ...E.fuentes }
-			}
-		});
-	});
+	await conEducacion(page, 'pais/UY', E);
 	// se navega desde /fichas para que la app pida el JSON: la carga directa viene prerenderizada, y otras fichas (el
 	// Interior, un departamento con la ECH) ya piden la del país al cargar y la guardan en la caché
 	await page.goto('fichas');
 	await page.getByRole('link', { name: 'Uruguay', exact: true }).last().click();
 	await expect(page).toHaveURL(/territorio\/pais\/UY$/);
 	const s = page.locator('#educacion');
+	await s.scrollIntoViewIfNeeded(); // #227: la educación se pide al ver la sección
 	const selector = s.getByRole('combobox').first();
 	await expect(selector.locator('option:checked')).toHaveText('Matrícula del sistema educativo: TOTAL SISTEMA');
 	await expect(selector.locator('option')).toHaveText([
@@ -554,4 +544,47 @@ test('AC-E32: el catálogo de educación lista cada cuadro con código, título,
 	}
 	await expect(page.getByRole('cell', { name: /^[ABC]?$/ })).toHaveCount(0); // ninguna celda vacía (tipo null, #234)
 	expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+});
+
+test('#227: la educación llega aparte: «Cargando…», y si falla lo dice sin romper la página y se puede reintentar', async ({ page }) => {
+	let falla = true;
+	await page.route('**/datos-web/fichas/departamento/07.json', async (route) => {
+		const r = await route.fetch();
+		await route.fulfill({ response: r, json: { ...(await r.json()), educacion: true } });
+	});
+	let liberar = () => {};
+	const espera = new Promise<void>((ok) => (liberar = ok));
+	await page.route('**/datos-web/fichas/departamento/07/educacion.json', async (route) => {
+		await espera;
+		if (falla) await route.abort();
+		else await route.fulfill({ json: EDUCACION });
+	});
+	await irAFlores(page);
+	const s = page.locator('#educacion');
+	await s.scrollIntoViewIfNeeded();
+	await expect(s.getByRole('status')).toHaveText('Cargando…');
+	liberar();
+	await expect(s.getByRole('alert')).toContainText('No se pudo cargar la educación de esta ficha.');
+	await expect(page.getByRole('heading', { level: 1 })).toHaveText('Flores'); // el resto de la ficha sigue
+	falla = false;
+	await s.getByRole('button', { name: 'Reintentar' }).click();
+	await expect(s.getByRole('heading', { name: 'Primaria', level: 3 })).toBeVisible();
+	await expect(s.getByRole('alert')).toHaveCount(0);
+});
+
+test('#227 y AC-F5: el CSV de la ficha trae la educación aunque la sección no se haya visto', async ({ page }) => {
+	await conEducacion(page, 'departamento/07', EDUCACION);
+	await irAFlores(page); // sin bajar a la sección
+	await expect(page.locator('#educacion').getByRole('heading', { name: 'Primaria', level: 3 })).toHaveCount(0);
+	const [descarga] = await Promise.all([page.waitForEvent('download'), page.getByRole('button', { name: 'Descargar CSV' }).click()]);
+	const filas = readFileSync((await descarga.path())!, 'utf-8').trim().split('\r\n').slice(1);
+	const edu = filas.filter((l) => l.split(',')[4].startsWith('edu_'));
+	expect(edu).toHaveLength(EDUCACION.observaciones.length);
+});
+
+test('#227: la página prerenderizada de una ficha no incrusta la educación', async ({ request }) => {
+	for (const ruta of ['territorio/departamento/07', 'territorio/pais/UY']) {
+		const html = (await (await request.get(ruta)).text());
+		expect(html, ruta).not.toMatch(/edu_ii_\d/);
+	}
 });

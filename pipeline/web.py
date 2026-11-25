@@ -6,6 +6,7 @@ Lee las salidas del pipeline (datos/salida/*.parquet) y escribe datos/salida/web
   <nivel>.geojson              geometrías simplificadas por cobertura, salvo segmento (AC-W2)
   territorios_index.json       índice de búsqueda: id, nivel, codigo, nombre, nombre_busqueda, depto, padre_id, bbox
   fichas/<nivel>/<codigo>.json todo lo que necesita la ficha de cada territorio (AC-W4)
+  fichas/<nivel>/<codigo>/educacion.json  la educación de la ficha (MEC), aparte: la app la pide al ver la sección (#227)
   indicadores.json             catálogo de indicadores, con los niveles y períodos en que hay datos
   niveles.json                 catálogo de niveles: etiqueta, orden, si va al mapa, zoom mínimo y ámbito (M11)
   educacion_catalogo.json      cuadros del anuario del MEC con datos: código, título, tipo, años, si es por departamento, tasa del mapa (AC-E32)
@@ -524,6 +525,46 @@ def construir_fichas(territorios, obs, indicadores, capturas, fuentes, correspon
     return fichas
 
 
+def separar_educacion(f: dict, edu: set[str]) -> tuple[dict, dict | None]:
+    """F4.10a (#227, decisión del mantenedor en #222): la educación de una ficha va en un archivo aparte
+    (`fichas/<nivel>/<código>/educacion.json`) que la app pide al ver la sección. La ficha principal queda sin los
+    valores de educación (los suyos y los de sus padres y contenidos) y lo avisa con `educacion: true` (en la ficha, si
+    tiene valores propios; en cada padre o contenido que los tiene, para «Educación: datos por departamento», AC-V24).
+    La parte trae sus observaciones, sus indicadores y las capturas y fuentes de esas observaciones. Ficha principal +
+    parte = la ficha completa (sin repetidos ni faltantes)."""
+    def limpiar(r: dict) -> dict:
+        valores = {k: v for k, v in r["valores"].items() if k not in edu}
+        out = {**r, "valores": valores}
+        if "estimados" in r:
+            est = [e for e in r["estimados"] if e.split("/", 1)[0] not in edu]
+            out.pop("estimados")
+            if est:
+                out["estimados"] = est
+        if len(valores) < len(r["valores"]):
+            out["educacion"] = True
+        return out
+
+    propias = [o for o in f["observaciones"] if o["indicador"] in edu]
+    resto = [o for o in f["observaciones"] if o["indicador"] not in edu]
+    caps_resto = {o["captura_id"] for o in resto}
+    principal = {**f, "padres": [limpiar(r) for r in f["padres"]],
+                 "contenidos": {n: [limpiar(r) for r in rs] for n, rs in f["contenidos"].items()},
+                 "observaciones": resto,
+                 "indicadores": {k: v for k, v in f["indicadores"].items() if k not in edu},
+                 "capturas": {k: v for k, v in f["capturas"].items() if k in caps_resto}}
+    principal["fuentes"] = {k: v for k, v in f["fuentes"].items()
+                            if any(c["fuente_id"] == k for c in principal["capturas"].values())}
+    if not propias:
+        return principal, None
+    principal["educacion"] = True
+    caps = {o["captura_id"] for o in propias}
+    parte = {"observaciones": propias,
+             "indicadores": {k: f["indicadores"][k] for k in sorted({o["indicador"] for o in propias})},
+             "capturas": {k: f["capturas"][k] for k in sorted(caps)},
+             "fuentes": {k: f["fuentes"][k] for k in sorted({f["capturas"][c]["fuente_id"] for c in caps})}}
+    return principal, parte
+
+
 # ---------------------------------------------------------------- descargas (página Datos, AC-D1/D2)
 
 LICENCIA = "El uso es libre, citando como fuente al INE."
@@ -649,8 +690,12 @@ def main(argv=None):
     advertencias = advertencias_del_registro(args.fuentes)
     resumenes = resumenes_del_registro(args.fuentes)
     fichas = construir_fichas(territorios, obs, indicadores, capturas, fuentes, correspondencias, advertencias, resumenes)
+    edu = set(indicadores.codigo[indicadores.tema == "Educación"])
     for f in fichas.values():
-        escribir_json(web / "fichas" / f["nivel"] / f"{f['codigo']}.json", f)
+        principal, parte = separar_educacion(f, edu)  # F4.10a (#227): la educación, aparte
+        escribir_json(web / "fichas" / f["nivel"] / f"{f['codigo']}.json", principal)
+        if parte:
+            escribir_json(web / "fichas" / f["nivel"] / f["codigo"] / "educacion.json", parte)
     escribir_json(web / "indicadores.json", disponibilidad(indicadores, territorios, obs))
     escribir_json(web / "niveles.json", catalogo_niveles())
     escribir_json(web / "educacion_catalogo.json", catalogo_educacion(indicadores, obs))
