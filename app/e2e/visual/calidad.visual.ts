@@ -6,7 +6,7 @@
 // historia que lo corrige saque la marca. Así el arnés prueba que detecta cada problema.
 import { expect, test } from '@playwright/test';
 import { readFileSync } from 'node:fs';
-import { nivelesConDatos } from '../../src/lib/mapa/estado.ts';
+import { nivelesConDatos, nivelesOfrecidos } from '../../src/lib/mapa/estado.ts';
 import { abrirOpciones, detectarDesbordes, esperarQuieta, revisarSegmentado, sinTextoInterno } from './ayudas';
 
 type Territorio = { nivel: string; codigo: string; nombre: string; depto: string };
@@ -15,6 +15,8 @@ const fuentes = JSON.parse(readFileSync('build/datos-web/fuentes.json', 'utf-8')
 const indicadores = JSON.parse(readFileSync('build/datos-web/indicadores.json', 'utf-8')) as Parameters<typeof nivelesConDatos>[0];
 const catalogo = JSON.parse(readFileSync('build/datos-web/niveles.json', 'utf-8')) as Parameters<typeof nivelesConDatos>[1];
 const NIVELES = nivelesConDatos(indicadores, catalogo);
+// M11.4: el selector muestra los niveles del indicador elegido (al abrir, el primero)
+const NIVELES_INICIO = nivelesOfrecidos(indicadores[0], catalogo);
 
 // Tacuarembó es la ficha de referencia de AC-V18; con el fixture (sin Tacuarembó), Flores.
 const DEPTO = indice.find((t) => t.nivel === 'departamento' && t.codigo === '18') ?? indice.find((t) => t.nivel === 'departamento' && t.codigo === '07')!;
@@ -60,13 +62,45 @@ for (const { ruta, nombre } of RUTAS) {
 
 const NIVEL_TERRITORIAL = 'fieldset:has(> legend:text-is("Nivel territorial"))';
 
-for (const cantidad of [3, 4, 5]) {
-	test(`AC-V1: el selector «Nivel territorial» con ${cantidad} niveles: una fila o una lista vertical, sin cortes`, async ({ page }) => {
+// AC-N10 (M11.4): de 1 a 6 opciones sin mover los controles de arriba ni cambiar el ancho del panel. Con 1, la app
+// muestra el texto fijo «Nivel: …» (AC-N6); ningún indicador activo ofrece un solo nivel, así que se arma igual
+// que el componente (p.nivel-unico) en lugar de la lista.
+for (const cantidad of [1, 2, 3, 4, 5, 6]) {
+	test(`AC-V1 y AC-N10: el selector «Nivel territorial» con ${cantidad} niveles: una fila o una lista vertical, sin cortes`, async ({ page }) => {
 		await page.goto('');
 		await abrirOpciones(page);
-		await expect(page.locator(NIVEL_TERRITORIAL).getByRole('radio')).toHaveCount(NIVELES.length);
+		await expect(page.locator(NIVEL_TERRITORIAL).getByRole('radio')).toHaveCount(NIVELES_INICIO.length);
+		await page.locator(NIVEL_TERRITORIAL).evaluate((g) => g.setAttribute('data-prueba', 'nivel'));
+		const SELECTOR = '[data-prueba="nivel"]';
+		/** Ancho del panel y posición de los controles de arriba del selector, relativa a su primera opción de control. */
+		const arriba = () =>
+			page.locator(SELECTOR).evaluate((g) => {
+				const panel = g.closest('aside')!;
+				// los controles del mapa (en celular, la hoja de opciones; la barra de resumen queda fuera)
+				const controles = g.closest('#controles-mapa')!;
+				// referencia: el indicador (arriba del selector), para que el scroll de la hoja no cuente como movimiento
+				const ref = controles.querySelector('fieldset:has(> legend)')!.getBoundingClientRect().y;
+				const y0 = g.getBoundingClientRect().y;
+				return {
+					ancho: panel.clientWidth,
+					selector: Math.round(y0 - ref),
+					controles: [...controles.querySelectorAll('label, legend, select, button')]
+						.filter((el) => !g.contains(el) && el.getBoundingClientRect().width > 1 && el.getBoundingClientRect().y < y0)
+						.map((el) => [Math.round(el.getBoundingClientRect().x), Math.round(el.getBoundingClientRect().y - ref)])
+				};
+			});
+		const antes = await arriba();
 		// Con otra cantidad de niveles que la del build: se copian o se quitan opciones (el diseño no depende de cuántas haya).
-		await page.locator(NIVEL_TERRITORIAL).evaluate((g, n) => {
+		await page.locator(SELECTOR).evaluate((g, n) => {
+			if (n === 1) {
+				const p = document.createElement('p');
+				// con la clase de estilos del componente (Svelte), como la pinta la página
+				p.className = ['nivel-unico', ...[...g.classList].filter((c) => c.startsWith('svelte-'))].join(' ');
+				p.setAttribute('data-prueba', 'nivel');
+				p.textContent = 'Nivel: Departamento';
+				g.replaceWith(p);
+				return;
+			}
 			const opciones = [...g.querySelectorAll('label')];
 			opciones.slice(n).forEach((o) => o.remove());
 			for (let i = opciones.length; i < n; i++) {
@@ -75,9 +109,14 @@ for (const cantidad of [3, 4, 5]) {
 				opciones[0].parentElement!.append(copia);
 			}
 		}, cantidad);
-		await expect(page.locator(NIVEL_TERRITORIAL).locator('label')).toHaveCount(cantidad);
-		expect(await revisarSegmentado(page, NIVEL_TERRITORIAL)).toEqual([]);
+		if (cantidad > 1) {
+			await expect(page.locator(NIVEL_TERRITORIAL).locator('label')).toHaveCount(cantidad);
+			expect(await revisarSegmentado(page, NIVEL_TERRITORIAL)).toEqual([]);
+		}
 		expect(await detectarDesbordes(page)).toEqual([]);
+		expect(await arriba()).toEqual(antes);
+		// la página nunca se desplaza de costado (390 px incluido)
+		expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
 	});
 }
 
@@ -158,7 +197,7 @@ test('AC-V4: a 1440×900 la leyenda se ve entera sin hacer scroll', async ({ pag
 test('AC-V17: la fuente y el período de la leyenda no repiten un año', async ({ page }) => {
 	// Cada indicador por departamento, entrando por URL y esperando su propia leyenda.
 	// los que se publican por región (ingresos) no tienen leyenda: se muestran como comparación (AC-I20)
-	for (const i of indicadores.filter((x) => x.niveles.includes('departamento') && !x.niveles.includes('region')) as unknown as { codigo: string; nombre: string }[]) {
+	for (const i of indicadores.filter((x) => (x.niveles_mapa ?? x.niveles).includes('departamento')) as unknown as { codigo: string; nombre: string }[]) {
 		await page.goto(`?indicador=${i.codigo}&nivel=departamento`);
 		const leyenda = page.getByRole('region', { name: 'Leyenda' }).locator('visible=true');
 		await expect(leyenda.getByRole('heading')).toContainText(i.nombre);

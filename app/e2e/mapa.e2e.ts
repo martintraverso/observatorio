@@ -189,8 +189,6 @@ test('accesibilidad del mapa con el panel abierto (axe)', async ({ page }) => {
 });
 
 test('el selector de nivel ofrece solo niveles con datos; AC-N8: un enlace a un nivel sin datos abre en uno que sí', async ({ page }) => {
-	const indicadores = JSON.parse(readFileSync('build/datos-web/indicadores.json', 'utf-8')) as { niveles: string[] }[];
-	const conMunicipio = indicadores.some((i) => i.niveles.includes('municipio_mvd'));
 	const errores: string[] = [];
 	page.on('pageerror', (e) => errores.push(e.message));
 	// Personas no se publica por municipio: el enlace (viejo o escrito a mano) abre en Departamento, el nivel que lo
@@ -199,7 +197,8 @@ test('el selector de nivel ofrece solo niveles con datos; AC-N8: un enlace a un 
 	await expect(page).toHaveURL(/nivel=departamento/);
 	await abrirOpciones(page);
 	const nivel = page.getByRole('group', { name: 'Nivel territorial' });
-	await expect(nivel.getByRole('radio', { name: 'Municipio Solo Montevideo' })).toHaveCount(conMunicipio ? 1 : 0);
+	// AC-N4: el selector es el de Personas (sin datos por municipio), aunque otro indicador tenga municipios
+	await expect(nivel.getByRole('radio', { name: 'Municipio Solo Montevideo' })).toHaveCount(0);
 	await expect(nivel.getByRole('radio', { name: 'Departamento' })).toBeChecked();
 	await expect(page.getByText('no se publica por')).toHaveCount(0);
 	await page.waitForLoadState('networkidle');
@@ -246,10 +245,12 @@ const nivelRadio = (page: Page, nombre: string) =>
 
 test('AC-V7: al elegir «Municipio» el mapa se encuadra en Montevideo', async ({ page }, info) => {
 	test.skip(info.project.name === 'movil', 'el encuadre se prueba en escritorio');
-	const indicadores = JSON.parse(readFileSync('build/datos-web/indicadores.json', 'utf-8')) as { niveles: string[] }[];
-	test.skip(!indicadores.some((i) => i.niveles.includes('municipio_mvd')), 'el build no trae datos por municipio (fixture)');
+	const indicadores = JSON.parse(readFileSync('build/datos-web/indicadores.json', 'utf-8')) as { codigo: string; niveles: string[]; niveles_mapa?: string[] }[];
+	// M11.4: el selector es del indicador: uno que se publique por municipio (Trabajo)
+	const conMunicipio = indicadores.find((i) => (i.niveles_mapa ?? i.niveles).includes('municipio_mvd'));
+	test.skip(!conMunicipio, 'el build no trae datos por municipio (fixture)');
 	const mvd = indice.find((t) => t.nivel === 'departamento' && t.codigo === '01')!;
-	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023');
+	await page.goto(`?indicador=${conMunicipio!.codigo}&nivel=departamento`);
 	await mapaListo(page);
 	const zoomPais = await page.evaluate(() => (window as unknown as Camara).__mapa.getZoom());
 	await abrirOpciones(page);
@@ -531,7 +532,25 @@ test('AC-I20: lo que se publica por región muestra el aviso y la comparación, 
 	await expect(filas.nth(2)).toContainText('83.651');
 	await expect(page.locator('.comparacion figcaption')).toContainText('jul–set 2026');
 	await expect(page.locator('section.leyenda')).toHaveCount(0); // sin coroplético
+	// AC-N6: sin niveles en el mapa (un solo departamento con valor, #204), el selector de nivel no se muestra
+	await expect(page.getByRole('group', { name: 'Nivel territorial' })).toHaveCount(0);
+	await expect(page.locator('.nivel-unico')).toHaveCount(0);
 	// en escritorio cada indicador dice dónde se publica (en celular se elige con un desplegable)
 	if ((page.viewportSize()?.width ?? 0) > 900) await expect(page.getByText('INE · por región').first()).toBeVisible();
 	expect((await new AxeBuilder({ page }).include('.avisos').analyze()).violations).toEqual([]);
+});
+
+test('AC-N11: el selector «Nivel territorial» es un grupo de radios que se maneja con las flechas', async ({ page }, info) => {
+	test.skip(info.project.name === 'movil', 'el teclado se prueba en escritorio');
+	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023');
+	const grupo = page.getByRole('group', { name: 'Nivel territorial' });
+	const radios = grupo.getByRole('radio');
+	expect(await radios.count()).toBeGreaterThan(1);
+	await radios.first().focus();
+	await page.keyboard.press('ArrowDown');
+	await expect(radios.nth(1)).toBeChecked();
+	await expect(page).not.toHaveURL(/nivel=departamento/);
+	// Tab sale del grupo (una sola parada) al control siguiente, el período
+	await page.keyboard.press('Tab');
+	await expect(page.locator('#periodo')).toBeFocused();
 });
