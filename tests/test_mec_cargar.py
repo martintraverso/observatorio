@@ -381,10 +381,18 @@ def test_213_titulos_y_tasas_con_la_ortografia_del_archivo():
     assert legible("ESTUDIANTES MATRICULADOS DE LA DGEIP POR SEXO") == "Estudiantes matriculados de la DGEIP por sexo"
     e = {"titulo": "RENDIMIENTO ESCOLAR EN EDUCACIÓN PRIMARIA COMÚN PÚBLICA POR ÁREA DEMOGRÁFICA SEGÚN DEPARTAMENTO"}
     assert nombre_tasa("II-2.2.13", e, "RENDIMIENTO ESCOLAR/PROMOVIDOS/ÁREA DEMOGRÁFICA/Rural") == (
-        "Tasa de promoción en educación primaria común pública — área demográfica rural")
+        "Tasa de promoción en educación primaria común pública — área demográfica · rural")
     assert nombre_tasa("II-2.2.13", e, "RENDIMIENTO ESCOLAR/PROMOVIDOS/TOTAL") == "Tasa de promoción en educación primaria común pública"
     assert nombre_tasa("II-3.2.1", {"titulo": "X EN EDUCACIÓN MEDIA BÁSICA POR GRADO"}, "GRADO/PRIMERO/RENDIMIENTO/Promovido",
-                       "1 año") == "Tasa de promoción en educación media básica — grado primero; 1 año"
+                       "1 año") == "Tasa de promoción en educación media básica — grado · primero; 1 año"
+    # sin emparejar dimensión y valor (II-3.2.11: «PRIVADA/…/SEXO/Mujer» no es «privada sexo, mujer»)
+    e11 = {"titulo": "RENDIMIENTO EDUCATIVO EN EDUCACIÓN MEDIA BÁSICA GENERAL POR FORMA DE ADMINISTRACIÓN"}
+    assert nombre_tasa("II-3.2.11", e11, "PRIVADA/RENDIMIENTO/Promovido/SEXO/Mujer") == (
+        "Tasa de promoción en educación media básica general — privada · sexo · mujer")
+    # una letra (M, V) y las siglas con puntos quedan como en el archivo
+    e15 = {"titulo": "RENDIMIENTO ESCOLAR EN EDUCACIÓN PRIMARIA COMÚN PRIVADA POR SEXO SEGÚN DEPARTAMENTO"}
+    assert nombre_tasa("II-2.2.15", e15, "RENDIMIENTO ESCOLAR/PROMOVIDOS/SEXO/M").endswith("— sexo · M")
+    assert legible("C.B.T. AGRARIO", False) == "C.B.T. agrario" and legible("E. M. P. ESPECIALIZACIÓN", False) == "E. M. P. especialización"
 
 
 def test_213_ninguna_tasa_repite_nombre_en_su_cuadro(entorno):

@@ -115,24 +115,27 @@ def derivados(obs: pd.DataFrame) -> tuple[pd.DataFrame, dict[str, str]]:
 
 # Siglas que aparecen en los títulos de los cuadros: quedan en mayúsculas al pasar el título a minúsculas (#213).
 SIGLAS = {"ANEP", "CAIF", "CEIP", "CENFORES", "CES", "CETP", "CFE", "CIEP", "DGEIP", "DGES", "DGETP", "INAU", "JICI",
-          "MEC", "UDELAR", "UTEC", "UTU"}
+          "FINEST", "MEC", "UDELAR", "UTEC", "UTU"}
+
+
+def _sigla(palabra: str) -> bool:
+    """Una sigla del archivo: de la lista (DGEIP, INAU…) o con puntos («C.B.T.», «E.»)."""
+    p = palabra.strip("(),:;")
+    return (p.strip(".") in SIGLAS and p.isupper()) or bool(re.fullmatch(r"(?:[A-ZÁÉÍÓÚÑ]\.)+", p))
 
 
 def legible(texto: str, primera: bool = True) -> str:
     """«ESTUDIANTES … DE LA DGEIP» → «Estudiantes … de la DGEIP»: minúsculas salvo las siglas, sin cambiar palabras."""
-    palabras = [p if p.strip("().,:;").upper() in SIGLAS and p.isupper() else p.lower() for p in texto.split(" ")]
-    t = " ".join(palabras)
+    t = " ".join(p if _sigla(p) else p.lower() for p in texto.split(" "))
     return t[:1].upper() + t[1:] if primera else t
 
 
 def apertura_legible(ruta: str) -> str:
-    """«FORMA DE ADMINISTRACIÓN/PÚBLICA/GRADO/Primero» → «forma de administración pública, grado primero»."""
-    return ", ".join(" ".join(legible(t, False) for t in par) for par in _pares([t.strip() for t in ruta.split("/") if t.strip()]))
-
-
-def _pares(tramos: list[str]) -> list[list[str]]:
-    """Agrupa los tramos de una ruta de a pares (dimensión, valor); un tramo suelto queda solo."""
-    return [tramos[i:i + 2] for i in range(0, len(tramos), 2)]
+    """«FORMA DE ADMINISTRACIÓN/PRIVADA/SEXO/M» → «forma de administración · privada · sexo · M». Los tramos van
+    separados como en el archivo, sin suponer cuál es la dimensión y cuál el valor; un tramo de una letra (M, V) queda
+    como está."""
+    tramos = [t.strip() for t in ruta.split("/") if t.strip()]
+    return " · ".join(t if re.fullmatch(r"\w", t) else legible(t, False) for t in tramos)
 
 
 def nombre_tasa(cod: str, e: dict, concepto: str, categoria: str = "") -> str:
