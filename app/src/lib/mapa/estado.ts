@@ -155,12 +155,6 @@ export function formaSelectorNivel(ofrecidos: NivelMapa[]): 'oculto' | 'texto' |
 	return ofrecidos.length === 0 ? 'oculto' : ofrecidos.length === 1 ? 'texto' : 'lista';
 }
 
-/** Niveles que ofrece algún indicador. Solo para los tests visuales, hasta M11.5 (el selector usa nivelesOfrecidos). */
-export function nivelesConDatos(indicadores: IndicadorMapa[], catalogo: NivelCatalogo[]): NivelMapa[] {
-	return nivelesDibujables(catalogo)
-		.filter((n) => indicadores.some((i) => nivelesOfrecidos(i, catalogo).includes(n.id)))
-		.map((n) => n.id);
-}
 
 /**
  * Si la fuente publica el total del país para este indicador: en este período ('periodo'), solo en otros

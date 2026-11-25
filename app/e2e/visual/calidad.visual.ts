@@ -6,15 +6,14 @@
 // historia que lo corrige saque la marca. Así el arnés prueba que detecta cada problema.
 import { expect, test } from '@playwright/test';
 import { readFileSync } from 'node:fs';
-import { nivelesConDatos, nivelesOfrecidos } from '../../src/lib/mapa/estado.ts';
+import { nivelesOfrecidos } from '../../src/lib/mapa/estado.ts';
 import { abrirOpciones, detectarDesbordes, esperarQuieta, revisarSegmentado, sinTextoInterno } from './ayudas';
 
 type Territorio = { nivel: string; codigo: string; nombre: string; depto: string };
 const indice = JSON.parse(readFileSync('build/datos-web/territorios_index.json', 'utf-8')) as Territorio[];
 const fuentes = JSON.parse(readFileSync('build/datos-web/fuentes.json', 'utf-8')) as { id: string }[];
-const indicadores = JSON.parse(readFileSync('build/datos-web/indicadores.json', 'utf-8')) as Parameters<typeof nivelesConDatos>[0];
-const catalogo = JSON.parse(readFileSync('build/datos-web/niveles.json', 'utf-8')) as Parameters<typeof nivelesConDatos>[1];
-const NIVELES = nivelesConDatos(indicadores, catalogo);
+const indicadores = JSON.parse(readFileSync('build/datos-web/indicadores.json', 'utf-8')) as Parameters<typeof nivelesOfrecidos>[0][];
+const catalogo = JSON.parse(readFileSync('build/datos-web/niveles.json', 'utf-8')) as Parameters<typeof nivelesOfrecidos>[1];
 // M11.4: el selector muestra los niveles del indicador elegido (al abrir, el primero)
 const NIVELES_INICIO = nivelesOfrecidos(indicadores[0], catalogo);
 
