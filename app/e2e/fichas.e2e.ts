@@ -501,9 +501,10 @@ test('AC-E27 (país): la serie de matrícula 2002–2024 empieza por el total de
 			}
 		});
 	});
-	// se navega desde el Interior para que la app pida el JSON (la carga directa viene prerenderizada)
-	await page.goto('territorio/region/interior');
-	await page.locator('.descripcion-region').getByRole('link', { name: 'Uruguay' }).click();
+	// se navega desde /fichas para que la app pida el JSON: la carga directa viene prerenderizada, y otras fichas (el
+	// Interior, un departamento con la ECH) ya piden la del país al cargar y la guardan en la caché
+	await page.goto('fichas');
+	await page.getByRole('link', { name: 'Uruguay', exact: true }).last().click();
 	await expect(page).toHaveURL(/territorio\/pais\/UY$/);
 	const s = page.locator('#educacion');
 	const selector = s.getByRole('combobox').first();
