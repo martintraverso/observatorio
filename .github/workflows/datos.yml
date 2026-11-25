@@ -26,6 +26,7 @@ on:
 
 permissions:
   contents: write  # crear releases
+  issues: write    # F4.6 (#169): «Nuevo anuario MEC <año>: revisar mapeo»
 
 concurrency:
   group: datos     # nunca dos publicaciones a la vez
@@ -72,6 +73,22 @@ jobs:
       # Sin capturas nuevas no sube nada (el registro solo cambió en ultima_corrida).
       - name: Subir originales nuevos de ingresos a crudos
         run: python scripts/crudos_carpeta.py subir --crudo datos/crudo --carpeta ech_ingresos
+
+      # F4.6 (#169, AC-E25): los anuarios del MEC. Una versión nueva de un año del registro es otra captura vigente,
+      # que «Procesar» carga. Un año nuevo se baja a mec_anuario/nuevos/ sin cargarse (no entra en capturas.json) y
+      # abre una sola vez el issue «Nuevo anuario MEC <año>: revisar mapeo». Si el MEC no responde, la corrida sigue.
+      - name: Capturar anuarios (MEC)
+        timeout-minutes: 15
+        continue-on-error: true
+        run: python pipeline/mec_anuario_captura.py --crudo datos/crudo | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Novedades del MEC (años nuevos)
+        timeout-minutes: 10
+        continue-on-error: true
+        run: python pipeline/mec_anuario_novedades.py --crudo datos/crudo --issues | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Subir originales nuevos del MEC a crudos
+        run: python scripts/crudos_carpeta.py subir --crudo datos/crudo --carpeta mec_anuario
 
       - name: Procesar
         run: |
