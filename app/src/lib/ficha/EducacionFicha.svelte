@@ -5,6 +5,30 @@
 	import type { cuadrosEducacion } from './logica.ts';
 
 	let { niveles }: { niveles: ReturnType<typeof cuadrosEducacion> } = $props();
+
+	type Cuadro = ReturnType<typeof cuadrosEducacion>[number]['grupos'][number]['cuadros'][number];
+	// F4.7b2 (#211, decisión del mantenedor): un gráfico chico por fila con la serie del valor que resume el cuadro.
+	const W = 160;
+	const H = 36;
+	const M = 4;
+	/** Coordenadas de cada tramo (los tramos no se unen: AC-E30). */
+	function geometria(c: Cuadro) {
+		const pts = c.tramos.flat();
+		const anios = [...new Set(pts.map((p) => p.anio))].sort();
+		const vs = pts.map((p) => p.valor);
+		const [min, max] = [Math.min(...vs), Math.max(...vs)];
+		const x = (a: string) => M + (anios.indexOf(a) * (W - 2 * M)) / Math.max(1, anios.length - 1);
+		const y = (v: number) => (max === min ? H / 2 : H - M - ((v - min) * (H - 2 * M)) / (max - min));
+		return c.tramos.map((t) => t.map((p) => ({ ...p, cx: x(p.anio), cy: y(p.valor) })));
+	}
+	/** Lo que dice el gráfico, en texto (para lectores de pantalla). */
+	function descripcion(c: Cuadro): string {
+		const unidad = c.principal?.unidad ?? '';
+		return (
+			'Evolución: ' +
+			c.tramos.map((t) => t.map((p) => `${p.anio}: ${publicado(p.valor)} ${unidad}`).join('; ')).join(' — serie cortada — ')
+		);
+	}
 </script>
 
 {#each niveles as n (n.nivel)}
@@ -27,6 +51,20 @@
 							</p>
 						{:else}
 							<p class="valor suave">Ver el detalle ({c.anio}).</p>
+						{/if}
+						{#if c.tramos.flat().length > 1}
+							<figure class="mini-serie">
+								<svg viewBox="0 0 {W} {H}" width={W} height={H} role="img" aria-label={descripcion(c)}>
+									{#each geometria(c) as t, i (i)}
+										<polyline class="tramo" class:otro={i % 2 === 1} points={t.map((p) => `${p.cx},${p.cy}`).join(' ')} />
+										{#each t as p (p.anio)}<circle class="punto" class:otro={i % 2 === 1} cx={p.cx} cy={p.cy} r="2.5" />{/each}
+									{/each}
+								</svg>
+								<figcaption class="suave">
+									{c.tramos[0][0].anio}–{c.tramos.at(-1)!.at(-1)!.anio}
+									{#if c.cortes.length}<span class="corte">· Serie cortada: {c.cortes.join(' ')}</span>{/if}
+								</figcaption>
+							</figure>
 						{/if}
 						<p class="fuente suave">{c.fuente}</p>
 						{#if c.aperturas.length || c.nota}
@@ -89,6 +127,44 @@
 
 	.fuente {
 		font-size: var(--texto-s);
+	}
+
+	.mini-serie {
+		margin: var(--espacio-1) 0;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--espacio-2);
+	}
+
+	.mini-serie svg {
+		flex: none;
+		overflow: visible;
+	}
+
+	.mini-serie figcaption {
+		font-size: var(--texto-s);
+	}
+
+	.tramo {
+		fill: none;
+		stroke: var(--primario);
+		stroke-width: 2;
+	}
+
+	.punto {
+		fill: var(--primario);
+	}
+
+	/* el tramo de otro concepto (AC-E30): otro trazo, para que no se lea como una sola línea */
+	.tramo.otro {
+		stroke-dasharray: 4 3;
+	}
+
+	.punto.otro {
+		fill: var(--tarjeta);
+		stroke: var(--primario);
+		stroke-width: 1.5;
 	}
 
 	.calculado {

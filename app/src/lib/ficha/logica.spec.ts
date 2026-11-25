@@ -382,6 +382,32 @@ describe('F4.7b1: educación en la ficha (AC-E27, AC-E28, AC-E29)', () => {
 		expect(centros.principal?.etiqueta).toBe('Forma de administración · Total');
 	});
 
+	it('F4.7b2 (AC-E30): la serie del resumen se corta en dos tramos cuando cambia de concepto, con la nota', () => {
+		const MOTIVO = 'hasta 2022 el total no incluye privados; desde 2023 sí';
+		const h = {
+			capturas: { c24: { archivo: 'mec_anuario/2024.xlsx' } },
+			indicadores: {
+				sin_priv: ind('sin_priv', 'II-3.1.1', 'TOTAL', { unidad: 'establecimientos', corte: MOTIVO }),
+				con_priv: ind('con_priv', 'II-3.1.1', 'TOTAL', { unidad: 'establecimientos', corte: '' }),
+				viejo: ind('viejo', 'II-2.1.1', 'TOTAL', { unidad: 'establecimientos' }),
+				nuevo: ind('nuevo', 'II-2.1.1', 'TOTAL', { unidad: 'establecimientos' })
+			},
+			observaciones: [
+				o('sin_priv', '2021', 10), o('sin_priv', '2022', 11), o('con_priv', '2023', 15), o('con_priv', '2024', 16),
+				o('viejo', '2022', 30), o('nuevo', '2023', 31), o('nuevo', '2024', 32)
+			]
+		} as never;
+		const cs = cuadrosEducacion(h).flatMap((n) => n.grupos.flatMap((x) => x.cuadros));
+		const media = cs.find((c) => c.cuadro === 'II-3.1.1')!;
+		expect(media.tramos.map((t) => t.map((p) => `${p.anio}:${p.valor}`))).toEqual([['2021:10', '2022:11'], ['2023:15', '2024:16']]);
+		expect(media.cortes).toEqual([MOTIVO]);
+		// otro id sin cambio de concepto (sin «corte»): la serie sigue unida
+		const prim = cs.find((c) => c.cuadro === 'II-2.1.1')!;
+		expect(prim.tramos).toHaveLength(1);
+		expect(prim.tramos[0].map((p) => p.valor)).toEqual([30, 31, 32]);
+		expect(prim.cortes).toEqual([]);
+	});
+
 	it('las siglas quedan en mayúsculas', () => {
 		expect(rutaLegible('DGES/TOTAL')).toBe('DGES · Total');
 	});

@@ -280,7 +280,16 @@ export interface CuadroEducacion {
 	nota: string;
 	/** «Fuente: MEC, Anuario Estadístico de Educación 2024, cuadro II-2.2.1» (AC-E29). */
 	fuente: string;
+	/**
+	 * F4.7b2 (#211): la serie del valor que resume el cuadro, año por año (misma regla y misma unidad que el último año),
+	 * en tramos: cuando el resumen pasa a un indicador de otro concepto (AC-E13), empieza un tramo nuevo (AC-E30).
+	 */
+	tramos: { anio: string; valor: number; indicador: string }[][];
+	/** Por qué se corta la serie (el motivo del registro, AC-E30); vacío si no se corta. */
+	cortes: string[];
 }
+
+type IndicadorConCorte = { corte?: string | null };
 
 /** La ruta de la columna de origen de un indicador del anuario («FORMA DE ADMINISTRACIÓN/PÚBLICA/TOTAL»). */
 function rutaEducacion(ind: { columna_origen: string }): string {
@@ -341,22 +350,48 @@ export function cuadrosEducacion(
 	for (const [cuadro, lista] of porCuadro) {
 		const m = /^II-(\d+)\.(\d+)\./.exec(cuadro);
 		if (!m) continue;
-		const anio = lista.map((o) => o.periodo).sort().at(-1)!;
-		const delAnio = lista.filter((o) => o.periodo === anio);
-		const valores: ValorEducacion[] = delAnio.map((o) => {
-			const ind = f.indicadores[o.indicador];
-			return { observacion: o, etiqueta: etiquetaEducacion(ind, f.indicadores), unidad: ind.unidad, calculado: !!ind.es_derivado };
-		});
+		const anios = [...new Set(lista.map((o) => o.periodo))].sort();
+		const anio = anios.at(-1)!;
+		const valoresDe = (a: string): ValorEducacion[] =>
+			lista
+				.filter((o) => o.periodo === a)
+				.map((o) => {
+					const ind = f.indicadores[o.indicador];
+					return { observacion: o, etiqueta: etiquetaEducacion(ind, f.indicadores), unidad: ind.unidad, calculado: !!ind.es_derivado };
+				});
 		// El resumen, solo si es único: la tasa de promoción total calculada (rendimiento); si no, el total publicado del
-		// cuadro («TOTAL», o el total de su única dimensión, «FORMA DE ADMINISTRACIÓN/TOTAL»). Nunca una suma (§4).
+		// cuadro («TOTAL» o «TOTAL GENERAL», o el total de su única dimensión, «FORMA DE ADMINISTRACIÓN/TOTAL»). Nunca una suma (§4).
 		const unico = (xs: ValorEducacion[]) => (xs.length === 1 ? xs[0] : null);
 		const rutaDe = (v: ValorEducacion) => rutaEducacion(f.indicadores[v.observacion.indicador]);
-		const publicados = valores.filter((v) => !v.calculado);
-		const principal =
-			unico(valores.filter((v) => v.calculado && TASA_TOTAL.test(v.observacion.indicador))) ??
-			unico(publicados.filter((v) => rutaDe(v) === 'TOTAL')) ??
-			unico(publicados.filter((v) => /^[^/]+\/TOTAL$/.test(rutaDe(v)))) ??
-			null;
+		const resumenDe = (vs: ValorEducacion[]) => {
+			const publicados = vs.filter((v) => !v.calculado);
+			return (
+				unico(vs.filter((v) => v.calculado && TASA_TOTAL.test(v.observacion.indicador))) ??
+				unico(publicados.filter((v) => /^TOTAL( GENERAL)?$/.test(rutaDe(v)))) ??
+				unico(publicados.filter((v) => /^[^/]+\/TOTAL$/.test(rutaDe(v)))) ??
+				null
+			);
+		};
+		const valores = valoresDe(anio);
+		const principal = resumenDe(valores);
+		// La serie del resumen: un tramo nuevo cuando el indicador cambia y alguno de los dos cambia de concepto (AC-E13).
+		const tramos: { anio: string; valor: number; indicador: string }[][] = [];
+		const cortes = new Set<string>();
+		if (principal) {
+			let previo: string | null = null;
+			for (const a of anios) {
+				const r = resumenDe(valoresDe(a));
+				if (!r || r.unidad !== principal.unidad || r.observacion.valor === null) continue;
+				const ind = r.observacion.indicador;
+				const corte = (k: string) => (f.indicadores[k] as IndicadorConCorte | undefined)?.corte || '';
+				if (previo === null || (ind !== previo && (corte(ind) || corte(previo)))) {
+					if (previo !== null) for (const c of [corte(previo), corte(ind)]) if (c) cortes.add(c);
+					tramos.push([]);
+				}
+				tramos.at(-1)!.push({ anio: a, valor: r.observacion.valor, indicador: ind });
+				previo = ind;
+			}
+		}
 		const base = Object.keys(f.indicadores).find((k) => f.indicadores[k].cuadro === cuadro && !f.indicadores[k].es_derivado);
 		const titulo = (base ? f.indicadores[base].nombre.split(': ')[0] : cuadro).replace(/ según departamento$/i, '');
 		const archivo = f.capturas[(principal ?? valores[0]).observacion.captura_id]?.archivo ?? '';
@@ -369,6 +404,8 @@ export function cuadrosEducacion(
 			aperturas: valores.filter((v) => v !== principal).sort((a, b) => a.etiqueta.localeCompare(b.etiqueta, 'es')),
 			nota: (base && f.indicadores[base].nota) || '',
 			fuente: `Fuente: MEC, Anuario Estadístico de Educación ${anioAnuario}, cuadro ${cuadro}`,
+			tramos,
+			cortes: [...cortes],
 			nivel: NIVELES_EDUCATIVOS[m[1]] ?? `Nivel ${m[1]}`,
 			grupo: GRUPOS_EDUCACION[m[2]] ?? 'Otros'
 		});
