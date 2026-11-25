@@ -4,10 +4,15 @@ hasta que se active)."""
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import pandas as pd
 import pytest
+import yaml
 from test_mec_cargar import correr, entorno  # noqa: F401
 from web import catalogo_educacion, con_corte, con_cuadro, con_mapa, construir_fichas, csv_observaciones
+
+RAIZ = Path(__file__).resolve().parents[1]
 
 FLORES, PAIS = "INE-2023/departamento/07", "INE-2023/pais/UY"
 
@@ -121,5 +126,23 @@ def test_ac_e32_el_catalogo_lista_cada_cuadro_con_datos(entorno):  # noqa: F811
     assert c["tipo"] == "A" and c["anios"] == sorted(c["anios"]) and c["titulo"][0].isupper() and not c["titulo"].isupper()
     assert c["mapa"] and "tasa_promocion" in c["mapa"]
     assert cat["II-2.2.1"]["mapa"] == "edu_ii_2_2_1_pct_privada"
-    assert all(set(x) == {"cuadro", "titulo", "tipo", "anios", "mapa"} for x in cat.values())
+    assert all(set(x) == {"cuadro", "titulo", "tipo", "anios", "departamental", "mapa"} for x in cat.values())
+    assert c["departamental"] and all(x["tipo"] in {"A", "B", "C"} for x in cat.values())
     assert catalogo_educacion(ind[ind.fuente_id != "mec_anuario_educacion"], obs) == []
+
+
+def test_ac_e32_el_tipo_es_el_del_ultimo_anio_con_datos_que_lo_tiene(entorno, tmp_path):  # noqa: F811
+    """#234 (revisión): un año del registro sin tipo (II-2.2.15 2024: null) no deja el cuadro sin tipo."""
+    crudo, salida = entorno
+    correr(crudo, salida)
+    obs = pd.read_parquet(salida / "observaciones.parquet")
+    ind = pd.read_parquet(salida / "indicadores.parquet")
+    reg = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario_educacion.yml").read_text(encoding="utf-8"))
+    for e in reg["cuadros"].values():
+        if e.get("tipos"):
+            ultimo = max(e["tipos"])
+            e["tipos"][ultimo] = None
+    (tmp_path / "reg.yml").write_text(yaml.safe_dump(reg, allow_unicode=True), encoding="utf-8")
+    cat = catalogo_educacion(ind, obs, tmp_path / "reg.yml")
+    con_anterior = [x for x in cat if len(x["anios"]) > 1]  # el fixture trae 2023 y 2024
+    assert con_anterior and all(x["tipo"] in {"A", "B", "C"} for x in con_anterior)

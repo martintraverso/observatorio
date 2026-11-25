@@ -10,6 +10,8 @@ export interface CuadroCatalogo {
 	titulo: string;
 	tipo: string;
 	anios: string[];
+	/** Publica valores por departamento (los A, y algunos B que traen Montevideo). */
+	departamental: boolean;
 	/** Una tasa calculada del cuadro, para abrirlo en el mapa; null si no tiene. */
 	mapa: string | null;
 }

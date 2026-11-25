@@ -8,7 +8,7 @@ Lee las salidas del pipeline (datos/salida/*.parquet) y escribe datos/salida/web
   fichas/<nivel>/<codigo>.json todo lo que necesita la ficha de cada territorio (AC-W4)
   indicadores.json             catálogo de indicadores, con los niveles y períodos en que hay datos
   niveles.json                 catálogo de niveles: etiqueta, orden, si va al mapa, zoom mínimo y ámbito (M11)
-  educacion_catalogo.json      cuadros del anuario del MEC con datos: código, título, tipo, años, tasa en el mapa (AC-E32)
+  educacion_catalogo.json      cuadros del anuario del MEC con datos: código, título, tipo, años, si es por departamento, tasa del mapa (AC-E32)
   valores/<nivel>.json         valores de cada indicador por territorio, para pintar el mapa
   uruguay_mini.geojson         departamentos muy simplificados, para el mini-mapa de ubicación
   fuentes.json                 registro de fuentes
@@ -320,9 +320,10 @@ def con_mapa(indicadores: pd.DataFrame) -> pd.DataFrame:
 
 
 def catalogo_educacion(indicadores: pd.DataFrame, obs: pd.DataFrame, registro: Path | None = None) -> list[dict]:
-    """F4.8a3 (#226, AC-E32): cada cuadro del anuario del MEC con datos en esta salida: código, título, tipo (A, B, C),
-    años y dónde se ve (fichas de departamento para los A; ficha del país para los B y C; el mapa si tiene tasas
-    calculadas). Sale del registro y de los indicadores publicados; sin datos de educación, vacío."""
+    """F4.8a3 (#226, AC-E32): cada cuadro del anuario del MEC con datos en esta salida: código, título, tipo (A, B, C:
+    el del último año con datos que lo tenga), años, si publica valores por departamento (`departamental`, de las
+    observaciones: algunos B traen Montevideo) y una tasa calculada para abrirlo en el mapa (la que se dibuja por
+    departamento, la más general primero). Sale del registro y de lo publicado; sin datos de educación, vacío."""
     from mec_anuario_cargar import legible
 
     ind = indicadores if "cuadro" in indicadores else con_cuadro(indicadores)
@@ -333,15 +334,19 @@ def catalogo_educacion(indicadores: pd.DataFrame, obs: pd.DataFrame, registro: P
     import yaml
 
     cuadros = (yaml.safe_load(registro.read_text(encoding="utf-8")) or {}).get("cuadros", {}) if registro.exists() else {}
-    anios = obs[obs.indicador.isin(ind.codigo)].assign(cuadro=lambda d: d.indicador.map(dict(zip(ind.codigo, ind.cuadro))))
-    anios = anios.groupby("cuadro").periodo.agg(lambda x: sorted(set(x)))
+    o = obs[obs.indicador.isin(ind.codigo)].assign(cuadro=lambda d: d.indicador.map(dict(zip(ind.codigo, ind.cuadro))))
+    anios = o.groupby("cuadro").periodo.agg(lambda x: sorted(set(x)))
+    depto = o[o.territorio_id.str.contains("/departamento/", regex=False)]
+    con_depto = set(depto.indicador)  # indicadores que se dibujan por departamento
     salida = []
     for cod in sorted(anios.index, key=lambda c: [int(x) for x in c[3:].split(".")]):
         e = cuadros.get(cod, {})
-        tipos = e.get("tipos") or {}
-        tasa = ind[(ind.cuadro == cod) & ind.es_derivado.fillna(False).astype(bool)].codigo.sort_values().tolist()
-        salida.append({"cuadro": cod, "titulo": legible(e.get("titulo", cod)), "tipo": tipos[max(tipos)] if tipos else "",
-                       "anios": anios[cod], "mapa": tasa[0] if tasa else None})
+        tipos = {str(a): t for a, t in (e.get("tipos") or {}).items() if t}
+        tipo = next((tipos[a] for a in reversed(anios[cod]) if a in tipos), "")  # II-2.2.15: 2024 sin tipo
+        tasas = [c for c in ind[(ind.cuadro == cod) & ind.es_derivado.fillna(False).astype(bool)].codigo if c in con_depto]
+        tasas.sort(key=lambda c: (c.count("__"), "total" not in c, len(c), c))  # la más general primero
+        salida.append({"cuadro": cod, "titulo": legible(e.get("titulo", cod)), "tipo": tipo, "anios": anios[cod],
+                       "departamental": bool(depto.cuadro.eq(cod).any()), "mapa": tasas[0] if tasas else None})
     return salida
 
 

@@ -526,6 +526,7 @@ test('AC-E32: el catálogo de educación lista cada cuadro con código, título,
 	const catalogo = JSON.parse(readFileSync('build/datos-web/educacion_catalogo.json', 'utf-8')) as {
 		cuadro: string;
 		tipo: string;
+		departamental: boolean;
 		mapa: string | null;
 	}[];
 	await page.goto('educacion');
@@ -537,10 +538,20 @@ test('AC-E32: el catálogo de educación lista cada cuadro con código, título,
 	}
 	const filas = page.locator('tbody tr');
 	await expect(filas).toHaveCount(catalogo.length);
-	for (const c of catalogo.slice(0, 5)) {
-		const fila = filas.filter({ hasText: c.cuadro });
-		await expect(fila.getByRole('link', { name: c.tipo === 'A' ? 'Fichas de departamento' : 'Ficha del país' })).toBeVisible();
-		await expect(fila.getByRole('link', { name: 'Mapa' })).toHaveCount(c.mapa ? 1 : 0);
+	// a propósito: uno por departamento, uno nacional y uno con tasa en el mapa (revisión de #234)
+	const elegidos = [
+		catalogo.find((c) => c.departamental),
+		catalogo.find((c) => !c.departamental),
+		catalogo.find((c) => c.mapa)
+	].filter((c) => c !== undefined);
+	for (const c of elegidos) {
+		const fila = filas.filter({ has: page.getByRole('cell', { name: c.cuadro, exact: true }) });
+		await expect(fila).toHaveCount(1);
+		await expect(fila.getByRole('link', { name: `Ficha del país (${c.cuadro})` })).toBeVisible();
+		await expect(fila.getByRole('link', { name: `Fichas de departamento (${c.cuadro})` })).toHaveCount(c.departamental ? 1 : 0);
+		await expect(fila.getByRole('link', { name: `Mapa (${c.cuadro})` })).toHaveCount(c.mapa ? 1 : 0);
+		if (c.mapa) await expect(fila.getByRole('link', { name: `Mapa (${c.cuadro})` })).toHaveAttribute('href', new RegExp(`indicador=${c.mapa}$`));
 	}
+	await expect(page.getByRole('cell', { name: /^[ABC]?$/ })).toHaveCount(0); // ninguna celda vacía (tipo null, #234)
 	expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
 });

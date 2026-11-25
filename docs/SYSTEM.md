@@ -144,6 +144,8 @@ Messages (M10, AC-V22): three styles used consistently — **info** (blue: expla
  
 **Detalle de fuente** (`/fuentes/<id>`) — description, ficha técnica, indicators derived, capture history (date, file, sha256, result: nuevo / sin cambios / error), notes/warnings, "hasta dónde llega en el territorio", related tools, "Reportar un problema".
  
+**Catálogo de educación** (`/educacion`, F4.8a3, AC-E32) — one row per MEC anuario table with data (`educacion_catalogo.json` from `pipeline/web.py`): code, readable title, type (A por departamento · B nacional, por categoría · C nacional, por institución; the latest year with data that has one), years, and where it is seen: the country ficha always, the department fichas if any value is published by department (some B tables carry Montevideo), and the map through one calculated rate drawable by department (the most general one). Empty file or no file (source en preparación): an info notice that there are no education tables yet. The ficha's Educación section links to it.
+
 **Datos** (`/datos`) — bulk downloads: observations, territories grouped by level (one row per level with readable names, one column per format: GeoParquet, GeoJSON), full database; the license of every active source and a citation naming them.
 
 The "Nivel más detallado" of a source (in `/fuentes`) names the finest nationwide level and, if finer, the Montevideo-only one ("Departamento · Municipio (solo Montevideo)").

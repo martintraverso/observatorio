@@ -32,8 +32,8 @@
 <h1>Catálogo de educación</h1>
 <p>
 	Los cuadros del <em>Anuario Estadístico de Educación</em> del MEC que tiene el observatorio, con los años disponibles
-	y dónde se ven. Los cuadros por departamento están en las fichas de cada departamento; los nacionales, en la ficha del
-	país.
+	y dónde se ven. Todos están en la ficha del país; los que se publican por departamento, también en la ficha de cada
+	departamento.
 </p>
 
 {#if data.cuadros.length === 0}
@@ -59,14 +59,18 @@
 						<td data-etiqueta="Tipo">{TIPOS[c.tipo] ?? c.tipo}</td>
 						<td data-etiqueta="Años">{rango(c.anios)}</td>
 						<td data-etiqueta="Dónde se ve">
-							{#if c.tipo === 'A'}
-								<a href="{resolve('/territorio/[nivel]/[codigo]', { nivel: 'departamento', codigo: '01' })}#educacion">Fichas de departamento</a>
-							{:else}
-								<a href="{resolve('/territorio/[nivel]/[codigo]', { nivel: 'pais', codigo: 'UY' })}#educacion">Ficha del país</a>
-							{/if}
-							{#if c.mapa}
-								· <a href="{resolve('/')}?indicador={c.mapa}">Mapa</a>
-							{/if}
+							<!-- el código del cuadro, oculto, distingue los enlaces de cada fila al listarlos -->
+							<span class="enlaces">
+								<a href="{resolve('/territorio/[nivel]/[codigo]', { nivel: 'pais', codigo: 'UY' })}#educacion"
+									>Ficha del país<span class="visualmente-oculto"> ({c.cuadro})</span></a
+								>
+								{#if c.departamental}
+									<a href={resolve('/fichas')}>Fichas de departamento<span class="visualmente-oculto"> ({c.cuadro})</span></a>
+								{/if}
+								{#if c.mapa}
+									<a href="{resolve('/')}?indicador={c.mapa}">Mapa<span class="visualmente-oculto"> ({c.cuadro})</span></a>
+								{/if}
+							</span>
 						</td>
 					</tr>
 				{/each}
@@ -77,6 +81,12 @@
 
 <style>
 	/* AC-G5: los enlaces de la tabla son áreas táctiles de al menos 44 px */
+	.enlaces {
+		display: flex;
+		flex-wrap: wrap;
+		column-gap: 1rem;
+	}
+
 	td a {
 		display: inline-flex;
 		align-items: center;
