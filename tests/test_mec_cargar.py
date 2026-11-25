@@ -179,7 +179,7 @@ def test_ac_e16_tasas_derivadas(entorno):
     assert fila.es_derivado and fila.unidad == "%" and "promovidos" in fila.formula
     assert round(valor(o, "edu_ii_2_2_1_pct_privada"), 2) == round(47559 / 284944 * 100, 2)
     publicados = i[~i.es_derivado]
-    assert (publicados.formula == "").all() and set(publicados.unidad) <= {"estudiantes", "establecimientos", "docentes", "grupos", "alumnos por grupo"}  # #225: promedios publicados
+    assert (publicados.formula == "").all() and set(publicados.unidad) <= {"estudiantes", "establecimientos", "docentes", "grupos", "alumnos por grupo", "horas docentes"}  # #225, #233
 
 
 def test_resto_del_pais_va_a_la_region_interior(entorno):
@@ -421,3 +421,77 @@ def test_225_los_promedios_se_cargan_con_su_unidad_y_sin_sumarlos(entorno):
     grupos = i[i.index.str.startswith(("edu_ii_3_4_1_", "edu_ii_4_4_1_")) & ~i.index.str.contains("promedio")]
     assert len(prom) > 0 and (prom.unidad == "alumnos por grupo").all()
     assert len(grupos) > 0 and (grupos.unidad == "grupos").all()
+
+
+def test_233_el_desglose_de_columnas_se_prueba_en_cada_fila_de_un_cuadro_b():
+    """#233: en los cuadros B y C cada valor lleva su categoría (`__fila`); AC-E19 prueba el desglose de columnas
+    (TOTAL = varones + mujeres + sin dato) en cada fila. Antes no se probaba nunca en esos cuadros."""
+    import mec_anuario as mec
+    import mec_anuario_controles as mc
+
+    manual = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario" / "mapeo_manual.yml").read_text(encoding="utf-8"))
+    e = FUENTE["cuadros"]["II-1.2.5"]
+    c = mec.parsear_cuadro(fix(2024), "II-1.2.5", 2024, e["mapeo"][2024], "B")
+    fuente = {"cuadros": {"II-1.2.5": e}}
+    r = mc.controles(c.datos, fuente, manual, set(), set(), {"2024"})
+    assert not [f for f in r.controles.fallas if f["control"].startswith("AC-E19")]  # cierra con `desgloses_extra`
+    roto = c.datos.copy()
+    k = roto.index[roto.indicador.eq("edu_ii_1_2_5_sexo_v__3_anos")][0]
+    roto.loc[k, "valor"] = roto.loc[k, "valor"] + 5
+    r = mc.controles(roto, fuente, manual, set(), set(), {"2024"})
+    assert any(f["control"].startswith("AC-E19") and "II-1.2.5" in f["detalle"] and "[3_anos]" in f["detalle"]
+               for f in r.controles.fallas)
+
+
+def test_233_las_horas_por_asignatura_de_2020_y_2021_no_se_cargan():
+    """#233 (mantenedor): de II-3.3.1 e II-4.3.1, las horas por asignatura de 2020 y 2021 no se cargan; sí el total de
+    horas, los docentes por asignatura y las horas de los demás años."""
+    from mec_anuario_cargar import quitar_sin_cargar, regla_sin_cargar
+
+    manual = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario" / "mapeo_manual.yml").read_text(encoding="utf-8"))
+    reglas = manual["observaciones_sin_cargar"]
+    cuadro_de = {"edu_ii_3_3_1_total_horas": "II-3.3.1", "edu_ii_3_3_1_total_docentes": "II-3.3.1"}
+    obs = pd.DataFrame([
+        {"indicador": "edu_ii_3_3_1_total_horas__biologia", "periodo": "2020", "valor": 1},
+        {"indicador": "edu_ii_3_3_1_total_horas__biologia", "periodo": "2021", "valor": 1},
+        {"indicador": "edu_ii_3_3_1_total_horas__biologia", "periodo": "2022", "valor": 1},
+        {"indicador": "edu_ii_3_3_1_total_horas__total", "periodo": "2020", "valor": 1},
+        {"indicador": "edu_ii_3_3_1_total_docentes__biologia", "periodo": "2020", "valor": 1},
+    ])
+    quedan = quitar_sin_cargar(obs, reglas, cuadro_de)
+    assert set(zip(quedan.indicador, quedan.periodo)) == {
+        ("edu_ii_3_3_1_total_horas__biologia", "2022"), ("edu_ii_3_3_1_total_horas__total", "2020"),
+        ("edu_ii_3_3_1_total_docentes__biologia", "2020")}
+    assert regla_sin_cargar(reglas, "II-3.3.1", "edu_ii_3_3_1_total_horas__biologia")["motivo"].startswith("Las horas")
+    assert regla_sin_cargar(reglas, "II-3.3.1", "edu_ii_3_3_1_total_horas__total") is None
+
+
+def test_233_las_horas_van_con_su_unidad(entorno):
+    """#233: las columnas de horas de II-3.3.1 e II-4.3.1 tienen la unidad «horas docentes»; los docentes, «docentes»."""
+    crudo, salida = entorno
+    correr(crudo, salida)
+    i = pd.read_parquet(salida / "indicadores.parquet").set_index("codigo")
+    d = i[i.index.str.startswith(("edu_ii_3_3_1_", "edu_ii_4_3_1_"))]
+    assert len(d) and (d[d.index.str.contains("horas")].unidad == "horas docentes").all()
+    assert (d[~d.index.str.contains("horas")].unidad == "docentes").all()
+
+
+def test_233_con_genero_el_total_es_varones_mujeres_y_trans():
+    """#233 (revisión): con el encabezado GÉNERO (II-3.3.2 2023–, II-4.3.2 2024–), AC-E19 prueba en cada fila TOTAL =
+    varones + mujeres + trans (`desgloses_extra`); II-4.3.2 2024 queda con sus dos filas exceptuadas, con su motivo."""
+    import mec_anuario as mec
+    import mec_anuario_controles as mc
+
+    manual = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario" / "mapeo_manual.yml").read_text(encoding="utf-8"))
+    e = FUENTE["cuadros"]["II-4.3.2"]
+    c = mec.parsear_cuadro(fix(2024), "II-4.3.2", 2024, e["mapeo"][2024], "B")
+    r = mc.controles(c.datos, {"cuadros": {"II-4.3.2": e}}, manual, set(), set(), {"2024"})
+    assert not [f for f in r.controles.fallas if f["control"].startswith("AC-E19")]
+    exceptuadas = [a for a in r.advertencias if a.startswith("II-4.3.2 2024")]
+    for fila in ("[educacion_media_superior]", "[educacion_media_tecnologica]"):  # las dos sin el docente trans
+        assert any(fila in a and "trans" in a for a in exceptuadas), r.advertencias
+    # sin la excepción, el control las atrapa
+    sin = {**manual, "controles_excepciones": {}}
+    r = mc.controles(c.datos, {"cuadros": {"II-4.3.2": e}}, sin, set(), set(), {"2024"})
+    falla = next(f for f in r.controles.fallas if f["control"].startswith("AC-E19"))
+    assert "[educacion_media_superior]" in falla["detalle"] or "[educacion_media_tecnologica]" in falla["detalle"]
