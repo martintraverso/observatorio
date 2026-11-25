@@ -16,7 +16,6 @@ import {
 	indicadoresDelGrupo,
 	indicadoresDelTema,
 	nivelAlCambiar,
-	nivelesConDatos,
 	nivelesDibujables,
 	nivelesOfrecidos,
 	nivelMasDetallado,
@@ -157,9 +156,9 @@ describe('F2.8b: Trabajo en el mapa', () => {
 		for (const n of nivelesDibujables(CATALOGO)) expect(opcionNivel(CATALOGO, n.id).etiqueta).not.toMatch(/\(/);
 	});
 
-	it('el selector ofrece solo niveles con datos (con solo el Censo, sin municipio)', () => {
-		expect(nivelesConDatos([PERSONAS], CATALOGO)).toEqual(['departamento', 'seccion', 'segmento']);
-		expect(nivelesConDatos([PERSONAS, ACTIVIDAD], CATALOGO)).toEqual(['departamento', 'municipio_mvd', 'seccion', 'segmento']);
+	it('el selector ofrece solo los niveles con datos del indicador elegido (AC-N4, reemplaza la unión de M6)', () => {
+		expect(nivelesOfrecidos(PERSONAS, CATALOGO)).toEqual(['departamento', 'seccion', 'segmento']);
+		expect(nivelesOfrecidos(ACTIVIDAD, CATALOGO)).toEqual(['departamento', 'municipio_mvd']);
 	});
 
 	it('total del país según el período: nunca se suma', () => {

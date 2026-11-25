@@ -59,6 +59,7 @@ Legend: **[auto]** = must be covered by an automated test · **[manual]** = chec
  
 - **AC-M1** [manual] Shows real INE 2023 boundaries for the chosen level with a choropleth of the chosen indicator, a legend with class breaks and units, and the source.
 - **AC-M2** [auto] Choosing an indicator not published at the chosen level shows a notice naming the finest available level; the map does not show invented values.
+  *Superseded on the map by AC-N4/AC-N9 (M11, `docs/ACCEPTANCE_CRITERIA_niveles.md`): the map only offers levels with data, so it never reaches this state. Still applies to fichas.*
 - **AC-M3** [manual] Clicking a territory selects it: highlight on the map, right panel updates (name, level, code, value, national total, source, other indicators).
 - **AC-M4** [manual] The right panel includes a locator mini-map of Uruguay highlighting the selected territory (with a ring for small ones such as Montevideo).
 - **AC-M5** [auto] The map state (indicator, level, selected territory) is reflected in the URL and restored when the URL is opened.
