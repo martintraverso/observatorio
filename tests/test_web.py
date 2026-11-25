@@ -277,6 +277,7 @@ def test_indicadores_dicen_donde_hay_datos(web, con):
         periodos = sorted(r[0] for r in con.execute(
             "select distinct periodo from observaciones where indicador = ?", [i["codigo"]]).fetchall())
         assert set(i["niveles"]) == niveles and i["periodos"] == periodos and i["tema"]
+        assert set(i["niveles_mapa"]) <= niveles  # AC-N6: subconjunto de los niveles con datos
     assert "area_especial" not in {n for i in ind for n in i["niveles"]}
 
 
@@ -485,9 +486,29 @@ def test_niveles_de_cada_indicador_salen_de_las_observaciones():
     terr = pd.DataFrame({"id": ["p", "r", "d1", "s1"], "nivel": ["pais", "region", "departamento", "seccion"]})
     ind = pd.DataFrame({"codigo": ["a", "b"], "tema": ["Población", "Trabajo"], "nombre": ["A", "B"]})
     obs = pd.DataFrame({"indicador": ["a", "a", "b", "b"], "territorio_id": ["d1", "s1", "p", "r"],
-                        "periodo": ["2023", "2023", "2024", "2024"]})
+                        "periodo": ["2023", "2023", "2024", "2024"], "valor": [1.0, 2.0, 3.0, 4.0]})
     niveles = {f["codigo"]: f["niveles"] for f in disponibilidad(ind, terr, obs)}
     assert niveles == {"a": ["departamento", "seccion"], "b": ["pais", "region"]}
+
+
+def test_niveles_mapa_pide_al_menos_dos_territorios_con_valor():
+    """AC-N6 (#204): un nivel va al mapa del indicador si tiene valor en al menos 2 territorios. Los ingresos de la ECH
+    (solo Montevideo por departamento) quedan sin niveles en el mapa; un nivel con un valor nulo no cuenta ese territorio."""
+    import pandas as pd
+    from web import MIN_TERRITORIOS_MAPA, disponibilidad
+
+    assert MIN_TERRITORIOS_MAPA == 2
+    terr = pd.DataFrame({"id": ["p", "d1", "d2", "s1", "s2"], "nivel": ["pais", "departamento", "departamento", "seccion", "seccion"]})
+    ind = pd.DataFrame({"codigo": ["ingreso", "educacion"], "tema": ["Ingresos", "Educación"], "nombre": ["I", "E"]})
+    obs = pd.DataFrame({
+        "indicador": ["ingreso", "ingreso", "educacion", "educacion", "educacion", "educacion"],
+        "territorio_id": ["p", "d1", "d1", "d2", "s1", "s2"],
+        "periodo": ["2024"] * 6,
+        "valor": [10.0, 12.0, 5.0, 6.0, 1.0, None],
+    })
+    f = {x["codigo"]: x for x in disponibilidad(ind, terr, obs)}
+    assert f["ingreso"]["niveles"] == ["departamento", "pais"] and f["ingreso"]["niveles_mapa"] == []
+    assert f["educacion"]["niveles_mapa"] == ["departamento"]  # sección: un solo territorio con valor
 
 
 def test_dentro_de_nombra_niveles_mas_gruesos_del_catalogo():

@@ -36,10 +36,16 @@ export function nivelesDibujables(catalogo: NivelCatalogo[]): NivelCatalogo[] {
 }
 
 /** AC-N4: los niveles que ofrece el selector para un indicador: con datos y dibujables, en el orden del catálogo. */
-export function nivelesOfrecidos(ind: { niveles: string[] } | undefined, catalogo: NivelCatalogo[]): NivelMapa[] {
+export function nivelesOfrecidos(
+	ind: { niveles: string[]; niveles_mapa?: string[] } | undefined,
+	catalogo: NivelCatalogo[]
+): NivelMapa[] {
 	if (!ind) return [];
+	// AC-N6 (#204): los niveles con valor en al menos 2 territorios (`niveles_mapa`, del pipeline); sin ese dato, los
+	// niveles con datos.
+	const conDatos = ind.niveles_mapa ?? ind.niveles;
 	return nivelesDibujables(catalogo)
-		.filter((n) => ind.niveles.includes(n.id))
+		.filter((n) => conDatos.includes(n.id))
 		.map((n) => n.id);
 }
 
@@ -84,6 +90,8 @@ export interface IndicadorMapa extends Indicador {
 	tema: string;
 	/** Niveles con datos (indicadores.json, AC-N2): cualquier id del catálogo, no una lista fija (AC-N13). */
 	niveles: string[];
+	/** Niveles con valor en al menos 2 territorios: los que pueden ir al mapa (AC-N6, #204). */
+	niveles_mapa?: string[];
 	periodos: string[];
 }
 
@@ -97,38 +105,27 @@ export function nivelMasDetallado(ind: IndicadorMapa, catalogo: NivelCatalogo[])
 }
 
 /**
- * AC-M2 / AC-V9: si el indicador no se publica en el nivel elegido, un aviso que nombra ese nivel y lista
- * los niveles del mapa donde sí está. Nunca se pinta un valor inventado ni se sustituye en silencio.
+ * AC-N9 (M11.4): el mapa solo ofrece niveles con datos, así que nunca avisa «no se publica por…». Queda un aviso
+ * solo para el indicador que no tiene ningún nivel en el mapa (AC-N6): lo que se publica por región (los ingresos de
+ * la ECH, AC-I20) va con la comparación entre regiones; lo que solo tiene el total del país lo dice.
  */
-export function avisoNivel(
-	ind: IndicadorMapa,
-	nivel: NivelMapa,
-	catalogo: NivelCatalogo[]
-): { mensaje: string; disponibles: NivelMapa[]; regional?: boolean } | null {
-	// AC-I20 (F3.7c): lo que se publica por región (los ingresos de la ECH) no va en el coroplético: no hay datos por
-	// departamento salvo Montevideo. Se avisa y se muestra la comparación entre regiones.
+export function avisoSinMapa(ind: IndicadorMapa, catalogo: NivelCatalogo[]): { mensaje: string; regional: boolean } | null {
+	if (nivelesOfrecidos(ind, catalogo).length) return null;
 	if (ind.niveles.includes('region')) {
-		return { mensaje: `Los ${ind.tema.toLowerCase()} se publican por región: País · Montevideo · Interior.`, disponibles: [], regional: true };
+		return { mensaje: `Los ${ind.tema.toLowerCase()} se publican por región: País · Montevideo · Interior.`, regional: true };
 	}
-	if (ind.niveles.includes(nivel)) return null;
-	// AC-V9: los niveles del mapa donde sí está, del más fino al más grueso (cada uno será un botón).
-	const disponibles = nivelesOfrecidos(ind, catalogo).reverse();
-	const donde = minuscula(opcionNivel(catalogo, nivel).etiqueta);
-	return {
-		mensaje: disponibles.length
-			? `«${ind.nombre}» no se publica por ${donde}. Disponible por:`
-			: `«${ind.nombre}» no se publica por ${donde} ni en otro nivel del mapa.`,
-		disponibles
-	};
+	return { mensaje: `«${ind.nombre}» se publica solo para todo el país: no hay datos por territorio para el mapa.`, regional: false };
 }
 
-/**
- * Niveles del mapa en que algún indicador tiene datos. Lo usan todavía el selector (hasta M11.4, que pasa a
- * nivelesOfrecidos del indicador elegido) y los tests visuales (hasta M11.5).
- */
+/** AC-N6: cómo se muestra el selector de nivel según cuántos niveles ofrece el indicador. */
+export function formaSelectorNivel(ofrecidos: NivelMapa[]): 'oculto' | 'texto' | 'lista' {
+	return ofrecidos.length === 0 ? 'oculto' : ofrecidos.length === 1 ? 'texto' : 'lista';
+}
+
+/** Niveles que ofrece algún indicador. Solo para los tests visuales, hasta M11.5 (el selector usa nivelesOfrecidos). */
 export function nivelesConDatos(indicadores: IndicadorMapa[], catalogo: NivelCatalogo[]): NivelMapa[] {
 	return nivelesDibujables(catalogo)
-		.filter((n) => indicadores.some((i) => i.niveles.includes(n.id)))
+		.filter((n) => indicadores.some((i) => nivelesOfrecidos(i, catalogo).includes(n.id)))
 		.map((n) => n.id);
 }
 

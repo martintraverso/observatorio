@@ -44,12 +44,53 @@ test('AC-L23: el tema Trabajo ofrece los 7 indicadores por departamento y munici
 		const f = m.queryRenderedFeatures({ layers: ['relleno-municipio_mvd'] });
 		return f.length > 0 && f.every((x) => typeof x.state.clase === 'number');
 	}, undefined, { timeout: 20_000 });
-	await nivel.getByRole('radio', { name: 'Sección' }).check();
-	const aviso = page.getByRole('status').filter({ hasText: 'no se publica por' });
-	await expect(aviso).toContainText('no se publica por sección');
-	await expect(aviso).toContainText('Disponible por:');
-	await expect(aviso.getByRole('button')).toHaveText(['municipio', 'departamento']);
+	// AC-N4 / AC-N9 (M11.4): Trabajo ofrece solo sus niveles; no hay forma de llegar a «no se publica por…»
+	await expect(nivel.getByRole('radio')).toHaveCount(2);
+	await expect(nivel.getByRole('radio', { name: 'Departamento' })).toHaveCount(1);
+	await expect(nivel.getByRole('radio', { name: 'Municipio Solo Montevideo' })).toBeChecked();
 	expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+});
+
+test('AC-N7 y AC-N11: de Personas por segmento a Trabajo, el nivel pasa a Departamento, sin aviso, y se anuncia', async ({ page }) => {
+	await page.goto('?indicador=pob_total&nivel=segmento&periodo=2023');
+	await abrirOpciones(page);
+	await page.getByRole('group', { name: 'Tema' }).getByText('Trabajo', { exact: true }).click();
+	await expect(page).toHaveURL(/nivel=departamento/);
+	const nivel = page.getByRole('group', { name: 'Nivel territorial' });
+	await expect(nivel.getByRole('radio', { name: 'Departamento' })).toBeChecked();
+	await expect(page.getByText('no se publica por')).toHaveCount(0);
+	await expect(page.locator('[aria-live="polite"]').filter({ hasText: 'Nivel: Departamento' })).toHaveCount(1);
+	// un segundo cambio automático al mismo nivel también se anuncia: la región viva se vacía y se vuelve a escribir
+	await page.evaluate(() => {
+		const vivo = [...document.querySelectorAll('[aria-live="polite"]')].find((e) => e.textContent?.includes('Nivel:'))!;
+		const w = window as unknown as { __anuncios: { texto: string; t: number }[] };
+		w.__anuncios = [];
+		new MutationObserver(() => w.__anuncios.push({ texto: vivo.textContent ?? '', t: performance.now() })).observe(vivo, {
+			childList: true,
+			characterData: true,
+			subtree: true
+		});
+	});
+	const tema = page.getByRole('group', { name: 'Tema' });
+	await tema.getByText('Población', { exact: true }).click();
+	await page.getByRole('group', { name: 'Nivel territorial' }).getByText('Sección', { exact: true }).click();
+	await expect(page).toHaveURL(/nivel=seccion/);
+	await tema.getByText('Trabajo', { exact: true }).click();
+	await expect(page).toHaveURL(/nivel=departamento/);
+	type Anuncio = { texto: string; t: number };
+	const anuncios = () => page.evaluate(() => (window as unknown as { __anuncios: Anuncio[] }).__anuncios);
+	await expect.poll(async () => (await anuncios()).map((a) => a.texto)).toContain('Nivel: Departamento');
+	// la región queda vacía al menos un cuadro (más de 50 ms) antes del texto: el lector lo toma como un cambio
+	const a = await anuncios();
+	const vacio = a.findLast((x) => x.texto === '')!;
+	const lleno = a.find((x) => x.texto === 'Nivel: Departamento' && x.t > vacio.t)!;
+	expect(lleno.t - vacio.t).toBeGreaterThan(50);
+});
+
+test('AC-N8: un enlace a Tasa de desempleo por sección abre en Departamento y reescribe la URL', async ({ page }) => {
+	await page.goto(`?indicador=tasa_desempleo&nivel=seccion&periodo=${ultimo}`);
+	await expect(page).toHaveURL(/nivel=departamento/);
+	await expect(page.getByText('no se publica por')).toHaveCount(0);
 });
 
 test('AC-L24: la leyenda y el panel nombran el trimestre móvil y la fuente', async ({ page }, info) => {

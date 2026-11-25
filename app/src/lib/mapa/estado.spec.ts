@@ -1,11 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import {
-	avisoNivel,
+	avisoSinMapa,
 	filasComparacion,
 	clase,
 	clasesCuantiles,
 	encuadreNivel,
 	estadoDesdeUrl,
+	formaSelectorNivel,
 	etiquetaPeriodo,
 	etiquetasLeyenda,
 	fuenteCorta,
@@ -54,18 +55,24 @@ const CATALOGO: NivelCatalogo[] = [
 	nivel('ccz_mvd', 'CCZ', 8, false, ['pais', 'departamento'], MVD)
 ];
 
-describe('AC-M2: indicador no publicado en el nivel elegido', () => {
-	it('sin aviso si hay datos en ese nivel', () => {
-		expect(avisoNivel(PERSONAS, 'segmento', CATALOGO)).toBeNull();
+describe('AC-M2 / AC-V9 en el mapa: reemplazados por AC-N4/AC-N9 (M11.4)', () => {
+	it('AC-N9: el mapa nunca llega a «no se publica por…»: solo ofrece niveles con datos y sin aviso', () => {
+		for (const i of INDICADORES) {
+			expect(avisoSinMapa(i, CATALOGO)).toBeNull();
+			for (const n of nivelesOfrecidos(i, CATALOGO)) expect(i.niveles).toContain(n);
+		}
 	});
 
-	it('AC-V9: nombra el nivel elegido y lista los niveles con datos, del más fino al más grueso', () => {
-		const a = avisoNivel(DESEMPLEO, 'seccion', CATALOGO);
-		expect(a?.mensaje).toBe('«Desempleo» no se publica por sección. Disponible por:');
-		expect(a?.disponibles).toEqual(['departamento']);
-		const p = avisoNivel(PERSONAS, 'municipio_mvd', CATALOGO);
-		expect(p?.mensaje).toBe('«Personas» no se publica por municipio. Disponible por:');
-		expect(p?.disponibles).toEqual(['segmento', 'seccion', 'departamento']);
+	it('el indicador sin ningún nivel en el mapa lo dice, sin «no se publica por…»', () => {
+		const a = avisoSinMapa(ind('solo_uy', 'Trabajo', ['pais']), CATALOGO);
+		expect(a).toEqual({ mensaje: '«Desempleo» se publica solo para todo el país: no hay datos por territorio para el mapa.', regional: false });
+		expect(a?.mensaje).not.toContain('no se publica por');
+	});
+
+	it('AC-N6: lista con 2 o más niveles, texto fijo con 1, oculto con 0', () => {
+		expect(formaSelectorNivel(['departamento', 'municipio_mvd'])).toBe('lista');
+		expect(formaSelectorNivel(['departamento'])).toBe('texto');
+		expect(formaSelectorNivel([])).toBe('oculto');
 	});
 
 	it('nivel más detallado', () => {
@@ -118,12 +125,10 @@ describe('AC-M5: estado en la URL', () => {
 describe('F2.8b: Trabajo en el mapa', () => {
 	const ACTIVIDAD = ind('tasa_actividad', 'Trabajo', ['pais', 'departamento', 'municipio_mvd'], ['2021-12/2022-02', '2026-07/2026-09']);
 
-	it('AC-L23: el nivel municipio de Montevideo está en el mapa y los demás niveles muestran el aviso de AC-M2', () => {
+	it('AC-L23: el nivel municipio de Montevideo está en el mapa; Trabajo ofrece Departamento y Municipio, sin aviso (AC-N9)', () => {
 		expect(nivelesDibujables(CATALOGO).map((n) => n.id)).toContain('municipio_mvd');
-		expect(avisoNivel(ACTIVIDAD, 'departamento', CATALOGO)).toBeNull();
-		expect(avisoNivel(ACTIVIDAD, 'municipio_mvd', CATALOGO)).toBeNull();
-		expect(avisoNivel(ACTIVIDAD, 'seccion', CATALOGO)?.mensaje).toContain('no se publica por sección');
-		expect(avisoNivel(ACTIVIDAD, 'segmento', CATALOGO)?.disponibles).toEqual(['municipio_mvd', 'departamento']);
+		expect(nivelesOfrecidos(ACTIVIDAD, CATALOGO)).toEqual(['departamento', 'municipio_mvd']);
+		expect(avisoSinMapa(ACTIVIDAD, CATALOGO)).toBeNull();
 		expect(nivelMasDetallado(ind('pob_total', 'Población', ['departamento', 'seccion'], ['2023']), CATALOGO)).toBe('seccion');
 	});
 
@@ -181,9 +186,19 @@ describe('F2.8b: Trabajo en el mapa', () => {
 });
 
 describe('AC-I20: lo que se publica por región', () => {
-	const ingreso = { codigo: 'ing_x', nombre: 'Ingreso', unidad: 'pesos', tema: 'Ingresos', niveles: ['departamento', 'pais', 'region'], periodos: ['2026-T3'] } as never;
+	// Como en indicadores.json: Montevideo en «departamento», pero un solo territorio: ningún nivel en el mapa (#204).
+	const ingreso = {
+		codigo: 'ing_x',
+		nombre: 'Ingreso',
+		unidad: 'pesos',
+		tema: 'Ingresos',
+		niveles: ['departamento', 'pais', 'region'],
+		niveles_mapa: [],
+		periodos: ['2026-T3']
+	} as never;
 	it('avisa y no usa el coroplético, aunque Montevideo esté en el nivel departamento', () => {
-		const a = avisoNivel(ingreso, 'departamento', CATALOGO);
+		expect(nivelesOfrecidos(ingreso, CATALOGO)).toEqual([]);
+		const a = avisoSinMapa(ingreso, CATALOGO);
 		expect(a?.regional).toBe(true);
 		expect(a?.mensaje).toBe('Los ingresos se publican por región: País · Montevideo · Interior.');
 	});
@@ -208,8 +223,8 @@ describe('M11.2: niveles según el indicador elegido', () => {
 	const POBLACION = ind('pob_total', 'Población', ['barrio_mvd', 'ccz_mvd', 'departamento', 'localidad', 'seccion', 'segmento']);
 	const TASA_DESEMPLEO = ind('tasa_desempleo', 'Trabajo', ['departamento', 'municipio_mvd', 'pais']);
 	const MATRICULA = ind('edu_matricula', 'Educación', ['departamento', 'pais', 'region']);
-	// Ingresos publica Montevideo en el nivel departamento (AC-I20): ofrece Departamento. M11.4 decide cómo mostrarlo (AC-N6).
-	const INGRESO = ind('ing_medio', 'Ingresos', ['departamento', 'pais', 'region']);
+	// Ingresos publica Montevideo en el nivel departamento, un solo territorio: `niveles_mapa` vacío (AC-N6, #204).
+	const INGRESO = { ...ind('ing_medio', 'Ingresos', ['departamento', 'pais', 'region']), niveles_mapa: [] };
 	const SOLO_PAIS = ind('solo_pais', 'Trabajo', ['pais', 'region']);
 	// F5 (criminalidad): la seccional entra al catálogo entre municipio y sección (D2), sin tocar el código de la app.
 	const CON_SECCIONAL = [...CATALOGO, nivel('seccional', 'Seccional', 3.5, true, ['pais', 'departamento'], { ayuda: 'Seccional policial' })];
@@ -229,7 +244,8 @@ describe('M11.2: niveles según el indicador elegido', () => {
 		expect(tabla(POBLACION)).toBe('Departamento · Sección · Barrio · Segmento');
 		expect(tabla(TASA_DESEMPLEO)).toBe('Departamento · Municipio');
 		expect(tabla(MATRICULA)).toBe('Departamento');
-		expect(tabla(INGRESO)).toBe('Departamento');
+		expect(tabla(INGRESO)).toBe('');
+		expect(tabla({ ...MATRICULA, niveles_mapa: ['departamento', 'pais', 'region'] })).toBe('Departamento'); // 19 departamentos
 		expect(tabla(SOLO_PAIS)).toBe('');
 		expect(tabla(HOMICIDIOS, CON_SECCIONAL)).toBe('Departamento · Seccional');
 		expect(tabla(RAPINAS, CON_SECCIONAL)).toBe('Departamento · Seccional · Barrio');
@@ -255,7 +271,7 @@ describe('M11.2: niveles según el indicador elegido', () => {
 		expect(url('indicador=tasa_desempleo&nivel=seccion&periodo=2023').nivel).toBe('departamento');
 		expect(url('indicador=pob_total&nivel=municipio_mvd&periodo=2023').nivel).toBe('departamento');
 		expect(url('indicador=pob_total&nivel=barrio_mvd&periodo=2023').nivel).toBe('barrio_mvd');
-		expect(url('indicador=ing_medio&nivel=seccion&periodo=2023').nivel).toBe('departamento');
+		expect(url('indicador=ing_medio&nivel=seccion&periodo=2023').nivel).toBe('seccion'); // sin niveles en el mapa: queda el pedido
 		// sin niveles dibujables: queda un nivel del mapa
 		expect(url('indicador=solo_pais&nivel=seccion&periodo=2023').nivel).toBe('seccion');
 		expect(url('indicador=solo_pais&nivel=pais&periodo=2023').nivel).toBe('departamento');
