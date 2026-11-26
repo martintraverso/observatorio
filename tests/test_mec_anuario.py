@@ -23,7 +23,8 @@ XLSX = {a: (FIX / f"{a}.xlsx").read_bytes() for a in (2024, 2023)}
 def cuadro(cod, anio=2024, xlsx=None, mapeo=None):
     e = REG["cuadros"][cod]
     return mec.parsear_cuadro(xlsx or XLSX[anio], cod, anio, mapeo if mapeo is not None else e["mapeo"][anio],
-                              e["tipos"][anio])
+                              e["tipos"][anio], (e.get("categorias_segundas") or {}).get(anio, ()),
+                              e.get("secciones_por_institucion"), e.get("solo_filas") or ())  # como la carga (#172)
 
 
 def valor(c, indicador, territorio):
@@ -362,3 +363,37 @@ def test_229_una_segunda_que_no_aparece_frena():
     e = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario_educacion.yml").read_text(encoding="utf-8"))["cuadros"]["II-1.3.5"]
     with pytest.raises(mec.ErrorAnuario, match="categorias_segundas sin fila"):
         mec.parsear_cuadro(x, "II-1.3.5", 2024, e["mapeo"][2024], e["tipos"][2024], ["Una fila que no existe"])
+
+
+# ---------------------------------------------------------------- #172: terciaria no universitaria (II-5)
+
+def test_172_ii_5_1_1_totales_de_territorio_y_la_dgetp_por_departamento_aparte():
+    """#172 (mantenedor): II-5.1.1 carga país, Montevideo e Interior como totales; los departamentos del Interior son
+    solo la DGETP y van como la categoría `__dgetp` (otro id, AC-E13); las instituciones de Montevideo y el
+    Gastronómico no se cargan."""
+    e = REG["cuadros"]["II-5.1.1"]
+    c = mec.parsear_cuadro(XLSX[2024], "II-5.1.1", 2024, e["mapeo"][2024], "A", (), e["secciones_por_institucion"])
+    d = c.datos.assign(t=c.datos.territorio_id.str.replace("INE-2023/", ""))
+    base = d[~d.indicador.str.contains("__")]
+    assert set(base.t) == {"pais/UY", "departamento/01", "region/interior"}
+    dgetp = d[d.indicador.str.endswith("__dgetp")]
+    assert set(dgetp.t) == {f"departamento/{i:02d}" for i in range(2, 20)}
+    v = dgetp.set_index(["indicador", "t"]).valor
+    assert v[("edu_ii_5_1_1_total_matricula__dgetp", "departamento/02")] == 292  # Artigas, la DGETP
+    assert v[("edu_ii_5_1_1_total_matricula__dgetp", "departamento/10")] == 783  # Maldonado: la DGETP, no el Gastronómico
+    assert set(d.indicador.str.split("__").str[1].dropna()) == {"dgetp"}
+    # sin la regla, el cuadro frena: «ESCUELA NAVAL» no es un territorio (AC-E8)
+    with pytest.raises(mec.ErrorAnuario, match="fila desconocida"):
+        mec.parsear_cuadro(XLSX[2024], "II-5.1.1", 2024, e["mapeo"][2024], "A")
+
+
+@pytest.mark.parametrize("cod", ["II-5.2.1", "II-5.2.2", "II-5.3.1", "II-5.3.2"])
+def test_172_por_institucion_solo_el_total_y_las_instituciones(cod):
+    """#172 (mantenedor): en los cuadros por institución se cargan el TOTAL y las filas de institución (`solo_filas`);
+    no las carreras, años ni niveles de formación que cuelgan de ellas (y se repiten: chocarían)."""
+    e = REG["cuadros"][cod]
+    for anio in (2023, 2024):
+        c = mec.parsear_cuadro(XLSX[anio], cod, anio, e["mapeo"][anio], e["tipos"][anio], (), None, e["solo_filas"])
+        cats = set(c.datos.indicador.str.split("__").str[1])
+        assert cats and all(k == "total" or any(k.startswith(mec.slug(x)) for x in e["solo_filas"]) for k in cats), (anio, cats)
+        assert not any(k.startswith(("sin_formacion", "con_formacion", "curso_de", "tecnicatura")) for k in cats)
