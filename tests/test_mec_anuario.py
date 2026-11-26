@@ -468,3 +468,33 @@ def test_173_una_fila_sangrada_que_no_esta_en_la_lista_frena(cod):
     regla["sangradas"] = regla["sangradas"][:-1]
     with pytest.raises(mec.ErrorAnuario, match=f"fila desconocida «{quitado}»"):
         mec.parsear_cuadro(XLSX[2024], cod, 2024, e["mapeo"][2024], "A", (), None, (), regla)
+
+
+# ---------------------------------------------------------------- #241: universitaria por departamento (II-7.1.x)
+
+@pytest.mark.parametrize("cod", ["II-7.1.1", "II-7.1.2"])
+def test_241_territorios_y_publico_privado_sin_instituciones(cod):
+    """#241 (mantenedor, 1.a y 2.a): se cargan país, Montevideo, Interior y los departamentos publicados; PÚBLICO y
+    PRIVADO como categorías de país, Montevideo e Interior. Ni instituciones ni carreras compartidas («Maldonado-Rivera»,
+    «MONTEVIDEO Y RESTO DEL PAÍS»). Sin la lista de nombres, la primera institución frena (AC-E8)."""
+    e = REG["cuadros"][cod]
+    for anio in (2023, 2024):
+        c = cuadro(cod, anio)
+        d = c.datos.assign(t=c.datos.territorio_id.str.replace("INE-2023/", ""))
+        cat = d[d.indicador.str.contains("__")]
+        assert set(cat.indicador.str.split("__").str[1]) == {"publico", "privado"}
+        assert set(cat.t) == {"pais/UY", "departamento/01", "region/interior"}, anio
+        assert {"pais/UY", "departamento/01", "region/interior"} <= set(d[~d.indicador.str.contains("__")].t)
+        sin_nombres = {k: v for k, v in e["filas_de_establecimiento"].items() if k != "nombres"}
+        with pytest.raises(mec.ErrorAnuario, match="fila desconocida"):
+            mec.parsear_cuadro(XLSX[anio], cod, anio, e["mapeo"][anio], "A", (), None, (), sin_nombres)
+
+
+def test_241_ii_7_1_1_2024_valores():
+    """#241: valores del archivo 2024. Durazno es el total publicado (282, solo UTEC), aunque debajo traiga UdelaR 29."""
+    c = cuadro("II-7.1.1", 2024)
+    assert valor(c, "edu_ii_7_1_1_ingreso_total", "pais/UY") == 47229
+    assert valor(c, "edu_ii_7_1_1_ingreso_total__privado", "departamento/01") == 5192
+    assert valor(c, "edu_ii_7_1_1_ingreso_total__publico", "region/interior") == 7261
+    assert valor(c, "edu_ii_7_1_1_ingreso_total", "departamento/06") == 282
+    assert mec.territorio_de_fila("TOTAL PAÍS") == mec.PAIS

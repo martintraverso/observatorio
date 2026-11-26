@@ -17914,12 +17914,12 @@ cuadros:
   II-7.1.1:
     titulo: ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO POR SEXO SEGÚN GRANDES ÁREAS, FORMA DE ADMINISTRACIÓN, DEPARTAMENTO E INSTITUCIÓN
     tipos:
-      2020: C
-      2021: C
-      2022: C
-      2023: C
-      2024: C
-    ola: 2
+      2020: A
+      2021: A
+      2022: A
+      2023: A
+      2024: A
+    ola: 1
     unidad: estudiantes
     anios:
     - 2020
@@ -17927,15 +17927,273 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_7_1_1_ingreso_total
+        concepto: INGRESO/TOTAL
+        comprobado: B = C + D
+      - col: C
+        ruta: INGRESO/SEXO/V
+        id: edu_ii_7_1_1_ingreso_sexo_v
+      - col: D
+        ruta: INGRESO/SEXO/M
+        id: edu_ii_7_1_1_ingreso_sexo_m
+      - col: E
+        ruta: TOTAL
+        id: edu_ii_7_1_1_matricula_total
+        concepto: MATRÍCULA/TOTAL
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
+          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
+          de 2024: mismo cuadro y misma medida.'
+      - col: F
+        ruta: MATRÍCULA/SEXO/V
+        id: edu_ii_7_1_1_matricula_sexo_v
+      - col: G
+        ruta: MATRÍCULA/SEXO/M
+        id: edu_ii_7_1_1_matricula_sexo_m
+      - col: H
+        ruta: TOTAL
+        id: edu_ii_7_1_1_egreso_total
+        concepto: EGRESO/TOTAL
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
+          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
+          de 2024: mismo cuadro y misma medida.'
+      - col: I
+        ruta: EGRESADOS/SEXO/V
+        id: edu_ii_7_1_1_egreso_sexo_v
+        concepto: EGRESO/SEXO/V
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
+          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
+          de 2024: mismo cuadro y misma medida.'
+      - col: J
+        ruta: EGRESADOS/SEXO/M
+        id: edu_ii_7_1_1_egreso_sexo_m
+        concepto: EGRESO/SEXO/M
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
+          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
+          de 2024: mismo cuadro y misma medida.'
+      2021:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_7_1_1_ingreso_total
+        concepto: INGRESO/TOTAL
+        comprobado: B = C + D
+      - col: C
+        ruta: INGRESO/SEXO/V
+        id: edu_ii_7_1_1_ingreso_sexo_v
+      - col: D
+        ruta: INGRESO/SEXO/M
+        id: edu_ii_7_1_1_ingreso_sexo_m
+      - col: E
+        ruta: TOTAL
+        id: edu_ii_7_1_1_matricula_total
+        concepto: MATRÍCULA/TOTAL
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
+          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
+          de 2024: mismo cuadro y misma medida.'
+      - col: F
+        ruta: MATRÍCULA/SEXO/V
+        id: edu_ii_7_1_1_matricula_sexo_v
+      - col: G
+        ruta: MATRÍCULA/SEXO/M
+        id: edu_ii_7_1_1_matricula_sexo_m
+      - col: H
+        ruta: TOTAL
+        id: edu_ii_7_1_1_egreso_total
+        concepto: EGRESO/TOTAL
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
+          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
+          de 2024: mismo cuadro y misma medida.'
+      - col: I
+        ruta: EGRESADOS/SEXO/V
+        id: edu_ii_7_1_1_egreso_sexo_v
+        concepto: EGRESO/SEXO/V
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
+          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
+          de 2024: mismo cuadro y misma medida.'
+      - col: J
+        ruta: EGRESADOS/SEXO/M
+        id: edu_ii_7_1_1_egreso_sexo_m
+        concepto: EGRESO/SEXO/M
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
+          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
+          de 2024: mismo cuadro y misma medida.'
+      2022:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_7_1_1_ingreso_total
+        concepto: INGRESO/TOTAL
+        comprobado: B = C + D
+      - col: C
+        ruta: INGRESO/SEXO/V
+        id: edu_ii_7_1_1_ingreso_sexo_v
+      - col: D
+        ruta: INGRESO/SEXO/M
+        id: edu_ii_7_1_1_ingreso_sexo_m
+      - col: E
+        ruta: TOTAL
+        id: edu_ii_7_1_1_matricula_total
+        concepto: MATRÍCULA/TOTAL
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
+          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
+          de 2024: mismo cuadro y misma medida.'
+      - col: F
+        ruta: MATRÍCULA/SEXO/V
+        id: edu_ii_7_1_1_matricula_sexo_v
+      - col: G
+        ruta: MATRÍCULA/SEXO/M
+        id: edu_ii_7_1_1_matricula_sexo_m
+      - col: H
+        ruta: TOTAL
+        id: edu_ii_7_1_1_egreso_total
+        concepto: EGRESO/TOTAL
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
+          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
+          de 2024: mismo cuadro y misma medida.'
+      - col: I
+        ruta: EGRESADOS/SEXO/V
+        id: edu_ii_7_1_1_egreso_sexo_v
+        concepto: EGRESO/SEXO/V
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
+          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
+          de 2024: mismo cuadro y misma medida.'
+      - col: J
+        ruta: EGRESADOS/SEXO/M
+        id: edu_ii_7_1_1_egreso_sexo_m
+        concepto: EGRESO/SEXO/M
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
+          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
+          de 2024: mismo cuadro y misma medida.'
+      2023:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_7_1_1_ingreso_total
+        concepto: INGRESO/TOTAL
+        comprobado: B = C + D
+      - col: C
+        ruta: INGRESO/SEXO/V
+        id: edu_ii_7_1_1_ingreso_sexo_v
+      - col: D
+        ruta: INGRESO/SEXO/M
+        id: edu_ii_7_1_1_ingreso_sexo_m
+      - col: E
+        ruta: TOTAL
+        id: edu_ii_7_1_1_matricula_total
+        concepto: MATRÍCULA/TOTAL
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
+          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
+          de 2024: mismo cuadro y misma medida.'
+      - col: F
+        ruta: MATRÍCULA/SEXO/V
+        id: edu_ii_7_1_1_matricula_sexo_v
+      - col: G
+        ruta: MATRÍCULA/SEXO/M
+        id: edu_ii_7_1_1_matricula_sexo_m
+      - col: H
+        ruta: TOTAL
+        id: edu_ii_7_1_1_egreso_total
+        concepto: EGRESO/TOTAL
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
+          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
+          de 2024: mismo cuadro y misma medida.'
+      - col: I
+        ruta: EGRESADOS/SEXO/V
+        id: edu_ii_7_1_1_egreso_sexo_v
+        concepto: EGRESO/SEXO/V
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
+          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
+          de 2024: mismo cuadro y misma medida.'
+      - col: J
+        ruta: EGRESADOS/SEXO/M
+        id: edu_ii_7_1_1_egreso_sexo_m
+        concepto: EGRESO/SEXO/M
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
+          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
+          de 2024: mismo cuadro y misma medida.'
+      2024:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_7_1_1_ingreso_total
+        concepto: INGRESO/TOTAL
+        comprobado: B = C + D
+      - col: C
+        ruta: INGRESO/SEXO/V
+        id: edu_ii_7_1_1_ingreso_sexo_v
+      - col: D
+        ruta: INGRESO/SEXO/M
+        id: edu_ii_7_1_1_ingreso_sexo_m
+      - col: E
+        ruta: TOTAL
+        id: edu_ii_7_1_1_matricula_total
+        concepto: MATRÍCULA/TOTAL
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
+          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo.'
+      - col: F
+        ruta: MATRÍCULA/SEXO/V
+        id: edu_ii_7_1_1_matricula_sexo_v
+      - col: G
+        ruta: MATRÍCULA/SEXO/M
+        id: edu_ii_7_1_1_matricula_sexo_m
+      - col: H
+        ruta: TOTAL
+        id: edu_ii_7_1_1_egreso_total
+        concepto: EGRESO/TOTAL
+        comprobado: H = I + J
+      - col: I
+        ruta: EGRESO/SEXO/V
+        id: edu_ii_7_1_1_egreso_sexo_v
+      - col: J
+        ruta: EGRESO/SEXO/M
+        id: edu_ii_7_1_1_egreso_sexo_m
+    filas_de_establecimiento:
+      categorias:
+      - PÚBLICO
+      - PRIVADO
+      nombres:
+      - UdelaR
+      - UTEC
+      - UCU
+      - Universidad ORT Uruguay
+      - Universidad de Montevideo
+      - Universidad de la Empresa
+      - Universidad CLAEH
+      - Inst Metodista Univ Crandon
+      - Inst Univ Monseñor Mariano Soler
+      - Inst Univ CEDIIAP
+      - Inst Univ Asociación Cristiana de Jóvenes
+      - Inst Univ Elbio Fernández
+      - Inst Univ Francisco de Asís
+      - Instituto Universitario Francisco de Asís (UNIFA)
+      - Fundación Politécnico de Punta del Este
+      - Instituto Militar de Estudios Superiores
+      - Escuela Nacional de Policía
+      - Maldonado-Rivera
+      - Maldonado-Rocha
+      - Maldonado-Salto
+      - Maldonado-Treinta y Tres
+      - Paysandú-Rivera
+      - Paysandú-Salto
+      - Montevideo-Paysandú
+      - Montevideo-Rivera
+      - Montevideo-Salto
+      - Montevideo-San José
+      - MONTEVIDEO Y RESTO DEL PAÍS
+    datos_de_otro_anio:
+      2023:
+      - Último dato disponible del Inst Metodista Univ Crandon año 2022.
+      2024:
+      - '** El dato de la UDE es último disponible año 2023.'
   II-7.1.2:
     titulo: ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE POSTGRADO POR SEXO SEGÚN GRANDES ÁREAS, FORMA DE ADMINISTRACIÓN, DEPARTAMENTO E INSTITUCIÓN
     tipos:
-      2020: C
-      2021: C
-      2022: C
-      2023: C
-      2024: C
-    ola: 2
+      2020: A
+      2021: A
+      2022: A
+      2023: A
+      2024: A
+    ola: 1
     unidad: estudiantes
     anios:
     - 2020
@@ -17943,6 +18201,295 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_7_1_2_ingreso_total
+        concepto: INGRESO/TOTAL
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: C
+        ruta: INGRESADOS/SEXO/V
+        id: edu_ii_7_1_2_ingreso_sexo_v
+        concepto: INGRESO/SEXO/V
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: D
+        ruta: INGRESADOS/SEXO/M
+        id: edu_ii_7_1_2_ingreso_sexo_m
+        concepto: INGRESO/SEXO/M
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: E
+        ruta: TOTAL
+        id: edu_ii_7_1_2_matricula_total
+        concepto: MATRÍCULA/TOTAL
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: F
+        ruta: MATRICULADOS/SEXO/V
+        id: edu_ii_7_1_2_matricula_sexo_v
+        concepto: MATRÍCULA/SEXO/V
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: G
+        ruta: MATRICULADOS/SEXO/M
+        id: edu_ii_7_1_2_matricula_sexo_m
+        concepto: MATRÍCULA/SEXO/M
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: H
+        ruta: TOTAL
+        id: edu_ii_7_1_2_egreso_total
+        concepto: EGRESO/TOTAL
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: I
+        ruta: EGRESADOS/SEXO/V
+        id: edu_ii_7_1_2_egreso_sexo_v
+        concepto: EGRESO/SEXO/V
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: J
+        ruta: EGRESADOS/SEXO/M
+        id: edu_ii_7_1_2_egreso_sexo_m
+        concepto: EGRESO/SEXO/M
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      2021:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_7_1_2_ingreso_total
+        concepto: INGRESO/TOTAL
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: C
+        ruta: INGRESADOS/SEXO/V
+        id: edu_ii_7_1_2_ingreso_sexo_v
+        concepto: INGRESO/SEXO/V
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: D
+        ruta: INGRESADOS/SEXO/M
+        id: edu_ii_7_1_2_ingreso_sexo_m
+        concepto: INGRESO/SEXO/M
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: E
+        ruta: TOTAL
+        id: edu_ii_7_1_2_matricula_total
+        concepto: MATRÍCULA/TOTAL
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: F
+        ruta: MATRICULADOS/SEXO/V
+        id: edu_ii_7_1_2_matricula_sexo_v
+        concepto: MATRÍCULA/SEXO/V
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: G
+        ruta: MATRICULADOS/SEXO/M
+        id: edu_ii_7_1_2_matricula_sexo_m
+        concepto: MATRÍCULA/SEXO/M
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: H
+        ruta: TOTAL
+        id: edu_ii_7_1_2_egreso_total
+        concepto: EGRESO/TOTAL
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: I
+        ruta: EGRESADOS/SEXO/V
+        id: edu_ii_7_1_2_egreso_sexo_v
+        concepto: EGRESO/SEXO/V
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: J
+        ruta: EGRESADOS/SEXO/M
+        id: edu_ii_7_1_2_egreso_sexo_m
+        concepto: EGRESO/SEXO/M
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      2022:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_7_1_2_ingreso_total
+        concepto: INGRESO/TOTAL
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: C
+        ruta: INGRESADOS/SEXO/V
+        id: edu_ii_7_1_2_ingreso_sexo_v
+        concepto: INGRESO/SEXO/V
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: D
+        ruta: INGRESADOS/SEXO/M
+        id: edu_ii_7_1_2_ingreso_sexo_m
+        concepto: INGRESO/SEXO/M
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: E
+        ruta: TOTAL
+        id: edu_ii_7_1_2_matricula_total
+        concepto: MATRÍCULA/TOTAL
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: F
+        ruta: MATRICULADOS/SEXO/V
+        id: edu_ii_7_1_2_matricula_sexo_v
+        concepto: MATRÍCULA/SEXO/V
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: G
+        ruta: MATRICULADOS/SEXO/M
+        id: edu_ii_7_1_2_matricula_sexo_m
+        concepto: MATRÍCULA/SEXO/M
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: H
+        ruta: TOTAL
+        id: edu_ii_7_1_2_egreso_total
+        concepto: EGRESO/TOTAL
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: I
+        ruta: EGRESADOS/SEXO/V
+        id: edu_ii_7_1_2_egreso_sexo_v
+        concepto: EGRESO/SEXO/V
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: J
+        ruta: EGRESADOS/SEXO/M
+        id: edu_ii_7_1_2_egreso_sexo_m
+        concepto: EGRESO/SEXO/M
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      2023:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_7_1_2_ingreso_total
+        concepto: INGRESO/TOTAL
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: C
+        ruta: INGRESADOS/SEXO/V
+        id: edu_ii_7_1_2_ingreso_sexo_v
+        concepto: INGRESO/SEXO/V
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: D
+        ruta: INGRESADOS/SEXO/M
+        id: edu_ii_7_1_2_ingreso_sexo_m
+        concepto: INGRESO/SEXO/M
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: E
+        ruta: TOTAL
+        id: edu_ii_7_1_2_matricula_total
+        concepto: MATRÍCULA/TOTAL
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: F
+        ruta: MATRICULADOS/SEXO/V
+        id: edu_ii_7_1_2_matricula_sexo_v
+        concepto: MATRÍCULA/SEXO/V
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: G
+        ruta: MATRICULADOS/SEXO/M
+        id: edu_ii_7_1_2_matricula_sexo_m
+        concepto: MATRÍCULA/SEXO/M
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: H
+        ruta: TOTAL
+        id: edu_ii_7_1_2_egreso_total
+        concepto: EGRESO/TOTAL
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: I
+        ruta: EGRESADOS/SEXO/V
+        id: edu_ii_7_1_2_egreso_sexo_v
+        concepto: EGRESO/SEXO/V
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      - col: J
+        ruta: EGRESADOS/SEXO/M
+        id: edu_ii_7_1_2_egreso_sexo_m
+        concepto: EGRESO/SEXO/M
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
+          Los TOTAL suman su grupo de la derecha.'
+      2024:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_7_1_2_ingreso_total
+        concepto: INGRESO/TOTAL
+        comprobado: B = C + D
+      - col: C
+        ruta: INGRESO/SEXO/V
+        id: edu_ii_7_1_2_ingreso_sexo_v
+      - col: D
+        ruta: INGRESO/SEXO/M
+        id: edu_ii_7_1_2_ingreso_sexo_m
+      - col: E
+        ruta: TOTAL
+        id: edu_ii_7_1_2_matricula_total
+        concepto: MATRÍCULA/TOTAL
+        comprobado: E = F + G
+      - col: F
+        ruta: MATRÍCULA/SEXO/V
+        id: edu_ii_7_1_2_matricula_sexo_v
+      - col: G
+        ruta: MATRÍCULA/SEXO/M
+        id: edu_ii_7_1_2_matricula_sexo_m
+      - col: H
+        ruta: TOTAL
+        id: edu_ii_7_1_2_egreso_total
+        concepto: EGRESO/TOTAL
+        comprobado: H = I + J
+      - col: I
+        ruta: EGRESO/SEXO/V
+        id: edu_ii_7_1_2_egreso_sexo_v
+      - col: J
+        ruta: EGRESO/SEXO/M
+        id: edu_ii_7_1_2_egreso_sexo_m
+    filas_de_establecimiento:
+      categorias:
+      - PÚBLICO
+      - PRIVADO
+      nombres:
+      - UdelaR
+      - UTEC
+      - UTEC (Montevideo-Virtual)
+      - UCU
+      - Universidad ORT Uruguay
+      - Universidad de Montevideo
+      - Universidad de la Empresa
+      - Universidad CLAEH
+      - CLAEH
+      - APU-Inst Univ de Postgrado en Psicoanálisis
+      - Inst Univ de Postgrado en Psicoanálisis
+      - Instituto Universitario Centro de Estudio y Diagnóstico de las Disgnancias del Uruguay (IUCEDDU)
+      - Inst Univ CEDIIAP
+      - Centro Uno
+      - FLACSO
+      - Centro de Altos Estudios Nacionales (CALEN)
+      - IPES
+      - Inst Univ Asociación Cristiana de Jóvenes
+      - IUACJ
+      - AUDEEP
+      - IMES
+      - Escuela de Guerra Naval
+      - Escuela de Guerra Naval (ESGUE)
+      - Inst Univ Francisco de Asís
+      - Instituto Universitario Francisco de Asís (UNIFA)
+      - Fundación Politécnico de Punta del Este
+    datos_de_otro_anio:
+      2024:
+      - '** El dato de la UDE es último disponible año 2023.'
   II-7.2.1:
     titulo: ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO DE UNIVERSIDADES PÚBLICAS POR SEXO, SEGÚN SERVICIO UNIVERSITARIO, DEPARTAMENTO
       Y CARRERA.
@@ -17951,7 +18498,7 @@ cuadros:
       2021: C
       2022: C
       2023: C
-      2024: C
+      2024: A
     ola: 2
     unidad: estudiantes
     anios:

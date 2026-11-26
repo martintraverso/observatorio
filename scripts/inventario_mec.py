@@ -76,6 +76,9 @@ def ola(codigo: str) -> int:
     # F4.8c (#173): formación en educación (II-6)
     if n[0] == 6:
         return 1
+    # F4.8d1 (#241): universitaria por departamento e institución (II-7.1.1, II-7.1.2)
+    if n[:2] == (7, 1):
+        return 1
     return 2
 
 

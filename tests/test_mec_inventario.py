@@ -290,3 +290,12 @@ def test_173_el_total_de_un_tramo_en_cero_es_un_dato():
     del encabezado (II-5.3.2 2020: el tramo «Entre 21 y 30 horas»)."""
     m = {x["col"]: x for x in REG["cuadros"]["II-5.3.2"]["mapeo"][2020]}
     assert not m["F"].get("omitir") and m["F"]["id"] == "edu_ii_5_3_2_horas_semanales_entre_21_y_30_horas_total"
+
+
+def test_241_ii_7_1_los_ids_de_2020_a_2023_son_los_de_2024():
+    """#241: «EGRESADOS» (y en II-7.1.2 «INGRESADOS», «MATRICULADOS») de 2020–2023 son el «EGRESO» de 2024: un solo id
+    por medida; el TOTAL de MATRÍCULA va por su lugar (la UdelaR tiene matrícula sin sexo)."""
+    for cod in ("II-7.1.1", "II-7.1.2"):
+        ids = {a: [x["id"] for x in REG["cuadros"][cod]["mapeo"][a]] for a in REG["cuadros"][cod]["anios"]}
+        assert all(v == ids[2024] for v in ids.values()), cod
+        assert REG["cuadros"][cod]["tipos"][2024] == "A"

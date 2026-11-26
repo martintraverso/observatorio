@@ -93,6 +93,8 @@ repetidas:
   II-6.2.2: derecha  # #173: «TOTAL» de INGRESADOS, MATRICULADOS y EGRESADOS, cada uno del grupo a su derecha
   II-6.2.3: derecha
   II-6.3.2: derecha  # #173: «HORAS SEMANALES/Total» de cada tramo de horas, a su derecha
+  II-7.1.1: derecha  # #241: «TOTAL» de INGRESO, MATRÍCULA y EGRESO, cada uno del grupo a su derecha
+  II-7.1.2: derecha
 
 # renombres (D5): columnas cuyo encabezado en el archivo está mal; el concepto se decide comparando con los
 # años vecinos. Clave: columna del archivo de ese año.
@@ -117,6 +119,48 @@ renombres:
         B: INGRESADOS/TOTAL
         E: MATRICULADOS/TOTAL
         H: EGRESADOS/TOTAL
+  # #241: en II-7.1.1 el TOTAL de MATRÍCULA no es V + M: parte de la matrícula de la UdelaR no tiene sexo (pie). Además,
+  # 2024 rotula «INGRESO/MATRÍCULA/EGRESO» lo que 2020–2023 rotulan «EGRESADOS» (II-7.1.1) o «INGRESADOS/MATRICULADOS/
+  # EGRESADOS» (II-7.1.2): mismo cuadro y misma medida, con los conceptos de 2024 (D6).
+  II-7.1.1:
+    2020: &ii_7_1_1_hasta_2023
+      motivo: >-
+        el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene
+        sexo (pie: «no se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO
+        y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO» de 2024: mismo cuadro y misma medida.
+      columnas:
+        E: MATRÍCULA/TOTAL
+        H: EGRESO/TOTAL
+        I: EGRESO/SEXO/V
+        J: EGRESO/SEXO/M
+    2021: *ii_7_1_1_hasta_2023
+    2022: *ii_7_1_1_hasta_2023
+    2023: *ii_7_1_1_hasta_2023
+    2024:
+      motivo: >-
+        el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene
+        sexo (pie: «no se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO
+        y EGRESO, que sí suman su grupo.
+      columnas:
+        E: MATRÍCULA/TOTAL
+  II-7.1.2:
+    2020: &ii_7_1_2_hasta_2023
+      motivo: >-
+        «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y
+        misma medida. Los TOTAL suman su grupo de la derecha.
+      columnas:
+        B: INGRESO/TOTAL
+        C: INGRESO/SEXO/V
+        D: INGRESO/SEXO/M
+        E: MATRÍCULA/TOTAL
+        F: MATRÍCULA/SEXO/V
+        G: MATRÍCULA/SEXO/M
+        H: EGRESO/TOTAL
+        I: EGRESO/SEXO/V
+        J: EGRESO/SEXO/M
+    2021: *ii_7_1_2_hasta_2023
+    2022: *ii_7_1_2_hasta_2023
+    2023: *ii_7_1_2_hasta_2023
   II-6.3.2:  # #173: 2020–2022 rotulan el sexo «M/F» (masculino/femenino); 2023–2024, «V/M» (varón/mujer)
     2020: &sexo_m_f_ii_6_3_2
       motivo: >-
@@ -293,6 +337,28 @@ filas_de_establecimiento:
     sangradas: [IINN, IPA, INET, IFES, Canelones, De la Costa, Pando, San Ramón, María Auxiliadora, Cerp Sur- Atlántida,
                 Colonia, Carmelo, Rosario, Florida, Cerp Centro - Florida, Maldonado, Cerp Este, Rivera, Cerp Norte, Salto,
                 Cerp Salto]
+  # #241 (mantenedor): II-7.1.x carga los territorios y PÚBLICO/PRIVADO (categoría de país, Montevideo e Interior); no
+  # las instituciones ni las carreras compartidas entre departamentos («Maldonado-Rivera», «MONTEVIDEO Y RESTO DEL
+  # PAÍS»), que quedan dentro del total del país. Los nombres se comparan sin la llamada de nota («UdelaR *»).
+  II-7.1.1:
+    categorias: [PÚBLICO, PRIVADO]
+    nombres: [UdelaR, UTEC, UCU, Universidad ORT Uruguay, Universidad de Montevideo, Universidad de la Empresa,
+              Universidad CLAEH, Inst Metodista Univ Crandon, Inst Univ Monseñor Mariano Soler, Inst Univ CEDIIAP,
+              Inst Univ Asociación Cristiana de Jóvenes, Inst Univ Elbio Fernández, Inst Univ Francisco de Asís,
+              Instituto Universitario Francisco de Asís (UNIFA), Fundación Politécnico de Punta del Este,
+              Instituto Militar de Estudios Superiores, Escuela Nacional de Policía,
+              Maldonado-Rivera, Maldonado-Rocha, Maldonado-Salto, Maldonado-Treinta y Tres, Paysandú-Rivera, Paysandú-Salto,
+              Montevideo-Paysandú, Montevideo-Rivera, Montevideo-Salto, Montevideo-San José, MONTEVIDEO Y RESTO DEL PAÍS]
+  II-7.1.2:
+    categorias: [PÚBLICO, PRIVADO]
+    nombres: [UdelaR, UTEC, UTEC (Montevideo-Virtual), UCU, Universidad ORT Uruguay, Universidad de Montevideo,
+              Universidad de la Empresa, Universidad CLAEH, CLAEH, APU-Inst Univ de Postgrado en Psicoanálisis,
+              Inst Univ de Postgrado en Psicoanálisis,
+              Instituto Universitario Centro de Estudio y Diagnóstico de las Disgnancias del Uruguay (IUCEDDU),
+              Inst Univ CEDIIAP, Centro Uno, FLACSO, Centro de Altos Estudios Nacionales (CALEN), IPES,
+              Inst Univ Asociación Cristiana de Jóvenes, IUACJ, AUDEEP, IMES, Escuela de Guerra Naval,
+              Escuela de Guerra Naval (ESGUE), Inst Univ Francisco de Asís, Instituto Universitario Francisco de Asís (UNIFA),
+              Fundación Politécnico de Punta del Este]
   II-6.3.1:
     sangradas: [IINN, IPA, INET, IFES, IFD Canelones, IFD de la Costa, IFD Pando, IFD San Ramón, CERP del Sur, IFD Carmelo,
                 IFD Rosario, CERP del Suroeste, IFD Florida, CERP del Centro, IFD Maldonado, IFD Rivera, CERP del Norte,
@@ -302,6 +368,8 @@ filas_de_establecimiento:
 # CERP, pero sus filas son país, Montevideo, el resto del país y los 18 departamentos (con la ciudad en el rótulo).
 tipos_a_mano:
   II-6.2.1: A
+  II-7.1.1: A  # #241: las filas son país, Montevideo, el resto del país y departamentos, con sus instituciones
+  II-7.1.2: A
 
 # unidad_del_cuadro (#173): la unidad cuando la del título no es la de los valores. II-6.2.1 dice «ESTABLECIMIENTO»
 # en el título pero cuenta estudiantes.
@@ -322,6 +390,18 @@ huecos:
     2023: {territorios: [departamento/02, departamento/03, departamento/04, departamento/05, departamento/06, departamento/07, departamento/08, departamento/09, departamento/10, departamento/11, departamento/12, departamento/13, departamento/14, departamento/15, departamento/16, departamento/17, departamento/18, departamento/19], motivo: "en el Interior el cuadro publica por departamento solo la DGETP (se carga aparte, __dgetp); el total de cada departamento no se publica (#172)"}
     2024: {territorios: [departamento/02, departamento/03, departamento/04, departamento/05, departamento/06, departamento/07, departamento/08, departamento/09, departamento/10, departamento/11, departamento/12, departamento/13, departamento/14, departamento/15, departamento/16, departamento/17, departamento/18, departamento/19], motivo: "en el Interior el cuadro publica por departamento solo la DGETP (se carga aparte, __dgetp); el total de cada departamento no se publica (#172)"}
 
+  II-7.1.1:  # #241: el cuadro publica solo los departamentos con oferta universitaria de grado
+    2020: {territorios: [departamento/02, departamento/03, departamento/07, departamento/08, departamento/09], motivo: "el anuario no publica el departamento: sin oferta universitaria de grado ese año (#241)"}
+    2021: {territorios: [departamento/02, departamento/03, departamento/07, departamento/08, departamento/09], motivo: "el anuario no publica el departamento: sin oferta universitaria de grado ese año (#241)"}
+    2022: {territorios: [departamento/02, departamento/03, departamento/07, departamento/08], motivo: "el anuario no publica el departamento: sin oferta universitaria de grado ese año (#241)"}
+    2023: {territorios: [departamento/02, departamento/03, departamento/07, departamento/08], motivo: "el anuario no publica el departamento: sin oferta universitaria de grado ese año (#241)"}
+    2024: {territorios: [departamento/02, departamento/03, departamento/07, departamento/08], motivo: "el anuario no publica el departamento: sin oferta universitaria de grado ese año (#241)"}
+  II-7.1.2:  # #241: el cuadro publica solo los departamentos con oferta universitaria de posgrado
+    2020: {territorios: [departamento/02, departamento/03, departamento/04, departamento/05, departamento/06, departamento/07, departamento/08, departamento/09, departamento/11, departamento/12, departamento/14, departamento/16, departamento/17, departamento/18, departamento/19], motivo: "el anuario no publica el departamento: sin oferta universitaria de posgrado ese año (#241)"}
+    2021: {territorios: [departamento/02, departamento/03, departamento/04, departamento/05, departamento/06, departamento/07, departamento/08, departamento/09, departamento/11, departamento/12, departamento/15, departamento/16, departamento/17, departamento/18, departamento/19], motivo: "el anuario no publica el departamento: sin oferta universitaria de posgrado ese año (#241)"}
+    2022: {territorios: [departamento/02, departamento/03, departamento/04, departamento/05, departamento/06, departamento/07, departamento/08, departamento/09, departamento/11, departamento/12, departamento/15, departamento/16, departamento/17, departamento/18, departamento/19], motivo: "el anuario no publica el departamento: sin oferta universitaria de posgrado ese año (#241)"}
+    2023: {territorios: [departamento/02, departamento/03, departamento/04, departamento/05, departamento/07, departamento/08, departamento/09, departamento/11, departamento/12, departamento/16, departamento/17, departamento/18, departamento/19], motivo: "el anuario no publica el departamento: sin oferta universitaria de posgrado ese año (#241)"}
+    2024: {territorios: [departamento/02, departamento/03, departamento/04, departamento/05, departamento/07, departamento/08, departamento/09, departamento/12, departamento/15, departamento/16, departamento/17, departamento/18, departamento/19], motivo: "el anuario no publica el departamento: sin oferta universitaria de posgrado ese año (#241)"}
 
 # controles_excepciones (F4.5a): lo publicado no cierra y se guarda tal cual. Cada excepción está acotada a sus
 # indicadores (y territorios, si los dice) y su motivo dice lo que muestra el archivo; el control la reporta como
@@ -360,6 +440,23 @@ controles_excepciones:
         <<: *docentes_cfe_2020
         indicadores: [edu_ii_6_3_1_cantidad_de_docentes]
   AC-E19:  # desgloses
+    II-7.1.1:  # #241
+      2020:
+        motivo: "la matrícula total no es varones + mujeres: parte de la matrícula de la UdelaR no tiene sexo (pie del cuadro; país 221.705 contra 221.396)"
+        indicadores: [edu_ii_7_1_1_matricula_total, edu_ii_7_1_1_matricula_total__publico]
+        territorios: [departamento/18, pais/UY, region/interior]
+      2021:
+        motivo: "la matrícula total no es varones + mujeres: parte de la matrícula de la UdelaR no tiene sexo (pie del cuadro; país 234.095 contra 233.595)"
+        indicadores: [edu_ii_7_1_1_matricula_total, edu_ii_7_1_1_matricula_total__publico]
+        territorios: [departamento/18, pais/UY, region/interior]
+      2022:
+        motivo: "la matrícula total no es varones + mujeres: parte de la matrícula de la UdelaR no tiene sexo (pie del cuadro; país 246.500 contra 246.033)"
+        indicadores: [edu_ii_7_1_1_matricula_total, edu_ii_7_1_1_matricula_total__publico]
+        territorios: [departamento/11, departamento/18, pais/UY, region/interior]
+      2023:
+        motivo: "la matrícula total no es varones + mujeres: parte de la matrícula de la UdelaR no tiene sexo (pie del cuadro; país 255.254 contra 254.939)"
+        indicadores: [edu_ii_7_1_1_matricula_total, edu_ii_7_1_1_matricula_total__publico]
+        territorios: [departamento/11, departamento/18, pais/UY, region/interior]
     II-5.2.1:
       2024:
         motivo: "el TOTAL de ingresados (321: 255 varones, 66 mujeres) no incluye a los 12 de la Escuela de Equitación del Ejército (4 varones, 8 mujeres), que el cuadro sí publica; en 2023 los incluía (#172)"

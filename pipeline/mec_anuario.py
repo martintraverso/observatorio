@@ -31,7 +31,7 @@ from comun.xlsx import leer_hoja, nombres_de_hojas
 
 PAIS = tid("pais", "UY")
 INTERIOR = tid("region", "interior")
-FILAS_PAIS = {"total", "total del pais"}  # «TOTAL DEL PAÍS» en 30 cuadros-año (inventario de F4.1)
+FILAS_PAIS = {"total", "total del pais", "total pais"}  # «TOTAL DEL PAÍS» en 30 cuadros-año (F4.1); «TOTAL PAÍS» en II-7.1.x (#241)
 SERIE = "MATRÍCULA DEL SISTEMA"
 NO_DATO = re.compile(r"^\s*(-+|…|\.\.\.|\.|s/d|n/c|s/i)?\s*\**\s*$", re.I)  # «n/c *»: con llamada de nota
 
@@ -89,6 +89,12 @@ def territorio_de_fila(rotulo: str) -> str | None:
     if p == "resto del pais":
         return INTERIOR
     return DEPARTAMENTOS.get(p)
+
+
+def _sin_llamada(rotulo: str) -> str:
+    """Rótulo comparable: sin tildes ni mayúsculas y sin llamada de nota al final («UdelaR *», «Universidad de la
+    Empresa**», #241)."""
+    return re.sub(r"\s*(\*+|\(\d+\))$", "", plegar(rotulo))
 
 
 def departamento_al_comienzo(rotulo: str) -> str | None:
@@ -276,7 +282,8 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
     declara que esa columna es de otro año) se guarda con ese período.
 
     `establecimientos` (#173, mantenedor): en un cuadro A, las filas de establecimiento entre los territorios no se
-    cargan, por nombre: las de `sangradas` si el rótulo está sangrado, y las de `nombres` en cualquier caso. Con `ciudad_en_rotulo`, una fila
+    cargan, por nombre: las de `sangradas` si el rótulo está sangrado, y las de `nombres` en cualquier caso.
+    `categorias` (#241): filas que son una categoría del territorio de arriba (PÚBLICO/PRIVADO → `__publico`). Con `ciudad_en_rotulo`, una fila
     «departamento ciudad» va al departamento. Cualquier otra fila desconocida sigue frenando (AC-E8)."""
     celdas, combinadas = celdas_de(xlsx, hoja_del_cuadro(xlsx, codigo))
     e = estructura(celdas, combinadas, codigo)
@@ -311,16 +318,29 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
     seccion, sufijo_seccion, salteadas = None, "", 0
     reinicia = {plegar(x) for x in (secciones or {}).get("reinicia", [])}
     est = establecimientos if tipo == "A" else None
-    nombres_est = {plegar(x) for x in (est or {}).get("nombres", [])}
-    sangradas_est = {plegar(x) for x in (est or {}).get("sangradas", [])}
+    nombres_est = {_sin_llamada(x) for x in (est or {}).get("nombres", [])}
+    sangradas_est = {_sin_llamada(x) for x in (est or {}).get("sangradas", [])}
+    # #241 (mantenedor): filas de categoría del territorio de arriba (PÚBLICO/PRIVADO bajo TOTAL PAÍS, MONTEVIDEO y RESTO
+    # DEL PAÍS, II-7.1.x); bajo una fila salteada (una carrera compartida, «MONTEVIDEO Y RESTO DEL PAÍS») no se cargan
+    categorias_est = {_sin_llamada(x) for x in (est or {}).get("categorias", [])}
+    territorio_arriba = None
     for r, rotulo in e.filas:
         # #173 (revisión): por nombre; la sangría solo distingue un establecimiento que se llama como su departamento.
         # Una fila sangrada que no está en la lista sigue su camino y, si no es un territorio, frena (AC-E8).
-        if est and ((r in e.sangradas and plegar(rotulo) in sangradas_est) or plegar(rotulo) in nombres_est):
+        if est and ((r in e.sangradas and _sin_llamada(rotulo) in sangradas_est) or _sin_llamada(rotulo) in nombres_est):
             salteadas += 1  # #173: un establecimiento (II-6.2.1: «Canelones» sangrado bajo el departamento Canelones)
+            territorio_arriba = None
             continue
         vacia = all(celdas.get((r, c)) is None for c in cols_mapeadas)
         territorio = territorio_de_fila(rotulo) if tipo == "A" else None
+        sufijo_cat = ""
+        if est and territorio is None and _sin_llamada(rotulo) in categorias_est:
+            if territorio_arriba is None:
+                salteadas += 1
+                continue
+            territorio, sufijo_cat = territorio_arriba, f"__{slug(_sin_llamada(rotulo))}"
+        elif territorio is not None:
+            territorio_arriba = territorio
         if territorio is None and est and est.get("ciudad_en_rotulo"):
             territorio = departamento_al_comienzo(rotulo)
         if secciones and tipo == "A" and not (vacia and territorio is None):
@@ -359,8 +379,11 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
         if tipo == "A":
             if territorio is None:
                 raise ErrorAnuario(f"{codigo} {anio}: fila desconocida «{rotulo}» (AC-E8)")
-            sufijo = sufijo_seccion if secciones else ""
-            if sufijo:
+            sufijo = sufijo_cat or (sufijo_seccion if secciones else "")
+            if sufijo_cat:
+                for m in mapeo:
+                    categorias[m["id"] + sufijo] = rotulo
+            elif sufijo:
                 for m in mapeo:
                     categorias[m["id"] + sufijo] = sufijo[2:].upper()
         else:
