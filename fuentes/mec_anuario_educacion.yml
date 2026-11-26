@@ -2451,7 +2451,6 @@ cuadros:
       - col: BS
         ruta: PÚBLICA/INICIAL EN ESCUELAS/URBANA COMÚN/AÑOS/sin dato
         id: edu_ii_1_2_2_publica_inicial_en_escuelas_urbana_comun_anos_sin_dato
-    mapeo_manual_fallas: {}
   II-1.2.3:
     titulo: ESTUDIANTES MATRICULADOS EN EDUCACIÓN EN LA PRIMERA INFANCIA E INICIAL PRIVADA POR MODALIDAD Y NIVEL SEGÚN DEPARTAMENTO
     tipos:
@@ -16618,8 +16617,9 @@ cuadros:
         id: edu_ii_5_3_1_horas_semanales_entre_21_y_30_horas_sexo_m
       - col: I
         ruta: HORAS SEMANALES/Total
-        id: edu_ii_5_3_1_horas_semanales_total__3
-        omitir: 'columna vacía: separador del encabezado, sin datos'
+        id: edu_ii_5_3_1_horas_semanales_31_horas_y_mas_total
+        concepto: HORAS SEMANALES/31 horas y más/TOTAL
+        comprobado: I = J + K
       - col: J
         ruta: HORAS SEMANALES/31 horas y más/SEXO/V
         id: edu_ii_5_3_1_horas_semanales_31_horas_y_mas_sexo_v
@@ -16654,8 +16654,9 @@ cuadros:
         id: edu_ii_5_3_1_horas_semanales_entre_21_y_30_horas_sexo_m
       - col: I
         ruta: HORAS SEMANALES/Total
-        id: edu_ii_5_3_1_horas_semanales_total__3
-        omitir: 'columna vacía: separador del encabezado, sin datos'
+        id: edu_ii_5_3_1_horas_semanales_31_horas_y_mas_total
+        concepto: HORAS SEMANALES/31 horas y más/TOTAL
+        comprobado: I = J + K
       - col: J
         ruta: HORAS SEMANALES/31 horas y más/SEXO/V
         id: edu_ii_5_3_1_horas_semanales_31_horas_y_mas_sexo_v
@@ -16771,8 +16772,9 @@ cuadros:
         id: edu_ii_5_3_2_horas_semanales_20_horas_o_menos_sexo_m
       - col: F
         ruta: HORAS SEMANALES/Total
-        id: edu_ii_5_3_2_horas_semanales_total__2
-        omitir: 'columna vacía: separador del encabezado, sin datos'
+        id: edu_ii_5_3_2_horas_semanales_entre_21_y_30_horas_total
+        concepto: HORAS SEMANALES/Entre 21 y 30 horas/TOTAL
+        comprobado: F = G + H
       - col: G
         ruta: HORAS SEMANALES/Entre 21 y 30 horas/SEXO/V
         id: edu_ii_5_3_2_horas_semanales_entre_21_y_30_horas_sexo_v
@@ -16781,8 +16783,9 @@ cuadros:
         id: edu_ii_5_3_2_horas_semanales_entre_21_y_30_horas_sexo_m
       - col: I
         ruta: HORAS SEMANALES/Total
-        id: edu_ii_5_3_2_horas_semanales_total__3
-        omitir: 'columna vacía: separador del encabezado, sin datos'
+        id: edu_ii_5_3_2_horas_semanales_31_horas_y_mas_total
+        concepto: HORAS SEMANALES/31 horas y más/TOTAL
+        comprobado: I = J + K
       - col: J
         ruta: HORAS SEMANALES/31 horas y más/SEXO/V
         id: edu_ii_5_3_2_horas_semanales_31_horas_y_mas_sexo_v
@@ -16806,8 +16809,9 @@ cuadros:
         id: edu_ii_5_3_2_horas_semanales_20_horas_o_menos_sexo_m
       - col: F
         ruta: HORAS SEMANALES/Total
-        id: edu_ii_5_3_2_horas_semanales_total__2
-        omitir: 'columna vacía: separador del encabezado, sin datos'
+        id: edu_ii_5_3_2_horas_semanales_entre_21_y_30_horas_total
+        concepto: HORAS SEMANALES/Entre 21 y 30 horas/TOTAL
+        comprobado: F = G + H
       - col: G
         ruta: HORAS SEMANALES/Entre 21 y 30 horas/SEXO/V
         id: edu_ii_5_3_2_horas_semanales_entre_21_y_30_horas_sexo_v
@@ -16816,8 +16820,9 @@ cuadros:
         id: edu_ii_5_3_2_horas_semanales_entre_21_y_30_horas_sexo_m
       - col: I
         ruta: HORAS SEMANALES/Total
-        id: edu_ii_5_3_2_horas_semanales_total__3
-        omitir: 'columna vacía: separador del encabezado, sin datos'
+        id: edu_ii_5_3_2_horas_semanales_31_horas_y_mas_total
+        concepto: HORAS SEMANALES/31 horas y más/TOTAL
+        comprobado: I = J + K
       - col: J
         ruta: HORAS SEMANALES/31 horas y más/SEXO/V
         id: edu_ii_5_3_2_horas_semanales_31_horas_y_mas_sexo_v
@@ -16841,8 +16846,9 @@ cuadros:
         id: edu_ii_5_3_2_horas_semanales_20_horas_o_menos_sexo_m
       - col: F
         ruta: HORAS SEMANALES/Total
-        id: edu_ii_5_3_2_horas_semanales_total__2
-        omitir: 'columna vacía: separador del encabezado, sin datos'
+        id: edu_ii_5_3_2_horas_semanales_entre_21_y_30_horas_total
+        concepto: HORAS SEMANALES/Entre 21 y 30 horas/TOTAL
+        comprobado: F = G + H
       - col: G
         ruta: HORAS SEMANALES/Entre 21 y 30 horas/SEXO/V
         id: edu_ii_5_3_2_horas_semanales_entre_21_y_30_horas_sexo_v
@@ -16851,8 +16857,9 @@ cuadros:
         id: edu_ii_5_3_2_horas_semanales_entre_21_y_30_horas_sexo_m
       - col: I
         ruta: HORAS SEMANALES/Total
-        id: edu_ii_5_3_2_horas_semanales_total__3
-        omitir: 'columna vacía: separador del encabezado, sin datos'
+        id: edu_ii_5_3_2_horas_semanales_31_horas_y_mas_total
+        concepto: HORAS SEMANALES/31 horas y más/TOTAL
+        comprobado: I = J + K
       - col: J
         ruta: HORAS SEMANALES/31 horas y más/SEXO/V
         id: edu_ii_5_3_2_horas_semanales_31_horas_y_mas_sexo_v
@@ -16942,7 +16949,7 @@ cuadros:
       2022: A
       2023: A
       2024: A
-    ola: 2
+    ola: 1
     unidad: docentes
     anios:
     - 2020
@@ -16950,22 +16957,293 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_6_1_1_total
+      - col: C
+        ruta: DOCENTES
+        id: edu_ii_6_1_1_docentes
+      2021:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_6_1_1_total
+      - col: C
+        ruta: DOCENTES
+        id: edu_ii_6_1_1_docentes
+      2022:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_6_1_1_total
+      - col: C
+        ruta: DOCENTES
+        id: edu_ii_6_1_1_docentes
+      2023:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_6_1_1_total
+      - col: C
+        ruta: DOCENTES
+        id: edu_ii_6_1_1_docentes
+      2024:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_6_1_1_total
+      - col: C
+        ruta: DOCENTES
+        id: edu_ii_6_1_1_docentes
+    datos_de_otro_anio:
+      2020:
+      - 'Notas: 1) Matrícula considerada como el número de personas inscriptas para cursar al menos una materia de las carreras que se ofrecen en el CFE. 2) A partir
+        del año 2016, los estudiantes de Educador Social del IPA, pasan al nuevo Instutito de Formación en Educación Social (IFES)'
+    filas_de_establecimiento:
+      nombres:
+      - IINN
+      - IPA
+      - INET
+      - IFES
   II-6.2.1:
     titulo: ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR CARRERA SEGÚN DEPARTAMENTO Y ESTABLECIMIENTO
     tipos:
-      2020: C
-      2021: C
-      2022: C
-      2023: C
-      2024: C
-    ola: 2
-    unidad: establecimientos
+      2020: A
+      2021: A
+      2022: A
+      2023: A
+      2024: A
+    ola: 1
+    unidad: estudiantes
     anios:
     - 2020
     - 2021
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: DEPARTAMENTO / ESTABLECIMIENTO
+        id: edu_ii_6_2_1_departamento_establecimiento
+      - col: C
+        ruta: TOTAL/Ingr.
+        id: edu_ii_6_2_1_total_ingr
+      - col: D
+        ruta: TOTAL/Matr.
+        id: edu_ii_6_2_1_total_matr
+      - col: E
+        ruta: TOTAL/Egr.
+        id: edu_ii_6_2_1_total_egr
+      - col: F
+        ruta: CARRERA/Magisterio/Ingr.
+        id: edu_ii_6_2_1_carrera_magisterio_ingr
+      - col: G
+        ruta: CARRERA/Magisterio/Matr.
+        id: edu_ii_6_2_1_carrera_magisterio_matr
+      - col: H
+        ruta: CARRERA/Magisterio/Egr.
+        id: edu_ii_6_2_1_carrera_magisterio_egr
+      - col: I
+        ruta: CARRERA/Profesorado/Ingr.
+        id: edu_ii_6_2_1_carrera_profesorado_ingr
+      - col: J
+        ruta: CARRERA/Profesorado/Matr.
+        id: edu_ii_6_2_1_carrera_profesorado_matr
+      - col: K
+        ruta: CARRERA/Profesorado/Egr.
+        id: edu_ii_6_2_1_carrera_profesorado_egr
+      - col: L
+        ruta: CARRERA/Educador Social/Ingr.
+        id: edu_ii_6_2_1_carrera_educador_social_ingr
+      - col: M
+        ruta: CARRERA/Educador Social/Matr.
+        id: edu_ii_6_2_1_carrera_educador_social_matr
+      - col: N
+        ruta: CARRERA/Educador Social/Egr.
+        id: edu_ii_6_2_1_carrera_educador_social_egr
+      2021:
+      - col: B
+        ruta: DEPARTAMENTO / ESTABLECIMIENTO
+        id: edu_ii_6_2_1_departamento_establecimiento
+      - col: C
+        ruta: TOTAL/Ingr.
+        id: edu_ii_6_2_1_total_ingr
+      - col: D
+        ruta: TOTAL/Matr.
+        id: edu_ii_6_2_1_total_matr
+      - col: E
+        ruta: TOTAL/Egr.
+        id: edu_ii_6_2_1_total_egr
+      - col: F
+        ruta: CARRERA/Magisterio/Ingr.
+        id: edu_ii_6_2_1_carrera_magisterio_ingr
+      - col: G
+        ruta: CARRERA/Magisterio/Matr.
+        id: edu_ii_6_2_1_carrera_magisterio_matr
+      - col: H
+        ruta: CARRERA/Magisterio/Egr.
+        id: edu_ii_6_2_1_carrera_magisterio_egr
+      - col: I
+        ruta: CARRERA/Profesorado/Ingr.
+        id: edu_ii_6_2_1_carrera_profesorado_ingr
+      - col: J
+        ruta: CARRERA/Profesorado/Matr.
+        id: edu_ii_6_2_1_carrera_profesorado_matr
+      - col: K
+        ruta: CARRERA/Profesorado/Egr.
+        id: edu_ii_6_2_1_carrera_profesorado_egr
+      - col: L
+        ruta: CARRERA/Educador Social/Ingr.
+        id: edu_ii_6_2_1_carrera_educador_social_ingr
+      - col: M
+        ruta: CARRERA/Educador Social/Matr.
+        id: edu_ii_6_2_1_carrera_educador_social_matr
+      - col: N
+        ruta: CARRERA/Educador Social/Egr.
+        id: edu_ii_6_2_1_carrera_educador_social_egr
+      2022:
+      - col: B
+        ruta: DEPARTAMENTO / ESTABLECIMIENTO
+        id: edu_ii_6_2_1_departamento_establecimiento
+      - col: C
+        ruta: TOTAL/Ingr.
+        id: edu_ii_6_2_1_total_ingr
+      - col: D
+        ruta: TOTAL/Matr.
+        id: edu_ii_6_2_1_total_matr
+      - col: E
+        ruta: TOTAL/Egr.
+        id: edu_ii_6_2_1_total_egr
+      - col: F
+        ruta: CARRERA/Magisterio/Ingr.
+        id: edu_ii_6_2_1_carrera_magisterio_ingr
+      - col: G
+        ruta: CARRERA/Magisterio/Matr.
+        id: edu_ii_6_2_1_carrera_magisterio_matr
+      - col: H
+        ruta: CARRERA/Magisterio/Egr.
+        id: edu_ii_6_2_1_carrera_magisterio_egr
+      - col: I
+        ruta: CARRERA/Profesorado/Ingr.
+        id: edu_ii_6_2_1_carrera_profesorado_ingr
+      - col: J
+        ruta: CARRERA/Profesorado/Matr.
+        id: edu_ii_6_2_1_carrera_profesorado_matr
+      - col: K
+        ruta: CARRERA/Profesorado/Egr.
+        id: edu_ii_6_2_1_carrera_profesorado_egr
+      - col: L
+        ruta: CARRERA/Educador Social/Ingr.
+        id: edu_ii_6_2_1_carrera_educador_social_ingr
+      - col: M
+        ruta: CARRERA/Educador Social/Matr.
+        id: edu_ii_6_2_1_carrera_educador_social_matr
+      - col: N
+        ruta: CARRERA/Educador Social/Egr.
+        id: edu_ii_6_2_1_carrera_educador_social_egr
+      2023:
+      - col: B
+        ruta: DEPARTAMENTO / ESTABLECIMIENTO
+        id: edu_ii_6_2_1_departamento_establecimiento
+      - col: C
+        ruta: TOTAL/Ingr.
+        id: edu_ii_6_2_1_total_ingr
+      - col: D
+        ruta: TOTAL/Matr.
+        id: edu_ii_6_2_1_total_matr
+      - col: E
+        ruta: TOTAL/Egr.
+        id: edu_ii_6_2_1_total_egr
+      - col: F
+        ruta: CARRERA/Magisterio/Ingr.
+        id: edu_ii_6_2_1_carrera_magisterio_ingr
+      - col: G
+        ruta: CARRERA/Magisterio/Matr.
+        id: edu_ii_6_2_1_carrera_magisterio_matr
+      - col: H
+        ruta: CARRERA/Magisterio/Egr.
+        id: edu_ii_6_2_1_carrera_magisterio_egr
+      - col: I
+        ruta: CARRERA/Profesorado/Ingr.
+        id: edu_ii_6_2_1_carrera_profesorado_ingr
+      - col: J
+        ruta: CARRERA/Profesorado/Matr.
+        id: edu_ii_6_2_1_carrera_profesorado_matr
+      - col: K
+        ruta: CARRERA/Profesorado/Egr.
+        id: edu_ii_6_2_1_carrera_profesorado_egr
+      - col: L
+        ruta: CARRERA/Educador Social/Ingr.
+        id: edu_ii_6_2_1_carrera_educador_social_ingr
+      - col: M
+        ruta: CARRERA/Educador Social/Matr.
+        id: edu_ii_6_2_1_carrera_educador_social_matr
+      - col: N
+        ruta: CARRERA/Educador Social/Egr.
+        id: edu_ii_6_2_1_carrera_educador_social_egr
+      2024:
+      - col: B
+        ruta: DEPARTAMENTO / ESTABLECIMIENTO
+        id: edu_ii_6_2_1_departamento_establecimiento
+      - col: C
+        ruta: TOTAL/Ingr.
+        id: edu_ii_6_2_1_total_ingr
+      - col: D
+        ruta: TOTAL/Matr.
+        id: edu_ii_6_2_1_total_matr
+      - col: E
+        ruta: TOTAL/Egr.
+        id: edu_ii_6_2_1_total_egr
+      - col: F
+        ruta: CARRERA/Magisterio/Ingr.
+        id: edu_ii_6_2_1_carrera_magisterio_ingr
+      - col: G
+        ruta: CARRERA/Magisterio/Matr.
+        id: edu_ii_6_2_1_carrera_magisterio_matr
+      - col: H
+        ruta: CARRERA/Magisterio/Egr.
+        id: edu_ii_6_2_1_carrera_magisterio_egr
+      - col: I
+        ruta: CARRERA/Profesorado/Ingr.
+        id: edu_ii_6_2_1_carrera_profesorado_ingr
+      - col: J
+        ruta: CARRERA/Profesorado/Matr.
+        id: edu_ii_6_2_1_carrera_profesorado_matr
+      - col: K
+        ruta: CARRERA/Profesorado/Egr.
+        id: edu_ii_6_2_1_carrera_profesorado_egr
+      - col: L
+        ruta: CARRERA/Educador Social/Ingr.
+        id: edu_ii_6_2_1_carrera_educador_social_ingr
+      - col: M
+        ruta: CARRERA/Educador Social/Matr.
+        id: edu_ii_6_2_1_carrera_educador_social_matr
+      - col: N
+        ruta: CARRERA/Educador Social/Egr.
+        id: edu_ii_6_2_1_carrera_educador_social_egr
+    filas_de_establecimiento:
+      ciudad_en_rotulo: true
+      sangradas:
+      - IINN
+      - IPA
+      - INET
+      - IFES
+      - Canelones
+      - De la Costa
+      - Pando
+      - San Ramón
+      - María Auxiliadora
+      - Cerp Sur- Atlántida
+      - Colonia
+      - Carmelo
+      - Rosario
+      - Florida
+      - Cerp Centro - Florida
+      - Maldonado
+      - Cerp Este
+      - Rivera
+      - Cerp Norte
+      - Salto
+      - Cerp Salto
   II-6.2.2:
     titulo: ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR SEXO SEGÚN INSTITUCIÓN Y CARRERA
     tipos:
@@ -16974,7 +17252,7 @@ cuadros:
       2022: B
       2023: B
       2024: B
-    ola: 2
+    ola: 1
     unidad: estudiantes
     anios:
     - 2020
@@ -16982,16 +17260,263 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_6_2_2_ingresados_total
+        concepto: INGRESADOS/TOTAL
+        comprobado: B = C + D
+      - col: C
+        ruta: INGRESADOS/SEXO/V
+        id: edu_ii_6_2_2_ingresados_sexo_v
+      - col: D
+        ruta: INGRESADOS/SEXO/M
+        id: edu_ii_6_2_2_ingresados_sexo_m
+      - col: E
+        ruta: TOTAL
+        id: edu_ii_6_2_2_matriculados_total
+        concepto: MATRICULADOS/TOTAL
+        comprobado: E = F + G
+      - col: F
+        ruta: MATRICULADOS/SEXO/V
+        id: edu_ii_6_2_2_matriculados_sexo_v
+      - col: G
+        ruta: MATRICULADOS/SEXO/M
+        id: edu_ii_6_2_2_matriculados_sexo_m
+      - col: H
+        ruta: TOTAL
+        id: edu_ii_6_2_2_egresados_total
+        concepto: EGRESADOS/TOTAL
+        comprobado: H = I + J
+      - col: I
+        ruta: EGRESADOS/SEXO/V
+        id: edu_ii_6_2_2_egresados_sexo_v
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: J
+        ruta: EGRESADOS/SEXO/M
+        id: edu_ii_6_2_2_egresados_sexo_m
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      2021:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_6_2_2_ingresados_total
+        concepto: INGRESADOS/TOTAL
+        comprobado: B = C + D
+      - col: C
+        ruta: INGRESADOS/SEXO/V
+        id: edu_ii_6_2_2_ingresados_sexo_v
+      - col: D
+        ruta: INGRESADOS/SEXO/M
+        id: edu_ii_6_2_2_ingresados_sexo_m
+      - col: E
+        ruta: TOTAL
+        id: edu_ii_6_2_2_matriculados_total
+        concepto: MATRICULADOS/TOTAL
+        comprobado: E = F + G
+      - col: F
+        ruta: MATRICULADOS/SEXO/V
+        id: edu_ii_6_2_2_matriculados_sexo_v
+      - col: G
+        ruta: MATRICULADOS/SEXO/M
+        id: edu_ii_6_2_2_matriculados_sexo_m
+      - col: H
+        ruta: TOTAL
+        id: edu_ii_6_2_2_egresados_total
+        concepto: EGRESADOS/TOTAL
+        comprobado: H = I + J
+      - col: I
+        ruta: EGRESADOS/SEXO/V
+        id: edu_ii_6_2_2_egresados_sexo_v
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: J
+        ruta: EGRESADOS/SEXO/M
+        id: edu_ii_6_2_2_egresados_sexo_m
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      2022:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_6_2_2_ingresados_total
+        concepto: INGRESADOS/TOTAL
+        comprobado: B = C + D
+      - col: C
+        ruta: INGRESADOS/SEXO/V
+        id: edu_ii_6_2_2_ingresados_sexo_v
+      - col: D
+        ruta: INGRESADOS/SEXO/M
+        id: edu_ii_6_2_2_ingresados_sexo_m
+      - col: E
+        ruta: TOTAL
+        id: edu_ii_6_2_2_matriculados_total
+        concepto: MATRICULADOS/TOTAL
+        comprobado: E = F + G
+      - col: F
+        ruta: MATRICULADOS/SEXO/V
+        id: edu_ii_6_2_2_matriculados_sexo_v
+      - col: G
+        ruta: MATRICULADOS/SEXO/M
+        id: edu_ii_6_2_2_matriculados_sexo_m
+      - col: H
+        ruta: TOTAL
+        id: edu_ii_6_2_2_egresados_total
+        concepto: EGRESADOS/TOTAL
+        comprobado: H = I + J
+      - col: I
+        ruta: EGRESADOS/SEXO/V
+        id: edu_ii_6_2_2_egresados_sexo_v
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: J
+        ruta: EGRESADOS/SEXO/M
+        id: edu_ii_6_2_2_egresados_sexo_m
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      2023:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_6_2_2_ingresados_total
+        concepto: INGRESADOS/TOTAL
+        comprobado: B = C + D
+      - col: C
+        ruta: INGRESADOS/SEXO/V
+        id: edu_ii_6_2_2_ingresados_sexo_v
+      - col: D
+        ruta: INGRESADOS/SEXO/M
+        id: edu_ii_6_2_2_ingresados_sexo_m
+      - col: E
+        ruta: TOTAL
+        id: edu_ii_6_2_2_matriculados_total
+        concepto: MATRICULADOS/TOTAL
+        comprobado: E = F + G
+      - col: F
+        ruta: MATRICULADOS/SEXO/V
+        id: edu_ii_6_2_2_matriculados_sexo_v
+      - col: G
+        ruta: MATRICULADOS/SEXO/M
+        id: edu_ii_6_2_2_matriculados_sexo_m
+      - col: H
+        ruta: TOTAL
+        id: edu_ii_6_2_2_egresados_total
+        concepto: EGRESADOS/TOTAL
+        comprobado: H = I + J
+      - col: I
+        ruta: EGRESADOS/SEXO/V
+        id: edu_ii_6_2_2_egresados_sexo_v
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      - col: J
+        ruta: EGRESADOS/SEXO/M
+        id: edu_ii_6_2_2_egresados_sexo_m
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
+      2024:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_6_2_2_ingresados_total
+        concepto: INGRESADOS/TOTAL
+        comprobado: 'renombre a mano: el sexo es «s/d» en todo el cuadro y los tres «TOTAL» no se pueden probar con la suma; están en el mismo lugar que en 2020–2023,
+          donde sí suman su grupo de la derecha (B = C + D, E = F + G, H = I + J).'
+      - col: C
+        ruta: INGRESADOS/SEXO/V
+        id: edu_ii_6_2_2_ingresados_sexo_v
+      - col: D
+        ruta: INGRESADOS/SEXO/M
+        id: edu_ii_6_2_2_ingresados_sexo_m
+      - col: E
+        ruta: TOTAL
+        id: edu_ii_6_2_2_matriculados_total
+        concepto: MATRICULADOS/TOTAL
+        comprobado: 'renombre a mano: el sexo es «s/d» en todo el cuadro y los tres «TOTAL» no se pueden probar con la suma; están en el mismo lugar que en 2020–2023,
+          donde sí suman su grupo de la derecha (B = C + D, E = F + G, H = I + J).'
+      - col: F
+        ruta: MATRICULADOS/SEXO/V
+        id: edu_ii_6_2_2_matriculados_sexo_v
+      - col: G
+        ruta: MATRICULADOS/SEXO/M
+        id: edu_ii_6_2_2_matriculados_sexo_m
+      - col: H
+        ruta: TOTAL
+        id: edu_ii_6_2_2_egresados_total
+        concepto: EGRESADOS/TOTAL
+        comprobado: 'renombre a mano: el sexo es «s/d» en todo el cuadro y los tres «TOTAL» no se pueden probar con la suma; están en el mismo lugar que en 2020–2023,
+          donde sí suman su grupo de la derecha (B = C + D, E = F + G, H = I + J).'
+    solo_filas:
+    - INAU
   II-6.2.3:
     titulo: ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR ESPECIALIDAD
     tipos:
       2023: B
       2024: B
-    ola: 2
+    ola: 1
     unidad: estudiantes
     anios:
     - 2023
     - 2024
+    mapeo:
+      2023:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_6_2_3_ingresados_total
+        concepto: INGRESADOS/TOTAL
+        comprobado: B = C + D
+      - col: C
+        ruta: INGRESADOS/SEXO/V
+        id: edu_ii_6_2_3_ingresados_sexo_v
+      - col: D
+        ruta: INGRESADOS/SEXO/M
+        id: edu_ii_6_2_3_ingresados_sexo_m
+      - col: E
+        ruta: TOTAL
+        id: edu_ii_6_2_3_matriculados_total
+        concepto: MATRICULADOS/TOTAL
+        comprobado: E = F + G
+      - col: F
+        ruta: MATRICULADOS/SEXO/V
+        id: edu_ii_6_2_3_matriculados_sexo_v
+      - col: G
+        ruta: MATRICULADOS/SEXO/M
+        id: edu_ii_6_2_3_matriculados_sexo_m
+      - col: H
+        ruta: TOTAL
+        id: edu_ii_6_2_3_egresados_total
+        concepto: EGRESADOS/TOTAL
+        comprobado: H = I + J
+      - col: I
+        ruta: EGRESADOS/SEXO/V
+        id: edu_ii_6_2_3_egresados_sexo_v
+      - col: J
+        ruta: EGRESADOS/SEXO/M
+        id: edu_ii_6_2_3_egresados_sexo_m
+      2024:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_6_2_3_ingresados_total
+        concepto: INGRESADOS/TOTAL
+        comprobado: B = C + D
+      - col: C
+        ruta: INGRESADOS/SEXO/V
+        id: edu_ii_6_2_3_ingresados_sexo_v
+      - col: D
+        ruta: INGRESADOS/SEXO/M
+        id: edu_ii_6_2_3_ingresados_sexo_m
+      - col: E
+        ruta: TOTAL
+        id: edu_ii_6_2_3_matriculados_total
+        concepto: MATRICULADOS/TOTAL
+        comprobado: E = F + G
+      - col: F
+        ruta: MATRICULADOS/SEXO/V
+        id: edu_ii_6_2_3_matriculados_sexo_v
+      - col: G
+        ruta: MATRICULADOS/SEXO/M
+        id: edu_ii_6_2_3_matriculados_sexo_m
+      - col: H
+        ruta: TOTAL
+        id: edu_ii_6_2_3_egresados_total
+        concepto: EGRESADOS/TOTAL
+        comprobado: H = I + J
+      - col: I
+        ruta: EGRESADOS/SEXO/V
+        id: edu_ii_6_2_3_egresados_sexo_v
+      - col: J
+        ruta: EGRESADOS/SEXO/M
+        id: edu_ii_6_2_3_egresados_sexo_m
   II-6.3.1:
     titulo: PERSONAL DOCENTE DE LOS INSTITUTOS DE FORMACIÓN EN EDUCACIÓN Y CANTIDAD DE HORAS POR INSTITUCIÓN Y DEPARTAMENTO
     tipos:
@@ -17000,7 +17525,7 @@ cuadros:
       2022: A
       2023: A
       2024: A
-    ola: 2
+    ola: 1
     unidad: docentes
     anios:
     - 2020
@@ -17008,6 +17533,63 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: Cantidad de Docentes
+        id: edu_ii_6_3_1_cantidad_de_docentes
+      - col: C
+        ruta: Cantidad de Horas
+        id: edu_ii_6_3_1_cantidad_de_horas
+      2021:
+      - col: B
+        ruta: Cantidad de Docentes
+        id: edu_ii_6_3_1_cantidad_de_docentes
+      - col: C
+        ruta: Cantidad de Horas
+        id: edu_ii_6_3_1_cantidad_de_horas
+      2022:
+      - col: B
+        ruta: Cantidad de Docentes
+        id: edu_ii_6_3_1_cantidad_de_docentes
+      - col: C
+        ruta: Cantidad de Horas
+        id: edu_ii_6_3_1_cantidad_de_horas
+      2023:
+      - col: B
+        ruta: Cantidad de Docentes
+        id: edu_ii_6_3_1_cantidad_de_docentes
+      - col: C
+        ruta: Cantidad de Horas
+        id: edu_ii_6_3_1_cantidad_de_horas
+      2024:
+      - col: B
+        ruta: Cantidad de Docentes
+        id: edu_ii_6_3_1_cantidad_de_docentes
+      - col: C
+        ruta: Cantidad de Horas
+        id: edu_ii_6_3_1_cantidad_de_horas
+    filas_de_establecimiento:
+      sangradas:
+      - IINN
+      - IPA
+      - INET
+      - IFES
+      - IFD Canelones
+      - IFD de la Costa
+      - IFD Pando
+      - IFD San Ramón
+      - CERP del Sur
+      - IFD Carmelo
+      - IFD Rosario
+      - CERP del Suroeste
+      - IFD Florida
+      - CERP del Centro
+      - IFD Maldonado
+      - IFD Rivera
+      - CERP del Norte
+      - IFD Salto
+      - CERP del Litoral
   II-6.3.2:
     titulo: PERSONAL DOCENTE DE FORMACIÓN EN EDUCACIÓN POR CARGA HORARIA SEMANAL Y SEXO, SEGÚN INSTITUCIÓN Y FORMACIÓN
     tipos:
@@ -17016,7 +17598,7 @@ cuadros:
       2022: B
       2023: B
       2024: B
-    ola: 2
+    ola: 1
     unidad: docentes
     anios:
     - 2020
@@ -17024,6 +17606,259 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_6_3_2_total
+      - col: C
+        ruta: HORAS SEMANALES/Total
+        id: edu_ii_6_3_2_horas_semanales_20_horas_o_menos_total
+        concepto: HORAS SEMANALES/20 horas o menos/TOTAL
+        comprobado: C = D + E
+      - col: D
+        ruta: HORAS SEMANALES/20 horas o menos/SEXO/M
+        id: edu_ii_6_3_2_horas_semanales_20_horas_o_menos_sexo_v
+        concepto: HORAS SEMANALES/20 horas o menos/SEXO/V
+        comprobado: 'renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del
+          CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).'
+      - col: E
+        ruta: HORAS SEMANALES/20 horas o menos/SEXO/F
+        id: edu_ii_6_3_2_horas_semanales_20_horas_o_menos_sexo_m
+        concepto: HORAS SEMANALES/20 horas o menos/SEXO/M
+        comprobado: 'renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del
+          CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).'
+      - col: F
+        ruta: HORAS SEMANALES/Total
+        id: edu_ii_6_3_2_horas_semanales_entre_21_y_30_horas_total
+        concepto: HORAS SEMANALES/Entre 21 y 30 horas/TOTAL
+        comprobado: F = G + H
+      - col: G
+        ruta: HORAS SEMANALES/Entre 21 y 30 horas/SEXO/M
+        id: edu_ii_6_3_2_horas_semanales_entre_21_y_30_horas_sexo_v
+        concepto: HORAS SEMANALES/Entre 21 y 30 horas/SEXO/V
+        comprobado: 'renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del
+          CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).'
+      - col: H
+        ruta: HORAS SEMANALES/Entre 21 y 30 horas/SEXO/F
+        id: edu_ii_6_3_2_horas_semanales_entre_21_y_30_horas_sexo_m
+        concepto: HORAS SEMANALES/Entre 21 y 30 horas/SEXO/M
+        comprobado: 'renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del
+          CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).'
+      - col: I
+        ruta: HORAS SEMANALES/Total
+        id: edu_ii_6_3_2_horas_semanales_31_horas_y_mas_total
+        concepto: HORAS SEMANALES/31 horas y más/TOTAL
+        comprobado: I = J + K
+      - col: J
+        ruta: HORAS SEMANALES/31 horas y más/SEXO/M
+        id: edu_ii_6_3_2_horas_semanales_31_horas_y_mas_sexo_v
+        concepto: HORAS SEMANALES/31 horas y más/SEXO/V
+        comprobado: 'renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del
+          CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).'
+      - col: K
+        ruta: HORAS SEMANALES/31 horas y más/SEXO/F
+        id: edu_ii_6_3_2_horas_semanales_31_horas_y_mas_sexo_m
+        concepto: HORAS SEMANALES/31 horas y más/SEXO/M
+        comprobado: 'renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del
+          CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).'
+      2021:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_6_3_2_total
+      - col: C
+        ruta: HORAS SEMANALES/Total
+        id: edu_ii_6_3_2_horas_semanales_20_horas_o_menos_total
+        concepto: HORAS SEMANALES/20 horas o menos/TOTAL
+        comprobado: C = D + E
+      - col: D
+        ruta: HORAS SEMANALES/20 horas o menos/SEXO/M
+        id: edu_ii_6_3_2_horas_semanales_20_horas_o_menos_sexo_v
+        concepto: HORAS SEMANALES/20 horas o menos/SEXO/V
+        comprobado: 'renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del
+          CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).'
+      - col: E
+        ruta: HORAS SEMANALES/20 horas o menos/SEXO/F
+        id: edu_ii_6_3_2_horas_semanales_20_horas_o_menos_sexo_m
+        concepto: HORAS SEMANALES/20 horas o menos/SEXO/M
+        comprobado: 'renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del
+          CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).'
+      - col: F
+        ruta: HORAS SEMANALES/Total
+        id: edu_ii_6_3_2_horas_semanales_entre_21_y_30_horas_total
+        concepto: HORAS SEMANALES/Entre 21 y 30 horas/TOTAL
+        comprobado: F = G + H
+      - col: G
+        ruta: HORAS SEMANALES/Entre 21 y 30 horas/SEXO/M
+        id: edu_ii_6_3_2_horas_semanales_entre_21_y_30_horas_sexo_v
+        concepto: HORAS SEMANALES/Entre 21 y 30 horas/SEXO/V
+        comprobado: 'renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del
+          CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).'
+      - col: H
+        ruta: HORAS SEMANALES/Entre 21 y 30 horas/SEXO/F
+        id: edu_ii_6_3_2_horas_semanales_entre_21_y_30_horas_sexo_m
+        concepto: HORAS SEMANALES/Entre 21 y 30 horas/SEXO/M
+        comprobado: 'renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del
+          CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).'
+      - col: I
+        ruta: HORAS SEMANALES/Total
+        id: edu_ii_6_3_2_horas_semanales_31_horas_y_mas_total
+        concepto: HORAS SEMANALES/31 horas y más/TOTAL
+        comprobado: I = J + K
+      - col: J
+        ruta: HORAS SEMANALES/31 horas y más/SEXO/M
+        id: edu_ii_6_3_2_horas_semanales_31_horas_y_mas_sexo_v
+        concepto: HORAS SEMANALES/31 horas y más/SEXO/V
+        comprobado: 'renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del
+          CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).'
+      - col: K
+        ruta: HORAS SEMANALES/31 horas y más/SEXO/F
+        id: edu_ii_6_3_2_horas_semanales_31_horas_y_mas_sexo_m
+        concepto: HORAS SEMANALES/31 horas y más/SEXO/M
+        comprobado: 'renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del
+          CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).'
+      2022:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_6_3_2_total
+      - col: C
+        ruta: HORAS SEMANALES/Total
+        id: edu_ii_6_3_2_horas_semanales_20_horas_o_menos_total
+        concepto: HORAS SEMANALES/20 horas o menos/TOTAL
+        comprobado: C = D + E
+      - col: D
+        ruta: HORAS SEMANALES/20 horas o menos/SEXO/M
+        id: edu_ii_6_3_2_horas_semanales_20_horas_o_menos_sexo_v
+        concepto: HORAS SEMANALES/20 horas o menos/SEXO/V
+        comprobado: 'renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del
+          CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).'
+      - col: E
+        ruta: HORAS SEMANALES/20 horas o menos/SEXO/F
+        id: edu_ii_6_3_2_horas_semanales_20_horas_o_menos_sexo_m
+        concepto: HORAS SEMANALES/20 horas o menos/SEXO/M
+        comprobado: 'renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del
+          CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).'
+      - col: F
+        ruta: HORAS SEMANALES/Total
+        id: edu_ii_6_3_2_horas_semanales_entre_21_y_30_horas_total
+        concepto: HORAS SEMANALES/Entre 21 y 30 horas/TOTAL
+        comprobado: F = G + H
+      - col: G
+        ruta: HORAS SEMANALES/Entre 21 y 30 horas/SEXO/M
+        id: edu_ii_6_3_2_horas_semanales_entre_21_y_30_horas_sexo_v
+        concepto: HORAS SEMANALES/Entre 21 y 30 horas/SEXO/V
+        comprobado: 'renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del
+          CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).'
+      - col: H
+        ruta: HORAS SEMANALES/Entre 21 y 30 horas/SEXO/F
+        id: edu_ii_6_3_2_horas_semanales_entre_21_y_30_horas_sexo_m
+        concepto: HORAS SEMANALES/Entre 21 y 30 horas/SEXO/M
+        comprobado: 'renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del
+          CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).'
+      - col: I
+        ruta: HORAS SEMANALES/Total
+        id: edu_ii_6_3_2_horas_semanales_31_horas_y_mas_total
+        concepto: HORAS SEMANALES/31 horas y más/TOTAL
+        comprobado: I = J + K
+      - col: J
+        ruta: HORAS SEMANALES/31 horas y más/SEXO/M
+        id: edu_ii_6_3_2_horas_semanales_31_horas_y_mas_sexo_v
+        concepto: HORAS SEMANALES/31 horas y más/SEXO/V
+        comprobado: 'renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del
+          CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).'
+      - col: K
+        ruta: HORAS SEMANALES/31 horas y más/SEXO/F
+        id: edu_ii_6_3_2_horas_semanales_31_horas_y_mas_sexo_m
+        concepto: HORAS SEMANALES/31 horas y más/SEXO/M
+        comprobado: 'renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del
+          CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).'
+      2023:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_6_3_2_total
+      - col: C
+        ruta: HORAS SEMANALES/Total
+        id: edu_ii_6_3_2_horas_semanales_20_horas_o_menos_total
+        concepto: HORAS SEMANALES/20 horas o menos/TOTAL
+        comprobado: C = D + E
+      - col: D
+        ruta: HORAS SEMANALES/20 horas o menos/SEXO/V
+        id: edu_ii_6_3_2_horas_semanales_20_horas_o_menos_sexo_v
+      - col: E
+        ruta: HORAS SEMANALES/20 horas o menos/SEXO/M
+        id: edu_ii_6_3_2_horas_semanales_20_horas_o_menos_sexo_m
+      - col: F
+        ruta: HORAS SEMANALES/Total
+        id: edu_ii_6_3_2_horas_semanales_entre_21_y_30_horas_total
+        concepto: HORAS SEMANALES/Entre 21 y 30 horas/TOTAL
+        comprobado: F = G + H
+      - col: G
+        ruta: HORAS SEMANALES/Entre 21 y 30 horas/SEXO/V
+        id: edu_ii_6_3_2_horas_semanales_entre_21_y_30_horas_sexo_v
+      - col: H
+        ruta: HORAS SEMANALES/Entre 21 y 30 horas/SEXO/M
+        id: edu_ii_6_3_2_horas_semanales_entre_21_y_30_horas_sexo_m
+      - col: I
+        ruta: HORAS SEMANALES/Total
+        id: edu_ii_6_3_2_horas_semanales_31_horas_y_mas_total
+        concepto: HORAS SEMANALES/31 horas y más/TOTAL
+        comprobado: I = J + K
+      - col: J
+        ruta: HORAS SEMANALES/31 horas y más/SEXO/V
+        id: edu_ii_6_3_2_horas_semanales_31_horas_y_mas_sexo_v
+      - col: K
+        ruta: HORAS SEMANALES/31 horas y más/SEXO/M
+        id: edu_ii_6_3_2_horas_semanales_31_horas_y_mas_sexo_m
+      2024:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_6_3_2_total
+        omitir: ya cargado desde el anuario 2023, con los mismos valores (D4)
+      - col: C
+        ruta: HORAS SEMANALES/Total
+        id: edu_ii_6_3_2_horas_semanales_20_horas_o_menos_total
+        concepto: HORAS SEMANALES/20 horas o menos/TOTAL
+        comprobado: C = D + E
+        omitir: ya cargado desde el anuario 2023, con los mismos valores (D4)
+      - col: D
+        ruta: HORAS SEMANALES/20 horas o menos/SEXO/V
+        id: edu_ii_6_3_2_horas_semanales_20_horas_o_menos_sexo_v
+        omitir: ya cargado desde el anuario 2023, con los mismos valores (D4)
+      - col: E
+        ruta: HORAS SEMANALES/20 horas o menos/SEXO/M
+        id: edu_ii_6_3_2_horas_semanales_20_horas_o_menos_sexo_m
+        omitir: ya cargado desde el anuario 2023, con los mismos valores (D4)
+      - col: F
+        ruta: HORAS SEMANALES/Total
+        id: edu_ii_6_3_2_horas_semanales_entre_21_y_30_horas_total
+        concepto: HORAS SEMANALES/Entre 21 y 30 horas/TOTAL
+        comprobado: F = G + H
+        omitir: ya cargado desde el anuario 2023, con los mismos valores (D4)
+      - col: G
+        ruta: HORAS SEMANALES/Entre 21 y 30 horas/SEXO/V
+        id: edu_ii_6_3_2_horas_semanales_entre_21_y_30_horas_sexo_v
+        omitir: ya cargado desde el anuario 2023, con los mismos valores (D4)
+      - col: H
+        ruta: HORAS SEMANALES/Entre 21 y 30 horas/SEXO/M
+        id: edu_ii_6_3_2_horas_semanales_entre_21_y_30_horas_sexo_m
+        omitir: ya cargado desde el anuario 2023, con los mismos valores (D4)
+      - col: I
+        ruta: HORAS SEMANALES/Total
+        id: edu_ii_6_3_2_horas_semanales_31_horas_y_mas_total
+        concepto: HORAS SEMANALES/31 horas y más/TOTAL
+        comprobado: I = J + K
+        omitir: ya cargado desde el anuario 2023, con los mismos valores (D4)
+      - col: J
+        ruta: HORAS SEMANALES/31 horas y más/SEXO/V
+        id: edu_ii_6_3_2_horas_semanales_31_horas_y_mas_sexo_v
+        omitir: ya cargado desde el anuario 2023, con los mismos valores (D4)
+      - col: K
+        ruta: HORAS SEMANALES/31 horas y más/SEXO/M
+        id: edu_ii_6_3_2_horas_semanales_31_horas_y_mas_sexo_m
+        omitir: ya cargado desde el anuario 2023, con los mismos valores (D4)
+    datos_de_otro_anio:
+      2024:
+      - 'Nota: último dato disponible año 2023'
   II-6.3.3:
     titulo: ESTUDIANTES INGRESADOS Y MATRICULADOS EN FORMACIÓN EN EDUCACIÓN SEGÚN ORIGEN GEOGRÁFICO
     tipos:
@@ -17032,7 +17867,7 @@ cuadros:
       2022: A
       2023: A
       2024: A
-    ola: 2
+    ola: 1
     unidad: estudiantes
     anios:
     - 2020
@@ -17040,6 +17875,42 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: ESTUDIANTES INGRESADOS
+        id: edu_ii_6_3_3_estudiantes_ingresados
+      - col: C
+        ruta: ESTUDIANTES MATRICULADOS
+        id: edu_ii_6_3_3_estudiantes_matriculados
+      2021:
+      - col: B
+        ruta: ESTUDIANTES INGRESADOS
+        id: edu_ii_6_3_3_estudiantes_ingresados
+      - col: C
+        ruta: ESTUDIANTES MATRICULADOS
+        id: edu_ii_6_3_3_estudiantes_matriculados
+      2022:
+      - col: B
+        ruta: ESTUDIANTES INGRESADOS
+        id: edu_ii_6_3_3_estudiantes_ingresados
+      - col: C
+        ruta: ESTUDIANTES MATRICULADOS
+        id: edu_ii_6_3_3_estudiantes_matriculados
+      2023:
+      - col: B
+        ruta: ESTUDIANTES INGRESADOS
+        id: edu_ii_6_3_3_estudiantes_ingresados
+      - col: C
+        ruta: ESTUDIANTES MATRICULADOS
+        id: edu_ii_6_3_3_estudiantes_matriculados
+      2024:
+      - col: B
+        ruta: ESTUDIANTES INGRESADOS
+        id: edu_ii_6_3_3_estudiantes_ingresados
+      - col: C
+        ruta: ESTUDIANTES MATRICULADOS
+        id: edu_ii_6_3_3_estudiantes_matriculados
   II-7.1.1:
     titulo: ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO POR SEXO SEGÚN GRANDES ÁREAS, FORMA DE ADMINISTRACIÓN, DEPARTAMENTO E INSTITUCIÓN
     tipos:

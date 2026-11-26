@@ -72,7 +72,8 @@ def leer_anuario(xlsx: bytes, anio: int, fuente: dict, sin_dato: set | None = No
         if e.get("ola") != 1 or not mapeo:
             continue
         c = mec.parsear_cuadro(xlsx, cod, anio, mapeo, e["tipos"][anio], (e.get("categorias_segundas") or {}).get(anio, ()),
-                               e.get("secciones_por_institucion"), e.get("solo_filas") or ())
+                               e.get("secciones_por_institucion"), e.get("solo_filas") or (),
+                               e.get("filas_de_establecimiento"))
         partes.append(c.datos)
         if sin_dato is not None:
             sin_dato.update(c.sin_dato_claves)
@@ -389,11 +390,15 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False, fuent
     categorias = {k: v for k, (a, v) in categorias_anio.items() if a >= ultimo_anio.get(k, a)}
     ind = indicadores(obs, fuente, pies, formulas, serie, notas_prev, categorias, nombres_prev, manual.get("no_aditivos"),
                       manual.get("unidades"))
-    # #233: la nota de lo que no se carga dice qué años faltan y por qué (AC-E2)
+    # #233: la nota de lo que no se carga dice qué años faltan y por qué (AC-E2); #173: y la nota del cuadro que el
+    # mantenedor agrega (`notas_cuadro`)
+    notas_cuadro = manual.get("notas_cuadro") or {}
     for k, i in enumerate(ind.codigo):
-        if (r := regla_sin_cargar(sin_cargar, cuadro_de.get(i.split("__")[0]), i)) and r["motivo"] not in ind.at[k, "nota"]:
-            previa = ind.at[k, "nota"].strip()
-            ind.at[k, "nota"] = (previa + ("" if not previa or previa.endswith(".") else ".") + " " + r["motivo"]).strip()
+        r = regla_sin_cargar(sin_cargar, cuadro_de.get(i.split("__")[0]), i)
+        for extra in ([r["motivo"]] if r else []) + ([notas_cuadro[c]] if (c := cuadro_de.get(i.split("__")[0])) in notas_cuadro else []):
+            if extra not in ind.at[k, "nota"]:
+                previa = ind.at[k, "nota"].strip()
+                ind.at[k, "nota"] = (previa + ("" if not previa or previa.endswith(".") else ".") + " " + extra).strip()
     hoy = ahora()
     fecha_prev = {} if cap_prev is None else dict(zip(cap_prev.id, cap_prev.fecha_proceso))
     capturas = [nueva_captura(FUENTE_ID, c["archivo"], c["sha256"], hoy if c["id"] in parseadas else fecha_prev.get(c["id"], hoy),

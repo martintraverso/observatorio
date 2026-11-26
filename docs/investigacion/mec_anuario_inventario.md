@@ -98,13 +98,13 @@ Ola por cuadro y tipo por año; «·» = no está ese año; «∅» = sin datos 
 | II-5.2.2 | ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN OTRAS OFERTAS DE NIVEL TERCIARIO NO UN | C | 1 | estudiantes | C | C | C | C | C |
 | II-5.3.1 | PERSONAL ACADÉMICO DE NIVEL TERCIARIO NO UNIVERSITARIO DEL ÁREA SEGURIDAD Y DEFENSA POR CA | C | 1 | docentes | C | C | C | C | C |
 | II-5.3.2 | PERSONAL ACADÉMICO DE NIVEL TERCIARIO NO UNIVERSITARIO POR CARGA HORARIA SEMANAL Y SEXO, S | C | 1 | docentes | C | C | C | C | C |
-| II-6.1.1 | MATRÍCULA Y PERSONAL DOCENTE SEGÚN GRANDES ÁREAS, DEPARTAMENTOS E INSTITUCIONES | A | 2 | docentes | A | A | A | A | A |
-| II-6.2.1 | ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR CARRERA SEG | C | 2 | establecimientos | C | C | C | C | C |
-| II-6.2.2 | ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR SEXO SEGÚN  | B | 2 | estudiantes | B | B | B | B | B |
-| II-6.2.3 | ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR ESPECIALIDA | B | 2 | estudiantes | · | · | · | B | B |
-| II-6.3.1 | PERSONAL DOCENTE DE LOS INSTITUTOS DE FORMACIÓN EN EDUCACIÓN Y CANTIDAD DE HORAS POR INSTI | A | 2 | docentes | A | A | A | A | A |
-| II-6.3.2 | PERSONAL DOCENTE DE FORMACIÓN EN EDUCACIÓN POR CARGA HORARIA SEMANAL Y SEXO, SEGÚN INSTITU | B | 2 | docentes | B | B | B | B | B |
-| II-6.3.3 | ESTUDIANTES INGRESADOS Y MATRICULADOS EN FORMACIÓN EN EDUCACIÓN SEGÚN ORIGEN GEOGRÁFICO | A | 2 | estudiantes | A | A | A | A | A |
+| II-6.1.1 | MATRÍCULA Y PERSONAL DOCENTE SEGÚN GRANDES ÁREAS, DEPARTAMENTOS E INSTITUCIONES | A | 1 | docentes | A | A | A | A | A |
+| II-6.2.1 | ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR CARRERA SEG | A | 1 | estudiantes | A | A | A | A | A |
+| II-6.2.2 | ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR SEXO SEGÚN  | B | 1 | estudiantes | B | B | B | B | B |
+| II-6.2.3 | ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR ESPECIALIDA | B | 1 | estudiantes | · | · | · | B | B |
+| II-6.3.1 | PERSONAL DOCENTE DE LOS INSTITUTOS DE FORMACIÓN EN EDUCACIÓN Y CANTIDAD DE HORAS POR INSTI | A | 1 | docentes | A | A | A | A | A |
+| II-6.3.2 | PERSONAL DOCENTE DE FORMACIÓN EN EDUCACIÓN POR CARGA HORARIA SEMANAL Y SEXO, SEGÚN INSTITU | B | 1 | docentes | B | B | B | B | B |
+| II-6.3.3 | ESTUDIANTES INGRESADOS Y MATRICULADOS EN FORMACIÓN EN EDUCACIÓN SEGÚN ORIGEN GEOGRÁFICO | A | 1 | estudiantes | A | A | A | A | A |
 | II-7.1.1 | ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO POR SEXO SEGÚN GRAN | C | 2 | estudiantes | C | C | C | C | C |
 | II-7.1.2 | ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE POSTGRADO POR SEXO SEGÚN  | C | 2 | estudiantes | C | C | C | C | C |
 | II-7.2.1 | ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO DE UNIVERSIDADES PÚ | C | 2 | estudiantes | C | C | C | C | C |
@@ -197,6 +197,8 @@ signifique lo mismo: ver la sección siguiente.
 - **II-4.2.14**, 2023 → 2024: + `FORMA DE ADMINISTRACIÓN/PRIVADA/GRADO/CUARTO/RENDIMIENTO/No promovido/SEXO/Mujer`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/GRADO/CUARTO/RENDIMIENTO/No promovido/SEXO/Varón`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/GRADO/CUARTO/RENDIMIENTO/Promovido/SEXO/Mujer`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/GRADO/CUARTO/RENDIMIENTO/Promovido/SEXO/Varón`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/GRADO/QUINTO/RENDIMIENTO/No promovido/SEXO/Mujer`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/GRADO/QUINTO/RENDIMIENTO/No promovido/SEXO/Varón`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/GRADO/QUINTO/RENDIMIENTO/Promovido/SEXO/Mujer`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/GRADO/QUINTO/RENDIMIENTO/Promovido/SEXO/Varón`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/GRADO/SEXTO/RENDIMIENTO/No promovido/SEXO/Mujer`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/GRADO/SEXTO/RENDIMIENTO/No promovido/SEXO/Varón`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/GRADO/SEXTO/RENDIMIENTO/Promovido/SEXO/Mujer`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/GRADO/SEXTO/RENDIMIENTO/Promovido/SEXO/Varón`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/No promovido/SEXO/Mujer`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/No promovido/SEXO/Varón`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/No promovido/TOTAL`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/Promovido/SEXO/Mujer`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/Promovido/SEXO/Varón`; + `FORMA DE ADMINISTRACIÓN/PRIVADA/Promovido/TOTAL`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/GRADO/CUARTO/RENDIMIENTO/No promovido/SEXO/Mujer`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/GRADO/CUARTO/RENDIMIENTO/No promovido/SEXO/Varón`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/GRADO/CUARTO/RENDIMIENTO/Promovido/SEXO/Mujer`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/GRADO/CUARTO/RENDIMIENTO/Promovido/SEXO/Varón`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/GRADO/QUINTO/RENDIMIENTO/No promovido/SEXO/Mujer`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/GRADO/QUINTO/RENDIMIENTO/No promovido/SEXO/Varón`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/GRADO/QUINTO/RENDIMIENTO/Promovido/SEXO/Mujer`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/GRADO/QUINTO/RENDIMIENTO/Promovido/SEXO/Varón`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/GRADO/SEXTO/RENDIMIENTO/No promovido/SEXO/Mujer`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/GRADO/SEXTO/RENDIMIENTO/No promovido/SEXO/Varón`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/GRADO/SEXTO/RENDIMIENTO/Promovido/SEXO/Mujer`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/GRADO/SEXTO/RENDIMIENTO/Promovido/SEXO/Varón`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/NO PROMOVIDO/SEXO/Mujer`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/NO PROMOVIDO/SEXO/Varón`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/NO PROMOVIDO/TOTAL`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/PROMOVIDO/SEXO/Mujer`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/PROMOVIDO/SEXO/Varón`; + `FORMA DE ADMINISTRACIÓN/PÚBLICA/PROMOVIDO/TOTAL`; + `FORMA DE ADMINISTRACIÓN/TOTAL/NO PROMOVIDO/SEXO/Mujer`; + `TOTAL/NO PROMOVIDO/SEXO/Varón`; + `TOTAL/NO PROMOVIDO/TOTAL`; + `TOTAL/PROMOVIDO/SEXO/Mujer`; + `TOTAL/PROMOVIDO/SEXO/Varón`; + `TOTAL/PROMOVIDO/TOTAL`; − `GRADO/CUARTO/RENDIMIENTO/No promovido`; − `GRADO/CUARTO/RENDIMIENTO/Promovido`; − `GRADO/QUINTO/RENDIMIENTO/No promovido`; − `GRADO/QUINTO/RENDIMIENTO/Promovido`; − `GRADO/SEXTO/RENDIMIENTO/No promovido`; − `GRADO/SEXTO/RENDIMIENTO/Promovido`; − `RENDIMIENTO/No promovido`; − `RENDIMIENTO/Promovido`
 - **II-4.3.2**, 2023 → 2024: + `GÉNERO/Mujeres`; + `GÉNERO/Trans`; + `GÉNERO/Varones`; − `SEXO/Mujeres`; − `SEXO/Varones`
 - **II-4.4.1**, 2022 → 2023: + `FORMA DE ADMINISTRACIÓN/Promedio de alumnos por grupo de Media Superior`; + `FORMA DE ADMINISTRACIÓN/Total de Grupos en Educación Media General`; − `Promedio de alumnos por grupo de Media Superior`; − `Total de Grupos en Educación Media General`
+- **II-6.2.2**, 2023 → 2024: − `EGRESADOS/SEXO/M`; − `EGRESADOS/SEXO/V`
+- **II-6.3.2**, 2022 → 2023: + `HORAS SEMANALES/20 horas o menos/SEXO/V`; + `HORAS SEMANALES/31 horas y más/SEXO/V`; + `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/V`; − `HORAS SEMANALES/20 horas o menos/SEXO/F`; − `HORAS SEMANALES/31 horas y más/SEXO/F`; − `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/F`
 
 ## Mismo encabezado, otro significado
 
@@ -751,11 +753,11 @@ etiquetados con su comprobación con sumas (D5), y columnas con datos de otro a�
 - **II-5.3.1 2021:**
   - C `HORAS SEMANALES/Total` → `HORAS SEMANALES/20 horas o menos/TOTAL` (C = D + E)
   - F `HORAS SEMANALES/Total` → `HORAS SEMANALES/Entre 21 y 30 horas/TOTAL` (F = G + H; salvo Con postgrado de especialización o maestría: 0 publicado contra 8 sumado (error de la fuente))
-  - I `HORAS SEMANALES/Total` omitir: columna vacía: separador del encabezado, sin datos
+  - I `HORAS SEMANALES/Total` → `HORAS SEMANALES/31 horas y más/TOTAL` (I = J + K)
 - **II-5.3.1 2022:**
   - C `HORAS SEMANALES/Total` → `HORAS SEMANALES/20 horas o menos/TOTAL` (C = D + E)
   - F `HORAS SEMANALES/Total` → `HORAS SEMANALES/Entre 21 y 30 horas/TOTAL` (F = G + H; salvo Con postgrado de especialización o maestría: 0 publicado contra 8 sumado (error de la fuente))
-  - I `HORAS SEMANALES/Total` omitir: columna vacía: separador del encabezado, sin datos
+  - I `HORAS SEMANALES/Total` → `HORAS SEMANALES/31 horas y más/TOTAL` (I = J + K)
 - **II-5.3.1 2023:**
   - C `HORAS SEMANALES/Total` → `HORAS SEMANALES/20 horas o menos/TOTAL` (C = D + E)
   - F `HORAS SEMANALES/Total` → `HORAS SEMANALES/Entre 21 y 30 horas/TOTAL` (F = G + H)
@@ -766,16 +768,16 @@ etiquetados con su comprobación con sumas (D5), y columnas con datos de otro a�
   - I `HORAS SEMANALES/Total` → `HORAS SEMANALES/31 horas y más/TOTAL` (I = J + K)
 - **II-5.3.2 2020:**
   - C `HORAS SEMANALES/Total` → `HORAS SEMANALES/20 horas o menos/TOTAL` (C = D + E)
-  - F `HORAS SEMANALES/Total` omitir: columna vacía: separador del encabezado, sin datos
-  - I `HORAS SEMANALES/Total` omitir: columna vacía: separador del encabezado, sin datos
+  - F `HORAS SEMANALES/Total` → `HORAS SEMANALES/Entre 21 y 30 horas/TOTAL` (F = G + H)
+  - I `HORAS SEMANALES/Total` → `HORAS SEMANALES/31 horas y más/TOTAL` (I = J + K)
 - **II-5.3.2 2021:**
   - C `HORAS SEMANALES/Total` → `HORAS SEMANALES/20 horas o menos/TOTAL` (C = D + E)
-  - F `HORAS SEMANALES/Total` omitir: columna vacía: separador del encabezado, sin datos
-  - I `HORAS SEMANALES/Total` omitir: columna vacía: separador del encabezado, sin datos
+  - F `HORAS SEMANALES/Total` → `HORAS SEMANALES/Entre 21 y 30 horas/TOTAL` (F = G + H)
+  - I `HORAS SEMANALES/Total` → `HORAS SEMANALES/31 horas y más/TOTAL` (I = J + K)
 - **II-5.3.2 2022:**
   - C `HORAS SEMANALES/Total` → `HORAS SEMANALES/20 horas o menos/TOTAL` (C = D + E)
-  - F `HORAS SEMANALES/Total` omitir: columna vacía: separador del encabezado, sin datos
-  - I `HORAS SEMANALES/Total` omitir: columna vacía: separador del encabezado, sin datos
+  - F `HORAS SEMANALES/Total` → `HORAS SEMANALES/Entre 21 y 30 horas/TOTAL` (F = G + H)
+  - I `HORAS SEMANALES/Total` → `HORAS SEMANALES/31 horas y más/TOTAL` (I = J + K)
 - **II-5.3.2 2023:**
   - C `HORAS SEMANALES/Total` → `HORAS SEMANALES/20 horas o menos/TOTAL` (C = D + E)
   - F `HORAS SEMANALES/Total` → `HORAS SEMANALES/Entre 21 y 30 horas/TOTAL` (F = G + H)
@@ -784,6 +786,79 @@ etiquetados con su comprobación con sumas (D5), y columnas con datos de otro a�
   - C `HORAS SEMANALES/Total` → `HORAS SEMANALES/20 horas o menos/TOTAL` (C = D + E)
   - F `HORAS SEMANALES/Total` → `HORAS SEMANALES/Entre 21 y 30 horas/TOTAL` (F = G + H)
   - I `HORAS SEMANALES/Total` → `HORAS SEMANALES/31 horas y más/TOTAL` (I = J + K)
+- **II-6.2.2 2020:**
+  - B `TOTAL` → `INGRESADOS/TOTAL` (B = C + D)
+  - E `TOTAL` → `MATRICULADOS/TOTAL` (E = F + G)
+  - H `TOTAL` → `EGRESADOS/TOTAL` (H = I + J)
+- **II-6.2.2 2021:**
+  - B `TOTAL` → `INGRESADOS/TOTAL` (B = C + D)
+  - E `TOTAL` → `MATRICULADOS/TOTAL` (E = F + G)
+  - H `TOTAL` → `EGRESADOS/TOTAL` (H = I + J)
+- **II-6.2.2 2022:**
+  - B `TOTAL` → `INGRESADOS/TOTAL` (B = C + D)
+  - E `TOTAL` → `MATRICULADOS/TOTAL` (E = F + G)
+  - H `TOTAL` → `EGRESADOS/TOTAL` (H = I + J)
+- **II-6.2.2 2023:**
+  - B `TOTAL` → `INGRESADOS/TOTAL` (B = C + D)
+  - E `TOTAL` → `MATRICULADOS/TOTAL` (E = F + G)
+  - H `TOTAL` → `EGRESADOS/TOTAL` (H = I + J)
+- **II-6.2.2 2024:**
+  - B `TOTAL` → `INGRESADOS/TOTAL` (renombre a mano: el sexo es «s/d» en todo el cuadro y los tres «TOTAL» no se pueden probar con la suma; están en el mismo lugar que en 2020–2023, donde sí suman su grupo de la derecha (B = C + D, E = F + G, H = I + J).)
+  - E `TOTAL` → `MATRICULADOS/TOTAL` (renombre a mano: el sexo es «s/d» en todo el cuadro y los tres «TOTAL» no se pueden probar con la suma; están en el mismo lugar que en 2020–2023, donde sí suman su grupo de la derecha (B = C + D, E = F + G, H = I + J).)
+  - H `TOTAL` → `EGRESADOS/TOTAL` (renombre a mano: el sexo es «s/d» en todo el cuadro y los tres «TOTAL» no se pueden probar con la suma; están en el mismo lugar que en 2020–2023, donde sí suman su grupo de la derecha (B = C + D, E = F + G, H = I + J).)
+- **II-6.2.3 2023:**
+  - B `TOTAL` → `INGRESADOS/TOTAL` (B = C + D)
+  - E `TOTAL` → `MATRICULADOS/TOTAL` (E = F + G)
+  - H `TOTAL` → `EGRESADOS/TOTAL` (H = I + J)
+- **II-6.2.3 2024:**
+  - B `TOTAL` → `INGRESADOS/TOTAL` (B = C + D)
+  - E `TOTAL` → `MATRICULADOS/TOTAL` (E = F + G)
+  - H `TOTAL` → `EGRESADOS/TOTAL` (H = I + J)
+- **II-6.3.2 2020:**
+  - C `HORAS SEMANALES/Total` → `HORAS SEMANALES/20 horas o menos/TOTAL` (C = D + E)
+  - D `HORAS SEMANALES/20 horas o menos/SEXO/M` → `HORAS SEMANALES/20 horas o menos/SEXO/V` (renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).)
+  - E `HORAS SEMANALES/20 horas o menos/SEXO/F` → `HORAS SEMANALES/20 horas o menos/SEXO/M` (renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).)
+  - F `HORAS SEMANALES/Total` → `HORAS SEMANALES/Entre 21 y 30 horas/TOTAL` (F = G + H)
+  - G `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/M` → `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/V` (renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).)
+  - H `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/F` → `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/M` (renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).)
+  - I `HORAS SEMANALES/Total` → `HORAS SEMANALES/31 horas y más/TOTAL` (I = J + K)
+  - J `HORAS SEMANALES/31 horas y más/SEXO/M` → `HORAS SEMANALES/31 horas y más/SEXO/V` (renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).)
+  - K `HORAS SEMANALES/31 horas y más/SEXO/F` → `HORAS SEMANALES/31 horas y más/SEXO/M` (renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).)
+- **II-6.3.2 2021:**
+  - C `HORAS SEMANALES/Total` → `HORAS SEMANALES/20 horas o menos/TOTAL` (C = D + E)
+  - D `HORAS SEMANALES/20 horas o menos/SEXO/M` → `HORAS SEMANALES/20 horas o menos/SEXO/V` (renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).)
+  - E `HORAS SEMANALES/20 horas o menos/SEXO/F` → `HORAS SEMANALES/20 horas o menos/SEXO/M` (renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).)
+  - F `HORAS SEMANALES/Total` → `HORAS SEMANALES/Entre 21 y 30 horas/TOTAL` (F = G + H)
+  - G `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/M` → `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/V` (renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).)
+  - H `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/F` → `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/M` (renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).)
+  - I `HORAS SEMANALES/Total` → `HORAS SEMANALES/31 horas y más/TOTAL` (I = J + K)
+  - J `HORAS SEMANALES/31 horas y más/SEXO/M` → `HORAS SEMANALES/31 horas y más/SEXO/V` (renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).)
+  - K `HORAS SEMANALES/31 horas y más/SEXO/F` → `HORAS SEMANALES/31 horas y más/SEXO/M` (renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).)
+- **II-6.3.2 2022:**
+  - C `HORAS SEMANALES/Total` → `HORAS SEMANALES/20 horas o menos/TOTAL` (C = D + E)
+  - D `HORAS SEMANALES/20 horas o menos/SEXO/M` → `HORAS SEMANALES/20 horas o menos/SEXO/V` (renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).)
+  - E `HORAS SEMANALES/20 horas o menos/SEXO/F` → `HORAS SEMANALES/20 horas o menos/SEXO/M` (renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).)
+  - F `HORAS SEMANALES/Total` → `HORAS SEMANALES/Entre 21 y 30 horas/TOTAL` (F = G + H)
+  - G `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/M` → `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/V` (renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).)
+  - H `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/F` → `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/M` (renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).)
+  - I `HORAS SEMANALES/Total` → `HORAS SEMANALES/31 horas y más/TOTAL` (I = J + K)
+  - J `HORAS SEMANALES/31 horas y más/SEXO/M` → `HORAS SEMANALES/31 horas y más/SEXO/V` (renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).)
+  - K `HORAS SEMANALES/31 horas y más/SEXO/F` → `HORAS SEMANALES/31 horas y más/SEXO/M` (renombre a mano: el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de 44 docentes del CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de 2023–2024 (mujeres).)
+- **II-6.3.2 2023:**
+  - C `HORAS SEMANALES/Total` → `HORAS SEMANALES/20 horas o menos/TOTAL` (C = D + E)
+  - F `HORAS SEMANALES/Total` → `HORAS SEMANALES/Entre 21 y 30 horas/TOTAL` (F = G + H)
+  - I `HORAS SEMANALES/Total` → `HORAS SEMANALES/31 horas y más/TOTAL` (I = J + K)
+- **II-6.3.2 2024:**
+  - B `TOTAL` omitir: ya cargado desde el anuario 2023, con los mismos valores (D4)
+  - C `HORAS SEMANALES/Total` → `HORAS SEMANALES/20 horas o menos/TOTAL` (C = D + E)
+  - D `HORAS SEMANALES/20 horas o menos/SEXO/V` omitir: ya cargado desde el anuario 2023, con los mismos valores (D4)
+  - E `HORAS SEMANALES/20 horas o menos/SEXO/M` omitir: ya cargado desde el anuario 2023, con los mismos valores (D4)
+  - F `HORAS SEMANALES/Total` → `HORAS SEMANALES/Entre 21 y 30 horas/TOTAL` (F = G + H)
+  - G `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/V` omitir: ya cargado desde el anuario 2023, con los mismos valores (D4)
+  - H `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/M` omitir: ya cargado desde el anuario 2023, con los mismos valores (D4)
+  - I `HORAS SEMANALES/Total` → `HORAS SEMANALES/31 horas y más/TOTAL` (I = J + K)
+  - J `HORAS SEMANALES/31 horas y más/SEXO/V` omitir: ya cargado desde el anuario 2023, con los mismos valores (D4)
+  - K `HORAS SEMANALES/31 horas y más/SEXO/M` omitir: ya cargado desde el anuario 2023, con los mismos valores (D4)
 
 ## Conceptos según el anuario 2024 (D6, F4.3b-2)
 
@@ -983,6 +1058,8 @@ de 2024 (`equivale_2024`); las demás conservan su id con un `motivo_d6`. Lo que
   - 2021 D `Promedio de alumnos por grupo de Media Superior` → `edu_ii_4_4_1_forma_de_administracion_promedio_de_alumnos_por_grupo_de_media_superior` (misma columna dentro de otro grupo del encabezado)
   - 2022 C `Total de Grupos en Educación Media General` → `edu_ii_4_4_1_forma_de_administracion_total_de_grupos_en_educacion_media_general` (misma columna dentro de otro grupo del encabezado)
   - 2022 D `Promedio de alumnos por grupo de Media Superior` → `edu_ii_4_4_1_forma_de_administracion_promedio_de_alumnos_por_grupo_de_media_superior` (misma columna dentro de otro grupo del encabezado)
+- **II-6.2.2:** 0 equivalencias, 8 con motivo
+  - 8 × categoría o columna que 2024 no publica (discontinuada o reclasificada)
 
 ## Encabezados completados (revisar)
 
@@ -8231,7 +8308,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-6.2.1</b></summary>
 
-**2020** · hoja «II-6.2.1» · tipo C · 42 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR CARRERA SEGÚN DEPARTAMENTO Y ESTABLECIMIENTO (Todo el país, 2020)
+**2020** · hoja «II-6.2.1» · tipo A · 42 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR CARRERA SEGÚN DEPARTAMENTO Y ESTABLECIMIENTO (Todo el país, 2020)
 
 - `DEPARTAMENTO / ESTABLECIMIENTO`
 - `TOTAL/Ingr.`
@@ -8254,7 +8331,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - *La categoría Maestro incluye maestro de educación primaria, maestro de primera infancia, magisterio opción inicial.*
 - *El I.F.E.S. es el Instituto de Formación en Educación Social*
 
-**2021** · hoja «II-6.2.1» · tipo C · 42 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR CARRERA SEGÚN DEPARTAMENTO Y ESTABLECIMIENTO (Todo el país, 2021)
+**2021** · hoja «II-6.2.1» · tipo A · 42 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR CARRERA SEGÚN DEPARTAMENTO Y ESTABLECIMIENTO (Todo el país, 2021)
 
 - `DEPARTAMENTO / ESTABLECIMIENTO`
 - `TOTAL/Ingr.`
@@ -8278,7 +8355,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - *La categoría Magisterio incluye maestro de educación primaria, maestro de primera infancia, magisterio opción inicial.*
 - *El I.F.E.S. es el Instituto de Formación en Educación Social*
 
-**2022** · hoja «II-6.2.1» · tipo C · 42 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR CARRERA SEGÚN DEPARTAMENTO Y ESTABLECIMIENTO (Todo el país, 2022)
+**2022** · hoja «II-6.2.1» · tipo A · 42 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR CARRERA SEGÚN DEPARTAMENTO Y ESTABLECIMIENTO (Todo el país, 2022)
 
 - `DEPARTAMENTO / ESTABLECIMIENTO`
 - `TOTAL/Ingr.`
@@ -8302,7 +8379,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - *La categoría Magisterio incluye Maestro de educación primaria y Maestro de primera infancia.*
 - *El I.F.E.S. es el Instituto de Formación en Educación Social*
 
-**2023** · hoja «II-6.2.1» · tipo C · 42 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR CARRERA SEGÚN DEPARTAMENTO Y ESTABLECIMIENTO (Todo el país, 2023)
+**2023** · hoja «II-6.2.1» · tipo A · 42 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR CARRERA SEGÚN DEPARTAMENTO Y ESTABLECIMIENTO (Todo el país, 2023)
 
 - `DEPARTAMENTO / ESTABLECIMIENTO`
 - `TOTAL/Ingr.`
@@ -8326,7 +8403,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - *La categoría Magisterio incluye Maestro de educación primaria y Maestro de primera infancia.*
 - *El I.F.E.S. es el Instituto de Formación en Educación Social*
 
-**2024** · hoja «II-6.2.1» · tipo C · 41 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR CARRERA SEGÚN DEPARTAMENTO Y ESTABLECIMIENTO (Todo el país, 2024)
+**2024** · hoja «II-6.2.1» · tipo A · 41 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR CARRERA SEGÚN DEPARTAMENTO Y ESTABLECIMIENTO (Todo el país, 2024)
 
 - `DEPARTAMENTO / ESTABLECIMIENTO`
 - `TOTAL/Ingr.`
