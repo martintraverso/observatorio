@@ -135,7 +135,10 @@ def controles(obs: pd.DataFrame, fuente: dict, manual: dict, derivados: set[str]
     negativos = conteos[conteos.valor < 0]
     tasas = obs[obs.indicador.isin(derivados)]
     malas = tasas[(tasas.valor < 0) | (tasas.valor > 100)]
-    bc = obs[obs.indicador.str.contains("__") & ~obs.territorio_id.isin({PAIS, MVD, INTERIOR})]
+    # B y C: por el tipo del cuadro en ese año (#172: II-5.1.1 es A y carga la DGETP por departamento como categoría)
+    es_bc = [tipo_de.get((c, p)) in ("B", "C") for c, p in zip(obs.cuadro, obs.periodo)]
+    bc = obs[obs.indicador.str.contains("__") & pd.Series(es_bc, index=obs.index)
+             & ~obs.territorio_id.isin({PAIS, MVD, INTERIOR})]
     fallas = [f"{len(d)} {t}" for d, t in ((fuera, "por debajo de departamento"), (negativos, "conteos negativos"),
                                            (malas, "tasas fuera de 0–100"), (bc, "filas B/C en otro territorio")) if len(d)]
     res.chk("AC-E20 Niveles, conteos ≥ 0, tasas entre 0 y 100, B y C en territorios nombrados", fallas, [])
@@ -239,6 +242,8 @@ def controles(obs: pd.DataFrame, fuente: dict, manual: dict, derivados: set[str]
     huecos = manual.get("huecos") or {}
     publicados = set(sin_dato)
     for (ind, per), f in w.iterrows():
+        if "__" in ind:
+            continue  # #172: una categoría de un cuadro A (II-5.1.1: la DGETP por departamento) no tiene sus 21 territorios
         cod = cuadro_de[ind]
         if tipo_de.get((cod, per)) != "A" or (anios_parseados is not None and per not in anios_parseados):
             continue

@@ -70,6 +70,9 @@ def ola(codigo: str) -> int:
     # F4.8a2 (#225): la ola 2 de media (docentes y horas, II-3.3.x, II-3.4.1, II-4.3.x, II-4.4.1)
     if n[:2] in {(3, 3), (3, 4), (4, 3), (4, 4)}:
         return 1
+    # F4.8b (#172): terciaria no universitaria (II-5)
+    if n[0] == 5:
+        return 1
     return 2
 
 
@@ -199,11 +202,15 @@ MANUAL = RAIZ / "fuentes" / "mec_anuario" / "mapeo_manual.yml"
 
 
 def _suma(valores: list[list], cols: list[int]) -> list:
-    return [sum((v[f] or 0) for v in (valores[c] for c in cols)) for f in range(len(valores[cols[0]]))]
+    """La suma de las columnas en cada fila; None si ninguna parte se publicó (#172: «s/d» por sexo en II-5.2.2 2021)."""
+    filas = range(len(valores[cols[0]]))
+    return [None if all(valores[c][f] is None for c in cols) else sum((valores[c][f] or 0) for c in cols) for f in filas]
 
 
-def _igual(col: list, suma: list) -> bool:
-    pares = [(a, b) for a, b in zip(col, suma) if a is not None]
+def _igual(col: list, suma: list, tolerada: int | None = None) -> bool:
+    """Cierra en todas las filas con valor y partes publicadas; `tolerada`: la fila con error de la fuente
+    (`total_con_error`), que se guarda tal cual."""
+    pares = [(a, b) for f, (a, b) in enumerate(zip(col, suma)) if a is not None and b is not None and f != tolerada]
     return bool(pares) and all(a == b for a, b in pares)
 
 
@@ -274,9 +281,16 @@ def resolver_repetidas(c: dict, estrategia: str, fila_con_error: str | None = No
             while 0 <= v < len(rutas) and (rutas[v] == grupo or rutas[v].startswith(grupo + "/")) and v not in rep:
                 run.append(v)
                 v += paso
-            if run and _igual(valores[i], _suma(valores, run)):
+            # #172: la fila con error de la fuente (`total_con_error`) no impide resolver; se guarda lo publicado
+            tolerada = next((f for f, r in enumerate(c["rotulos"]) if fila_con_error and plegar(r) == plegar(fila_con_error)), None)
+            if run and _igual(valores[i], _suma(valores, run), tolerada):
                 cols = sorted(c["columnas"][j] for j in run)
-                hechas[i] = (grupo if grupo == rutas[i] else f"{grupo}/TOTAL", f"{c['columnas'][i]} = " + " + ".join(cols))
+                prueba = f"{c['columnas'][i]} = " + " + ".join(cols)
+                suma = _suma(valores, run)
+                if tolerada is not None and valores[i][tolerada] is not None and valores[i][tolerada] != suma[tolerada]:
+                    prueba += (f"; salvo {c['rotulos'][tolerada]}: {valores[i][tolerada]} publicado contra "
+                               f"{suma[tolerada]} sumado (error de la fuente)")
+                hechas[i] = (grupo if grupo == rutas[i] else f"{grupo}/TOTAL", prueba)
             else:
                 fallas.append(f"{c['columnas'][i]} «{rutas[i]}»: no es la suma del grupo «{grupo}»")
         elif estrategia == "padre":
@@ -619,6 +633,10 @@ def escribir_registro(ex: dict, archivos: dict) -> None:
                     e.setdefault("datos_de_otro_anio", {})[a] = notas_otro
                 if (segundas := manual.get("categorias_segundas", {}).get(cod, {}).get(a)):
                     e.setdefault("categorias_segundas", {})[a] = segundas
+                if (secc := manual.get("secciones_por_institucion", {}).get(cod)):
+                    e["secciones_por_institucion"] = secc  # #172
+                if (solo := manual.get("solo_filas", {}).get(cod)):
+                    e["solo_filas"] = solo  # #172
                 motivo = manual.get("cuadros_sin_cargar", {}).get(cod, {}).get(a) or (
                     "sin datos numéricos" if c.get("sin_datos") else
                     f"el título dice {c['anio_titulo']} (AC-E10: debe ser el año del archivo)"

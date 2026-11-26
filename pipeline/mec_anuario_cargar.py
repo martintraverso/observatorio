@@ -71,7 +71,8 @@ def leer_anuario(xlsx: bytes, anio: int, fuente: dict, sin_dato: set | None = No
         mapeo = (e.get("mapeo") or {}).get(anio)
         if e.get("ola") != 1 or not mapeo:
             continue
-        c = mec.parsear_cuadro(xlsx, cod, anio, mapeo, e["tipos"][anio], (e.get("categorias_segundas") or {}).get(anio, ()))
+        c = mec.parsear_cuadro(xlsx, cod, anio, mapeo, e["tipos"][anio], (e.get("categorias_segundas") or {}).get(anio, ()),
+                               e.get("secciones_por_institucion"), e.get("solo_filas") or ())
         partes.append(c.datos)
         if sin_dato is not None:
             sin_dato.update(c.sin_dato_claves)

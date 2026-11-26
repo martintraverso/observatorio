@@ -252,7 +252,8 @@ COLUMNAS = ["indicador", "territorio_id", "periodo", "periodo_inicio", "periodo_
 
 
 def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo: str,
-                   segundas: list[str] | tuple = ()) -> Cuadro:
+                   segundas: list[str] | tuple = (), secciones: dict | None = None,
+                   solo_filas: list[str] | tuple = ()) -> Cuadro:
     """Valores del cuadro `codigo` del anuario `anio`, con el mapeo por columna del registro.
 
     Tipo A: cada fila es un territorio (AC-E8). Tipo B y C: cada fila es una categoría que pasa a ser parte del
@@ -286,9 +287,26 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
     avisos_casi_iguales: list[str] = []
     cols_mapeadas = [_col(m["col"]) for m in mapeo]
     grupo, territorio_grupo = "", PAIS
+    # #172 (mantenedor): un cuadro A con secciones por institución (II-5.1.1). Las filas de `reinicia` son totales de
+    # territorio; una fila que no es un territorio abre una sección y no se carga. En una sección de `secciones`, los
+    # departamentos van como esa categoría (`__dgetp`, otro id: AC-E13); en cualquier otra, no se cargan.
+    seccion, sufijo_seccion, salteadas = None, "", 0
+    reinicia = {plegar(x) for x in (secciones or {}).get("reinicia", [])}
     for r, rotulo in e.filas:
         vacia = all(celdas.get((r, c)) is None for c in cols_mapeadas)
         territorio = territorio_de_fila(rotulo) if tipo == "A" else None
+        if secciones and tipo == "A" and not (vacia and territorio is None):
+            if plegar(rotulo) in reinicia:
+                seccion, sufijo_seccion = None, ""
+            elif territorio is None:
+                seccion = plegar(rotulo)
+                cat = (secciones.get("secciones") or {}).get(seccion)
+                sufijo_seccion = f"__{cat}" if cat else ""
+                salteadas += 1
+                continue
+            elif seccion is not None and not sufijo_seccion:
+                salteadas += 1  # un departamento de otra institución (II-5.1.1: el Gastronómico en Maldonado)
+                continue
         if vacia and territorio is None:
             # fila sin nada en las columnas mapeadas y que no es un territorio: continuación de una nota («2- Dentro
             # de …», «Los datos refieren …») o restos fuera del cuadro (II-2.3.1: números sueltos en la columna A)
@@ -299,6 +317,11 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
             continue
         # una fila con algo en las columnas mapeadas (aunque sea «s/d») es una fila de datos: se valida entera
         es_total = tipo != "A" and (plegar(rotulo) in FILAS_PAIS or plegar(rotulo).startswith("total "))
+        # #172 (mantenedor): en los cuadros por institución, solo el TOTAL y las filas de institución (`solo_filas`,
+        # por el comienzo del rótulo); las carreras, años y niveles de formación que cuelgan de ellas no se cargan
+        if solo_filas and tipo != "A" and not es_total and not any(plegar(rotulo).startswith(plegar(x)) for x in solo_filas):
+            salteadas += 1
+            continue
         if es_total:
             # B/C: una fila «TOTAL …» abre un grupo. Si nombra un territorio, las filas del grupo van a ese territorio
             # (mantenedor, #180): «TOTAL DEL PAÍS» → país, «TOTAL MONTEVIDEO» → departamento/01, «TOTAL RESTO DEL
@@ -308,7 +331,10 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
         if tipo == "A":
             if territorio is None:
                 raise ErrorAnuario(f"{codigo} {anio}: fila desconocida «{rotulo}» (AC-E8)")
-            sufijo = ""
+            sufijo = sufijo_seccion if secciones else ""
+            if sufijo:
+                for m in mapeo:
+                    categorias[m["id"] + sufijo] = sufijo[2:].upper()
         else:
             categoria = "total" if es_total and not grupo else (rotulo if not grupo or rotulo == grupo else f"{grupo}/{rotulo}")
             territorio, sufijo = territorio_grupo, f"__{slug(categoria) or 'sin_rotulo'}"

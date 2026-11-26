@@ -93,11 +93,11 @@ Ola por cuadro y tipo por año; «·» = no está ese año; «∅» = sin datos 
 | II-4.3.1 | PERSONAL DOCENTE Y HORAS DOCENTES DE LA DGES EN EDUCACIÓN MEDIA SUPERIOR GENERAL PÚBLICA P | B | 1 | docentes | B | B | B | B | B |
 | II-4.3.2 | PERSONAL DOCENTE DE LA DGETP EN EDUCACIÓN MEDIA SUPERIOR TECNOLÓGICA POR TIPO DE CURSO SEG | B | 1 | docentes | B | B | B | B | B |
 | II-4.4.1 | GRUPOS DE EDUCACIÓN MEDIA SUPERIOR GENERAL COMPARADOS CON EL TOTAL DE AMBOS CICLOS SEGÚN G | B | 1 | grupos | B | B | B | B | B |
-| II-5.1.1 | MATRÍCULA Y PERSONAL DOCENTE POR SEXO SEGÚN GRANDES ÁREAS, DEPARTAMENTOS E INSTITUCIONES | A | 2 | docentes | A | A | A | A | A |
-| II-5.2.1 | ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN NIVEL TERCIARIO NO UNIVERSITARIO DEL Á | C | 2 | estudiantes | C | C | C | C | C |
-| II-5.2.2 | ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN OTRAS OFERTAS DE NIVEL TERCIARIO NO UN | C | 2 | estudiantes | C | C | C | C | C |
-| II-5.3.1 | PERSONAL ACADÉMICO DE NIVEL TERCIARIO NO UNIVERSITARIO DEL ÁREA SEGURIDAD Y DEFENSA POR CA | C | 2 | docentes | C | C | C | C | C |
-| II-5.3.2 | PERSONAL ACADÉMICO DE NIVEL TERCIARIO NO UNIVERSITARIO POR CARGA HORARIA SEMANAL Y SEXO, S | C | 2 | docentes | C | C | C | C | C |
+| II-5.1.1 | MATRÍCULA Y PERSONAL DOCENTE POR SEXO SEGÚN GRANDES ÁREAS, DEPARTAMENTOS E INSTITUCIONES | A | 1 | docentes | A | A | A | A | A |
+| II-5.2.1 | ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN NIVEL TERCIARIO NO UNIVERSITARIO DEL Á | C | 1 | estudiantes | C | C | C | C | C |
+| II-5.2.2 | ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN OTRAS OFERTAS DE NIVEL TERCIARIO NO UN | C | 1 | estudiantes | C | C | C | C | C |
+| II-5.3.1 | PERSONAL ACADÉMICO DE NIVEL TERCIARIO NO UNIVERSITARIO DEL ÁREA SEGURIDAD Y DEFENSA POR CA | C | 1 | docentes | C | C | C | C | C |
+| II-5.3.2 | PERSONAL ACADÉMICO DE NIVEL TERCIARIO NO UNIVERSITARIO POR CARGA HORARIA SEMANAL Y SEXO, S | C | 1 | docentes | C | C | C | C | C |
 | II-6.1.1 | MATRÍCULA Y PERSONAL DOCENTE SEGÚN GRANDES ÁREAS, DEPARTAMENTOS E INSTITUCIONES | A | 2 | docentes | A | A | A | A | A |
 | II-6.2.1 | ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR CARRERA SEG | C | 2 | establecimientos | C | C | C | C | C |
 | II-6.2.2 | ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR SEXO SEGÚN  | B | 2 | estudiantes | B | B | B | B | B |
@@ -704,6 +704,86 @@ etiquetados con su comprobación con sumas (D5), y columnas con datos de otro a�
   - X `SEXO/Mujer` → `PRIVADA/SEXO/Mujer` (V = W + X)
 - **II-4.2.14 2024:**
   - G `FORMA DE ADMINISTRACIÓN/TOTAL/NO PROMOVIDO/SEXO/Mujer` → `TOTAL/NO PROMOVIDO/SEXO/Mujer` (E = F + G)
+- **II-5.2.1 2020:**
+  - B `TOTAL` → `INGRESADOS/TOTAL` (B = C + D)
+  - E `TOTAL` → `MATRICULADOS/TOTAL` (E = F + G)
+  - H `TOTAL` → `EGRESADOS/TOTAL` (H = I + J)
+- **II-5.2.1 2021:**
+  - B `TOTAL` → `INGRESADOS/TOTAL` (B = C + D)
+  - E `TOTAL` → `MATRICULADOS/TOTAL` (E = F + G)
+  - H `TOTAL` → `EGRESADOS/TOTAL` (H = I + J)
+- **II-5.2.1 2022:**
+  - B `TOTAL` → `INGRESADOS/TOTAL` (B = C + D)
+  - E `TOTAL` → `MATRICULADOS/TOTAL` (E = F + G)
+  - H `TOTAL` → `EGRESADOS/TOTAL` (H = I + J)
+- **II-5.2.1 2023:**
+  - B `TOTAL` → `INGRESADOS/TOTAL` (B = C + D)
+  - E `TOTAL` → `MATRICULADOS/TOTAL` (E = F + G)
+  - H `TOTAL` → `EGRESADOS/TOTAL` (H = I + J)
+- **II-5.2.1 2024:**
+  - B `TOTAL` → `INGRESADOS/TOTAL` (B = C + D)
+  - E `TOTAL` → `MATRICULADOS/TOTAL` (E = F + G)
+  - H `TOTAL` → `EGRESADOS/TOTAL` (H = I + J)
+- **II-5.2.2 2020:**
+  - B `TOTAL` → `INGRESADOS/TOTAL` (B = C + D)
+  - E `TOTAL` → `MATRICULADOS/TOTAL` (E = F + G)
+  - H `TOTAL` → `EGRESADOS/TOTAL` (H = I + J)
+- **II-5.2.2 2021:**
+  - B `TOTAL` → `INGRESADOS/TOTAL` (B = C + D)
+  - E `TOTAL` → `MATRICULADOS/TOTAL` (E = F + G)
+  - H `TOTAL` → `EGRESADOS/TOTAL` (H = I + J)
+- **II-5.2.2 2022:**
+  - B `TOTAL` → `INGRESADOS/TOTAL` (B = C + D)
+  - E `TOTAL` → `MATRICULADOS/TOTAL` (E = F + G)
+  - H `TOTAL` → `EGRESADOS/TOTAL` (H = I + J)
+- **II-5.2.2 2023:**
+  - B `TOTAL` → `INGRESADOS/TOTAL` (B = C + D)
+  - E `TOTAL` → `MATRICULADOS/TOTAL` (E = F + G; salvo DGETP: 13749 publicado contra 14848 sumado (error de la fuente))
+  - H `TOTAL` → `EGRESADOS/TOTAL` (H = I + J)
+- **II-5.2.2 2024:**
+  - B `TOTAL` → `INGRESADOS/TOTAL` (B = C + D; salvo DGETP: 9845 publicado contra 9861 sumado (error de la fuente))
+  - E `TOTAL` → `MATRICULADOS/TOTAL` (E = F + G)
+  - H `TOTAL` → `EGRESADOS/TOTAL` (H = I + J)
+- **II-5.3.1 2020:**
+  - C `HORAS SEMANALES/Total` → `HORAS SEMANALES/20 horas o menos/TOTAL` (C = D + E)
+  - F `HORAS SEMANALES/Total` → `HORAS SEMANALES/Entre 21 y 30 horas/TOTAL` (F = G + H)
+  - I `HORAS SEMANALES/Total` → `HORAS SEMANALES/31 horas y más/TOTAL` (I = J + K)
+- **II-5.3.1 2021:**
+  - C `HORAS SEMANALES/Total` → `HORAS SEMANALES/20 horas o menos/TOTAL` (C = D + E)
+  - F `HORAS SEMANALES/Total` → `HORAS SEMANALES/Entre 21 y 30 horas/TOTAL` (F = G + H; salvo Con postgrado de especialización o maestría: 0 publicado contra 8 sumado (error de la fuente))
+  - I `HORAS SEMANALES/Total` omitir: columna vacía: separador del encabezado, sin datos
+- **II-5.3.1 2022:**
+  - C `HORAS SEMANALES/Total` → `HORAS SEMANALES/20 horas o menos/TOTAL` (C = D + E)
+  - F `HORAS SEMANALES/Total` → `HORAS SEMANALES/Entre 21 y 30 horas/TOTAL` (F = G + H; salvo Con postgrado de especialización o maestría: 0 publicado contra 8 sumado (error de la fuente))
+  - I `HORAS SEMANALES/Total` omitir: columna vacía: separador del encabezado, sin datos
+- **II-5.3.1 2023:**
+  - C `HORAS SEMANALES/Total` → `HORAS SEMANALES/20 horas o menos/TOTAL` (C = D + E)
+  - F `HORAS SEMANALES/Total` → `HORAS SEMANALES/Entre 21 y 30 horas/TOTAL` (F = G + H)
+  - I `HORAS SEMANALES/Total` → `HORAS SEMANALES/31 horas y más/TOTAL` (I = J + K)
+- **II-5.3.1 2024:**
+  - C `HORAS SEMANALES/Total` → `HORAS SEMANALES/20 horas o menos/TOTAL` (C = D + E)
+  - F `HORAS SEMANALES/Total` → `HORAS SEMANALES/Entre 21 y 30 horas/TOTAL` (F = G + H; salvo Con postgrado de especialización o maestría: 0 publicado contra 1 sumado (error de la fuente))
+  - I `HORAS SEMANALES/Total` → `HORAS SEMANALES/31 horas y más/TOTAL` (I = J + K)
+- **II-5.3.2 2020:**
+  - C `HORAS SEMANALES/Total` → `HORAS SEMANALES/20 horas o menos/TOTAL` (C = D + E)
+  - F `HORAS SEMANALES/Total` omitir: columna vacía: separador del encabezado, sin datos
+  - I `HORAS SEMANALES/Total` omitir: columna vacía: separador del encabezado, sin datos
+- **II-5.3.2 2021:**
+  - C `HORAS SEMANALES/Total` → `HORAS SEMANALES/20 horas o menos/TOTAL` (C = D + E)
+  - F `HORAS SEMANALES/Total` omitir: columna vacía: separador del encabezado, sin datos
+  - I `HORAS SEMANALES/Total` omitir: columna vacía: separador del encabezado, sin datos
+- **II-5.3.2 2022:**
+  - C `HORAS SEMANALES/Total` → `HORAS SEMANALES/20 horas o menos/TOTAL` (C = D + E)
+  - F `HORAS SEMANALES/Total` omitir: columna vacía: separador del encabezado, sin datos
+  - I `HORAS SEMANALES/Total` omitir: columna vacía: separador del encabezado, sin datos
+- **II-5.3.2 2023:**
+  - C `HORAS SEMANALES/Total` → `HORAS SEMANALES/20 horas o menos/TOTAL` (C = D + E)
+  - F `HORAS SEMANALES/Total` → `HORAS SEMANALES/Entre 21 y 30 horas/TOTAL` (F = G + H)
+  - I `HORAS SEMANALES/Total` → `HORAS SEMANALES/31 horas y más/TOTAL` (I = J + K)
+- **II-5.3.2 2024:**
+  - C `HORAS SEMANALES/Total` → `HORAS SEMANALES/20 horas o menos/TOTAL` (C = D + E)
+  - F `HORAS SEMANALES/Total` → `HORAS SEMANALES/Entre 21 y 30 horas/TOTAL` (F = G + H)
+  - I `HORAS SEMANALES/Total` → `HORAS SEMANALES/31 horas y más/TOTAL` (I = J + K)
 
 ## Conceptos según el anuario 2024 (D6, F4.3b-2)
 
