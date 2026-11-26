@@ -276,7 +276,7 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
     declara que esa columna es de otro año) se guarda con ese período.
 
     `establecimientos` (#173, mantenedor): en un cuadro A, las filas de establecimiento entre los territorios no se
-    cargan: las de rótulo sangrado (`sangradas`) y las nombradas (`nombres`). Con `ciudad_en_rotulo`, una fila
+    cargan, por nombre: las de `sangradas` si el rótulo está sangrado, y las de `nombres` en cualquier caso. Con `ciudad_en_rotulo`, una fila
     «departamento ciudad» va al departamento. Cualquier otra fila desconocida sigue frenando (AC-E8)."""
     celdas, combinadas = celdas_de(xlsx, hoja_del_cuadro(xlsx, codigo))
     e = estructura(celdas, combinadas, codigo)
@@ -312,8 +312,11 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
     reinicia = {plegar(x) for x in (secciones or {}).get("reinicia", [])}
     est = establecimientos if tipo == "A" else None
     nombres_est = {plegar(x) for x in (est or {}).get("nombres", [])}
+    sangradas_est = {plegar(x) for x in (est or {}).get("sangradas", [])}
     for r, rotulo in e.filas:
-        if est and ((est.get("sangradas") and r in e.sangradas) or plegar(rotulo) in nombres_est):
+        # #173 (revisión): por nombre; la sangría solo distingue un establecimiento que se llama como su departamento.
+        # Una fila sangrada que no está en la lista sigue su camino y, si no es un territorio, frena (AC-E8).
+        if est and ((r in e.sangradas and plegar(rotulo) in sangradas_est) or plegar(rotulo) in nombres_est):
             salteadas += 1  # #173: un establecimiento (II-6.2.1: «Canelones» sangrado bajo el departamento Canelones)
             continue
         vacia = all(celdas.get((r, c)) is None for c in cols_mapeadas)

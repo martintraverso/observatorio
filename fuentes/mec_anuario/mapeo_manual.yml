@@ -282,13 +282,21 @@ solo_filas:
   II-6.2.2: ["INAU"]  # #173: una institución (INAU – CENFORES) y su carrera, con los mismos valores: solo la institución
 
 # filas_de_establecimiento (#173, mantenedor): cuadros A con filas de establecimiento entre los territorios; no se
-# cargan. `sangradas`: las de rótulo con espacios al comienzo (en II-6.2.1 un establecimiento puede llamarse como su
-# departamento: «Canelones» bajo Canelones); `nombres`: las que no vienen sangradas. `ciudad_en_rotulo`: una fila
-# «departamento ciudad» («Cerro Largo Melo») va al departamento. Cualquier otra fila desconocida frena (AC-E8).
+# cargan, por nombre (sin tildes ni mayúsculas). `sangradas`: las que se saltean solo si el rótulo empieza con espacios
+# (en II-6.2.1 un establecimiento puede llamarse como su departamento: «Canelones» bajo Canelones); `nombres`: en
+# cualquier caso. `ciudad_en_rotulo`: una fila «departamento ciudad» («Cerro Largo Melo») va al departamento.
+# Cualquier otra fila desconocida, sangrada o no, frena (AC-E8).
 filas_de_establecimiento:
   II-6.1.1: {nombres: [IINN, IPA, INET, IFES]}  # los institutos de Montevideo
-  II-6.2.1: {sangradas: true, ciudad_en_rotulo: true}
-  II-6.3.1: {sangradas: true}
+  II-6.2.1:
+    ciudad_en_rotulo: true
+    sangradas: [IINN, IPA, INET, IFES, Canelones, De la Costa, Pando, San Ramón, María Auxiliadora, Cerp Sur- Atlántida,
+                Colonia, Carmelo, Rosario, Florida, Cerp Centro - Florida, Maldonado, Cerp Este, Rivera, Cerp Norte, Salto,
+                Cerp Salto]
+  II-6.3.1:
+    sangradas: [IINN, IPA, INET, IFES, IFD Canelones, IFD de la Costa, IFD Pando, IFD San Ramón, CERP del Sur, IFD Carmelo,
+                IFD Rosario, CERP del Suroeste, IFD Florida, CERP del Centro, IFD Maldonado, IFD Rivera, CERP del Norte,
+                IFD Salto, CERP del Litoral]
 
 # tipos_a_mano (#173, mantenedor): tipo que la clasificación automática no reconoce. II-6.2.1 queda C por los IFD y
 # CERP, pero sus filas son país, Montevideo, el resto del país y los 18 departamentos (con la ciudad en el rótulo).

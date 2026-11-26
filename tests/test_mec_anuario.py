@@ -456,3 +456,15 @@ def test_173_las_horas_de_ii_6_3_1_se_guardan_con_sus_decimales():
     c = cuadro("II-6.3.1", 2024)
     assert valor(c, "edu_ii_6_3_1_cantidad_de_horas", "pais/UY") == 13838.9
     assert valor(c, "edu_ii_6_3_1_cantidad_de_horas", "departamento/01") == 4576.5
+
+
+@pytest.mark.parametrize("cod", ["II-6.2.1", "II-6.3.1"])
+def test_173_una_fila_sangrada_que_no_esta_en_la_lista_frena(cod):
+    """#173 (revisión): los establecimientos se saltean por nombre; una fila sangrada desconocida (un establecimiento
+    nuevo, un subtotal) no se descarta en silencio: frena (AC-E8)."""
+    e = REG["cuadros"][cod]
+    regla = dict(e["filas_de_establecimiento"])
+    quitado = regla["sangradas"][-1]
+    regla["sangradas"] = regla["sangradas"][:-1]
+    with pytest.raises(mec.ErrorAnuario, match=f"fila desconocida «{quitado}»"):
+        mec.parsear_cuadro(XLSX[2024], cod, 2024, e["mapeo"][2024], "A", (), None, (), regla)

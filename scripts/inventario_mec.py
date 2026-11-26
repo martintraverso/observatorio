@@ -269,7 +269,10 @@ def resolver_repetidas(c: dict, estrategia: str, fila_con_error: str | None = No
                 # #224: II-2.2.12 empieza con el «TOTAL» de PROMOVIDOS, no con el total general: si el cuadro tiene
                 # estrategia de vecino, se prueba esa (con su suma); si no, es una falla.
                 if estrategia not in ("derecha", "izquierda"):
-                    fallas.append(f"{c['columnas'][i]} «{rutas[i]}»: el total general no cierra")
+                    if en_cero:
+                        hechas[i] = (None, "columna vacía: separador del encabezado, sin datos")  # II-1.2.2
+                    else:
+                        fallas.append(f"{c['columnas'][i]} «{rutas[i]}»: el total general no cierra")
                     continue
             if i in hechas:
                 continue
@@ -277,7 +280,10 @@ def resolver_repetidas(c: dict, estrategia: str, fila_con_error: str | None = No
             paso = 1 if estrategia == "derecha" else -1
             v = i + paso
             if not 0 <= v < len(rutas):
-                fallas.append(f"{c['columnas'][i]}: sin vecino a la {estrategia}")
+                if en_cero:
+                    hechas[i] = (None, "columna vacía: separador del encabezado, sin datos")  # II-1.2.2
+                else:
+                    fallas.append(f"{c['columnas'][i]}: sin vecino a la {estrategia}")
                 continue
             comun = _comun(rutas[i], rutas[v])
             # si la ruta de la columna es el comienzo de la del vecino, el grupo es ella misma (II-4.2.2 2020:
@@ -343,7 +349,8 @@ def anio_real(ex: dict, cod: str, a: int, regla: dict) -> tuple[dict[int, dict],
     for i, r in enumerate(c["rutas"]):
         if filtro != "todas" and filtro not in plegar(r):
             continue
-        k = rutas_otro.get((clave(regla.get("par", r)), sum(clave(x) == clave(r) for x in c["rutas"][:i])))
+        k = rutas_otro.get((clave(regla.get("par", r)), 0) if "par" in regla else
+                           (clave(r), sum(clave(x) == clave(r) for x in c["rutas"][:i])))
         if k is None:
             cambios[i] = {"anio": real}
             notas.append(f"{c['columnas'][i]} «{r}»: el anuario {real} no tiene esta columna para comparar; se carga como {real}")

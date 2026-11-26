@@ -17221,8 +17221,29 @@ cuadros:
         ruta: CARRERA/Educador Social/Egr.
         id: edu_ii_6_2_1_carrera_educador_social_egr
     filas_de_establecimiento:
-      sangradas: true
       ciudad_en_rotulo: true
+      sangradas:
+      - IINN
+      - IPA
+      - INET
+      - IFES
+      - Canelones
+      - De la Costa
+      - Pando
+      - San Ramón
+      - María Auxiliadora
+      - Cerp Sur- Atlántida
+      - Colonia
+      - Carmelo
+      - Rosario
+      - Florida
+      - Cerp Centro - Florida
+      - Maldonado
+      - Cerp Este
+      - Rivera
+      - Cerp Norte
+      - Salto
+      - Cerp Salto
   II-6.2.2:
     titulo: ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN FORMACIÓN EN EDUCACIÓN POR SEXO SEGÚN INSTITUCIÓN Y CARRERA
     tipos:
@@ -17549,7 +17570,26 @@ cuadros:
         ruta: Cantidad de Horas
         id: edu_ii_6_3_1_cantidad_de_horas
     filas_de_establecimiento:
-      sangradas: true
+      sangradas:
+      - IINN
+      - IPA
+      - INET
+      - IFES
+      - IFD Canelones
+      - IFD de la Costa
+      - IFD Pando
+      - IFD San Ramón
+      - CERP del Sur
+      - IFD Carmelo
+      - IFD Rosario
+      - CERP del Suroeste
+      - IFD Florida
+      - CERP del Centro
+      - IFD Maldonado
+      - IFD Rivera
+      - CERP del Norte
+      - IFD Salto
+      - CERP del Litoral
   II-6.3.2:
     titulo: PERSONAL DOCENTE DE FORMACIÓN EN EDUCACIÓN POR CARGA HORARIA SEMANAL Y SEXO, SEGÚN INSTITUCIÓN Y FORMACIÓN
     tipos:
