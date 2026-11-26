@@ -54,6 +54,9 @@ anio_real:
     2022: {anio: 2021, columnas: privad}
     2023: {anio: 2021, columnas: privad}
   # II-2.2.18 2023 no es de otro año: no hay datos (todo «s/d»), lo resuelve el parser.
+  # F4.8c (#173): formación en educación
+  II-6.3.2:
+    2024: {anio: 2023, columnas: todas}  # «último dato disponible año 2023»: igual al anuario 2023, no se vuelve a cargar
 
 # total_con_error (D5): filas en las que el total general publicado no cierra con sus partes por un error de la
 # fuente. Se guarda lo publicado y queda anotado; ninguna otra fila ni cuadro tiene tolerancia.
@@ -87,6 +90,9 @@ repetidas:
   II-5.2.2: derecha
   II-5.3.1: derecha  # #172: «HORAS SEMANALES/Total» de cada tramo de horas, a su derecha
   II-5.3.2: derecha
+  II-6.2.2: derecha  # #173: «TOTAL» de INGRESADOS, MATRICULADOS y EGRESADOS, cada uno del grupo a su derecha
+  II-6.2.3: derecha
+  II-6.3.2: derecha  # #173: «HORAS SEMANALES/Total» de cada tramo de horas, a su derecha
 
 # renombres (D5): columnas cuyo encabezado en el archivo está mal; el concepto se decide comparando con los
 # años vecinos. Clave: columna del archivo de ese año.
@@ -102,6 +108,30 @@ renombres:
         S: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN DE CICLO INICIAL/AÑOS/3
         T: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN DE CICLO INICIAL/AÑOS/4
         U: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN DE CICLO INICIAL/AÑOS/5
+  II-6.2.2:
+    2024:
+      motivo: >-
+        el sexo es «s/d» en todo el cuadro y los tres «TOTAL» no se pueden probar con la suma; están en el mismo lugar
+        que en 2020–2023, donde sí suman su grupo de la derecha (B = C + D, E = F + G, H = I + J).
+      columnas:
+        B: INGRESADOS/TOTAL
+        E: MATRICULADOS/TOTAL
+        H: EGRESADOS/TOTAL
+  II-6.3.2:  # #173: 2020–2022 rotulan el sexo «M/F» (masculino/femenino); 2023–2024, «V/M» (varón/mujer)
+    2020: &sexo_m_f_ii_6_3_2
+      motivo: >-
+        el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de
+        44 docentes del CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de
+        2023–2024 (mujeres).
+      columnas:
+        D: HORAS SEMANALES/20 horas o menos/SEXO/V
+        E: HORAS SEMANALES/20 horas o menos/SEXO/M
+        G: HORAS SEMANALES/Entre 21 y 30 horas/SEXO/V
+        H: HORAS SEMANALES/Entre 21 y 30 horas/SEXO/M
+        J: HORAS SEMANALES/31 horas y más/SEXO/V
+        K: HORAS SEMANALES/31 horas y más/SEXO/M
+    2021: *sexo_m_f_ii_6_3_2
+    2022: *sexo_m_f_ii_6_3_2
 
 # conceptos (D5): rutas que la regla de encabezados (`completar_grupos`) deja mal, en todos los años en que
 # aparecen. `suma`: rutas (o prefijos terminados en «/», o finales que empiezan con «*/») cuyas columnas tienen
@@ -177,6 +207,13 @@ desgloses_extra:
     - total: TOTAL
       partes: ["SEXO/V", "SEXO/M", "FORMA DE ADMINISTRACIÓN/DGEIP-PRIVADOS (Habilitados y Autorizados)/SEXO/Sin dato", "FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato"]
 
+  II-6.2.1:  # #173: el total de cada movimiento = Magisterio + Profesorado + Educador Social
+    - total: TOTAL/Ingr.
+      partes: ["CARRERA/Magisterio/Ingr.", "CARRERA/Profesorado/Ingr.", "CARRERA/Educador Social/Ingr."]
+    - total: TOTAL/Matr.
+      partes: ["CARRERA/Magisterio/Matr.", "CARRERA/Profesorado/Matr.", "CARRERA/Educador Social/Matr."]
+    - total: TOTAL/Egr.
+      partes: ["CARRERA/Magisterio/Egr.", "CARRERA/Profesorado/Egr.", "CARRERA/Educador Social/Egr."]
 # particiones (F4.5a, AC-E19): cuadros B con filas jerárquicas; cada regla es [total, [partes]] (categorías del id).
 particiones:
   II-3.2.1:
@@ -204,6 +241,8 @@ unidades:
   II-3.3.1: [{patron: horas, unidad: horas docentes}]
   II-4.3.1: [{patron: horas, unidad: horas docentes}]
   II-5.1.1: [{patron: matricula, unidad: estudiantes}]  # #172: matrícula y docentes en el mismo cuadro
+  II-6.1.1: [{patron: total, unidad: estudiantes}]  # #173: «TOTAL» es la matrícula; «DOCENTES», docentes
+  II-6.3.1: [{patron: horas, unidad: horas docentes}]
 
 # observaciones_sin_cargar (#233, mantenedor): valores publicados que no se cargan, por cuadro: los años, la columna
 # (`patron`, parte del id) y las categorías que sí se cargan (`salvo`). El motivo va a la nota del indicador.
@@ -219,6 +258,11 @@ observaciones_sin_cargar:
     salvo: [total]
     motivo: "Las horas por asignatura de 2020 y 2021 no se cargan: en esos anuarios no corresponden a sus docentes (p. ej. Historia, 1.020 docentes y 4 horas en 2020; Geografía, 0 horas en 2021). Sí se cargan el total de horas y los docentes por asignatura (mantenedor, #233)."
 
+  II-6.3.1:
+    anios: [2020]
+    patron: horas
+    salvo: []
+    motivo: "Las horas de 2020 no se cargan: el anuario publica 0 en el total, Montevideo y el resto del país, y «s/d» en todos los departamentos y establecimientos; el 0 no es un dato (mantenedor, #173). Sí se cargan los docentes de 2020."
 # secciones_por_institucion (#172, mantenedor): un cuadro A con filas de institución. Las de `reinicia` son totales de
 # territorio; una fila que no es un territorio abre una sección y no se carga; en las `secciones` nombradas, los
 # departamentos van como esa categoría (otro id); en cualquier otra sección, no se cargan.
@@ -235,6 +279,30 @@ solo_filas:
   II-5.2.2: *instituciones_ii5
   II-5.3.1: *instituciones_ii5
   II-5.3.2: *instituciones_ii5
+  II-6.2.2: ["INAU"]  # #173: una institución (INAU – CENFORES) y su carrera, con los mismos valores: solo la institución
+
+# filas_de_establecimiento (#173, mantenedor): cuadros A con filas de establecimiento entre los territorios; no se
+# cargan. `sangradas`: las de rótulo con espacios al comienzo (en II-6.2.1 un establecimiento puede llamarse como su
+# departamento: «Canelones» bajo Canelones); `nombres`: las que no vienen sangradas. `ciudad_en_rotulo`: una fila
+# «departamento ciudad» («Cerro Largo Melo») va al departamento. Cualquier otra fila desconocida frena (AC-E8).
+filas_de_establecimiento:
+  II-6.1.1: {nombres: [IINN, IPA, INET, IFES]}  # los institutos de Montevideo
+  II-6.2.1: {sangradas: true, ciudad_en_rotulo: true}
+  II-6.3.1: {sangradas: true}
+
+# tipos_a_mano (#173, mantenedor): tipo que la clasificación automática no reconoce. II-6.2.1 queda C por los IFD y
+# CERP, pero sus filas son país, Montevideo, el resto del país y los 18 departamentos (con la ciudad en el rótulo).
+tipos_a_mano:
+  II-6.2.1: A
+
+# unidad_del_cuadro (#173): la unidad cuando la del título no es la de los valores. II-6.2.1 dice «ESTABLECIMIENTO»
+# en el título pero cuenta estudiantes.
+unidad_del_cuadro:
+  II-6.2.1: estudiantes
+
+# notas_cuadro (#173, mantenedor): una nota que se agrega a la de cada indicador del cuadro.
+notas_cuadro:
+  II-6.3.3: "Los valores por departamento de origen coinciden con los del departamento donde se estudia (cuadro II-6.2.1) en 2020, 2022, 2023 y 2024; en 2021 difieren solo los ingresados de Canelones y Maldonado (76 cambiados de lugar). Se cargan tal como los publica el anuario (mantenedor, #173)."
 
 # huecos (F4.5a, AC-E21): territorios que faltan en un cuadro A sin que el anuario los publique sin dato.
 # Hoy ninguno: todo lo que falta está publicado como «s/d» o «-».
@@ -275,6 +343,14 @@ controles_excepciones:
       2023:
         motivo: "el país publicado no es la suma de los departamentos (promovidos 37.131 contra 34.226; no promovidos 12.366 contra 10.992)"
         indicadores: [edu_ii_4_2_13_rendimiento_promovido, edu_ii_4_2_13_rendimiento_no_promovido]
+    II-6.1.1:
+      2020: &docentes_cfe_2020
+        motivo: "el total de docentes del país (2.869) incluye 8 docentes del IPES, 29 del CFE y 155 semipresenciales que no están en ningún departamento (pie del cuadro): la suma de los departamentos da 2.677 (#173)"
+        indicadores: [edu_ii_6_1_1_docentes]
+    II-6.3.1:
+      2020:
+        <<: *docentes_cfe_2020
+        indicadores: [edu_ii_6_3_1_cantidad_de_docentes]
   AC-E19:  # desgloses
     II-5.2.1:
       2024:

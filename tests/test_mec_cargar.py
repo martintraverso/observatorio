@@ -495,3 +495,31 @@ def test_233_con_genero_el_total_es_varones_mujeres_y_trans():
     r = mc.controles(c.datos, {"cuadros": {"II-4.3.2": e}}, sin, set(), set(), {"2024"})
     falla = next(f for f in r.controles.fallas if f["control"].startswith("AC-E19"))
     assert "[educacion_media_superior]" in falla["detalle"] or "[educacion_media_tecnologica]" in falla["detalle"]
+
+
+def test_173_las_horas_de_2020_de_ii_6_3_1_no_se_cargan():
+    """#173 (mantenedor, 2.a): las horas de II-6.3.1 en 2020 (0 en los totales, «s/d» en el resto) no se cargan; los
+    docentes de 2020 y las horas de los demás años, sí."""
+    from mec_anuario_cargar import quitar_sin_cargar
+
+    manual = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario" / "mapeo_manual.yml").read_text(encoding="utf-8"))
+    cuadro_de = {"edu_ii_6_3_1_cantidad_de_horas": "II-6.3.1", "edu_ii_6_3_1_cantidad_de_docentes": "II-6.3.1"}
+    obs = pd.DataFrame([
+        {"indicador": "edu_ii_6_3_1_cantidad_de_horas", "periodo": "2020", "valor": 0},
+        {"indicador": "edu_ii_6_3_1_cantidad_de_horas", "periodo": "2021", "valor": 10265.5},
+        {"indicador": "edu_ii_6_3_1_cantidad_de_docentes", "periodo": "2020", "valor": 2869},
+    ])
+    quedan = quitar_sin_cargar(obs, manual["observaciones_sin_cargar"], cuadro_de)
+    assert set(zip(quedan.indicador, quedan.periodo)) == {("edu_ii_6_3_1_cantidad_de_horas", "2021"),
+                                                          ("edu_ii_6_3_1_cantidad_de_docentes", "2020")}
+
+
+def test_173_ii_6_unidades_y_nota_del_origen_geografico(entorno):
+    """#173: matrícula en estudiantes y horas en horas docentes; II-6.3.3 lleva la nota del mantenedor (4.a)."""
+    crudo, salida = entorno
+    correr(crudo, salida)
+    i = pd.read_parquet(salida / "indicadores.parquet").set_index("codigo")
+    assert i.at["edu_ii_6_1_1_total", "unidad"] == "estudiantes" and i.at["edu_ii_6_1_1_docentes", "unidad"] == "docentes"
+    assert i.at["edu_ii_6_3_1_cantidad_de_horas", "unidad"] == "horas docentes"
+    assert i.at["edu_ii_6_2_1_total_matr", "unidad"] == "estudiantes"
+    assert "coinciden con los del departamento donde se estudia" in i.at["edu_ii_6_3_3_estudiantes_ingresados", "nota"]

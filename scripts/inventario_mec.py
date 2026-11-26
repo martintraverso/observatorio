@@ -73,6 +73,9 @@ def ola(codigo: str) -> int:
     # F4.8b (#172): terciaria no universitaria (II-5)
     if n[0] == 5:
         return 1
+    # F4.8c (#173): formación en educación (II-6)
+    if n[0] == 6:
+        return 1
     return 2
 
 
@@ -237,9 +240,12 @@ def resolver_repetidas(c: dict, estrategia: str, fila_con_error: str | None = No
     rep = [i for i, r in enumerate(rutas) if cuenta[slug(r)] > 1]
     hechas, fallas = {}, []
     for i in rep:
-        if all(v in (None, 0) for v in valores[i]):
+        if all(v is None for v in valores[i]):
             hechas[i] = (None, "columna vacía: separador del encabezado, sin datos")  # II-1.2.2
             continue
+        # una columna en 0 es un separador solo si la estrategia no la prueba (#173: en II-6.3.2 el total del tramo
+        # «31 horas y más» es 0, como sus varones y mujeres, y es un dato)
+        en_cero, n_fallas = all(v in (None, 0) for v in valores[i]), len(fallas)
         if i == 0 and plegar(rutas[i]) == "total":
             # el total general (primera columna): suma de sus subcolumnas «TOTAL/…» o, si no hay, de todas las
             # columnas que no son totales (II-3.2.2 de 2020: B = suma de los V y M de cada curso)
@@ -314,6 +320,9 @@ def resolver_repetidas(c: dict, estrategia: str, fila_con_error: str | None = No
                 fallas.append(f"{c['columnas'][i]} «{rutas[i]}»: las repetidas {[c['columnas'][j] for j in grupo]} no suman su columna padre")
         else:
             raise SystemExit(f"Estrategia desconocida: {estrategia}")
+        if en_cero and i not in hechas:
+            del fallas[n_fallas:]
+            hechas[i] = (None, "columna vacía: separador del encabezado, sin datos")  # II-1.2.2
     return hechas, fallas
 
 
@@ -326,11 +335,15 @@ def anio_real(ex: dict, cod: str, a: int, regla: dict) -> tuple[dict[int, dict],
     def clave(r):  # sin llamadas de nota: «PRIVADA*» (II-2.2.17 2022) es «PRIVADA» (2020)
         return plegar(re.sub(r"\*+", "", r))
 
-    rutas_otro = {clave(r): k for k, r in enumerate(otro["rutas"])} if otro and not otro.get("sin_datos") else {}
+    # una ruta repetida («HORAS SEMANALES/Total» de cada tramo, II-6.3.2) se compara con la del mismo orden (#173)
+    rutas_otro = {}
+    if otro and not otro.get("sin_datos"):
+        for k, r in enumerate(otro["rutas"]):
+            rutas_otro[(clave(r), sum(clave(x) == clave(r) for x in otro["rutas"][:k]))] = k
     for i, r in enumerate(c["rutas"]):
         if filtro != "todas" and filtro not in plegar(r):
             continue
-        k = rutas_otro.get(clave(regla.get("par", r)))
+        k = rutas_otro.get((clave(regla.get("par", r)), sum(clave(x) == clave(r) for x in c["rutas"][:i])))
         if k is None:
             cambios[i] = {"anio": real}
             notas.append(f"{c['columnas'][i]} «{r}»: el anuario {real} no tiene esta columna para comparar; se carga como {real}")
@@ -617,6 +630,16 @@ def escribir_inventario(ex: dict, archivos: dict, cuadros: dict) -> None:
 def escribir_registro(ex: dict, archivos: dict) -> None:
     manual = yaml.safe_load(MANUAL.read_text(encoding="utf-8")) if MANUAL.exists() else {}
     codigos = sorted({c for a in ex for c in ex[a]["cuadros"]}, key=lambda c: tuple(int(x) for x in c[3:].split(".")))
+    # #173 (mantenedor): tipo y unidad decididos a mano donde la clasificación automática se equivoca (también en el
+    # inventario, que se escribe después con `ex`)
+    for cod, tipo in (manual.get("tipos_a_mano") or {}).items():
+        for a in ANIOS:
+            if cod in ex[a]["cuadros"]:
+                ex[a]["cuadros"][cod]["tipo"] = tipo
+    for cod, u in (manual.get("unidad_del_cuadro") or {}).items():
+        for a in ANIOS:
+            if cod in ex[a]["cuadros"]:
+                ex[a]["cuadros"][cod]["unidad"] = u
     cuadros = {}
     for cod in codigos:
         presentes = [a for a in ANIOS if cod in ex[a]["cuadros"]]
@@ -637,6 +660,8 @@ def escribir_registro(ex: dict, archivos: dict) -> None:
                     e["secciones_por_institucion"] = secc  # #172
                 if (solo := manual.get("solo_filas", {}).get(cod)):
                     e["solo_filas"] = solo  # #172
+                if (est := manual.get("filas_de_establecimiento", {}).get(cod)):
+                    e["filas_de_establecimiento"] = est  # #173
                 motivo = manual.get("cuadros_sin_cargar", {}).get(cod, {}).get(a) or (
                     "sin datos numéricos" if c.get("sin_datos") else
                     f"el título dice {c['anio_titulo']} (AC-E10: debe ser el año del archivo)"
@@ -671,11 +696,13 @@ def escribir_registro(ex: dict, archivos: dict) -> None:
                             x.pop("repetida")
                             x["comprobado"] = "ruta única después del renombre de " + ", ".join(ren["columnas"])
                     renombradas = set(ren["columnas"]) | {x["col"] for x in otras if "comprobado" in x}
-                    quedan = [f for f in e.get("mapeo_manual_fallas", {}).get(a, []) if f.split(" ", 1)[0] not in renombradas]
+                    quedan = [f for f in e.get("mapeo_manual_fallas", {}).get(a, []) if f.split(" ", 1)[0].rstrip(":") not in renombradas]
                     if quedan:
                         e["mapeo_manual_fallas"][a] = quedan
                     else:
                         e.get("mapeo_manual_fallas", {}).pop(a, None)
+                        if not e.get("mapeo_manual_fallas"):
+                            e.pop("mapeo_manual_fallas", None)
                 for ruta, regla_c in manual.get("conceptos", {}).get(cod, {}).items():
                     if ruta not in c["rutas"]:
                         continue

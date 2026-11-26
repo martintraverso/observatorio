@@ -24,7 +24,8 @@ def cuadro(cod, anio=2024, xlsx=None, mapeo=None):
     e = REG["cuadros"][cod]
     return mec.parsear_cuadro(xlsx or XLSX[anio], cod, anio, mapeo if mapeo is not None else e["mapeo"][anio],
                               e["tipos"][anio], (e.get("categorias_segundas") or {}).get(anio, ()),
-                              e.get("secciones_por_institucion"), e.get("solo_filas") or ())  # como la carga (#172)
+                              e.get("secciones_por_institucion"), e.get("solo_filas") or (),
+                              e.get("filas_de_establecimiento"))  # como la carga (#172, #173)
 
 
 def valor(c, indicador, territorio):
@@ -77,6 +78,10 @@ def test_cada_cuadro_de_la_ola_1_se_lee_con_su_mapeo(anio):
         # los promedios publicados (#225, `no_aditivos`) no son conteos: el resto, enteros (AC-E11)
         na = (MANUAL.get("no_aditivos") or {}).get(cod)
         conteos = c.datos[~c.datos.indicador.str.contains(na["patron"])] if na else c.datos
+        # #173: las horas docentes son una medida, no un conteo de personas: II-6.3.1 las publica con decimales
+        for u in (MANUAL.get("unidades") or {}).get(cod, []):
+            if u["unidad"] == "horas docentes":
+                conteos = conteos[~conteos.indicador.str.contains(u["patron"])]
         assert conteos.valor.map(lambda v: float(v).is_integer()).all(), cod  # la columna puede ser float si hay promedios
         leidos += 1
     assert leidos >= 50
@@ -397,3 +402,57 @@ def test_172_por_institucion_solo_el_total_y_las_instituciones(cod):
         cats = set(c.datos.indicador.str.split("__").str[1])
         assert cats and all(k == "total" or any(k.startswith(mec.slug(x)) for x in e["solo_filas"]) for k in cats), (anio, cats)
         assert not any(k.startswith(("sin_formacion", "con_formacion", "curso_de", "tecnicatura")) for k in cats)
+
+
+# ---------------------------------------------------------------- #173: formación en educación (II-6)
+
+TERRITORIOS_A = {"pais/UY", "region/interior", *(f"departamento/{i:02d}" for i in range(1, 20))}
+
+
+def territorios(c):
+    return set(c.datos.territorio_id.str.replace("INE-2023/", ""))
+
+
+@pytest.mark.parametrize("cod", ["II-6.1.1", "II-6.2.1", "II-6.3.1"])
+def test_173_los_establecimientos_no_se_cargan_y_los_departamentos_si(cod):
+    """#173 (mantenedor, 1.a y 3.a): en los cuadros A con establecimientos se cargan país, Montevideo, Interior y los
+    18 departamentos; las filas de instituto o establecimiento no. Sin la regla, el cuadro frena (AC-E8)."""
+    e = REG["cuadros"][cod]
+    for anio in (2023, 2024):
+        c = cuadro(cod, anio)
+        assert territorios(c) == TERRITORIOS_A, (anio, territorios(c) ^ TERRITORIOS_A)
+        assert not c.datos.indicador.str.contains("__").any()
+        with pytest.raises(mec.ErrorAnuario, match="fila desconocida"):
+            mec.parsear_cuadro(XLSX[anio], cod, anio, e["mapeo"][anio], e["tipos"][anio])
+
+
+def test_173_ii_6_2_1_el_departamento_y_no_su_establecimiento_del_mismo_nombre():
+    """#173: en II-6.2.1, «Canelones» sangrado (el IFD) está bajo el departamento Canelones; se carga el departamento
+    (3.444 matriculados en 2024, no los 844 del IFD), y «Cerro Largo Melo» va a Cerro Largo."""
+    c = cuadro("II-6.2.1", 2024)
+    assert valor(c, "edu_ii_6_2_1_total_matr", "departamento/03") == 3444
+    assert valor(c, "edu_ii_6_2_1_total_matr", "departamento/04") == 928
+    assert valor(c, "edu_ii_6_2_1_total_matr", "departamento/01") == 10092
+    assert REG["cuadros"]["II-6.2.1"]["tipos"][2024] == "A" and REG["cuadros"]["II-6.2.1"]["unidad"] == "estudiantes"
+
+
+def test_173_departamento_al_comienzo_del_rotulo():
+    assert mec.departamento_al_comienzo("Cerro Largo Melo") == mec.tid("departamento", "04")
+    assert mec.departamento_al_comienzo("Treinta y Tres Treinta y Tres") == mec.tid("departamento", "19")
+    assert mec.departamento_al_comienzo("Río Negro Fray Bentos") == mec.tid("departamento", "12")
+    assert mec.departamento_al_comienzo("Cerp Norte") is None
+    assert mec.departamento_al_comienzo("Salto") is None  # un nombre solo lo resuelve territorio_de_fila
+
+
+def test_173_ii_6_2_2_solo_la_institucion():
+    """#173: II-6.2.2 publica la institución (INAU – CENFORES) y su carrera con los mismos valores: solo la institución."""
+    for anio in (2023, 2024):
+        cats = set(cuadro("II-6.2.2", anio).datos.indicador.str.split("__").str[1])
+        assert cats == {"inau_cenfores"}, (anio, cats)
+
+
+def test_173_las_horas_de_ii_6_3_1_se_guardan_con_sus_decimales():
+    """#173: II-6.3.1 publica las horas con decimales (medias horas); se guardan tal cual y suman como en el archivo."""
+    c = cuadro("II-6.3.1", 2024)
+    assert valor(c, "edu_ii_6_3_1_cantidad_de_horas", "pais/UY") == 13838.9
+    assert valor(c, "edu_ii_6_3_1_cantidad_de_horas", "departamento/01") == 4576.5
