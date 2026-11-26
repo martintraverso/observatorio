@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { abrirOpciones } from './visual/ayudas';
 
 const indice = JSON.parse(readFileSync('build/datos-web/territorios_index.json', 'utf-8')) as {
@@ -146,7 +146,10 @@ test('descargar CSV del territorio (columnas de AC-F5)', async ({ page }) => {
 	const [cabecera, ...filas] = texto.trim().split('\r\n');
 	expect(cabecera).toBe('territorio_id,nivel,codigo,nombre,indicador,periodo,periodo_inicio,periodo_fin,tipo_periodo,valor,unidad,es_estimado,fuente,archivo_origen,sha256,cuadro,es_derivado');
 	const ficha = JSON.parse(readFileSync('build/datos-web/fichas/departamento/07.json', 'utf-8')) as { observaciones: unknown[] };
-	expect(filas).toHaveLength(ficha.observaciones.length); // 4 del Censo (más la ECH en la vista previa)
+	// #227: la educación va aparte y el CSV la incluye
+	const parte = 'build/datos-web/fichas/departamento/07/educacion.json';
+	const edu = existsSync(parte) ? (JSON.parse(readFileSync(parte, 'utf-8')) as { observaciones: unknown[] }).observaciones.length : 0;
+	expect(filas).toHaveLength(ficha.observaciones.length + edu); // el Censo, la ECH y el MEC
 	expect(filas.find((f) => f.includes(',pob_total,'))).toContain(',2023,2023-01-01,2023-01-01,censo,26271,personas,false,');
 });
 

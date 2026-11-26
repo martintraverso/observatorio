@@ -198,9 +198,12 @@ test('AC-V4: a 1440×900 la leyenda se ve entera sin hacer scroll', async ({ pag
 });
 
 test('AC-V17: la fuente y el período de la leyenda no repiten un año', async ({ page }) => {
+	// #222: con la educación activa son unos 120 indicadores por departamento (1 minuto en local)
+	test.setTimeout(240_000);
 	// Cada indicador por departamento, entrando por URL y esperando su propia leyenda.
 	// los que se publican por región (ingresos) no tienen leyenda: se muestran como comparación (AC-I20)
-	for (const i of indicadores.filter((x) => (x.niveles_mapa ?? x.niveles).includes('departamento')) as unknown as { codigo: string; nombre: string }[]) {
+	// solo los de la lista del mapa (de educación, las tasas calculadas, #213)
+	for (const i of indicadores.filter((x) => (x as { mapa?: boolean }).mapa !== false && (x.niveles_mapa ?? x.niveles).includes('departamento')) as unknown as { codigo: string; nombre: string }[]) {
 		await page.goto(`?indicador=${i.codigo}&nivel=departamento`);
 		const leyenda = page.getByRole('region', { name: 'Leyenda' }).locator('visible=true');
 		await expect(leyenda.getByRole('heading')).toContainText(i.nombre);
@@ -308,7 +311,8 @@ test('AC-V15: el chip con el foco de teclado no queda bajo el desvanecido', asyn
 	await temas.first().focus();
 	for (let i = 1; i < (await temas.count()); i++) {
 		await page.keyboard.press('ArrowRight');
-		const { chip, fila, mascara } = await page.locator('.chips').evaluate((c) => {
+		// la fila de temas (la primera; con Educación hay otra con los niveles educativos)
+		const { chip, fila, mascara } = await page.locator('.chips').first().evaluate((c) => {
 			const enfocado = c.querySelector('label:has(input:focus)')!.getBoundingClientRect();
 			const cs = getComputedStyle(c);
 			return { chip: enfocado, fila: c.getBoundingClientRect(), mascara: cs.maskImage || (cs as unknown as Record<string, string>).webkitMaskImage };

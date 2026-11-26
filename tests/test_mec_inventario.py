@@ -19,9 +19,9 @@ def hojas(xlsx: Path) -> set[str]:
     return {n.strip() for n in re.findall(r'<sheet [^>]*name="([^"]+)"', wb)}
 
 
-def test_registro_valida_y_queda_en_preparacion():
+def test_registro_valida_y_queda_activa():
     assert validar_fuente(REG, "mec_anuario_educacion.yml") == []
-    assert REG["estado"] == "en preparación"
+    assert REG["estado"] == "activa"  # F4.10 (#222): la app publica la educación
 
 
 def test_ac_e1_un_anuario_por_anio_desde_la_pagina_oficial():

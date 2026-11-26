@@ -70,8 +70,14 @@ test('AC-F5: el CSV tiene exactamente los valores que muestra la ficha', async (
 		page.waitForEvent('download'),
 		page.getByRole('button', { name: 'Descargar CSV' }).click()
 	]);
-	const [cabecera, ...csv] = readFileSync((await descarga.path())!, 'utf-8').replace(/^﻿/, '').trim().split('\r\n');
+	const [cabecera, ...todas] = readFileSync((await descarga.path())!, 'utf-8').replace(/^﻿/, '').trim().split('\r\n');
 	expect(cabecera).toBe('territorio_id,nivel,codigo,nombre,indicador,periodo,periodo_inicio,periodo_fin,tipo_periodo,valor,unidad,es_estimado,fuente,archivo_origen,sha256,cuadro,es_derivado');
+	// #222: la educación (MEC) no se muestra en tablas sino por cuadro del anuario: sus filas son las de educacion.json
+	const parte = 'build/datos-web/fichas/departamento/07/educacion.json';
+	const edu = existsSync(parte) ? (JSON.parse(readFileSync(parte, 'utf-8')) as { observaciones: unknown[] }).observaciones.length : 0;
+	const csv = todas.filter((l) => !l.split(',')[4].startsWith('edu_'));
+	expect(todas.length - csv.length).toBe(edu);
+	for (const l of todas.filter((x) => x.split(',')[4].startsWith('edu_'))) expect(l).toMatch(/,anio,.*\.xlsx,[0-9a-f]{64},II-[\d.]+,(true|false)$/);
 	expect(csv).toHaveLength(mostradas.length);
 	const es = new Intl.NumberFormat('es-UY', { useGrouping: 'always' });
 	for (const linea of csv) {
@@ -108,11 +114,29 @@ test('AC-F7: los temas sin datos lo dicen', async ({ page }) => {
 	// secciones de la ficha y sus temas (src/lib/ficha/logica.ts): sin datos si ninguno de sus temas tiene
 	const secciones: Record<string, string[]> = { trabajo: ['Trabajo', 'Ingresos'], educacion: ['Educación'] };
 	const sinDatos = Object.entries(secciones).filter(([, ts]) => !ts.some((t) => conDatos.has(t))).map(([id]) => id);
-	expect(sinDatos).toContain('educacion');
 	await page.goto('territorio/departamento/07');
 	for (const id of sinDatos) {
 		await expect(page.locator(`#${id}`)).toContainText('Todavía no hay fuentes cargadas para este tema');
 	}
+	// #222: con todas las fuentes activas no queda un tema sin datos: se simula Flores sin educación (ni propia, ni de
+	// su país, ni de su región), como un tema que todavía no tiene fuentes. Se navega para que la app pida el JSON.
+	await page.route('**/datos-web/fichas/departamento/07.json', async (route) => {
+		const r = await route.fetch();
+		const f = await r.json();
+		await route.fulfill({
+			response: r,
+			json: {
+				...f,
+				educacion: false,
+				padres: f.padres.map((p: object) => ({ ...p, educacion: false })),
+				region: f.region && { ...f.region, temas: f.region.temas.filter((t: string) => t !== 'Educación') }
+			}
+		});
+	});
+	await page.goto('fichas');
+	await page.getByRole('link', { name: 'Flores', exact: true }).first().click();
+	await expect(page).toHaveURL(/territorio\/departamento\/07$/);
+	await expect(page.locator('#educacion')).toContainText('Todavía no hay fuentes cargadas para este tema');
 });
 
 test('pestañas de "Dentro de": clic y flechas del teclado', async ({ page }) => {
@@ -184,7 +208,7 @@ test('AC-V24: si un tema no se publica al nivel de la ficha, enlaza al nivel que
 	// Un segmento de San José (con datos completos su departamento tiene la ECH); si no está, uno de Flores.
 	const seg = indice.find((t) => t.nivel === 'segmento' && t.depto === '16') ?? de('segmento');
 	const f = JSON.parse(readFileSync(`build/datos-web/fichas/segmento/${seg.codigo}.json`, 'utf-8')) as {
-		padres: { nivel: string; nombre: string; valores: Record<string, unknown> }[];
+		padres: { nivel: string; nombre: string; valores: Record<string, unknown>; educacion?: boolean }[];
 		indicadores: Record<string, { tema: string }>;
 		observaciones: { indicador: string }[];
 	};
@@ -194,11 +218,15 @@ test('AC-V24: si un tema no se publica al nivel de la ficha, enlaza al nivel que
 		const temas = s.temas;
 		const propios = f.observaciones.some((o) => temas.includes(f.indicadores[o.indicador]?.tema));
 		if (propios) continue;
-		const padre = [...f.padres].reverse().find((p) => Object.keys(p.valores).some((k) => temas.includes(f.indicadores[k]?.tema)));
+		// #227: los valores de educación del padre van aparte; el padre lo avisa con `educacion`
+		const padre = [...f.padres].reverse().find(
+			(p) => (temas.includes('Educación') && p.educacion) || Object.keys(p.valores).some((k) => temas.includes(f.indicadores[k]?.tema))
+		);
 		const seccion = page.locator(`section#${s.id}`);
 		if (padre) {
-			enPadre++;
-			await expect(seccion).toContainText(`se publica por ${padre.nivel}`);
+			if (s.id !== 'educacion') enPadre++;
+			// la educación lo dice así (AC-E28)
+			await expect(seccion).toContainText(s.id === 'educacion' ? 'Educación: datos por departamento' : `se publica por ${padre.nivel}`);
 			await expect(seccion.getByRole('link', { name: `ver ${padre.nombre}` })).toHaveAttribute('href', new RegExp(`/territorio/${padre.nivel}/\\w+#${s.id}$`));
 			await expect(seccion).not.toContainText('Todavía no hay fuentes cargadas');
 		} else {
@@ -219,10 +247,12 @@ test('AC-V22: información, advertencia y error tienen estilos distintos y se us
 	await page.goto('territorio/departamento/07');
 	// explicaciones y «todavía no hay…»: información (azul), no advertencia
 	await expect(page.locator('#poblacion .nota')).toHaveClass(/\binfo\b/);
-	await expect(page.locator('#educacion .vacio')).toHaveClass(/\binfo\b/);
 	await expect(page.locator('section .aviso')).toHaveCount(0);
 	const fondo = (sel: string) => page.locator(sel).first().evaluate((el) => getComputedStyle(el).backgroundColor);
 	const info = await fondo('#poblacion .nota');
+	// «se publica por…» de un tema que no está al nivel de la ficha: información (#222: Flores ya tiene todos sus temas)
+	await page.goto(`territorio/segmento/${de('segmento').codigo}`);
+	await expect(page.locator('#educacion .vacio')).toHaveClass(/\binfo\b/);
 	// algo que no existe: error (rojo)
 	await page.goto('./?indicador=pob_total&nivel=departamento&periodo=2023&territorio=departamento/99');
 	const error = page.getByRole('complementary', { name: 'Territorio seleccionado' }).getByRole('alert');
@@ -349,6 +379,8 @@ test('AC-I21 y AC-I24: la serie de ingresos con su variante, base de precios, fr
 	// app): se intercepta el JSON y se navega desde el país para que la app lo pida.
 	const conIngresos = JSON.parse(readFileSync('e2e/fixtures/ficha-region-interior-ingresos.json', 'utf-8'));
 	await page.route('**/datos-web/fichas/region/interior.json', (route) => route.fulfill({ json: conIngresos }));
+	// #222: la educación del país (11 MB) se carga al pasar por su sección y corre el enlace: no es de este test
+	await page.route('**/datos-web/fichas/pais/UY/educacion.json', (route) => route.abort());
 	await page.goto('territorio/pais/UY');
 	await page.getByRole('tab', { name: /^Región/ }).click();
 	await page.getByRole('link', { name: 'Interior del país', exact: true }).first().click();
