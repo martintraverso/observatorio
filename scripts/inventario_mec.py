@@ -703,7 +703,7 @@ def escribir_registro(ex: dict, archivos: dict) -> None:
         "licencia": "No publicada por el MEC en la página del anuario. Se cita la fuente según cada cuadro.",
         "cita": "Fuente: MEC, Anuario Estadístico de Educación <año> (pie de cada cuadro).",
         "frecuencia": "anual (un anuario por año lectivo, publicado al año siguiente o el otro)",
-        "estado": "en preparación",
+        "estado": "activa",  # F4.10 (#222): la app publica la educación
         "cargar": True,
         "script": "pipeline/mec_anuario_cargar.py",
         "carpeta_original": "mec_anuario",

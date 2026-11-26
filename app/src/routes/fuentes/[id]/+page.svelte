@@ -65,6 +65,37 @@
 
 <section class="tarjeta" aria-labelledby="titulo-indicadores">
 	<h2 id="titulo-indicadores">Indicadores que salen de esta fuente</h2>
+	{#if data.cuadros.length}
+		<!-- #222: por cuadro del anuario (son miles de indicadores) -->
+		<p>
+			{numero(data.totalIndicadores)} indicadores de {data.cuadros.length} cuadros del anuario: uno por cada columna y
+			categoría de cada cuadro. Cada cuadro, con sus años y dónde se ve, en el
+			<a href={resolve('/educacion')}>catálogo de educación</a>.
+		</p>
+		<TablaDesplazable etiqueta="Cuadros de {f.nombre}">
+			<table>
+				<caption class="visualmente-oculto">Cuadros de {f.nombre}</caption>
+				<thead>
+					<tr>
+						<th scope="col">Cuadro</th>
+						<th scope="col">Título</th>
+						<th scope="col" class="num">Indicadores</th>
+						<th scope="col">Períodos</th>
+					</tr>
+				</thead>
+				<tbody>
+					{#each data.cuadros as c (c.cuadro)}
+						<tr>
+							<td>{c.cuadro}</td>
+							<td>{c.titulo}</td>
+							<td class="num">{numero(c.indicadores)}</td>
+							<td>{c.periodos.join(', ')}</td>
+						</tr>
+					{/each}
+				</tbody>
+			</table>
+		</TablaDesplazable>
+	{/if}
 	{#if data.indicadores.length}
 		<TablaDesplazable etiqueta="Indicadores de {f.nombre}">
 			<table>
@@ -92,7 +123,7 @@
 			</table>
 		</TablaDesplazable>
 		{#if data.indicadores[0]?.nota}<p class="suave nota">{data.indicadores[0].nota}</p>{/if}
-	{:else}
+	{:else if !data.cuadros.length}
 		<p class="info">Esta fuente todavía no aporta indicadores.</p>
 	{/if}
 </section>
