@@ -1,0 +1,188 @@
+# Indicadores del mapa (#248, AC-V34/AC-V35): nombre corto, familia y apertura. Registro revisado: los nombres
+# no salen del título del MEC. `familias`: el código del total y sus aperturas (dimensión y valor). `fuera_del_mapa`:
+# indicadores con `mapa: true` por AC-V33 que no van a la lista, con el motivo (siguen en fichas y descargas).
+# Un indicador con `mapa: true` que no está en ninguna de las dos listas hace fallar web.py.
+familias:
+  pob_total:
+    nombre_corto: "Personas"
+    aperturas:
+      pob_hombres: {nombre_corto: "Personas: hombres", apertura: {"Sexo": "Hombres"}}
+      pob_mujeres: {nombre_corto: "Personas: mujeres", apertura: {"Sexo": "Mujeres"}}
+  viviendas_total:
+    nombre_corto: "Viviendas"
+  tasa_actividad:
+    nombre_corto: "Tasa de actividad"
+  tasa_empleo:
+    nombre_corto: "Tasa de empleo"
+  tasa_desempleo:
+    nombre_corto: "Tasa de desempleo"
+  activos:
+    nombre_corto: "Activos"
+  ocupados:
+    nombre_corto: "Ocupados"
+  desocupados:
+    nombre_corto: "Desocupados"
+  tasa_no_registro:
+    nombre_corto: "No registro a la seguridad social"
+  ing_hogar_medio_cagu_cvl:
+    nombre_corto: "Ingreso por hogar (con aguinaldo, con locativo)"
+    nota: "variante del INE (aguinaldo y valor locativo), no una apertura: no hay un total del que sea parte"
+  ing_hogar_medio_sagu_cvl:
+    nombre_corto: "Ingreso por hogar (sin aguinaldo, con locativo)"
+    nota: "variante del INE (aguinaldo y valor locativo), no una apertura: no hay un total del que sea parte"
+  ing_hogar_medio_cagu_svl:
+    nombre_corto: "Ingreso por hogar (con aguinaldo, sin locativo)"
+    nota: "variante del INE (aguinaldo y valor locativo), no una apertura: no hay un total del que sea parte"
+  ing_hogar_medio_sagu_svl:
+    nombre_corto: "Ingreso por hogar (sin aguinaldo, sin locativo)"
+    nota: "variante del INE (aguinaldo y valor locativo), no una apertura: no hay un total del que sea parte"
+  ing_hogar_medio_sagu_svl_ene2005:
+    nombre_corto: "Ingreso por hogar a precios de enero de 2005"
+    nota: "sin aguinaldo ni valor locativo, a precios constantes"
+  ing_pc_medio_cagu_cvl:
+    nombre_corto: "Ingreso per cápita (con aguinaldo, con locativo)"
+    nota: "variante del INE (aguinaldo y valor locativo), no una apertura: no hay un total del que sea parte"
+  ing_pc_medio_sagu_cvl:
+    nombre_corto: "Ingreso per cápita (sin aguinaldo, con locativo)"
+    nota: "variante del INE (aguinaldo y valor locativo), no una apertura: no hay un total del que sea parte"
+  ing_pc_medio_cagu_svl:
+    nombre_corto: "Ingreso per cápita (con aguinaldo, sin locativo)"
+    nota: "variante del INE (aguinaldo y valor locativo), no una apertura: no hay un total del que sea parte"
+  ing_pc_medio_sagu_svl:
+    nombre_corto: "Ingreso per cápita (sin aguinaldo, sin locativo)"
+    nota: "variante del INE (aguinaldo y valor locativo), no una apertura: no hay un total del que sea parte"
+  ing_pc_medio_sagu_svl_ene2005:
+    nombre_corto: "Ingreso per cápita a precios de enero de 2005"
+    nota: "sin aguinaldo ni valor locativo, a precios constantes"
+  edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_total:
+    nombre_corto: "Promoción en primaria pública"
+    nota: "el área sale de II-2.2.13 y el sexo de II-2.2.14; los dos cuadros publican el mismo total (mantenedor, #248 P1)"
+    aperturas:
+      edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_area_demografica_urbana: {nombre_corto: "Promoción en primaria pública: urbana", apertura: {"Área": "Urbana"}}
+      edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_area_demografica_rural: {nombre_corto: "Promoción en primaria pública: rural", apertura: {"Área": "Rural"}}
+      edu_ii_2_2_14_rendimiento_escolar_tasa_promocion_sexo_mujer: {nombre_corto: "Promoción en primaria pública: mujeres", apertura: {"Sexo": "Mujeres"}}
+      edu_ii_2_2_14_rendimiento_escolar_tasa_promocion_sexo_varon: {nombre_corto: "Promoción en primaria pública: varones", apertura: {"Sexo": "Varones"}}
+  edu_ii_2_2_15_rendimiento_escolar_tasa_promocion_total:
+    nombre_corto: "Promoción en primaria privada"
+    nota: "pública y privada son dos familias: no se publica la tasa de todas las administraciones (mantenedor, #248 P2)"
+    aperturas:
+      edu_ii_2_2_15_rendimiento_escolar_tasa_promocion_sexo_m: {nombre_corto: "Promoción en primaria privada: mujeres", apertura: {"Sexo": "Mujeres"}}
+      edu_ii_2_2_15_rendimiento_escolar_tasa_promocion_sexo_v: {nombre_corto: "Promoción en primaria privada: varones", apertura: {"Sexo": "Varones"}}
+  edu_ii_2_2_1_pct_privada:
+    nombre_corto: "Matrícula privada en primaria (%)"
+  edu_ii_3_2_10_rendimiento_tasa_promocion:
+    nombre_corto: "Promoción en media básica técnica"
+    aperturas:
+      edu_ii_3_2_10_articulacion_educacion_media_basica_rendimiento_tasa_promocion: {nombre_corto: "Promoción en articulación de media básica", apertura: {"Programa": "Articulación de media básica"}}
+      edu_ii_3_2_10_c_b_t_agrario_rendimiento_tasa_promocion: {nombre_corto: "Promoción en ciclo básico tecnológico agrario", apertura: {"Programa": "Ciclo básico tecnológico agrario"}}
+      edu_ii_3_2_10_ciclo_basico_tecnologico_rendimiento_tasa_promocion: {nombre_corto: "Promoción en ciclo básico tecnológico", apertura: {"Programa": "Ciclo básico tecnológico"}}
+      edu_ii_3_2_10_educacion_basica_integrada_rendimiento_tasa_promocion: {nombre_corto: "Promoción en educación básica integrada", apertura: {"Programa": "Educación básica integrada"}}
+      edu_ii_3_2_10_formacion_profesional_basica_plan_2007_rendimiento_tasa_promocion: {nombre_corto: "Promoción en FPB plan 2007", apertura: {"Programa": "FPB plan 2007"}}
+      edu_ii_3_2_10_formacion_profesional_basica_rendimiento_tasa_promocion: {nombre_corto: "Promoción en formación profesional básica", apertura: {"Programa": "Formación profesional básica"}}
+      edu_ii_3_2_10_programa_centros_educ_comunitarios_rendimiento_tasa_promocion: {nombre_corto: "Promoción en centros educativos comunitarios", apertura: {"Programa": "Centros educativos comunitarios"}}
+  edu_ii_3_2_11_rendimiento_tasa_promocion:
+    nombre_corto: "Promoción en media básica general"
+    aperturas:
+      edu_ii_3_2_11_rendimiento_tasa_promocion_sexo_mujer: {nombre_corto: "Promoción en media básica general: mujeres", apertura: {"Sexo": "Mujeres"}}
+      edu_ii_3_2_11_rendimiento_tasa_promocion_sexo_varon: {nombre_corto: "Promoción en media básica general: varones", apertura: {"Sexo": "Varones"}}
+      edu_ii_3_2_11_publica_rendimiento_tasa_promocion: {nombre_corto: "Promoción en media básica general: pública", apertura: {"Administración": "Pública"}}
+      edu_ii_3_2_11_publica_rendimiento_tasa_promocion_sexo_mujer: {nombre_corto: "Media básica general: pública, mujeres", apertura: {"Administración": "Pública", "Sexo": "Mujeres"}}
+      edu_ii_3_2_11_publica_rendimiento_tasa_promocion_sexo_varon: {nombre_corto: "Media básica general: pública, varones", apertura: {"Administración": "Pública", "Sexo": "Varones"}}
+      edu_ii_3_2_11_forma_de_administracion_publica_grado_primero_rendimiento_tasa_promocion: {nombre_corto: "Promoción en media básica general: pública, 1.º", apertura: {"Administración": "Pública", "Grado": "1.º"}}
+      edu_ii_3_2_11_forma_de_administracion_publica_grado_primero_rendimiento_tasa_promocion_sexo_mujer: {nombre_corto: "Media básica general: pública, 1.º, mujeres", apertura: {"Administración": "Pública", "Grado": "1.º", "Sexo": "Mujeres"}}
+      edu_ii_3_2_11_forma_de_administracion_publica_grado_primero_rendimiento_tasa_promocion_sexo_varon: {nombre_corto: "Media básica general: pública, 1.º, varones", apertura: {"Administración": "Pública", "Grado": "1.º", "Sexo": "Varones"}}
+      edu_ii_3_2_11_forma_de_administracion_publica_grado_segundo_rendimiento_tasa_promocion: {nombre_corto: "Promoción en media básica general: pública, 2.º", apertura: {"Administración": "Pública", "Grado": "2.º"}}
+      edu_ii_3_2_11_forma_de_administracion_publica_grado_segundo_rendimiento_tasa_promocion_sexo_mujer: {nombre_corto: "Media básica general: pública, 2.º, mujeres", apertura: {"Administración": "Pública", "Grado": "2.º", "Sexo": "Mujeres"}}
+      edu_ii_3_2_11_forma_de_administracion_publica_grado_segundo_rendimiento_tasa_promocion_sexo_varon: {nombre_corto: "Media básica general: pública, 2.º, varones", apertura: {"Administración": "Pública", "Grado": "2.º", "Sexo": "Varones"}}
+      edu_ii_3_2_11_forma_de_administracion_publica_grado_tercero_rendimiento_tasa_promocion: {nombre_corto: "Promoción en media básica general: pública, 3.º", apertura: {"Administración": "Pública", "Grado": "3.º"}}
+      edu_ii_3_2_11_forma_de_administracion_publica_grado_tercero_rendimiento_tasa_promocion_sexo_mujer: {nombre_corto: "Media básica general: pública, 3.º, mujeres", apertura: {"Administración": "Pública", "Grado": "3.º", "Sexo": "Mujeres"}}
+      edu_ii_3_2_11_forma_de_administracion_publica_grado_tercero_rendimiento_tasa_promocion_sexo_varon: {nombre_corto: "Media básica general: pública, 3.º, varones", apertura: {"Administración": "Pública", "Grado": "3.º", "Sexo": "Varones"}}
+      edu_ii_3_2_11_privada_rendimiento_tasa_promocion: {nombre_corto: "Promoción en media básica general: privada", apertura: {"Administración": "Privada"}}
+      edu_ii_3_2_11_privada_rendimiento_tasa_promocion_sexo_mujer: {nombre_corto: "Media básica general: privada, mujeres", apertura: {"Administración": "Privada", "Sexo": "Mujeres"}}
+      edu_ii_3_2_11_privada_rendimiento_tasa_promocion_sexo_varon: {nombre_corto: "Media básica general: privada, varones", apertura: {"Administración": "Privada", "Sexo": "Varones"}}
+      edu_ii_3_2_11_forma_de_administracion_privada_grado_primero_rendimiento_tasa_promocion: {nombre_corto: "Promoción en media básica general: privada, 1.º", apertura: {"Administración": "Privada", "Grado": "1.º"}}
+      edu_ii_3_2_11_forma_de_administracion_privada_grado_primero_rendimiento_tasa_promocion_sexo_mujer: {nombre_corto: "Media básica general: privada, 1.º, mujeres", apertura: {"Administración": "Privada", "Grado": "1.º", "Sexo": "Mujeres"}}
+      edu_ii_3_2_11_forma_de_administracion_privada_grado_primero_rendimiento_tasa_promocion_sexo_varon: {nombre_corto: "Media básica general: privada, 1.º, varones", apertura: {"Administración": "Privada", "Grado": "1.º", "Sexo": "Varones"}}
+      edu_ii_3_2_11_forma_de_administracion_privada_grado_segundo_rendimiento_tasa_promocion: {nombre_corto: "Promoción en media básica general: privada, 2.º", apertura: {"Administración": "Privada", "Grado": "2.º"}}
+      edu_ii_3_2_11_forma_de_administracion_privada_grado_segundo_rendimiento_tasa_promocion_sexo_mujer: {nombre_corto: "Media básica general: privada, 2.º, mujeres", apertura: {"Administración": "Privada", "Grado": "2.º", "Sexo": "Mujeres"}}
+      edu_ii_3_2_11_forma_de_administracion_privada_grado_segundo_rendimiento_tasa_promocion_sexo_varon: {nombre_corto: "Media básica general: privada, 2.º, varones", apertura: {"Administración": "Privada", "Grado": "2.º", "Sexo": "Varones"}}
+      edu_ii_3_2_11_forma_de_administracion_privada_grado_tercero_rendimiento_tasa_promocion: {nombre_corto: "Promoción en media básica general: privada, 3.º", apertura: {"Administración": "Privada", "Grado": "3.º"}}
+      edu_ii_3_2_11_forma_de_administracion_privada_grado_tercero_rendimiento_tasa_promocion_sexo_mujer: {nombre_corto: "Media básica general: privada, 3.º, mujeres", apertura: {"Administración": "Privada", "Grado": "3.º", "Sexo": "Mujeres"}}
+      edu_ii_3_2_11_forma_de_administracion_privada_grado_tercero_rendimiento_tasa_promocion_sexo_varon: {nombre_corto: "Media básica general: privada, 3.º, varones", apertura: {"Administración": "Privada", "Grado": "3.º", "Sexo": "Varones"}}
+  edu_ii_4_2_13_rendimiento_tasa_promocion:
+    nombre_corto: "Promoción en media superior técnica (2021–2023)"
+    nota: "otro id que la de 2024: cambia el alcance (AC-E13); dos familias (mantenedor, #248 P4)"
+    aperturas:
+      edu_ii_4_2_13_bachillerato_figari_rendimiento_tasa_promocion: {nombre_corto: "Promoción en bachillerato Figari", apertura: {"Tipo de curso": "Bachillerato Figari"}}
+      edu_ii_4_2_13_bachillerato_profesional_rendimiento_tasa_promocion: {nombre_corto: "Promoción en bachillerato profesional", apertura: {"Tipo de curso": "Bachillerato profesional"}}
+      edu_ii_4_2_13_bachillerato_tecnico_profesional_rendimiento_tasa_promocion: {nombre_corto: "Promoción en bachillerato técnico profesional", apertura: {"Tipo de curso": "Bachillerato técnico profesional"}}
+      edu_ii_4_2_13_e_m_p_especializacion_rendimiento_tasa_promocion: {nombre_corto: "Promoción en EMP especialización", apertura: {"Tipo de curso": "EMP especialización"}}
+      edu_ii_4_2_13_educacion_media_profesional_rendimiento_tasa_promocion: {nombre_corto: "Promoción en educación media profesional", apertura: {"Tipo de curso": "Educación media profesional"}}
+      edu_ii_4_2_13_educacion_media_tecnologica_finest_rendimiento_tasa_promocion: {nombre_corto: "Promoción en EMT FINEST", apertura: {"Tipo de curso": "EMT FINEST"}}
+      edu_ii_4_2_13_educacion_media_tecnologica_rendimiento_tasa_promocion: {nombre_corto: "Promoción en educación media tecnológica", apertura: {"Tipo de curso": "Educación media tecnológica"}}
+  edu_ii_4_2_13_rendimiento_tasa_promocion_total:
+    nombre_corto: "Promoción en media superior técnica (2024)"
+    nota: "mantenedor, #248 P4"
+    aperturas:
+      edu_ii_4_2_13_rendimiento_tasa_promocion_sexo_mujer: {nombre_corto: "Media superior técnica (2024): mujeres", apertura: {"Sexo": "Mujeres"}}
+      edu_ii_4_2_13_rendimiento_tasa_promocion_sexo_varon: {nombre_corto: "Media superior técnica (2024): varones", apertura: {"Sexo": "Varones"}}
+  edu_ii_4_2_14_rendimiento_tasa_promocion:
+    nombre_corto: "Promoción en media superior general (2021–2023)"
+    nota: "otro id que la de 2024: cambia el alcance (AC-E13); dos familias (mantenedor, #248 P4)"
+    aperturas:
+      edu_ii_4_2_14_grado_cuarto_rendimiento_tasa_promocion: {nombre_corto: "Media superior general (2021–2023): 4.º", apertura: {"Grado": "4.º"}}
+      edu_ii_4_2_14_grado_quinto_rendimiento_tasa_promocion: {nombre_corto: "Media superior general (2021–2023): 5.º", apertura: {"Grado": "5.º"}}
+      edu_ii_4_2_14_grado_sexto_rendimiento_tasa_promocion: {nombre_corto: "Media superior general (2021–2023): 6.º", apertura: {"Grado": "6.º"}}
+  edu_ii_4_2_14_total_tasa_promocion_total:
+    nombre_corto: "Promoción en media superior general (2024)"
+    nota: "mantenedor, #248 P4"
+    aperturas:
+      edu_ii_4_2_14_total_tasa_promocion_sexo_mujer: {nombre_corto: "Media superior general (2024): mujeres", apertura: {"Sexo": "Mujeres"}}
+      edu_ii_4_2_14_total_tasa_promocion_sexo_varon: {nombre_corto: "Media superior general (2024): varones", apertura: {"Sexo": "Varones"}}
+      edu_ii_4_2_14_forma_de_administracion_publica_tasa_promocion_total: {nombre_corto: "Media superior general (2024): pública", apertura: {"Administración": "Pública"}}
+      edu_ii_4_2_14_forma_de_administracion_publica_tasa_promocion_sexo_mujer: {nombre_corto: "Media superior general (2024): pública, mujeres", apertura: {"Administración": "Pública", "Sexo": "Mujeres"}}
+      edu_ii_4_2_14_forma_de_administracion_publica_tasa_promocion_sexo_varon: {nombre_corto: "Media superior general (2024): pública, varones", apertura: {"Administración": "Pública", "Sexo": "Varones"}}
+      edu_ii_4_2_14_forma_de_administracion_privada_tasa_promocion_total: {nombre_corto: "Media superior general (2024): privada", apertura: {"Administración": "Privada"}}
+      edu_ii_4_2_14_forma_de_administracion_privada_tasa_promocion_sexo_mujer: {nombre_corto: "Media superior general (2024): privada, mujeres", apertura: {"Administración": "Privada", "Sexo": "Mujeres"}}
+      edu_ii_4_2_14_forma_de_administracion_privada_tasa_promocion_sexo_varon: {nombre_corto: "Media superior general (2024): privada, varones", apertura: {"Administración": "Privada", "Sexo": "Varones"}}
+fuera_del_mapa:
+  edu_ii_2_2_14_rendimiento_escolar_tasa_promocion_total: "repite el total de II-2.2.13 (mismos valores); la familia usa ese (mantenedor, #248 P1)"
+  edu_ii_3_2_12_rendimiento_tasa_promocion_sexo_mujer: "apertura sin total publicado en su familia (mantenedor, #248 P3)"
+  edu_ii_3_2_12_rendimiento_tasa_promocion_sexo_varon: "apertura sin total publicado en su familia (mantenedor, #248 P3)"
+  edu_ii_3_2_12_grado_primero_rendimiento_tasa_promocion_sexo_mujer: "apertura sin total publicado en su familia (mantenedor, #248 P3)"
+  edu_ii_3_2_12_grado_primero_rendimiento_tasa_promocion_sexo_varon: "apertura sin total publicado en su familia (mantenedor, #248 P3)"
+  edu_ii_3_2_12_grado_segundo_rendimiento_tasa_promocion_sexo_mujer: "apertura sin total publicado en su familia (mantenedor, #248 P3)"
+  edu_ii_3_2_12_grado_segundo_rendimiento_tasa_promocion_sexo_varon: "apertura sin total publicado en su familia (mantenedor, #248 P3)"
+  edu_ii_3_2_12_grado_tercero_rendimiento_tasa_promocion_sexo_mujer: "apertura sin total publicado en su familia (mantenedor, #248 P3)"
+  edu_ii_3_2_12_grado_tercero_rendimiento_tasa_promocion_sexo_varon: "apertura sin total publicado en su familia (mantenedor, #248 P3)"
+  edu_ii_4_2_13_tipo_de_curso_bachillerato_figari_rendimiento_tasa_promocion_sexo_mujer: "tipo de curso por sexo sin el total del tipo de curso en 2024 (mantenedor, #248 P3)"
+  edu_ii_4_2_13_tipo_de_curso_bachillerato_figari_rendimiento_tasa_promocion_sexo_varon: "tipo de curso por sexo sin el total del tipo de curso en 2024 (mantenedor, #248 P3)"
+  edu_ii_4_2_13_tipo_de_curso_bachillerato_profesional_rendimiento_tasa_promocion_sexo_mujer: "tipo de curso por sexo sin el total del tipo de curso en 2024 (mantenedor, #248 P3)"
+  edu_ii_4_2_13_tipo_de_curso_bachillerato_profesional_rendimiento_tasa_promocion_sexo_varon: "tipo de curso por sexo sin el total del tipo de curso en 2024 (mantenedor, #248 P3)"
+  edu_ii_4_2_13_tipo_de_curso_bachillerato_tecnologico_profesional_rendimiento_tasa_promocion_sexo_mujer: "tipo de curso por sexo sin el total del tipo de curso en 2024 (mantenedor, #248 P3)"
+  edu_ii_4_2_13_tipo_de_curso_bachillerato_tecnologico_profesional_rendimiento_tasa_promocion_sexo_varon: "tipo de curso por sexo sin el total del tipo de curso en 2024 (mantenedor, #248 P3)"
+  edu_ii_4_2_13_tipo_de_curso_bachillerato_tecnologico_rendimiento_tasa_promocion_sexo_mujer: "tipo de curso por sexo sin el total del tipo de curso en 2024 (mantenedor, #248 P3)"
+  edu_ii_4_2_13_tipo_de_curso_bachillerato_tecnologico_rendimiento_tasa_promocion_sexo_varon: "tipo de curso por sexo sin el total del tipo de curso en 2024 (mantenedor, #248 P3)"
+  edu_ii_4_2_13_tipo_de_curso_educacion_media_profesional_rendimiento_tasa_promocion_sexo_mujer: "tipo de curso por sexo sin el total del tipo de curso en 2024 (mantenedor, #248 P3)"
+  edu_ii_4_2_13_tipo_de_curso_educacion_media_profesional_rendimiento_tasa_promocion_sexo_varon: "tipo de curso por sexo sin el total del tipo de curso en 2024 (mantenedor, #248 P3)"
+  edu_ii_4_2_13_tipo_de_curso_educacion_media_tecnologica_rendimiento_tasa_promocion_sexo_mujer: "tipo de curso por sexo sin el total del tipo de curso en 2024 (mantenedor, #248 P3)"
+  edu_ii_4_2_13_tipo_de_curso_educacion_media_tecnologica_rendimiento_tasa_promocion_sexo_varon: "tipo de curso por sexo sin el total del tipo de curso en 2024 (mantenedor, #248 P3)"
+  edu_ii_4_2_15_rendimiento_tasa_promocion_total: "repite el total 2024 de II-4.2.13 (mismos valores) (como #248 P1)"
+  edu_ii_4_2_15_rendimiento_tasa_promocion_sexo_mujer: "repite el sexo 2024 de II-4.2.13 (mismos valores) (como #248 P1)"
+  edu_ii_4_2_15_grado_cuarto_rendimiento_tasa_promocion_sexo_mujer: "grado por sexo sin el total del grado (mantenedor, #248 P3)"
+  edu_ii_4_2_15_grado_quinto_rendimiento_tasa_promocion_sexo_mujer: "grado por sexo sin el total del grado (mantenedor, #248 P3)"
+  edu_ii_4_2_15_grado_sexto_rendimiento_tasa_promocion_sexo_mujer: "grado por sexo sin el total del grado (mantenedor, #248 P3)"
+  edu_ii_4_2_15_rendimiento_tasa_promocion_sexo_varon: "repite el sexo 2024 de II-4.2.13 (mismos valores) (como #248 P1)"
+  edu_ii_4_2_15_grado_cuarto_rendimiento_tasa_promocion_sexo_varon: "grado por sexo sin el total del grado (mantenedor, #248 P3)"
+  edu_ii_4_2_15_grado_quinto_rendimiento_tasa_promocion_sexo_varon: "grado por sexo sin el total del grado (mantenedor, #248 P3)"
+  edu_ii_4_2_15_grado_sexto_rendimiento_tasa_promocion_sexo_varon: "grado por sexo sin el total del grado (mantenedor, #248 P3)"
+  edu_ii_4_2_14_forma_de_administracion_publica_grado_cuarto_rendimiento_tasa_promocion_sexo_mujer: "administración y grado por sexo sin el total de administración y grado en 2024 (mantenedor, #248 P3)"
+  edu_ii_4_2_14_forma_de_administracion_publica_grado_cuarto_rendimiento_tasa_promocion_sexo_varon: "administración y grado por sexo sin el total de administración y grado en 2024 (mantenedor, #248 P3)"
+  edu_ii_4_2_14_forma_de_administracion_publica_grado_quinto_rendimiento_tasa_promocion_sexo_mujer: "administración y grado por sexo sin el total de administración y grado en 2024 (mantenedor, #248 P3)"
+  edu_ii_4_2_14_forma_de_administracion_publica_grado_quinto_rendimiento_tasa_promocion_sexo_varon: "administración y grado por sexo sin el total de administración y grado en 2024 (mantenedor, #248 P3)"
+  edu_ii_4_2_14_forma_de_administracion_publica_grado_sexto_rendimiento_tasa_promocion_sexo_mujer: "administración y grado por sexo sin el total de administración y grado en 2024 (mantenedor, #248 P3)"
+  edu_ii_4_2_14_forma_de_administracion_publica_grado_sexto_rendimiento_tasa_promocion_sexo_varon: "administración y grado por sexo sin el total de administración y grado en 2024 (mantenedor, #248 P3)"
+  edu_ii_4_2_14_forma_de_administracion_privada_grado_cuarto_rendimiento_tasa_promocion_sexo_mujer: "administración y grado por sexo sin el total de administración y grado en 2024 (mantenedor, #248 P3)"
+  edu_ii_4_2_14_forma_de_administracion_privada_grado_cuarto_rendimiento_tasa_promocion_sexo_varon: "administración y grado por sexo sin el total de administración y grado en 2024 (mantenedor, #248 P3)"
+  edu_ii_4_2_14_forma_de_administracion_privada_grado_sexto_rendimiento_tasa_promocion_sexo_mujer: "administración y grado por sexo sin el total de administración y grado en 2024 (mantenedor, #248 P3)"
+  edu_ii_4_2_14_forma_de_administracion_privada_grado_sexto_rendimiento_tasa_promocion_sexo_varon: "administración y grado por sexo sin el total de administración y grado en 2024 (mantenedor, #248 P3)"
