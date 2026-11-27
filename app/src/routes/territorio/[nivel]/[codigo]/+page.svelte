@@ -8,7 +8,18 @@
 	import SerieIngresos from '#lib/ficha/SerieIngresos.svelte';
 	import EducacionFicha from '#lib/ficha/EducacionFicha.svelte';
 	import { descargarCsv } from '#lib/csv.ts';
-	import { hrefFicha, NOMBRE_NIVEL, NIVELES, partesId, type Nivel, type Observacion, type Relacion } from '#lib/datos.ts';
+	import {
+		cargarEducacion,
+		hrefFicha,
+		NOMBRE_NIVEL,
+		NIVELES,
+		partesId,
+		unirEducacion,
+		type Nivel,
+		type Observacion,
+		type ParteEducacion,
+		type Relacion
+	} from '#lib/datos.ts';
 	import { fecha, numero, publicado } from '#lib/formato.ts';
 	import { NOMBRE_SITIO } from '#lib/sitio.ts';
 	import {
@@ -33,7 +44,79 @@
 	import SerieFicha from '#lib/ficha/SerieFicha.svelte';
 
 	let { data } = $props();
-	let f = $derived(data.ficha);
+
+	// #227: la educación va en su propio archivo; se pide al ver la sección (o al bajar el CSV). Va con el id de la
+	// ficha para que, al navegar a otra, no se mezcle la de la anterior.
+	let parte = $state<{ id: string; datos: ParteEducacion } | null>(null);
+	// el error, con el id de su ficha: al navegar a otra no queda pegado
+	let falloEdu = $state<{ id: string; texto: string } | null>(null);
+	let errorEdu = $derived(falloEdu?.id === data.ficha.id ? falloEdu.texto : '');
+	let cargaEdu: { id: string; promesa: Promise<void> } | null = null;
+	let f = $derived(unirEducacion(data.ficha, parte?.id === data.ficha.id ? parte.datos : null));
+	let pendienteEdu = $derived(!!data.ficha.educacion && parte?.id !== data.ficha.id);
+
+	function cargarEdu(): Promise<void> {
+		const ficha = data.ficha;
+		if (!ficha.educacion || parte?.id === ficha.id) return Promise.resolve();
+		if (cargaEdu?.id === ficha.id) return cargaEdu.promesa;
+		falloEdu = null;
+		const promesa = cargarEducacion(ficha.nivel, ficha.codigo)
+			.then((datos) => {
+				if (data.ficha.id === ficha.id) parte = { id: ficha.id, datos };
+			})
+			.catch((e) => {
+				if (cargaEdu?.id === ficha.id) cargaEdu = null;
+				falloEdu = { id: ficha.id, texto: 'No se pudo cargar la educación de esta ficha.' };
+				throw e;
+			});
+		cargaEdu = { id: ficha.id, promesa };
+		return promesa;
+	}
+
+	/** #227: pide la educación cuando la sección se acerca a la pantalla (y de nuevo al cambiar de ficha). */
+	function alVer(nodo: HTMLElement, id: string) {
+		let obs: IntersectionObserver | null = null;
+		const observar = () => {
+			obs?.disconnect();
+			if (!id) return; // solo la sección «Educación»
+			obs = new IntersectionObserver(
+				(e) => {
+					if (e.some((x) => x.isIntersecting)) {
+						obs?.disconnect();
+						cargarEdu().catch(() => {});
+					}
+				},
+				{ rootMargin: '400px' }
+			);
+			obs.observe(nodo);
+		};
+		observar();
+		return {
+			update(nuevo: string) {
+				if (nuevo !== id) {
+					id = nuevo;
+					observar();
+				}
+			},
+			destroy: () => obs?.disconnect()
+		};
+	}
+
+	/** El botón desaparece al reintentar: el foco va al título de la sección, que anuncia lo que sigue. */
+	function reintentarEdu() {
+		document.getElementById('titulo-educacion')?.focus();
+		cargarEdu().catch(() => {});
+	}
+
+	async function bajarCsv() {
+		try {
+			await cargarEdu();
+		} catch {
+			mensaje = 'No se pudo cargar la educación: el CSV no se bajó. Probá de nuevo.';
+			return;
+		}
+		descargarCsv(f);
+	}
 
 	const PERIODO = '2023';
 	const PERTENECE: Partial<Record<string, string>> = {
@@ -157,7 +240,7 @@
 
 		<div class="acciones">
 			{#if f.bbox}<a class="boton primario" href={hrefMapa(f)}>Ver en el mapa</a>{/if}
-			<button type="button" class="boton" onclick={() => descargarCsv(f)}>Descargar CSV</button>
+			<button type="button" class="boton" onclick={bajarCsv}>Descargar CSV</button>
 			<button type="button" class="boton" onclick={() => copiar(url, 'Enlace copiado.')}>Copiar enlace</button>
 			<a class="boton" href="#citar">Cómo citar</a>
 		</div>
@@ -200,9 +283,19 @@
 	{@const educacion = s.id === 'educacion' ? cuadrosEducacion(f) : []}
 	{@const series = new Map([...todas].filter(([c]) => !c.startsWith('ing_') && !(educacion.length && f.indicadores[c]?.cuadro)))}
 	{@const enRegion = datosEnRegion(f, s.temas)}
-	<section id={s.id} class="tarjeta seccion" aria-labelledby="titulo-{s.id}">
-		<h2 id="titulo-{s.id}">{s.titulo}</h2>
-		{#if lista.length === 0}
+	<section id={s.id} class="tarjeta seccion" aria-labelledby="titulo-{s.id}" use:alVer={s.id === 'educacion' ? data.ficha.id : ''}>
+		<h2 id="titulo-{s.id}" tabindex="-1">{s.titulo}</h2>
+		{#if s.id === 'educacion' && pendienteEdu}
+			<!-- #227: la educación llega aparte -->
+			{#if errorEdu}
+				<div class="error" role="alert">
+					<p>{errorEdu}</p>
+					<button type="button" class="boton" onclick={reintentarEdu}>Reintentar</button>
+				</div>
+			{:else}
+				<p class="info vacio" role="status">Cargando…</p>
+			{/if}
+		{:else if lista.length === 0}
 			{@const arriba = datosEnPadre(f, s.temas)}
 			{#if arriba}
 				<!-- AC-V24: el tema no se publica a este nivel, pero sí en uno que lo contiene -->
@@ -238,6 +331,8 @@
 		{/if}
 		{#if educacion.length}
 			<EducacionFicha niveles={educacion} />
+			<!-- AC-E32: el catálogo de los cuadros del anuario -->
+			<p class="suave"><a href={resolve('/educacion')}>Catálogo de educación: todos los cuadros del anuario</a></p>
 		{/if}
 		{#if ingresos.size}
 			<SerieIngresos ficha={f} series={ingresos} pais={data.pais} fuenteDe={fuenteDe} titulo="Ingresos" />

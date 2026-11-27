@@ -55,6 +55,8 @@ export interface Resumen {
 	nombre: string;
 	valores: Record<string, Record<string, number | null>>;
 	estimados?: string[];
+	/** #227: tiene valores de educación (van aparte, en su `educacion.json`): «Educación: datos por departamento». */
+	educacion?: boolean;
 }
 
 export interface Relacion {
@@ -127,6 +129,30 @@ export interface Ficha {
 	fuentes: Record<string, FuenteRef>;
 	/** F3.7a (#148): fuera de Montevideo, la región del Interior y los temas que tienen datos en ella */
 	region?: RegionRef;
+	/**
+	 * #227: la ficha tiene educación propia que todavía no trae: está en `fichas/<nivel>/<código>/educacion.json`
+	 * (`cargarEducacion`, `unirEducacion`). Las capturas y fuentes de educación sí vienen (la cita, AC-F6).
+	 */
+	educacion?: boolean;
+}
+
+/** #227: la educación de una ficha, aparte (la app la pide al ver la sección). */
+export type ParteEducacion = Pick<Ficha, 'observaciones' | 'indicadores' | 'capturas' | 'fuentes'>;
+
+/**
+ * #227: la ficha con su educación (ficha principal + `educacion.json` = la ficha completa). La unida ya no tiene nada
+ * pendiente: `educacion` pasa a false.
+ */
+export function unirEducacion(f: Ficha, parte: ParteEducacion | null): Ficha {
+	if (!parte) return f;
+	return {
+		...f,
+		educacion: false,
+		observaciones: [...f.observaciones, ...parte.observaciones],
+		indicadores: { ...f.indicadores, ...parte.indicadores },
+		capturas: { ...f.capturas, ...parte.capturas },
+		fuentes: { ...f.fuentes, ...parte.fuentes }
+	};
 }
 
 export interface RegionRef {
@@ -233,6 +259,8 @@ export const cargarFuentes = (f?: Fetch) => leerJson<Fuente[]>('fuentes.json', f
 export const cargarIndicadores = (f?: Fetch) => leerJson<Indicador[]>('indicadores.json', f);
 export const cargarFicha = (nivel: Nivel, codigo: string, f?: Fetch) =>
 	leerJson<Ficha>(`fichas/${nivel}/${encodeURIComponent(codigo)}.json`, f);
+export const cargarEducacion = (nivel: Nivel, codigo: string, f?: Fetch) =>
+	leerJson<ParteEducacion>(`fichas/${nivel}/${encodeURIComponent(codigo)}/educacion.json`, f);
 
 // ---------------------------------------------------------------- utilidades
 

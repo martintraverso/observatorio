@@ -147,7 +147,10 @@ export function fuentesDeFicha(f: Pick<Ficha, 'capturas' | 'fuentes'>): FuenteDe
  */
 export function datosEnPadre(f: Pick<Ficha, 'padres' | 'indicadores'>, temas: readonly string[]): { padre: Resumen; temas: string[] } | null {
 	for (const padre of [...f.padres].reverse()) {
-		const conDatos = temas.filter((t) => Object.keys(padre.valores).some((k) => f.indicadores[k]?.tema === t));
+		// #227: los valores de educación van aparte; el padre avisa que los tiene (`educacion`)
+		const conDatos = temas.filter(
+			(t) => (t === 'Educación' && padre.educacion) || Object.keys(padre.valores).some((k) => f.indicadores[k]?.tema === t)
+		);
 		if (conDatos.length) return { padre, temas: conDatos };
 	}
 	return null;
@@ -158,11 +161,12 @@ export function datosEnPadre(f: Pick<Ficha, 'padres' | 'indicadores'>, temas: re
  * región del Interior (p. ej. los ingresos de un departamento que no es Montevideo).
  */
 export function datosEnRegion(
-	f: Pick<Ficha, 'observaciones' | 'indicadores' | 'padres' | 'region'>,
+	f: Pick<Ficha, 'observaciones' | 'indicadores' | 'padres' | 'region' | 'educacion'>,
 	temas: readonly string[]
 ): { region: NonNullable<Ficha['region']>; temas: string[] } | null {
 	if (!f.region) return null;
 	const propios = new Set(f.observaciones.map((o) => f.indicadores[o.indicador]?.tema));
+	if (f.educacion) propios.add('Educación'); // #222: la propia, todavía sin cargar (va aparte, #227)
 	const arriba = new Set(datosEnPadre(f, temas)?.temas ?? []);
 	const enRegion = temas.filter((t) => !propios.has(t) && !arriba.has(t) && f.region!.temas.includes(t));
 	return enRegion.length ? { region: f.region, temas: enRegion } : null;

@@ -135,7 +135,10 @@ def controles(obs: pd.DataFrame, fuente: dict, manual: dict, derivados: set[str]
     negativos = conteos[conteos.valor < 0]
     tasas = obs[obs.indicador.isin(derivados)]
     malas = tasas[(tasas.valor < 0) | (tasas.valor > 100)]
-    bc = obs[obs.indicador.str.contains("__") & ~obs.territorio_id.isin({PAIS, MVD, INTERIOR})]
+    # B y C: por el tipo del cuadro en ese año (#172: II-5.1.1 es A y carga la DGETP por departamento como categoría)
+    es_bc = [tipo_de.get((c, p)) in ("B", "C") for c, p in zip(obs.cuadro, obs.periodo)]
+    bc = obs[obs.indicador.str.contains("__") & pd.Series(es_bc, index=obs.index)
+             & ~obs.territorio_id.isin({PAIS, MVD, INTERIOR})]
     fallas = [f"{len(d)} {t}" for d, t in ((fuera, "por debajo de departamento"), (negativos, "conteos negativos"),
                                            (malas, "tasas fuera de 0–100"), (bc, "filas B/C en otro territorio")) if len(d)]
     res.chk("AC-E20 Niveles, conteos ≥ 0, tasas entre 0 y 100, B y C en territorios nombrados", fallas, [])
@@ -186,29 +189,43 @@ def controles(obs: pd.DataFrame, fuente: dict, manual: dict, derivados: set[str]
         por_cuadro[(cuadro_de[ind], per)][r] = ind
     extras = manual.get("desgloses_extra") or {}
     territorios = sorted(set(conteos.territorio_id))
+    # #233: en los cuadros B y C cada valor lleva su categoría (`__categoria`); el desglose de columnas se prueba en
+    # cada fila (categoría) del cuadro, no solo con el id base (antes no se probaba nunca en esos cuadros).
+    cats = collections.defaultdict(set)
+    for i in conteos.indicador[conteos.indicador.str.contains("__", regex=False)].unique():
+        b, c = i.split("__", 1)
+        cats[b].add("__" + c)
     for (cod, per), por in por_cuadro.items():
+        sufijos = [""] + sorted({c for i in por.values() for c in cats.get(i, ())})
         for total, partes in _desgloses(por, extras.get(cod) or []):
-            for terr in territorios:
-                kt, ks = (por[total], terr, per), [(por[x], terr, per) for x in partes]
-                if kt in salteada or any(k in salteada for k in ks) or kt not in val.index or not all(k in val.index for k in ks):
-                    continue
-                probados += 1
-                suma = sum(val[k] for k in ks)
-                if val[kt] != suma:
-                    texto = (f"{cod} {per} {_corto(terr)}: «{'/'.join(total)}» {val[kt]:g} ≠ "
+            for suf in sufijos:
+                for terr in territorios:
+                    kt, ks = (por[total] + suf, terr, per), [(por[x] + suf, terr, per) for x in partes]
+                    if (kt in salteada or any(k in salteada for k in ks) or kt not in val.index
+                            or not all(k in val.index for k in ks)):
+                        continue
+                    probados += 1
+                    suma = sum(val[k] for k in ks)
+                    if val[kt] == suma:
+                        continue
+                    fila = f" [{suf[2:]}]" if suf else ""
+                    texto = (f"{cod} {per} {_corto(terr)}{fila}: «{'/'.join(total)}» {val[kt]:g} ≠ "
                              + " + ".join("/".join(x) for x in partes) + f" = {suma:g}")
-                    if (m := exc.motivo("AC-E19", cod, per, por[total], terr)):
+                    if (m := exc.motivo("AC-E19", cod, per, por[total] + suf, terr)):
                         excs.append(f"{texto} ({m})")
                     else:
                         fallas.append(texto)
     particiones = manual.get("particiones") or {}
     cat = conteos[conteos.indicador.str.contains("__")].assign(
-        base=lambda d: d.indicador.str.split("__").str[0], categoria=lambda d: d.indicador.str.split("__").str[-1])
+        base=lambda d: d.indicador.str.split("__").str[0], categoria=lambda d: d.indicador.str.split("__", n=1).str[1])
+    no_aditivos = manual.get("no_aditivos") or {}
     for (b, terr, per), g in cat.groupby(["base", "territorio_id", "periodo"]):
         v = dict(zip(g.categoria, g.valor))
-        if "total" not in v:
+        if "total" not in v or len(v) == 1:  # #233: sin categorías cargadas (p. ej. horas 2020–21) no hay qué sumar
             continue
         cod = cuadro_de[b]
+        if (na := no_aditivos.get(cod)) and na["patron"] in b:
+            continue  # #225: un promedio publicado no se suma entre categorías
         for tot, partes in particiones.get(cod) or [["total", [k for k in v if k != "total"]]]:
             if tot in v and all(p in v for p in partes):
                 probados += 1
@@ -225,6 +242,8 @@ def controles(obs: pd.DataFrame, fuente: dict, manual: dict, derivados: set[str]
     huecos = manual.get("huecos") or {}
     publicados = set(sin_dato)
     for (ind, per), f in w.iterrows():
+        if "__" in ind:
+            continue  # #172: una categoría de un cuadro A (II-5.1.1: la DGETP por departamento) no tiene sus 21 territorios
         cod = cuadro_de[ind]
         if tipo_de.get((cod, per)) != "A" or (anios_parseados is not None and per not in anios_parseados):
             continue

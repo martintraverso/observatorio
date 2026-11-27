@@ -4,20 +4,33 @@ hasta que se active)."""
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import pandas as pd
 import pytest
-from test_mec_cargar import correr, entorno  # noqa: F401
-from web import con_corte, con_cuadro, con_mapa, construir_fichas, csv_observaciones
+import yaml
+from test_mec_cargar import cargado  # noqa: F401
+from web import (
+    catalogo_educacion,
+    con_corte,
+    con_cuadro,
+    con_mapa,
+    construir_fichas,
+    csv_observaciones,
+    separar_educacion,
+)
+
+RAIZ = Path(__file__).resolve().parents[1]
 
 FLORES, PAIS = "INE-2023/departamento/07", "INE-2023/pais/UY"
 
 
-@pytest.fixture
-def web(entorno):  # noqa: F811
+@pytest.fixture(scope="module")
+def web(cargado):  # noqa: F811
+    """Una vez por módulo: los tests solo leen las fichas y el CSV."""
     import geopandas as gpd
 
-    crudo, salida = entorno
-    correr(crudo, salida)
+    _, salida = cargado
     t = gpd.read_parquet(salida / "territorios.parquet")
     tablas = {n: pd.read_parquet(salida / f"{n}.parquet") for n in ("observaciones", "indicadores", "capturas", "fuentes", "correspondencias")}
     ind = con_cuadro(tablas["indicadores"])
@@ -81,11 +94,10 @@ def test_211_corte_marca_los_indicadores_que_cambian_de_concepto():
     assert c["edu_ii_2_2_1_total"] == "" and c["pob_total"] == ""
 
 
-def test_211_la_ficha_lleva_el_corte_de_cada_indicador(entorno):  # noqa: F811
+def test_211_la_ficha_lleva_el_corte_de_cada_indicador(cargado):  # noqa: F811
     import geopandas as gpd
 
-    crudo, salida = entorno
-    correr(crudo, salida)
+    _, salida = cargado
     t = gpd.read_parquet(salida / "territorios.parquet")
     tablas = {n: pd.read_parquet(salida / f"{n}.parquet") for n in ("observaciones", "indicadores", "capturas", "fuentes", "correspondencias")}
     ind = con_corte(con_cuadro(tablas["indicadores"]))
@@ -106,3 +118,77 @@ def test_213_mapa_y_grupo_de_cada_indicador():
     r = con_mapa(ind).set_index("codigo")
     assert r.mapa.tolist() == [True, False, True, True]
     assert r.grupo.tolist() == ["Primaria", "Primaria", "Media básica", ""]
+
+
+def test_ac_e32_el_catalogo_lista_cada_cuadro_con_datos(cargado):  # noqa: F811
+    """AC-E32 (#226): el catálogo de educación lista cada cuadro con datos, con código, título legible, tipo, años y
+    la tasa del mapa si la tiene; sin datos de educación, vacío."""
+    _, salida = cargado
+    obs = pd.read_parquet(salida / "observaciones.parquet")
+    ind = pd.read_parquet(salida / "indicadores.parquet")
+    cat = {c["cuadro"]: c for c in catalogo_educacion(ind, obs)}
+    assert {"II-2.2.1", "II-2.2.13"} <= set(cat)
+    c = cat["II-2.2.13"]
+    assert c["tipo"] == "A" and c["anios"] == sorted(c["anios"]) and c["titulo"][0].isupper() and not c["titulo"].isupper()
+    assert c["mapa"] and "tasa_promocion" in c["mapa"]
+    assert cat["II-2.2.1"]["mapa"] == "edu_ii_2_2_1_pct_privada"
+    assert all(set(x) == {"cuadro", "titulo", "tipo", "anios", "departamental", "mapa"} for x in cat.values())
+    assert c["departamental"] and all(x["tipo"] in {"A", "B", "C"} for x in cat.values())
+    assert catalogo_educacion(ind[ind.fuente_id != "mec_anuario_educacion"], obs) == []
+
+
+def test_ac_e32_el_tipo_es_el_del_ultimo_anio_con_datos_que_lo_tiene(cargado, tmp_path):  # noqa: F811
+    """#234 (revisión): un año del registro sin tipo (II-2.2.15 2024: null) no deja el cuadro sin tipo."""
+    _, salida = cargado
+    obs = pd.read_parquet(salida / "observaciones.parquet")
+    ind = pd.read_parquet(salida / "indicadores.parquet")
+    reg = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario_educacion.yml").read_text(encoding="utf-8"))
+    for e in reg["cuadros"].values():
+        if e.get("tipos"):
+            ultimo = max(e["tipos"])
+            e["tipos"][ultimo] = None
+    (tmp_path / "reg.yml").write_text(yaml.safe_dump(reg, allow_unicode=True), encoding="utf-8")
+    cat = catalogo_educacion(ind, obs, tmp_path / "reg.yml")
+    con_anterior = [x for x in cat if len(x["anios"]) > 1]  # el fixture trae 2023 y 2024
+    assert con_anterior and all(x["tipo"] in {"A", "B", "C"} for x in con_anterior)
+
+
+def test_227_la_educacion_va_aparte_y_juntas_dan_la_ficha_completa(web):
+    """#227 (AC-W4): la ficha principal no trae valores de educación (ni propios ni de padres o contenidos) y lo avisa
+    con `educacion: true`; `educacion.json` trae toda la educación de la ficha. Principal + parte = la ficha completa,
+    sin repetidos ni faltantes."""
+    fichas, _, t = web
+    edu = {k for f in fichas.values() for k, m in f["indicadores"].items() if m["tema"] == "Educación"}
+    assert edu
+    con_parte = 0
+    for i, f in fichas.items():
+        principal, parte = separar_educacion(f, edu)
+        assert not any(o["indicador"] in edu for o in principal["observaciones"]), i
+        assert not set(principal["indicadores"]) & edu, i
+        for r in principal["padres"] + [r for rs in principal["contenidos"].values() for r in rs]:
+            assert not set(r["valores"]) & edu, i
+        tiene = [o for o in f["observaciones"] if o["indicador"] in edu]
+        assert (parte is not None) == bool(tiene) == bool(principal.get("educacion")), i
+        if parte:
+            con_parte += 1
+            juntas = principal["observaciones"] + parte["observaciones"]
+            clave = lambda o: (o["indicador"], o["periodo"], o["captura_id"])  # noqa: E731
+            assert sorted(map(clave, juntas)) == sorted(map(clave, f["observaciones"])), i
+            usados = {o["indicador"] for o in f["observaciones"]}
+            assert usados <= set(principal["indicadores"]) | set(parte["indicadores"]), i
+            assert set(parte["capturas"]) == {o["captura_id"] for o in tiene}, i
+        # la cita y «Fuentes de esta ficha» nombran a todas sus fuentes sin cargar la parte (AC-F6, revisión de #235)
+        assert principal["capturas"] == f["capturas"] and principal["fuentes"] == f["fuentes"], i
+        # el aviso de padres y contenidos: «Educación: datos por departamento» (AC-V24, AC-E28); los estimados que no
+        # son de educación quedan
+        todos = list(zip(f["padres"], principal["padres"])) + [
+            par for n in f["contenidos"] for par in zip(f["contenidos"][n], principal["contenidos"][n])]
+        for r_full, r in todos:
+            assert bool(r.get("educacion")) == bool(set(r_full["valores"]) & edu), i
+            assert set(r["valores"]) == set(r_full["valores"]) - edu, i
+            assert r.get("estimados", []) == [e for e in r_full.get("estimados", []) if e.split("/", 1)[0] not in edu], i
+    assert con_parte >= 19 + 2  # los departamentos, el país y el Interior
+    # sin educación, la ficha principal es la misma
+    sin = next(f for f in fichas.values() if f["nivel"] == "segmento")
+    p, parte = separar_educacion(sin, edu)
+    assert parte is None and p["observaciones"] == sin["observaciones"]

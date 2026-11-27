@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { abrirOpciones } from './visual/ayudas';
 
 const indice = JSON.parse(readFileSync('build/datos-web/territorios_index.json', 'utf-8')) as {
@@ -146,7 +146,10 @@ test('descargar CSV del territorio (columnas de AC-F5)', async ({ page }) => {
 	const [cabecera, ...filas] = texto.trim().split('\r\n');
 	expect(cabecera).toBe('territorio_id,nivel,codigo,nombre,indicador,periodo,periodo_inicio,periodo_fin,tipo_periodo,valor,unidad,es_estimado,fuente,archivo_origen,sha256,cuadro,es_derivado');
 	const ficha = JSON.parse(readFileSync('build/datos-web/fichas/departamento/07.json', 'utf-8')) as { observaciones: unknown[] };
-	expect(filas).toHaveLength(ficha.observaciones.length); // 4 del Censo (más la ECH en la vista previa)
+	// #227: la educación va aparte y el CSV la incluye
+	const parte = 'build/datos-web/fichas/departamento/07/educacion.json';
+	const edu = existsSync(parte) ? (JSON.parse(readFileSync(parte, 'utf-8')) as { observaciones: unknown[] }).observaciones.length : 0;
+	expect(filas).toHaveLength(ficha.observaciones.length + edu); // el Censo, la ECH y el MEC
 	expect(filas.find((f) => f.includes(',pob_total,'))).toContain(',2023,2023-01-01,2023-01-01,censo,26271,personas,false,');
 });
 
@@ -584,4 +587,20 @@ test('AC-E26: el tema «Educación» abre en la tasa de promoción en primaria p
 	await niveles.getByText('Media básica', { exact: true }).click();
 	await expect(page).toHaveURL(/indicador=edu_ii_3_/);
 	await expect(page.getByText('no se publica por')).toHaveCount(0);
+});
+
+test('#227 y AC-F5: el CSV del panel del mapa trae la educación del territorio, aunque el indicador no sea de educación', async ({ page }) => {
+	const E = JSON.parse(readFileSync('e2e/fixtures/ficha-educacion-flores.json', 'utf-8'));
+	await page.route('**/datos-web/fichas/departamento/07.json', async (route) => {
+		const r = await route.fetch();
+		const f = await r.json();
+		await route.fulfill({ response: r, json: { ...f, educacion: true, capturas: { ...f.capturas, ...E.capturas }, fuentes: { ...f.fuentes, ...E.fuentes } } });
+	});
+	await page.route('**/datos-web/fichas/departamento/07/educacion.json', (route) => route.fulfill({ json: E }));
+	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023&territorio=departamento/07');
+	const panel = page.getByRole('complementary', { name: 'Territorio seleccionado' });
+	await expect(panel.getByRole('heading', { name: 'Flores' })).toBeVisible();
+	const [descarga] = await Promise.all([page.waitForEvent('download'), panel.getByRole('button', { name: 'Descargar CSV' }).click()]);
+	const filas = readFileSync((await descarga.path())!, 'utf-8').trim().split('\r\n').slice(1);
+	expect(filas.filter((l) => l.split(',')[4].startsWith('edu_'))).toHaveLength(E.observaciones.length);
 });

@@ -233,6 +233,19 @@ describe('datosEnRegion (AC-I22)', () => {
 	});
 });
 
+describe('datosEnRegion (AC-I22)', () => {
+	it('#222: la educación propia que todavía no llegó (`educacion: true`) no manda a la región', () => {
+		const f = {
+			observaciones: [],
+			indicadores: {},
+			padres: [],
+			region: { id: 'INE-2023/region/interior', nivel: 'region', codigo: 'interior', nombre: 'Interior del país', temas: ['Educación', 'Ingresos'] }
+		} as never;
+		expect(datosEnRegion(f, ['Educación'])?.temas).toEqual(['Educación']);
+		expect(datosEnRegion({ ...(f as object), educacion: true } as never, ['Educación'])).toBeNull();
+	});
+});
+
 describe('datosEnPadre (AC-V24)', () => {
 	const res = (nivel: string, codigo: string, nombre: string, valores: Record<string, Record<string, number>>) =>
 		({ id: `INE-2023/${nivel}/${codigo}`, nivel, codigo, nombre, valores }) as never;
@@ -255,6 +268,13 @@ describe('datosEnPadre (AC-V24)', () => {
 	it('null si ningún nivel que la contiene tiene datos', () => {
 		expect(datosEnPadre({ padres, indicadores }, ['Educación'])).toBeNull();
 		expect(datosEnPadre({ padres: [], indicadores }, ['Trabajo'])).toBeNull();
+	});
+
+	it('#227: la educación del padre va aparte; su aviso `educacion` alcanza', () => {
+		const conEdu = [{ ...(padres[0] as object), educacion: true }, padres[1]] as never;
+		const r = datosEnPadre({ padres: conEdu, indicadores }, ['Educación']);
+		expect(r?.padre.nombre).toBe('San José');
+		expect(r?.temas).toEqual(['Educación']);
 	});
 });
 

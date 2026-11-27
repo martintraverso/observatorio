@@ -91,6 +91,17 @@ def territorio_de_fila(rotulo: str) -> str | None:
     return DEPARTAMENTOS.get(p)
 
 
+def departamento_al_comienzo(rotulo: str) -> str | None:
+    """#173 (mantenedor): un rótulo «departamento ciudad» («Cerro Largo Melo», «Artigas Artigas», II-6.2.1) → el
+    departamento por el comienzo del rótulo (el nombre más largo que calza palabra por palabra); None si no empieza
+    con un departamento."""
+    palabras = plegar(rotulo).split()
+    for n in range(len(palabras) - 1, 0, -1):
+        if (t := DEPARTAMENTOS.get(" ".join(palabras[:n]))):
+            return t
+    return None
+
+
 # ---------------------------------------------------------------- estructura de un cuadro
 
 def es_titulo(v: str, titulo: str) -> bool:
@@ -143,6 +154,8 @@ class Estructura:
     filas: list[tuple[int, str]] = field(default_factory=list)  # (fila, rótulo) de los datos
     pie: list[str] = field(default_factory=list)
     heredadas: list[str] = field(default_factory=list)
+    fuera: int = 0  # F4.8a1 (#224): filas con números después del pie («Fuente:»), fuera del cuadro: no son datos
+    sangradas: set[int] = field(default_factory=set)  # #173: filas cuyo rótulo empieza con espacios (establecimientos)
 
 
 def estructura(celdas: dict[tuple[int, int], object], combinadas, hoja: str) -> Estructura | None:
@@ -198,14 +211,26 @@ def estructura(celdas: dict[tuple[int, int], object], combinadas, hoja: str) -> 
             if not partes or partes[-1] != " ".join(str(v).split()):
                 partes.append(" ".join(str(v).split()))
         e.rutas[c] = "/".join(partes) or f"columna {c}"
+    despues_de_fuente = False
     for r in [x for x in filas if x >= desde]:
         a = celdas.get((r, 1))
         if isinstance(a, str) and re.match(r"\s*(Fuente|Nota|Notas|\(\d|\*)", a):
             e.pie.append(" ".join(a.split()))
+            despues_de_fuente = despues_de_fuente or bool(re.match(r"\s*Fuente", a))
             continue
         if a is None and not any((r, c) in celdas for c in range(2, max_col + 1)):
             continue
+        # Después del pie («Fuente:»), ninguna fila es un dato: una con números está fuera del cuadro (II-2.2.6 de 2020
+        # trae restos más abajo) y una de texto sigue la nota.
+        if despues_de_fuente:
+            if any(numero(celdas.get((r, c))) is not None for c in range(1, max_col + 1)):
+                e.fuera += 1
+            else:  # texto en cualquier columna (II-2.2.8 de 2020 sigue la nota en la columna B): parte del pie
+                e.pie.append(" ".join(" ".join(str(celdas[(r, c)]).split()) for c in range(1, max_col + 1) if (r, c) in celdas))
+            continue
         e.filas.append((r, " ".join(str(a).split()) if a is not None else ""))
+        if isinstance(a, str) and a[:1].isspace():
+            e.sangradas.add(r)
     return e
 
 
@@ -240,13 +265,19 @@ COLUMNAS = ["indicador", "territorio_id", "periodo", "periodo_inicio", "periodo_
             "codigo_cuadro", "celda"]
 
 
-def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo: str) -> Cuadro:
+def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo: str,
+                   segundas: list[str] | tuple = (), secciones: dict | None = None,
+                   solo_filas: list[str] | tuple = (), establecimientos: dict | None = None) -> Cuadro:
     """Valores del cuadro `codigo` del anuario `anio`, con el mapeo por columna del registro.
 
     Tipo A: cada fila es un territorio (AC-E8). Tipo B y C: cada fila es una categoría que pasa a ser parte del
     indicador (`<id>__<categoría>`) y el valor va a `pais/UY` (D1), salvo bajo una fila «TOTAL MONTEVIDEO» o «TOTAL
     RESTO DEL PAÍS», que las lleva a ese territorio (la fila del total es la categoría `total`). Una entrada del mapeo con `anio` (D4: el pie
-    declara que esa columna es de otro año) se guarda con ese período."""
+    declara que esa columna es de otro año) se guarda con ese período.
+
+    `establecimientos` (#173, mantenedor): en un cuadro A, las filas de establecimiento entre los territorios no se
+    cargan, por nombre: las de `sangradas` si el rótulo está sangrado, y las de `nombres` en cualquier caso. Con `ciudad_en_rotulo`, una fila
+    «departamento ciudad» va al departamento. Cualquier otra fila desconocida sigue frenando (AC-E8)."""
     celdas, combinadas = celdas_de(xlsx, hoja_del_cuadro(xlsx, codigo))
     e = estructura(celdas, combinadas, codigo)
     if e is None or e.sin_datos:
@@ -270,11 +301,40 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
     if faltan := sorted(columnas - set(e.rutas)):
         raise ErrorAnuario(f"{codigo} {anio}: columnas mapeadas que el archivo no tiene: {[letra(c) for c in faltan]} (AC-E9)")
     filas, sin_dato, pie, ignoradas, claves_sd, categorias = [], 0, list(e.pie), 0, [], {}
+    rotulo_de_sufijo: dict[str, str] = {}  # #224: dos filas con otro rótulo y el mismo nombre normalizado
+    avisos_casi_iguales: list[str] = []
     cols_mapeadas = [_col(m["col"]) for m in mapeo]
     grupo, territorio_grupo = "", PAIS
+    # #172 (mantenedor): un cuadro A con secciones por institución (II-5.1.1). Las filas de `reinicia` son totales de
+    # territorio; una fila que no es un territorio abre una sección y no se carga. En una sección de `secciones`, los
+    # departamentos van como esa categoría (`__dgetp`, otro id: AC-E13); en cualquier otra, no se cargan.
+    seccion, sufijo_seccion, salteadas = None, "", 0
+    reinicia = {plegar(x) for x in (secciones or {}).get("reinicia", [])}
+    est = establecimientos if tipo == "A" else None
+    nombres_est = {plegar(x) for x in (est or {}).get("nombres", [])}
+    sangradas_est = {plegar(x) for x in (est or {}).get("sangradas", [])}
     for r, rotulo in e.filas:
+        # #173 (revisión): por nombre; la sangría solo distingue un establecimiento que se llama como su departamento.
+        # Una fila sangrada que no está en la lista sigue su camino y, si no es un territorio, frena (AC-E8).
+        if est and ((r in e.sangradas and plegar(rotulo) in sangradas_est) or plegar(rotulo) in nombres_est):
+            salteadas += 1  # #173: un establecimiento (II-6.2.1: «Canelones» sangrado bajo el departamento Canelones)
+            continue
         vacia = all(celdas.get((r, c)) is None for c in cols_mapeadas)
         territorio = territorio_de_fila(rotulo) if tipo == "A" else None
+        if territorio is None and est and est.get("ciudad_en_rotulo"):
+            territorio = departamento_al_comienzo(rotulo)
+        if secciones and tipo == "A" and not (vacia and territorio is None):
+            if plegar(rotulo) in reinicia:
+                seccion, sufijo_seccion = None, ""
+            elif territorio is None:
+                seccion = plegar(rotulo)
+                cat = (secciones.get("secciones") or {}).get(seccion)
+                sufijo_seccion = f"__{cat}" if cat else ""
+                salteadas += 1
+                continue
+            elif seccion is not None and not sufijo_seccion:
+                salteadas += 1  # un departamento de otra institución (II-5.1.1: el Gastronómico en Maldonado)
+                continue
         if vacia and territorio is None:
             # fila sin nada en las columnas mapeadas y que no es un territorio: continuación de una nota («2- Dentro
             # de …», «Los datos refieren …») o restos fuera del cuadro (II-2.3.1: números sueltos en la columna A)
@@ -285,6 +345,11 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
             continue
         # una fila con algo en las columnas mapeadas (aunque sea «s/d») es una fila de datos: se valida entera
         es_total = tipo != "A" and (plegar(rotulo) in FILAS_PAIS or plegar(rotulo).startswith("total "))
+        # #172 (mantenedor): en los cuadros por institución, solo el TOTAL y las filas de institución (`solo_filas`,
+        # por el comienzo del rótulo); las carreras, años y niveles de formación que cuelgan de ellas no se cargan
+        if solo_filas and tipo != "A" and not es_total and not any(plegar(rotulo).startswith(plegar(x)) for x in solo_filas):
+            salteadas += 1
+            continue
         if es_total:
             # B/C: una fila «TOTAL …» abre un grupo. Si nombra un territorio, las filas del grupo van a ese territorio
             # (mantenedor, #180): «TOTAL DEL PAÍS» → país, «TOTAL MONTEVIDEO» → departamento/01, «TOTAL RESTO DEL
@@ -294,10 +359,26 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
         if tipo == "A":
             if territorio is None:
                 raise ErrorAnuario(f"{codigo} {anio}: fila desconocida «{rotulo}» (AC-E8)")
-            sufijo = ""
+            sufijo = sufijo_seccion if secciones else ""
+            if sufijo:
+                for m in mapeo:
+                    categorias[m["id"] + sufijo] = sufijo[2:].upper()
         else:
             categoria = "total" if es_total and not grupo else (rotulo if not grupo or rotulo == grupo else f"{grupo}/{rotulo}")
             territorio, sufijo = territorio_grupo, f"__{slug(categoria) or 'sin_rotulo'}"
+            # #224 (mantenedor): II-1.3.5 de 2024 publica «…por el mec» y «…por el MEC» con valores distintos. Son dos
+            # categorías: la segunda lleva __2 (y así), con su rótulo; nunca se suman. Dos filas idénticas siguen
+            # siendo un error (valores repetidos).
+            base, k = sufijo, 1
+            if categoria in segundas:  # el registro dice cuál de las dos lleva __2 (no el orden de las filas)
+                sufijo, k = f"{base}__2", 2
+            while sufijo in rotulo_de_sufijo and rotulo_de_sufijo[sufijo] != categoria:
+                k += 1
+                sufijo = f"{base}__{k}"
+            if k > 1:
+                avisos_casi_iguales.append(f"«{categoria}» (fila {r}) se carga como {sufijo}: el archivo publica otra fila "
+                                           f"casi igual" + (f", «{rotulo_de_sufijo[base]}»" if base in rotulo_de_sufijo else ""))
+            rotulo_de_sufijo.setdefault(sufijo, categoria)
             for m in mapeo:
                 categorias[m["id"] + sufijo] = categoria
         for m in mapeo:
@@ -332,6 +413,16 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
                            f"{datos.loc[repetidas, 'celda'].tolist()[:6]}")
     if ignoradas:
         avisos.append(f"{codigo} {anio}: {ignoradas} filas sin datos ignoradas")
+    if salteadas:
+        avisos.append(f"{codigo} {anio}: {salteadas} filas de institución, carrera o establecimiento no se cargan (regla del registro)")
+    avisos += [f"{codigo} {anio}: {a}" for a in avisos_casi_iguales]
+    # #229: una «segunda» del registro que no aparece en el archivo (una errata, o el archivo cambió) frena la carga:
+    # sin ella, el orden de las filas volvería a decidir qué categoría conserva el id de la serie (AC-E13)
+    faltan = [s for s in segundas if s not in rotulo_de_sufijo.values()]
+    if faltan:
+        raise ErrorAnuario(f"{codigo} {anio}: categorias_segundas sin fila en el archivo: {faltan}")
+    if e.fuera:
+        avisos.append(f"{codigo} {anio}: {e.fuera} filas con números después del pie («Fuente:»), fuera del cuadro, ignoradas")
     return Cuadro(codigo, anio, e.titulo, datos, pie, sin_dato, avisos, claves_sd, categorias)
 
 

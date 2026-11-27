@@ -17,6 +17,8 @@ anio_real:
     2021: {anio: 2020, columnas: privad}
   II-1.2.3:
     2021: {anio: 2020, columnas: todas}  # cuadro de inicial privada: todo es privada
+  II-1.2.5:
+    2021: {anio: 2020, columnas: dgeip-privad}  # #229: el pie nombra solo «Privada del DGEIP»; los CPIP son de 2021 (D4)
   II-2.1.1:
     2021: {anio: 2020, columnas: privad}
   II-2.1.4:
@@ -34,7 +36,27 @@ anio_real:
   II-2.3.2:
     2023: {anio: 2022, columnas: todas}
     2024: {anio: 2022, columnas: todas}
+  # F4.8a1 (#224): la ola 2 de inicial y primaria, con las mismas notas que la ola 1
+  II-1.3.2:
+    2023: {anio: 2022, columnas: todas}  # «último año disponible… (año 2022)»
+    2024: {anio: 2022, columnas: todas}
+  II-2.2.6:
+    2021: {anio: 2020, columnas: todas}  # matrícula de primaria privada: todo es privada
+  II-2.2.10:
+    2021: {anio: 2020, columnas: todas}  # primaria común privada
+  II-2.2.11:
+    2021: {anio: 2020, columnas: privad}
+  II-2.2.12:
+    2021: {anio: 2020, columnas: privad}
+    # 2022 y 2023 repiten la nota «Privada… año 2020». El anuario 2020 no publica estas columnas, así que se comparan
+    # con las del anuario 2021 (que son las de 2020): 2022 es igual en las 98 celdas y no se vuelve a cargar; 2023
+    # difiere (4 de 50 iguales) y queda en 2023 con su nota (D4).
+    2022: {anio: 2021, columnas: privad}
+    2023: {anio: 2021, columnas: privad}
   # II-2.2.18 2023 no es de otro año: no hay datos (todo «s/d»), lo resuelve el parser.
+  # F4.8c (#173): formación en educación
+  II-6.3.2:
+    2024: {anio: 2023, columnas: todas}  # «último dato disponible año 2023»: igual al anuario 2023, no se vuelve a cargar
 
 # total_con_error (D5): filas en las que el total general publicado no cierra con sus partes por un error de la
 # fuente. Se guarda lo publicado y queda anotado; ninguna otra fila ni cuadro tiene tolerancia.
@@ -42,6 +64,13 @@ total_con_error:
   II-3.2.2:
     2021: Treinta y Tres  # 315 publicado contra 580 sumado
     2022: Treinta y Tres  # 320 publicado contra 477 sumado
+  II-5.2.2:  # #172: el total de la DGETP no es varones + mujeres en el archivo
+    2023: DGETP  # MATRICULADOS: 13.749 publicado contra 14.848 sumado
+    2024: DGETP  # INGRESADOS: 9.845 publicado contra 9.861 sumado
+  II-5.3.1:  # #172: «Con postgrado de especialización» trae 0 en el total de 21 a 30 horas y varones en el tramo
+    2021: Con postgrado de especialización o maestría  # Escuela Naval, 0 publicado contra 8 sumado
+    2022: Con postgrado de especialización o maestría  # Escuela Naval, 0 publicado contra 8 sumado
+    2024: Con postgrado de especialización o maestría  # Escuela Naval, 0 publicado contra 1 sumado
 
 # repetidas (D5): columnas con la misma ruta que otra. Estrategia por cuadro, comprobada con sumas en
 # todas las filas de cada año:
@@ -50,12 +79,20 @@ total_con_error:
 #   padre: las columnas repetidas seguidas desglosan la columna no repetida de su izquierda -> <padre>/<rótulo>
 repetidas:
   II-1.2.2: izquierda
+  II-2.2.12: derecha  # #224: «TOTAL» de PROMOVIDOS (B) y de NO PROMOVIDOS (E), cada uno del grupo a su derecha
   II-3.1.1: padre
   II-3.2.2: derecha
   II-3.2.7: derecha
   II-4.1.1: padre
   II-4.2.2: derecha
   II-4.2.4: padre
+  II-5.2.1: derecha  # #172: «TOTAL» de INGRESADOS, MATRICULADOS y EGRESADOS, cada uno del grupo a su derecha
+  II-5.2.2: derecha
+  II-5.3.1: derecha  # #172: «HORAS SEMANALES/Total» de cada tramo de horas, a su derecha
+  II-5.3.2: derecha
+  II-6.2.2: derecha  # #173: «TOTAL» de INGRESADOS, MATRICULADOS y EGRESADOS, cada uno del grupo a su derecha
+  II-6.2.3: derecha
+  II-6.3.2: derecha  # #173: «HORAS SEMANALES/Total» de cada tramo de horas, a su derecha
 
 # renombres (D5): columnas cuyo encabezado en el archivo está mal; el concepto se decide comparando con los
 # años vecinos. Clave: columna del archivo de ese año.
@@ -71,6 +108,30 @@ renombres:
         S: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN DE CICLO INICIAL/AÑOS/3
         T: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN DE CICLO INICIAL/AÑOS/4
         U: PÚBLICA/EDUCACIÓN DE INICIAL/JARDÍN DE CICLO INICIAL/AÑOS/5
+  II-6.2.2:
+    2024:
+      motivo: >-
+        el sexo es «s/d» en todo el cuadro y los tres «TOTAL» no se pueden probar con la suma; están en el mismo lugar
+        que en 2020–2023, donde sí suman su grupo de la derecha (B = C + D, E = F + G, H = I + J).
+      columnas:
+        B: INGRESADOS/TOTAL
+        E: MATRICULADOS/TOTAL
+        H: EGRESADOS/TOTAL
+  II-6.3.2:  # #173: 2020–2022 rotulan el sexo «M/F» (masculino/femenino); 2023–2024, «V/M» (varón/mujer)
+    2020: &sexo_m_f_ii_6_3_2
+      motivo: >-
+        el archivo rotula el sexo «M» (masculino) y «F» (femenino); desde 2023, «V» y «M». En 2020, 5 «M» y 39 «F» de
+        44 docentes del CENFORES: «M» es varón. Sin el renombre, la «M» de 2020–2022 (varones) se uniría a la «M» de
+        2023–2024 (mujeres).
+      columnas:
+        D: HORAS SEMANALES/20 horas o menos/SEXO/V
+        E: HORAS SEMANALES/20 horas o menos/SEXO/M
+        G: HORAS SEMANALES/Entre 21 y 30 horas/SEXO/V
+        H: HORAS SEMANALES/Entre 21 y 30 horas/SEXO/M
+        J: HORAS SEMANALES/31 horas y más/SEXO/V
+        K: HORAS SEMANALES/31 horas y más/SEXO/M
+    2021: *sexo_m_f_ii_6_3_2
+    2022: *sexo_m_f_ii_6_3_2
 
 # conceptos (D5): rutas que la regla de encabezados (`completar_grupos`) deja mal, en todos los años en que
 # aparecen. `suma`: rutas (o prefijos terminados en «/», o finales que empiezan con «*/») cuyas columnas tienen
@@ -133,7 +194,26 @@ desgloses_extra:
   II-1.2.4:  # el TOTAL es varones + mujeres + los «sin dato» de CPIP (columna dentro de CPIP)
     - total: TOTAL
       partes: ["TOTAL/SEXO/VARÓN", "TOTAL/SEXO/MUJER", "FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato"]
+  II-3.3.2:  # #233: con GÉNERO (2023–), el TOTAL de cada fila es varones + mujeres + trans
+    - total: TOTAL
+      partes: ["GÉNERO/Varones", "GÉNERO/Mujeres", "GÉNERO/Trans"]
+  II-4.3.2:  # #233: ídem (2024–)
+    - total: TOTAL
+      partes: ["GÉNERO/Varones", "GÉNERO/Mujeres", "GÉNERO/Trans"]
+  II-1.2.5:  # #233: como II-1.2.4, en cada fila (edad): el TOTAL es varones + mujeres + los «sin dato» de sexo, que el cuadro
+    # publica solo dentro de CPIP (2021–) y de la privada DGEIP (2023–). Con las dos columnas manda la segunda declaración.
+    - total: TOTAL
+      partes: ["SEXO/V", "SEXO/M", "FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato"]
+    - total: TOTAL
+      partes: ["SEXO/V", "SEXO/M", "FORMA DE ADMINISTRACIÓN/DGEIP-PRIVADOS (Habilitados y Autorizados)/SEXO/Sin dato", "FORMA DE ADMINISTRACIÓN/Centros de Primera Infancia Privados (CPIP)/SEXO/Sin dato"]
 
+  II-6.2.1:  # #173: el total de cada movimiento = Magisterio + Profesorado + Educador Social
+    - total: TOTAL/Ingr.
+      partes: ["CARRERA/Magisterio/Ingr.", "CARRERA/Profesorado/Ingr.", "CARRERA/Educador Social/Ingr."]
+    - total: TOTAL/Matr.
+      partes: ["CARRERA/Magisterio/Matr.", "CARRERA/Profesorado/Matr.", "CARRERA/Educador Social/Matr."]
+    - total: TOTAL/Egr.
+      partes: ["CARRERA/Magisterio/Egr.", "CARRERA/Profesorado/Egr.", "CARRERA/Educador Social/Egr."]
 # particiones (F4.5a, AC-E19): cuadros B con filas jerárquicas; cada regla es [total, [partes]] (categorías del id).
 particiones:
   II-3.2.1:
@@ -142,10 +222,106 @@ particiones:
   II-4.2.1:
     - [total, [media_superior_publica, media_superior_privada]]
     - [media_superior_publica, [diurna, cuarto_turno]]
+  # F4.8a2 (#225): grupos de media básica y superior (filas jerárquicas como II-3.2.1)
+  II-3.4.1:
+    - [total, [media_basica_publica, media_basica_privada]]
+    - [media_basica_publica, [diurna, cuarto_turno]]
+  II-4.4.1:
+    - [total, [educacion_media_superior_publica, educacion_media_superior_privada]]
+    - [educacion_media_superior_publica, [diurna, nocturna]]
+
+# no_aditivos (#225, mantenedor): columnas publicadas que no son conteos (promedios). Se cargan con su unidad y quedan
+# fuera del control de sumas (AC-E19). `patron`: parte del id del indicador.
+no_aditivos:
+  II-3.4.1: {patron: promedio, unidad: alumnos por grupo}
+  II-4.4.1: {patron: promedio, unidad: alumnos por grupo}
+
+# unidades (#233): la unidad de las columnas que no tienen la del cuadro. `patron`: parte del id del indicador.
+unidades:
+  II-3.3.1: [{patron: horas, unidad: horas docentes}]
+  II-4.3.1: [{patron: horas, unidad: horas docentes}]
+  II-5.1.1: [{patron: matricula, unidad: estudiantes}]  # #172: matrícula y docentes en el mismo cuadro
+  II-6.1.1: [{patron: total, unidad: estudiantes}]  # #173: «TOTAL» es la matrícula; «DOCENTES», docentes
+  II-6.3.1: [{patron: horas, unidad: horas docentes}]
+
+# observaciones_sin_cargar (#233, mantenedor): valores publicados que no se cargan, por cuadro: los años, la columna
+# (`patron`, parte del id) y las categorías que sí se cargan (`salvo`). El motivo va a la nota del indicador.
+observaciones_sin_cargar:
+  II-3.3.1:
+    anios: [2020, 2021]
+    patron: horas
+    salvo: [total]
+    motivo: "Las horas por asignatura de 2020 y 2021 no se cargan: en esos anuarios no corresponden a sus docentes (p. ej. Alemán, 1 docente y 11.457 horas en 2020; Educación Física y Educ. Social y Cívica intercambiadas en 2021). Sí se cargan el total de horas y los docentes por asignatura (mantenedor, #233)."
+  II-4.3.1:
+    anios: [2020, 2021]
+    patron: horas
+    salvo: [total]
+    motivo: "Las horas por asignatura de 2020 y 2021 no se cargan: en esos anuarios no corresponden a sus docentes (p. ej. Historia, 1.020 docentes y 4 horas en 2020; Geografía, 0 horas en 2021). Sí se cargan el total de horas y los docentes por asignatura (mantenedor, #233)."
+
+  II-6.3.1:
+    anios: [2020]
+    patron: horas
+    salvo: []
+    motivo: "Las horas de 2020 no se cargan: el anuario publica 0 en el total, Montevideo y el resto del país, y «s/d» en todos los departamentos y establecimientos; el 0 no es un dato (mantenedor, #173). Sí se cargan los docentes de 2020."
+# secciones_por_institucion (#172, mantenedor): un cuadro A con filas de institución. Las de `reinicia` son totales de
+# territorio; una fila que no es un territorio abre una sección y no se carga; en las `secciones` nombradas, los
+# departamentos van como esa categoría (otro id); en cualquier otra sección, no se cargan.
+secciones_por_institucion:
+  II-5.1.1:
+    reinicia: [TOTAL, MONTEVIDEO, RESTO DEL PAÍS]
+    secciones: {dgetp: dgetp}  # los departamentos del Interior son solo la DGETP
+
+# solo_filas (#172, mantenedor): en estos cuadros por institución se cargan el TOTAL y las filas de institución
+# (por el comienzo del rótulo, sin tildes ni mayúsculas); las carreras, años y niveles de formación no se cargan.
+# «ESCUELA MILITAR» alcanza también a «ESCUELA MILITAR DE AERONÁUTICA», que es otra institución.
+solo_filas:
+  II-5.2.1: &instituciones_ii5 ["ESCUELA NAVAL", "ESCUELA NACIONAL DE POLICÍA", "ESCUELA MILITAR", "IMES", "ESCUELA DE EQUITACIÓN", "INSTITUCIÓN DE LA COMUNIDAD SORDA", "ESCUELA DE FORMACIÓN PROFESIONAL", "CENTRO DE NAVEGACIÓN", "EMAD", "DGETP", "SODRE", "INSTITUTO URUGUAYO GASTRONÓMICO", "Instituto Amigos de la Escuela"]
+  II-5.2.2: *instituciones_ii5
+  II-5.3.1: *instituciones_ii5
+  II-5.3.2: *instituciones_ii5
+  II-6.2.2: ["INAU"]  # #173: una institución (INAU – CENFORES) y su carrera, con los mismos valores: solo la institución
+
+# filas_de_establecimiento (#173, mantenedor): cuadros A con filas de establecimiento entre los territorios; no se
+# cargan, por nombre (sin tildes ni mayúsculas). `sangradas`: las que se saltean solo si el rótulo empieza con espacios
+# (en II-6.2.1 un establecimiento puede llamarse como su departamento: «Canelones» bajo Canelones); `nombres`: en
+# cualquier caso. `ciudad_en_rotulo`: una fila «departamento ciudad» («Cerro Largo Melo») va al departamento.
+# Cualquier otra fila desconocida, sangrada o no, frena (AC-E8).
+filas_de_establecimiento:
+  II-6.1.1: {nombres: [IINN, IPA, INET, IFES]}  # los institutos de Montevideo
+  II-6.2.1:
+    ciudad_en_rotulo: true
+    sangradas: [IINN, IPA, INET, IFES, Canelones, De la Costa, Pando, San Ramón, María Auxiliadora, Cerp Sur- Atlántida,
+                Colonia, Carmelo, Rosario, Florida, Cerp Centro - Florida, Maldonado, Cerp Este, Rivera, Cerp Norte, Salto,
+                Cerp Salto]
+  II-6.3.1:
+    sangradas: [IINN, IPA, INET, IFES, IFD Canelones, IFD de la Costa, IFD Pando, IFD San Ramón, CERP del Sur, IFD Carmelo,
+                IFD Rosario, CERP del Suroeste, IFD Florida, CERP del Centro, IFD Maldonado, IFD Rivera, CERP del Norte,
+                IFD Salto, CERP del Litoral]
+
+# tipos_a_mano (#173, mantenedor): tipo que la clasificación automática no reconoce. II-6.2.1 queda C por los IFD y
+# CERP, pero sus filas son país, Montevideo, el resto del país y los 18 departamentos (con la ciudad en el rótulo).
+tipos_a_mano:
+  II-6.2.1: A
+
+# unidad_del_cuadro (#173): la unidad cuando la del título no es la de los valores. II-6.2.1 dice «ESTABLECIMIENTO»
+# en el título pero cuenta estudiantes.
+unidad_del_cuadro:
+  II-6.2.1: estudiantes
+
+# notas_cuadro (#173, mantenedor): una nota que se agrega a la de cada indicador del cuadro.
+notas_cuadro:
+  II-6.3.3: "Los valores por departamento de origen coinciden con los del departamento donde se estudia (cuadro II-6.2.1) en 2020, 2022, 2023 y 2024; en 2021 difieren solo los ingresados de Canelones y Maldonado (76 cambiados de lugar). Se cargan tal como los publica el anuario (mantenedor, #173)."
 
 # huecos (F4.5a, AC-E21): territorios que faltan en un cuadro A sin que el anuario los publique sin dato.
 # Hoy ninguno: todo lo que falta está publicado como «s/d» o «-».
-huecos: {}
+huecos:
+  II-5.1.1:
+    2020: {territorios: [departamento/02, departamento/03, departamento/04, departamento/05, departamento/06, departamento/07, departamento/08, departamento/09, departamento/10, departamento/11, departamento/12, departamento/13, departamento/14, departamento/15, departamento/16, departamento/17, departamento/18, departamento/19], motivo: "en el Interior el cuadro publica por departamento solo la DGETP (se carga aparte, __dgetp); el total de cada departamento no se publica (#172)"}
+    2021: {territorios: [departamento/02, departamento/03, departamento/04, departamento/05, departamento/06, departamento/07, departamento/08, departamento/09, departamento/10, departamento/11, departamento/12, departamento/13, departamento/14, departamento/15, departamento/16, departamento/17, departamento/18, departamento/19], motivo: "en el Interior el cuadro publica por departamento solo la DGETP (se carga aparte, __dgetp); el total de cada departamento no se publica (#172)"}
+    2022: {territorios: [departamento/02, departamento/03, departamento/04, departamento/05, departamento/06, departamento/07, departamento/08, departamento/09, departamento/10, departamento/11, departamento/12, departamento/13, departamento/14, departamento/15, departamento/16, departamento/17, departamento/18, departamento/19], motivo: "en el Interior el cuadro publica por departamento solo la DGETP (se carga aparte, __dgetp); el total de cada departamento no se publica (#172)"}
+    2023: {territorios: [departamento/02, departamento/03, departamento/04, departamento/05, departamento/06, departamento/07, departamento/08, departamento/09, departamento/10, departamento/11, departamento/12, departamento/13, departamento/14, departamento/15, departamento/16, departamento/17, departamento/18, departamento/19], motivo: "en el Interior el cuadro publica por departamento solo la DGETP (se carga aparte, __dgetp); el total de cada departamento no se publica (#172)"}
+    2024: {territorios: [departamento/02, departamento/03, departamento/04, departamento/05, departamento/06, departamento/07, departamento/08, departamento/09, departamento/10, departamento/11, departamento/12, departamento/13, departamento/14, departamento/15, departamento/16, departamento/17, departamento/18, departamento/19], motivo: "en el Interior el cuadro publica por departamento solo la DGETP (se carga aparte, __dgetp); el total de cada departamento no se publica (#172)"}
+
 
 # controles_excepciones (F4.5a): lo publicado no cierra y se guarda tal cual. Cada excepción está acotada a sus
 # indicadores (y territorios, si los dice) y su motivo dice lo que muestra el archivo; el control la reporta como
@@ -175,7 +351,34 @@ controles_excepciones:
       2023:
         motivo: "el país publicado no es la suma de los departamentos (promovidos 37.131 contra 34.226; no promovidos 12.366 contra 10.992)"
         indicadores: [edu_ii_4_2_13_rendimiento_promovido, edu_ii_4_2_13_rendimiento_no_promovido]
+    II-6.1.1:
+      2020: &docentes_cfe_2020
+        motivo: "el total de docentes del país (2.869) incluye 8 docentes del IPES, 29 del CFE y 155 semipresenciales que no están en ningún departamento (pie del cuadro): la suma de los departamentos da 2.677 (#173)"
+        indicadores: [edu_ii_6_1_1_docentes]
+    II-6.3.1:
+      2020:
+        <<: *docentes_cfe_2020
+        indicadores: [edu_ii_6_3_1_cantidad_de_docentes]
   AC-E19:  # desgloses
+    II-5.2.1:
+      2024:
+        motivo: "el TOTAL de ingresados (321: 255 varones, 66 mujeres) no incluye a los 12 de la Escuela de Equitación del Ejército (4 varones, 8 mujeres), que el cuadro sí publica; en 2023 los incluía (#172)"
+        indicadores: [edu_ii_5_2_1_ingresados_total, edu_ii_5_2_1_ingresados_sexo_v, edu_ii_5_2_1_ingresados_sexo_m]
+        territorios: [pais/UY]
+    II-5.2.2:
+      2023:
+        motivo: "la fila de la DGETP publica 13.749 matriculados y sus varones + mujeres suman 14.848; la fila TOTAL (15.312) cierra con 14.848 (#172)"
+        indicadores: [edu_ii_5_2_2_matriculados_total, edu_ii_5_2_2_matriculados_total__dgetp]
+        territorios: [pais/UY]
+      2024:
+        motivo: "la fila de la DGETP publica 9.845 ingresados y sus varones + mujeres suman 9.861; la fila TOTAL (10.091) cierra con 9.861 (#172)"
+        indicadores: [edu_ii_5_2_2_ingresados_total, edu_ii_5_2_2_ingresados_total__dgetp]
+        territorios: [pais/UY]
+    II-4.3.2:
+      2024:
+        motivo: "la fila TOTAL es coherente (8.793 + 12.485 + 2 trans = 21.280), pero las filas «Educación Media Superior» (5.741) y «Educación Media Tecnológica» (5.357) no cuentan en su total al docente trans (5.742 y 5.358 con él): la suma de las categorías da 21.278"
+        indicadores: [edu_ii_4_3_2_total, edu_ii_4_3_2_total__educacion_media_superior, edu_ii_4_3_2_total__educacion_media_tecnologica]
+        territorios: [pais/UY]
     II-1.2.1:
       2023:
         motivo: "el total no es varones + mujeres en el archivo (país 95.709 contra 95.597)"
@@ -188,8 +391,8 @@ controles_excepciones:
         territorios: [pais/UY]
     II-1.2.5:
       2020:
-        motivo: "el total por sexo publicado no es la suma por edad (mujeres 97.051 contra 97.084; varones 92.669 contra 92.692)"
-        indicadores: [edu_ii_1_2_5_sexo_m, edu_ii_1_2_5_sexo_v, edu_ii_1_2_5_forma_de_administracion_privados_mec_sexo_m, edu_ii_1_2_5_forma_de_administracion_privados_mec_sexo_v]
+        motivo: "el total por sexo publicado no es la suma por edad (mujeres 97.051 contra 97.084; varones 92.669 contra 92.692); por eso, en la fila TOTAL, varones + mujeres (189.720) no llega al TOTAL (189.776, que sí es la suma por edad): a los varones y mujeres de esa fila les faltan los de «más de 6 años» (23 + 33 = 56) (#233)"
+        indicadores: [edu_ii_1_2_5_sexo_m, edu_ii_1_2_5_sexo_v, edu_ii_1_2_5_forma_de_administracion_privados_mec_sexo_m, edu_ii_1_2_5_forma_de_administracion_privados_mec_sexo_v, edu_ii_1_2_5_total__total]
         territorios: [pais/UY]
     II-2.2.1:
       2023:
@@ -260,3 +463,13 @@ control_ine:
 cuadros_sin_cargar:
   II-3.2.10:
     2024: "en el archivo, el TOTAL y «Articulación» son iguales en las 21 filas y «EBI» los repite en el Interior y los 18 departamentos (Articulación pasa de 2.549 promovidos en 2023 a 18.529); no se carga el cuadro de 2024 (mantenedor, #196)"
+  II-2.2.7:
+    2020: "el MEC reparte el total por edad y sexo en proporción (la privada no tiene esos datos): publica estudiantes con decimales, que no son conteos (AC-E11) ni cierran por departamento (AC-E17); no se carga el cuadro de este año (mantenedor, #224)"
+    2021: "el MEC reparte el total por edad y sexo en proporción (la privada no tiene esos datos): publica estudiantes con decimales, que no son conteos (AC-E11) ni cierran por departamento (AC-E17); no se carga el cuadro de este año (mantenedor, #224)"
+    2022: "el MEC reparte el total por edad y sexo en proporción (la privada no tiene esos datos): publica estudiantes con decimales, que no son conteos (AC-E11) ni cierran por departamento (AC-E17); no se carga el cuadro de este año (mantenedor, #224)"
+
+# categorias_segundas (#224): dos filas con distinto rótulo y el mismo nombre normalizado son dos categorías
+# (mantenedor). La que se nombra acá lleva «__2»; la otra conserva el id de los años anteriores (AC-E13).
+categorias_segundas:
+  II-1.3.5:
+    2024: ["Otros cursos no reconocidos por el mec"]  # 2020–2023 publican solo «…por el MEC», que sigue su serie

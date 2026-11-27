@@ -71,7 +71,9 @@ def leer_anuario(xlsx: bytes, anio: int, fuente: dict, sin_dato: set | None = No
         mapeo = (e.get("mapeo") or {}).get(anio)
         if e.get("ola") != 1 or not mapeo:
             continue
-        c = mec.parsear_cuadro(xlsx, cod, anio, mapeo, e["tipos"][anio])
+        c = mec.parsear_cuadro(xlsx, cod, anio, mapeo, e["tipos"][anio], (e.get("categorias_segundas") or {}).get(anio, ()),
+                               e.get("secciones_por_institucion"), e.get("solo_filas") or (),
+                               e.get("filas_de_establecimiento"))
         partes.append(c.datos)
         if sin_dato is not None:
             sin_dato.update(c.sin_dato_claves)
@@ -80,6 +82,27 @@ def leer_anuario(xlsx: bytes, anio: int, fuente: dict, sin_dato: set | None = No
         pies[cod] = c.pie
         avisos += c.avisos + ([f"{cod} {anio}: {c.sin_dato} celdas sin dato («-», «s/d», vacías)"] if c.sin_dato else [])
     return pd.concat(partes, ignore_index=True) if partes else pd.DataFrame(columns=mec.COLUMNAS), pies, avisos
+
+
+def regla_sin_cargar(reglas: dict, cod: str | None, indicador: str) -> dict | None:
+    """#233: la regla de `observaciones_sin_cargar` que alcanza a un indicador (columna por `patron` en el id base;
+    las categorías de `salvo` se cargan), o None."""
+    r = reglas.get(cod) if cod else None
+    if not r:
+        return None
+    base, _, categoria = indicador.partition("__")
+    return r if r["patron"] in base and categoria not in r.get("salvo", []) else None
+
+
+def quitar_sin_cargar(obs: pd.DataFrame, reglas: dict, cuadro_de: dict) -> pd.DataFrame:
+    """#233 (mantenedor): saca los valores publicados que no se cargan (`observaciones_sin_cargar`, por cuadro, años,
+    columna y categoría), p. ej. las horas por asignatura de II-3.3.1 en 2020 y 2021, desalineadas en el archivo."""
+    if not reglas or obs.empty:
+        return obs
+    fuera = [bool((r := regla_sin_cargar(reglas, cuadro_de.get(i.split("__")[0]), i))
+                  and int(str(per)[:4]) in r["anios"])
+             for i, per in zip(obs.indicador, obs.periodo)]
+    return obs[~pd.Series(fuera, index=obs.index)].reset_index(drop=True)
 
 
 def derivados(obs: pd.DataFrame) -> tuple[pd.DataFrame, dict[str, str]]:
@@ -152,7 +175,8 @@ def nombre_tasa(cod: str, e: dict, concepto: str, categoria: str = "") -> str:
 
 def indicadores(obs: pd.DataFrame, fuente: dict, pies: dict, formulas: dict, serie: pd.DataFrame,
                 notas_prev: dict | None = None, categorias: dict | None = None,
-                nombres_prev: dict | None = None) -> pd.DataFrame:
+                nombres_prev: dict | None = None, no_aditivos: dict | None = None,
+                unidades: dict | None = None) -> pd.DataFrame:
     """El catálogo: nombre, unidad y columna de origen de cada indicador cargado; la nota es el pie del cuadro (del
     año más reciente parseado; si en esta corrida no se parseó, la que ya estaba publicada). El nombre usa la ortografía
     del archivo: el título con sus siglas, y la categoría de los cuadros B y C tal como la escribe el archivo
@@ -197,7 +221,10 @@ def indicadores(obs: pd.DataFrame, fuente: dict, pies: dict, formulas: dict, ser
                 nombre = nombres_prev[ind]
             else:
                 nombre += f" — {categoria.replace('_', ' ')}"
-        filas.append({"codigo": ind, "nombre": nombre, "unidad": e.get("unidad", "estudiantes"),
+        na = (no_aditivos or {}).get(cod)
+        un = next((u["unidad"] for u in (unidades or {}).get(cod, []) if u["patron"] in base), None)  # #233: horas
+        unidad = na["unidad"] if na and na["patron"] in base else un or e.get("unidad", "estudiantes")  # #225: promedios
+        filas.append({"codigo": ind, "nombre": nombre, "unidad": unidad,
                       "columna_origen": f"Cuadro {cod} · {concepto}",
                       "nota": " ".join(pies[cod]) if cod in pies else (notas_prev or {}).get(ind, ""),
                       "es_derivado": False, "formula": ""})
@@ -301,7 +328,7 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False, fuent
     anios_vigentes = [int(c["codigo"]) for c in vigentes]
     ultimo_de = {cod: max((a for a in anios_vigentes if (e.get("mapeo") or {}).get(a)), default=None)
                  for cod, e in fuente["cuadros"].items()}
-    partes, pies, avisos, parseadas, sin_dato, categorias = [], {}, [], [], set(), {}
+    partes, pies, avisos, parseadas, sin_dato, categorias_anio = [], {}, [], [], set(), {}
     for c in vigentes:
         anio = int(c["codigo"])
         if c["id"] in ya:
@@ -310,7 +337,12 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False, fuent
             partes.append(previas.drop(columns=["es_estimado"], errors="ignore").assign(
                 codigo_cuadro=previas.indicador.str.split("__").str[0].map(cuadro_de), celda=""))
             continue
-        datos, p, a = leer_anuario((crudo / c["archivo"]).read_bytes(), anio, fuente, sin_dato, categorias)
+        cats: dict = {}
+        datos, p, a = leer_anuario((crudo / c["archivo"]).read_bytes(), anio, fuente, sin_dato, cats)
+        # #224: el rótulo de cada categoría, del año más nuevo que se parsea
+        for k, v in cats.items():
+            if anio >= categorias_anio.get(k, (0, ""))[0]:
+                categorias_anio[k] = (anio, v)
         partes.append(datos.assign(captura_id=c["id"]))
         # la nota de un indicador es el pie del cuadro en el anuario más reciente que lo trae: un año viejo
         # parseado (una revisión de 2022) no la cambia
@@ -320,6 +352,8 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False, fuent
     ultimo = vigentes[-1]
     serie = mec.parsear_serie_matricula((crudo / ultimo["archivo"]).read_bytes()).assign(captura_id=ultimo["id"])
     obs = pd.concat([*partes, serie.drop(columns=["ruta"])], ignore_index=True)
+    sin_cargar = manual.get("observaciones_sin_cargar") or {}
+    obs = quitar_sin_cargar(obs, sin_cargar, cuadro_de)
     deriv, formulas = derivados(obs)
     # F4.5a: controles antes de publicar; una falla frena la carga
     anios_parseados = {c["codigo"] for c in vigentes if c["id"] in parseadas}
@@ -349,7 +383,22 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False, fuent
         i_prev = pd.read_parquet(salida / "indicadores.parquet")
         i_prev = i_prev[i_prev.fuente_id == FUENTE_ID]
         notas_prev, nombres_prev = dict(zip(i_prev.codigo, i_prev.nota)), dict(zip(i_prev.codigo, i_prev.nombre))
-    ind = indicadores(obs, fuente, pies, formulas, serie, notas_prev, categorias, nombres_prev)
+    # #224: el rótulo vale solo si viene del anuario más nuevo que publica el indicador; si ese no se parseó en esta
+    # corrida (revisión de un año viejo), queda el nombre ya publicado (AC-E6: igual que una carga completa).
+    anio_de_captura = {c["id"]: int(c["codigo"]) for c in vigentes}
+    ultimo_anio = obs.assign(_a=obs.captura_id.map(anio_de_captura)).groupby("indicador")._a.max()
+    categorias = {k: v for k, (a, v) in categorias_anio.items() if a >= ultimo_anio.get(k, a)}
+    ind = indicadores(obs, fuente, pies, formulas, serie, notas_prev, categorias, nombres_prev, manual.get("no_aditivos"),
+                      manual.get("unidades"))
+    # #233: la nota de lo que no se carga dice qué años faltan y por qué (AC-E2); #173: y la nota del cuadro que el
+    # mantenedor agrega (`notas_cuadro`)
+    notas_cuadro = manual.get("notas_cuadro") or {}
+    for k, i in enumerate(ind.codigo):
+        r = regla_sin_cargar(sin_cargar, cuadro_de.get(i.split("__")[0]), i)
+        for extra in ([r["motivo"]] if r else []) + ([notas_cuadro[c]] if (c := cuadro_de.get(i.split("__")[0])) in notas_cuadro else []):
+            if extra not in ind.at[k, "nota"]:
+                previa = ind.at[k, "nota"].strip()
+                ind.at[k, "nota"] = (previa + ("" if not previa or previa.endswith(".") else ".") + " " + extra).strip()
     hoy = ahora()
     fecha_prev = {} if cap_prev is None else dict(zip(cap_prev.id, cap_prev.fecha_proceso))
     capturas = [nueva_captura(FUENTE_ID, c["archivo"], c["sha256"], hoy if c["id"] in parseadas else fecha_prev.get(c["id"], hoy),

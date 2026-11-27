@@ -2,7 +2,7 @@
 	// Pantalla Mapa (M6): tema → indicador → nivel → período; coropleta; panel del territorio.
 	import { onMount, tick, untrack } from 'svelte';
 	import { replaceState } from '$app/navigation';
-	import { cargarFicha, esNivel, leerJson, type Ficha } from '#lib/datos.ts';
+	import { cargarEducacion, cargarFicha, esNivel, leerJson, unirEducacion, type Ficha } from '#lib/datos.ts';
 	import { NOMBRE_SITIO } from '#lib/sitio.ts';
 	import Mapa from '#lib/mapa/Mapa.svelte';
 	import Leyenda from '#lib/mapa/Leyenda.svelte';
@@ -154,6 +154,8 @@
 	// Ficha del territorio seleccionado.
 	$effect(() => {
 		const t = estado.territorio;
+		// #227: con un indicador de educación, el panel necesita la educación de la ficha (va aparte)
+		const conEdu = !!estado.indicador?.startsWith('edu_');
 		if (!montado) return;
 		if (!t) {
 			ficha = null;
@@ -167,9 +169,10 @@
 			return;
 		}
 		cargarFicha(nivel, codigo)
-			.then((f) => {
+			.then(async (f) => {
+				const parte = conEdu && f.educacion ? await cargarEducacion(nivel, codigo).catch(() => null) : null;
 				if (estado.territorio !== t) return;
-				ficha = f;
+				ficha = unirEducacion(f, parte);
 				// las regiones (F3.2) no tienen geometría: no hay dónde encuadrar
 				if (enfocarAlCargar && f.bbox) mapa?.enfocar(f.bbox);
 				enfocarAlCargar = false;

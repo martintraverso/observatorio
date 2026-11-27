@@ -19,9 +19,9 @@ def hojas(xlsx: Path) -> set[str]:
     return {n.strip() for n in re.findall(r'<sheet [^>]*name="([^"]+)"', wb)}
 
 
-def test_registro_valida_y_queda_en_preparacion():
+def test_registro_valida_y_queda_activa():
     assert validar_fuente(REG, "mec_anuario_educacion.yml") == []
-    assert REG["estado"] == "en preparación"
+    assert REG["estado"] == "activa"  # F4.10 (#222): la app publica la educación
 
 
 def test_ac_e1_un_anuario_por_anio_desde_la_pagina_oficial():
@@ -266,3 +266,27 @@ def test_d6_un_id_que_ya_era_igual_a_2024_tambien_se_separa_si_cambia_la_cobertu
     assert i22["id"] == i24 + "_sin_privados" and "AC-E13" in i22["motivo_d6"]
     # «TOTAL LICEOS PRIVADOS» dice su cobertura: no se separa
     assert not any(x["id"].endswith("_sin_privados") for x in REG["cuadros"]["II-3.1.1"]["mapeo"][2022] if "PRIVADOS" in x["ruta"])
+
+
+def test_173_ii_6_3_2_el_sexo_m_f_de_2020_a_2022_es_varon_y_mujer():
+    """#173: II-6.3.2 rotula el sexo «M/F» en 2020–2022 y «V/M» desde 2023. La «M» de 2020 (masculino) va al id de los
+    varones de 2023, no al de las mujeres (AC-E13)."""
+    m = {a: {x["col"]: x["id"] for x in REG["cuadros"]["II-6.3.2"]["mapeo"][a]} for a in (2020, 2023)}
+    for a in (2020, 2021, 2022):
+        rutas = {x["col"]: x["ruta"] for x in REG["cuadros"]["II-6.3.2"]["mapeo"][a]}
+        assert rutas["D"].endswith("/SEXO/M") and rutas["E"].endswith("/SEXO/F")
+    for col in "DEGHJK":
+        assert m[2020][col] == m[2023][col], col
+    assert m[2020]["D"].endswith("20_horas_o_menos_sexo_v")
+
+
+def test_173_ii_6_3_2_2024_repite_2023_y_no_se_vuelve_a_cargar():
+    """#173 (D4): el pie de 2024 dice «último dato disponible año 2023» y los valores son los del anuario 2023."""
+    assert all(x.get("omitir") for x in REG["cuadros"]["II-6.3.2"]["mapeo"][2024])
+
+
+def test_173_el_total_de_un_tramo_en_cero_es_un_dato():
+    """#173: una columna «Total» repetida en 0 que su grupo prueba (0 = 0 + 0) se carga; antes quedaba como separador
+    del encabezado (II-5.3.2 2020: el tramo «Entre 21 y 30 horas»)."""
+    m = {x["col"]: x for x in REG["cuadros"]["II-5.3.2"]["mapeo"][2020]}
+    assert not m["F"].get("omitir") and m["F"]["id"] == "edu_ii_5_3_2_horas_semanales_entre_21_y_30_horas_total"

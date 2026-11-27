@@ -16,13 +16,16 @@ from comun.xlsx import _hojas
 RAIZ = Path(__file__).resolve().parents[1]
 REG = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario_educacion.yml").read_text(encoding="utf-8"))
 FIX = RAIZ / "tests" / "fixtures" / "mec_anuario"
+MANUAL = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario" / "mapeo_manual.yml").read_text(encoding="utf-8"))
 XLSX = {a: (FIX / f"{a}.xlsx").read_bytes() for a in (2024, 2023)}
 
 
 def cuadro(cod, anio=2024, xlsx=None, mapeo=None):
     e = REG["cuadros"][cod]
     return mec.parsear_cuadro(xlsx or XLSX[anio], cod, anio, mapeo if mapeo is not None else e["mapeo"][anio],
-                              e["tipos"][anio])
+                              e["tipos"][anio], (e.get("categorias_segundas") or {}).get(anio, ()),
+                              e.get("secciones_por_institucion"), e.get("solo_filas") or (),
+                              e.get("filas_de_establecimiento"))  # como la carga (#172, #173)
 
 
 def valor(c, indicador, territorio):
@@ -72,7 +75,14 @@ def test_cada_cuadro_de_la_ola_1_se_lee_con_su_mapeo(anio):
         c = cuadro(cod, anio)
         todo_omitido = all(m.get("omitir") for m in e["mapeo"][anio])  # II-2.3.2 2024: datos de 2022, ya cargados (D4)
         assert len(c.datos) or todo_omitido or any("total en 0" in a for a in c.avisos), cod  # II-2.2.18 2023: todo «s/d»
-        assert c.datos.valor.map(lambda v: isinstance(v, int)).all(), cod
+        # los promedios publicados (#225, `no_aditivos`) no son conteos: el resto, enteros (AC-E11)
+        na = (MANUAL.get("no_aditivos") or {}).get(cod)
+        conteos = c.datos[~c.datos.indicador.str.contains(na["patron"])] if na else c.datos
+        # #173: las horas docentes son una medida, no un conteo de personas: II-6.3.1 las publica con decimales
+        for u in (MANUAL.get("unidades") or {}).get(cod, []):
+            if u["unidad"] == "horas docentes":
+                conteos = conteos[~conteos.indicador.str.contains(u["patron"])]
+        assert conteos.valor.map(lambda v: float(v).is_integer()).all(), cod  # la columna puede ser float si hay promedios
         leidos += 1
     assert leidos >= 50
 
@@ -299,3 +309,162 @@ def test_ac_e8_rotulos_con_llamada_de_nota():
     assert mec.territorio_de_fila("Colonia*") == mec.tid("departamento", "05")
     assert mec.territorio_de_fila("Salto (1)") == mec.tid("departamento", "15")
     assert mec.territorio_de_fila("Total 2023") is None
+
+
+def test_224_despues_del_pie_ninguna_fila_es_un_dato():
+    """#224 (II-2.2.6 y II-2.2.8 de 2020): después de «Fuente:», una fila con números está fuera del cuadro (se cuenta y
+    no se lee) y una de texto, en cualquier columna, sigue el pie."""
+    celdas = {
+        (3, 1): "Cuadro Nº II-2.2.6",
+        (5, 1): "ESTUDIANTES MATRICULADOS EN EDUCACIÓN PRIMARIA PRIVADA SEGÚN DEPARTAMENTO (Todo el país, 2020)",
+        (6, 1): "DEPARTAMENTO", (6, 2): "TOTAL",
+        (8, 1): "TOTAL DEL PAÍS", (8, 2): 50762,
+        (9, 1): "MONTEVIDEO", (9, 2): 30979,
+        (10, 1): "Fuente: Procesamiento propio — DGEIP",
+        (11, 2): "Primaria Privada: se carece de datos desagregados",  # la nota sigue en la columna B
+        (40, 1): "30025", (40, 2): 2163,  # restos fuera del cuadro
+    }
+    e = mec.estructura(celdas, [], "II-2.2.6")
+    assert [r for r, _ in e.filas] == [8, 9]
+    assert e.fuera == 1
+    assert any("se carece de datos desagregados" in p for p in e.pie)
+
+
+def test_224_dos_filas_casi_iguales_son_dos_categorias():
+    """#224 (mantenedor): II-1.3.5 de 2024 publica «…por el mec» y «…por el MEC» con valores distintos: son dos
+    categorías, nada se suma, y el aviso lo dice. El registro dice cuál lleva __2 («…por el mec»): «…por el MEC»,
+    la única fila de 2020–2023, conserva su id y su serie (AC-E13), sin depender del orden de las filas."""
+    x = (FIX / "2024.xlsx").read_bytes()
+    reg = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario_educacion.yml").read_text(encoding="utf-8"))
+    e = reg["cuadros"]["II-1.3.5"]
+    assert e["categorias_segundas"][2024] == ["Otros cursos no reconocidos por el mec"]
+    c = mec.parsear_cuadro(x, "II-1.3.5", 2024, e["mapeo"][2024], e["tipos"][2024], e["categorias_segundas"][2024])
+    base = "edu_ii_1_3_5_funcion_total__otros_cursos_no_reconocidos_por_el_mec"
+    total = c.datos[c.datos.indicador.isin([base, base + "__2"])].set_index("indicador").valor
+    assert total.to_dict() == {base: 206, base + "__2": 15}
+    assert c.categorias[base] == "Otros cursos no reconocidos por el MEC"
+    assert any("casi igual" in a for a in c.avisos)
+    # sin la regla del registro, por el orden de las filas el id de la serie quedaría con la otra categoría
+    sin_regla = mec.parsear_cuadro(x, "II-1.3.5", 2024, e["mapeo"][2024], e["tipos"][2024])
+    assert sin_regla.datos[sin_regla.datos.indicador == base].valor.iloc[0] == 15
+
+
+def test_224_d4_en_la_ola_2():
+    """#224: D4 vale en la ola 2. II-1.3.2 de 2023 y 2024 repite 2022 («último año disponible»): no se vuelve a
+    cargar. II-2.2.12: lo privado de 2022 es copia de 2021 (datos de 2020) y no se carga; 2023 difiere y queda."""
+    reg = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario_educacion.yml").read_text(encoding="utf-8"))["cuadros"]
+    for anio in (2023, 2024):
+        assert all(x.get("omitir") for x in reg["II-1.3.2"]["mapeo"][anio])
+    privadas = lambda a: [x for x in reg["II-2.2.12"]["mapeo"][a] if "privad" in x["id"]]  # noqa: E731
+    assert all(x.get("anio") == 2020 for x in privadas(2021))
+    assert all(x.get("omitir") for x in privadas(2022))
+    assert not any(x.get("omitir") or x.get("anio") for x in privadas(2023))
+
+
+def test_229_una_segunda_que_no_aparece_frena():
+    """#229: si el rótulo de `categorias_segundas` no está en el archivo, la carga frena en vez de dejar que el orden
+    de las filas decida."""
+    x = (FIX / "2024.xlsx").read_bytes()
+    e = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario_educacion.yml").read_text(encoding="utf-8"))["cuadros"]["II-1.3.5"]
+    with pytest.raises(mec.ErrorAnuario, match="categorias_segundas sin fila"):
+        mec.parsear_cuadro(x, "II-1.3.5", 2024, e["mapeo"][2024], e["tipos"][2024], ["Una fila que no existe"])
+
+
+# ---------------------------------------------------------------- #172: terciaria no universitaria (II-5)
+
+def test_172_ii_5_1_1_totales_de_territorio_y_la_dgetp_por_departamento_aparte():
+    """#172 (mantenedor): II-5.1.1 carga país, Montevideo e Interior como totales; los departamentos del Interior son
+    solo la DGETP y van como la categoría `__dgetp` (otro id, AC-E13); las instituciones de Montevideo y el
+    Gastronómico no se cargan."""
+    e = REG["cuadros"]["II-5.1.1"]
+    c = mec.parsear_cuadro(XLSX[2024], "II-5.1.1", 2024, e["mapeo"][2024], "A", (), e["secciones_por_institucion"])
+    d = c.datos.assign(t=c.datos.territorio_id.str.replace("INE-2023/", ""))
+    base = d[~d.indicador.str.contains("__")]
+    assert set(base.t) == {"pais/UY", "departamento/01", "region/interior"}
+    dgetp = d[d.indicador.str.endswith("__dgetp")]
+    assert set(dgetp.t) == {f"departamento/{i:02d}" for i in range(2, 20)}
+    v = dgetp.set_index(["indicador", "t"]).valor
+    assert v[("edu_ii_5_1_1_total_matricula__dgetp", "departamento/02")] == 292  # Artigas, la DGETP
+    assert v[("edu_ii_5_1_1_total_matricula__dgetp", "departamento/10")] == 783  # Maldonado: la DGETP, no el Gastronómico
+    assert set(d.indicador.str.split("__").str[1].dropna()) == {"dgetp"}
+    # sin la regla, el cuadro frena: «ESCUELA NAVAL» no es un territorio (AC-E8)
+    with pytest.raises(mec.ErrorAnuario, match="fila desconocida"):
+        mec.parsear_cuadro(XLSX[2024], "II-5.1.1", 2024, e["mapeo"][2024], "A")
+
+
+@pytest.mark.parametrize("cod", ["II-5.2.1", "II-5.2.2", "II-5.3.1", "II-5.3.2"])
+def test_172_por_institucion_solo_el_total_y_las_instituciones(cod):
+    """#172 (mantenedor): en los cuadros por institución se cargan el TOTAL y las filas de institución (`solo_filas`);
+    no las carreras, años ni niveles de formación que cuelgan de ellas (y se repiten: chocarían)."""
+    e = REG["cuadros"][cod]
+    for anio in (2023, 2024):
+        c = mec.parsear_cuadro(XLSX[anio], cod, anio, e["mapeo"][anio], e["tipos"][anio], (), None, e["solo_filas"])
+        cats = set(c.datos.indicador.str.split("__").str[1])
+        assert cats and all(k == "total" or any(k.startswith(mec.slug(x)) for x in e["solo_filas"]) for k in cats), (anio, cats)
+        assert not any(k.startswith(("sin_formacion", "con_formacion", "curso_de", "tecnicatura")) for k in cats)
+
+
+# ---------------------------------------------------------------- #173: formación en educación (II-6)
+
+TERRITORIOS_A = {"pais/UY", "region/interior", *(f"departamento/{i:02d}" for i in range(1, 20))}
+
+
+def territorios(c):
+    return set(c.datos.territorio_id.str.replace("INE-2023/", ""))
+
+
+@pytest.mark.parametrize("cod", ["II-6.1.1", "II-6.2.1", "II-6.3.1"])
+def test_173_los_establecimientos_no_se_cargan_y_los_departamentos_si(cod):
+    """#173 (mantenedor, 1.a y 3.a): en los cuadros A con establecimientos se cargan país, Montevideo, Interior y los
+    18 departamentos; las filas de instituto o establecimiento no. Sin la regla, el cuadro frena (AC-E8)."""
+    e = REG["cuadros"][cod]
+    for anio in (2023, 2024):
+        c = cuadro(cod, anio)
+        assert territorios(c) == TERRITORIOS_A, (anio, territorios(c) ^ TERRITORIOS_A)
+        assert not c.datos.indicador.str.contains("__").any()
+        with pytest.raises(mec.ErrorAnuario, match="fila desconocida"):
+            mec.parsear_cuadro(XLSX[anio], cod, anio, e["mapeo"][anio], e["tipos"][anio])
+
+
+def test_173_ii_6_2_1_el_departamento_y_no_su_establecimiento_del_mismo_nombre():
+    """#173: en II-6.2.1, «Canelones» sangrado (el IFD) está bajo el departamento Canelones; se carga el departamento
+    (3.444 matriculados en 2024, no los 844 del IFD), y «Cerro Largo Melo» va a Cerro Largo."""
+    c = cuadro("II-6.2.1", 2024)
+    assert valor(c, "edu_ii_6_2_1_total_matr", "departamento/03") == 3444
+    assert valor(c, "edu_ii_6_2_1_total_matr", "departamento/04") == 928
+    assert valor(c, "edu_ii_6_2_1_total_matr", "departamento/01") == 10092
+    assert REG["cuadros"]["II-6.2.1"]["tipos"][2024] == "A" and REG["cuadros"]["II-6.2.1"]["unidad"] == "estudiantes"
+
+
+def test_173_departamento_al_comienzo_del_rotulo():
+    assert mec.departamento_al_comienzo("Cerro Largo Melo") == mec.tid("departamento", "04")
+    assert mec.departamento_al_comienzo("Treinta y Tres Treinta y Tres") == mec.tid("departamento", "19")
+    assert mec.departamento_al_comienzo("Río Negro Fray Bentos") == mec.tid("departamento", "12")
+    assert mec.departamento_al_comienzo("Cerp Norte") is None
+    assert mec.departamento_al_comienzo("Salto") is None  # un nombre solo lo resuelve territorio_de_fila
+
+
+def test_173_ii_6_2_2_solo_la_institucion():
+    """#173: II-6.2.2 publica la institución (INAU – CENFORES) y su carrera con los mismos valores: solo la institución."""
+    for anio in (2023, 2024):
+        cats = set(cuadro("II-6.2.2", anio).datos.indicador.str.split("__").str[1])
+        assert cats == {"inau_cenfores"}, (anio, cats)
+
+
+def test_173_las_horas_de_ii_6_3_1_se_guardan_con_sus_decimales():
+    """#173: II-6.3.1 publica las horas con decimales (medias horas); se guardan tal cual y suman como en el archivo."""
+    c = cuadro("II-6.3.1", 2024)
+    assert valor(c, "edu_ii_6_3_1_cantidad_de_horas", "pais/UY") == 13838.9
+    assert valor(c, "edu_ii_6_3_1_cantidad_de_horas", "departamento/01") == 4576.5
+
+
+@pytest.mark.parametrize("cod", ["II-6.2.1", "II-6.3.1"])
+def test_173_una_fila_sangrada_que_no_esta_en_la_lista_frena(cod):
+    """#173 (revisión): los establecimientos se saltean por nombre; una fila sangrada desconocida (un establecimiento
+    nuevo, un subtotal) no se descarta en silencio: frena (AC-E8)."""
+    e = REG["cuadros"][cod]
+    regla = dict(e["filas_de_establecimiento"])
+    quitado = regla["sangradas"][-1]
+    regla["sangradas"] = regla["sangradas"][:-1]
+    with pytest.raises(mec.ErrorAnuario, match=f"fila desconocida «{quitado}»"):
+        mec.parsear_cuadro(XLSX[2024], cod, 2024, e["mapeo"][2024], "A", (), None, (), regla)

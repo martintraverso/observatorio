@@ -18,6 +18,7 @@ const RUTAS = [
 	{ ruta: 'fichas', titulo: 'Fichas' },
 	{ ruta: 'datos', titulo: 'Datos' },
 	{ ruta: 'fuentes', titulo: 'Fuentes' },
+	{ ruta: 'educacion', titulo: 'Catálogo de educación' },
 	{ ruta: 'territorio/departamento/07', titulo: 'Flores' }
 ];
 
