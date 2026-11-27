@@ -512,6 +512,37 @@ def test_niveles_mapa_pide_al_menos_dos_territorios_con_valor():
     assert f["educacion"]["niveles_mapa"] == ["departamento"]  # sección: un solo territorio con valor
 
 
+def test_v33_mapa_solo_si_hay_un_nivel_dibujable_o_comparacion_regional():
+    """AC-V33 (#247, V-26): `mapa` queda en true solo si el indicador tiene un nivel dibujable en `niveles_mapa` (AC-N6)
+    o se publica por región y va a la comparación regional (AC-I20). Uno de educación con solo el total del país, o
+    con un solo departamento, sale del mapa; el `mapa: false` de entrada (#213) no cambia."""
+    import pandas as pd
+    from web import disponibilidad
+
+    terr = pd.DataFrame({"id": ["p", "r1", "r2", "d1", "d2"], "nivel": ["pais", "region", "region", "departamento", "departamento"]})
+    ind = pd.DataFrame({"codigo": ["depto", "pais", "un_depto", "region", "oculto"],
+                        "tema": ["Educación", "Educación", "Educación", "Ingresos", "Educación"],
+                        "nombre": ["D", "P", "U", "R", "O"], "mapa": [True, True, True, True, False]})
+    obs = pd.DataFrame({"indicador": ["depto", "depto", "pais", "un_depto", "un_depto", "region", "region", "oculto", "oculto"],
+                        "territorio_id": ["d1", "d2", "p", "p", "d1", "p", "r1", "d1", "d2"],
+                        "periodo": ["2024"] * 9, "valor": [1.0] * 9})
+    f = {x["codigo"]: x["mapa"] for x in disponibilidad(ind, terr, obs)}
+    assert f == {"depto": True, "pais": False, "un_depto": False, "region": True, "oculto": False}
+
+
+def test_v33_ningun_indicador_del_mapa_queda_sin_nivel_ni_comparacion(web):
+    """AC-V33 (#247) sobre el catálogo que genera web.py (fixture y completo): cada indicador con `mapa: true` tiene un
+    nivel dibujable en `niveles_mapa` o se publica por región (comparación regional, AC-I20)."""
+    from web import catalogo_niveles
+
+    dibujables = {n["id"] for n in catalogo_niveles() if n["dibujable"]}
+    ind = json.loads((web / "indicadores.json").read_text(encoding="utf-8"))
+    sin_mapa = [i["codigo"] for i in ind
+                if i.get("mapa") and not (set(i["niveles_mapa"]) & dibujables or "region" in i["niveles"])]
+    assert sin_mapa == [], f"{len(sin_mapa)} indicadores del mapa sin nivel dibujable: {sin_mapa[:5]}"
+    assert any(i.get("mapa") for i in ind)
+
+
 def test_dentro_de_nombra_niveles_mas_gruesos_del_catalogo():
     """AC-N7 (#202): `dentro_de` lista solo niveles del catálogo más gruesos que el propio; un barrio no está dentro de
     un municipio (no se contienen exactamente) y el segmento sí está dentro de su sección."""
