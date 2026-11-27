@@ -402,7 +402,7 @@ notas_indicador:
   edu_ii_7_2_2_egreso_total: *nota_d4_2
   edu_ii_7_2_2_egreso_sexo_v: *nota_d4_2
   edu_ii_7_2_2_egreso_sexo_m: *nota_d4_2
-  edu_ii_7_2_3_ingreso_total: &nota_d4_3 "En 2023 el TOTAL del cuadro incluye a el Instituto Metodista Universitario Crandon con su dato de 2022; esa institución no se carga en 2023 (D4, #255)."
+  edu_ii_7_2_3_ingreso_total: &nota_d4_3 "En 2023 el TOTAL del cuadro incluye al Instituto Metodista Universitario Crandon con su dato de 2022; esa institución no se carga en 2023 (D4, #255)."
   edu_ii_7_2_3_ingreso_sexo_v: *nota_d4_3
   edu_ii_7_2_3_ingreso_sexo_m: *nota_d4_3
   edu_ii_7_2_3_matricula_total: *nota_d4_3

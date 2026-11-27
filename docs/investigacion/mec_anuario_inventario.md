@@ -9102,7 +9102,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-7.2.1</b></summary>
 
-**2020** · hoja «II-7.2.1» · tipo C · 390 filas · UNIVERSIDADES PÚBLICAS: ESTUDIANTES INGRESADOS A CARRERAS 2020 Y EGRESADOS PRELIMINARES 2020 EN PROGRAMAS DE GRADO POR SEXO, SEGÚN SERVICIO UNIVERSITARIO Y CARRERA. (Todo el país, 2020)
+**2020** · hoja «II-7.2.1» · tipo C · 392 filas · UNIVERSIDADES PÚBLICAS: ESTUDIANTES INGRESADOS A CARRERAS 2020 Y EGRESADOS PRELIMINARES 2020 EN PROGRAMAS DE GRADO POR SEXO, SEGÚN SERVICIO UNIVERSITARIO Y CARRERA. (Todo el país, 2020)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -9113,14 +9113,12 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `TOTAL`
 - `EGRESADOS (UdelaR datos preliminares)/SEXO/V`
 - `EGRESADOS (UdelaR datos preliminares)/SEXO/M`
-- *Notariado*
-- *Notariado*
 - *Notas UTEC:*
 - *Notas UDELAR:*
 - ** En la carrera de Licenciado en Obstetricia (Paysandú) no se dispone de la matrícula desagregada por sexo para 208 estudiantes.*
 - ** En la carrera de Tecnólogo Cárnico (Tacuarembó) no se dispone de la matrícula desagregada por sexo para 101 estudiantes .*
 
-**2021** · hoja «II-7.2.1» · tipo C · 403 filas · UNIVERSIDADES PÚBLICAS: ESTUDIANTES INGRESADOS A CARRERAS 2021 Y EGRESADOS PRELIMINARES 2021 EN PROGRAMAS DE GRADO POR SEXO, SEGÚN SERVICIO UNIVERSITARIO Y CARRERA. (Todo el país, 2021)
+**2021** · hoja «II-7.2.1» · tipo C · 405 filas · UNIVERSIDADES PÚBLICAS: ESTUDIANTES INGRESADOS A CARRERAS 2021 Y EGRESADOS PRELIMINARES 2021 EN PROGRAMAS DE GRADO POR SEXO, SEGÚN SERVICIO UNIVERSITARIO Y CARRERA. (Todo el país, 2021)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -9131,13 +9129,11 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `TOTAL`
 - `EGRESADOS (UdelaR datos preliminares)/SEXO/V`
 - `EGRESADOS (UdelaR datos preliminares)/SEXO/M`
-- *Notariado*
-- *Notariado*
 - *Notas UDELAR:*
 - ** En la carrera de Licenciado en Obstetricia (Paysandú) no se dispone de la matrícula desagregada por sexo.*
 - ** En la carrera de Tecnólogo Cárnico (Tacuarembó) no se dispone de la matrícula desagregada por sexo.*
 
-**2022** · hoja «II-7.2.1» · tipo C · 402 filas · UNIVERSIDADES PÚBLICAS: ESTUDIANTES INGRESADOS A CARRERAS 2022 Y EGRESADOS PRELIMINARES 2022 EN PROGRAMAS DE GRADO POR SEXO, SEGÚN SERVICIO UNIVERSITARIO Y CARRERA. (Todo el país, 2022)
+**2022** · hoja «II-7.2.1» · tipo C · 404 filas · UNIVERSIDADES PÚBLICAS: ESTUDIANTES INGRESADOS A CARRERAS 2022 Y EGRESADOS PRELIMINARES 2022 EN PROGRAMAS DE GRADO POR SEXO, SEGÚN SERVICIO UNIVERSITARIO Y CARRERA. (Todo el país, 2022)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -9148,14 +9144,12 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `TOTAL`
 - `EGRESADOS (UdelaR datos preliminares)/SEXO/V`
 - `EGRESADOS (UdelaR datos preliminares)/SEXO/M`
-- *Notariado*
-- *Notariado*
 - *Notas UDELAR:*
 - ** En la carrera de Licenciado en Obstetricia (Paysandú) no se dispone de la matrícula desagregada por sexo para 378 estudiantes.*
 - ** En la carrera de Tecnólogo Cárnico (Tacuarembó) no se dispone de la matrícula desagregada por sexo para 89 estudiantes.*
 - ** Por resolución N°3 del CDC de fecha 14/09/2021 se crea la Facultad de Artes integrada por el Instituto Escuela Nacional de Bellas Artes (IENBA) y la Escuela Universitaria de Música (EUM).*
 
-**2023** · hoja «II-7.2.1» · tipo C · 403 filas · UNIVERSIDADES PÚBLICAS: ESTUDIANTES INGRESADOS A CARRERAS 2023 Y EGRESADOS PRELIMINARES 2023 EN PROGRAMAS DE GRADO POR SEXO, SEGÚN SERVICIO UNIVERSITARIO Y CARRERA. (Todo el país, 2023)
+**2023** · hoja «II-7.2.1» · tipo C · 405 filas · UNIVERSIDADES PÚBLICAS: ESTUDIANTES INGRESADOS A CARRERAS 2023 Y EGRESADOS PRELIMINARES 2023 EN PROGRAMAS DE GRADO POR SEXO, SEGÚN SERVICIO UNIVERSITARIO Y CARRERA. (Todo el país, 2023)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -9166,12 +9160,10 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `TOTAL`
 - `EGRESADOS (UdelaR datos preliminares)/SEXO/V`
 - `EGRESADOS (UdelaR datos preliminares)/SEXO/M`
-- *Notariado*
-- *Notariado*
 - *Notas UDELAR:*
 - **En UdelaR: No coincide el Total UDELAR con la suma de la desagregación por sexo ya que para la carrera de Tecnólogo Cárnico no se cuenta con la misma (total de la matrícula 82). Tampoco se cuenta con la desagregación por sexo de la Licenciatura en obstetricia de Paysandú (matrícula total 233).*
 
-**2024** · hoja «II-7.2.1» · tipo C · 447 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO DE UNIVERSIDADES PÚBLICAS POR SEXO, SEGÚN SERVICIO UNIVERSITARIO, DEPARTAMENTO Y CARRERA. (Todo el país, 2024)
+**2024** · hoja «II-7.2.1» · tipo C · 449 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO DE UNIVERSIDADES PÚBLICAS POR SEXO, SEGÚN SERVICIO UNIVERSITARIO, DEPARTAMENTO Y CARRERA. (Todo el país, 2024)
 
 - `TOTAL`
 - `INGRESO/SEXO/V`
@@ -9182,8 +9174,6 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `TOTAL`
 - `EGRESO/SEXO/V`
 - `EGRESO/SEXO/M`
-- *Notariado*
-- *Notariado*
 - *Notas UdelaR:*
 - **En UdelaR y en el total general de matrícula: El total de matrícula de UdelaR no coincide con la suma desagregada por sexo, dado que no se cuenta con información de sexo para la totalidad de los registros. En particular, se encuentran sin desagregación: - Tecnólogo Cárnico: 77 casos - Licenciatura en Obstetricia (Paysandú): 142 casos*
 
@@ -9191,7 +9181,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-7.2.2</b></summary>
 
-**2020** · hoja «II-7.2.2» · tipo C · 181 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO EN UNIVERSIDADES PRIVADAS POR SEXO SEGÚN UNIVERSIDAD Y CARRERA (Todo el país, 2020)
+**2020** · hoja «II-7.2.2» · tipo C · 184 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO EN UNIVERSIDADES PRIVADAS POR SEXO SEGÚN UNIVERSIDAD Y CARRERA (Todo el país, 2020)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -9224,12 +9214,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `columna 30`
 - `columna 31`
 - `columna 32`
-- *Notariado*
-- *Notariado*
-- *Notariado*
 - *Fuente: Oficinas Productoras de cada una de las Instituciones.*
 
-**2021** · hoja «II-7.2.2» · tipo C · 186 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO EN UNIVERSIDADES PRIVADAS POR SEXO SEGÚN UNIVERSIDAD Y CARRERA (Todo el país, 2021)
+**2021** · hoja «II-7.2.2» · tipo C · 189 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO EN UNIVERSIDADES PRIVADAS POR SEXO SEGÚN UNIVERSIDAD Y CARRERA (Todo el país, 2021)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -9262,12 +9249,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `columna 30`
 - `columna 31`
 - `columna 32`
-- *Notariado*
-- *Notariado*
-- *Notariado*
 - *Fuente: Oficinas Productoras de cada una de las Instituciones.*
 
-**2022** · hoja «II-7.2.2» · tipo C · 202 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO EN UNIVERSIDADES PRIVADAS POR SEXO SEGÚN UNIVERSIDAD Y CARRERA (Todo el país, 2022)
+**2022** · hoja «II-7.2.2» · tipo C · 205 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO EN UNIVERSIDADES PRIVADAS POR SEXO SEGÚN UNIVERSIDAD Y CARRERA (Todo el país, 2022)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -9300,12 +9284,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `columna 30`
 - `columna 31`
 - `columna 32`
-- *Notariado*
-- *Notariado*
-- *Notariado*
 - *Fuente: Oficinas Productoras de cada una de las Instituciones.*
 
-**2023** · hoja «II-7.2.2» · tipo C · 210 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO EN UNIVERSIDADES PRIVADAS POR SEXO SEGÚN UNIVERSIDAD Y CARRERA (Todo el país, 2023)
+**2023** · hoja «II-7.2.2» · tipo C · 213 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO EN UNIVERSIDADES PRIVADAS POR SEXO SEGÚN UNIVERSIDAD Y CARRERA (Todo el país, 2023)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -9338,12 +9319,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `columna 30`
 - `columna 31`
 - `columna 32`
-- *Notariado*
-- *Notariado*
-- *Notariado*
 - *Fuente: Oficinas Productoras de cada una de las Instituciones.*
 
-**2024** · hoja «II-7.2.2» · tipo C · 229 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO DE UNIVERSIDADES PRIVADAS POR SEXO, SEGÚN SERVICIO UNIVERSITARIO, DEPARTAMENTO Y CARRERA. (Todo el país, 2024)
+**2024** · hoja «II-7.2.2» · tipo C · 232 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO DE UNIVERSIDADES PRIVADAS POR SEXO, SEGÚN SERVICIO UNIVERSITARIO, DEPARTAMENTO Y CARRERA. (Todo el país, 2024)
 
 - `TOTAL`
 - `INGRESO/SEXO/V`
@@ -9376,9 +9354,6 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `columna 30`
 - `columna 31`
 - `columna 32`
-- *Notariado*
-- *Notariado*
-- *Notariado*
 - *Fuente: Oficinas Productoras de cada una de las Instituciones.*
 - *** El dato de la UDE es último disponible año 2023.*
 

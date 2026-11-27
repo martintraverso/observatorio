@@ -539,3 +539,12 @@ def test_255_sin_la_regla_de_rotulos_total_udelar_abre_un_grupo():
     e = REG["cuadros"]["II-7.2.1"]
     c = mec.parsear_cuadro(XLSX[2023], "II-7.2.1", 2023, e["mapeo"][2023], "C", (), None, ["TOTAL UDELAR", "UNIVERSIDAD TEC"])
     assert "edu_ii_7_2_1_matricula_total__udelar" not in set(c.datos.indicador)
+
+
+def test_255_la_carrera_notariado_no_es_una_nota():
+    """#255 (revisión): una fila que empieza con «Nota» de «Notariado» (una carrera de II-7.2.1 y II-7.2.2) no es el pie
+    del cuadro: no llega a las notas (AC-E12). «Nota:» y «Notas UdelaR:» siguen siéndolo."""
+    for cod in ("II-7.2.1", "II-7.2.2"):
+        c = cuadro(cod, 2024)
+        assert not any(p.startswith("Notariado") for p in c.pie), cod
+    assert any(p.startswith("Notas UdelaR") for p in cuadro("II-7.2.1", 2024).pie)

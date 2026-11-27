@@ -183,7 +183,7 @@ def estructura(celdas: dict[tuple[int, int], object], combinadas, hoja: str) -> 
     elif cod != nombre:
         cod = nombre
     textos = [v for (r, c), v in sorted(celdas.items()) if r > fila_cod and isinstance(v, str)
-              and not v.lstrip().startswith(("Nota", "Fuente"))]
+              and not re.match(r"\s*(Notas?\b|Fuente)", v)]  # #255: «Notariado» es una carrera
     # título: el que dice el año («…, 2024)»); si ninguno lo dice (II-2.3.2), el primer texto largo
     titulo = next((v for v in textos if re.search(r"\(.*\d{4}\)", v)), None) or next((v for v in textos if len(v) > 40), "")
     fila_tit = next((r for (r, c), v in sorted(celdas.items()) if v == titulo), fila_cod)
@@ -195,7 +195,7 @@ def estructura(celdas: dict[tuple[int, int], object], combinadas, hoja: str) -> 
                   and any(numero(celdas.get((r, c))) is not None for c in range(2, 60))), None)
     if desde is None:
         e.sin_datos = True
-        e.pie = [" ".join(str(v).split()) for (r, c), v in sorted(celdas.items()) if isinstance(v, str) and re.match(r"\s*Nota", v)]
+        e.pie = [" ".join(str(v).split()) for (r, c), v in sorted(celdas.items()) if isinstance(v, str) and re.match(r"\s*Notas?\b", v)]
         return e
     hdr = {}
     for f1, c1, f2, c2 in combinadas:
@@ -224,7 +224,7 @@ def estructura(celdas: dict[tuple[int, int], object], combinadas, hoja: str) -> 
     despues_de_fuente = False
     for r in [x for x in filas if x >= desde]:
         a = celdas.get((r, 1))
-        if isinstance(a, str) and re.match(r"\s*(Fuente|Nota|Notas|\(\d|\*)", a):
+        if isinstance(a, str) and re.match(r"\s*(Fuente|Notas?\b|\(\d|\*)", a):  # #255: no «Notariado»
             e.pie.append(" ".join(a.split()))
             despues_de_fuente = despues_de_fuente or bool(re.match(r"\s*Fuente", a))
             continue
