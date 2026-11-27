@@ -598,6 +598,10 @@ def test_v34_el_registro_rechaza_nombres_largos_rutas_y_combinaciones_repetidas(
         'familias:\n  a:\n    nombre_corto: "Cuadro II-2.2.1"\n',
         'familias:\n  a:\n    nombre_corto: "A"\n    aperturas:\n      b: {nombre_corto: "B", apertura: {"Sexo": "Mujeres"}}\n'
         '      c: {nombre_corto: "C", apertura: {"Sexo": "Mujeres"}}\n',
+        'familias:\n  a:\n    nombre_corto: "A"\n  b:\n    nombre_corto: "B"\n    aperturas:\n'
+        '      a: {nombre_corto: "A2", apertura: {"Sexo": "Mujeres"}}\n',  # un código en dos lugares
+        'familias:\n  a:\n    nombre_corto: "A"\n  a:\n    nombre_corto: "B"\n',  # clave repetida en el YAML
+        'familias:\n  a:\n    aperturas: {}\n',  # sin nombre corto
     ]
     for texto in malos:
         with pytest.raises(ErrorRegistroMapa):
@@ -629,6 +633,19 @@ def test_v34_v35_los_indicadores_del_mapa_tienen_nombre_familia_y_total(web):
         clave = tuple((a["dimension"], a["valor"]) for a in i["apertura"])
         assert clave not in familias.setdefault(i["familia"], set()), c  # combinaciones únicas en la familia
         familias[i["familia"]].add(clave)
+
+
+def test_248_el_enlace_mapa_del_catalogo_de_educacion_abre_un_indicador_del_mapa(web):
+    """AC-E32 con #248 (revisión): el enlace «Mapa» de /educacion apunta a un indicador que la lista del mapa ofrece
+    (si no, la app abriría otro); con los datos completos, II-2.2.14 enlaza al total de su familia (II-2.2.13)."""
+    ind = {i["codigo"]: i for i in json.loads((web / "indicadores.json").read_text(encoding="utf-8"))}
+    cat = json.loads((web / "educacion_catalogo.json").read_text(encoding="utf-8"))
+    for c in cat:
+        if c["mapa"]:
+            assert ind[c["mapa"]].get("mapa") and ind[c["mapa"]]["apertura"] == [], c["cuadro"]
+    por_cuadro = {c["cuadro"]: c["mapa"] for c in cat}
+    if por_cuadro.get("II-2.2.14"):
+        assert por_cuadro["II-2.2.14"] == "edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_total"
 
 
 def test_dentro_de_nombra_niveles_mas_gruesos_del_catalogo():

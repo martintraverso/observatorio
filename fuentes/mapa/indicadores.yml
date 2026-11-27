@@ -69,15 +69,15 @@ familias:
       edu_ii_2_2_15_rendimiento_escolar_tasa_promocion_sexo_m: {nombre_corto: "Promoción en primaria privada: mujeres", apertura: {"Sexo": "Mujeres"}}
       edu_ii_2_2_15_rendimiento_escolar_tasa_promocion_sexo_v: {nombre_corto: "Promoción en primaria privada: varones", apertura: {"Sexo": "Varones"}}
   edu_ii_2_2_1_pct_privada:
-    nombre_corto: "Matrícula en primaria privada (%)"
+    nombre_corto: "Matrícula privada en primaria (%)"
   edu_ii_3_2_10_rendimiento_tasa_promocion:
     nombre_corto: "Promoción en media básica técnica"
     aperturas:
       edu_ii_3_2_10_articulacion_educacion_media_basica_rendimiento_tasa_promocion: {nombre_corto: "Promoción en articulación de media básica", apertura: {"Programa": "Articulación de media básica"}}
       edu_ii_3_2_10_c_b_t_agrario_rendimiento_tasa_promocion: {nombre_corto: "Promoción en ciclo básico tecnológico agrario", apertura: {"Programa": "Ciclo básico tecnológico agrario"}}
-      edu_ii_3_2_10_ciclo_basico_tecnologico_rendimiento_tasa_promocion: {nombre_corto: "Media básica técnica: ciclo básico tecnológico", apertura: {"Programa": "Ciclo básico tecnológico"}}
-      edu_ii_3_2_10_educacion_basica_integrada_rendimiento_tasa_promocion: {nombre_corto: "Media básica técnica: educación básica integrada", apertura: {"Programa": "Educación básica integrada"}}
-      edu_ii_3_2_10_formacion_profesional_basica_plan_2007_rendimiento_tasa_promocion: {nombre_corto: "Promoción en media básica técnica: FPB plan 2007", apertura: {"Programa": "FPB plan 2007"}}
+      edu_ii_3_2_10_ciclo_basico_tecnologico_rendimiento_tasa_promocion: {nombre_corto: "Promoción en ciclo básico tecnológico", apertura: {"Programa": "Ciclo básico tecnológico"}}
+      edu_ii_3_2_10_educacion_basica_integrada_rendimiento_tasa_promocion: {nombre_corto: "Promoción en educación básica integrada", apertura: {"Programa": "Educación básica integrada"}}
+      edu_ii_3_2_10_formacion_profesional_basica_plan_2007_rendimiento_tasa_promocion: {nombre_corto: "Promoción en FPB plan 2007", apertura: {"Programa": "FPB plan 2007"}}
       edu_ii_3_2_10_formacion_profesional_basica_rendimiento_tasa_promocion: {nombre_corto: "Promoción en formación profesional básica", apertura: {"Programa": "Formación profesional básica"}}
       edu_ii_3_2_10_programa_centros_educ_comunitarios_rendimiento_tasa_promocion: {nombre_corto: "Promoción en centros educativos comunitarios", apertura: {"Programa": "Centros educativos comunitarios"}}
   edu_ii_3_2_11_rendimiento_tasa_promocion:
@@ -118,7 +118,7 @@ familias:
       edu_ii_4_2_13_bachillerato_tecnico_profesional_rendimiento_tasa_promocion: {nombre_corto: "Promoción en bachillerato técnico profesional", apertura: {"Tipo de curso": "Bachillerato técnico profesional"}}
       edu_ii_4_2_13_e_m_p_especializacion_rendimiento_tasa_promocion: {nombre_corto: "Promoción en EMP especialización", apertura: {"Tipo de curso": "EMP especialización"}}
       edu_ii_4_2_13_educacion_media_profesional_rendimiento_tasa_promocion: {nombre_corto: "Promoción en educación media profesional", apertura: {"Tipo de curso": "Educación media profesional"}}
-      edu_ii_4_2_13_educacion_media_tecnologica_finest_rendimiento_tasa_promocion: {nombre_corto: "Media superior técnica (2021–2023): EMT FINEST", apertura: {"Tipo de curso": "EMT FINEST"}}
+      edu_ii_4_2_13_educacion_media_tecnologica_finest_rendimiento_tasa_promocion: {nombre_corto: "Promoción en EMT FINEST", apertura: {"Tipo de curso": "EMT FINEST"}}
       edu_ii_4_2_13_educacion_media_tecnologica_rendimiento_tasa_promocion: {nombre_corto: "Promoción en educación media tecnológica", apertura: {"Tipo de curso": "Educación media tecnológica"}}
   edu_ii_4_2_13_rendimiento_tasa_promocion_total:
     nombre_corto: "Promoción en media superior técnica (2024)"
