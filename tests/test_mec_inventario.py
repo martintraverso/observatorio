@@ -290,3 +290,19 @@ def test_173_el_total_de_un_tramo_en_cero_es_un_dato():
     del encabezado (II-5.3.2 2020: el tramo «Entre 21 y 30 horas»)."""
     m = {x["col"]: x for x in REG["cuadros"]["II-5.3.2"]["mapeo"][2020]}
     assert not m["F"].get("omitir") and m["F"]["id"] == "edu_ii_5_3_2_horas_semanales_entre_21_y_30_horas_total"
+
+
+def test_241_ii_7_1_los_ids_de_2020_a_2023_son_los_de_2024_salvo_la_matricula_que_cambia():
+    """#241: «EGRESADOS» (y en II-7.1.2 «INGRESADOS») de años anteriores son el «EGRESO» de 2024: un id por medida.
+    La matrícula cambia de alcance y va con id propio (AC-E13, mantenedor): en grado, el total de 2020–2023 incluye la
+    matrícula UdelaR sin sexo (`_con_sin_sexo`); en posgrado, 2020–2022 incluyen a la UdelaR del censo 2012."""
+    def ids(cod, a):
+        return {x["col"]: x["id"] for x in REG["cuadros"][cod]["mapeo"][a]}
+    for a in (2020, 2021, 2022, 2023):
+        d = {c: i for c, i in ids("II-7.1.1", a).items() if ids("II-7.1.1", 2024)[c] != i}
+        assert d == {"E": "edu_ii_7_1_1_matricula_total_con_sin_sexo"}, (a, d)
+    for a in (2020, 2021, 2022):
+        d = {c: i for c, i in ids("II-7.1.2", a).items() if ids("II-7.1.2", 2024)[c] != i}
+        assert set(d) == {"E", "F", "G"} and all(i.endswith("_con_udelar_censo_2012") for i in d.values()), (a, d)
+    assert ids("II-7.1.2", 2023) == ids("II-7.1.2", 2024)
+    assert REG["cuadros"]["II-7.1.1"]["tipos"][2024] == "A"

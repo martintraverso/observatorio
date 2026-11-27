@@ -530,3 +530,22 @@ def test_173_ii_6_unidades_y_nota_del_origen_geografico(cargado):
     assert i.at["edu_ii_6_3_1_cantidad_de_horas", "unidad"] == "horas docentes"
     assert i.at["edu_ii_6_2_1_total_matr", "unidad"] == "estudiantes"
     assert "coinciden con los del departamento donde se estudia" in i.at["edu_ii_6_3_3_estudiantes_ingresados", "nota"]
+
+
+def test_241_el_cero_de_la_udelar_sin_dato_no_se_carga_y_cuenta_como_sin_dato():
+    """#241 (mantenedor): la matrícula de posgrado de Salto 2023 (0: la UdelaR, su única oferta, sin dato) no se carga y
+    queda como publicada sin dato (AC-E21); los demás territorios y años, sí. El 0 de Rocha 2024 es del IPES, publicado
+    0 en total y por sexo: es un dato y se carga."""
+    from mec_anuario_cargar import quitar_sin_cargar
+
+    manual = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario" / "mapeo_manual.yml").read_text(encoding="utf-8"))
+    cuadro_de = {"edu_ii_7_1_2_matricula_total": "II-7.1.2"}
+    obs = pd.DataFrame([
+        {"indicador": "edu_ii_7_1_2_matricula_total", "territorio_id": "INE-2023/departamento/15", "periodo": "2023", "valor": 0},
+        {"indicador": "edu_ii_7_1_2_matricula_total", "territorio_id": "INE-2023/departamento/15", "periodo": "2024", "valor": 3},
+        {"indicador": "edu_ii_7_1_2_matricula_total", "territorio_id": "INE-2023/departamento/10", "periodo": "2023", "valor": 50},
+        {"indicador": "edu_ii_7_1_2_matricula_total", "territorio_id": "INE-2023/departamento/14", "periodo": "2024", "valor": 0},
+    ])
+    sin_dato = set()
+    quedan = quitar_sin_cargar(obs, manual["observaciones_sin_cargar"], cuadro_de, sin_dato)
+    assert len(quedan) == 3 and sin_dato == {("edu_ii_7_1_2_matricula_total", "INE-2023/departamento/15", "2023")}

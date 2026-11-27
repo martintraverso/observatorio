@@ -161,6 +161,19 @@ def controles(obs: pd.DataFrame, fuente: dict, manual: dict, derivados: set[str]
             res.region_salteada.add((ind, per))
             res.advertencias.append(f"AC-E18 {cuadro_de[ind]} {per} `{ind}`: Resto del país {f[INTERIOR]:g} ≠ "
                                     f"{f[PAIS]:g} − {f[MVD]:g}; no se carga la fila del Interior")
+        # #241 (revisión): en los cuadros A con categorías del territorio (PÚBLICO/PRIVADO bajo RESTO DEL PAÍS, II-7.1.x)
+        # la categoría del Interior también tiene que ser TOTAL − MONTEVIDEO de la misma categoría (§4)
+        con_cat = {c for c, e in fuente["cuadros"].items() if (e.get("filas_de_establecimiento") or {}).get("categorias")}
+        ca = conteos[conteos.indicador.str.contains("__") & conteos.territorio_id.isin({PAIS, MVD, INTERIOR})]
+        ca = ca[ca.indicador.str.split("__").str[0].map(cuadro_de).isin(con_cat)]
+        if len(ca):
+            wc = ca.pivot_table(index=["indicador", "periodo"], columns="territorio_id", values="valor", aggfunc="first")
+            if {PAIS, MVD, INTERIOR} <= set(wc.columns):
+                tres_c = wc[wc[[PAIS, MVD, INTERIOR]].notna().all(axis=1)]
+                for (ind, per), f in tres_c[tres_c[PAIS] - tres_c[MVD] != tres_c[INTERIOR]].iterrows():
+                    res.region_salteada.add((ind, per))
+                    res.advertencias.append(f"AC-E18 {cuadro_de[ind.split('__')[0]]} {per} `{ind}`: Resto del país "
+                                            f"{f[INTERIOR]:g} ≠ {f[PAIS]:g} − {f[MVD]:g}; no se carga la fila del Interior")
     sin_probar18 = int((w[[PAIS, MVD]].notna().all(axis=1) & w[INTERIOR].isna()).sum())
     res.controles.chk("AC-E18 Resto del país = TOTAL − MONTEVIDEO", True,
                       "; ".join(x for x in (f"{len(res.region_salteada)} filas del Interior salteadas" if res.region_salteada else "",
