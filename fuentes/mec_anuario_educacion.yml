@@ -19512,6 +19512,8 @@ cuadros:
     - UNIVERSIDAD DE MONTEVIDEO
     - UNIVERSIDAD DE LA EMPRESA
     - UNIVERSIDAD CLAEH
+    rotulos_de_fila:
+      UNIVERSIDAD DE LA EMPRESA: UNIVERSIDAD DE LA EMPRESA
     datos_de_otro_anio:
       2024:
       - '** El dato de la UDE es último disponible año 2023.'

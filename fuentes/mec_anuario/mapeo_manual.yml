@@ -375,11 +375,15 @@ observaciones_sin_cargar:
     patron: ""
     categorias: [universidad_de_la_empresa]
     motivo: "La Universidad de la Empresa en 2024 no se carga: el anuario repite su dato de 2023 (pie: «último disponible año 2023»), que ya se cargó con su año (D4, #255)."
-  II-7.2.3:  # D4 por fila (#255)
-    anios: [2023]
-    patron: ""
-    categorias: [inst_metodista_univ_crandon]
-    motivo: "El Instituto Metodista Universitario Crandon en 2023 no se carga: el anuario repite su dato de 2022 (pie: «último dato disponible … año 2022»), que ya se cargó con su año (D4, #255)."
+  II-7.2.3:
+    - anios: [2023]  # D4 por fila (#255)
+      patron: ""
+      categorias: [inst_metodista_univ_crandon]
+      motivo: "El Instituto Metodista Universitario Crandon en 2023 no se carga: el anuario repite su dato de 2022 (pie: «último dato disponible … año 2022»), que ya se cargó con su año (D4, #255)."
+    - anios: [2020]  # #255 (revisión), como II-6.3.1 2020 (#173) y Salto en II-7.1.2 (#241)
+      patron: ""
+      categorias: [fundacion_politecnico_de_punta_del_este]
+      motivo: "La Fundación Politécnico de Punta del Este en 2020 no se carga: el anuario publica 0 en los totales con el sexo «s/d» (y en 2021–2023 todo «s/d»); el 0 no es un dato (mantenedor, #173 y #241)."
   II-7.1.2:  # #241 (mantenedor): la UdelaR es la única oferta de posgrado del departamento y viene «0» con sexo «s/d»
     - anios: [2023]
       patron: matricula_total
@@ -388,6 +392,25 @@ observaciones_sin_cargar:
 
 # notas_indicador (#241, mantenedor): una nota que se agrega a la de un indicador (id base; vale para sus categorías).
 notas_indicador:
+  edu_ii_7_2_1_matricula_total: "El total (y el de la UdelaR) incluye a estudiantes de la UdelaR sin sexo (pie del cuadro): no es varones + mujeres (#255)."
+  edu_ii_7_2_2_ingreso_total: &nota_d4_2 "En 2024 el TOTAL del cuadro incluye a la Universidad de la Empresa con su dato de 2023; esa institución no se carga en 2024 (D4, #255)."
+  edu_ii_7_2_2_ingreso_sexo_v: *nota_d4_2
+  edu_ii_7_2_2_ingreso_sexo_m: *nota_d4_2
+  edu_ii_7_2_2_matricula_total: *nota_d4_2
+  edu_ii_7_2_2_matricula_sexo_v: *nota_d4_2
+  edu_ii_7_2_2_matricula_sexo_m: *nota_d4_2
+  edu_ii_7_2_2_egreso_total: *nota_d4_2
+  edu_ii_7_2_2_egreso_sexo_v: *nota_d4_2
+  edu_ii_7_2_2_egreso_sexo_m: *nota_d4_2
+  edu_ii_7_2_3_ingreso_total: &nota_d4_3 "En 2023 el TOTAL del cuadro incluye a el Instituto Metodista Universitario Crandon con su dato de 2022; esa institución no se carga en 2023 (D4, #255)."
+  edu_ii_7_2_3_ingreso_sexo_v: *nota_d4_3
+  edu_ii_7_2_3_ingreso_sexo_m: *nota_d4_3
+  edu_ii_7_2_3_matricula_total: *nota_d4_3
+  edu_ii_7_2_3_matricula_sexo_v: *nota_d4_3
+  edu_ii_7_2_3_matricula_sexo_m: *nota_d4_3
+  edu_ii_7_2_3_egreso_total: *nota_d4_3
+  edu_ii_7_2_3_egreso_sexo_v: *nota_d4_3
+  edu_ii_7_2_3_egreso_sexo_m: *nota_d4_3
   edu_ii_7_1_1_matricula_total_con_sin_sexo: &nota_sin_sexo "Total de 2020–2023: incluye la matrícula de la UdelaR sin sexo. Desde 2024 el total de cada territorio es varones + mujeres y va en otro indicador (mantenedor, #241)."
   edu_ii_7_1_2_matricula_total_con_udelar_censo_2012: &nota_censo "2020–2022: la matrícula de la UdelaR es la del I Censo de Estudiantes de Posgrado 2012 (6.802 en Montevideo, repetida los tres años). Desde 2023 la UdelaR viene sin dato y la matrícula va en otro indicador (mantenedor, #241)."
   edu_ii_7_1_2_matricula_sexo_v_con_udelar_censo_2012: *nota_censo
@@ -432,6 +455,8 @@ rotulos_de_fila:
     "TOTAL UNIVERSIDADES PÚBLICAS": "TOTAL"  # 2020–2023; en 2024 «TOTAL PAÍS»: el total del cuadro
     "TOTAL UDELAR": "UdelaR"                  # 2020–2023; «UdelaR» en 2024
     "UNIVERSIDAD TECNOLÓGICA -UTEC": "UTEC"   # 2020–2023; « UTEC» en 2024
+  II-7.2.2:
+    "UNIVERSIDAD DE LA EMPRESA": "UNIVERSIDAD DE LA EMPRESA"  # 2024 «…**» (llamada): el nombre del indicador no depende del año
 
 # filas_de_establecimiento (#173, mantenedor): cuadros A con filas de establecimiento entre los territorios; no se
 # cargan, por nombre (sin tildes ni mayúsculas). `sangradas`: las que se saltean solo si el rótulo empieza con espacios
@@ -575,7 +600,7 @@ controles_excepciones:
     II-7.2.3:  # #255
       2023:
         motivo: "el TOTAL incluye al Instituto Metodista Universitario Crandon, que repite su dato de 2022 y en 2023 no se carga (D4): las instituciones cargadas no suman el total"
-        indicadores: [edu_ii_7_2_3_ingreso_total, edu_ii_7_2_3_ingreso_sexo_v, edu_ii_7_2_3_ingreso_sexo_m, edu_ii_7_2_3_matricula_total, edu_ii_7_2_3_matricula_sexo_v, edu_ii_7_2_3_matricula_sexo_m, edu_ii_7_2_3_egreso_total, edu_ii_7_2_3_egreso_sexo_v, edu_ii_7_2_3_egreso_sexo_m]
+        indicadores: [edu_ii_7_2_3_ingreso_total, edu_ii_7_2_3_ingreso_sexo_m, edu_ii_7_2_3_matricula_total, edu_ii_7_2_3_matricula_sexo_v, edu_ii_7_2_3_matricula_sexo_m, edu_ii_7_2_3_egreso_total, edu_ii_7_2_3_egreso_sexo_v, edu_ii_7_2_3_egreso_sexo_m]
     II-7.1.1:  # #241
       2020:
         motivo: "la matrícula total no es varones + mujeres: parte de la matrícula de la UdelaR no tiene sexo (pie del cuadro; país 221.705 contra 221.396)"

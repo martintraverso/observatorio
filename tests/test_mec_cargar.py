@@ -565,3 +565,14 @@ def test_255_d4_por_fila_la_institucion_que_repite_el_anio_anterior_no_se_carga(
     ])
     quedan = quitar_sin_cargar(obs, manual["observaciones_sin_cargar"], cuadro_de)
     assert sorted(zip(quedan.indicador.str.split("__").str[1], quedan.periodo)) == [("ucu", "2024"), ("universidad_de_la_empresa", "2023")]
+    # #255 (revisión): el 0 de 2020 de la Fundación Politécnico, con el sexo «s/d», no es un dato (como #173 y #241)
+    cuadro_de = {"edu_ii_7_2_3_matricula_total": "II-7.2.3"}
+    obs = pd.DataFrame([
+        {"indicador": f"edu_ii_7_2_3_matricula_total__{c}", "territorio_id": "INE-2023/pais/UY", "periodo": p, "valor": v}
+        for c, p, v in (("fundacion_politecnico_de_punta_del_este", "2020", 0), ("inst_metodista_univ_crandon", "2023", 23),
+                        ("inst_metodista_univ_crandon", "2022", 23), ("inst_univ_cediiap", "2020", 18))])
+    sin_dato = set()
+    quedan = quitar_sin_cargar(obs, manual["observaciones_sin_cargar"], cuadro_de, sin_dato)
+    assert sorted(zip(quedan.indicador.str.split("__").str[1], quedan.periodo)) == [
+        ("inst_metodista_univ_crandon", "2022"), ("inst_univ_cediiap", "2020")]
+    assert ("edu_ii_7_2_3_matricula_total__fundacion_politecnico_de_punta_del_este", "INE-2023/pais/UY", "2020") in sin_dato
