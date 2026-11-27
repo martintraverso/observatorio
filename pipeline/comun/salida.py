@@ -52,6 +52,13 @@ VISTA_OBSERVACIONES = """
 """
 
 
+# MCP.1 (#260, AC-MCP2, D-MCP.7): lo que se publica en la app y en el servidor MCP, solo de fuentes activas (las «en
+# preparación» quedan en el release pero no se muestran, F2.5d).
+VISTA_PUBLICADAS = """
+    SELECT v.* FROM v_observaciones v JOIN fuentes f ON f.id = v.fuente_id WHERE f.estado = 'activa'
+"""
+
+
 class ErrorCombinar(ValueError):
     pass
 
@@ -162,6 +169,13 @@ def combinar(salida: Path, fuentes: dict[str, dict]) -> dict:
     for t, df in tablas.items():
         df.to_parquet(salida / f"{t}.parquet", index=False)
     tabla_fuentes(fuentes).to_parquet(salida / "fuentes.parquet", index=False)
-    escribir_duckdb(salida, ["territorios", "observaciones", "correspondencias", "indicadores", "capturas", "fuentes"],
-                    geometria={"territorios": "geom_wkb"}, vistas={"v_observaciones": VISTA_OBSERVACIONES})
+    # MCP.1 (#260, AC-MCP1): los metadatos que la app lee de indicadores.json, de las mismas funciones de web.py
+    from web import metadatos_indicadores
+
+    territorios_nivel = pd.read_parquet(salida / "territorios.parquet", columns=["id", "nivel"])
+    metadatos_indicadores(ind, territorios_nivel, obs).to_parquet(salida / "indicadores_web.parquet", index=False)
+    escribir_duckdb(salida, ["territorios", "observaciones", "correspondencias", "indicadores", "indicadores_web",
+                             "capturas", "fuentes"],
+                    geometria={"territorios": "geom_wkb"},
+                    vistas={"v_observaciones": VISTA_OBSERVACIONES, "v_publicadas": VISTA_PUBLICADAS})
     return {"fuentes": [p.name for p in carpetas], "observaciones": len(obs), "capturas": len(cap)}

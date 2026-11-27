@@ -553,3 +553,38 @@ def test_dentro_de_nombra_niveles_mas_gruesos_del_catalogo():
         assert all(p in cat and cat[p]["orden"] < n["orden"] for p in n["dentro_de"]), n["id"]
     assert "municipio_mvd" not in cat["barrio_mvd"]["dentro_de"]
     assert {"seccion", "departamento"} <= set(cat["segmento"]["dentro_de"])
+
+
+def test_mcp1_la_base_trae_los_metadatos_de_indicadores_json(web, con):
+    """AC-MCP1 (#260): `observatorio.duckdb` tiene, para cada indicador, `cuadro`, `corte`, `grupo`, `niveles` y
+    `periodos` con datos, y son los mismos que lee la app en `indicadores.json` (salen de las mismas funciones)."""
+    ind = {i["codigo"]: i for i in json.loads((web / "indicadores.json").read_text(encoding="utf-8"))}
+    base = {r[0]: r[1:] for r in con.execute(
+        "select codigo, cuadro, corte, grupo, niveles, periodos from indicadores_web").fetchall()}
+    assert set(ind) <= set(base)
+    for c, i in ind.items():
+        cuadro, corte, grupo, niveles, periodos = base[c]
+        assert (cuadro, corte, grupo) == (i["cuadro"], i["corte"], i["grupo"]), c
+        assert list(niveles) == i["niveles"] and list(periodos) == i["periodos"], c
+    assert con.execute("select count(*) from indicadores_web").fetchone()[0] == \
+        con.execute("select count(*) from indicadores").fetchone()[0]
+
+
+def test_mcp2_v_publicadas_solo_trae_fuentes_activas():
+    """AC-MCP2 (#260, D-MCP.7): `v_publicadas` devuelve solo observaciones de fuentes con `estado = 'activa'`; una
+    fuente «en preparación» queda en la base pero ninguno de sus valores aparece."""
+    import duckdb
+    from comun.salida import VISTA_OBSERVACIONES, VISTA_PUBLICADAS
+
+    c = duckdb.connect()
+    c.execute("create table territorios as select 'd1' id, 'departamento' nivel, '01' codigo, 'Montevideo' nombre, '01' depto")
+    c.execute("create table indicadores as select * from (values ('a', 'A', 'u'), ('b', 'B', 'u')) t(codigo, nombre, unidad)")
+    c.execute("create table capturas as select * from (values ('ca', 'fa', '2026-01-01'), ('cb', 'fb', '2026-01-01')) "
+              "t(id, fuente_id, fecha_proceso)")
+    c.execute("create table fuentes as select * from (values ('fa', 'activa'), ('fb', 'en preparación')) t(id, estado)")
+    c.execute("create table observaciones as select * from (values ('a', 'd1', '2024', 1.0, 'ca'), ('b', 'd1', '2024', 2.0, 'cb')) "
+              "t(indicador, territorio_id, periodo, valor, captura_id)")
+    c.execute(f"create view v_observaciones as {VISTA_OBSERVACIONES}")
+    c.execute(f"create view v_publicadas as {VISTA_PUBLICADAS}")
+    assert c.execute("select count(*) from v_observaciones").fetchone()[0] == 2
+    assert c.execute("select indicador from v_publicadas").fetchall() == [("a",)]
