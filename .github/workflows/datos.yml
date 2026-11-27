@@ -26,6 +26,7 @@ on:
 
 permissions:
   contents: write  # crear releases
+  issues: write    # F4.6 (#169): «Nuevo anuario MEC <año>: revisar mapeo»
 
 concurrency:
   group: datos     # nunca dos publicaciones a la vez
@@ -72,6 +73,26 @@ jobs:
       # Sin capturas nuevas no sube nada (el registro solo cambió en ultima_corrida).
       - name: Subir originales nuevos de ingresos a crudos
         run: python scripts/crudos_carpeta.py subir --crudo datos/crudo --carpeta ech_ingresos
+
+      # F4.6 (#169, AC-E25): los anuarios del MEC. Un archivo cambiado en la URL del registro es otra captura vigente,
+      # que «Procesar» carga. Un año nuevo se baja a mec_anuario/nuevos/ sin cargarse (no entra en capturas.json ni se
+      # sube a «crudos»: el issue lleva su URL y sha256) y abre una sola vez «Nuevo anuario MEC <año>: revisar mapeo».
+      # Un año del registro con otra URL en su página abre «Anuario MEC <año> actualizado: revisar URL». Si el MEC no
+      # responde, el paso falla (pipefail) y la corrida sigue.
+      - name: Capturar anuarios (MEC)
+        timeout-minutes: 15
+        continue-on-error: true
+        shell: bash
+        run: python pipeline/mec_anuario_captura.py --crudo datos/crudo | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Novedades del MEC (años nuevos y URL cambiadas)
+        timeout-minutes: 10
+        continue-on-error: true
+        shell: bash
+        run: python pipeline/mec_anuario_novedades.py --crudo datos/crudo --issues | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Subir capturas nuevas del MEC a crudos
+        run: python scripts/crudos_carpeta.py subir --crudo datos/crudo --carpeta mec_anuario
 
       - name: Procesar
         run: |
