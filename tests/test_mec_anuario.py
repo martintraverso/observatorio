@@ -25,7 +25,7 @@ def cuadro(cod, anio=2024, xlsx=None, mapeo=None):
     return mec.parsear_cuadro(xlsx or XLSX[anio], cod, anio, mapeo if mapeo is not None else e["mapeo"][anio],
                               e["tipos"][anio], (e.get("categorias_segundas") or {}).get(anio, ()),
                               e.get("secciones_por_institucion"), e.get("solo_filas") or (),
-                              e.get("filas_de_establecimiento"))  # como la carga (#172, #173)
+                              e.get("filas_de_establecimiento"), e.get("rotulos_de_fila"))  # como la carga (#172, #173, #255)
 
 
 def valor(c, indicador, territorio):
@@ -507,3 +507,35 @@ def test_241_publico_privado_fuera_de_lugar_frena():
     regla = {k: v for k, v in e["filas_de_establecimiento"].items() if k != "con_categorias"}
     with pytest.raises(mec.ErrorAnuario, match="no está bajo el país, Montevideo ni el Interior"):
         mec.parsear_cuadro(XLSX[2024], "II-7.1.1", 2024, e["mapeo"][2024], "A", (), None, (), regla)
+
+
+def test_255_un_conteo_como_texto_con_llamada_se_lee_con_separador_de_miles():
+    """#255: «229.839*» (II-7.2.1 de 2024) es 229.839 con una llamada de nota. Sin la llamada, «7.466» sigue siendo
+    decimal; y una celda así antes frenaba la carga, así que no cambia nada ya cargado."""
+    assert mec.numero("229.839*") == 229839 and mec.numero("1.226.659 **") == 1226659
+    assert mec.numero("7.466") == 7.466 and mec.numero("1.2*") is None and mec.numero("229.83*") is None
+
+
+def test_255_grado_por_institucion_con_el_mismo_id_entre_anios():
+    """#255 (mantenedor en #242): en II-7.2.1–3 se cargan el TOTAL y las instituciones, a nivel país. «TOTAL UDELAR»
+    (2023) y «UdelaR» (2024) son la misma categoría (`rotulos_de_fila`, AC-E13), y «TOTAL UNIVERSIDADES PÚBLICAS» es el
+    total del cuadro: no abre un grupo. Servicios, departamentos y carreras no se cargan (AC-E20: solo el país)."""
+    for anio, udelar, total in ((2023, 227903, 230825), (2024, 226659, 229839)):
+        c = cuadro("II-7.2.1", anio)
+        assert set(c.datos.territorio_id) == {mec.PAIS}
+        assert {i.split("__")[1] for i in c.datos.indicador} == {"total", "udelar", "utec"}, anio
+        assert valor(c, "edu_ii_7_2_1_matricula_total__udelar", "pais/UY") == udelar  # 2024: «226.659*»
+        assert valor(c, "edu_ii_7_2_1_matricula_total__total", "pais/UY") == total
+    c = cuadro("II-7.2.2", 2024)
+    assert {i.split("__")[1] for i in c.datos.indicador} == {"total", "ucu", "universidad_ort_uruguay", "universidad_de_montevideo",
+                                                             "universidad_de_la_empresa", "universidad_claeh"}
+    assert not any("columna" in i for i in c.datos.indicador)  # AB, AE, AF: números sueltos fuera del cuadro (omitir)
+    c = cuadro("II-7.2.3", 2023)
+    assert valor(c, "edu_ii_7_2_3_ingreso_total__total", "pais/UY") == 346
+
+
+def test_255_sin_la_regla_de_rotulos_total_udelar_abre_un_grupo():
+    """#255: sin `rotulos_de_fila`, «TOTAL UDELAR» abre un grupo y la UdelaR de 2023 no tendría el id de la de 2024."""
+    e = REG["cuadros"]["II-7.2.1"]
+    c = mec.parsear_cuadro(XLSX[2023], "II-7.2.1", 2023, e["mapeo"][2023], "C", (), None, ["TOTAL UDELAR", "UNIVERSIDAD TEC"])
+    assert "edu_ii_7_2_1_matricula_total__udelar" not in set(c.datos.indicador)

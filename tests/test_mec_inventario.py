@@ -306,3 +306,16 @@ def test_241_ii_7_1_los_ids_de_2020_a_2023_son_los_de_2024_salvo_la_matricula_qu
         assert set(d) == {"E", "F", "G"} and all(i.endswith("_con_udelar_censo_2012") for i in d.values()), (a, d)
     assert ids("II-7.1.2", 2023) == ids("II-7.1.2", 2024)
     assert REG["cuadros"]["II-7.1.1"]["tipos"][2024] == "A"
+
+
+def test_255_ii_7_2_1_a_3_un_id_por_medida_en_los_cinco_anios():
+    """#255: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» de 2020–2023 son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de
+    2024 (renombres): un id por medida y año. En II-7.2.2 las columnas AB, AE y AF (números sueltos fuera del cuadro)
+    llevan `omitir`."""
+    for cod in ("II-7.2.1", "II-7.2.2", "II-7.2.3"):
+        e = REG["cuadros"][cod]
+        assert e["ola"] == 1 and all(t == "C" for t in e["tipos"].values()), cod
+        ids = {a: {x["col"]: x["id"] for x in m if not x.get("omitir")} for a, m in e["mapeo"].items()}
+        assert all(v == ids[2024] for v in ids.values()), cod
+    omitidas = {x["col"] for x in REG["cuadros"]["II-7.2.2"]["mapeo"][2024] if x.get("omitir")}
+    assert omitidas == {"AB", "AE", "AF"}

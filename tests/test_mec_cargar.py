@@ -549,3 +549,19 @@ def test_241_el_cero_de_la_udelar_sin_dato_no_se_carga_y_cuenta_como_sin_dato():
     sin_dato = set()
     quedan = quitar_sin_cargar(obs, manual["observaciones_sin_cargar"], cuadro_de, sin_dato)
     assert len(quedan) == 3 and sin_dato == {("edu_ii_7_1_2_matricula_total", "INE-2023/departamento/15", "2023")}
+
+
+def test_255_d4_por_fila_la_institucion_que_repite_el_anio_anterior_no_se_carga():
+    """#255: en 2024 la UDE repite su dato de 2023 (pie) y en 2023 el Crandon el de 2022: esa institución no se carga
+    ese año (`categorias` en `observaciones_sin_cargar`); las demás, y la misma institución otro año, sí."""
+    from mec_anuario_cargar import quitar_sin_cargar
+
+    manual = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario" / "mapeo_manual.yml").read_text(encoding="utf-8"))
+    cuadro_de = {"edu_ii_7_2_2_ingreso_total": "II-7.2.2"}
+    obs = pd.DataFrame([
+        {"indicador": "edu_ii_7_2_2_ingreso_total__universidad_de_la_empresa", "territorio_id": "INE-2023/pais/UY", "periodo": "2024", "valor": 855},
+        {"indicador": "edu_ii_7_2_2_ingreso_total__universidad_de_la_empresa", "territorio_id": "INE-2023/pais/UY", "periodo": "2023", "valor": 855},
+        {"indicador": "edu_ii_7_2_2_ingreso_total__ucu", "territorio_id": "INE-2023/pais/UY", "periodo": "2024", "valor": 1694},
+    ])
+    quedan = quitar_sin_cargar(obs, manual["observaciones_sin_cargar"], cuadro_de)
+    assert sorted(zip(quedan.indicador.str.split("__").str[1], quedan.periodo)) == [("ucu", "2024"), ("universidad_de_la_empresa", "2023")]
