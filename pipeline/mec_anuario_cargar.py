@@ -73,7 +73,7 @@ def leer_anuario(xlsx: bytes, anio: int, fuente: dict, sin_dato: set | None = No
             continue
         c = mec.parsear_cuadro(xlsx, cod, anio, mapeo, e["tipos"][anio], (e.get("categorias_segundas") or {}).get(anio, ()),
                                e.get("secciones_por_institucion"), e.get("solo_filas") or (),
-                               e.get("filas_de_establecimiento"))
+                               e.get("filas_de_establecimiento"), e.get("rotulos_de_fila"))
         partes.append(c.datos)
         if sin_dato is not None:
             sin_dato.update(c.sin_dato_claves)
@@ -90,7 +90,8 @@ def reglas_sin_cargar(reglas: dict, cod: str | None, indicador: str) -> list[dic
     r = reglas.get(cod) if cod else None
     base, _, categoria = indicador.partition("__")
     return [x for x in (r if isinstance(r, list) else [r] if r else [])
-            if x["patron"] in base and categoria not in x.get("salvo", [])]
+            if x["patron"] in base and categoria not in x.get("salvo", [])
+            and (not x.get("categorias") or categoria in x["categorias"])]  # #255: solo esas categorías
 
 
 def regla_sin_cargar(reglas: dict, cod: str | None, indicador: str) -> dict | None:

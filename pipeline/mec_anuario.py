@@ -68,6 +68,10 @@ def numero(v):
         return v
     if isinstance(v, str) and re.fullmatch(r"\s*\d+(\.\d+)?\s*", v):
         return float(v) if "." in v else int(v)
+    # #255: un conteo como texto con separador de miles y llamada de nota («229.839*», II-7.2.1 de 2024). Solo con la
+    # llamada: sin ella, «7.466» podría ser un decimal. Antes una celda así frenaba la carga, así que no cambia nada cargado.
+    if isinstance(v, str) and (m := re.fullmatch(r"\s*(\d{1,3}(?:\.\d{3})+)\s*\*+\s*", v)):
+        return int(m.group(1).replace(".", ""))
     return None
 
 
@@ -179,7 +183,7 @@ def estructura(celdas: dict[tuple[int, int], object], combinadas, hoja: str) -> 
     elif cod != nombre:
         cod = nombre
     textos = [v for (r, c), v in sorted(celdas.items()) if r > fila_cod and isinstance(v, str)
-              and not v.lstrip().startswith(("Nota", "Fuente"))]
+              and not re.match(r"\s*(Notas?\b|Fuente)", v)]  # #255: «Notariado» es una carrera
     # título: el que dice el año («…, 2024)»); si ninguno lo dice (II-2.3.2), el primer texto largo
     titulo = next((v for v in textos if re.search(r"\(.*\d{4}\)", v)), None) or next((v for v in textos if len(v) > 40), "")
     fila_tit = next((r for (r, c), v in sorted(celdas.items()) if v == titulo), fila_cod)
@@ -191,7 +195,7 @@ def estructura(celdas: dict[tuple[int, int], object], combinadas, hoja: str) -> 
                   and any(numero(celdas.get((r, c))) is not None for c in range(2, 60))), None)
     if desde is None:
         e.sin_datos = True
-        e.pie = [" ".join(str(v).split()) for (r, c), v in sorted(celdas.items()) if isinstance(v, str) and re.match(r"\s*Nota", v)]
+        e.pie = [" ".join(str(v).split()) for (r, c), v in sorted(celdas.items()) if isinstance(v, str) and re.match(r"\s*Notas?\b", v)]
         return e
     hdr = {}
     for f1, c1, f2, c2 in combinadas:
@@ -220,7 +224,7 @@ def estructura(celdas: dict[tuple[int, int], object], combinadas, hoja: str) -> 
     despues_de_fuente = False
     for r in [x for x in filas if x >= desde]:
         a = celdas.get((r, 1))
-        if isinstance(a, str) and re.match(r"\s*(Fuente|Nota|Notas|\(\d|\*)", a):
+        if isinstance(a, str) and re.match(r"\s*(Fuente|Notas?\b|\(\d|\*)", a):  # #255: no «Notariado»
             e.pie.append(" ".join(a.split()))
             despues_de_fuente = despues_de_fuente or bool(re.match(r"\s*Fuente", a))
             continue
@@ -273,7 +277,8 @@ COLUMNAS = ["indicador", "territorio_id", "periodo", "periodo_inicio", "periodo_
 
 def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo: str,
                    segundas: list[str] | tuple = (), secciones: dict | None = None,
-                   solo_filas: list[str] | tuple = (), establecimientos: dict | None = None) -> Cuadro:
+                   solo_filas: list[str] | tuple = (), establecimientos: dict | None = None,
+                   rotulos: dict | None = None) -> Cuadro:
     """Valores del cuadro `codigo` del anuario `anio`, con el mapeo por columna del registro.
 
     Tipo A: cada fila es un territorio (AC-E8). Tipo B y C: cada fila es una categoría que pasa a ser parte del
@@ -326,7 +331,12 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
     # filas salteadas que traen su propio PÚBLICO/PRIVADO (que tampoco se carga); bajo cualquier otra cosa, frena
     con_categorias = {_sin_llamada(x) for x in (est or {}).get("con_categorias", [])}
     territorio_arriba = None  # país, Montevideo o Interior; "saltear" bajo una fila de `con_categorias`
+    # #255: rótulos que el registro declara iguales a otro («TOTAL UDELAR» 2020–2023 = «UdelaR» 2024): la fila se lee
+    # con el rótulo canónico, así su categoría conserva el id entre años (AC-E13) y un «TOTAL …» que no es el total
+    # del cuadro no abre un grupo. Se comparan sin tildes, mayúsculas ni llamadas «*».
+    canon = {_sin_llamada(k): v for k, v in (rotulos or {}).items()}
     for r, rotulo in e.filas:
+        rotulo = canon.get(_sin_llamada(rotulo), rotulo)
         # #173 (revisión): por nombre; la sangría solo distingue un establecimiento que se llama como su departamento.
         # Una fila sangrada que no está en la lista sigue su camino y, si no es un territorio, frena (AC-E8).
         if est and ((r in e.sangradas and _sin_llamada(rotulo) in sangradas_est) or _sin_llamada(rotulo) in nombres_est):
