@@ -325,11 +325,7 @@ observaciones_sin_cargar:
     - anios: [2023]
       patron: matricula_total
       territorios: [departamento/15]
-      motivo: "La matrícula de posgrado de Salto en 2023 y de Rocha en 2024 no se carga: el anuario publica 0 porque la UdelaR, su única oferta, viene sin dato; el 0 no es un dato (mantenedor, #241)."
-    - anios: [2024]
-      patron: matricula_total
-      territorios: [departamento/14]
-      motivo: "La matrícula de posgrado de Salto en 2023 y de Rocha en 2024 no se carga: el anuario publica 0 porque la UdelaR, su única oferta, viene sin dato; el 0 no es un dato (mantenedor, #241)."
+      motivo: "La matrícula de posgrado de Salto en 2023 no se carga: el anuario publica 0 porque la UdelaR, su única oferta, viene sin dato; el 0 no es un dato (mantenedor, #241). El 0 de Rocha en 2024 sí se carga: es del IPES, publicado 0 en total, varones y mujeres."
 
 # notas_indicador (#241, mantenedor): una nota que se agrega a la de un indicador (id base; vale para sus categorías).
 notas_indicador:
