@@ -17942,11 +17942,12 @@ cuadros:
         id: edu_ii_7_1_1_ingreso_sexo_m
       - col: E
         ruta: TOTAL
-        id: edu_ii_7_1_1_matricula_total
-        concepto: MATRÍCULA/TOTAL
-        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
-          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
-          de 2024: mismo cuadro y misma medida.'
+        id: edu_ii_7_1_1_matricula_total_con_sin_sexo
+        concepto: MATRÍCULA/TOTAL con sin sexo
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres: incluye la matrícula de la UdelaR sin sexo (pie: «no se dispone
+          de la matrícula desagregada por sexo»). En 2024 el total de cada territorio es varones + mujeres: otro alcance, otro id (AC-E13, mantenedor en #241). Está
+          en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO» de 2024: mismo cuadro y misma medida.'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: F
         ruta: MATRÍCULA/SEXO/V
         id: edu_ii_7_1_1_matricula_sexo_v
@@ -17957,23 +17958,23 @@ cuadros:
         ruta: TOTAL
         id: edu_ii_7_1_1_egreso_total
         concepto: EGRESO/TOTAL
-        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
-          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
-          de 2024: mismo cuadro y misma medida.'
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres: incluye la matrícula de la UdelaR sin sexo (pie: «no se dispone
+          de la matrícula desagregada por sexo»). En 2024 el total de cada territorio es varones + mujeres: otro alcance, otro id (AC-E13, mantenedor en #241). Está
+          en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO» de 2024: mismo cuadro y misma medida.'
       - col: I
         ruta: EGRESADOS/SEXO/V
         id: edu_ii_7_1_1_egreso_sexo_v
         concepto: EGRESO/SEXO/V
-        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
-          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
-          de 2024: mismo cuadro y misma medida.'
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres: incluye la matrícula de la UdelaR sin sexo (pie: «no se dispone
+          de la matrícula desagregada por sexo»). En 2024 el total de cada territorio es varones + mujeres: otro alcance, otro id (AC-E13, mantenedor en #241). Está
+          en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO» de 2024: mismo cuadro y misma medida.'
       - col: J
         ruta: EGRESADOS/SEXO/M
         id: edu_ii_7_1_1_egreso_sexo_m
         concepto: EGRESO/SEXO/M
-        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
-          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
-          de 2024: mismo cuadro y misma medida.'
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres: incluye la matrícula de la UdelaR sin sexo (pie: «no se dispone
+          de la matrícula desagregada por sexo»). En 2024 el total de cada territorio es varones + mujeres: otro alcance, otro id (AC-E13, mantenedor en #241). Está
+          en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO» de 2024: mismo cuadro y misma medida.'
       2021:
       - col: B
         ruta: TOTAL
@@ -17988,11 +17989,12 @@ cuadros:
         id: edu_ii_7_1_1_ingreso_sexo_m
       - col: E
         ruta: TOTAL
-        id: edu_ii_7_1_1_matricula_total
-        concepto: MATRÍCULA/TOTAL
-        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
-          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
-          de 2024: mismo cuadro y misma medida.'
+        id: edu_ii_7_1_1_matricula_total_con_sin_sexo
+        concepto: MATRÍCULA/TOTAL con sin sexo
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres: incluye la matrícula de la UdelaR sin sexo (pie: «no se dispone
+          de la matrícula desagregada por sexo»). En 2024 el total de cada territorio es varones + mujeres: otro alcance, otro id (AC-E13, mantenedor en #241). Está
+          en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO» de 2024: mismo cuadro y misma medida.'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: F
         ruta: MATRÍCULA/SEXO/V
         id: edu_ii_7_1_1_matricula_sexo_v
@@ -18003,23 +18005,23 @@ cuadros:
         ruta: TOTAL
         id: edu_ii_7_1_1_egreso_total
         concepto: EGRESO/TOTAL
-        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
-          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
-          de 2024: mismo cuadro y misma medida.'
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres: incluye la matrícula de la UdelaR sin sexo (pie: «no se dispone
+          de la matrícula desagregada por sexo»). En 2024 el total de cada territorio es varones + mujeres: otro alcance, otro id (AC-E13, mantenedor en #241). Está
+          en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO» de 2024: mismo cuadro y misma medida.'
       - col: I
         ruta: EGRESADOS/SEXO/V
         id: edu_ii_7_1_1_egreso_sexo_v
         concepto: EGRESO/SEXO/V
-        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
-          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
-          de 2024: mismo cuadro y misma medida.'
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres: incluye la matrícula de la UdelaR sin sexo (pie: «no se dispone
+          de la matrícula desagregada por sexo»). En 2024 el total de cada territorio es varones + mujeres: otro alcance, otro id (AC-E13, mantenedor en #241). Está
+          en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO» de 2024: mismo cuadro y misma medida.'
       - col: J
         ruta: EGRESADOS/SEXO/M
         id: edu_ii_7_1_1_egreso_sexo_m
         concepto: EGRESO/SEXO/M
-        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
-          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
-          de 2024: mismo cuadro y misma medida.'
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres: incluye la matrícula de la UdelaR sin sexo (pie: «no se dispone
+          de la matrícula desagregada por sexo»). En 2024 el total de cada territorio es varones + mujeres: otro alcance, otro id (AC-E13, mantenedor en #241). Está
+          en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO» de 2024: mismo cuadro y misma medida.'
       2022:
       - col: B
         ruta: TOTAL
@@ -18034,11 +18036,12 @@ cuadros:
         id: edu_ii_7_1_1_ingreso_sexo_m
       - col: E
         ruta: TOTAL
-        id: edu_ii_7_1_1_matricula_total
-        concepto: MATRÍCULA/TOTAL
-        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
-          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
-          de 2024: mismo cuadro y misma medida.'
+        id: edu_ii_7_1_1_matricula_total_con_sin_sexo
+        concepto: MATRÍCULA/TOTAL con sin sexo
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres: incluye la matrícula de la UdelaR sin sexo (pie: «no se dispone
+          de la matrícula desagregada por sexo»). En 2024 el total de cada territorio es varones + mujeres: otro alcance, otro id (AC-E13, mantenedor en #241). Está
+          en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO» de 2024: mismo cuadro y misma medida.'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: F
         ruta: MATRÍCULA/SEXO/V
         id: edu_ii_7_1_1_matricula_sexo_v
@@ -18049,23 +18052,23 @@ cuadros:
         ruta: TOTAL
         id: edu_ii_7_1_1_egreso_total
         concepto: EGRESO/TOTAL
-        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
-          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
-          de 2024: mismo cuadro y misma medida.'
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres: incluye la matrícula de la UdelaR sin sexo (pie: «no se dispone
+          de la matrícula desagregada por sexo»). En 2024 el total de cada territorio es varones + mujeres: otro alcance, otro id (AC-E13, mantenedor en #241). Está
+          en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO» de 2024: mismo cuadro y misma medida.'
       - col: I
         ruta: EGRESADOS/SEXO/V
         id: edu_ii_7_1_1_egreso_sexo_v
         concepto: EGRESO/SEXO/V
-        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
-          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
-          de 2024: mismo cuadro y misma medida.'
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres: incluye la matrícula de la UdelaR sin sexo (pie: «no se dispone
+          de la matrícula desagregada por sexo»). En 2024 el total de cada territorio es varones + mujeres: otro alcance, otro id (AC-E13, mantenedor en #241). Está
+          en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO» de 2024: mismo cuadro y misma medida.'
       - col: J
         ruta: EGRESADOS/SEXO/M
         id: edu_ii_7_1_1_egreso_sexo_m
         concepto: EGRESO/SEXO/M
-        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
-          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
-          de 2024: mismo cuadro y misma medida.'
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres: incluye la matrícula de la UdelaR sin sexo (pie: «no se dispone
+          de la matrícula desagregada por sexo»). En 2024 el total de cada territorio es varones + mujeres: otro alcance, otro id (AC-E13, mantenedor en #241). Está
+          en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO» de 2024: mismo cuadro y misma medida.'
       2023:
       - col: B
         ruta: TOTAL
@@ -18080,11 +18083,12 @@ cuadros:
         id: edu_ii_7_1_1_ingreso_sexo_m
       - col: E
         ruta: TOTAL
-        id: edu_ii_7_1_1_matricula_total
-        concepto: MATRÍCULA/TOTAL
-        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
-          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
-          de 2024: mismo cuadro y misma medida.'
+        id: edu_ii_7_1_1_matricula_total_con_sin_sexo
+        concepto: MATRÍCULA/TOTAL con sin sexo
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres: incluye la matrícula de la UdelaR sin sexo (pie: «no se dispone
+          de la matrícula desagregada por sexo»). En 2024 el total de cada territorio es varones + mujeres: otro alcance, otro id (AC-E13, mantenedor en #241). Está
+          en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO» de 2024: mismo cuadro y misma medida.'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: F
         ruta: MATRÍCULA/SEXO/V
         id: edu_ii_7_1_1_matricula_sexo_v
@@ -18095,23 +18099,23 @@ cuadros:
         ruta: TOTAL
         id: edu_ii_7_1_1_egreso_total
         concepto: EGRESO/TOTAL
-        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
-          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
-          de 2024: mismo cuadro y misma medida.'
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres: incluye la matrícula de la UdelaR sin sexo (pie: «no se dispone
+          de la matrícula desagregada por sexo»). En 2024 el total de cada territorio es varones + mujeres: otro alcance, otro id (AC-E13, mantenedor en #241). Está
+          en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO» de 2024: mismo cuadro y misma medida.'
       - col: I
         ruta: EGRESADOS/SEXO/V
         id: edu_ii_7_1_1_egreso_sexo_v
         concepto: EGRESO/SEXO/V
-        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
-          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
-          de 2024: mismo cuadro y misma medida.'
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres: incluye la matrícula de la UdelaR sin sexo (pie: «no se dispone
+          de la matrícula desagregada por sexo»). En 2024 el total de cada territorio es varones + mujeres: otro alcance, otro id (AC-E13, mantenedor en #241). Está
+          en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO» de 2024: mismo cuadro y misma medida.'
       - col: J
         ruta: EGRESADOS/SEXO/M
         id: edu_ii_7_1_1_egreso_sexo_m
         concepto: EGRESO/SEXO/M
-        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
-          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO»
-          de 2024: mismo cuadro y misma medida.'
+        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres: incluye la matrícula de la UdelaR sin sexo (pie: «no se dispone
+          de la matrícula desagregada por sexo»). En 2024 el total de cada territorio es varones + mujeres: otro alcance, otro id (AC-E13, mantenedor en #241). Está
+          en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO» de 2024: mismo cuadro y misma medida.'
       2024:
       - col: B
         ruta: TOTAL
@@ -18128,8 +18132,8 @@ cuadros:
         ruta: TOTAL
         id: edu_ii_7_1_1_matricula_total
         concepto: MATRÍCULA/TOTAL
-        comprobado: 'renombre a mano: el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene sexo (pie: «no
-          se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman su grupo.'
+        comprobado: 'renombre a mano: en las filas de la UdelaR el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres (matrícula sin sexo, pie); en las de
+          territorio sí lo es. Está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que suman su grupo.'
       - col: F
         ruta: MATRÍCULA/SEXO/V
         id: edu_ii_7_1_1_matricula_sexo_v
@@ -18151,6 +18155,8 @@ cuadros:
       categorias:
       - PÚBLICO
       - PRIVADO
+      con_categorias:
+      - MONTEVIDEO Y RESTO DEL PAÍS
       nombres:
       - UdelaR
       - UTEC
@@ -18207,221 +18213,257 @@ cuadros:
         ruta: TOTAL
         id: edu_ii_7_1_2_ingreso_total
         concepto: INGRESO/TOTAL
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        comprobado: 'renombre a mano: «INGRESADOS» y «EGRESADOS» son el «INGRESO» y el «EGRESO» de 2024: mismo cuadro y misma medida. La matrícula de 2020–2022 incluye
+          a la UdelaR con el «I Censo de Estudiantes de Posgrado 2012» (6.802 en Montevideo, los tres años); desde 2023 la UdelaR viene sin dato: otro alcance, otro
+          id (AC-E13, mantenedor en #241).'
       - col: C
         ruta: INGRESADOS/SEXO/V
         id: edu_ii_7_1_2_ingreso_sexo_v
         concepto: INGRESO/SEXO/V
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        comprobado: 'renombre a mano: «INGRESADOS» y «EGRESADOS» son el «INGRESO» y el «EGRESO» de 2024: mismo cuadro y misma medida. La matrícula de 2020–2022 incluye
+          a la UdelaR con el «I Censo de Estudiantes de Posgrado 2012» (6.802 en Montevideo, los tres años); desde 2023 la UdelaR viene sin dato: otro alcance, otro
+          id (AC-E13, mantenedor en #241).'
       - col: D
         ruta: INGRESADOS/SEXO/M
         id: edu_ii_7_1_2_ingreso_sexo_m
         concepto: INGRESO/SEXO/M
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        comprobado: 'renombre a mano: «INGRESADOS» y «EGRESADOS» son el «INGRESO» y el «EGRESO» de 2024: mismo cuadro y misma medida. La matrícula de 2020–2022 incluye
+          a la UdelaR con el «I Censo de Estudiantes de Posgrado 2012» (6.802 en Montevideo, los tres años); desde 2023 la UdelaR viene sin dato: otro alcance, otro
+          id (AC-E13, mantenedor en #241).'
       - col: E
         ruta: TOTAL
-        id: edu_ii_7_1_2_matricula_total
-        concepto: MATRÍCULA/TOTAL
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        id: edu_ii_7_1_2_matricula_total_con_udelar_censo_2012
+        concepto: MATRÍCULA/TOTAL con UdelaR censo 2012
+        comprobado: 'renombre a mano: «INGRESADOS» y «EGRESADOS» son el «INGRESO» y el «EGRESO» de 2024: mismo cuadro y misma medida. La matrícula de 2020–2022 incluye
+          a la UdelaR con el «I Censo de Estudiantes de Posgrado 2012» (6.802 en Montevideo, los tres años); desde 2023 la UdelaR viene sin dato: otro alcance, otro
+          id (AC-E13, mantenedor en #241).'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: F
         ruta: MATRICULADOS/SEXO/V
-        id: edu_ii_7_1_2_matricula_sexo_v
-        concepto: MATRÍCULA/SEXO/V
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        id: edu_ii_7_1_2_matricula_sexo_v_con_udelar_censo_2012
+        concepto: MATRÍCULA/SEXO/V con UdelaR censo 2012
+        comprobado: 'renombre a mano: «INGRESADOS» y «EGRESADOS» son el «INGRESO» y el «EGRESO» de 2024: mismo cuadro y misma medida. La matrícula de 2020–2022 incluye
+          a la UdelaR con el «I Censo de Estudiantes de Posgrado 2012» (6.802 en Montevideo, los tres años); desde 2023 la UdelaR viene sin dato: otro alcance, otro
+          id (AC-E13, mantenedor en #241).'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: G
         ruta: MATRICULADOS/SEXO/M
-        id: edu_ii_7_1_2_matricula_sexo_m
-        concepto: MATRÍCULA/SEXO/M
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        id: edu_ii_7_1_2_matricula_sexo_m_con_udelar_censo_2012
+        concepto: MATRÍCULA/SEXO/M con UdelaR censo 2012
+        comprobado: 'renombre a mano: «INGRESADOS» y «EGRESADOS» son el «INGRESO» y el «EGRESO» de 2024: mismo cuadro y misma medida. La matrícula de 2020–2022 incluye
+          a la UdelaR con el «I Censo de Estudiantes de Posgrado 2012» (6.802 en Montevideo, los tres años); desde 2023 la UdelaR viene sin dato: otro alcance, otro
+          id (AC-E13, mantenedor en #241).'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: H
         ruta: TOTAL
         id: edu_ii_7_1_2_egreso_total
         concepto: EGRESO/TOTAL
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        comprobado: 'renombre a mano: «INGRESADOS» y «EGRESADOS» son el «INGRESO» y el «EGRESO» de 2024: mismo cuadro y misma medida. La matrícula de 2020–2022 incluye
+          a la UdelaR con el «I Censo de Estudiantes de Posgrado 2012» (6.802 en Montevideo, los tres años); desde 2023 la UdelaR viene sin dato: otro alcance, otro
+          id (AC-E13, mantenedor en #241).'
       - col: I
         ruta: EGRESADOS/SEXO/V
         id: edu_ii_7_1_2_egreso_sexo_v
         concepto: EGRESO/SEXO/V
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        comprobado: 'renombre a mano: «INGRESADOS» y «EGRESADOS» son el «INGRESO» y el «EGRESO» de 2024: mismo cuadro y misma medida. La matrícula de 2020–2022 incluye
+          a la UdelaR con el «I Censo de Estudiantes de Posgrado 2012» (6.802 en Montevideo, los tres años); desde 2023 la UdelaR viene sin dato: otro alcance, otro
+          id (AC-E13, mantenedor en #241).'
       - col: J
         ruta: EGRESADOS/SEXO/M
         id: edu_ii_7_1_2_egreso_sexo_m
         concepto: EGRESO/SEXO/M
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        comprobado: 'renombre a mano: «INGRESADOS» y «EGRESADOS» son el «INGRESO» y el «EGRESO» de 2024: mismo cuadro y misma medida. La matrícula de 2020–2022 incluye
+          a la UdelaR con el «I Censo de Estudiantes de Posgrado 2012» (6.802 en Montevideo, los tres años); desde 2023 la UdelaR viene sin dato: otro alcance, otro
+          id (AC-E13, mantenedor en #241).'
       2021:
       - col: B
         ruta: TOTAL
         id: edu_ii_7_1_2_ingreso_total
         concepto: INGRESO/TOTAL
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        comprobado: 'renombre a mano: «INGRESADOS» y «EGRESADOS» son el «INGRESO» y el «EGRESO» de 2024: mismo cuadro y misma medida. La matrícula de 2020–2022 incluye
+          a la UdelaR con el «I Censo de Estudiantes de Posgrado 2012» (6.802 en Montevideo, los tres años); desde 2023 la UdelaR viene sin dato: otro alcance, otro
+          id (AC-E13, mantenedor en #241).'
       - col: C
         ruta: INGRESADOS/SEXO/V
         id: edu_ii_7_1_2_ingreso_sexo_v
         concepto: INGRESO/SEXO/V
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        comprobado: 'renombre a mano: «INGRESADOS» y «EGRESADOS» son el «INGRESO» y el «EGRESO» de 2024: mismo cuadro y misma medida. La matrícula de 2020–2022 incluye
+          a la UdelaR con el «I Censo de Estudiantes de Posgrado 2012» (6.802 en Montevideo, los tres años); desde 2023 la UdelaR viene sin dato: otro alcance, otro
+          id (AC-E13, mantenedor en #241).'
       - col: D
         ruta: INGRESADOS/SEXO/M
         id: edu_ii_7_1_2_ingreso_sexo_m
         concepto: INGRESO/SEXO/M
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        comprobado: 'renombre a mano: «INGRESADOS» y «EGRESADOS» son el «INGRESO» y el «EGRESO» de 2024: mismo cuadro y misma medida. La matrícula de 2020–2022 incluye
+          a la UdelaR con el «I Censo de Estudiantes de Posgrado 2012» (6.802 en Montevideo, los tres años); desde 2023 la UdelaR viene sin dato: otro alcance, otro
+          id (AC-E13, mantenedor en #241).'
       - col: E
         ruta: TOTAL
-        id: edu_ii_7_1_2_matricula_total
-        concepto: MATRÍCULA/TOTAL
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        id: edu_ii_7_1_2_matricula_total_con_udelar_censo_2012
+        concepto: MATRÍCULA/TOTAL con UdelaR censo 2012
+        comprobado: 'renombre a mano: «INGRESADOS» y «EGRESADOS» son el «INGRESO» y el «EGRESO» de 2024: mismo cuadro y misma medida. La matrícula de 2020–2022 incluye
+          a la UdelaR con el «I Censo de Estudiantes de Posgrado 2012» (6.802 en Montevideo, los tres años); desde 2023 la UdelaR viene sin dato: otro alcance, otro
+          id (AC-E13, mantenedor en #241).'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: F
         ruta: MATRICULADOS/SEXO/V
-        id: edu_ii_7_1_2_matricula_sexo_v
-        concepto: MATRÍCULA/SEXO/V
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        id: edu_ii_7_1_2_matricula_sexo_v_con_udelar_censo_2012
+        concepto: MATRÍCULA/SEXO/V con UdelaR censo 2012
+        comprobado: 'renombre a mano: «INGRESADOS» y «EGRESADOS» son el «INGRESO» y el «EGRESO» de 2024: mismo cuadro y misma medida. La matrícula de 2020–2022 incluye
+          a la UdelaR con el «I Censo de Estudiantes de Posgrado 2012» (6.802 en Montevideo, los tres años); desde 2023 la UdelaR viene sin dato: otro alcance, otro
+          id (AC-E13, mantenedor en #241).'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: G
         ruta: MATRICULADOS/SEXO/M
-        id: edu_ii_7_1_2_matricula_sexo_m
-        concepto: MATRÍCULA/SEXO/M
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        id: edu_ii_7_1_2_matricula_sexo_m_con_udelar_censo_2012
+        concepto: MATRÍCULA/SEXO/M con UdelaR censo 2012
+        comprobado: 'renombre a mano: «INGRESADOS» y «EGRESADOS» son el «INGRESO» y el «EGRESO» de 2024: mismo cuadro y misma medida. La matrícula de 2020–2022 incluye
+          a la UdelaR con el «I Censo de Estudiantes de Posgrado 2012» (6.802 en Montevideo, los tres años); desde 2023 la UdelaR viene sin dato: otro alcance, otro
+          id (AC-E13, mantenedor en #241).'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: H
         ruta: TOTAL
         id: edu_ii_7_1_2_egreso_total
         concepto: EGRESO/TOTAL
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        comprobado: 'renombre a mano: «INGRESADOS» y «EGRESADOS» son el «INGRESO» y el «EGRESO» de 2024: mismo cuadro y misma medida. La matrícula de 2020–2022 incluye
+          a la UdelaR con el «I Censo de Estudiantes de Posgrado 2012» (6.802 en Montevideo, los tres años); desde 2023 la UdelaR viene sin dato: otro alcance, otro
+          id (AC-E13, mantenedor en #241).'
       - col: I
         ruta: EGRESADOS/SEXO/V
         id: edu_ii_7_1_2_egreso_sexo_v
         concepto: EGRESO/SEXO/V
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        comprobado: 'renombre a mano: «INGRESADOS» y «EGRESADOS» son el «INGRESO» y el «EGRESO» de 2024: mismo cuadro y misma medida. La matrícula de 2020–2022 incluye
+          a la UdelaR con el «I Censo de Estudiantes de Posgrado 2012» (6.802 en Montevideo, los tres años); desde 2023 la UdelaR viene sin dato: otro alcance, otro
+          id (AC-E13, mantenedor en #241).'
       - col: J
         ruta: EGRESADOS/SEXO/M
         id: edu_ii_7_1_2_egreso_sexo_m
         concepto: EGRESO/SEXO/M
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        comprobado: 'renombre a mano: «INGRESADOS» y «EGRESADOS» son el «INGRESO» y el «EGRESO» de 2024: mismo cuadro y misma medida. La matrícula de 2020–2022 incluye
+          a la UdelaR con el «I Censo de Estudiantes de Posgrado 2012» (6.802 en Montevideo, los tres años); desde 2023 la UdelaR viene sin dato: otro alcance, otro
+          id (AC-E13, mantenedor en #241).'
       2022:
       - col: B
         ruta: TOTAL
         id: edu_ii_7_1_2_ingreso_total
         concepto: INGRESO/TOTAL
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        comprobado: 'renombre a mano: «INGRESADOS» y «EGRESADOS» son el «INGRESO» y el «EGRESO» de 2024: mismo cuadro y misma medida. La matrícula de 2020–2022 incluye
+          a la UdelaR con el «I Censo de Estudiantes de Posgrado 2012» (6.802 en Montevideo, los tres años); desde 2023 la UdelaR viene sin dato: otro alcance, otro
+          id (AC-E13, mantenedor en #241).'
       - col: C
         ruta: INGRESADOS/SEXO/V
         id: edu_ii_7_1_2_ingreso_sexo_v
         concepto: INGRESO/SEXO/V
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        comprobado: 'renombre a mano: «INGRESADOS» y «EGRESADOS» son el «INGRESO» y el «EGRESO» de 2024: mismo cuadro y misma medida. La matrícula de 2020–2022 incluye
+          a la UdelaR con el «I Censo de Estudiantes de Posgrado 2012» (6.802 en Montevideo, los tres años); desde 2023 la UdelaR viene sin dato: otro alcance, otro
+          id (AC-E13, mantenedor en #241).'
       - col: D
         ruta: INGRESADOS/SEXO/M
         id: edu_ii_7_1_2_ingreso_sexo_m
         concepto: INGRESO/SEXO/M
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        comprobado: 'renombre a mano: «INGRESADOS» y «EGRESADOS» son el «INGRESO» y el «EGRESO» de 2024: mismo cuadro y misma medida. La matrícula de 2020–2022 incluye
+          a la UdelaR con el «I Censo de Estudiantes de Posgrado 2012» (6.802 en Montevideo, los tres años); desde 2023 la UdelaR viene sin dato: otro alcance, otro
+          id (AC-E13, mantenedor en #241).'
       - col: E
         ruta: TOTAL
-        id: edu_ii_7_1_2_matricula_total
-        concepto: MATRÍCULA/TOTAL
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        id: edu_ii_7_1_2_matricula_total_con_udelar_censo_2012
+        concepto: MATRÍCULA/TOTAL con UdelaR censo 2012
+        comprobado: 'renombre a mano: «INGRESADOS» y «EGRESADOS» son el «INGRESO» y el «EGRESO» de 2024: mismo cuadro y misma medida. La matrícula de 2020–2022 incluye
+          a la UdelaR con el «I Censo de Estudiantes de Posgrado 2012» (6.802 en Montevideo, los tres años); desde 2023 la UdelaR viene sin dato: otro alcance, otro
+          id (AC-E13, mantenedor en #241).'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: F
         ruta: MATRICULADOS/SEXO/V
-        id: edu_ii_7_1_2_matricula_sexo_v
-        concepto: MATRÍCULA/SEXO/V
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        id: edu_ii_7_1_2_matricula_sexo_v_con_udelar_censo_2012
+        concepto: MATRÍCULA/SEXO/V con UdelaR censo 2012
+        comprobado: 'renombre a mano: «INGRESADOS» y «EGRESADOS» son el «INGRESO» y el «EGRESO» de 2024: mismo cuadro y misma medida. La matrícula de 2020–2022 incluye
+          a la UdelaR con el «I Censo de Estudiantes de Posgrado 2012» (6.802 en Montevideo, los tres años); desde 2023 la UdelaR viene sin dato: otro alcance, otro
+          id (AC-E13, mantenedor en #241).'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: G
         ruta: MATRICULADOS/SEXO/M
-        id: edu_ii_7_1_2_matricula_sexo_m
-        concepto: MATRÍCULA/SEXO/M
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        id: edu_ii_7_1_2_matricula_sexo_m_con_udelar_censo_2012
+        concepto: MATRÍCULA/SEXO/M con UdelaR censo 2012
+        comprobado: 'renombre a mano: «INGRESADOS» y «EGRESADOS» son el «INGRESO» y el «EGRESO» de 2024: mismo cuadro y misma medida. La matrícula de 2020–2022 incluye
+          a la UdelaR con el «I Censo de Estudiantes de Posgrado 2012» (6.802 en Montevideo, los tres años); desde 2023 la UdelaR viene sin dato: otro alcance, otro
+          id (AC-E13, mantenedor en #241).'
+        motivo_d6: categoría o columna que 2024 no publica (discontinuada o reclasificada)
       - col: H
         ruta: TOTAL
         id: edu_ii_7_1_2_egreso_total
         concepto: EGRESO/TOTAL
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        comprobado: 'renombre a mano: «INGRESADOS» y «EGRESADOS» son el «INGRESO» y el «EGRESO» de 2024: mismo cuadro y misma medida. La matrícula de 2020–2022 incluye
+          a la UdelaR con el «I Censo de Estudiantes de Posgrado 2012» (6.802 en Montevideo, los tres años); desde 2023 la UdelaR viene sin dato: otro alcance, otro
+          id (AC-E13, mantenedor en #241).'
       - col: I
         ruta: EGRESADOS/SEXO/V
         id: edu_ii_7_1_2_egreso_sexo_v
         concepto: EGRESO/SEXO/V
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        comprobado: 'renombre a mano: «INGRESADOS» y «EGRESADOS» son el «INGRESO» y el «EGRESO» de 2024: mismo cuadro y misma medida. La matrícula de 2020–2022 incluye
+          a la UdelaR con el «I Censo de Estudiantes de Posgrado 2012» (6.802 en Montevideo, los tres años); desde 2023 la UdelaR viene sin dato: otro alcance, otro
+          id (AC-E13, mantenedor en #241).'
       - col: J
         ruta: EGRESADOS/SEXO/M
         id: edu_ii_7_1_2_egreso_sexo_m
         concepto: EGRESO/SEXO/M
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        comprobado: 'renombre a mano: «INGRESADOS» y «EGRESADOS» son el «INGRESO» y el «EGRESO» de 2024: mismo cuadro y misma medida. La matrícula de 2020–2022 incluye
+          a la UdelaR con el «I Censo de Estudiantes de Posgrado 2012» (6.802 en Montevideo, los tres años); desde 2023 la UdelaR viene sin dato: otro alcance, otro
+          id (AC-E13, mantenedor en #241).'
       2023:
       - col: B
         ruta: TOTAL
         id: edu_ii_7_1_2_ingreso_total
         concepto: INGRESO/TOTAL
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida
+          (en 2023 y 2024 la UdelaR viene sin dato de matrícula). Los TOTAL suman su grupo de la derecha.'
       - col: C
         ruta: INGRESADOS/SEXO/V
         id: edu_ii_7_1_2_ingreso_sexo_v
         concepto: INGRESO/SEXO/V
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida
+          (en 2023 y 2024 la UdelaR viene sin dato de matrícula). Los TOTAL suman su grupo de la derecha.'
       - col: D
         ruta: INGRESADOS/SEXO/M
         id: edu_ii_7_1_2_ingreso_sexo_m
         concepto: INGRESO/SEXO/M
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida
+          (en 2023 y 2024 la UdelaR viene sin dato de matrícula). Los TOTAL suman su grupo de la derecha.'
       - col: E
         ruta: TOTAL
         id: edu_ii_7_1_2_matricula_total
         concepto: MATRÍCULA/TOTAL
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida
+          (en 2023 y 2024 la UdelaR viene sin dato de matrícula). Los TOTAL suman su grupo de la derecha.'
       - col: F
         ruta: MATRICULADOS/SEXO/V
         id: edu_ii_7_1_2_matricula_sexo_v
         concepto: MATRÍCULA/SEXO/V
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida
+          (en 2023 y 2024 la UdelaR viene sin dato de matrícula). Los TOTAL suman su grupo de la derecha.'
       - col: G
         ruta: MATRICULADOS/SEXO/M
         id: edu_ii_7_1_2_matricula_sexo_m
         concepto: MATRÍCULA/SEXO/M
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida
+          (en 2023 y 2024 la UdelaR viene sin dato de matrícula). Los TOTAL suman su grupo de la derecha.'
       - col: H
         ruta: TOTAL
         id: edu_ii_7_1_2_egreso_total
         concepto: EGRESO/TOTAL
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida
+          (en 2023 y 2024 la UdelaR viene sin dato de matrícula). Los TOTAL suman su grupo de la derecha.'
       - col: I
         ruta: EGRESADOS/SEXO/V
         id: edu_ii_7_1_2_egreso_sexo_v
         concepto: EGRESO/SEXO/V
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida
+          (en 2023 y 2024 la UdelaR viene sin dato de matrícula). Los TOTAL suman su grupo de la derecha.'
       - col: J
         ruta: EGRESADOS/SEXO/M
         id: edu_ii_7_1_2_egreso_sexo_m
         concepto: EGRESO/SEXO/M
-        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida.
-          Los TOTAL suman su grupo de la derecha.'
+        comprobado: 'renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida
+          (en 2023 y 2024 la UdelaR viene sin dato de matrícula). Los TOTAL suman su grupo de la derecha.'
       2024:
       - col: B
         ruta: TOTAL

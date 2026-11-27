@@ -323,24 +323,31 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
     # #241 (mantenedor): filas de categoría del territorio de arriba (PÚBLICO/PRIVADO bajo TOTAL PAÍS, MONTEVIDEO y RESTO
     # DEL PAÍS, II-7.1.x); bajo una fila salteada (una carrera compartida, «MONTEVIDEO Y RESTO DEL PAÍS») no se cargan
     categorias_est = {_sin_llamada(x) for x in (est or {}).get("categorias", [])}
-    territorio_arriba = None
+    # filas salteadas que traen su propio PÚBLICO/PRIVADO (que tampoco se carga); bajo cualquier otra cosa, frena
+    con_categorias = {_sin_llamada(x) for x in (est or {}).get("con_categorias", [])}
+    territorio_arriba = None  # país, Montevideo o Interior; "saltear" bajo una fila de `con_categorias`
     for r, rotulo in e.filas:
         # #173 (revisión): por nombre; la sangría solo distingue un establecimiento que se llama como su departamento.
         # Una fila sangrada que no está en la lista sigue su camino y, si no es un territorio, frena (AC-E8).
         if est and ((r in e.sangradas and _sin_llamada(rotulo) in sangradas_est) or _sin_llamada(rotulo) in nombres_est):
             salteadas += 1  # #173: un establecimiento (II-6.2.1: «Canelones» sangrado bajo el departamento Canelones)
-            territorio_arriba = None
+            if _sin_llamada(rotulo) in con_categorias:
+                territorio_arriba = "saltear"
+            elif territorio_arriba != "saltear":
+                territorio_arriba = None
             continue
         vacia = all(celdas.get((r, c)) is None for c in cols_mapeadas)
         territorio = territorio_de_fila(rotulo) if tipo == "A" else None
         sufijo_cat = ""
         if est and territorio is None and _sin_llamada(rotulo) in categorias_est:
-            if territorio_arriba is None:
+            if territorio_arriba == "saltear":
                 salteadas += 1
                 continue
+            if territorio_arriba is None:  # bajo un departamento o una institución: no se sabe de qué es (AC-E8)
+                raise ErrorAnuario(f"{codigo} {anio}: «{rotulo}» no está bajo el país, Montevideo ni el Interior (AC-E8)")
             territorio, sufijo_cat = territorio_arriba, f"__{slug(_sin_llamada(rotulo))}"
         elif territorio is not None:
-            territorio_arriba = territorio
+            territorio_arriba = territorio if territorio in (PAIS, tid("departamento", "01"), INTERIOR) else None
         if territorio is None and est and est.get("ciudad_en_rotulo"):
             territorio = departamento_al_comienzo(rotulo)
         if secciones and tipo == "A" and not (vacia and territorio is None):

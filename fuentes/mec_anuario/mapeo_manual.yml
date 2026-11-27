@@ -125,11 +125,12 @@ renombres:
   II-7.1.1:
     2020: &ii_7_1_1_hasta_2023
       motivo: >-
-        el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene
-        sexo (pie: «no se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO
-        y EGRESO, que sí suman su grupo. «EGRESADOS» es el «EGRESO» de 2024: mismo cuadro y misma medida.
+        el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres: incluye la matrícula de la UdelaR sin sexo (pie: «no
+        se dispone de la matrícula desagregada por sexo»). En 2024 el total de cada territorio es varones + mujeres: otro
+        alcance, otro id (AC-E13, mantenedor en #241). Está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que sí suman
+        su grupo. «EGRESADOS» es el «EGRESO» de 2024: mismo cuadro y misma medida.
       columnas:
-        E: MATRÍCULA/TOTAL
+        E: MATRÍCULA/TOTAL con sin sexo
         H: EGRESO/TOTAL
         I: EGRESO/SEXO/V
         J: EGRESO/SEXO/M
@@ -138,16 +139,32 @@ renombres:
     2023: *ii_7_1_1_hasta_2023
     2024:
       motivo: >-
-        el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres porque parte de la matrícula de la UdelaR no tiene
-        sexo (pie: «no se dispone de la matrícula desagregada por sexo»); está en el mismo lugar que los TOTAL de INGRESO
-        y EGRESO, que sí suman su grupo.
+        en las filas de la UdelaR el TOTAL de MATRÍCULA (E) no es la suma de varones y mujeres (matrícula sin sexo, pie);
+        en las de territorio sí lo es. Está en el mismo lugar que los TOTAL de INGRESO y EGRESO, que suman su grupo.
       columnas:
         E: MATRÍCULA/TOTAL
   II-7.1.2:
-    2020: &ii_7_1_2_hasta_2023
+    2020: &ii_7_1_2_hasta_2022
+      motivo: >-
+        «INGRESADOS» y «EGRESADOS» son el «INGRESO» y el «EGRESO» de 2024: mismo cuadro y misma medida. La matrícula de
+        2020–2022 incluye a la UdelaR con el «I Censo de Estudiantes de Posgrado 2012» (6.802 en Montevideo, los tres
+        años); desde 2023 la UdelaR viene sin dato: otro alcance, otro id (AC-E13, mantenedor en #241).
+      columnas:
+        B: INGRESO/TOTAL
+        C: INGRESO/SEXO/V
+        D: INGRESO/SEXO/M
+        E: MATRÍCULA/TOTAL con UdelaR censo 2012
+        F: MATRÍCULA/SEXO/V con UdelaR censo 2012
+        G: MATRÍCULA/SEXO/M con UdelaR censo 2012
+        H: EGRESO/TOTAL
+        I: EGRESO/SEXO/V
+        J: EGRESO/SEXO/M
+    2021: *ii_7_1_2_hasta_2022
+    2022: *ii_7_1_2_hasta_2022
+    2023:
       motivo: >-
         «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y
-        misma medida. Los TOTAL suman su grupo de la derecha.
+        misma medida (en 2023 y 2024 la UdelaR viene sin dato de matrícula). Los TOTAL suman su grupo de la derecha.
       columnas:
         B: INGRESO/TOTAL
         C: INGRESO/SEXO/V
@@ -158,9 +175,6 @@ renombres:
         H: EGRESO/TOTAL
         I: EGRESO/SEXO/V
         J: EGRESO/SEXO/M
-    2021: *ii_7_1_2_hasta_2023
-    2022: *ii_7_1_2_hasta_2023
-    2023: *ii_7_1_2_hasta_2023
   II-6.3.2:  # #173: 2020–2022 rotulan el sexo «M/F» (masculino/femenino); 2023–2024, «V/M» (varón/mujer)
     2020: &sexo_m_f_ii_6_3_2
       motivo: >-
@@ -307,6 +321,23 @@ observaciones_sin_cargar:
     patron: horas
     salvo: []
     motivo: "Las horas de 2020 no se cargan: el anuario publica 0 en el total, Montevideo y el resto del país, y «s/d» en todos los departamentos y establecimientos; el 0 no es un dato (mantenedor, #173). Sí se cargan los docentes de 2020."
+  II-7.1.2:  # #241 (mantenedor): la UdelaR es la única oferta de posgrado del departamento y viene «0» con sexo «s/d»
+    - anios: [2023]
+      patron: matricula_total
+      territorios: [departamento/15]
+      motivo: "La matrícula de posgrado de Salto en 2023 y de Rocha en 2024 no se carga: el anuario publica 0 porque la UdelaR, su única oferta, viene sin dato; el 0 no es un dato (mantenedor, #241)."
+    - anios: [2024]
+      patron: matricula_total
+      territorios: [departamento/14]
+      motivo: "La matrícula de posgrado de Salto en 2023 y de Rocha en 2024 no se carga: el anuario publica 0 porque la UdelaR, su única oferta, viene sin dato; el 0 no es un dato (mantenedor, #241)."
+
+# notas_indicador (#241, mantenedor): una nota que se agrega a la de un indicador (id base; vale para sus categorías).
+notas_indicador:
+  edu_ii_7_1_1_matricula_total_con_sin_sexo: &nota_sin_sexo "Total de 2020–2023: incluye la matrícula de la UdelaR sin sexo. Desde 2024 el total de cada territorio es varones + mujeres y va en otro indicador (mantenedor, #241)."
+  edu_ii_7_1_2_matricula_total_con_udelar_censo_2012: &nota_censo "2020–2022: la matrícula de la UdelaR es la del I Censo de Estudiantes de Posgrado 2012 (6.802 en Montevideo, repetida los tres años). Desde 2023 la UdelaR viene sin dato y la matrícula va en otro indicador (mantenedor, #241)."
+  edu_ii_7_1_2_matricula_sexo_v_con_udelar_censo_2012: *nota_censo
+  edu_ii_7_1_2_matricula_sexo_m_con_udelar_censo_2012: *nota_censo
+
 # secciones_por_institucion (#172, mantenedor): un cuadro A con filas de institución. Las de `reinicia` son totales de
 # territorio; una fila que no es un territorio abre una sección y no se carga; en las `secciones` nombradas, los
 # departamentos van como esa categoría (otro id); en cualquier otra sección, no se cargan.
@@ -342,6 +373,7 @@ filas_de_establecimiento:
   # PAÍS»), que quedan dentro del total del país. Los nombres se comparan sin la llamada de nota («UdelaR *»).
   II-7.1.1:
     categorias: [PÚBLICO, PRIVADO]
+    con_categorias: [MONTEVIDEO Y RESTO DEL PAÍS]  # su PÚBLICO/PRIVADO tampoco se carga
     nombres: [UdelaR, UTEC, UCU, Universidad ORT Uruguay, Universidad de Montevideo, Universidad de la Empresa,
               Universidad CLAEH, Inst Metodista Univ Crandon, Inst Univ Monseñor Mariano Soler, Inst Univ CEDIIAP,
               Inst Univ Asociación Cristiana de Jóvenes, Inst Univ Elbio Fernández, Inst Univ Francisco de Asís,
@@ -443,19 +475,19 @@ controles_excepciones:
     II-7.1.1:  # #241
       2020:
         motivo: "la matrícula total no es varones + mujeres: parte de la matrícula de la UdelaR no tiene sexo (pie del cuadro; país 221.705 contra 221.396)"
-        indicadores: [edu_ii_7_1_1_matricula_total, edu_ii_7_1_1_matricula_total__publico]
+        indicadores: [edu_ii_7_1_1_matricula_total_con_sin_sexo, edu_ii_7_1_1_matricula_total_con_sin_sexo__publico]
         territorios: [departamento/18, pais/UY, region/interior]
       2021:
         motivo: "la matrícula total no es varones + mujeres: parte de la matrícula de la UdelaR no tiene sexo (pie del cuadro; país 234.095 contra 233.595)"
-        indicadores: [edu_ii_7_1_1_matricula_total, edu_ii_7_1_1_matricula_total__publico]
+        indicadores: [edu_ii_7_1_1_matricula_total_con_sin_sexo, edu_ii_7_1_1_matricula_total_con_sin_sexo__publico]
         territorios: [departamento/18, pais/UY, region/interior]
       2022:
         motivo: "la matrícula total no es varones + mujeres: parte de la matrícula de la UdelaR no tiene sexo (pie del cuadro; país 246.500 contra 246.033)"
-        indicadores: [edu_ii_7_1_1_matricula_total, edu_ii_7_1_1_matricula_total__publico]
+        indicadores: [edu_ii_7_1_1_matricula_total_con_sin_sexo, edu_ii_7_1_1_matricula_total_con_sin_sexo__publico]
         territorios: [departamento/11, departamento/18, pais/UY, region/interior]
       2023:
         motivo: "la matrícula total no es varones + mujeres: parte de la matrícula de la UdelaR no tiene sexo (pie del cuadro; país 255.254 contra 254.939)"
-        indicadores: [edu_ii_7_1_1_matricula_total, edu_ii_7_1_1_matricula_total__publico]
+        indicadores: [edu_ii_7_1_1_matricula_total_con_sin_sexo, edu_ii_7_1_1_matricula_total_con_sin_sexo__publico]
         territorios: [departamento/11, departamento/18, pais/UY, region/interior]
     II-5.2.1:
       2024:

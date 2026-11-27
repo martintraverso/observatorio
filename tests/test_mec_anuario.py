@@ -498,3 +498,12 @@ def test_241_ii_7_1_1_2024_valores():
     assert valor(c, "edu_ii_7_1_1_ingreso_total__publico", "region/interior") == 7261
     assert valor(c, "edu_ii_7_1_1_ingreso_total", "departamento/06") == 282
     assert mec.territorio_de_fila("TOTAL PAÍS") == mec.PAIS
+
+
+def test_241_publico_privado_fuera_de_lugar_frena():
+    """#241 (revisión): PÚBLICO/PRIVADO solo cuelgan del país, Montevideo o el Interior. Bajo una fila salteada que no
+    trae los suyos (sin `con_categorias`, el PÚBLICO de «MONTEVIDEO Y RESTO DEL PAÍS» de 2024) frena (AC-E8)."""
+    e = REG["cuadros"]["II-7.1.1"]
+    regla = {k: v for k, v in e["filas_de_establecimiento"].items() if k != "con_categorias"}
+    with pytest.raises(mec.ErrorAnuario, match="no está bajo el país, Montevideo ni el Interior"):
+        mec.parsear_cuadro(XLSX[2024], "II-7.1.1", 2024, e["mapeo"][2024], "A", (), None, (), regla)
