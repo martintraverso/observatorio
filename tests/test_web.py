@@ -543,6 +543,94 @@ def test_v33_ningun_indicador_del_mapa_queda_sin_nivel_ni_comparacion(web):
     assert any(i.get("mapa") for i in ind)
 
 
+def _registro_mapa(tmp_path, texto):
+    p = tmp_path / "indicadores.yml"
+    p.write_text(texto, encoding="utf-8")
+    return p
+
+
+REGISTRO_CHICO = """
+familias:
+  prom:
+    nombre_corto: "Promoción en primaria pública"
+    aperturas:
+      prom_rural: {nombre_corto: "Promoción en primaria pública: rural", apertura: {"Área": "Rural"}}
+  priv:
+    nombre_corto: "Promoción en primaria privada"
+    aperturas:
+      priv_m: {nombre_corto: "Promoción en primaria privada: mujeres", apertura: {"Sexo": "Mujeres"}}
+fuera_del_mapa:
+  prom_repetido: "repite el total"
+"""
+
+
+def test_v34_nombre_familia_y_apertura_salen_del_registro(tmp_path):
+    """AC-V34/AC-V35 (#248): cada indicador del mapa toma nombre corto, familia y apertura del registro; los de
+    `fuera_del_mapa` y la apertura cuyo total no está en el mapa salen del mapa; los que no van al mapa no se tocan."""
+    from web import con_nombres_del_mapa
+
+    filas = [{"codigo": c, "mapa": m} for c, m in
+             [("prom", True), ("prom_rural", True), ("prom_repetido", True), ("priv", False), ("priv_m", True), ("otro", False)]]
+    r = {f["codigo"]: f for f in con_nombres_del_mapa(filas, _registro_mapa(tmp_path, REGISTRO_CHICO))}
+    assert r["prom"] | {} == {"codigo": "prom", "mapa": True, "nombre_corto": "Promoción en primaria pública",
+                              "familia": "prom", "apertura": []}
+    assert r["prom_rural"]["familia"] == "prom" and r["prom_rural"]["apertura"] == [{"dimension": "Área", "valor": "Rural"}]
+    assert r["prom_repetido"]["mapa"] is False and "nombre_corto" not in r["prom_repetido"]
+    assert r["priv_m"]["mapa"] is False  # su total (priv) no está en el mapa: la familia no queda sin total (AC-V35)
+    assert r["otro"] == {"codigo": "otro", "mapa": False}
+
+
+def test_v34_un_indicador_del_mapa_sin_registro_frena(tmp_path):
+    import pytest
+    from web import ErrorRegistroMapa, con_nombres_del_mapa
+
+    with pytest.raises(ErrorRegistroMapa, match="sin nombre corto"):
+        con_nombres_del_mapa([{"codigo": "nuevo", "mapa": True}], _registro_mapa(tmp_path, REGISTRO_CHICO))
+
+
+def test_v34_el_registro_rechaza_nombres_largos_rutas_y_combinaciones_repetidas(tmp_path):
+    import pytest
+    from web import ErrorRegistroMapa, leer_registro_mapa
+
+    malos = [
+        'familias:\n  a:\n    nombre_corto: "' + "x" * 49 + '"\n',
+        'familias:\n  a:\n    nombre_corto: "Matrícula / sexo"\n',
+        'familias:\n  a:\n    nombre_corto: "Cuadro II-2.2.1"\n',
+        'familias:\n  a:\n    nombre_corto: "A"\n    aperturas:\n      b: {nombre_corto: "B", apertura: {"Sexo": "Mujeres"}}\n'
+        '      c: {nombre_corto: "C", apertura: {"Sexo": "Mujeres"}}\n',
+    ]
+    for texto in malos:
+        with pytest.raises(ErrorRegistroMapa):
+            leer_registro_mapa(_registro_mapa(tmp_path, texto))
+
+
+def test_v35_en_el_registro_cada_apertura_tiene_a_su_padre_en_la_familia():
+    """#248 (P3): una apertura de varias dimensiones está en el mapa solo si su familia tiene la combinación sin la
+    última dimensión (administración y grado antes que administración, grado y sexo): los filtros «Ver por» siempre
+    tienen un «Todos» que mostrar."""
+    from web import leer_registro_mapa
+
+    entradas, _ = leer_registro_mapa()
+    combos = {(e["familia"], tuple((a["dimension"], a["valor"]) for a in e["apertura"])) for e in entradas.values()}
+    for codigo, e in entradas.items():
+        clave = tuple((a["dimension"], a["valor"]) for a in e["apertura"])
+        assert not clave or (e["familia"], clave[:-1]) in combos, codigo
+
+
+def test_v34_v35_los_indicadores_del_mapa_tienen_nombre_familia_y_total(web):
+    """AC-V34/AC-V35 (#248) sobre el catálogo que genera web.py (fixture y completo)."""
+    ind = json.loads((web / "indicadores.json").read_text(encoding="utf-8"))
+    mapa = {i["codigo"]: i for i in ind if i.get("mapa")}
+    assert mapa
+    familias: dict[str, set] = {}
+    for c, i in mapa.items():
+        assert 0 < len(i["nombre_corto"]) <= 48 and not any(x in i["nombre_corto"] for x in "/·*"), c
+        assert i["familia"] in mapa and mapa[i["familia"]]["apertura"] == [], c  # el total de la familia está en el mapa
+        clave = tuple((a["dimension"], a["valor"]) for a in i["apertura"])
+        assert clave not in familias.setdefault(i["familia"], set()), c  # combinaciones únicas en la familia
+        familias[i["familia"]].add(clave)
+
+
 def test_dentro_de_nombra_niveles_mas_gruesos_del_catalogo():
     """AC-N7 (#202): `dentro_de` lista solo niveles del catálogo más gruesos que el propio; un barrio no está dentro de
     un municipio (no se contienen exactamente) y el segmento sí está dentro de su sección."""
