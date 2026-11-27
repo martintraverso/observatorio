@@ -365,8 +365,12 @@ MIN_TERRITORIOS_MAPA = 2
 
 def disponibilidad(indicadores: pd.DataFrame, territorios: gpd.GeoDataFrame, obs: pd.DataFrame) -> list[dict]:
     """indicadores.json: cada indicador con los niveles y períodos en que hay datos (AC-M2, AC-N2) y `niveles_mapa`:
-    los niveles con valor en al menos MIN_TERRITORIOS_MAPA territorios (AC-N6). Los dos salen de las observaciones."""
+    los niveles con valor en al menos MIN_TERRITORIOS_MAPA territorios (AC-N6). Los dos salen de las observaciones.
+    AC-V33 (#247): `mapa` (de con_mapa) queda en true solo si hay un nivel dibujable en `niveles_mapa` o el indicador
+    se publica por región (va a la comparación regional, AC-I20); si no, la lista del mapa no lo ofrece. Sigue en las
+    fichas, el catálogo de educación y las descargas."""
     nivel = obs.territorio_id.map(territorios.set_index("id").nivel)
+    dibujables = {n["id"] for n in catalogo_niveles() if n["dibujable"]}
     # En el orden de los temas de la app (el primero es el que muestra el mapa al abrir), no en el de las fuentes.
     orden = {t: i for i, t in enumerate(ORDEN_TEMAS)}
     indicadores = indicadores.assign(_o=indicadores.tema.map(orden).fillna(len(orden))).sort_values("_o", kind="stable")
@@ -378,6 +382,8 @@ def disponibilidad(indicadores: pd.DataFrame, territorios: gpd.GeoDataFrame, obs
         por_nivel = obs.territorio_id[con_valor].groupby(nivel[con_valor]).nunique()
         f["niveles_mapa"] = sorted(por_nivel[por_nivel >= MIN_TERRITORIOS_MAPA].index.tolist())
         f["periodos"] = sorted(obs.periodo[de_este].unique().tolist())
+        if "mapa" in f:
+            f["mapa"] = bool(f["mapa"]) and bool(set(f["niveles_mapa"]) & dibujables or "region" in f["niveles"])
     return filas
 
 

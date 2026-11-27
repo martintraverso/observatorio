@@ -84,25 +84,37 @@ def leer_anuario(xlsx: bytes, anio: int, fuente: dict, sin_dato: set | None = No
     return pd.concat(partes, ignore_index=True) if partes else pd.DataFrame(columns=mec.COLUMNAS), pies, avisos
 
 
-def regla_sin_cargar(reglas: dict, cod: str | None, indicador: str) -> dict | None:
-    """#233: la regla de `observaciones_sin_cargar` que alcanza a un indicador (columna por `patron` en el id base;
-    las categorías de `salvo` se cargan), o None."""
+def reglas_sin_cargar(reglas: dict, cod: str | None, indicador: str) -> list[dict]:
+    """#233: las reglas de `observaciones_sin_cargar` que alcanzan a un indicador (columna por `patron` en el id base;
+    las categorías de `salvo` se cargan). Un cuadro puede tener una regla o una lista (#241)."""
     r = reglas.get(cod) if cod else None
-    if not r:
-        return None
     base, _, categoria = indicador.partition("__")
-    return r if r["patron"] in base and categoria not in r.get("salvo", []) else None
+    return [x for x in (r if isinstance(r, list) else [r] if r else [])
+            if x["patron"] in base and categoria not in x.get("salvo", [])]
 
 
-def quitar_sin_cargar(obs: pd.DataFrame, reglas: dict, cuadro_de: dict) -> pd.DataFrame:
+def regla_sin_cargar(reglas: dict, cod: str | None, indicador: str) -> dict | None:
+    """La primera regla de `reglas_sin_cargar`, o None."""
+    return next(iter(reglas_sin_cargar(reglas, cod, indicador)), None)
+
+
+def quitar_sin_cargar(obs: pd.DataFrame, reglas: dict, cuadro_de: dict, sin_dato: set | None = None) -> pd.DataFrame:
     """#233 (mantenedor): saca los valores publicados que no se cargan (`observaciones_sin_cargar`, por cuadro, años,
-    columna y categoría), p. ej. las horas por asignatura de II-3.3.1 en 2020 y 2021, desalineadas en el archivo."""
+    columna, categoría y, si la regla los dice, territorios: #241), p. ej. las horas por asignatura de II-3.3.1 en 2020
+    y 2021, desalineadas en el archivo. Lo que se saca cuenta como publicado sin dato (AC-E21), si se pasa `sin_dato`."""
     if not reglas or obs.empty:
         return obs
-    fuera = [bool((r := regla_sin_cargar(reglas, cuadro_de.get(i.split("__")[0]), i))
-                  and int(str(per)[:4]) in r["anios"])
-             for i, per in zip(obs.indicador, obs.periodo)]
-    return obs[~pd.Series(fuera, index=obs.index)].reset_index(drop=True)
+
+    def fuera_de(i, terr, per):
+        anio = int(str(per)[:4])
+        return any(anio in r["anios"] and (not r.get("territorios") or terr.split("/", 1)[-1] in r["territorios"])
+                   for r in reglas_sin_cargar(reglas, cuadro_de.get(i.split("__")[0]), i))
+
+    terr = obs.territorio_id if "territorio_id" in obs else pd.Series("", index=obs.index)
+    fuera = pd.Series([fuera_de(i, t, p) for i, t, p in zip(obs.indicador, terr, obs.periodo)], index=obs.index, dtype=bool)
+    if sin_dato is not None:
+        sin_dato.update((i, t, str(p)) for i, t, p in zip(obs.indicador[fuera], terr[fuera], obs.periodo[fuera]))
+    return obs[~fuera].reset_index(drop=True)
 
 
 def derivados(obs: pd.DataFrame) -> tuple[pd.DataFrame, dict[str, str]]:
@@ -353,7 +365,7 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False, fuent
     serie = mec.parsear_serie_matricula((crudo / ultimo["archivo"]).read_bytes()).assign(captura_id=ultimo["id"])
     obs = pd.concat([*partes, serie.drop(columns=["ruta"])], ignore_index=True)
     sin_cargar = manual.get("observaciones_sin_cargar") or {}
-    obs = quitar_sin_cargar(obs, sin_cargar, cuadro_de)
+    obs = quitar_sin_cargar(obs, sin_cargar, cuadro_de, sin_dato)
     deriv, formulas = derivados(obs)
     # F4.5a: controles antes de publicar; una falla frena la carga
     anios_parseados = {c["codigo"] for c in vigentes if c["id"] in parseadas}
@@ -392,10 +404,13 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False, fuent
                       manual.get("unidades"))
     # #233: la nota de lo que no se carga dice qué años faltan y por qué (AC-E2); #173: y la nota del cuadro que el
     # mantenedor agrega (`notas_cuadro`)
-    notas_cuadro = manual.get("notas_cuadro") or {}
+    notas_cuadro, notas_indicador = manual.get("notas_cuadro") or {}, manual.get("notas_indicador") or {}
     for k, i in enumerate(ind.codigo):
-        r = regla_sin_cargar(sin_cargar, cuadro_de.get(i.split("__")[0]), i)
-        for extra in ([r["motivo"]] if r else []) + ([notas_cuadro[c]] if (c := cuadro_de.get(i.split("__")[0])) in notas_cuadro else []):
+        base = i.split("__")[0]
+        extras = [r["motivo"] for r in reglas_sin_cargar(sin_cargar, cuadro_de.get(base), i)]
+        extras += [notas_cuadro[c]] if (c := cuadro_de.get(base)) in notas_cuadro else []
+        extras += [notas_indicador[base]] if base in notas_indicador else []  # #241
+        for extra in extras:
             if extra not in ind.at[k, "nota"]:
                 previa = ind.at[k, "nota"].strip()
                 ind.at[k, "nota"] = (previa + ("" if not previa or previa.endswith(".") else ".") + " " + extra).strip()
