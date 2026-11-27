@@ -576,3 +576,18 @@ def test_255_d4_por_fila_la_institucion_que_repite_el_anio_anterior_no_se_carga(
     assert sorted(zip(quedan.indicador.str.split("__").str[1], quedan.periodo)) == [
         ("inst_metodista_univ_crandon", "2022"), ("inst_univ_cediiap", "2020")]
     assert ("edu_ii_7_2_3_matricula_total__fundacion_politecnico_de_punta_del_este", "INE-2023/pais/UY", "2020") in sin_dato
+
+
+def test_268_el_origen_de_la_udelar_no_se_carga():
+    """#268 (mantenedor en #243, 1.a): el origen de la UdelaR no se carga en ningún año (es un reparto estimado); su
+    total y el origen de las demás instituciones, sí."""
+    from mec_anuario_cargar import quitar_sin_cargar
+
+    manual = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario" / "mapeo_manual.yml").read_text(encoding="utf-8"))
+    base = "edu_ii_7_2_4_origen_de_los_estudiantes_montevideo"
+    cuadro_de = {base: "II-7.2.4", "edu_ii_7_2_4_total": "II-7.2.4"}
+    obs = pd.DataFrame([{"indicador": i, "territorio_id": "INE-2023/pais/UY", "periodo": p, "valor": 1} for i, p in (
+        (f"{base}__udelar_ingresados_grado", "2024"), (f"{base}__udelar_matricula_posgrado", "2020"),
+        (f"{base}__ucu_ingresados_grado", "2024"), ("edu_ii_7_2_4_total__udelar_ingresados_grado", "2024"))])
+    quedan = quitar_sin_cargar(obs, manual["observaciones_sin_cargar"], cuadro_de)
+    assert sorted(quedan.indicador) == [f"{base}__ucu_ingresados_grado", "edu_ii_7_2_4_total__udelar_ingresados_grado"]

@@ -19823,7 +19823,7 @@ cuadros:
       2022: C
       2023: C
       2024: C
-    ola: 2
+    ola: 1
     unidad: estudiantes
     anios:
     - 2020
@@ -19831,6 +19831,127 @@ cuadros:
     - 2022
     - 2023
     - 2024
+    mapeo:
+      2020:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_7_2_4_total
+      - col: C
+        ruta: ORIGEN DE LOS ESTUDIANTES/Total Uruguay
+        id: edu_ii_7_2_4_origen_de_los_estudiantes_total_uruguay
+      - col: D
+        ruta: ORIGEN DE LOS ESTUDIANTES/Montevideo
+        id: edu_ii_7_2_4_origen_de_los_estudiantes_montevideo
+      - col: E
+        ruta: ORIGEN DE LOS ESTUDIANTES/Interior
+        id: edu_ii_7_2_4_origen_de_los_estudiantes_interior
+      - col: F
+        ruta: ORIGEN DE LOS ESTUDIANTES/Extranjero
+        id: edu_ii_7_2_4_origen_de_los_estudiantes_extranjero
+      - col: G
+        ruta: ORIGEN DE LOS ESTUDIANTES/Sin dato
+        id: edu_ii_7_2_4_origen_de_los_estudiantes_sin_dato
+      2021:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_7_2_4_total
+      - col: C
+        ruta: ORIGEN DE LOS ESTUDIANTES/Total Uruguay
+        id: edu_ii_7_2_4_origen_de_los_estudiantes_total_uruguay
+      - col: D
+        ruta: ORIGEN DE LOS ESTUDIANTES/Montevideo
+        id: edu_ii_7_2_4_origen_de_los_estudiantes_montevideo
+      - col: E
+        ruta: ORIGEN DE LOS ESTUDIANTES/Interior
+        id: edu_ii_7_2_4_origen_de_los_estudiantes_interior
+      - col: F
+        ruta: ORIGEN DE LOS ESTUDIANTES/Extranjero
+        id: edu_ii_7_2_4_origen_de_los_estudiantes_extranjero
+      - col: G
+        ruta: ORIGEN DE LOS ESTUDIANTES/Sin dato
+        id: edu_ii_7_2_4_origen_de_los_estudiantes_sin_dato
+      2022:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_7_2_4_total
+      - col: C
+        ruta: ORIGEN DE LOS ESTUDIANTES/Total Uruguay
+        id: edu_ii_7_2_4_origen_de_los_estudiantes_total_uruguay
+      - col: D
+        ruta: ORIGEN DE LOS ESTUDIANTES/Montevideo
+        id: edu_ii_7_2_4_origen_de_los_estudiantes_montevideo
+      - col: E
+        ruta: ORIGEN DE LOS ESTUDIANTES/Interior
+        id: edu_ii_7_2_4_origen_de_los_estudiantes_interior
+      - col: F
+        ruta: ORIGEN DE LOS ESTUDIANTES/Extranjero
+        id: edu_ii_7_2_4_origen_de_los_estudiantes_extranjero
+      - col: G
+        ruta: ORIGEN DE LOS ESTUDIANTES/Sin dato
+        id: edu_ii_7_2_4_origen_de_los_estudiantes_sin_dato
+      2023:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_7_2_4_total
+      - col: C
+        ruta: ORIGEN DE LOS ESTUDIANTES/Total Uruguay
+        id: edu_ii_7_2_4_origen_de_los_estudiantes_total_uruguay
+      - col: D
+        ruta: ORIGEN DE LOS ESTUDIANTES/Montevideo
+        id: edu_ii_7_2_4_origen_de_los_estudiantes_montevideo
+      - col: E
+        ruta: ORIGEN DE LOS ESTUDIANTES/Interior
+        id: edu_ii_7_2_4_origen_de_los_estudiantes_interior
+      - col: F
+        ruta: ORIGEN DE LOS ESTUDIANTES/Extranjero
+        id: edu_ii_7_2_4_origen_de_los_estudiantes_extranjero
+      - col: G
+        ruta: ORIGEN DE LOS ESTUDIANTES/Sin dato
+        id: edu_ii_7_2_4_origen_de_los_estudiantes_sin_dato
+      2024:
+      - col: B
+        ruta: TOTAL
+        id: edu_ii_7_2_4_total
+      - col: C
+        ruta: ORIGEN DE LOS ESTUDIANTES/Total Uruguay
+        id: edu_ii_7_2_4_origen_de_los_estudiantes_total_uruguay
+      - col: D
+        ruta: ORIGEN DE LOS ESTUDIANTES/Montevideo
+        id: edu_ii_7_2_4_origen_de_los_estudiantes_montevideo
+      - col: E
+        ruta: ORIGEN DE LOS ESTUDIANTES/Interior
+        id: edu_ii_7_2_4_origen_de_los_estudiantes_interior
+      - col: F
+        ruta: ORIGEN DE LOS ESTUDIANTES/Extranjero
+        id: edu_ii_7_2_4_origen_de_los_estudiantes_extranjero
+      - col: G
+        ruta: ORIGEN DE LOS ESTUDIANTES/Sin dato
+        id: edu_ii_7_2_4_origen_de_los_estudiantes_sin_dato
+    grupos_por_fila:
+    - UDELAR
+    - UNIVERSIDAD TECNOLÓGICA (UTEC)
+    - UCU
+    - UNIVERSIDAD ORT URUGUAY
+    - UNIVERSIDAD DE MONTEVIDEO
+    - UNIVERSIDAD DE LA EMPRESA
+    - UNIVERSIDAD CLAEH
+    - INST UNIV ASOCIACIÓN CRISTIANA DE JÓVENES
+    - INST METODISTA UNIV CRANDON
+    - INST UNIV MONSEÑOR MARIANO SOLER
+    - INST UNIV FRANCISCO DE ASÍS
+    - INST UNIV CEDIIAP
+    - FUNDACIÓN POLITÉCNICO DE PUNTA DEL ESTE
+    - Centro de Altos Estudios Nacionales
+    - IPES
+    - Instituto Universitario Elbio Fernández
+    - IUCEDDU
+    - AUDEPP
+    solo_enteros: true
+    datos_de_otro_anio:
+      2023:
+      - 'Nota: último dato disponible del Instituto Metodista Universitario Crandon año 2022.'
+      2024:
+      - '** El último dato disponible de la UDE es del año 2023.'
   II-7.2.5:
     titulo: ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE POSGRADO DE UNIVERSIDADES PÚBLICAS, POR SEXO SEGÚN INSTITUCIÓN, SERVICIO UNIVERSITARIO,
       DEPARTAMENTO Y CARRERA

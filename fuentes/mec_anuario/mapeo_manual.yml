@@ -370,6 +370,11 @@ observaciones_sin_cargar:
     patron: horas
     salvo: []
     motivo: "Las horas de 2020 no se cargan: el anuario publica 0 en el total, Montevideo y el resto del país, y «s/d» en todos los departamentos y establecimientos; el 0 no es un dato (mantenedor, #173). Sí se cargan los docentes de 2020."
+  II-7.2.4:  # #268 (mantenedor en #243, 1.a): el origen de la UdelaR es un reparto estimado (decimales todos los años)
+    anios: [2020, 2021, 2022, 2023, 2024]
+    patron: origen_de_los_estudiantes
+    categorias: [udelar_ingresados_grado, udelar_matricula_grado, udelar_ingresados_posgrado, udelar_matricula_posgrado]
+    motivo: "El origen de los estudiantes de la UdelaR no se carga: el anuario lo publica como un reparto con decimales (estimado), no como un conteo (mantenedor, #243). Su total se carga cuando es entero."
   II-7.2.2:  # D4 por fila (#255): el pie de 2024 dice que la UDE publica su último dato, de 2023 (los mismos valores)
     anios: [2024]
     patron: ""
@@ -446,6 +451,20 @@ columnas_fuera_del_cuadro:
   II-7.2.2:
     columnas: [AB, AE, AF]
     motivo: "fuera del cuadro: números sueltos sin encabezado a la derecha (los mismos en 2020–2024), no son del cuadro (#255)"
+
+# grupos_por_fila (#268): en un cuadro C, una fila sin valores con el nombre de una institución abre su grupo; las
+# filas que siguen («Ingresados Grado», «Matrícula Posgrado»…) se repiten bajo cada institución y van como
+# «institución/medida». Se comparan sin tildes, mayúsculas ni llamadas «*».
+grupos_por_fila:
+  II-7.2.4: ["UDELAR", "UNIVERSIDAD TECNOLÓGICA (UTEC)", "UCU", "UNIVERSIDAD ORT URUGUAY", "UNIVERSIDAD DE MONTEVIDEO",
+             "UNIVERSIDAD DE LA EMPRESA", "UNIVERSIDAD CLAEH", "INST UNIV ASOCIACIÓN CRISTIANA DE JÓVENES",
+             "INST METODISTA UNIV CRANDON", "INST UNIV MONSEÑOR MARIANO SOLER", "INST UNIV FRANCISCO DE ASÍS",
+             "INST UNIV CEDIIAP", "FUNDACIÓN POLITÉCNICO DE PUNTA DEL ESTE", "Centro de Altos Estudios Nacionales",
+             "IPES", "Instituto Universitario Elbio Fernández", "IUCEDDU", "AUDEPP"]
+
+# solo_enteros (#268, mantenedor): cuadros donde un conteo con decimales es un reparto estimado y no se carga (cuenta
+# como publicado sin dato). II-7.2.4: la UdelaR publica su origen con decimales todos los años, y algún total también.
+solo_enteros: [II-7.2.4]
 
 # rotulos_de_fila (#255): rótulos de una misma fila que cambian entre años. La fila se lee con el rótulo canónico, así
 # su categoría conserva el id (AC-E13) y un «TOTAL …» que es una institución no abre un grupo. Se comparan sin tildes,
