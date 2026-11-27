@@ -387,6 +387,15 @@ observaciones_sin_cargar:
       patron: ""
       categorias: [inst_metodista_univ_crandon_ingresados_grado, inst_metodista_univ_crandon_matricula_grado, inst_metodista_univ_crandon_ingresados_posgrado, inst_metodista_univ_crandon_matricula_posgrado]
       motivo: "El Instituto Metodista Universitario Crandon en 2023 no se carga: el anuario repite su dato de 2022 (pie), que ya se cargó con su año (D4, #268)."
+  II-7.2.8:  # #269: la serie por institución, del anuario más reciente
+    - anios: [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017]
+      patron: matricula
+      categorias: [udelar, universidades_publicas, total_universidades, total]
+      motivo: "Hasta 2017 la matrícula de la UdelaR es una proyección (pie del cuadro) y desde 2018 cuenta al «Estudiante Activo» (Res. N°15 del CDC): la UdelaR y los totales que la incluyen se cargan desde 2018 (mantenedor, #269)."
+    - anios: [2024]  # D4 por fila, como II-7.2.2
+      patron: matricula
+      categorias: [univ_de_la_empresa]
+      motivo: "La Universidad de la Empresa en 2024 repite su dato de 2023 (pie: «Último dato disponible de la UDE es 2023»): no se carga (D4, #269)."
   II-7.2.2:  # D4 por fila (#255): el pie de 2024 dice que la UDE publica su último dato, de 2023 (los mismos valores)
     anios: [2024]
     patron: ""
@@ -409,6 +418,7 @@ observaciones_sin_cargar:
 
 # notas_indicador (#241, mantenedor): una nota que se agrega a la de un indicador (id base; vale para sus categorías).
 notas_indicador:
+  edu_ii_7_2_8_matricula: "La UdelaR, las universidades públicas, el total de universidades y el TOTAL se cargan desde 2018: hasta 2017 la UdelaR es una proyección y desde 2018 cuenta al «Estudiante Activo» (mantenedor, #269). La UDE en 2024 repite 2023 y no se carga."
   edu_ii_7_2_4_total: &nota_7_2_4 "Origen de los estudiantes: el de la UdelaR no se carga (el anuario lo publica como un reparto estimado, con decimales), ni sus totales con decimales; el del posgrado de la UCU en 2022–2023 tampoco (es el departamento de residencia); la UDE en 2024 y el Crandon en 2023 repiten el año anterior y no se cargan (mantenedor, #243 y #268)."
   edu_ii_7_2_4_origen_de_los_estudiantes_total_uruguay: *nota_7_2_4
   edu_ii_7_2_4_origen_de_los_estudiantes_montevideo: *nota_7_2_4

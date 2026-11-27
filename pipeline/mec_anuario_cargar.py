@@ -205,6 +205,12 @@ def indicadores(obs: pd.DataFrame, fuente: dict, pies: dict, formulas: dict, ser
     filas = []
     for ind in sorted(obs.indicador.unique()):
         base, _, categoria = ind.partition("__")
+        if ind in rutas_serie and ind.startswith("edu_ii_7_2_8_"):  # #269: la serie por institución
+            filas.append({"codigo": ind, "nombre": f"Evolución de la matrícula universitaria de grado y posgrado: {rutas_serie[ind]}",
+                          "unidad": "estudiantes", "columna_origen": f"Cuadro {mec.SERIE_INSTITUCIONES} · {rutas_serie[ind]}",
+                          "nota": " ".join(["Serie del anuario más reciente.", *pies.get(mec.SERIE_INSTITUCIONES, [])]),
+                          "es_derivado": False, "formula": ""})
+            continue
         if ind in rutas_serie:
             filas.append({"codigo": ind, "nombre": f"Matrícula del sistema educativo: {rutas_serie[ind]}",
                           "unidad": "estudiantes", "columna_origen": f"Hoja {mec.SERIE} · {rutas_serie[ind]}",
@@ -347,7 +353,7 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False, fuent
         anio = int(c["codigo"])
         if c["id"] in ya:
             previas = obs_prev[(obs_prev.captura_id == c["id"]) & ~obs_prev.indicador.str.contains(DERIVADO)
-                               & ~obs_prev.indicador.str.startswith("edu_serie_")]
+                               & ~obs_prev.indicador.str.startswith(("edu_serie_", "edu_ii_7_2_8_"))]  # se rehacen (#269)
             partes.append(previas.drop(columns=["es_estimado"], errors="ignore").assign(
                 codigo_cuadro=previas.indicador.str.split("__").str[0].map(cuadro_de), celda=""))
             continue
@@ -365,6 +371,12 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False, fuent
         parseadas.append(c["id"])
     ultimo = vigentes[-1]
     serie = mec.parsear_serie_matricula((crudo / ultimo["archivo"]).read_bytes()).assign(captura_id=ultimo["id"])
+    # #269 (mantenedor en #243): II-7.2.8, la serie por institución, solo del anuario más reciente
+    inst = mec.parsear_serie_instituciones((crudo / ultimo["archivo"]).read_bytes(), int(ultimo["codigo"]))
+    pies[mec.SERIE_INSTITUCIONES] = inst.attrs["pie"]
+    inst = inst.assign(captura_id=ultimo["id"])
+    cuadro_de["edu_ii_7_2_8_matricula"] = mec.SERIE_INSTITUCIONES
+    serie = pd.concat([serie, inst], ignore_index=True)
     obs = pd.concat([*partes, serie.drop(columns=["ruta"])], ignore_index=True)
     sin_cargar = manual.get("observaciones_sin_cargar") or {}
     obs = quitar_sin_cargar(obs, sin_cargar, cuadro_de, sin_dato)

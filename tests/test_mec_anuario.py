@@ -573,3 +573,16 @@ def test_268_un_conteo_con_decimales_no_se_carga_en_un_cuadro_solo_enteros():
     # los enteros de las demás instituciones se cargan. (La tolerancia a un error de coma flotante, 2021:
     # 40892.00000000001 = 40.892, no está en los fixtures 2023–2024: la prueba la carga completa.)
     assert valor(cuadro("II-7.2.4", 2023), "edu_ii_7_2_4_total__ucu_ingresados_grado", "pais/UY") > 0
+
+
+def test_269_la_serie_por_institucion_de_ii_7_2_8():
+    """#269 (mantenedor en #243): II-7.2.8 en `pais/UY` × año lectivo, una fila por institución; «n/c» y «nc.» no son
+    datos (AC-E11); los pies van aparte (AC-E12); el último año del título tiene que ser el del archivo (AC-E10)."""
+    d = mec.parsear_serie_instituciones(XLSX[2024], 2024)
+    assert set(d.territorio_id) == {mec.PAIS} and not d.duplicated(["indicador", "periodo"]).any()
+    v = d.set_index(["indicador", "periodo"]).valor
+    assert v["edu_ii_7_2_8_matricula__udelar", "2024"] == 226659 and v["edu_ii_7_2_8_matricula__univ_ort_uruguay", "2000"] == 3445
+    assert ("edu_ii_7_2_8_matricula__escuela_naval", "2024") not in v.index  # «n/c»
+    assert any(p.startswith("UdelaR: Hasta el 2017") for p in d.attrs["pie"])
+    with pytest.raises(mec.ErrorAnuario, match="AC-E10"):
+        mec.parsear_serie_instituciones(XLSX[2024], 2023)

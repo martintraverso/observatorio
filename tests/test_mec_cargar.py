@@ -603,3 +603,19 @@ def test_268_el_origen_de_la_udelar_no_se_carga():
         ("ucu_matricula_posgrado", "2024"), ("universidad_de_la_empresa_matricula_grado", "2023")]
     assert "UdelaR" in manual["notas_indicador"]["edu_ii_7_2_4_total"]
     assert manual["notas_indicador"][base] == manual["notas_indicador"]["edu_ii_7_2_4_total"]
+
+
+def test_269_ii_7_2_8_sale_del_anuario_mas_reciente_y_la_udelar_desde_2018(cargado):
+    """#269: la serie por institución se carga solo del anuario más reciente (como la serie nacional, mantenedor en
+    #243). La UdelaR y los totales que la incluyen, desde 2018 (antes es una proyección, mantenedor); las demás
+    instituciones, la serie entera; la UDE de 2024 repite 2023 y no se carga (D4)."""
+    _, salida = cargado
+    o, c, i = tablas(salida)
+    s = o[o.indicador.str.startswith("edu_ii_7_2_8_")]
+    assert set(s.captura_id) == {c.sort_values("archivo").id.iloc[-1]} and set(s.territorio_id) == {"INE-2023/pais/UY"}
+    por = s.groupby(s.indicador.str.split("__").str[1]).periodo.agg(["min", "max"])
+    for cat in ("udelar", "universidades_publicas", "total_universidades", "total"):
+        assert por.loc[cat, "min"] == "2018", cat
+    assert por.loc["univ_ort_uruguay", "min"] == "2000" and por.loc["univ_de_la_empresa", "max"] == "2023"
+    nota = i.set_index("codigo").loc["edu_ii_7_2_8_matricula__udelar", "nota"]
+    assert "Serie del anuario más reciente." in nota and "desde 2018" in nota
