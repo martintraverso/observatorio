@@ -570,5 +570,6 @@ def test_268_un_conteo_con_decimales_no_se_carga_en_un_cuadro_solo_enteros():
     assert "edu_ii_7_2_4_total__udelar_matricula_grado" not in set(c.datos.indicador)
     assert ("edu_ii_7_2_4_total__udelar_matricula_grado", mec.PAIS, "2024") in c.sin_dato_claves
     assert any("no es un entero" in a for a in c.avisos)
-    # revisión: un error de coma flotante de una fórmula sí es un entero (2021: 40892.00000000001 = 40.892)
+    # los enteros de las demás instituciones se cargan. (La tolerancia a un error de coma flotante, 2021:
+    # 40892.00000000001 = 40.892, no está en los fixtures 2023–2024: la prueba la carga completa.)
     assert valor(cuadro("II-7.2.4", 2023), "edu_ii_7_2_4_total__ucu_ingresados_grado", "pais/UY") > 0
