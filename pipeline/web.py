@@ -34,6 +34,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import re
 import shutil
 import subprocess
 import sys
@@ -320,7 +321,8 @@ def con_mapa(indicadores: pd.DataFrame) -> pd.DataFrame:
                       grupo=nivel.map(GRUPOS_EDUCACION).where(educacion, "").fillna(""))
 
 
-def catalogo_educacion(indicadores: pd.DataFrame, obs: pd.DataFrame, registro: Path | None = None) -> list[dict]:
+def catalogo_educacion(indicadores: pd.DataFrame, obs: pd.DataFrame, registro: Path | None = None,
+                       en_mapa: dict[str, str] | None = None) -> list[dict]:
     """F4.8a3 (#226, AC-E32): cada cuadro del anuario del MEC con datos en esta salida: código, título, tipo (A, B, C:
     el del último año con datos que lo tenga), años, si publica valores por departamento (`departamental`, de las
     observaciones: algunos B traen Montevideo) y una tasa calculada para abrirlo en el mapa (la que se dibuja por
@@ -345,6 +347,10 @@ def catalogo_educacion(indicadores: pd.DataFrame, obs: pd.DataFrame, registro: P
         tipos = {str(a): t for a, t in (e.get("tipos") or {}).items() if t}
         tipo = next((tipos[a] for a in reversed(anios[cod]) if a in tipos), "")  # II-2.2.15: 2024 sin tipo
         tasas = [c for c in ind[(ind.cuadro == cod) & ind.es_derivado.fillna(False).astype(bool)].codigo if c in con_depto]
+        if en_mapa is not None:
+            # #248 (revisión): solo lo que la lista del mapa ofrece (si no, el enlace abriría otro indicador); una
+            # apertura enlaza al total de su familia (II-2.2.14 → el total de II-2.2.13, del que toma el sexo)
+            tasas = sorted({en_mapa[c] for c in tasas if c in en_mapa})
         tasas.sort(key=lambda c: (c.count("__"), "total" not in c, len(c), c))  # la más general primero
         salida.append({"cuadro": cod, "titulo": legible(e.get("titulo", cod)), "tipo": tipo, "anios": anios[cod],
                        "departamental": bool(depto.cuadro.eq(cod).any()), "mapa": tasas[0] if tasas else None})
@@ -384,6 +390,85 @@ def disponibilidad(indicadores: pd.DataFrame, territorios: gpd.GeoDataFrame, obs
         f["periodos"] = sorted(obs.periodo[de_este].unique().tolist())
         if "mapa" in f:
             f["mapa"] = bool(f["mapa"]) and bool(set(f["niveles_mapa"]) & dibujables or "region" in f["niveles"])
+    return filas
+
+
+# M12.1b (#248, AC-V34/AC-V35): nombre corto, familia y apertura de los indicadores del mapa, de un registro revisado
+# (no del título del MEC). Un indicador con `mapa: true` que no está en el registro frena el build.
+REGISTRO_MAPA = RAIZ / "fuentes" / "mapa" / "indicadores.yml"
+MAX_NOMBRE_CORTO = 48
+
+
+class ErrorRegistroMapa(ValueError):
+    pass
+
+
+def leer_registro_mapa(registro: Path | None = None) -> tuple[dict[str, dict], dict[str, str]]:
+    """{código: {nombre_corto, familia, apertura}} y {código: motivo} de los que no van al mapa. Valida AC-V34 (nombre
+    corto: hasta 48 caracteres, sin código de cuadro, «/», «·» ni «*») y AC-V35 (combinaciones únicas en la familia)."""
+    import yaml
+
+    class SinRepetidas(yaml.SafeLoader):  # una clave repetida en el YAML se pisaría sin aviso
+        pass
+
+    def mapa_sin_repetidas(loader, nodo):
+        claves = [loader.construct_object(k, deep=True) for k, _ in nodo.value]
+        if dobles := sorted({k for k in claves if claves.count(k) > 1}):
+            raise ErrorRegistroMapa(f"registro del mapa: claves repetidas {dobles[:3]}")
+        return loader.construct_mapping(nodo, deep=True)
+
+    SinRepetidas.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, mapa_sin_repetidas)
+    r = yaml.load((registro or REGISTRO_MAPA).read_text(encoding="utf-8"), Loader=SinRepetidas) or {}
+    entradas, errores = {}, []
+    def poner(codigo, e):
+        if codigo in entradas:
+            errores.append(f"{codigo}: está dos veces en el registro")
+        if not e["nombre_corto"]:
+            errores.append(f"{codigo}: sin nombre corto (AC-V34)")
+        entradas[codigo] = e
+
+    for total, f in (r.get("familias") or {}).items():
+        poner(total, {"nombre_corto": (f or {}).get("nombre_corto") or "", "familia": total, "apertura": []})
+        vistas = set()
+        for codigo, a in (f.get("aperturas") or {}).items():
+            par = [{"dimension": d, "valor": v} for d, v in (a.get("apertura") or {}).items()]
+            clave = tuple((x["dimension"], x["valor"]) for x in par)
+            if not par or clave in vistas:
+                errores.append(f"{codigo}: apertura vacía o repetida en la familia {total} (AC-V35)")
+            vistas.add(clave)
+            poner(codigo, {"nombre_corto": a.get("nombre_corto") or "", "familia": total, "apertura": par})
+    for codigo, e in entradas.items():
+        n = e["nombre_corto"]
+        if len(n) > MAX_NOMBRE_CORTO or re.search(r"[/·*]|\bII-\d", n):
+            errores.append(f"{codigo}: nombre corto «{n}» (AC-V34: hasta {MAX_NOMBRE_CORTO} caracteres, sin «/», «·», «*» ni código de cuadro)")
+    fuera = dict(r.get("fuera_del_mapa") or {})
+    if dobles := sorted(set(fuera) & set(entradas)):
+        errores.append(f"en familias y fuera del mapa a la vez: {dobles[:3]}")
+    if errores:
+        raise ErrorRegistroMapa("registro del mapa: " + "; ".join(errores[:5]))
+    return entradas, fuera
+
+
+def con_nombres_del_mapa(filas: list[dict], registro: Path | None = None) -> list[dict]:
+    """AC-V34/AC-V35 (#248): a cada indicador con `mapa: true` le pone `nombre_corto`, `familia` y `apertura` del
+    registro. Los de `fuera_del_mapa` pasan a `mapa: false` (siguen en fichas y descargas), y también una apertura cuyo
+    total no está en el mapa: la familia siempre tiene su total. Uno que no está en el registro frena el build."""
+    entradas, fuera = leer_registro_mapa(registro)
+    en_mapa = [f for f in filas if f.get("mapa")]
+    if faltan := sorted(f["codigo"] for f in en_mapa if f["codigo"] not in entradas and f["codigo"] not in fuera):
+        raise ErrorRegistroMapa(f"{len(faltan)} indicadores del mapa sin nombre corto en {REGISTRO_MAPA.relative_to(RAIZ)} "
+                                f"(AC-V34): {faltan[:5]}")
+    for f in en_mapa:
+        if f["codigo"] in fuera:
+            f["mapa"] = False
+    totales = {f["codigo"] for f in filas if f.get("mapa") and entradas[f["codigo"]]["familia"] == f["codigo"]}
+    for f in filas:
+        if f.get("mapa"):
+            e = entradas[f["codigo"]]
+            if e["familia"] not in totales:
+                f["mapa"] = False
+            else:
+                f.update(e)
     return filas
 
 
@@ -699,9 +784,11 @@ def main(argv=None):
         escribir_json(web / "fichas" / f["nivel"] / f"{f['codigo']}.json", principal)
         if parte:
             escribir_json(web / "fichas" / f["nivel"] / f["codigo"] / "educacion.json", parte)
-    escribir_json(web / "indicadores.json", disponibilidad(indicadores, territorios, obs))
+    del_mapa = con_nombres_del_mapa(disponibilidad(indicadores, territorios, obs))
+    escribir_json(web / "indicadores.json", del_mapa)
     escribir_json(web / "niveles.json", catalogo_niveles())
-    escribir_json(web / "educacion_catalogo.json", catalogo_educacion(indicadores, obs))
+    en_mapa = {f["codigo"]: f["familia"] for f in del_mapa if f.get("mapa")}
+    escribir_json(web / "educacion_catalogo.json", catalogo_educacion(indicadores, obs, en_mapa=en_mapa))
     for nivel, datos in valores_por_nivel(territorios, obs).items():
         escribir_json(web / "valores" / f"{nivel}.json", datos)
     escribir_mini(territorios, web)
