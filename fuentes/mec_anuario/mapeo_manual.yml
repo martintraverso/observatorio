@@ -494,6 +494,22 @@ grupos_por_fila:
 # como publicado sin dato). II-7.2.4: la UdelaR publica su origen con decimales todos los años, y algún total también.
 solo_enteros: [II-7.2.4]
 
+# serie_instituciones (#269): II-7.2.8. `particiones`: cada subtotal y las filas que lo componen, para AC-E19 (en la
+# carga, `control_serie_instituciones`). Un año sin alguno de los componentes no se puede probar y no cuenta.
+serie_instituciones:
+  particiones:
+    total: [total_universidades, total_institutos_universitarios, total_area_seguridad_y_defensa]
+    total_universidades: [universidades_publicas, universidades_privadas]
+    universidades_publicas: [udelar, utec]
+    universidades_privadas: [univ_catolica_del_uruguay, univ_ort_uruguay, univ_de_la_empresa, univ_de_montevideo, univ_claeh]
+    total_institutos_universitarios: [iu_autonomo_del_sur, iu_asoc_cristiana_de_jovenes, iu_claeh, iu_monsenor_mariano_soler,
+                                      iu_asoc_psico_del_uruguay_apu, iu_crandon, iu_san_francisco_de_asis, iu_bios,
+                                      iu_maldonado_punta_del_este, fundacion_politecnico_punta_del_este, iu_cediiap, iuceddu,
+                                      ipes, instituto_universitario_elbio_fernandez,
+                                      facultad_latinoamericana_de_ciencias_sociales_flacso, centro_uno, audepp]
+    total_area_seguridad_y_defensa: [escuela_nacional_de_policia, instituto_militar_de_estudios_superiores_imes,
+                                     escuela_naval, calen, escuela_de_guerra_naval]
+
 # rotulos_de_fila (#255): rótulos de una misma fila que cambian entre años. La fila se lee con el rótulo canónico, así
 # su categoría conserva el id (AC-E13) y un «TOTAL …» que es una institución no abre un grupo. Se comparan sin tildes,
 # mayúsculas ni llamadas «*».
@@ -624,6 +640,19 @@ controles_excepciones:
         <<: *docentes_cfe_2020
         indicadores: [edu_ii_6_3_1_cantidad_de_docentes]
   AC-E19:  # desgloses
+    II-7.2.8:  # #269: la serie por institución (control_serie_instituciones)
+      2000:
+        motivo: "el anuario publica para las universidades privadas 8.263 y sus universidades suman 8.077 (diferencia del archivo; se carga tal cual)"
+        indicadores: [edu_ii_7_2_8_matricula__universidades_privadas]
+      2001:
+        motivo: "el anuario publica para las universidades privadas 9.184 y sus universidades suman 9.136 (diferencia del archivo; se carga tal cual)"
+        indicadores: [edu_ii_7_2_8_matricula__universidades_privadas]
+      2002:
+        motivo: "el anuario publica para las universidades privadas 9.197 y sus universidades suman 9.149 (diferencia del archivo; se carga tal cual)"
+        indicadores: [edu_ii_7_2_8_matricula__universidades_privadas]
+      2003:
+        motivo: "el anuario publica para las universidades privadas 9.293 y sus universidades suman 9.240 (diferencia del archivo; se carga tal cual)"
+        indicadores: [edu_ii_7_2_8_matricula__universidades_privadas]
     II-7.2.1:  # #255
       2020:
         motivo: "la matrícula total no es varones + mujeres: parte de la matrícula de la UdelaR no tiene sexo (pie del cuadro; total 201.259 contra 200.950)"

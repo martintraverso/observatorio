@@ -569,7 +569,7 @@ def parsear_serie_instituciones(xlsx: bytes, anio: int) -> pd.DataFrame:
     if fila_anios is None:
         raise ErrorAnuario(f"{SERIE_INSTITUCIONES} {anio}: no tiene la fila de años")
     anios = {c: int(numero(v)) for c, v in filas[fila_anios].items() if numero(v) is not None and 2000 <= numero(v) <= 2100}
-    salida, pie, sin_dato = [], [], 0
+    salida, pie, sin_dato, no_corresponde = [], [], 0, set()
     for r in sorted(x for x in filas if x > fila_anios):
         rot = filas[r].get(1)
         if not isinstance(rot, str) or not rot.strip():
@@ -581,10 +581,15 @@ def parsear_serie_instituciones(xlsx: bytes, anio: int) -> pd.DataFrame:
         for c, a in anios.items():
             bruto = filas[r].get(c)
             v = numero(bruto)
+            if bruto is None or (isinstance(bruto, str) and not bruto.strip()):
+                no_corresponde.add((slug(rotulo), str(a)))  # celda vacía: la institución no publica ese año (no «s/d»)
+                continue
             if v is None:
-                if bruto is not None and not (isinstance(bruto, str) and (NO_DATO.match(bruto) or NO_DATO_SERIE.match(bruto))):
+                if not (isinstance(bruto, str) and (NO_DATO.match(bruto) or NO_DATO_SERIE.match(bruto))):
                     raise ErrorAnuario(f"{SERIE_INSTITUCIONES} {anio}: valor no numérico {bruto!r} en {letra(c)}{r}")
                 sin_dato += bruto is not None
+                if isinstance(bruto, str) and re.match(r"^\s*(n\.?/?c\.?|na\.)\s*\**\s*$", bruto, re.I):
+                    no_corresponde.add((slug(rotulo), str(a)))  # «no corresponde»: cuenta 0 en AC-E19 (no «s/d»)
                 continue
             salida.append({"indicador": f"edu_ii_7_2_8_matricula__{slug(rotulo)}", "territorio_id": PAIS,
                            **periodo_anio(a).columnas(), "valor": v, "codigo_cuadro": SERIE_INSTITUCIONES,
@@ -592,5 +597,5 @@ def parsear_serie_instituciones(xlsx: bytes, anio: int) -> pd.DataFrame:
     datos = pd.DataFrame(salida)
     if datos.duplicated(["indicador", "periodo"]).any():
         raise ErrorAnuario(f"{SERIE_INSTITUCIONES} {anio}: dos filas con la misma institución")
-    datos.attrs.update(sin_dato=sin_dato, pie=pie)
+    datos.attrs.update(sin_dato=sin_dato, pie=pie, no_corresponde=no_corresponde)
     return datos

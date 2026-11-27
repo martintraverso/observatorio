@@ -583,6 +583,8 @@ def test_269_la_serie_por_institucion_de_ii_7_2_8():
     v = d.set_index(["indicador", "periodo"]).valor
     assert v["edu_ii_7_2_8_matricula__udelar", "2024"] == 226659 and v["edu_ii_7_2_8_matricula__univ_ort_uruguay", "2000"] == 3445
     assert ("edu_ii_7_2_8_matricula__escuela_naval", "2024") not in v.index  # «n/c»
+    assert ("edu_ii_7_2_8_matricula__escuela_de_guerra_naval", "2023") not in v.index  # «nc.»
+    assert ("escuela_de_guerra_naval", "2023") in d.attrs["no_corresponde"] and ("univ_claeh", "2000") in d.attrs["no_corresponde"]
     assert any(p.startswith("UdelaR: Hasta el 2017") for p in d.attrs["pie"])
     with pytest.raises(mec.ErrorAnuario, match="AC-E10"):
         mec.parsear_serie_instituciones(XLSX[2024], 2023)

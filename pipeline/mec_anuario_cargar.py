@@ -384,7 +384,7 @@ def cargar(crudo: Path, salida: Path, fuentes: dict, forzar: bool = False, fuent
     # F4.5a: controles antes de publicar; una falla frena la carga
     anios_parseados = {c["codigo"] for c in vigentes if c["id"] in parseadas}
     revision = controles(pd.concat([obs, deriv], ignore_index=True), fuente, manual, set(formulas), sin_dato,
-                         anios_parseados, hay_interior)
+                         anios_parseados, hay_interior, inst.attrs.get("no_corresponde"))
     if revision.controles.fallas:
         raise ErrorCarga("Controles de calidad con falla: " + "; ".join(
             f"{f['control']} ({f['detalle']})" for f in revision.controles.fallas))

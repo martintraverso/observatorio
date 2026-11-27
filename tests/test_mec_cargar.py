@@ -619,3 +619,27 @@ def test_269_ii_7_2_8_sale_del_anuario_mas_reciente_y_la_udelar_desde_2018(carga
     assert por.loc["univ_ort_uruguay", "min"] == "2000" and por.loc["univ_de_la_empresa", "max"] == "2023"
     nota = i.set_index("codigo").loc["edu_ii_7_2_8_matricula__udelar", "nota"]
     assert "Serie del anuario más reciente." in nota and "desde 2018" in nota
+
+
+def test_269_control_de_la_serie_por_institucion():
+    """#269 (revisión): AC-E19 en II-7.2.8. Cada subtotal es la suma de sus instituciones; «no corresponde» (n/c,
+    celda vacía) cuenta 0, y un año al que le falta otro componente (s/d, D4) no se prueba. Una diferencia falla salvo
+    excepción de la fuente."""
+    from mec_anuario_controles import Excepciones, Resultado, control_serie_instituciones
+
+    def obs(filas):
+        return pd.DataFrame([{"indicador": f"edu_ii_7_2_8_matricula__{c}", "territorio_id": "INE-2023/pais/UY", "periodo": p,
+                              "valor": v} for c, p, v in filas])
+    manual = {"serie_instituciones": {"particiones": {"priv": ["a", "b"]}}}
+    res = Resultado()
+    control_serie_instituciones(obs([("priv", "2010", 5), ("a", "2010", 5), ("priv", "2011", 9), ("a", "2011", 4),
+                                     ("priv", "2012", 7), ("a", "2012", 3), ("b", "2012", 4)]),
+                                manual, res, Excepciones(manual), {("b", "2010")})
+    assert res.controles.fallas == []  # 2010: b no corresponde (0); 2011: b sin dato, no se prueba; 2012: 3 + 4
+    res = Resultado()
+    control_serie_instituciones(obs([("priv", "2012", 8), ("a", "2012", 3), ("b", "2012", 4)]), manual, res, Excepciones(manual), set())
+    assert len(res.controles.fallas) == 1
+    manual["controles_excepciones"] = {"AC-E19": {"II-7.2.8": {2012: {"motivo": "del archivo", "indicadores": ["edu_ii_7_2_8_matricula__priv"]}}}}
+    res = Resultado()
+    control_serie_instituciones(obs([("priv", "2012", 8), ("a", "2012", 3), ("b", "2012", 4)]), manual, res, Excepciones(manual), set())
+    assert res.controles.fallas == [] and any("del archivo" in a for a in res.advertencias)
