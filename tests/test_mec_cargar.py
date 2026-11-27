@@ -591,3 +591,15 @@ def test_268_el_origen_de_la_udelar_no_se_carga():
         (f"{base}__ucu_ingresados_grado", "2024"), ("edu_ii_7_2_4_total__udelar_ingresados_grado", "2024"))])
     quedan = quitar_sin_cargar(obs, manual["observaciones_sin_cargar"], cuadro_de)
     assert sorted(quedan.indicador) == [f"{base}__ucu_ingresados_grado", "edu_ii_7_2_4_total__udelar_ingresados_grado"]
+    # revisión del PR #271: el origen del posgrado de la UCU de 2022–2023 (residencia, mantenedor) y la UDE 2024 y el
+    # Crandon 2023 (D4: repiten el año anterior) tampoco se cargan; la nota del indicador lo explica
+    obs = pd.DataFrame([{"indicador": i, "territorio_id": "INE-2023/pais/UY", "periodo": p, "valor": 1} for i, p in (
+        (f"{base}__ucu_matricula_posgrado", "2023"), (f"{base}__ucu_matricula_posgrado", "2024"),
+        ("edu_ii_7_2_4_total__universidad_de_la_empresa_matricula_grado", "2024"),
+        ("edu_ii_7_2_4_total__universidad_de_la_empresa_matricula_grado", "2023"),
+        ("edu_ii_7_2_4_total__inst_metodista_univ_crandon_matricula_grado", "2023"))])
+    quedan = quitar_sin_cargar(obs, manual["observaciones_sin_cargar"], cuadro_de)
+    assert sorted(zip(quedan.indicador.str.split("__").str[1], quedan.periodo)) == [
+        ("ucu_matricula_posgrado", "2024"), ("universidad_de_la_empresa_matricula_grado", "2023")]
+    assert "UdelaR" in manual["notas_indicador"]["edu_ii_7_2_4_total"]
+    assert manual["notas_indicador"][base] == manual["notas_indicador"]["edu_ii_7_2_4_total"]

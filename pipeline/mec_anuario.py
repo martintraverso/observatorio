@@ -437,9 +437,11 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
                 continue  # repite otra columna que ya se carga (D7)
             c = _col(m["col"])
             v = numero(celdas.get((r, c)))
+            if solo_enteros and isinstance(v, float) and abs(v - round(v)) < 1e-6:
+                v = int(round(v))  # #268 (revisión): error de coma flotante de una fórmula (40892.00000000001 = 40.892)
             if solo_enteros and isinstance(v, float):  # numero() ya deja como int un float entero
                 # #268 (mantenedor): un conteo con decimales es un reparto estimado (la UdelaR en II-7.2.4), no un dato
-                avisos.append(f"{codigo} {anio}: {letra(c)}{r} = {v:g} no es un entero: no se carga")
+                avisos.append(f"{codigo} {anio}: {letra(c)}{r} = {v!r} no es un entero: no se carga")
                 sin_dato += 1
                 claves_sd.append((m["id"] + sufijo, territorio, str(m.get("anio", anio))))
                 continue
