@@ -78,9 +78,9 @@ def promovidos_revisados(anio: int, delta: int = 10) -> bytes:
                                             ("Canelones", "B", -delta), ("Canelones", "C", -delta)])
 
 
-@pytest.fixture
-def entorno(salida, tmp_path):
-    copia = tmp_path / "salida"
+def preparar(salida, base: Path):
+    """(crudo, salida) en `base`: copia de la salida del Censo y los anuarios 2023 y 2024 capturados."""
+    copia = base / "salida"
 
     def ignorar(carpeta, nombres):
         return [] if Path(carpeta) != Path(salida) else [n for n in nombres if (Path(carpeta) / n).is_dir()
@@ -88,8 +88,23 @@ def entorno(salida, tmp_path):
     shutil.copytree(salida, copia, ignore=ignorar)
     (copia / "reporte_validacion.md").write_text("# Reporte\n", encoding="utf-8")
     completar_departamentos(copia)  # el fixture del Censo trae 4 departamentos; el anuario publica los 19
-    crudo = tmp_path / "crudo"
+    crudo = base / "crudo"
     capturar_anuarios(crudo, FUENTE, sitio({URL[2023]: fix(2023), URL[2024]: fix(2024)}), hoy="2026-11-23")
+    return crudo, copia
+
+
+@pytest.fixture
+def entorno(salida, tmp_path):
+    """Sin cargar todavía: para los tests que cambian los anuarios, la salida o el registro."""
+    return preparar(salida, tmp_path)
+
+
+@pytest.fixture(scope="module")
+def cargado(salida, tmp_path_factory):
+    """Ya cargado con los fixtures, una vez por módulo: solo para tests que leen y no escriben nada en (crudo, salida).
+    Cada carga lleva de 15 a 40 s (más con los datos completos), y la mayoría de los tests no la cambia."""
+    crudo, copia = preparar(salida, tmp_path_factory.mktemp("mec_cargado"))
+    correr(crudo, copia)
     return crudo, copia
 
 
@@ -111,9 +126,8 @@ def valor(o, ind, territorio=PAIS, periodo="2024"):
     return f.valor.iloc[0]
 
 
-def test_ac_e4_cada_anio_es_una_captura_guardada_sin_cambios(entorno):
-    crudo, salida = entorno
-    correr(crudo, salida)
+def test_ac_e4_cada_anio_es_una_captura_guardada_sin_cambios(cargado):
+    crudo, salida = cargado
     assert (crudo / "mec_anuario" / "2024.xlsx").read_bytes() == fix(2024)
     registro = json.loads((crudo / "mec_anuario" / "capturas.json").read_text(encoding="utf-8"))
     por_anio = {c["codigo"]: c for c in registro["capturas"]}
@@ -169,9 +183,8 @@ def test_ac_e7_la_serie_sale_del_ultimo_anuario_y_una_diferencia_es_advertencia(
     assert "2024: la serie nacional dice 284.000 y edu_ii_2_2_1_total dice 284.944" in reporte
 
 
-def test_ac_e16_tasas_derivadas(entorno):
-    crudo, salida = entorno
-    correr(crudo, salida)
+def test_ac_e16_tasas_derivadas(cargado):
+    crudo, salida = cargado
     o, _, i = tablas(salida)
     tasa = "edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_total"
     assert round(valor(o, tasa), 2) == 97.97  # 232.567 / (232.567 + 4.818)
@@ -182,9 +195,8 @@ def test_ac_e16_tasas_derivadas(entorno):
     assert (publicados.formula == "").all() and set(publicados.unidad) <= {"estudiantes", "establecimientos", "docentes", "grupos", "alumnos por grupo", "horas docentes"}  # #225, #233
 
 
-def test_resto_del_pais_va_a_la_region_interior(entorno):
-    crudo, salida = entorno
-    correr(crudo, salida)
+def test_resto_del_pais_va_a_la_region_interior(cargado):
+    crudo, salida = cargado
     o, _, _ = tablas(salida)
     assert valor(o, "edu_ii_2_2_1_total", "INE-2023/region/interior") == 182762
 
@@ -235,9 +247,8 @@ def test_ac_e6_una_revision_de_un_anio_viejo_deja_el_catalogo_como_una_carga_com
 
 # ---------------------------------------------------------------- F4.5a (#188): controles (AC-E17…E22, E24)
 
-def test_ac_e24_la_seccion_tiene_controles_cuadros_y_ultimos_valores(entorno):
-    crudo, salida = entorno
-    correr(crudo, salida)
+def test_ac_e24_la_seccion_tiene_controles_cuadros_y_ultimos_valores(cargado):
+    crudo, salida = cargado
     reporte = (salida / "reporte_validacion.md").read_text(encoding="utf-8")
     for texto in ("### Controles (AC-E17…AC-E22)", "| AC-E17 Montevideo + 18 departamentos = TOTAL | OK |",
                   "| AC-E19 Desgloses", "| AC-E20 ", "| AC-E21 ", "AC-E22", "### Cuadros (AC-E24)",
@@ -395,11 +406,10 @@ def test_213_titulos_y_tasas_con_la_ortografia_del_archivo():
     assert legible("C.B.T. AGRARIO", False) == "C.B.T. agrario" and legible("E. M. P. ESPECIALIZACIÓN", False) == "E. M. P. especialización"
 
 
-def test_213_ninguna_tasa_repite_nombre_en_su_cuadro(entorno):
+def test_213_ninguna_tasa_repite_nombre_en_su_cuadro(cargado):
     """#213: con la carga de los fixtures, dos tasas calculadas del mismo cuadro nunca se llaman igual, y ningún nombre
     queda con el código del cuadro en lugar del nivel (el formato viejo «Tasa de promoción (II-…)»)."""
-    crudo, salida = entorno
-    correr(crudo, salida)
+    crudo, salida = cargado
     i = pd.read_parquet(salida / "indicadores.parquet")
     t = i[i.es_derivado & i.nombre.str.startswith("Tasa de promoción")]
     assert len(t) > 0
@@ -411,11 +421,10 @@ def test_213_ninguna_tasa_repite_nombre_en_su_cuadro(entorno):
     assert not t.nombre.duplicated().any(), t[t.nombre.duplicated(keep=False)].nombre.head().tolist()
 
 
-def test_225_los_promedios_se_cargan_con_su_unidad_y_sin_sumarlos(entorno):
+def test_225_los_promedios_se_cargan_con_su_unidad_y_sin_sumarlos(cargado):
     """#225 (mantenedor): el «promedio de alumnos por grupo» de II-3.4.1 y II-4.4.1 se carga como valor publicado, con
     su unidad, y queda fuera del control de sumas (AC-E19); los grupos sí cierran con sus `particiones`."""
-    crudo, salida = entorno
-    correr(crudo, salida)
+    crudo, salida = cargado
     i = pd.read_parquet(salida / "indicadores.parquet").set_index("codigo")
     prom = i[i.index.str.startswith(("edu_ii_3_4_1_", "edu_ii_4_4_1_")) & i.index.str.contains("promedio")]
     grupos = i[i.index.str.startswith(("edu_ii_3_4_1_", "edu_ii_4_4_1_")) & ~i.index.str.contains("promedio")]
@@ -466,10 +475,9 @@ def test_233_las_horas_por_asignatura_de_2020_y_2021_no_se_cargan():
     assert regla_sin_cargar(reglas, "II-3.3.1", "edu_ii_3_3_1_total_horas__total") is None
 
 
-def test_233_las_horas_van_con_su_unidad(entorno):
+def test_233_las_horas_van_con_su_unidad(cargado):
     """#233: las columnas de horas de II-3.3.1 e II-4.3.1 tienen la unidad «horas docentes»; los docentes, «docentes»."""
-    crudo, salida = entorno
-    correr(crudo, salida)
+    crudo, salida = cargado
     i = pd.read_parquet(salida / "indicadores.parquet").set_index("codigo")
     d = i[i.index.str.startswith(("edu_ii_3_3_1_", "edu_ii_4_3_1_"))]
     assert len(d) and (d[d.index.str.contains("horas")].unidad == "horas docentes").all()
@@ -514,10 +522,9 @@ def test_173_las_horas_de_2020_de_ii_6_3_1_no_se_cargan():
                                                           ("edu_ii_6_3_1_cantidad_de_docentes", "2020")}
 
 
-def test_173_ii_6_unidades_y_nota_del_origen_geografico(entorno):
+def test_173_ii_6_unidades_y_nota_del_origen_geografico(cargado):
     """#173: matrícula en estudiantes y horas en horas docentes; II-6.3.3 lleva la nota del mantenedor (4.a)."""
-    crudo, salida = entorno
-    correr(crudo, salida)
+    crudo, salida = cargado
     i = pd.read_parquet(salida / "indicadores.parquet").set_index("codigo")
     assert i.at["edu_ii_6_1_1_total", "unidad"] == "estudiantes" and i.at["edu_ii_6_1_1_docentes", "unidad"] == "docentes"
     assert i.at["edu_ii_6_3_1_cantidad_de_horas", "unidad"] == "horas docentes"
