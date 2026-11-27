@@ -9,7 +9,7 @@ from pathlib import Path
 import pandas as pd
 import pytest
 import yaml
-from test_mec_cargar import correr, entorno  # noqa: F401
+from test_mec_cargar import cargado  # noqa: F401
 from web import (
     catalogo_educacion,
     con_corte,
@@ -25,12 +25,12 @@ RAIZ = Path(__file__).resolve().parents[1]
 FLORES, PAIS = "INE-2023/departamento/07", "INE-2023/pais/UY"
 
 
-@pytest.fixture
-def web(entorno):  # noqa: F811
+@pytest.fixture(scope="module")
+def web(cargado):  # noqa: F811
+    """Una vez por módulo: los tests solo leen las fichas y el CSV."""
     import geopandas as gpd
 
-    crudo, salida = entorno
-    correr(crudo, salida)
+    _, salida = cargado
     t = gpd.read_parquet(salida / "territorios.parquet")
     tablas = {n: pd.read_parquet(salida / f"{n}.parquet") for n in ("observaciones", "indicadores", "capturas", "fuentes", "correspondencias")}
     ind = con_cuadro(tablas["indicadores"])
@@ -94,11 +94,10 @@ def test_211_corte_marca_los_indicadores_que_cambian_de_concepto():
     assert c["edu_ii_2_2_1_total"] == "" and c["pob_total"] == ""
 
 
-def test_211_la_ficha_lleva_el_corte_de_cada_indicador(entorno):  # noqa: F811
+def test_211_la_ficha_lleva_el_corte_de_cada_indicador(cargado):  # noqa: F811
     import geopandas as gpd
 
-    crudo, salida = entorno
-    correr(crudo, salida)
+    _, salida = cargado
     t = gpd.read_parquet(salida / "territorios.parquet")
     tablas = {n: pd.read_parquet(salida / f"{n}.parquet") for n in ("observaciones", "indicadores", "capturas", "fuentes", "correspondencias")}
     ind = con_corte(con_cuadro(tablas["indicadores"]))
@@ -121,11 +120,10 @@ def test_213_mapa_y_grupo_de_cada_indicador():
     assert r.grupo.tolist() == ["Primaria", "Primaria", "Media básica", ""]
 
 
-def test_ac_e32_el_catalogo_lista_cada_cuadro_con_datos(entorno):  # noqa: F811
+def test_ac_e32_el_catalogo_lista_cada_cuadro_con_datos(cargado):  # noqa: F811
     """AC-E32 (#226): el catálogo de educación lista cada cuadro con datos, con código, título legible, tipo, años y
     la tasa del mapa si la tiene; sin datos de educación, vacío."""
-    crudo, salida = entorno
-    correr(crudo, salida)
+    _, salida = cargado
     obs = pd.read_parquet(salida / "observaciones.parquet")
     ind = pd.read_parquet(salida / "indicadores.parquet")
     cat = {c["cuadro"]: c for c in catalogo_educacion(ind, obs)}
@@ -139,10 +137,9 @@ def test_ac_e32_el_catalogo_lista_cada_cuadro_con_datos(entorno):  # noqa: F811
     assert catalogo_educacion(ind[ind.fuente_id != "mec_anuario_educacion"], obs) == []
 
 
-def test_ac_e32_el_tipo_es_el_del_ultimo_anio_con_datos_que_lo_tiene(entorno, tmp_path):  # noqa: F811
+def test_ac_e32_el_tipo_es_el_del_ultimo_anio_con_datos_que_lo_tiene(cargado, tmp_path):  # noqa: F811
     """#234 (revisión): un año del registro sin tipo (II-2.2.15 2024: null) no deja el cuadro sin tipo."""
-    crudo, salida = entorno
-    correr(crudo, salida)
+    _, salida = cargado
     obs = pd.read_parquet(salida / "observaciones.parquet")
     ind = pd.read_parquet(salida / "indicadores.parquet")
     reg = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario_educacion.yml").read_text(encoding="utf-8"))

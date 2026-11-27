@@ -92,7 +92,10 @@ Sin tippecanoe, `python pipeline/web.py --sin-pmtiles` arma todo lo demás y los
 ruff check .
 pytest -q                                   # sobre el fixture (lo mismo que corre CI)
 OBS_DATOS=completo pytest -q                # sobre datos/salida/ (correr antes el pipeline y web.py)
+python scripts/verificar.py                 # solo lo que tocan los cambios de la rama (--plan para ver, --todo para todo)
 ```
+
+`scripts/verificar.py` compara con `origin/main`: si solo cambió `app/`, no rehace la web ni corre pytest; si solo cambiaron `tests/` o `scripts/`, corre ruff y el fixture; `pipeline/` y `fuentes/` suman `web.py` y los datos completos; `pipeline/web.py` suma también la app. Solo docs: nada. `web.py` arma la web desde los Parquet de `datos/salida/`: si cambiaste un cargador, corré antes su script.
 
 - **Fixture** (`OBS_DATOS=fixture`, por defecto): `tests/fixtures/ine_2023_mini.zip` es un recorte del zip del INE (~1 MB): departamentos 01, 02 (con el límite contestado), 07 y 16; secciones, segmentos y localidades de Flores; barrios y CCZ de Montevideo. Los atributos son los originales; las geometrías están simplificadas (~10 m). Los tests corren el pipeline sobre él en una carpeta temporal, sin pasos previos.
 - **Completo** (`OBS_DATOS=completo`): usa la salida en `datos/salida/`. Si no existe, los tests fallan.
