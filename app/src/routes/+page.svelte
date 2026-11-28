@@ -18,6 +18,9 @@
 		etiquetaLista,
 		etiquetaPeriodo,
 		familiaDe,
+		verPor,
+		todasLas,
+		type OpcionVerPor,
 		formaSelectorNivel,
 		fuenteCorta,
 		gruposDelTema,
@@ -286,6 +289,20 @@
 		estado.territorio = `${nivel}/${codigo}`;
 	}
 
+	// AC-V38 (#250): los filtros «Ver por» de la familia elegida, con los cortes que tienen datos en el nivel y período
+	let filtros = $derived(
+		verPor(data.indicadores, indicador, (codigo) => {
+			if (valoresNivel?.nivel !== estado.nivel) return true; // todavía cargando: no se esconde nada
+			return Object.values(valoresNivel.indicadores[codigo]?.[estado.periodo] ?? {}).some((v) => v !== null);
+		})
+	);
+
+	/** AC-V39: elegir un corte; si la combinación no existía, las otras dimensiones vuelven a «Todas» y se anuncia. */
+	function elegirApertura(o: OpcionVerPor) {
+		elegirIndicador(o.codigo);
+		if (o.reinicia.length) anunciarNivel(o.reinicia.map((d) => `${d}: ${todasLas(d)}`).join(', '));
+	}
+
 	// AC-V41 (#249): hay indicadores de este tema y nivel educativo que no van al mapa
 	let hayFueraDelMapa = $derived(!!data.fueraDelMapa[`${tema}|${grupos.length ? (grupo ?? '') : ''}`]);
 </script>
@@ -394,17 +411,10 @@
 				<select
 					id="indicador-movil"
 					class="solo-movil"
-					value={estado.indicador}
+					value={familiaDe(indicador)}
 					onchange={(e) => elegirIndicador(e.currentTarget.value)}
 				>
-					{#each delTema as i (i.codigo)}
-						<option value={i.codigo}>{etiquetaLista(i)}</option>
-						<!-- #249 (revisión): una apertura abierta (por URL o desde /educacion) es una opción propia, debajo de
-						     su familia, para que elegir el total dispare el cambio; «Ver por» llega en #250 -->
-						{#if indicador && indicador.codigo !== i.codigo && familiaDe(indicador) === i.codigo}
-							<option value={indicador.codigo}>{etiquetaLista(indicador)}</option>
-						{/if}
-					{/each}
+					{#each delTema as i (i.codigo)}<option value={i.codigo}>{etiquetaLista(i)}</option>{/each}
 				</select>
 				<div class="solo-escritorio lista-indicadores">
 					{#each delTema as i (i.codigo)}
@@ -438,6 +448,26 @@
 				</p>
 			{/if}
 		</fieldset>
+
+		{#if filtros.length}
+			<!-- AC-V38/AC-V39 (#250): las aperturas de la familia elegida, una fila de opciones por dimensión -->
+			<div class="ver-por" role="group" aria-labelledby="titulo-ver-por">
+				<p class="titulo-ver-por" id="titulo-ver-por">Ver por</p>
+				{#each filtros as f (f.dimension)}
+					<fieldset class="segmentado">
+						<legend>{f.dimension}</legend>
+						<div class="segmentos">
+							{#each f.opciones as o (o.etiqueta)}
+								<label class="segmento" class:activo={o.activo}>
+									<input type="radio" name="ver-por-{f.dimension}" value={o.codigo} checked={o.activo} onchange={() => elegirApertura(o)} />
+									{o.etiqueta}
+								</label>
+							{/each}
+						</div>
+					</fieldset>
+				{/each}
+			</div>
+		{/if}
 
 		{#if formaNivel === 'lista'}
 			<fieldset>
@@ -628,6 +658,69 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: var(--espacio-2);
+	}
+
+	/* AC-V40 (#250): «Ver por», con los tokens del sistema; ≥ 40 px en el panel de escritorio, ≥ 44 px en celular */
+	.ver-por {
+		display: grid;
+		gap: var(--espacio-2);
+		margin-top: var(--espacio-3);
+	}
+
+	.titulo-ver-por {
+		margin: 0;
+		font-weight: 600;
+	}
+
+	.segmentado {
+		margin: 0;
+		padding: 0;
+		border: 0;
+		min-width: 0;
+	}
+
+	.segmentado legend {
+		font-size: var(--texto-s);
+		color: var(--texto-suave);
+		padding: 0;
+		margin-bottom: var(--espacio-1);
+	}
+
+	.segmentos {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--espacio-1);
+	}
+
+	.segmento {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		min-height: 40px;
+		padding: 0 var(--espacio-3);
+		border: 1px solid var(--borde);
+		border-radius: var(--radio-s);
+		background: var(--tarjeta);
+		cursor: pointer;
+		white-space: nowrap;
+		font-size: var(--texto-s);
+	}
+
+	.segmento.activo {
+		background: var(--primario);
+		border-color: var(--primario);
+		color: var(--sobre-primario);
+	}
+
+	.segmento:has(input:focus-visible) {
+		outline: 3px solid var(--foco);
+		outline-offset: 2px;
+	}
+
+	@media (max-width: 900px) {
+		.segmento {
+			min-height: var(--toque-min);
+		}
 	}
 
 	.chip {

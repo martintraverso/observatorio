@@ -17,6 +17,7 @@ import {
 	detalleLista,
 	etiquetaLista,
 	familiaDe,
+	verPor,
 	indicadoresDelTema,
 	nivelAlCambiar,
 	nivelesDibujables,
@@ -367,5 +368,57 @@ describe('F4.7c2 (AC-E26): tema «Educación» en el mapa', () => {
 		expect(detalleLista({ ...D3, unidad: '%' }, CATALOGO)).toBe('% · por departamento');
 		const regional = { ...ind('ing', 'Ingresos', ['pais', 'region']), unidad: 'pesos corrientes por mes' } as IndicadorMapa;
 		expect(detalleLista(regional, CATALOGO)).toBe('pesos corrientes por mes · por región');
+	});
+});
+
+describe('«Ver por» (M12.2b, #250)', () => {
+	const m = (codigo: string, apertura: [string, string][], familia = 'prom') =>
+		({ ...ind(codigo, 'Educación', ['departamento']), familia, apertura: apertura.map(([dimension, valor]) => ({ dimension, valor })) }) as IndicadorMapa;
+	const FAM = [
+		m('prom', []),
+		m('prom_urb', [['Área', 'Urbana']]),
+		m('prom_rur', [['Área', 'Rural']]),
+		m('prom_muj', [['Sexo', 'Mujeres']]),
+		m('prom_var', [['Sexo', 'Varones']])
+	];
+	const todos = () => true;
+	it('AC-V38: un filtro por dimensión, «Todas/Todos» primero, y cada opción dibuja su corte', () => {
+		const f = verPor(FAM, FAM[0], todos);
+		expect(f.map((x) => x.dimension)).toEqual(['Área', 'Sexo']);
+		expect(f[0].opciones.map((o) => [o.etiqueta, o.codigo, o.activo])).toEqual([
+			['Todas', 'prom', true], ['Urbana', 'prom_urb', false], ['Rural', 'prom_rur', false]
+		]);
+		expect(f[1].opciones[0].etiqueta).toBe('Todos');
+	});
+	it('AC-V38: abrir un corte marca su valor; «Todas» vuelve al total', () => {
+		const f = verPor(FAM, FAM[2], todos);
+		expect(f[0].opciones.find((o) => o.activo)?.valor).toBe('Rural');
+		expect(f[0].opciones[0]).toMatchObject({ codigo: 'prom', reinicia: [] });
+	});
+	it('AC-V39: una combinación que no existe no se ofrece: elegir sexo con un área elegida vuelve el área a «Todas»', () => {
+		const sexo = verPor(FAM, FAM[2], todos)[1];
+		expect(sexo.opciones.find((o) => o.valor === 'Mujeres')).toMatchObject({ codigo: 'prom_muj', reinicia: ['Área'] });
+	});
+	it('AC-V38: solo valores con datos en el nivel y período; una dimensión con un solo valor no se muestra', () => {
+		const f = verPor(FAM, FAM[0], (c) => c !== 'prom_var');
+		expect(f.map((x) => x.dimension)).toEqual(['Área']);
+		// salvo que sea la elegida: desde «Mujeres» se puede volver a «Todos»
+		expect(verPor(FAM, FAM[3], (c) => c !== 'prom_var').map((x) => x.dimension)).toEqual(['Área', 'Sexo']);
+	});
+	it('AC-V39: tres dimensiones; administración y grado con sexo existe, sin administración no', () => {
+		const G = [
+			m('g', [], 'g'), m('g_pub', [['Administración', 'Pública']], 'g'), m('g_priv', [['Administración', 'Privada']], 'g'),
+			m('g_pub_1', [['Administración', 'Pública'], ['Grado', '1.º']], 'g'), m('g_pub_2', [['Administración', 'Pública'], ['Grado', '2.º']], 'g'),
+			m('g_pub_1_m', [['Administración', 'Pública'], ['Grado', '1.º'], ['Sexo', 'Mujeres']], 'g'),
+			m('g_pub_1_v', [['Administración', 'Pública'], ['Grado', '1.º'], ['Sexo', 'Varones']], 'g')
+		];
+		const desde = verPor(G, G[3], todos);
+		expect(desde.find((x) => x.dimension === 'Sexo')?.opciones.find((o) => o.valor === 'Mujeres')).toMatchObject({ codigo: 'g_pub_1_m', reinicia: [] });
+		// elegir «Privada» con «1.º» elegido: no hay privada por grado acá, el grado vuelve a «Todos»
+		expect(desde[0].opciones.find((o) => o.valor === 'Privada')).toMatchObject({ codigo: 'g_priv', reinicia: ['Grado'] });
+		expect(verPor(G, G[0], todos).find((x) => x.dimension === 'Sexo')).toBeUndefined(); // sexo solo existe con adm. y grado
+	});
+	it('sin familia (los demás temas) no hay filtros', () => {
+		expect(verPor([PERSONAS], PERSONAS, todos)).toEqual([]);
 	});
 });

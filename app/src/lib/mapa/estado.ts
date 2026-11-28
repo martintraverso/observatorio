@@ -353,3 +353,71 @@ export function filasComparacion(valores: ValoresPorNivel, indicador: string, pe
 		valor: valores[t.nivel]?.indicadores[indicador]?.[periodo]?.[t.codigo] ?? null
 	}));
 }
+
+// ---------------------------------------------------------------- «Ver por» (M12.2b, #250)
+
+export interface OpcionVerPor {
+	/** null = «Todas/Todos» (sin esa dimensión). */
+	valor: string | null;
+	etiqueta: string;
+	/** El indicador que se dibuja al elegirla. */
+	codigo: string;
+	activo: boolean;
+	/** Dimensiones que vuelven a «Todas» al elegirla porque la combinación no existe (AC-V39). */
+	reinicia: string[];
+}
+
+export interface FiltroVerPor {
+	dimension: string;
+	opciones: OpcionVerPor[];
+}
+
+const DIMENSIONES_FEMENINAS = new Set(['Área', 'Administración']);
+
+/** «Todas» o «Todos» según la dimensión («Todas» las áreas, «Todos» los sexos). */
+export function todasLas(dimension: string): string {
+	return DIMENSIONES_FEMENINAS.has(dimension) ? 'Todas' : 'Todos';
+}
+
+/**
+ * AC-V38/AC-V39 (#250): los filtros «Ver por» de la familia del indicador elegido. Una dimensión por cada una de sus
+ * aperturas, con «Todas/Todos» primero y después solo los valores que existen en la familia y tienen datos en el nivel
+ * y el período actuales (`conDatos`). Cada opción dice qué indicador dibuja; si la combinación con los otros filtros no
+ * existe, va a la que más se parece y nombra las dimensiones que vuelven a «Todas» (nunca ofrece una que no existe).
+ * Una dimensión con un solo valor no se muestra, salvo que sea la elegida (para poder volver al total).
+ */
+export function verPor(indicadores: IndicadorMapa[], actual: IndicadorMapa | undefined, conDatos: (codigo: string) => boolean): FiltroVerPor[] {
+	if (!actual) return [];
+	const familia = familiaDe(actual);
+	const miembros = indicadores.filter((i) => familiaDe(i) === familia && (i.codigo === familia || conDatos(i.codigo)));
+	const aperturas = new Map(miembros.map((i) => [i.codigo, Object.fromEntries((i.apertura ?? []).map((a) => [a.dimension, a.valor]))]));
+	const elegido = aperturas.get(actual.codigo) ?? {};
+	const dimensiones = [...new Set(miembros.flatMap((i) => (i.apertura ?? []).map((a) => a.dimension)))];
+	// el miembro con exactamente esa combinación, o el que más coincide con ella (sin la dimensión si `valor` es null)
+	function destino(dimension: string, valor: string | null): { codigo: string; reinicia: string[] } | null {
+		const buscado: Record<string, string> = { ...elegido };
+		if (valor === null) delete buscado[dimension];
+		else buscado[dimension] = valor;
+		let mejor: { codigo: string; reinicia: string[]; extra: number } | null = null;
+		for (const [codigo, ap] of aperturas) {
+			if ((ap[dimension] ?? null) !== valor) continue;
+			if (Object.keys(ap).some((d) => d !== dimension && ap[d] !== buscado[d])) continue; // no agrega otros filtros
+			const reinicia = Object.keys(buscado).filter((d) => d !== dimension && ap[d] !== buscado[d]);
+			const extra = reinicia.length;
+			if (!mejor || extra < mejor.extra) mejor = { codigo, reinicia, extra };
+		}
+		return mejor && { codigo: mejor.codigo, reinicia: mejor.reinicia };
+	}
+	const filtros: FiltroVerPor[] = [];
+	for (const d of dimensiones) {
+		const valores = [...new Set([...aperturas.values()].map((ap) => ap[d]).filter((v): v is string => !!v))];
+		if (valores.length < 2 && !elegido[d]) continue;
+		const opciones: OpcionVerPor[] = [];
+		for (const v of [null, ...valores]) {
+			const a = destino(d, v);
+			if (a) opciones.push({ valor: v, etiqueta: v ?? todasLas(d), codigo: a.codigo, activo: (elegido[d] ?? null) === v, reinicia: a.reinicia });
+		}
+		if (opciones.length > 1) filtros.push({ dimension: d, opciones });
+	}
+	return filtros;
+}

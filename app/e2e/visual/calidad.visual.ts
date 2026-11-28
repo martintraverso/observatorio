@@ -361,7 +361,7 @@ test('AC-V25: en celular la ficha no tiene KPIs cortados, tablas de indicadores 
 });
 
 // ---------------------------------------------------------------- M12.2a (#249): la lista del mapa por familia
-type IndLista = { codigo: string; tema: string; grupo?: string; mapa?: boolean; familia?: string; nombre_corto?: string; nombre: string };
+type IndLista = { codigo: string; tema: string; grupo?: string; mapa?: boolean; familia?: string; nombre_corto?: string; nombre: string; apertura?: { dimension: string; valor: string }[] };
 const lista = indicadores as unknown as IndLista[];
 const temasConGrupos = [...new Set(lista.filter((i) => i.mapa !== false).map((i) => `${i.tema}|${i.grupo ?? ''}`))];
 
@@ -449,14 +449,76 @@ test('#249: una apertura abierta por URL marca su familia en la lista, y la list
 	await esperarQuieta(page);
 	const total = lista.find((i) => i.codigo === ap!.familia)!;
 	if (vista(info.project.name) === '390' || vista(info.project.name) === '768') {
+		// en celular el desplegable marca la familia (AC-V42) y se vuelve al total con «Ver por» (#250)
 		await abrirOpciones(page);
-		const sel = page.locator('#indicador-movil');
-		await expect(sel).toHaveValue(ap!.codigo);
-		await sel.selectOption(total.codigo);
+		await expect(page.locator('#indicador-movil')).toHaveValue(total.codigo);
+		const dim = ap!.apertura?.[0]?.dimension ?? '';
+		await page.getByRole('group', { name: 'Ver por' }).getByRole('group', { name: dim }).locator('label').first().click();
 	} else {
 		const item = page.locator('.lista-indicadores label.indicador', { hasText: total.nombre_corto ?? total.nombre });
 		await expect(item).toHaveClass(/activo/);
 		await item.click();
 	}
 	await expect(page).toHaveURL(new RegExp(`indicador=${total.codigo}(&|$)`));
+});
+
+// ---------------------------------------------------------------- M12.2b (#250): «Ver por»
+const D3 = 'edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_total';
+const hayD3 = lista.some((i) => i.codigo === D3 && i.mapa !== false);
+const verPorEn = (page: import('@playwright/test').Page) => page.getByRole('group', { name: 'Ver por' });
+
+test('AC-V38: «Ver por» ofrece las aperturas de la familia, dibuja el corte elegido y la URL lo recuerda', async ({ page }, info) => {
+	test.skip(!hayD3, 'estos datos no traen educación');
+	await page.goto(`?indicador=${D3}&nivel=departamento&periodo=2024`);
+	await esperarQuieta(page);
+	if (['390', '768'].includes(vista(info.project.name))) await abrirOpciones(page);
+	const area = verPorEn(page).getByRole('group', { name: 'Área' });
+	await expect(area.getByRole('radio')).toHaveCount(3);
+	await expect(area.locator('label').first()).toHaveText('Todas');
+	await expect(area.getByRole('radio', { name: 'Todas' })).toBeChecked();
+	await area.getByText('Rural', { exact: true }).click();
+	await expect(page).toHaveURL(/indicador=edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_area_demografica_rural/);
+	await esperarQuieta(page);
+	// abrir esa URL restaura la familia y el filtro
+	await page.reload();
+	await esperarQuieta(page);
+	if (['390', '768'].includes(vista(info.project.name))) await abrirOpciones(page);
+	await expect(verPorEn(page).getByRole('group', { name: 'Área' }).getByRole('radio', { name: 'Rural' })).toBeChecked();
+	await verPorEn(page).getByRole('group', { name: 'Área' }).getByText('Todas', { exact: true }).click();
+	await expect(page).toHaveURL(new RegExp(`indicador=${D3}(&|$)`));
+});
+
+test('AC-V39: elegir un sexo con un área elegida vuelve el área a «Todas» y lo anuncia', async ({ page }, info) => {
+	test.skip(!hayD3, 'estos datos no traen educación');
+	test.skip(!['1440', '390'].includes(vista(info.project.name)), 'en escritorio y celular');
+	await page.goto('?indicador=edu_ii_2_2_13_rendimiento_escolar_tasa_promocion_area_demografica_rural&nivel=departamento&periodo=2024');
+	await esperarQuieta(page);
+	if (vista(info.project.name) === '390') await abrirOpciones(page);
+	await verPorEn(page).getByRole('group', { name: 'Sexo' }).getByText('Mujeres', { exact: true }).click();
+	await expect(page).toHaveURL(/indicador=edu_ii_2_2_14_rendimiento_escolar_tasa_promocion_sexo_mujer/);
+	await expect(verPorEn(page).getByRole('group', { name: 'Área' }).getByRole('radio', { name: 'Todas' })).toBeChecked();
+	await expect(page.locator('[aria-live="polite"]').filter({ hasText: 'Área: Todas' })).toHaveCount(1);
+});
+
+test('AC-V40 y AC-V42: los segmentos miden ≥ 40 px (≥ 44 en celular), se manejan con el teclado y en celular van en la hoja', async ({ page }, info) => {
+	test.skip(!hayD3, 'estos datos no traen educación');
+	const celular = ['390', '768'].includes(vista(info.project.name));
+	await page.goto(`?indicador=${D3}&nivel=departamento&periodo=2024`);
+	await esperarQuieta(page);
+	if (celular) {
+		await abrirOpciones(page);
+		// en la hoja, debajo del desplegable
+		const yDesplegable = (await page.locator('#indicador-movil').boundingBox())!.y;
+		expect((await verPorEn(page).boundingBox())!.y).toBeGreaterThan(yDesplegable);
+	}
+	for (const s of await verPorEn(page).locator('label.segmento').all())
+		expect((await s.boundingBox())!.height).toBeGreaterThanOrEqual(celular ? 44 : 40);
+	expect(await revisarSegmentado(page, '.ver-por .segmentos >> nth=0')).toEqual([]);
+	if (!celular) {
+		const area = verPorEn(page).getByRole('group', { name: 'Área' });
+		const segundo = await area.getByRole('radio').nth(1).getAttribute('value');
+		await area.getByRole('radio', { name: 'Todas' }).focus();
+		await page.keyboard.press('ArrowRight');
+		await expect(page).toHaveURL(new RegExp(`indicador=${segundo}(&|$)`));
+	}
 });
