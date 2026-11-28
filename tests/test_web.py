@@ -673,12 +673,34 @@ def test_mcp1_la_base_trae_los_metadatos_de_indicadores_json(web, con):
         assert list(niveles) == i["niveles"] and list(periodos) == i["periodos"], c
     assert con.execute("select count(*) from indicadores_web").fetchone()[0] == \
         con.execute("select count(*) from indicadores").fetchone()[0]
+    # AC-MCP2 en la base real: la vista existe y es v_observaciones de las fuentes activas
+    activas = con.execute("select count(*) from v_observaciones v join fuentes f on f.id = v.fuente_id "
+                          "where f.estado = 'activa'").fetchone()[0]
+    assert con.execute("select count(*) from v_publicadas").fetchone()[0] == activas
+
+
+def test_mcp1_metadatos_de_un_indicador_del_mec():
+    """AC-MCP1 (#260): con un indicador del anuario del MEC, `metadatos_indicadores` trae el cuadro y el nivel educativo
+    que la app lee (el fixture del Censo no tiene ninguno), y los niveles y períodos de sus observaciones."""
+    import pandas as pd
+    from web import metadatos_indicadores
+
+    ind = pd.DataFrame({"codigo": ["edu_x", "pob"], "tema": ["Educación", "Población"], "nombre": ["E", "P"],
+                        "columna_origen": ["Cuadro II-2.2.13 (calculado)", ""], "es_derivado": [True, False]})
+    terr = pd.DataFrame({"id": ["p", "d1", "d2"], "nivel": ["pais", "departamento", "departamento"]})
+    obs = pd.DataFrame({"indicador": ["edu_x", "edu_x", "edu_x"], "territorio_id": ["p", "d1", "d2"],
+                        "periodo": ["2024", "2023", "2024"], "valor": [1.0, 2.0, None]})
+    m = metadatos_indicadores(ind, terr, obs).set_index("codigo")
+    assert (m.at["edu_x", "cuadro"], m.at["edu_x", "grupo"]) == ("II-2.2.13", "Primaria")
+    assert m.at["edu_x", "niveles"] == ["departamento", "pais"] and m.at["edu_x", "periodos"] == ["2023", "2024"]
+    assert (m.at["pob", "cuadro"], m.at["pob", "grupo"], m.at["pob", "niveles"]) == ("", "", [])
 
 
 def test_mcp2_v_publicadas_solo_trae_fuentes_activas():
     """AC-MCP2 (#260, D-MCP.7): `v_publicadas` devuelve solo observaciones de fuentes con `estado = 'activa'`; una
     fuente «en preparación» queda en la base pero ninguno de sus valores aparece."""
     import duckdb
+
     from comun.salida import VISTA_OBSERVACIONES, VISTA_PUBLICADAS
 
     c = duckdb.connect()
