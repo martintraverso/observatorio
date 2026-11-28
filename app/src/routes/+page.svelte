@@ -2,7 +2,8 @@
 	// Pantalla Mapa (M6): tema → indicador → nivel → período; coropleta; panel del territorio.
 	import { onMount, tick, untrack } from 'svelte';
 	import { replaceState } from '$app/navigation';
-	import { cargarEducacion, cargarFicha, esNivel, leerJson, unirEducacion, type Ficha } from '#lib/datos.ts';
+	import { resolve } from '$app/paths';
+	import { cargarEducacion, cargarFicha, esNivel, hrefFicha, leerJson, unirEducacion, type Ficha } from '#lib/datos.ts';
 	import { NOMBRE_SITIO } from '#lib/sitio.ts';
 	import Mapa from '#lib/mapa/Mapa.svelte';
 	import Leyenda from '#lib/mapa/Leyenda.svelte';
@@ -11,9 +12,12 @@
 	import {
 		avisoSinMapa,
 		clasesCuantiles,
+		detalleLista,
 		encuadreNivel,
 		estadoDesdeUrl,
+		etiquetaLista,
 		etiquetaPeriodo,
+		familiaDe,
 		formaSelectorNivel,
 		fuenteCorta,
 		gruposDelTema,
@@ -22,7 +26,6 @@
 		minuscula,
 		nivelAlCambiar,
 		nivelesOfrecidos,
-		nivelMasDetallado,
 		opcionNivel,
 		territorioAlCambiarNivel,
 		totalDelPais,
@@ -283,13 +286,8 @@
 		estado.territorio = `${nivel}/${codigo}`;
 	}
 
-	function hastaDonde(i: (typeof data.indicadores)[number]): string {
-		const n = nivelMasDetallado(i, data.catalogo);
-		const o = n ? opcionNivel(data.catalogo, n) : null;
-		if (o) return `hasta ${minuscula(o.etiqueta)}${o.ayuda ? ` (${minuscula(o.ayuda)})` : ''}`;
-		// AC-I20: sin niveles en el mapa y publicado por región (los ingresos): va como comparación
-		return i.niveles.includes('region') ? 'por región' : 'sin datos en el mapa';
-	}
+	// AC-V41 (#249): hay indicadores de este tema y nivel educativo que no van al mapa
+	let hayFueraDelMapa = $derived(!!data.fueraDelMapa[`${tema}|${grupos.length ? (grupo ?? '') : ''}`]);
 </script>
 
 <svelte:window
@@ -399,27 +397,45 @@
 					value={estado.indicador}
 					onchange={(e) => elegirIndicador(e.currentTarget.value)}
 				>
-					{#each delTema as i (i.codigo)}<option value={i.codigo}>{i.nombre}</option>{/each}
+					{#each delTema as i (i.codigo)}
+						<option value={i.codigo}>{etiquetaLista(i)}</option>
+						<!-- #249 (revisión): una apertura abierta (por URL o desde /educacion) es una opción propia, debajo de
+						     su familia, para que elegir el total dispare el cambio; «Ver por» llega en #250 -->
+						{#if indicador && indicador.codigo !== i.codigo && familiaDe(indicador) === i.codigo}
+							<option value={indicador.codigo}>{etiquetaLista(indicador)}</option>
+						{/if}
+					{/each}
 				</select>
 				<div class="solo-escritorio lista-indicadores">
 					{#each delTema as i (i.codigo)}
-						<label class="indicador" class:activo={estado.indicador === i.codigo}>
+						<label class="indicador" class:activo={familiaDe(indicador) === i.codigo}>
 							<input
 								type="radio"
 								name="indicador"
 								value={i.codigo}
-								checked={estado.indicador === i.codigo}
-								onchange={() => elegirIndicador(i.codigo)}
+								checked={familiaDe(indicador) === i.codigo}
+								onchange={() => estado.indicador !== i.codigo && elegirIndicador(i.codigo)}
+								onclick={() => estado.indicador !== i.codigo && elegirIndicador(i.codigo)}
 							/>
 							<span>
-								<span class="nombre">{i.nombre}</span>
-								<span class="detalle">
-									{siglas(data.fuentes.find((f) => f.id === i.fuente_id)?.organismo ?? '')} · {hastaDonde(i)}
-								</span>
+								<span class="nombre">{etiquetaLista(i)}</span>
+								<span class="detalle">{detalleLista(i, data.catalogo)}</span>
 							</span>
 						</label>
 					{/each}
 				</div>
+			{/if}
+			{#if hayFueraDelMapa && delTema.length}
+				<!-- AC-V41 (#249): lo que no se dibuja sigue en el catálogo de educación o en la ficha de Uruguay -->
+				<p class="info fuera-del-mapa">
+					{#if tema === 'Educación'}
+						Otros indicadores de {minuscula(grupo ?? 'educación')} no se dibujan en el mapa: están en el
+						<a href={resolve('/educacion')}>catálogo de educación</a>.
+					{:else}
+						Otros indicadores de {minuscula(tema)} no se dibujan en el mapa: están en la
+						<a href={hrefFicha({ nivel: 'pais', codigo: 'UY' })}>ficha de Uruguay</a>.
+					{/if}
+				</p>
 			{/if}
 		</fieldset>
 

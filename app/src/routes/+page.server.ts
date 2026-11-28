@@ -8,6 +8,16 @@ type EntradaIndice = { nivel: string; codigo: string; nombre: string; bbox: [num
 
 const SIN_USO_EN_EL_MAPA = new Set(['formula', 'nota', 'columna_origen', 'cuadro', 'corte']);
 
+/**
+ * AC-V41 (#249): cuántos indicadores de cada tema y nivel educativo («Educación|Primaria», «Vivienda|») no van al
+ * mapa (`mapa: false`, AC-V33). La lista dice que hay más y adónde ir; nunca los lista.
+ */
+function fueraDelMapa(indicadores: IndicadorMapa[]): Record<string, number> {
+	const n: Record<string, number> = {};
+	for (const i of indicadores) if (i.mapa === false) n[`${i.tema}|${i.grupo ?? ''}`] = (n[`${i.tema}|${i.grupo ?? ''}`] ?? 0) + 1;
+	return n;
+}
+
 export const load: PageServerLoad = () => ({
 	departamentos: leerDatos<EntradaIndice[]>('territorios_index.json')
 		.filter((t) => t.nivel === 'departamento')
@@ -19,6 +29,7 @@ export const load: PageServerLoad = () => ({
 		.filter((i) => i.mapa !== false)
 		.map((i) => Object.fromEntries(Object.entries(i).filter(([k]) => !SIN_USO_EN_EL_MAPA.has(k))) as IndicadorMapa),
 	// M11.2: catálogo de niveles del pipeline (niveles.json, AC-N1): etiquetas, orden, zoom mínimo y ámbito.
+	fueraDelMapa: fueraDelMapa(leerDatos<IndicadorMapa[]>('indicadores.json')),
 	catalogo: leerDatos<NivelCatalogo[]>('niveles.json'),
 	fuentes: leerDatos<Fuente[]>('fuentes.json').map((f) => ({ id: f.id, nombre: f.nombre, organismo: f.organismo }))
 });

@@ -542,8 +542,8 @@ test('AC-I20: lo que se publica por región muestra el aviso y la comparación, 
 	// AC-N6: sin niveles en el mapa (un solo departamento con valor, #204), el selector de nivel no se muestra
 	await expect(page.getByRole('group', { name: 'Nivel territorial' })).toHaveCount(0);
 	await expect(page.locator('.nivel-unico')).toHaveCount(0);
-	// en escritorio cada indicador dice dónde se publica (en celular se elige con un desplegable)
-	if ((page.viewportSize()?.width ?? 0) > 900) await expect(page.getByText('INE · por región').first()).toBeVisible();
+	// en escritorio cada indicador dice su unidad y dónde se publica (AC-V40, #249; en celular, un desplegable)
+	if ((page.viewportSize()?.width ?? 0) > 900) await expect(page.getByText('pesos corrientes por mes · por región').first()).toBeVisible();
 	expect((await new AxeBuilder({ page }).include('.avisos').analyze()).violations).toEqual([]);
 });
 

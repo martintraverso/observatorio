@@ -14,6 +14,9 @@ import {
 	gruposDelTema,
 	indicadorInicialDelTema,
 	indicadoresDelGrupo,
+	detalleLista,
+	etiquetaLista,
+	familiaDe,
 	indicadoresDelTema,
 	nivelAlCambiar,
 	nivelesDibujables,
@@ -348,9 +351,21 @@ describe('F4.7c2 (AC-E26): tema «Educación» en el mapa', () => {
 		expect(gruposDelTema(EDU, 'Educación')).toEqual(['Primaria', 'Media básica', 'Media superior']);
 		expect(gruposDelTema([PERSONAS], 'Población')).toEqual([]);
 	});
-	it('lista los indicadores del nivel, primero los totales', () => {
-		expect(indicadoresDelGrupo(EDU, 'Educación', 'Media básica').map((i) => i.codigo)).toEqual(['edu_ii_3_2_10_rendimiento_tasa_promocion', 'edu_ii_3_2_11_y']);
-		expect(indicadoresDelGrupo(EDU, 'Educación', 'Primaria')[0].codigo).toBe(D3.codigo);
+	it('AC-V37 (#249): un ítem por familia, su total; las aperturas no son ítems de la lista', () => {
+		const conFamilias = EDU.map((i) =>
+			i.codigo === 'edu_ii_2_2_14_x' ? { ...i, familia: D3.codigo, apertura: [{ dimension: 'Sexo', valor: 'Mujeres' }] } : i
+		);
+		expect(indicadoresDelGrupo(conFamilias, 'Educación', 'Primaria').map((i) => i.codigo)).toEqual([D3.codigo]);
+		expect(indicadoresDelGrupo(EDU, 'Educación', 'Media básica').map((i) => i.codigo)).toEqual(['edu_ii_3_2_11_y', 'edu_ii_3_2_10_rendimiento_tasa_promocion']);
 		expect(indicadoresDelGrupo([PERSONAS, DESEMPLEO], 'Población', null)).toEqual([PERSONAS]);
+		expect(familiaDe(conFamilias[0])).toBe(D3.codigo);
+		expect(familiaDe(D3)).toBe(D3.codigo);
+	});
+	it('AC-V37/AC-V40 (#249): la lista usa el nombre corto y la línea «unidad · por nivel»; sin organismo', () => {
+		expect(etiquetaLista({ ...D3, nombre_corto: 'Promoción en primaria pública' })).toBe('Promoción en primaria pública');
+		expect(etiquetaLista(D3)).toBe(D3.nombre);
+		expect(detalleLista({ ...D3, unidad: '%' }, CATALOGO)).toBe('% · por departamento');
+		const regional = { ...ind('ing', 'Ingresos', ['pais', 'region']), unidad: 'pesos corrientes por mes' } as IndicadorMapa;
+		expect(detalleLista(regional, CATALOGO)).toBe('pesos corrientes por mes · por región');
 	});
 });

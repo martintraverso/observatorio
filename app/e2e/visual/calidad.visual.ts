@@ -162,11 +162,23 @@ test('AC-V3: cambiar tema, indicador o nivel no cambia el ancho del panel ni mue
 	const gutter = await panel.evaluate((p) => getComputedStyle(p).scrollbarGutter);
 	expect(gutter).toContain('stable');
 
+	// #249: la lista tiene un ítem por familia; el cambio de indicador se prueba en un tema sin niveles educativos con
+	// al menos dos familias (con los datos completos, Trabajo). Si los datos no tienen ninguno, ese paso no se prueba.
+	const familias = indicadores as unknown as { tema: string; grupo?: string; mapa?: boolean; familia?: string; codigo: string }[];
+	const porTema = new Map<string, number>();
+	for (const i of familias)
+		if (i.mapa !== false && !i.grupo && (i.familia ?? i.codigo) === i.codigo) porTema.set(i.tema, (porTema.get(i.tema) ?? 0) + 1);
+	const temaVarios = [...porTema].find(([, n]) => n >= 2)?.[0];
 	// `cambia`: el clic tiene que cambiar el estado en la URL (si no, el paso no probaría nada).
 	const clics = [
-		{ control: panel.getByRole('group', { name: 'Tema' }).getByText('Trabajo', { exact: true }), cambia: false },
 		{ control: panel.getByRole('group', { name: 'Tema' }).getByText('Población', { exact: true }), cambia: false },
-		{ control: panel.getByRole('group', { name: 'Indicador' }).locator('label.indicador:not(.activo)').first(), cambia: true },
+		...(temaVarios
+			? [
+					{ control: panel.getByRole('group', { name: 'Tema' }).getByText(temaVarios, { exact: true }), cambia: false },
+					{ control: panel.getByRole('group', { name: 'Indicador' }).locator('label.indicador:not(.activo)').first(), cambia: true },
+					{ control: panel.getByRole('group', { name: 'Tema' }).getByText('Población', { exact: true }), cambia: false }
+				]
+			: []),
 		{ control: panel.getByRole('group', { name: 'Nivel territorial' }).locator('label').last(), cambia: true },
 		{ control: panel.getByRole('group', { name: 'Nivel territorial' }).locator('label').first(), cambia: true }
 	];
@@ -346,4 +358,105 @@ test('AC-V25: en celular la ficha no tiene KPIs cortados, tablas de indicadores 
 	// barra de secciones sin scrollbar visible
 	const barra = await page.locator('nav.indice ul').evaluate((ul) => getComputedStyle(ul).scrollbarWidth);
 	expect(barra).toBe('none');
+});
+
+// ---------------------------------------------------------------- M12.2a (#249): la lista del mapa por familia
+type IndLista = { codigo: string; tema: string; grupo?: string; mapa?: boolean; familia?: string; nombre_corto?: string; nombre: string };
+const lista = indicadores as unknown as IndLista[];
+const temasConGrupos = [...new Set(lista.filter((i) => i.mapa !== false).map((i) => `${i.tema}|${i.grupo ?? ''}`))];
+
+/** Elige un tema (y su nivel educativo, si tiene) en el panel del mapa. */
+async function elegirTemaGrupo(page: import('@playwright/test').Page, tema: string, grupo: string) {
+	await page.getByRole('group', { name: 'Tema' }).getByText(tema, { exact: true }).click();
+	if (grupo) await page.getByRole('group', { name: 'Nivel educativo' }).getByText(grupo, { exact: true }).click();
+	await esperarQuieta(page);
+}
+
+test('AC-V36: la lista nunca ofrece un indicador «sin datos en el mapa», en ningún tema ni nivel educativo', async ({ page }, info) => {
+	test.skip(vista(info.project.name) !== '1440', 'se recorre una vez, a 1440');
+	await page.goto('');
+	for (const tg of temasConGrupos) {
+		const [tema, grupo] = tg.split('|');
+		await elegirTemaGrupo(page, tema, grupo);
+		await expect(page.getByText('sin datos en el mapa')).toHaveCount(0);
+	}
+});
+
+test('AC-V37: un ítem por familia, con su nombre corto; con Educación → Primaria la lista entra sin scroll a 1440×900', async ({ page }, info) => {
+	test.skip(vista(info.project.name) !== '1440', 'el criterio es a 1440×900');
+	test.skip(!lista.some((i) => i.grupo === 'Primaria' && i.mapa !== false), 'estos datos no traen educación');
+	await page.goto('');
+	await elegirTemaGrupo(page, 'Educación', 'Primaria');
+	const familias = lista.filter((i) => i.grupo === 'Primaria' && i.mapa !== false && (i.familia ?? i.codigo) === i.codigo);
+	const items = page.locator('.lista-indicadores label.indicador');
+	await expect(items).toHaveCount(familias.length);
+	for (const f of familias) await expect(items.filter({ hasText: f.nombre_corto ?? f.nombre })).toHaveCount(1);
+	// la lista entera (y el aviso de AC-V41, si está) se ve sin hacer scroll en el panel; nivel y período pueden quedar abajo
+	const panel = page.locator('aside.opciones');
+	const fondo = await panel.evaluate((p) => p.getBoundingClientRect().top + p.clientHeight);
+	const ultimo = page.locator('.lista-indicadores label.indicador, p.info.fuera-del-mapa').last();
+	expect((await ultimo.boundingBox())!.y + (await ultimo.boundingBox())!.height).toBeLessThanOrEqual(fondo + 1);
+	expect(await panel.evaluate((p) => p.scrollTop)).toBe(0);
+	for (const item of await items.all()) {
+		const lineas = (sel: string) => item.locator(sel).evaluate((e) => Math.round(e.getBoundingClientRect().height / parseFloat(getComputedStyle(e).lineHeight)));
+		expect(await lineas('.nombre')).toBeLessThanOrEqual(2);
+		expect(await lineas('.detalle')).toBe(1);
+	}
+});
+
+test('AC-V41: si un tema o nivel tiene indicadores fuera del mapa, un aviso lo dice y lleva al catálogo o a la ficha de Uruguay', async ({ page }, info) => {
+	test.skip(vista(info.project.name) !== '1440', 'se prueba una vez, a 1440');
+	const fuera = new Set(lista.filter((i) => i.mapa === false).map((i) => `${i.tema}|${i.grupo ?? ''}`));
+	const casos = temasConGrupos.filter((tg) => fuera.has(tg));
+	test.skip(!casos.length, 'en estos datos todo va al mapa');
+	await page.goto('');
+	for (const tg of casos) {
+		const [tema, grupo] = tg.split('|');
+		await elegirTemaGrupo(page, tema, grupo);
+		const aviso = page.locator('p.info.fuera-del-mapa');
+		await expect(aviso).toHaveCount(1);
+		await expect(aviso.getByRole('link')).toHaveAttribute('href', tema === 'Educación' ? /\/educacion$/ : /\/territorio\/pais\/UY$/);
+		// una oración, sin listar los indicadores ocultos
+		const texto = (await aviso.textContent()) ?? '';
+		expect(texto.split('.').filter((x) => x.trim()).length, texto).toBe(1);
+		for (const i of lista.filter((x) => x.mapa === false && `${x.tema}|${x.grupo ?? ''}` === tg).slice(0, 50))
+			expect(texto).not.toContain(i.nombre);
+	}
+	// un tema sin indicadores fuera del mapa no muestra el aviso
+	const sinFuera = temasConGrupos.find((tg) => !fuera.has(tg));
+	if (sinFuera) {
+		await elegirTemaGrupo(page, ...(sinFuera.split('|') as [string, string]));
+		await expect(page.locator('p.info.fuera-del-mapa')).toHaveCount(0);
+	}
+});
+
+test('AC-V42: en celular el desplegable tiene los mismos ítems: uno por familia, con su nombre corto', async ({ page }, info) => {
+	test.skip(vista(info.project.name) !== '390', 'el desplegable es el control de celular');
+	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023');
+	await abrirOpciones(page);
+	for (const tg of temasConGrupos) {
+		const [tema, grupo] = tg.split('|');
+		await elegirTemaGrupo(page, tema, grupo);
+		const familias = lista.filter((i) => `${i.tema}|${i.grupo ?? ''}` === tg && i.mapa !== false && (i.familia ?? i.codigo) === i.codigo);
+		expect(await page.locator('#indicador-movil option').allTextContents(), tg).toEqual(familias.map((f) => f.nombre_corto ?? f.nombre));
+	}
+});
+
+test('#249: una apertura abierta por URL marca su familia en la lista, y la lista o el desplegable vuelven al total', async ({ page }, info) => {
+	const ap = lista.find((i) => i.mapa !== false && i.familia && i.familia !== i.codigo);
+	test.skip(!ap, 'estos datos no traen aperturas en el mapa');
+	await page.goto(`?indicador=${ap!.codigo}&nivel=departamento`);
+	await esperarQuieta(page);
+	const total = lista.find((i) => i.codigo === ap!.familia)!;
+	if (vista(info.project.name) === '390' || vista(info.project.name) === '768') {
+		await abrirOpciones(page);
+		const sel = page.locator('#indicador-movil');
+		await expect(sel).toHaveValue(ap!.codigo);
+		await sel.selectOption(total.codigo);
+	} else {
+		const item = page.locator('.lista-indicadores label.indicador', { hasText: total.nombre_corto ?? total.nombre });
+		await expect(item).toHaveClass(/activo/);
+		await item.click();
+	}
+	await expect(page).toHaveURL(new RegExp(`indicador=${total.codigo}(&|$)`));
 });
