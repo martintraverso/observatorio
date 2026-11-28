@@ -545,3 +545,57 @@ def parsear_serie_matricula(xlsx: bytes) -> pd.DataFrame:
         raise ErrorAnuario("La serie nacional repite un indicador y año")
     datos.attrs["sin_dato"] = sin_dato  # «S/D», «n/c» (AC-E11)
     return datos
+
+
+# F4.8d3b (#269): II-7.2.8, la matrícula universitaria por institución y año lectivo (2000–<año>). Cada anuario vuelve
+# a publicar la serie entera: se carga solo del más reciente, como la serie nacional (mantenedor en #243).
+SERIE_INSTITUCIONES = "II-7.2.8"
+NO_DATO_SERIE = re.compile(r"^\s*n\.?c\.?\s*$", re.I)  # «nc.» (Escuela de Guerra Naval), además de NO_DATO
+
+
+def parsear_serie_instituciones(xlsx: bytes, anio: int) -> pd.DataFrame:
+    """II-7.2.8 en `pais/UY` × año lectivo: una fila por institución (o total) y año. El indicador es
+    `edu_ii_7_2_8_matricula__<institución>`; la columna `ruta` lleva el rótulo y `pie`, en `attrs`, las notas. El título
+    dice «(Todo el país, 2000 – <año>)»: el último año tiene que ser el del archivo (AC-E10)."""
+    hoja = hoja_del_cuadro(xlsx, SERIE_INSTITUCIONES)
+    filas, _ = leer_hoja(xlsx, hoja)
+    textos = [v for r in sorted(filas) for v in filas[r].values() if isinstance(v, str)]
+    titulo = next((t for t in textos if "EVOLUCI" in t.upper()), "")
+    m = re.search(r"(\d{4})\s*\)", titulo)
+    if not m or int(m.group(1)) != anio:
+        raise ErrorAnuario(f"{SERIE_INSTITUCIONES} {anio}: el título no termina en el año del archivo (AC-E10)")
+    fila_anios = next((r for r in sorted(filas) if sum(1 for v in filas[r].values()
+                       if numero(v) is not None and 2000 <= numero(v) <= 2100) >= 5), None)
+    if fila_anios is None:
+        raise ErrorAnuario(f"{SERIE_INSTITUCIONES} {anio}: no tiene la fila de años")
+    anios = {c: int(numero(v)) for c, v in filas[fila_anios].items() if numero(v) is not None and 2000 <= numero(v) <= 2100}
+    salida, pie, sin_dato, no_corresponde = [], [], 0, set()
+    for r in sorted(x for x in filas if x > fila_anios):
+        rot = filas[r].get(1)
+        if not isinstance(rot, str) or not rot.strip():
+            continue
+        if re.match(r"\s*(Fuentes?|Notas?\b|UdelaR:|\*)", rot):
+            pie.append(" ".join(rot.split()))
+            continue
+        rotulo = re.sub(r"\s*\*+$", "", " ".join(rot.split()))
+        for c, a in anios.items():
+            bruto = filas[r].get(c)
+            v = numero(bruto)
+            if bruto is None or (isinstance(bruto, str) and not bruto.strip()):
+                no_corresponde.add((slug(rotulo), str(a)))  # celda vacía: la institución no publica ese año (no «s/d»)
+                continue
+            if v is None:
+                if not (isinstance(bruto, str) and (NO_DATO.match(bruto) or NO_DATO_SERIE.match(bruto))):
+                    raise ErrorAnuario(f"{SERIE_INSTITUCIONES} {anio}: valor no numérico {bruto!r} en {letra(c)}{r}")
+                sin_dato += bruto is not None
+                if isinstance(bruto, str) and re.match(r"^\s*(n\.?/?c\.?|na\.)\s*\**\s*$", bruto, re.I):
+                    no_corresponde.add((slug(rotulo), str(a)))  # «no corresponde»: cuenta 0 en AC-E19 (no «s/d»)
+                continue
+            salida.append({"indicador": f"edu_ii_7_2_8_matricula__{slug(rotulo)}", "territorio_id": PAIS,
+                           **periodo_anio(a).columnas(), "valor": v, "codigo_cuadro": SERIE_INSTITUCIONES,
+                           "celda": f"{letra(c)}{r}", "ruta": rotulo})
+    datos = pd.DataFrame(salida)
+    if datos.duplicated(["indicador", "periodo"]).any():
+        raise ErrorAnuario(f"{SERIE_INSTITUCIONES} {anio}: dos filas con la misma institución")
+    datos.attrs.update(sin_dato=sin_dato, pie=pie, no_corresponde=no_corresponde)
+    return datos

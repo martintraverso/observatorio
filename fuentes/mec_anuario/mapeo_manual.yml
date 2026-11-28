@@ -387,6 +387,15 @@ observaciones_sin_cargar:
       patron: ""
       categorias: [inst_metodista_univ_crandon_ingresados_grado, inst_metodista_univ_crandon_matricula_grado, inst_metodista_univ_crandon_ingresados_posgrado, inst_metodista_univ_crandon_matricula_posgrado]
       motivo: "El Instituto Metodista Universitario Crandon en 2023 no se carga: el anuario repite su dato de 2022 (pie), que ya se cargó con su año (D4, #268)."
+  II-7.2.8:  # #269: la serie por institución, del anuario más reciente
+    - anios: [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017]
+      patron: matricula
+      categorias: [udelar, universidades_publicas, total_universidades, total]
+      motivo: "Hasta 2017 la matrícula de la UdelaR es una proyección (pie del cuadro) y desde 2018 cuenta al «Estudiante Activo» (Res. N°15 del CDC): la UdelaR y los totales que la incluyen se cargan desde 2018 (mantenedor, #269)."
+    - anios: [2024]  # D4 por fila, como II-7.2.2
+      patron: matricula
+      categorias: [univ_de_la_empresa]
+      motivo: "La Universidad de la Empresa en 2024 repite su dato de 2023 (pie: «Último dato disponible de la UDE es 2023»): no se carga (D4, #269)."
   II-7.2.2:  # D4 por fila (#255): el pie de 2024 dice que la UDE publica su último dato, de 2023 (los mismos valores)
     anios: [2024]
     patron: ""
@@ -409,6 +418,7 @@ observaciones_sin_cargar:
 
 # notas_indicador (#241, mantenedor): una nota que se agrega a la de un indicador (id base; vale para sus categorías).
 notas_indicador:
+  edu_ii_7_2_8_matricula: "La UdelaR, las universidades públicas, el total de universidades y el TOTAL se cargan desde 2018: hasta 2017 la UdelaR es una proyección y desde 2018 cuenta al «Estudiante Activo» (mantenedor, #269). La UDE en 2024 repite 2023 y no se carga."
   edu_ii_7_2_4_total: &nota_7_2_4 "Origen de los estudiantes: el de la UdelaR no se carga (el anuario lo publica como un reparto estimado, con decimales), ni sus totales con decimales; el del posgrado de la UCU en 2022–2023 tampoco (es el departamento de residencia); la UDE en 2024 y el Crandon en 2023 repiten el año anterior y no se cargan (mantenedor, #243 y #268)."
   edu_ii_7_2_4_origen_de_los_estudiantes_total_uruguay: *nota_7_2_4
   edu_ii_7_2_4_origen_de_los_estudiantes_montevideo: *nota_7_2_4
@@ -483,6 +493,22 @@ grupos_por_fila:
 # solo_enteros (#268, mantenedor): cuadros donde un conteo con decimales es un reparto estimado y no se carga (cuenta
 # como publicado sin dato). II-7.2.4: la UdelaR publica su origen con decimales todos los años, y algún total también.
 solo_enteros: [II-7.2.4]
+
+# serie_instituciones (#269): II-7.2.8. `particiones`: cada subtotal y las filas que lo componen, para AC-E19 (en la
+# carga, `control_serie_instituciones`). Un año sin alguno de los componentes no se puede probar y no cuenta.
+serie_instituciones:
+  particiones:
+    total: [total_universidades, total_institutos_universitarios, total_area_seguridad_y_defensa]
+    total_universidades: [universidades_publicas, universidades_privadas]
+    universidades_publicas: [udelar, utec]
+    universidades_privadas: [univ_catolica_del_uruguay, univ_ort_uruguay, univ_de_la_empresa, univ_de_montevideo, univ_claeh]
+    total_institutos_universitarios: [iu_autonomo_del_sur, iu_asoc_cristiana_de_jovenes, iu_claeh, iu_monsenor_mariano_soler,
+                                      iu_asoc_psico_del_uruguay_apu, iu_crandon, iu_san_francisco_de_asis, iu_bios,
+                                      iu_maldonado_punta_del_este, fundacion_politecnico_punta_del_este, iu_cediiap, iuceddu,
+                                      ipes, instituto_universitario_elbio_fernandez,
+                                      facultad_latinoamericana_de_ciencias_sociales_flacso, centro_uno, audepp]
+    total_area_seguridad_y_defensa: [escuela_nacional_de_policia, instituto_militar_de_estudios_superiores_imes,
+                                     escuela_naval, calen, escuela_de_guerra_naval]
 
 # rotulos_de_fila (#255): rótulos de una misma fila que cambian entre años. La fila se lee con el rótulo canónico, así
 # su categoría conserva el id (AC-E13) y un «TOTAL …» que es una institución no abre un grupo. Se comparan sin tildes,
@@ -614,6 +640,19 @@ controles_excepciones:
         <<: *docentes_cfe_2020
         indicadores: [edu_ii_6_3_1_cantidad_de_docentes]
   AC-E19:  # desgloses
+    II-7.2.8:  # #269: la serie por institución (control_serie_instituciones)
+      2000:
+        motivo: "el anuario publica para las universidades privadas 8.263 y sus universidades suman 8.077 (diferencia del archivo; se carga tal cual)"
+        indicadores: [edu_ii_7_2_8_matricula__universidades_privadas]
+      2001:
+        motivo: "el anuario publica para las universidades privadas 9.184 y sus universidades suman 9.136 (diferencia del archivo; se carga tal cual)"
+        indicadores: [edu_ii_7_2_8_matricula__universidades_privadas]
+      2002:
+        motivo: "el anuario publica para las universidades privadas 9.197 y sus universidades suman 9.149 (diferencia del archivo; se carga tal cual)"
+        indicadores: [edu_ii_7_2_8_matricula__universidades_privadas]
+      2003:
+        motivo: "el anuario publica para las universidades privadas 9.293 y sus universidades suman 9.240 (diferencia del archivo; se carga tal cual)"
+        indicadores: [edu_ii_7_2_8_matricula__universidades_privadas]
     II-7.2.1:  # #255
       2020:
         motivo: "la matrícula total no es varones + mujeres: parte de la matrícula de la UdelaR no tiene sexo (pie del cuadro; total 201.259 contra 200.950)"
