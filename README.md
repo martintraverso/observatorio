@@ -41,7 +41,7 @@ El primer paso tarda unos 15 segundos; el segundo, unos 30. Los resultados queda
 
 | Archivo | Qué tiene |
 |---|---|
-| `observatorio.duckdb` | Todo junto. Empezá por la vista `v_observaciones`. |
+| `observatorio.duckdb` | Todo junto. Empezá por la vista `v_observaciones` (o `v_publicadas`: solo fuentes activas, lo que muestra la app). `indicadores_web` trae el cuadro, el corte de serie, el nivel educativo y los niveles y períodos con datos de cada indicador. |
 | `territorios.parquet` | Un registro por territorio, con geometría completa (GeoParquet). |
 | `observaciones.parquet` | Indicador, territorio, período, valor y captura de origen. |
 | `correspondencias.parquet` | Relaciones entre territorios (segmento → localidad). |

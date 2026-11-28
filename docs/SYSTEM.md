@@ -56,7 +56,9 @@ capturas_historial(id, fuente_id, archivo, sha256, fecha_proceso, resultado, det
 fuentes(id, nombre, organismo, pagina, url_descarga, formato, licencia, frecuencia, estado, contacto,
         version_geo, temas[], nivel_mas_detallado, niveles_publicados[], notas[])  -- from fuentes/*.yml; notas_internas[] stays in the yml, never published (AC-V19)
 correspondencias(origen_id, destino_id, tipo, peso, metodo)
+indicadores_web(codigo, cuadro, corte, grupo, niveles[], periodos[])  -- MCP.1 (#260): what the app reads from indicadores.json, from the same web.py functions
 VIEW v_observaciones  -- observaciones joined with territorio, indicador and captura
+VIEW v_publicadas     -- v_observaciones of active sources only (D-MCP.7; «en preparación» stays in the release, not in the app or the MCP server)
 ```
  
 **Time periods (F2.2, implemented):** survey indicators refer to a 3-month moving quarter, not a year. `observaciones` has `periodo_inicio` (date, first day), `periodo_fin` (date, last day) and `tipo_periodo` (`censo`, `mes`, `trimestre_movil`, `trimestre`, `semestre`, `anio`). `periodo` stays as a human label (e.g. `2026-07/2026-09`). Phase-0 census rows are `tipo_periodo = censo`, `periodo_inicio = periodo_fin = 2023-01-01` with label `2023`.

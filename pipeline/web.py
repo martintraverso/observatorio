@@ -369,25 +369,44 @@ def con_cuadro(indicadores: pd.DataFrame) -> pd.DataFrame:
 MIN_TERRITORIOS_MAPA = 2
 
 
+def niveles_y_periodos(territorios: pd.DataFrame, obs: pd.DataFrame) -> dict[str, tuple[list, list, list]]:
+    """{indicador: (niveles, niveles_mapa, periodos)}: los niveles donde tiene observaciones (AC-N2), los que tienen
+    valor en al menos MIN_TERRITORIOS_MAPA territorios (AC-N6) y los períodos (AC-M2). La usan `disponibilidad` (la
+    app) y `metadatos_indicadores` (la base del release, MCP.1): una sola definición."""
+    d = obs[["indicador", "territorio_id", "periodo", "valor"]].assign(
+        _nivel=obs.territorio_id.map(territorios.set_index("id").nivel))
+    niveles = d.groupby("indicador")._nivel.agg(lambda x: sorted(x.dropna().unique().tolist()))
+    periodos = d.groupby("indicador").periodo.agg(lambda x: sorted(x.unique().tolist()))
+    n = d[d.valor.notna()].groupby(["indicador", "_nivel"]).territorio_id.nunique()
+    mapa = n[n >= MIN_TERRITORIOS_MAPA].reset_index().groupby("indicador")._nivel.agg(lambda x: sorted(x.tolist()))
+    return {i: (niveles[i], mapa.get(i, []), periodos[i]) for i in niveles.index}
+
+
+def metadatos_indicadores(indicadores: pd.DataFrame, territorios: pd.DataFrame, obs: pd.DataFrame) -> pd.DataFrame:
+    """MCP.1 (#260, AC-MCP1): por indicador, lo que la app lee de `indicadores.json` —`cuadro`, `corte`, `grupo`,
+    `niveles` y `periodos` con datos—, con las mismas funciones que web.py. Va a la tabla `indicadores_web` de la base
+    del release (comun.salida.combinar), para que el servidor MCP y la app lean una sola definición."""
+    ind = con_mapa(con_corte(con_cuadro(indicadores)))
+    np_ = niveles_y_periodos(territorios, obs)
+    return pd.DataFrame({"codigo": ind.codigo, "cuadro": ind.cuadro, "corte": ind.corte, "grupo": ind.grupo,
+                         "niveles": [np_.get(c, ([], [], []))[0] for c in ind.codigo],
+                         "periodos": [np_.get(c, ([], [], []))[2] for c in ind.codigo]}).reset_index(drop=True)
+
+
 def disponibilidad(indicadores: pd.DataFrame, territorios: gpd.GeoDataFrame, obs: pd.DataFrame) -> list[dict]:
     """indicadores.json: cada indicador con los niveles y períodos en que hay datos (AC-M2, AC-N2) y `niveles_mapa`:
     los niveles con valor en al menos MIN_TERRITORIOS_MAPA territorios (AC-N6). Los dos salen de las observaciones.
     AC-V33 (#247): `mapa` (de con_mapa) queda en true solo si hay un nivel dibujable en `niveles_mapa` o el indicador
     se publica por región (va a la comparación regional, AC-I20); si no, la lista del mapa no lo ofrece. Sigue en las
     fichas, el catálogo de educación y las descargas."""
-    nivel = obs.territorio_id.map(territorios.set_index("id").nivel)
     dibujables = {n["id"] for n in catalogo_niveles() if n["dibujable"]}
     # En el orden de los temas de la app (el primero es el que muestra el mapa al abrir), no en el de las fuentes.
     orden = {t: i for i, t in enumerate(ORDEN_TEMAS)}
     indicadores = indicadores.assign(_o=indicadores.tema.map(orden).fillna(len(orden))).sort_values("_o", kind="stable")
     filas = registros(indicadores.drop(columns="_o"))
+    np_ = niveles_y_periodos(territorios, obs)
     for f in filas:
-        de_este = obs.indicador == f["codigo"]
-        f["niveles"] = sorted(nivel[de_este].unique().tolist())
-        con_valor = de_este & obs.valor.notna()
-        por_nivel = obs.territorio_id[con_valor].groupby(nivel[con_valor]).nunique()
-        f["niveles_mapa"] = sorted(por_nivel[por_nivel >= MIN_TERRITORIOS_MAPA].index.tolist())
-        f["periodos"] = sorted(obs.periodo[de_este].unique().tolist())
+        f["niveles"], f["niveles_mapa"], f["periodos"] = np_.get(f["codigo"], ([], [], []))
         if "mapa" in f:
             f["mapa"] = bool(f["mapa"]) and bool(set(f["niveles_mapa"]) & dibujables or "region" in f["niveles"])
     return filas
