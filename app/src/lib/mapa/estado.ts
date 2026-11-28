@@ -97,6 +97,31 @@ export interface IndicadorMapa extends Indicador {
 	/** Nivel educativo del cuadro del anuario («Primaria», «Media básica»…); vacío en los demás temas (#213). */
 	grupo?: string;
 	periodos: string[];
+	/** M12.1b (AC-V34/V35): nombre para la lista (≤ 48), el código del total de su familia y su apertura ([] = total). */
+	nombre_corto?: string;
+	familia?: string;
+	apertura?: { dimension: string; valor: string }[];
+}
+
+/** El código del total de la familia del indicador (él mismo si es un total o no tiene familia). */
+export function familiaDe(ind: IndicadorMapa | undefined): string | undefined {
+	return ind ? (ind.familia ?? ind.codigo) : undefined;
+}
+
+/** El nombre que va en la lista y en el selector del mapa (AC-V37): el corto, si lo tiene. */
+export function etiquetaLista(ind: IndicadorMapa): string {
+	return ind.nombre_corto ?? ind.nombre;
+}
+
+/**
+ * AC-V40: la línea de detalle de un ítem de la lista, «% · por departamento»: la unidad y el nivel más detallado del
+ * mapa (o «por región» si va a la comparación regional, AC-I20). El organismo va una sola vez, en la leyenda.
+ */
+export function detalleLista(ind: IndicadorMapa, catalogo: NivelCatalogo[]): string {
+	const n = nivelesOfrecidos(ind, catalogo).at(-1);
+	const o = n ? opcionNivel(catalogo, n) : null;
+	const donde = o ? `por ${minuscula(o.etiqueta)}${o.ayuda ? ` (${minuscula(o.ayuda)})` : ''}` : 'por región';
+	return `${ind.unidad} · ${donde}`;
 }
 
 export function indicadoresDelTema(indicadores: IndicadorMapa[], tema: string): IndicadorMapa[] {
@@ -123,13 +148,11 @@ export function gruposDelTema(indicadores: IndicadorMapa[], tema: string): strin
 }
 
 /**
- * Los indicadores del tema en el nivel educativo elegido (o todos, si el tema no tiene grupos): primero los totales
- * (sin apertura, «— …» en el nombre) y después las aperturas, en el orden del catálogo.
+ * Los ítems de la lista del mapa: del tema en el nivel educativo elegido (o todos, si el tema no tiene grupos), un ítem
+ * por familia, su total (AC-V37, D-M12.2), en el orden del catálogo. Las aperturas se eligen con «Ver por» (M12.2b).
  */
 export function indicadoresDelGrupo(indicadores: IndicadorMapa[], tema: string, grupo: string | null): IndicadorMapa[] {
-	const del = indicadoresDelTema(indicadores, tema).filter((i) => !grupo || i.grupo === grupo);
-	const apertura = (i: IndicadorMapa) => (i.nombre.includes(' — ') ? 1 : 0);
-	return [...del].sort((a, b) => apertura(a) - apertura(b));
+	return indicadoresDelTema(indicadores, tema).filter((i) => (!grupo || i.grupo === grupo) && familiaDe(i) === i.codigo);
 }
 
 /** El nivel más detallado del mapa en que el indicador tiene datos, o null. */
