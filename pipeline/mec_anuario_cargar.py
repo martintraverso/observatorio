@@ -73,7 +73,8 @@ def leer_anuario(xlsx: bytes, anio: int, fuente: dict, sin_dato: set | None = No
             continue
         c = mec.parsear_cuadro(xlsx, cod, anio, mapeo, e["tipos"][anio], (e.get("categorias_segundas") or {}).get(anio, ()),
                                e.get("secciones_por_institucion"), e.get("solo_filas") or (),
-                               e.get("filas_de_establecimiento"), e.get("rotulos_de_fila"))
+                               e.get("filas_de_establecimiento"), e.get("rotulos_de_fila"), e.get("grupos_por_fila") or (),
+                               bool(e.get("solo_enteros")))
         partes.append(c.datos)
         if sin_dato is not None:
             sin_dato.update(c.sin_dato_claves)

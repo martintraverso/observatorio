@@ -25,7 +25,8 @@ def cuadro(cod, anio=2024, xlsx=None, mapeo=None):
     return mec.parsear_cuadro(xlsx or XLSX[anio], cod, anio, mapeo if mapeo is not None else e["mapeo"][anio],
                               e["tipos"][anio], (e.get("categorias_segundas") or {}).get(anio, ()),
                               e.get("secciones_por_institucion"), e.get("solo_filas") or (),
-                              e.get("filas_de_establecimiento"), e.get("rotulos_de_fila"))  # como la carga (#172, #173, #255)
+                              e.get("filas_de_establecimiento"), e.get("rotulos_de_fila"), e.get("grupos_por_fila") or (),
+                              bool(e.get("solo_enteros")))  # como la carga (#172, #173, #255, #268)
 
 
 def valor(c, indicador, territorio):
@@ -548,3 +549,27 @@ def test_255_la_carrera_notariado_no_es_una_nota():
         c = cuadro(cod, 2024)
         assert not any(p.startswith("Notariado") for p in c.pie), cod
     assert any(p.startswith("Notas UdelaR") for p in cuadro("II-7.2.1", 2024).pie)
+
+
+def test_268_origen_por_institucion_y_medida_a_nivel_pais():
+    """#268: en II-7.2.4 las filas «Ingresados Grado»… se repiten bajo cada institución: la categoría es «institución/
+    medida» (`grupos_por_fila`; la primera, UDELAR, está encima de la primera fila con datos). El origen (Montevideo,
+    Interior…) son columnas: todo va al país (AC-E20), nunca a un departamento. «na.» (no aplica) no es un dato."""
+    c = cuadro("II-7.2.4", 2024)
+    assert set(c.datos.territorio_id) == {mec.PAIS}
+    assert valor(c, "edu_ii_7_2_4_total__ucu_ingresados_grado", "pais/UY") == 1694
+    assert valor(c, "edu_ii_7_2_4_origen_de_los_estudiantes_montevideo__ucu_ingresados_grado", "pais/UY") == 1010
+    assert valor(c, "edu_ii_7_2_4_total__udelar_ingresados_grado", "pais/UY") == 39821
+    assert mec.NO_DATO.match("na.") and not mec.NO_DATO.match("na")
+
+
+def test_268_un_conteo_con_decimales_no_se_carga_en_un_cuadro_solo_enteros():
+    """#268 (mantenedor en #243): la matrícula de grado de la UdelaR de 2024 dice 226.658,659 (y su origen viene con
+    decimales todos los años): con `solo_enteros` no se carga, cuenta como sin dato y deja un aviso."""
+    c = cuadro("II-7.2.4", 2024)
+    assert "edu_ii_7_2_4_total__udelar_matricula_grado" not in set(c.datos.indicador)
+    assert ("edu_ii_7_2_4_total__udelar_matricula_grado", mec.PAIS, "2024") in c.sin_dato_claves
+    assert any("no es un entero" in a for a in c.avisos)
+    # los enteros de las demás instituciones se cargan. (La tolerancia a un error de coma flotante, 2021:
+    # 40892.00000000001 = 40.892, no está en los fixtures 2023–2024: la prueba la carga completa.)
+    assert valor(cuadro("II-7.2.4", 2023), "edu_ii_7_2_4_total__ucu_ingresados_grado", "pais/UY") > 0

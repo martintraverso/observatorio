@@ -33,7 +33,7 @@ PAIS = tid("pais", "UY")
 INTERIOR = tid("region", "interior")
 FILAS_PAIS = {"total", "total del pais", "total pais"}  # «TOTAL DEL PAÍS» en 30 cuadros-año (F4.1); «TOTAL PAÍS» en II-7.1.x (#241)
 SERIE = "MATRÍCULA DEL SISTEMA"
-NO_DATO = re.compile(r"^\s*(-+|…|\.\.\.|\.|s/d|n/c|s/i)?\s*\**\s*$", re.I)  # «n/c *»: con llamada de nota
+NO_DATO = re.compile(r"^\s*(-+|…|\.\.\.|\.|s/d|n/c|s/i|na\.)?\s*\**\s*$", re.I)  # «n/c *»: con llamada de nota; «na.»: no aplica (II-7.2.4, #268)
 
 
 class ErrorAnuario(ValueError):
@@ -278,7 +278,7 @@ COLUMNAS = ["indicador", "territorio_id", "periodo", "periodo_inicio", "periodo_
 def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo: str,
                    segundas: list[str] | tuple = (), secciones: dict | None = None,
                    solo_filas: list[str] | tuple = (), establecimientos: dict | None = None,
-                   rotulos: dict | None = None) -> Cuadro:
+                   rotulos: dict | None = None, grupos: list[str] | tuple = (), solo_enteros: bool = False) -> Cuadro:
     """Valores del cuadro `codigo` del anuario `anio`, con el mapeo por columna del registro.
 
     Tipo A: cada fila es un territorio (AC-E8). Tipo B y C: cada fila es una categoría que pasa a ser parte del
@@ -335,6 +335,12 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
     # con el rótulo canónico, así su categoría conserva el id entre años (AC-E13) y un «TOTAL …» que no es el total
     # del cuadro no abre un grupo. Se comparan sin tildes, mayúsculas ni llamadas «*».
     canon = {_sin_llamada(k): v for k, v in (rotulos or {}).items()}
+    nombres_grupo = {_sin_llamada(g) for g in grupos}
+    if nombres_grupo and tipo != "A" and e.filas:
+        # #268: la fila de la primera institución está justo encima de la primera fila con datos (UDELAR en II-7.2.4)
+        arriba = celdas.get((e.filas[0][0] - 1, 1)) or celdas.get((e.filas[0][0] - 2, 1))
+        if isinstance(arriba, str) and _sin_llamada(arriba) in nombres_grupo:
+            grupo, territorio_grupo = re.sub(r"\s*\*+$", "", arriba.strip()), PAIS
     for r, rotulo in e.filas:
         rotulo = canon.get(_sin_llamada(rotulo), rotulo)
         # #173 (revisión): por nombre; la sangría solo distingue un establecimiento que se llama como su departamento.
@@ -347,6 +353,11 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
                 territorio_arriba = None
             continue
         vacia = all(celdas.get((r, c)) is None for c in cols_mapeadas)
+        # #268: en un cuadro C, una fila sin valores con el nombre de una institución de `grupos` abre su grupo: las filas
+        # que siguen («Ingresados Grado», «Matrícula Grado»…) se repiten bajo cada institución y van como «inst/medida»
+        if nombres_grupo and tipo != "A" and vacia and _sin_llamada(rotulo) in nombres_grupo:
+            grupo, territorio_grupo = re.sub(r"\s*\*+$", "", rotulo.strip()), PAIS
+            continue
         territorio = territorio_de_fila(rotulo) if tipo == "A" else None
         sufijo_cat = ""
         if est and territorio is None and _sin_llamada(rotulo) in categorias_est:
@@ -426,6 +437,14 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
                 continue  # repite otra columna que ya se carga (D7)
             c = _col(m["col"])
             v = numero(celdas.get((r, c)))
+            if solo_enteros and isinstance(v, float) and abs(v - round(v)) < 1e-6:
+                v = int(round(v))  # #268 (revisión): error de coma flotante de una fórmula (40892.00000000001 = 40.892)
+            if solo_enteros and isinstance(v, float):  # numero() ya deja como int un float entero
+                # #268 (mantenedor): un conteo con decimales es un reparto estimado (la UdelaR en II-7.2.4), no un dato
+                avisos.append(f"{codigo} {anio}: {letra(c)}{r} = {v!r} no es un entero: no se carga")
+                sin_dato += 1
+                claves_sd.append((m["id"] + sufijo, territorio, str(m.get("anio", anio))))
+                continue
             if v is None:
                 bruto = celdas.get((r, c))
                 if bruto is not None and not (isinstance(bruto, str) and NO_DATO.match(bruto)):

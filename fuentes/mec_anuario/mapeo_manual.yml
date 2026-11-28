@@ -370,6 +370,23 @@ observaciones_sin_cargar:
     patron: horas
     salvo: []
     motivo: "Las horas de 2020 no se cargan: el anuario publica 0 en el total, Montevideo y el resto del país, y «s/d» en todos los departamentos y establecimientos; el 0 no es un dato (mantenedor, #173). Sí se cargan los docentes de 2020."
+  II-7.2.4:
+    - anios: [2020, 2021, 2022, 2023, 2024]  # #268 (mantenedor en #243, 1.a): reparto estimado (decimales)
+      patron: origen_de_los_estudiantes
+      categorias: [udelar_ingresados_grado, udelar_matricula_grado, udelar_ingresados_posgrado, udelar_matricula_posgrado]
+      motivo: "El origen de los estudiantes de la UdelaR no se carga: el anuario lo publica como un reparto con decimales (estimado), no como un conteo (mantenedor, #243). Su total se carga cuando es entero."
+    - anios: [2022, 2023]  # #268 (mantenedor, revisión del PR #271)
+      patron: origen_de_los_estudiantes
+      categorias: [ucu_ingresados_posgrado, ucu_matricula_posgrado]
+      motivo: "El origen del posgrado de la UCU en 2022 y 2023 no se carga: el pie dice que es el departamento de residencia, no el del último año de bachillerato que mide el cuadro (otro concepto, AC-E13; mantenedor, #268)."
+    - anios: [2024]  # D4 por fila (#268), como II-7.2.2
+      patron: ""
+      categorias: [universidad_de_la_empresa_ingresados_grado, universidad_de_la_empresa_matricula_grado, universidad_de_la_empresa_ingresados_posgrado, universidad_de_la_empresa_matricula_posgrado]
+      motivo: "La Universidad de la Empresa en 2024 no se carga: el anuario repite su dato de 2023 (pie: «El último dato disponible de la UDE es del año 2023»), que ya se cargó con su año (D4, #268)."
+    - anios: [2023]  # D4 por fila (#268), como II-7.2.3
+      patron: ""
+      categorias: [inst_metodista_univ_crandon_ingresados_grado, inst_metodista_univ_crandon_matricula_grado, inst_metodista_univ_crandon_ingresados_posgrado, inst_metodista_univ_crandon_matricula_posgrado]
+      motivo: "El Instituto Metodista Universitario Crandon en 2023 no se carga: el anuario repite su dato de 2022 (pie), que ya se cargó con su año (D4, #268)."
   II-7.2.2:  # D4 por fila (#255): el pie de 2024 dice que la UDE publica su último dato, de 2023 (los mismos valores)
     anios: [2024]
     patron: ""
@@ -392,6 +409,12 @@ observaciones_sin_cargar:
 
 # notas_indicador (#241, mantenedor): una nota que se agrega a la de un indicador (id base; vale para sus categorías).
 notas_indicador:
+  edu_ii_7_2_4_total: &nota_7_2_4 "Origen de los estudiantes: el de la UdelaR no se carga (el anuario lo publica como un reparto estimado, con decimales), ni sus totales con decimales; el del posgrado de la UCU en 2022–2023 tampoco (es el departamento de residencia); la UDE en 2024 y el Crandon en 2023 repiten el año anterior y no se cargan (mantenedor, #243 y #268)."
+  edu_ii_7_2_4_origen_de_los_estudiantes_total_uruguay: *nota_7_2_4
+  edu_ii_7_2_4_origen_de_los_estudiantes_montevideo: *nota_7_2_4
+  edu_ii_7_2_4_origen_de_los_estudiantes_interior: *nota_7_2_4
+  edu_ii_7_2_4_origen_de_los_estudiantes_extranjero: *nota_7_2_4
+  edu_ii_7_2_4_origen_de_los_estudiantes_sin_dato: *nota_7_2_4
   edu_ii_7_2_1_matricula_total: "El total (y el de la UdelaR) incluye a estudiantes de la UdelaR sin sexo (pie del cuadro): no es varones + mujeres (#255)."
   edu_ii_7_2_2_ingreso_total: &nota_d4_2 "En 2024 el TOTAL del cuadro incluye a la Universidad de la Empresa con su dato de 2023; esa institución no se carga en 2024 (D4, #255)."
   edu_ii_7_2_2_ingreso_sexo_v: *nota_d4_2
@@ -446,6 +469,20 @@ columnas_fuera_del_cuadro:
   II-7.2.2:
     columnas: [AB, AE, AF]
     motivo: "fuera del cuadro: números sueltos sin encabezado a la derecha (los mismos en 2020–2024), no son del cuadro (#255)"
+
+# grupos_por_fila (#268): en un cuadro C, una fila sin valores con el nombre de una institución abre su grupo; las
+# filas que siguen («Ingresados Grado», «Matrícula Posgrado»…) se repiten bajo cada institución y van como
+# «institución/medida». Se comparan sin tildes, mayúsculas ni llamadas «*».
+grupos_por_fila:
+  II-7.2.4: ["UDELAR", "UNIVERSIDAD TECNOLÓGICA (UTEC)", "UCU", "UNIVERSIDAD ORT URUGUAY", "UNIVERSIDAD DE MONTEVIDEO",
+             "UNIVERSIDAD DE LA EMPRESA", "UNIVERSIDAD CLAEH", "INST UNIV ASOCIACIÓN CRISTIANA DE JÓVENES",
+             "INST METODISTA UNIV CRANDON", "INST UNIV MONSEÑOR MARIANO SOLER", "INST UNIV FRANCISCO DE ASÍS",
+             "INST UNIV CEDIIAP", "FUNDACIÓN POLITÉCNICO DE PUNTA DEL ESTE", "Centro de Altos Estudios Nacionales",
+             "IPES", "Instituto Universitario Elbio Fernández", "IUCEDDU", "AUDEPP"]
+
+# solo_enteros (#268, mantenedor): cuadros donde un conteo con decimales es un reparto estimado y no se carga (cuenta
+# como publicado sin dato). II-7.2.4: la UdelaR publica su origen con decimales todos los años, y algún total también.
+solo_enteros: [II-7.2.4]
 
 # rotulos_de_fila (#255): rótulos de una misma fila que cambian entre años. La fila se lee con el rótulo canónico, así
 # su categoría conserva el id (AC-E13) y un «TOTAL …» que es una institución no abre un grupo. Se comparan sin tildes,

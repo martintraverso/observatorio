@@ -82,6 +82,9 @@ def ola(codigo: str) -> int:
     # F4.8d2a (#255): universitaria de grado por institución
     if n[:2] == (7, 2) and n[2] in {1, 2, 3}:
         return 1
+    # F4.8d3a (#268): origen de los estudiantes por institución
+    if n == (7, 2, 4):
+        return 1
     return 2
 
 
@@ -673,6 +676,10 @@ def escribir_registro(ex: dict, archivos: dict) -> None:
                     e["secciones_por_institucion"] = secc  # #172
                 if (solo := manual.get("solo_filas", {}).get(cod)):
                     e["solo_filas"] = solo  # #172
+                if (grp := manual.get("grupos_por_fila", {}).get(cod)):
+                    e["grupos_por_fila"] = grp  # #268
+                if cod in (manual.get("solo_enteros") or []):
+                    e["solo_enteros"] = True  # #268
                 if (rot := manual.get("rotulos_de_fila", {}).get(cod)):
                     e["rotulos_de_fila"] = rot  # #255
                 if (est := manual.get("filas_de_establecimiento", {}).get(cod)):
