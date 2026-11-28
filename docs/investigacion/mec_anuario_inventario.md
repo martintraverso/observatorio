@@ -107,10 +107,10 @@ Ola por cuadro y tipo por año; «·» = no está ese año; «∅» = sin datos 
 | II-6.3.3 | ESTUDIANTES INGRESADOS Y MATRICULADOS EN FORMACIÓN EN EDUCACIÓN SEGÚN ORIGEN GEOGRÁFICO | A | 1 | estudiantes | A | A | A | A | A |
 | II-7.1.1 | ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO POR SEXO SEGÚN GRAN | A | 1 | estudiantes | A | A | A | A | A |
 | II-7.1.2 | ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE POSTGRADO POR SEXO SEGÚN  | A | 1 | estudiantes | A | A | A | A | A |
-| II-7.2.1 | ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO DE UNIVERSIDADES PÚ | A/C | 2 | estudiantes | C | C | C | C | A |
-| II-7.2.2 | ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO DE UNIVERSIDADES PR | A | 2 | estudiantes | A | A | A | A | A |
-| II-7.2.3 | ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO DE INSTITUTOS UNIVE | C | 2 | estudiantes | C | C | C | C | C |
-| II-7.2.4 | ESTUDIANTES INGRESADOS Y MATRICULADOS EN UNIVERSIDADES E INSTITUTOS UNIVERSITARIOS DE GRAD | C | 2 | estudiantes | C | C | C | C | C |
+| II-7.2.1 | ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO DE UNIVERSIDADES PÚ | C | 1 | estudiantes | C | C | C | C | C |
+| II-7.2.2 | ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO DE UNIVERSIDADES PR | C | 1 | estudiantes | C | C | C | C | C |
+| II-7.2.3 | ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO DE INSTITUTOS UNIVE | C | 1 | estudiantes | C | C | C | C | C |
+| II-7.2.4 | ESTUDIANTES INGRESADOS Y MATRICULADOS EN UNIVERSIDADES E INSTITUTOS UNIVERSITARIOS DE GRAD | C | 1 | estudiantes | C | C | C | C | C |
 | II-7.2.5 | ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE POSGRADO DE UNIVERSIDADES | C | 2 | estudiantes | C | C | C | C | C |
 | II-7.2.6 | ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE POSGRADO DE UNIVERSIDADES | C | 2 | estudiantes | C | C | C | C | C |
 | II-7.2.7 | ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE POSGRADO DE INSTITUTOS UN | C | 2 | estudiantes | C | C | C | C | C |
@@ -201,6 +201,9 @@ signifique lo mismo: ver la sección siguiente.
 - **II-6.3.2**, 2022 → 2023: + `HORAS SEMANALES/20 horas o menos/SEXO/V`; + `HORAS SEMANALES/31 horas y más/SEXO/V`; + `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/V`; − `HORAS SEMANALES/20 horas o menos/SEXO/F`; − `HORAS SEMANALES/31 horas y más/SEXO/F`; − `HORAS SEMANALES/Entre 21 y 30 horas/SEXO/F`
 - **II-7.1.1**, 2023 → 2024: + `EGRESO/SEXO/M`; + `EGRESO/SEXO/V`; − `EGRESADOS/SEXO/M`; − `EGRESADOS/SEXO/V`
 - **II-7.1.2**, 2023 → 2024: + `EGRESO/SEXO/M`; + `EGRESO/SEXO/V`; + `INGRESO/SEXO/M`; + `INGRESO/SEXO/V`; + `MATRÍCULA/SEXO/M`; + `MATRÍCULA/SEXO/V`; − `EGRESADOS/SEXO/M`; − `EGRESADOS/SEXO/V`; − `INGRESADOS/SEXO/M`; − `INGRESADOS/SEXO/V`; − `MATRICULADOS/SEXO/M`; − `MATRICULADOS/SEXO/V`
+- **II-7.2.1**, 2023 → 2024: + `EGRESO/SEXO/M`; + `EGRESO/SEXO/V`; + `INGRESO/SEXO/M`; + `INGRESO/SEXO/V`; + `MATRÍCULA/SEXO/M`; + `MATRÍCULA/SEXO/V`; − `EGRESADOS (UdelaR datos preliminares)/SEXO/M`; − `EGRESADOS (UdelaR datos preliminares)/SEXO/V`; − `INGRESADOS/SEXO/M`; − `INGRESADOS/SEXO/V`; − `MATRICULADOS/SEXO/M`; − `MATRICULADOS/SEXO/V`
+- **II-7.2.2**, 2023 → 2024: + `EGRESO/SEXO/M`; + `EGRESO/SEXO/V`; + `INGRESO/SEXO/M`; + `INGRESO/SEXO/V`; + `MATRÍCULA/SEXO/M`; + `MATRÍCULA/SEXO/V`; − `EGRESADOS/SEXO/M`; − `EGRESADOS/SEXO/V`; − `INGRESADOS/SEXO/M`; − `INGRESADOS/SEXO/V`; − `MATRICULADOS/SEXO/M`; − `MATRICULADOS/SEXO/V`
+- **II-7.2.3**, 2023 → 2024: + `EGRESO/SEXO/M`; + `EGRESO/SEXO/V`; + `INGRESO/SEXO/M`; + `INGRESO/SEXO/V`; + `MATRÍCULA/SEXO/M`; + `MATRÍCULA/SEXO/V`; − `EGRESADOS/SEXO/M`; − `EGRESADOS/SEXO/V`; − `INGRESADOS/SEXO/M`; − `INGRESADOS/SEXO/V`; − `MATRICULADOS/SEXO/M`; − `MATRICULADOS/SEXO/V`
 
 ## Mismo encabezado, otro significado
 
@@ -317,6 +320,7 @@ sexo: el «total» por sexo es solo pública ese año (AC-E13). Llevan `omitir`:
 - **II-6.3.2 2024:** el pie dice que los datos son de 2023 («Nota: último dato disponible año 2023»)
 - **II-7.1.1 2024:** el pie dice que los datos son de 2023 («** El dato de la UDE es último disponible año 2023.»)
 - **II-7.1.2 2024:** el pie dice que los datos son de 2023 («** El dato de la UDE es último disponible año 2023.»)
+- **II-7.2.1 2024:** 2 valores numéricos guardados como texto
 - **II-7.2.2 2024:** el pie dice que los datos son de 2023 («** El dato de la UDE es último disponible año 2023.»)
 - **II-7.2.4 2024:** el pie dice que los datos son de 2023 («** El último dato disponible de la UDE es del año 2023.»)
 - **II-7.2.6 2024:** el pie dice que los datos son de 2023 («** Último dato disponible de la Universidad de la Empresa año 2023.»)
@@ -933,6 +937,156 @@ etiquetados con su comprobación con sumas (D5), y columnas con datos de otro a�
   - B `TOTAL` → `INGRESO/TOTAL` (B = C + D)
   - E `TOTAL` → `MATRÍCULA/TOTAL` (E = F + G)
   - H `TOTAL` → `EGRESO/TOTAL` (H = I + J)
+- **II-7.2.1 2020:**
+  - B `TOTAL` → `INGRESO/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - C `INGRESADOS/SEXO/V` → `INGRESO/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - D `INGRESADOS/SEXO/M` → `INGRESO/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - E `TOTAL` → `MATRÍCULA/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - F `MATRICULADOS/SEXO/V` → `MATRÍCULA/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - G `MATRICULADOS/SEXO/M` → `MATRÍCULA/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - H `TOTAL` → `EGRESO/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - I `EGRESADOS (UdelaR datos preliminares)/SEXO/V` → `EGRESO/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - J `EGRESADOS (UdelaR datos preliminares)/SEXO/M` → `EGRESO/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+- **II-7.2.1 2021:**
+  - B `TOTAL` → `INGRESO/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - C `INGRESADOS/SEXO/V` → `INGRESO/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - D `INGRESADOS/SEXO/M` → `INGRESO/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - E `TOTAL` → `MATRÍCULA/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - F `MATRICULADOS/SEXO/V` → `MATRÍCULA/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - G `MATRICULADOS/SEXO/M` → `MATRÍCULA/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - H `TOTAL` → `EGRESO/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - I `EGRESADOS (UdelaR datos preliminares)/SEXO/V` → `EGRESO/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - J `EGRESADOS (UdelaR datos preliminares)/SEXO/M` → `EGRESO/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+- **II-7.2.1 2022:**
+  - B `TOTAL` → `INGRESO/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - C `INGRESADOS/SEXO/V` → `INGRESO/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - D `INGRESADOS/SEXO/M` → `INGRESO/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - E `TOTAL` → `MATRÍCULA/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - F `MATRICULADOS/SEXO/V` → `MATRÍCULA/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - G `MATRICULADOS/SEXO/M` → `MATRÍCULA/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - H `TOTAL` → `EGRESO/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - I `EGRESADOS (UdelaR datos preliminares)/SEXO/V` → `EGRESO/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - J `EGRESADOS (UdelaR datos preliminares)/SEXO/M` → `EGRESO/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+- **II-7.2.1 2023:**
+  - B `TOTAL` → `INGRESO/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - C `INGRESADOS/SEXO/V` → `INGRESO/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - D `INGRESADOS/SEXO/M` → `INGRESO/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - E `TOTAL` → `MATRÍCULA/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - F `MATRICULADOS/SEXO/V` → `MATRÍCULA/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - G `MATRICULADOS/SEXO/M` → `MATRÍCULA/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - H `TOTAL` → `EGRESO/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - I `EGRESADOS (UdelaR datos preliminares)/SEXO/V` → `EGRESO/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+  - J `EGRESADOS (UdelaR datos preliminares)/SEXO/M` → `EGRESO/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS (UdelaR datos preliminares)» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255). El TOTAL de matrícula incluye a los estudiantes de la UdelaR sin sexo en todos los años (pie): no es varones + mujeres, y no cambia de alcance entre años.)
+- **II-7.2.1 2024:**
+  - B `TOTAL` → `INGRESO/TOTAL` (renombre a mano: los tres «TOTAL» son el de INGRESO, MATRÍCULA y EGRESO a su derecha; el de matrícula incluye a los estudiantes de la UdelaR sin sexo (pie), por eso no es la suma de su grupo (#255).)
+  - C `INGRESO/SEXO/V` → `INGRESO/SEXO/V` (renombre a mano: los tres «TOTAL» son el de INGRESO, MATRÍCULA y EGRESO a su derecha; el de matrícula incluye a los estudiantes de la UdelaR sin sexo (pie), por eso no es la suma de su grupo (#255).)
+  - D `INGRESO/SEXO/M` → `INGRESO/SEXO/M` (renombre a mano: los tres «TOTAL» son el de INGRESO, MATRÍCULA y EGRESO a su derecha; el de matrícula incluye a los estudiantes de la UdelaR sin sexo (pie), por eso no es la suma de su grupo (#255).)
+  - E `TOTAL` → `MATRÍCULA/TOTAL` (renombre a mano: los tres «TOTAL» son el de INGRESO, MATRÍCULA y EGRESO a su derecha; el de matrícula incluye a los estudiantes de la UdelaR sin sexo (pie), por eso no es la suma de su grupo (#255).)
+  - F `MATRÍCULA/SEXO/V` → `MATRÍCULA/SEXO/V` (renombre a mano: los tres «TOTAL» son el de INGRESO, MATRÍCULA y EGRESO a su derecha; el de matrícula incluye a los estudiantes de la UdelaR sin sexo (pie), por eso no es la suma de su grupo (#255).)
+  - G `MATRÍCULA/SEXO/M` → `MATRÍCULA/SEXO/M` (renombre a mano: los tres «TOTAL» son el de INGRESO, MATRÍCULA y EGRESO a su derecha; el de matrícula incluye a los estudiantes de la UdelaR sin sexo (pie), por eso no es la suma de su grupo (#255).)
+  - H `TOTAL` → `EGRESO/TOTAL` (renombre a mano: los tres «TOTAL» son el de INGRESO, MATRÍCULA y EGRESO a su derecha; el de matrícula incluye a los estudiantes de la UdelaR sin sexo (pie), por eso no es la suma de su grupo (#255).)
+  - I `EGRESO/SEXO/V` → `EGRESO/SEXO/V` (renombre a mano: los tres «TOTAL» son el de INGRESO, MATRÍCULA y EGRESO a su derecha; el de matrícula incluye a los estudiantes de la UdelaR sin sexo (pie), por eso no es la suma de su grupo (#255).)
+  - J `EGRESO/SEXO/M` → `EGRESO/SEXO/M` (renombre a mano: los tres «TOTAL» son el de INGRESO, MATRÍCULA y EGRESO a su derecha; el de matrícula incluye a los estudiantes de la UdelaR sin sexo (pie), por eso no es la suma de su grupo (#255).)
+- **II-7.2.2 2020:**
+  - B `TOTAL` → `INGRESO/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - C `INGRESADOS/SEXO/V` → `INGRESO/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - D `INGRESADOS/SEXO/M` → `INGRESO/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - E `TOTAL` → `MATRÍCULA/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - F `MATRICULADOS/SEXO/V` → `MATRÍCULA/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - G `MATRICULADOS/SEXO/M` → `MATRÍCULA/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - H `TOTAL` → `EGRESO/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - I `EGRESADOS/SEXO/V` → `EGRESO/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - J `EGRESADOS/SEXO/M` → `EGRESO/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+- **II-7.2.2 2021:**
+  - B `TOTAL` → `INGRESO/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - C `INGRESADOS/SEXO/V` → `INGRESO/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - D `INGRESADOS/SEXO/M` → `INGRESO/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - E `TOTAL` → `MATRÍCULA/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - F `MATRICULADOS/SEXO/V` → `MATRÍCULA/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - G `MATRICULADOS/SEXO/M` → `MATRÍCULA/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - H `TOTAL` → `EGRESO/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - I `EGRESADOS/SEXO/V` → `EGRESO/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - J `EGRESADOS/SEXO/M` → `EGRESO/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+- **II-7.2.2 2022:**
+  - B `TOTAL` → `INGRESO/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - C `INGRESADOS/SEXO/V` → `INGRESO/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - D `INGRESADOS/SEXO/M` → `INGRESO/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - E `TOTAL` → `MATRÍCULA/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - F `MATRICULADOS/SEXO/V` → `MATRÍCULA/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - G `MATRICULADOS/SEXO/M` → `MATRÍCULA/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - H `TOTAL` → `EGRESO/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - I `EGRESADOS/SEXO/V` → `EGRESO/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - J `EGRESADOS/SEXO/M` → `EGRESO/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+- **II-7.2.2 2023:**
+  - B `TOTAL` → `INGRESO/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - C `INGRESADOS/SEXO/V` → `INGRESO/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - D `INGRESADOS/SEXO/M` → `INGRESO/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - E `TOTAL` → `MATRÍCULA/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - F `MATRICULADOS/SEXO/V` → `MATRÍCULA/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - G `MATRICULADOS/SEXO/M` → `MATRÍCULA/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - H `TOTAL` → `EGRESO/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - I `EGRESADOS/SEXO/V` → `EGRESO/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - J `EGRESADOS/SEXO/M` → `EGRESO/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+- **II-7.2.2 2024:**
+  - B `TOTAL` → `INGRESO/TOTAL` (renombre a mano: los tres «TOTAL» son el de INGRESO, MATRÍCULA y EGRESO a su derecha. Una fila de departamento (Maldonado, de la CLAEH, que no se carga) no suma su grupo y deja la comprobación sin probar (#255).)
+  - C `INGRESO/SEXO/V` → `INGRESO/SEXO/V` (renombre a mano: los tres «TOTAL» son el de INGRESO, MATRÍCULA y EGRESO a su derecha. Una fila de departamento (Maldonado, de la CLAEH, que no se carga) no suma su grupo y deja la comprobación sin probar (#255).)
+  - D `INGRESO/SEXO/M` → `INGRESO/SEXO/M` (renombre a mano: los tres «TOTAL» son el de INGRESO, MATRÍCULA y EGRESO a su derecha. Una fila de departamento (Maldonado, de la CLAEH, que no se carga) no suma su grupo y deja la comprobación sin probar (#255).)
+  - E `TOTAL` → `MATRÍCULA/TOTAL` (renombre a mano: los tres «TOTAL» son el de INGRESO, MATRÍCULA y EGRESO a su derecha. Una fila de departamento (Maldonado, de la CLAEH, que no se carga) no suma su grupo y deja la comprobación sin probar (#255).)
+  - F `MATRÍCULA/SEXO/V` → `MATRÍCULA/SEXO/V` (renombre a mano: los tres «TOTAL» son el de INGRESO, MATRÍCULA y EGRESO a su derecha. Una fila de departamento (Maldonado, de la CLAEH, que no se carga) no suma su grupo y deja la comprobación sin probar (#255).)
+  - G `MATRÍCULA/SEXO/M` → `MATRÍCULA/SEXO/M` (renombre a mano: los tres «TOTAL» son el de INGRESO, MATRÍCULA y EGRESO a su derecha. Una fila de departamento (Maldonado, de la CLAEH, que no se carga) no suma su grupo y deja la comprobación sin probar (#255).)
+  - H `TOTAL` → `EGRESO/TOTAL` (renombre a mano: los tres «TOTAL» son el de INGRESO, MATRÍCULA y EGRESO a su derecha. Una fila de departamento (Maldonado, de la CLAEH, que no se carga) no suma su grupo y deja la comprobación sin probar (#255).)
+  - I `EGRESO/SEXO/V` → `EGRESO/SEXO/V` (renombre a mano: los tres «TOTAL» son el de INGRESO, MATRÍCULA y EGRESO a su derecha. Una fila de departamento (Maldonado, de la CLAEH, que no se carga) no suma su grupo y deja la comprobación sin probar (#255).)
+  - J `EGRESO/SEXO/M` → `EGRESO/SEXO/M` (renombre a mano: los tres «TOTAL» son el de INGRESO, MATRÍCULA y EGRESO a su derecha. Una fila de departamento (Maldonado, de la CLAEH, que no se carga) no suma su grupo y deja la comprobación sin probar (#255).)
+- **II-7.2.3 2020:**
+  - B `TOTAL` → `INGRESO/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - C `INGRESADOS/SEXO/V` → `INGRESO/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - D `INGRESADOS/SEXO/M` → `INGRESO/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - E `TOTAL` → `MATRÍCULA/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - F `MATRICULADOS/SEXO/V` → `MATRÍCULA/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - G `MATRICULADOS/SEXO/M` → `MATRÍCULA/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - H `TOTAL` → `EGRESO/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - I `EGRESADOS/SEXO/V` → `EGRESO/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - J `EGRESADOS/SEXO/M` → `EGRESO/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+- **II-7.2.3 2021:**
+  - B `TOTAL` → `INGRESO/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - C `INGRESADOS/SEXO/V` → `INGRESO/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - D `INGRESADOS/SEXO/M` → `INGRESO/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - E `TOTAL` → `MATRÍCULA/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - F `MATRICULADOS/SEXO/V` → `MATRÍCULA/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - G `MATRICULADOS/SEXO/M` → `MATRÍCULA/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - H `TOTAL` → `EGRESO/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - I `EGRESADOS/SEXO/V` → `EGRESO/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - J `EGRESADOS/SEXO/M` → `EGRESO/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+- **II-7.2.3 2022:**
+  - B `TOTAL` → `INGRESO/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - C `INGRESADOS/SEXO/V` → `INGRESO/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - D `INGRESADOS/SEXO/M` → `INGRESO/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - E `TOTAL` → `MATRÍCULA/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - F `MATRICULADOS/SEXO/V` → `MATRÍCULA/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - G `MATRICULADOS/SEXO/M` → `MATRÍCULA/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - H `TOTAL` → `EGRESO/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - I `EGRESADOS/SEXO/V` → `EGRESO/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - J `EGRESADOS/SEXO/M` → `EGRESO/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+- **II-7.2.3 2023:**
+  - B `TOTAL` → `INGRESO/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - C `INGRESADOS/SEXO/V` → `INGRESO/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - D `INGRESADOS/SEXO/M` → `INGRESO/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - E `TOTAL` → `MATRÍCULA/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - F `MATRICULADOS/SEXO/V` → `MATRÍCULA/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - G `MATRICULADOS/SEXO/M` → `MATRÍCULA/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - H `TOTAL` → `EGRESO/TOTAL` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - I `EGRESADOS/SEXO/V` → `EGRESO/SEXO/V` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+  - J `EGRESADOS/SEXO/M` → `EGRESO/SEXO/M` (renombre a mano: «INGRESADOS», «MATRICULADOS» y «EGRESADOS» son el «INGRESO», la «MATRÍCULA» y el «EGRESO» de 2024: mismo cuadro y misma medida (#255).)
+- **II-7.2.3 2024:**
+  - B `TOTAL` → `INGRESO/TOTAL` (renombre a mano: los tres «TOTAL» son el de INGRESO, MATRÍCULA y EGRESO a su derecha (#255).)
+  - C `INGRESO/SEXO/V` → `INGRESO/SEXO/V` (renombre a mano: los tres «TOTAL» son el de INGRESO, MATRÍCULA y EGRESO a su derecha (#255).)
+  - D `INGRESO/SEXO/M` → `INGRESO/SEXO/M` (renombre a mano: los tres «TOTAL» son el de INGRESO, MATRÍCULA y EGRESO a su derecha (#255).)
+  - E `TOTAL` → `MATRÍCULA/TOTAL` (renombre a mano: los tres «TOTAL» son el de INGRESO, MATRÍCULA y EGRESO a su derecha (#255).)
+  - F `MATRÍCULA/SEXO/V` → `MATRÍCULA/SEXO/V` (renombre a mano: los tres «TOTAL» son el de INGRESO, MATRÍCULA y EGRESO a su derecha (#255).)
+  - G `MATRÍCULA/SEXO/M` → `MATRÍCULA/SEXO/M` (renombre a mano: los tres «TOTAL» son el de INGRESO, MATRÍCULA y EGRESO a su derecha (#255).)
+  - H `TOTAL` → `EGRESO/TOTAL` (renombre a mano: los tres «TOTAL» son el de INGRESO, MATRÍCULA y EGRESO a su derecha (#255).)
+  - I `EGRESO/SEXO/V` → `EGRESO/SEXO/V` (renombre a mano: los tres «TOTAL» son el de INGRESO, MATRÍCULA y EGRESO a su derecha (#255).)
+  - J `EGRESO/SEXO/M` → `EGRESO/SEXO/M` (renombre a mano: los tres «TOTAL» son el de INGRESO, MATRÍCULA y EGRESO a su derecha (#255).)
 
 ## Conceptos según el anuario 2024 (D6, F4.3b-2)
 
@@ -8948,7 +9102,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-7.2.1</b></summary>
 
-**2020** · hoja «II-7.2.1» · tipo C · 390 filas · UNIVERSIDADES PÚBLICAS: ESTUDIANTES INGRESADOS A CARRERAS 2020 Y EGRESADOS PRELIMINARES 2020 EN PROGRAMAS DE GRADO POR SEXO, SEGÚN SERVICIO UNIVERSITARIO Y CARRERA. (Todo el país, 2020)
+**2020** · hoja «II-7.2.1» · tipo C · 392 filas · UNIVERSIDADES PÚBLICAS: ESTUDIANTES INGRESADOS A CARRERAS 2020 Y EGRESADOS PRELIMINARES 2020 EN PROGRAMAS DE GRADO POR SEXO, SEGÚN SERVICIO UNIVERSITARIO Y CARRERA. (Todo el país, 2020)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -8959,14 +9113,12 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `TOTAL`
 - `EGRESADOS (UdelaR datos preliminares)/SEXO/V`
 - `EGRESADOS (UdelaR datos preliminares)/SEXO/M`
-- *Notariado*
-- *Notariado*
 - *Notas UTEC:*
 - *Notas UDELAR:*
 - ** En la carrera de Licenciado en Obstetricia (Paysandú) no se dispone de la matrícula desagregada por sexo para 208 estudiantes.*
 - ** En la carrera de Tecnólogo Cárnico (Tacuarembó) no se dispone de la matrícula desagregada por sexo para 101 estudiantes .*
 
-**2021** · hoja «II-7.2.1» · tipo C · 403 filas · UNIVERSIDADES PÚBLICAS: ESTUDIANTES INGRESADOS A CARRERAS 2021 Y EGRESADOS PRELIMINARES 2021 EN PROGRAMAS DE GRADO POR SEXO, SEGÚN SERVICIO UNIVERSITARIO Y CARRERA. (Todo el país, 2021)
+**2021** · hoja «II-7.2.1» · tipo C · 405 filas · UNIVERSIDADES PÚBLICAS: ESTUDIANTES INGRESADOS A CARRERAS 2021 Y EGRESADOS PRELIMINARES 2021 EN PROGRAMAS DE GRADO POR SEXO, SEGÚN SERVICIO UNIVERSITARIO Y CARRERA. (Todo el país, 2021)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -8977,13 +9129,11 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `TOTAL`
 - `EGRESADOS (UdelaR datos preliminares)/SEXO/V`
 - `EGRESADOS (UdelaR datos preliminares)/SEXO/M`
-- *Notariado*
-- *Notariado*
 - *Notas UDELAR:*
 - ** En la carrera de Licenciado en Obstetricia (Paysandú) no se dispone de la matrícula desagregada por sexo.*
 - ** En la carrera de Tecnólogo Cárnico (Tacuarembó) no se dispone de la matrícula desagregada por sexo.*
 
-**2022** · hoja «II-7.2.1» · tipo C · 402 filas · UNIVERSIDADES PÚBLICAS: ESTUDIANTES INGRESADOS A CARRERAS 2022 Y EGRESADOS PRELIMINARES 2022 EN PROGRAMAS DE GRADO POR SEXO, SEGÚN SERVICIO UNIVERSITARIO Y CARRERA. (Todo el país, 2022)
+**2022** · hoja «II-7.2.1» · tipo C · 404 filas · UNIVERSIDADES PÚBLICAS: ESTUDIANTES INGRESADOS A CARRERAS 2022 Y EGRESADOS PRELIMINARES 2022 EN PROGRAMAS DE GRADO POR SEXO, SEGÚN SERVICIO UNIVERSITARIO Y CARRERA. (Todo el país, 2022)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -8994,14 +9144,12 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `TOTAL`
 - `EGRESADOS (UdelaR datos preliminares)/SEXO/V`
 - `EGRESADOS (UdelaR datos preliminares)/SEXO/M`
-- *Notariado*
-- *Notariado*
 - *Notas UDELAR:*
 - ** En la carrera de Licenciado en Obstetricia (Paysandú) no se dispone de la matrícula desagregada por sexo para 378 estudiantes.*
 - ** En la carrera de Tecnólogo Cárnico (Tacuarembó) no se dispone de la matrícula desagregada por sexo para 89 estudiantes.*
 - ** Por resolución N°3 del CDC de fecha 14/09/2021 se crea la Facultad de Artes integrada por el Instituto Escuela Nacional de Bellas Artes (IENBA) y la Escuela Universitaria de Música (EUM).*
 
-**2023** · hoja «II-7.2.1» · tipo C · 403 filas · UNIVERSIDADES PÚBLICAS: ESTUDIANTES INGRESADOS A CARRERAS 2023 Y EGRESADOS PRELIMINARES 2023 EN PROGRAMAS DE GRADO POR SEXO, SEGÚN SERVICIO UNIVERSITARIO Y CARRERA. (Todo el país, 2023)
+**2023** · hoja «II-7.2.1» · tipo C · 405 filas · UNIVERSIDADES PÚBLICAS: ESTUDIANTES INGRESADOS A CARRERAS 2023 Y EGRESADOS PRELIMINARES 2023 EN PROGRAMAS DE GRADO POR SEXO, SEGÚN SERVICIO UNIVERSITARIO Y CARRERA. (Todo el país, 2023)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -9012,12 +9160,10 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `TOTAL`
 - `EGRESADOS (UdelaR datos preliminares)/SEXO/V`
 - `EGRESADOS (UdelaR datos preliminares)/SEXO/M`
-- *Notariado*
-- *Notariado*
 - *Notas UDELAR:*
 - **En UdelaR: No coincide el Total UDELAR con la suma de la desagregación por sexo ya que para la carrera de Tecnólogo Cárnico no se cuenta con la misma (total de la matrícula 82). Tampoco se cuenta con la desagregación por sexo de la Licenciatura en obstetricia de Paysandú (matrícula total 233).*
 
-**2024** · hoja «II-7.2.1» · tipo A · 447 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO DE UNIVERSIDADES PÚBLICAS POR SEXO, SEGÚN SERVICIO UNIVERSITARIO, DEPARTAMENTO Y CARRERA. (Todo el país, 2024)
+**2024** · hoja «II-7.2.1» · tipo C · 449 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO DE UNIVERSIDADES PÚBLICAS POR SEXO, SEGÚN SERVICIO UNIVERSITARIO, DEPARTAMENTO Y CARRERA. (Todo el país, 2024)
 
 - `TOTAL`
 - `INGRESO/SEXO/V`
@@ -9028,8 +9174,6 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `TOTAL`
 - `EGRESO/SEXO/V`
 - `EGRESO/SEXO/M`
-- *Notariado*
-- *Notariado*
 - *Notas UdelaR:*
 - **En UdelaR y en el total general de matrícula: El total de matrícula de UdelaR no coincide con la suma desagregada por sexo, dado que no se cuenta con información de sexo para la totalidad de los registros. En particular, se encuentran sin desagregación: - Tecnólogo Cárnico: 77 casos - Licenciatura en Obstetricia (Paysandú): 142 casos*
 
@@ -9037,7 +9181,7 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 
 <details><summary><b>II-7.2.2</b></summary>
 
-**2020** · hoja «II-7.2.2» · tipo A · 181 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO EN UNIVERSIDADES PRIVADAS POR SEXO SEGÚN UNIVERSIDAD Y CARRERA (Todo el país, 2020)
+**2020** · hoja «II-7.2.2» · tipo C · 184 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO EN UNIVERSIDADES PRIVADAS POR SEXO SEGÚN UNIVERSIDAD Y CARRERA (Todo el país, 2020)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -9070,12 +9214,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `columna 30`
 - `columna 31`
 - `columna 32`
-- *Notariado*
-- *Notariado*
-- *Notariado*
 - *Fuente: Oficinas Productoras de cada una de las Instituciones.*
 
-**2021** · hoja «II-7.2.2» · tipo A · 186 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO EN UNIVERSIDADES PRIVADAS POR SEXO SEGÚN UNIVERSIDAD Y CARRERA (Todo el país, 2021)
+**2021** · hoja «II-7.2.2» · tipo C · 189 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO EN UNIVERSIDADES PRIVADAS POR SEXO SEGÚN UNIVERSIDAD Y CARRERA (Todo el país, 2021)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -9108,12 +9249,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `columna 30`
 - `columna 31`
 - `columna 32`
-- *Notariado*
-- *Notariado*
-- *Notariado*
 - *Fuente: Oficinas Productoras de cada una de las Instituciones.*
 
-**2022** · hoja «II-7.2.2» · tipo A · 202 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO EN UNIVERSIDADES PRIVADAS POR SEXO SEGÚN UNIVERSIDAD Y CARRERA (Todo el país, 2022)
+**2022** · hoja «II-7.2.2» · tipo C · 205 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO EN UNIVERSIDADES PRIVADAS POR SEXO SEGÚN UNIVERSIDAD Y CARRERA (Todo el país, 2022)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -9146,12 +9284,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `columna 30`
 - `columna 31`
 - `columna 32`
-- *Notariado*
-- *Notariado*
-- *Notariado*
 - *Fuente: Oficinas Productoras de cada una de las Instituciones.*
 
-**2023** · hoja «II-7.2.2» · tipo A · 210 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO EN UNIVERSIDADES PRIVADAS POR SEXO SEGÚN UNIVERSIDAD Y CARRERA (Todo el país, 2023)
+**2023** · hoja «II-7.2.2» · tipo C · 213 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO EN UNIVERSIDADES PRIVADAS POR SEXO SEGÚN UNIVERSIDAD Y CARRERA (Todo el país, 2023)
 
 - `TOTAL`
 - `INGRESADOS/SEXO/V`
@@ -9184,12 +9319,9 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `columna 30`
 - `columna 31`
 - `columna 32`
-- *Notariado*
-- *Notariado*
-- *Notariado*
 - *Fuente: Oficinas Productoras de cada una de las Instituciones.*
 
-**2024** · hoja «II-7.2.2» · tipo A · 229 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO DE UNIVERSIDADES PRIVADAS POR SEXO, SEGÚN SERVICIO UNIVERSITARIO, DEPARTAMENTO Y CARRERA. (Todo el país, 2024)
+**2024** · hoja «II-7.2.2» · tipo C · 232 filas · ESTUDIANTES INGRESADOS, MATRICULADOS Y EGRESADOS EN PROGRAMAS DE GRADO DE UNIVERSIDADES PRIVADAS POR SEXO, SEGÚN SERVICIO UNIVERSITARIO, DEPARTAMENTO Y CARRERA. (Todo el país, 2024)
 
 - `TOTAL`
 - `INGRESO/SEXO/V`
@@ -9222,9 +9354,6 @@ Título, tipo, filas, rutas de encabezado (celdas combinadas aplanadas) y pie co
 - `columna 30`
 - `columna 31`
 - `columna 32`
-- *Notariado*
-- *Notariado*
-- *Notariado*
 - *Fuente: Oficinas Productoras de cada una de las Instituciones.*
 - *** El dato de la UDE es último disponible año 2023.*
 

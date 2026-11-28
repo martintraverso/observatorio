@@ -549,3 +549,97 @@ def test_241_el_cero_de_la_udelar_sin_dato_no_se_carga_y_cuenta_como_sin_dato():
     sin_dato = set()
     quedan = quitar_sin_cargar(obs, manual["observaciones_sin_cargar"], cuadro_de, sin_dato)
     assert len(quedan) == 3 and sin_dato == {("edu_ii_7_1_2_matricula_total", "INE-2023/departamento/15", "2023")}
+
+
+def test_255_d4_por_fila_la_institucion_que_repite_el_anio_anterior_no_se_carga():
+    """#255: en 2024 la UDE repite su dato de 2023 (pie) y en 2023 el Crandon el de 2022: esa institución no se carga
+    ese año (`categorias` en `observaciones_sin_cargar`); las demás, y la misma institución otro año, sí."""
+    from mec_anuario_cargar import quitar_sin_cargar
+
+    manual = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario" / "mapeo_manual.yml").read_text(encoding="utf-8"))
+    cuadro_de = {"edu_ii_7_2_2_ingreso_total": "II-7.2.2"}
+    obs = pd.DataFrame([
+        {"indicador": "edu_ii_7_2_2_ingreso_total__universidad_de_la_empresa", "territorio_id": "INE-2023/pais/UY", "periodo": "2024", "valor": 855},
+        {"indicador": "edu_ii_7_2_2_ingreso_total__universidad_de_la_empresa", "territorio_id": "INE-2023/pais/UY", "periodo": "2023", "valor": 855},
+        {"indicador": "edu_ii_7_2_2_ingreso_total__ucu", "territorio_id": "INE-2023/pais/UY", "periodo": "2024", "valor": 1694},
+    ])
+    quedan = quitar_sin_cargar(obs, manual["observaciones_sin_cargar"], cuadro_de)
+    assert sorted(zip(quedan.indicador.str.split("__").str[1], quedan.periodo)) == [("ucu", "2024"), ("universidad_de_la_empresa", "2023")]
+    # #255 (revisión): el 0 de 2020 de la Fundación Politécnico, con el sexo «s/d», no es un dato (como #173 y #241)
+    cuadro_de = {"edu_ii_7_2_3_matricula_total": "II-7.2.3"}
+    obs = pd.DataFrame([
+        {"indicador": f"edu_ii_7_2_3_matricula_total__{c}", "territorio_id": "INE-2023/pais/UY", "periodo": p, "valor": v}
+        for c, p, v in (("fundacion_politecnico_de_punta_del_este", "2020", 0), ("inst_metodista_univ_crandon", "2023", 23),
+                        ("inst_metodista_univ_crandon", "2022", 23), ("inst_univ_cediiap", "2020", 18))])
+    sin_dato = set()
+    quedan = quitar_sin_cargar(obs, manual["observaciones_sin_cargar"], cuadro_de, sin_dato)
+    assert sorted(zip(quedan.indicador.str.split("__").str[1], quedan.periodo)) == [
+        ("inst_metodista_univ_crandon", "2022"), ("inst_univ_cediiap", "2020")]
+    assert ("edu_ii_7_2_3_matricula_total__fundacion_politecnico_de_punta_del_este", "INE-2023/pais/UY", "2020") in sin_dato
+
+
+def test_268_el_origen_de_la_udelar_no_se_carga():
+    """#268 (mantenedor en #243, 1.a): el origen de la UdelaR no se carga en ningún año (es un reparto estimado); su
+    total y el origen de las demás instituciones, sí."""
+    from mec_anuario_cargar import quitar_sin_cargar
+
+    manual = yaml.safe_load((RAIZ / "fuentes" / "mec_anuario" / "mapeo_manual.yml").read_text(encoding="utf-8"))
+    base = "edu_ii_7_2_4_origen_de_los_estudiantes_montevideo"
+    cuadro_de = {base: "II-7.2.4", "edu_ii_7_2_4_total": "II-7.2.4"}
+    obs = pd.DataFrame([{"indicador": i, "territorio_id": "INE-2023/pais/UY", "periodo": p, "valor": 1} for i, p in (
+        (f"{base}__udelar_ingresados_grado", "2024"), (f"{base}__udelar_matricula_posgrado", "2020"),
+        (f"{base}__ucu_ingresados_grado", "2024"), ("edu_ii_7_2_4_total__udelar_ingresados_grado", "2024"))])
+    quedan = quitar_sin_cargar(obs, manual["observaciones_sin_cargar"], cuadro_de)
+    assert sorted(quedan.indicador) == [f"{base}__ucu_ingresados_grado", "edu_ii_7_2_4_total__udelar_ingresados_grado"]
+    # revisión del PR #271: el origen del posgrado de la UCU de 2022–2023 (residencia, mantenedor) y la UDE 2024 y el
+    # Crandon 2023 (D4: repiten el año anterior) tampoco se cargan; la nota del indicador lo explica
+    obs = pd.DataFrame([{"indicador": i, "territorio_id": "INE-2023/pais/UY", "periodo": p, "valor": 1} for i, p in (
+        (f"{base}__ucu_matricula_posgrado", "2023"), (f"{base}__ucu_matricula_posgrado", "2024"),
+        ("edu_ii_7_2_4_total__universidad_de_la_empresa_matricula_grado", "2024"),
+        ("edu_ii_7_2_4_total__universidad_de_la_empresa_matricula_grado", "2023"),
+        ("edu_ii_7_2_4_total__inst_metodista_univ_crandon_matricula_grado", "2023"))])
+    quedan = quitar_sin_cargar(obs, manual["observaciones_sin_cargar"], cuadro_de)
+    assert sorted(zip(quedan.indicador.str.split("__").str[1], quedan.periodo)) == [
+        ("ucu_matricula_posgrado", "2024"), ("universidad_de_la_empresa_matricula_grado", "2023")]
+    assert "UdelaR" in manual["notas_indicador"]["edu_ii_7_2_4_total"]
+    assert manual["notas_indicador"][base] == manual["notas_indicador"]["edu_ii_7_2_4_total"]
+
+
+def test_269_ii_7_2_8_sale_del_anuario_mas_reciente_y_la_udelar_desde_2018(cargado):
+    """#269: la serie por institución se carga solo del anuario más reciente (como la serie nacional, mantenedor en
+    #243). La UdelaR y los totales que la incluyen, desde 2018 (antes es una proyección, mantenedor); las demás
+    instituciones, la serie entera; la UDE de 2024 repite 2023 y no se carga (D4)."""
+    _, salida = cargado
+    o, c, i = tablas(salida)
+    s = o[o.indicador.str.startswith("edu_ii_7_2_8_")]
+    assert set(s.captura_id) == {c.sort_values("archivo").id.iloc[-1]} and set(s.territorio_id) == {"INE-2023/pais/UY"}
+    por = s.groupby(s.indicador.str.split("__").str[1]).periodo.agg(["min", "max"])
+    for cat in ("udelar", "universidades_publicas", "total_universidades", "total"):
+        assert por.loc[cat, "min"] == "2018", cat
+    assert por.loc["univ_ort_uruguay", "min"] == "2000" and por.loc["univ_de_la_empresa", "max"] == "2023"
+    nota = i.set_index("codigo").loc["edu_ii_7_2_8_matricula__udelar", "nota"]
+    assert "Serie del anuario más reciente." in nota and "desde 2018" in nota
+
+
+def test_269_control_de_la_serie_por_institucion():
+    """#269 (revisión): AC-E19 en II-7.2.8. Cada subtotal es la suma de sus instituciones; «no corresponde» (n/c,
+    celda vacía) cuenta 0, y un año al que le falta otro componente (s/d, D4) no se prueba. Una diferencia falla salvo
+    excepción de la fuente."""
+    from mec_anuario_controles import Excepciones, Resultado, control_serie_instituciones
+
+    def obs(filas):
+        return pd.DataFrame([{"indicador": f"edu_ii_7_2_8_matricula__{c}", "territorio_id": "INE-2023/pais/UY", "periodo": p,
+                              "valor": v} for c, p, v in filas])
+    manual = {"serie_instituciones": {"particiones": {"priv": ["a", "b"]}}}
+    res = Resultado()
+    control_serie_instituciones(obs([("priv", "2010", 5), ("a", "2010", 5), ("priv", "2011", 9), ("a", "2011", 4),
+                                     ("priv", "2012", 7), ("a", "2012", 3), ("b", "2012", 4)]),
+                                manual, res, Excepciones(manual), {("b", "2010")})
+    assert res.controles.fallas == []  # 2010: b no corresponde (0); 2011: b sin dato, no se prueba; 2012: 3 + 4
+    res = Resultado()
+    control_serie_instituciones(obs([("priv", "2012", 8), ("a", "2012", 3), ("b", "2012", 4)]), manual, res, Excepciones(manual), set())
+    assert len(res.controles.fallas) == 1
+    manual["controles_excepciones"] = {"AC-E19": {"II-7.2.8": {2012: {"motivo": "del archivo", "indicadores": ["edu_ii_7_2_8_matricula__priv"]}}}}
+    res = Resultado()
+    control_serie_instituciones(obs([("priv", "2012", 8), ("a", "2012", 3), ("b", "2012", 4)]), manual, res, Excepciones(manual), set())
+    assert res.controles.fallas == [] and any("del archivo" in a for a in res.advertencias)

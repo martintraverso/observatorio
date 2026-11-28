@@ -25,7 +25,8 @@ def cuadro(cod, anio=2024, xlsx=None, mapeo=None):
     return mec.parsear_cuadro(xlsx or XLSX[anio], cod, anio, mapeo if mapeo is not None else e["mapeo"][anio],
                               e["tipos"][anio], (e.get("categorias_segundas") or {}).get(anio, ()),
                               e.get("secciones_por_institucion"), e.get("solo_filas") or (),
-                              e.get("filas_de_establecimiento"))  # como la carga (#172, #173)
+                              e.get("filas_de_establecimiento"), e.get("rotulos_de_fila"), e.get("grupos_por_fila") or (),
+                              bool(e.get("solo_enteros")))  # como la carga (#172, #173, #255, #268)
 
 
 def valor(c, indicador, territorio):
@@ -507,3 +508,83 @@ def test_241_publico_privado_fuera_de_lugar_frena():
     regla = {k: v for k, v in e["filas_de_establecimiento"].items() if k != "con_categorias"}
     with pytest.raises(mec.ErrorAnuario, match="no está bajo el país, Montevideo ni el Interior"):
         mec.parsear_cuadro(XLSX[2024], "II-7.1.1", 2024, e["mapeo"][2024], "A", (), None, (), regla)
+
+
+def test_255_un_conteo_como_texto_con_llamada_se_lee_con_separador_de_miles():
+    """#255: «229.839*» (II-7.2.1 de 2024) es 229.839 con una llamada de nota. Sin la llamada, «7.466» sigue siendo
+    decimal; y una celda así antes frenaba la carga, así que no cambia nada ya cargado."""
+    assert mec.numero("229.839*") == 229839 and mec.numero("1.226.659 **") == 1226659
+    assert mec.numero("7.466") == 7.466 and mec.numero("1.2*") is None and mec.numero("229.83*") is None
+
+
+def test_255_grado_por_institucion_con_el_mismo_id_entre_anios():
+    """#255 (mantenedor en #242): en II-7.2.1–3 se cargan el TOTAL y las instituciones, a nivel país. «TOTAL UDELAR»
+    (2023) y «UdelaR» (2024) son la misma categoría (`rotulos_de_fila`, AC-E13), y «TOTAL UNIVERSIDADES PÚBLICAS» es el
+    total del cuadro: no abre un grupo. Servicios, departamentos y carreras no se cargan (AC-E20: solo el país)."""
+    for anio, udelar, total in ((2023, 227903, 230825), (2024, 226659, 229839)):
+        c = cuadro("II-7.2.1", anio)
+        assert set(c.datos.territorio_id) == {mec.PAIS}
+        assert {i.split("__")[1] for i in c.datos.indicador} == {"total", "udelar", "utec"}, anio
+        assert valor(c, "edu_ii_7_2_1_matricula_total__udelar", "pais/UY") == udelar  # 2024: «226.659*»
+        assert valor(c, "edu_ii_7_2_1_matricula_total__total", "pais/UY") == total
+    c = cuadro("II-7.2.2", 2024)
+    assert {i.split("__")[1] for i in c.datos.indicador} == {"total", "ucu", "universidad_ort_uruguay", "universidad_de_montevideo",
+                                                             "universidad_de_la_empresa", "universidad_claeh"}
+    assert not any("columna" in i for i in c.datos.indicador)  # AB, AE, AF: números sueltos fuera del cuadro (omitir)
+    c = cuadro("II-7.2.3", 2023)
+    assert valor(c, "edu_ii_7_2_3_ingreso_total__total", "pais/UY") == 346
+
+
+def test_255_sin_la_regla_de_rotulos_total_udelar_abre_un_grupo():
+    """#255: sin `rotulos_de_fila`, «TOTAL UDELAR» abre un grupo y la UdelaR de 2023 no tendría el id de la de 2024."""
+    e = REG["cuadros"]["II-7.2.1"]
+    c = mec.parsear_cuadro(XLSX[2023], "II-7.2.1", 2023, e["mapeo"][2023], "C", (), None, ["TOTAL UDELAR", "UNIVERSIDAD TEC"])
+    assert "edu_ii_7_2_1_matricula_total__udelar" not in set(c.datos.indicador)
+
+
+def test_255_la_carrera_notariado_no_es_una_nota():
+    """#255 (revisión): una fila que empieza con «Nota» de «Notariado» (una carrera de II-7.2.1 y II-7.2.2) no es el pie
+    del cuadro: no llega a las notas (AC-E12). «Nota:» y «Notas UdelaR:» siguen siéndolo."""
+    for cod in ("II-7.2.1", "II-7.2.2"):
+        c = cuadro(cod, 2024)
+        assert not any(p.startswith("Notariado") for p in c.pie), cod
+    assert any(p.startswith("Notas UdelaR") for p in cuadro("II-7.2.1", 2024).pie)
+
+
+def test_268_origen_por_institucion_y_medida_a_nivel_pais():
+    """#268: en II-7.2.4 las filas «Ingresados Grado»… se repiten bajo cada institución: la categoría es «institución/
+    medida» (`grupos_por_fila`; la primera, UDELAR, está encima de la primera fila con datos). El origen (Montevideo,
+    Interior…) son columnas: todo va al país (AC-E20), nunca a un departamento. «na.» (no aplica) no es un dato."""
+    c = cuadro("II-7.2.4", 2024)
+    assert set(c.datos.territorio_id) == {mec.PAIS}
+    assert valor(c, "edu_ii_7_2_4_total__ucu_ingresados_grado", "pais/UY") == 1694
+    assert valor(c, "edu_ii_7_2_4_origen_de_los_estudiantes_montevideo__ucu_ingresados_grado", "pais/UY") == 1010
+    assert valor(c, "edu_ii_7_2_4_total__udelar_ingresados_grado", "pais/UY") == 39821
+    assert mec.NO_DATO.match("na.") and not mec.NO_DATO.match("na")
+
+
+def test_268_un_conteo_con_decimales_no_se_carga_en_un_cuadro_solo_enteros():
+    """#268 (mantenedor en #243): la matrícula de grado de la UdelaR de 2024 dice 226.658,659 (y su origen viene con
+    decimales todos los años): con `solo_enteros` no se carga, cuenta como sin dato y deja un aviso."""
+    c = cuadro("II-7.2.4", 2024)
+    assert "edu_ii_7_2_4_total__udelar_matricula_grado" not in set(c.datos.indicador)
+    assert ("edu_ii_7_2_4_total__udelar_matricula_grado", mec.PAIS, "2024") in c.sin_dato_claves
+    assert any("no es un entero" in a for a in c.avisos)
+    # los enteros de las demás instituciones se cargan. (La tolerancia a un error de coma flotante, 2021:
+    # 40892.00000000001 = 40.892, no está en los fixtures 2023–2024: la prueba la carga completa.)
+    assert valor(cuadro("II-7.2.4", 2023), "edu_ii_7_2_4_total__ucu_ingresados_grado", "pais/UY") > 0
+
+
+def test_269_la_serie_por_institucion_de_ii_7_2_8():
+    """#269 (mantenedor en #243): II-7.2.8 en `pais/UY` × año lectivo, una fila por institución; «n/c» y «nc.» no son
+    datos (AC-E11); los pies van aparte (AC-E12); el último año del título tiene que ser el del archivo (AC-E10)."""
+    d = mec.parsear_serie_instituciones(XLSX[2024], 2024)
+    assert set(d.territorio_id) == {mec.PAIS} and not d.duplicated(["indicador", "periodo"]).any()
+    v = d.set_index(["indicador", "periodo"]).valor
+    assert v["edu_ii_7_2_8_matricula__udelar", "2024"] == 226659 and v["edu_ii_7_2_8_matricula__univ_ort_uruguay", "2000"] == 3445
+    assert ("edu_ii_7_2_8_matricula__escuela_naval", "2024") not in v.index  # «n/c»
+    assert ("edu_ii_7_2_8_matricula__escuela_de_guerra_naval", "2023") not in v.index  # «nc.»
+    assert ("escuela_de_guerra_naval", "2023") in d.attrs["no_corresponde"] and ("univ_claeh", "2000") in d.attrs["no_corresponde"]
+    assert any(p.startswith("UdelaR: Hasta el 2017") for p in d.attrs["pie"])
+    with pytest.raises(mec.ErrorAnuario, match="AC-E10"):
+        mec.parsear_serie_instituciones(XLSX[2024], 2023)

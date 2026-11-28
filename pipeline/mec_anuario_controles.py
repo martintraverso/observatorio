@@ -113,7 +113,8 @@ def _desgloses(por: dict[tuple, str], extras: list[dict]) -> list[tuple[tuple, l
 
 
 def controles(obs: pd.DataFrame, fuente: dict, manual: dict, derivados: set[str], sin_dato: set | None = None,
-              anios_parseados: set[str] | None = None, hay_interior: bool = True) -> Resultado:
+              anios_parseados: set[str] | None = None, hay_interior: bool = True,
+              no_corresponde: set | None = None) -> Resultado:
     res, exc = Resultado(), Excepciones(manual)
     sin_dato = sin_dato or set()
     cuadro_de, ruta_de, tipo_de = {}, {}, {}
@@ -288,7 +289,36 @@ def controles(obs: pd.DataFrame, fuente: dict, manual: dict, derivados: set[str]
     serie["antes"], serie["anio_antes"] = s.valor.shift(), s.anio.shift()
     res.saltos = serie[(serie.anio_antes == serie.anio - 1) & (serie.antes > 0)
                        & ((serie.valor - serie.antes).abs() / serie.antes > CAMBIO)]
+    control_serie_instituciones(obs, manual, res, exc, no_corresponde or set())
     return res
+
+
+def control_serie_instituciones(obs: pd.DataFrame, manual: dict, res: Resultado, exc: Excepciones,
+                                no_corresponde: set) -> None:
+    """AC-E19 en II-7.2.8 (#269): cada subtotal de la serie por institución es la suma de sus componentes (las
+    `particiones` del registro), año por año. Un componente «n/c» o «na.» (no corresponde: la institución no existía)
+    cuenta 0; si falta otro («s/d», o no cargado por D4) ese año no se puede probar y no cuenta. Una diferencia es una
+    falla, salvo excepción de la fuente."""
+    part = (manual.get("serie_instituciones") or {}).get("particiones") or {}
+    if not part:
+        return
+    s = obs[obs.indicador.str.startswith("edu_ii_7_2_8_matricula__")]
+    v = {(i.split("__")[1], p): x for i, p, x in zip(s.indicador, s.periodo, s.valor)}
+    v.update({k: 0 for k in no_corresponde if k not in v})
+    fallas, excepciones, probados = [], [], 0
+    for per in sorted(set(s.periodo)):
+        for total, partes in part.items():
+            if (total, per) not in v or any((p, per) not in v for p in partes):
+                continue
+            probados += 1
+            suma = sum(v[(p, per)] for p in partes)
+            if v[(total, per)] != suma:
+                texto = f"II-7.2.8 {per} [{total}]: {v[(total, per)]:g} ≠ {' + '.join(partes)} = {suma:g}"
+                if (m := exc.motivo("AC-E19", "II-7.2.8", per, f"edu_ii_7_2_8_matricula__{total}")):
+                    excepciones.append(f"{texto} ({m})")
+                else:
+                    fallas.append(texto)
+    res.chk(f"AC-E19 Serie por institución: subtotales = sus instituciones ({probados} probados)", fallas, excepciones)
 
 
 def lineas_saltos(saltos: pd.DataFrame, n: int = 15) -> list[str]:

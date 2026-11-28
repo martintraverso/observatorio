@@ -33,7 +33,7 @@ PAIS = tid("pais", "UY")
 INTERIOR = tid("region", "interior")
 FILAS_PAIS = {"total", "total del pais", "total pais"}  # «TOTAL DEL PAÍS» en 30 cuadros-año (F4.1); «TOTAL PAÍS» en II-7.1.x (#241)
 SERIE = "MATRÍCULA DEL SISTEMA"
-NO_DATO = re.compile(r"^\s*(-+|…|\.\.\.|\.|s/d|n/c|s/i)?\s*\**\s*$", re.I)  # «n/c *»: con llamada de nota
+NO_DATO = re.compile(r"^\s*(-+|…|\.\.\.|\.|s/d|n/c|s/i|na\.)?\s*\**\s*$", re.I)  # «n/c *»: con llamada de nota; «na.»: no aplica (II-7.2.4, #268)
 
 
 class ErrorAnuario(ValueError):
@@ -68,6 +68,10 @@ def numero(v):
         return v
     if isinstance(v, str) and re.fullmatch(r"\s*\d+(\.\d+)?\s*", v):
         return float(v) if "." in v else int(v)
+    # #255: un conteo como texto con separador de miles y llamada de nota («229.839*», II-7.2.1 de 2024). Solo con la
+    # llamada: sin ella, «7.466» podría ser un decimal. Antes una celda así frenaba la carga, así que no cambia nada cargado.
+    if isinstance(v, str) and (m := re.fullmatch(r"\s*(\d{1,3}(?:\.\d{3})+)\s*\*+\s*", v)):
+        return int(m.group(1).replace(".", ""))
     return None
 
 
@@ -179,7 +183,7 @@ def estructura(celdas: dict[tuple[int, int], object], combinadas, hoja: str) -> 
     elif cod != nombre:
         cod = nombre
     textos = [v for (r, c), v in sorted(celdas.items()) if r > fila_cod and isinstance(v, str)
-              and not v.lstrip().startswith(("Nota", "Fuente"))]
+              and not re.match(r"\s*(Notas?\b|Fuente)", v)]  # #255: «Notariado» es una carrera
     # título: el que dice el año («…, 2024)»); si ninguno lo dice (II-2.3.2), el primer texto largo
     titulo = next((v for v in textos if re.search(r"\(.*\d{4}\)", v)), None) or next((v for v in textos if len(v) > 40), "")
     fila_tit = next((r for (r, c), v in sorted(celdas.items()) if v == titulo), fila_cod)
@@ -191,7 +195,7 @@ def estructura(celdas: dict[tuple[int, int], object], combinadas, hoja: str) -> 
                   and any(numero(celdas.get((r, c))) is not None for c in range(2, 60))), None)
     if desde is None:
         e.sin_datos = True
-        e.pie = [" ".join(str(v).split()) for (r, c), v in sorted(celdas.items()) if isinstance(v, str) and re.match(r"\s*Nota", v)]
+        e.pie = [" ".join(str(v).split()) for (r, c), v in sorted(celdas.items()) if isinstance(v, str) and re.match(r"\s*Notas?\b", v)]
         return e
     hdr = {}
     for f1, c1, f2, c2 in combinadas:
@@ -220,7 +224,7 @@ def estructura(celdas: dict[tuple[int, int], object], combinadas, hoja: str) -> 
     despues_de_fuente = False
     for r in [x for x in filas if x >= desde]:
         a = celdas.get((r, 1))
-        if isinstance(a, str) and re.match(r"\s*(Fuente|Nota|Notas|\(\d|\*)", a):
+        if isinstance(a, str) and re.match(r"\s*(Fuente|Notas?\b|\(\d|\*)", a):  # #255: no «Notariado»
             e.pie.append(" ".join(a.split()))
             despues_de_fuente = despues_de_fuente or bool(re.match(r"\s*Fuente", a))
             continue
@@ -273,7 +277,8 @@ COLUMNAS = ["indicador", "territorio_id", "periodo", "periodo_inicio", "periodo_
 
 def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo: str,
                    segundas: list[str] | tuple = (), secciones: dict | None = None,
-                   solo_filas: list[str] | tuple = (), establecimientos: dict | None = None) -> Cuadro:
+                   solo_filas: list[str] | tuple = (), establecimientos: dict | None = None,
+                   rotulos: dict | None = None, grupos: list[str] | tuple = (), solo_enteros: bool = False) -> Cuadro:
     """Valores del cuadro `codigo` del anuario `anio`, con el mapeo por columna del registro.
 
     Tipo A: cada fila es un territorio (AC-E8). Tipo B y C: cada fila es una categoría que pasa a ser parte del
@@ -326,7 +331,18 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
     # filas salteadas que traen su propio PÚBLICO/PRIVADO (que tampoco se carga); bajo cualquier otra cosa, frena
     con_categorias = {_sin_llamada(x) for x in (est or {}).get("con_categorias", [])}
     territorio_arriba = None  # país, Montevideo o Interior; "saltear" bajo una fila de `con_categorias`
+    # #255: rótulos que el registro declara iguales a otro («TOTAL UDELAR» 2020–2023 = «UdelaR» 2024): la fila se lee
+    # con el rótulo canónico, así su categoría conserva el id entre años (AC-E13) y un «TOTAL …» que no es el total
+    # del cuadro no abre un grupo. Se comparan sin tildes, mayúsculas ni llamadas «*».
+    canon = {_sin_llamada(k): v for k, v in (rotulos or {}).items()}
+    nombres_grupo = {_sin_llamada(g) for g in grupos}
+    if nombres_grupo and tipo != "A" and e.filas:
+        # #268: la fila de la primera institución está justo encima de la primera fila con datos (UDELAR en II-7.2.4)
+        arriba = celdas.get((e.filas[0][0] - 1, 1)) or celdas.get((e.filas[0][0] - 2, 1))
+        if isinstance(arriba, str) and _sin_llamada(arriba) in nombres_grupo:
+            grupo, territorio_grupo = re.sub(r"\s*\*+$", "", arriba.strip()), PAIS
     for r, rotulo in e.filas:
+        rotulo = canon.get(_sin_llamada(rotulo), rotulo)
         # #173 (revisión): por nombre; la sangría solo distingue un establecimiento que se llama como su departamento.
         # Una fila sangrada que no está en la lista sigue su camino y, si no es un territorio, frena (AC-E8).
         if est and ((r in e.sangradas and _sin_llamada(rotulo) in sangradas_est) or _sin_llamada(rotulo) in nombres_est):
@@ -337,6 +353,11 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
                 territorio_arriba = None
             continue
         vacia = all(celdas.get((r, c)) is None for c in cols_mapeadas)
+        # #268: en un cuadro C, una fila sin valores con el nombre de una institución de `grupos` abre su grupo: las filas
+        # que siguen («Ingresados Grado», «Matrícula Grado»…) se repiten bajo cada institución y van como «inst/medida»
+        if nombres_grupo and tipo != "A" and vacia and _sin_llamada(rotulo) in nombres_grupo:
+            grupo, territorio_grupo = re.sub(r"\s*\*+$", "", rotulo.strip()), PAIS
+            continue
         territorio = territorio_de_fila(rotulo) if tipo == "A" else None
         sufijo_cat = ""
         if est and territorio is None and _sin_llamada(rotulo) in categorias_est:
@@ -416,6 +437,14 @@ def parsear_cuadro(xlsx: bytes, codigo: str, anio: int, mapeo: list[dict], tipo:
                 continue  # repite otra columna que ya se carga (D7)
             c = _col(m["col"])
             v = numero(celdas.get((r, c)))
+            if solo_enteros and isinstance(v, float) and abs(v - round(v)) < 1e-6:
+                v = int(round(v))  # #268 (revisión): error de coma flotante de una fórmula (40892.00000000001 = 40.892)
+            if solo_enteros and isinstance(v, float):  # numero() ya deja como int un float entero
+                # #268 (mantenedor): un conteo con decimales es un reparto estimado (la UdelaR en II-7.2.4), no un dato
+                avisos.append(f"{codigo} {anio}: {letra(c)}{r} = {v!r} no es un entero: no se carga")
+                sin_dato += 1
+                claves_sd.append((m["id"] + sufijo, territorio, str(m.get("anio", anio))))
+                continue
             if v is None:
                 bruto = celdas.get((r, c))
                 if bruto is not None and not (isinstance(bruto, str) and NO_DATO.match(bruto)):
@@ -515,4 +544,58 @@ def parsear_serie_matricula(xlsx: bytes) -> pd.DataFrame:
     if datos.duplicated(["indicador", "periodo"]).any():
         raise ErrorAnuario("La serie nacional repite un indicador y año")
     datos.attrs["sin_dato"] = sin_dato  # «S/D», «n/c» (AC-E11)
+    return datos
+
+
+# F4.8d3b (#269): II-7.2.8, la matrícula universitaria por institución y año lectivo (2000–<año>). Cada anuario vuelve
+# a publicar la serie entera: se carga solo del más reciente, como la serie nacional (mantenedor en #243).
+SERIE_INSTITUCIONES = "II-7.2.8"
+NO_DATO_SERIE = re.compile(r"^\s*n\.?c\.?\s*$", re.I)  # «nc.» (Escuela de Guerra Naval), además de NO_DATO
+
+
+def parsear_serie_instituciones(xlsx: bytes, anio: int) -> pd.DataFrame:
+    """II-7.2.8 en `pais/UY` × año lectivo: una fila por institución (o total) y año. El indicador es
+    `edu_ii_7_2_8_matricula__<institución>`; la columna `ruta` lleva el rótulo y `pie`, en `attrs`, las notas. El título
+    dice «(Todo el país, 2000 – <año>)»: el último año tiene que ser el del archivo (AC-E10)."""
+    hoja = hoja_del_cuadro(xlsx, SERIE_INSTITUCIONES)
+    filas, _ = leer_hoja(xlsx, hoja)
+    textos = [v for r in sorted(filas) for v in filas[r].values() if isinstance(v, str)]
+    titulo = next((t for t in textos if "EVOLUCI" in t.upper()), "")
+    m = re.search(r"(\d{4})\s*\)", titulo)
+    if not m or int(m.group(1)) != anio:
+        raise ErrorAnuario(f"{SERIE_INSTITUCIONES} {anio}: el título no termina en el año del archivo (AC-E10)")
+    fila_anios = next((r for r in sorted(filas) if sum(1 for v in filas[r].values()
+                       if numero(v) is not None and 2000 <= numero(v) <= 2100) >= 5), None)
+    if fila_anios is None:
+        raise ErrorAnuario(f"{SERIE_INSTITUCIONES} {anio}: no tiene la fila de años")
+    anios = {c: int(numero(v)) for c, v in filas[fila_anios].items() if numero(v) is not None and 2000 <= numero(v) <= 2100}
+    salida, pie, sin_dato, no_corresponde = [], [], 0, set()
+    for r in sorted(x for x in filas if x > fila_anios):
+        rot = filas[r].get(1)
+        if not isinstance(rot, str) or not rot.strip():
+            continue
+        if re.match(r"\s*(Fuentes?|Notas?\b|UdelaR:|\*)", rot):
+            pie.append(" ".join(rot.split()))
+            continue
+        rotulo = re.sub(r"\s*\*+$", "", " ".join(rot.split()))
+        for c, a in anios.items():
+            bruto = filas[r].get(c)
+            v = numero(bruto)
+            if bruto is None or (isinstance(bruto, str) and not bruto.strip()):
+                no_corresponde.add((slug(rotulo), str(a)))  # celda vacía: la institución no publica ese año (no «s/d»)
+                continue
+            if v is None:
+                if not (isinstance(bruto, str) and (NO_DATO.match(bruto) or NO_DATO_SERIE.match(bruto))):
+                    raise ErrorAnuario(f"{SERIE_INSTITUCIONES} {anio}: valor no numérico {bruto!r} en {letra(c)}{r}")
+                sin_dato += bruto is not None
+                if isinstance(bruto, str) and re.match(r"^\s*(n\.?/?c\.?|na\.)\s*\**\s*$", bruto, re.I):
+                    no_corresponde.add((slug(rotulo), str(a)))  # «no corresponde»: cuenta 0 en AC-E19 (no «s/d»)
+                continue
+            salida.append({"indicador": f"edu_ii_7_2_8_matricula__{slug(rotulo)}", "territorio_id": PAIS,
+                           **periodo_anio(a).columnas(), "valor": v, "codigo_cuadro": SERIE_INSTITUCIONES,
+                           "celda": f"{letra(c)}{r}", "ruta": rotulo})
+    datos = pd.DataFrame(salida)
+    if datos.duplicated(["indicador", "periodo"]).any():
+        raise ErrorAnuario(f"{SERIE_INSTITUCIONES} {anio}: dos filas con la misma institución")
+    datos.attrs.update(sin_dato=sin_dato, pie=pie, no_corresponde=no_corresponde)
     return datos
