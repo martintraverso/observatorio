@@ -423,8 +423,29 @@ test('AC-V42: en celular el desplegable tiene los mismos ítems: uno por familia
 	test.skip(vista(info.project.name) !== '390', 'el desplegable es el control de celular');
 	await page.goto('?indicador=pob_total&nivel=departamento&periodo=2023');
 	await abrirOpciones(page);
-	const familias = lista.filter((i) => i.tema === 'Población' && i.mapa !== false && (i.familia ?? i.codigo) === i.codigo);
-	const opciones = page.locator('#indicador-movil option');
-	await expect(opciones).toHaveCount(familias.length);
-	expect(await opciones.allTextContents()).toEqual(familias.map((f) => f.nombre_corto ?? f.nombre));
+	for (const tg of temasConGrupos) {
+		const [tema, grupo] = tg.split('|');
+		await elegirTemaGrupo(page, tema, grupo);
+		const familias = lista.filter((i) => `${i.tema}|${i.grupo ?? ''}` === tg && i.mapa !== false && (i.familia ?? i.codigo) === i.codigo);
+		expect(await page.locator('#indicador-movil option').allTextContents(), tg).toEqual(familias.map((f) => f.nombre_corto ?? f.nombre));
+	}
+});
+
+test('#249: una apertura abierta por URL marca su familia en la lista, y la lista o el desplegable vuelven al total', async ({ page }, info) => {
+	const ap = lista.find((i) => i.mapa !== false && i.familia && i.familia !== i.codigo);
+	test.skip(!ap, 'estos datos no traen aperturas en el mapa');
+	await page.goto(`?indicador=${ap!.codigo}&nivel=departamento`);
+	await esperarQuieta(page);
+	const total = lista.find((i) => i.codigo === ap!.familia)!;
+	if (vista(info.project.name) === '390' || vista(info.project.name) === '768') {
+		await abrirOpciones(page);
+		const sel = page.locator('#indicador-movil');
+		await expect(sel).toHaveValue(ap!.codigo);
+		await sel.selectOption(total.codigo);
+	} else {
+		const item = page.locator('.lista-indicadores label.indicador', { hasText: total.nombre_corto ?? total.nombre });
+		await expect(item).toHaveClass(/activo/);
+		await item.click();
+	}
+	await expect(page).toHaveURL(new RegExp(`indicador=${total.codigo}(&|$)`));
 });

@@ -394,10 +394,17 @@
 				<select
 					id="indicador-movil"
 					class="solo-movil"
-					value={familiaDe(indicador)}
+					value={estado.indicador}
 					onchange={(e) => elegirIndicador(e.currentTarget.value)}
 				>
-					{#each delTema as i (i.codigo)}<option value={i.codigo}>{etiquetaLista(i)}</option>{/each}
+					{#each delTema as i (i.codigo)}
+						<option value={i.codigo}>{etiquetaLista(i)}</option>
+						<!-- #249 (revisión): una apertura abierta (por URL o desde /educacion) es una opción propia, debajo de
+						     su familia, para que elegir el total dispare el cambio; «Ver por» llega en #250 -->
+						{#if indicador && indicador.codigo !== i.codigo && familiaDe(indicador) === i.codigo}
+							<option value={indicador.codigo}>{etiquetaLista(indicador)}</option>
+						{/if}
+					{/each}
 				</select>
 				<div class="solo-escritorio lista-indicadores">
 					{#each delTema as i (i.codigo)}
@@ -407,7 +414,8 @@
 								name="indicador"
 								value={i.codigo}
 								checked={familiaDe(indicador) === i.codigo}
-								onchange={() => elegirIndicador(i.codigo)}
+								onchange={() => estado.indicador !== i.codigo && elegirIndicador(i.codigo)}
+								onclick={() => estado.indicador !== i.codigo && elegirIndicador(i.codigo)}
 							/>
 							<span>
 								<span class="nombre">{etiquetaLista(i)}</span>
@@ -417,7 +425,7 @@
 					{/each}
 				</div>
 			{/if}
-			{#if hayFueraDelMapa}
+			{#if hayFueraDelMapa && delTema.length}
 				<!-- AC-V41 (#249): lo que no se dibuja sigue en el catálogo de educación o en la ficha de Uruguay -->
 				<p class="info fuera-del-mapa">
 					{#if tema === 'Educación'}

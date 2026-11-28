@@ -120,7 +120,11 @@ export function etiquetaLista(ind: IndicadorMapa): string {
 export function detalleLista(ind: IndicadorMapa, catalogo: NivelCatalogo[]): string {
 	const n = nivelesOfrecidos(ind, catalogo).at(-1);
 	const o = n ? opcionNivel(catalogo, n) : null;
-	const donde = o ? `por ${minuscula(o.etiqueta)}${o.ayuda ? ` (${minuscula(o.ayuda)})` : ''}` : 'por región';
+	const donde = o
+		? `por ${minuscula(o.etiqueta)}${o.ayuda ? ` (${minuscula(o.ayuda)})` : ''}`
+		: ind.niveles.includes('region')
+			? 'por región'
+			: 'para todo el país';
 	return `${ind.unidad} · ${donde}`;
 }
 
@@ -137,7 +141,7 @@ export const INDICADOR_POR_DEFECTO: Record<string, string> = {
 const ORDEN_GRUPOS = ['Primera infancia e inicial', 'Primaria', 'Media básica', 'Media superior'];
 
 export function indicadorInicialDelTema(indicadores: IndicadorMapa[], tema: string): IndicadorMapa | undefined {
-	const del = indicadoresDelTema(indicadores, tema);
+	const del = indicadoresDelTema(indicadores, tema).filter((i) => familiaDe(i) === i.codigo); // #249: un total
 	return del.find((i) => i.codigo === INDICADOR_POR_DEFECTO[tema]) ?? del[0];
 }
 
