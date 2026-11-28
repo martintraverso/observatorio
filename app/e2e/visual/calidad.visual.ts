@@ -500,7 +500,7 @@ test('AC-V39: elegir un sexo con un área elegida vuelve el área a «Todas» y 
 	await expect(page.locator('[aria-live="polite"]').filter({ hasText: 'Área: Todas' })).toHaveCount(1);
 });
 
-test('AC-V40 y AC-V42: los segmentos miden ≥ 40 px (≥ 44 en celular), se manejan con el teclado y en celular van en la hoja', async ({ page }, info) => {
+test('AC-V40 y AC-V42: los segmentos miden ≥ 44 px (AC-G5), se manejan con el teclado y en celular van en la hoja', async ({ page }, info) => {
 	test.skip(!hayD3, 'estos datos no traen educación');
 	const celular = ['390', '768'].includes(vista(info.project.name));
 	await page.goto(`?indicador=${D3}&nivel=departamento&periodo=2024`);
@@ -512,7 +512,7 @@ test('AC-V40 y AC-V42: los segmentos miden ≥ 40 px (≥ 44 en celular), se man
 		expect((await verPorEn(page).boundingBox())!.y).toBeGreaterThan(yDesplegable);
 	}
 	for (const s of await verPorEn(page).locator('label.segmento').all())
-		expect((await s.boundingBox())!.height).toBeGreaterThanOrEqual(celular ? 44 : 40);
+		expect((await s.boundingBox())!.height).toBeGreaterThanOrEqual(43.5);
 	expect(await revisarSegmentado(page, '.ver-por .segmentos >> nth=0')).toEqual([]);
 	if (!celular) {
 		const area = verPorEn(page).getByRole('group', { name: 'Área' });

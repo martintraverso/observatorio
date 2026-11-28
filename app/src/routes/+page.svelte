@@ -660,7 +660,7 @@
 		gap: var(--espacio-2);
 	}
 
-	/* AC-V40 (#250): «Ver por», con los tokens del sistema; ≥ 40 px en el panel de escritorio, ≥ 44 px en celular */
+	/* AC-V40 (#250): «Ver por», con los tokens del sistema. 44 px también en escritorio (AC-V40 permite 40, AC-G5 pide 44) */
 	.ver-por {
 		display: grid;
 		gap: var(--espacio-2);
@@ -696,7 +696,7 @@
 		position: relative;
 		display: inline-flex;
 		align-items: center;
-		min-height: 40px;
+		min-height: var(--toque-min);
 		padding: 0 var(--espacio-3);
 		border: 1px solid var(--borde);
 		border-radius: var(--radio-s);
@@ -715,12 +715,6 @@
 	.segmento:has(input:focus-visible) {
 		outline: 3px solid var(--foco);
 		outline-offset: 2px;
-	}
-
-	@media (max-width: 900px) {
-		.segmento {
-			min-height: var(--toque-min);
-		}
 	}
 
 	.chip {
