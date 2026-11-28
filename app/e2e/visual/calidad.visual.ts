@@ -162,12 +162,23 @@ test('AC-V3: cambiar tema, indicador o nivel no cambia el ancho del panel ni mue
 	const gutter = await panel.evaluate((p) => getComputedStyle(p).scrollbarGutter);
 	expect(gutter).toContain('stable');
 
+	// #249: la lista tiene un ítem por familia; el cambio de indicador se prueba en un tema sin niveles educativos con
+	// al menos dos familias (con los datos completos, Trabajo). Si los datos no tienen ninguno, ese paso no se prueba.
+	const familias = indicadores as unknown as { tema: string; grupo?: string; mapa?: boolean; familia?: string; codigo: string }[];
+	const porTema = new Map<string, number>();
+	for (const i of familias)
+		if (i.mapa !== false && !i.grupo && (i.familia ?? i.codigo) === i.codigo) porTema.set(i.tema, (porTema.get(i.tema) ?? 0) + 1);
+	const temaVarios = [...porTema].find(([, n]) => n >= 2)?.[0];
 	// `cambia`: el clic tiene que cambiar el estado en la URL (si no, el paso no probaría nada).
 	const clics = [
-		// #249: Población es una sola familia (Personas); el cambio de indicador se prueba en Trabajo
 		{ control: panel.getByRole('group', { name: 'Tema' }).getByText('Población', { exact: true }), cambia: false },
-		{ control: panel.getByRole('group', { name: 'Tema' }).getByText('Trabajo', { exact: true }), cambia: false },
-		{ control: panel.getByRole('group', { name: 'Indicador' }).locator('label.indicador:not(.activo)').first(), cambia: true },
+		...(temaVarios
+			? [
+					{ control: panel.getByRole('group', { name: 'Tema' }).getByText(temaVarios, { exact: true }), cambia: false },
+					{ control: panel.getByRole('group', { name: 'Indicador' }).locator('label.indicador:not(.activo)').first(), cambia: true },
+					{ control: panel.getByRole('group', { name: 'Tema' }).getByText('Población', { exact: true }), cambia: false }
+				]
+			: []),
 		{ control: panel.getByRole('group', { name: 'Nivel territorial' }).locator('label').last(), cambia: true },
 		{ control: panel.getByRole('group', { name: 'Nivel territorial' }).locator('label').first(), cambia: true }
 	];
